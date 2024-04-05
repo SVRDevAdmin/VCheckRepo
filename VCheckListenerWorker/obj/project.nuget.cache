@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "KXwdON2uZWkVhqJLcNjtk7zEn7hI0EKom8UNHbetM73WSDMcVMjlChHo29I5aKf8F0jjpUEe3vbj+Bu6ZeF77g==",
+  "dgSpecHash": "7bk7qckHwTxgN/Bcyh8rk7aV1RActAd82doZ4d9ppfDPT2izwmhfTSlopKd3DT7pwIjIyBXrDaxPcNWuwp55cg==",
   "success": true,
   "projectFilePath": "C:\\Dev\\VCheck\\VCheckListenerWorker\\VCheckListenerWorker.csproj",
   "expectedPackageFiles": [
@@ -31,10 +31,32 @@
     "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.extensions.options\\8.0.0\\microsoft.extensions.options.8.0.0.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\8.0.0\\microsoft.extensions.options.configurationextensions.8.0.0.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi\\3.2.2\\nhapi.3.2.2.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi.base\\3.2.0\\nhapi.base.3.2.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi.model.v21\\3.2.0\\nhapi.model.v21.3.2.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi.model.v22\\3.2.0\\nhapi.model.v22.3.2.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi.model.v23\\3.2.0\\nhapi.model.v23.3.2.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi.model.v231\\3.2.0\\nhapi.model.v231.3.2.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi.model.v24\\3.2.0\\nhapi.model.v24.3.2.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi.model.v25\\3.2.0\\nhapi.model.v25.3.2.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi.model.v251\\3.2.0\\nhapi.model.v251.3.2.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi.model.v26\\3.2.0\\nhapi.model.v26.3.2.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi.model.v27\\3.2.0\\nhapi.model.v27.3.2.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi.model.v271\\3.2.0\\nhapi.model.v271.3.2.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi.model.v28\\3.2.0\\nhapi.model.v28.3.2.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapi.model.v281\\3.2.0\\nhapi.model.v281.3.2.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\nhapitools\\2.0.4\\nhapitools.2.0.4.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\system.configuration.configurationmanager\\6.0.0\\system.configuration.configurationmanager.6.0.0.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\system.diagnostics.diagnosticsource\\8.0.0\\system.diagnostics.diagnosticsource.8.0.0.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\system.diagnostics.eventlog\\8.0.0\\system.diagnostics.eventlog.8.0.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\system.security.accesscontrol\\6.0.0\\system.security.accesscontrol.6.0.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\system.security.cryptography.protecteddata\\6.0.0\\system.security.cryptography.protecteddata.6.0.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\system.security.permissions\\6.0.0\\system.security.permissions.6.0.0.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
-    "C:\\Users\\SVRke\\.nuget\\packages\\system.text.json\\8.0.0\\system.text.json.8.0.0.nupkg.sha512"
+    "C:\\Users\\SVRke\\.nuget\\packages\\system.text.json\\8.0.0\\system.text.json.8.0.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }
