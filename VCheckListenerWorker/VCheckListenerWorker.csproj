@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="nhapi" Version="3.2.2" />
+    <PackageReference Include="NHapiTools" Version="2.0.4" />
   </ItemGroup>
 
   <ItemGroup>
