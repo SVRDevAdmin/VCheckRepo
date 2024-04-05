@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Content\Images\collapseleft_120112.png" />
+    <None Remove="Content\Images\icons8-barber-pole-64.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="bin\" />
+    <Folder Include="Content\Style\" />
+    <Folder Include="Content\Scripts\" />
+    <Folder Include="Views\Pages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="WPF-UI" Version="3.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Content\Images\collapseleft_120112.png" />
+    <Resource Include="Content\Images\icons8-barber-pole-64.png" />
+  </ItemGroup>
+
+</Project>
