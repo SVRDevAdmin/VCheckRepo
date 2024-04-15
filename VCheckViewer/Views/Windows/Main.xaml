@@ -94,6 +94,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
     </Window.Resources>
 
     <Grid x:Name="MainGrid" Margin="0,0,10,0">
@@ -178,27 +179,32 @@
                     <ui:NavigationView.MenuItems>
                         <ui:NavigationViewItem Content="Dashboard" Name="T1" Click="T1_Click">
                             <ui:NavigationViewItem.Icon>
-                                <ui:SymbolIcon Symbol="AppFolder48" />
+                                <ui:ImageIcon Source="../../Content/Images/stroke_4.png" Width="20" Height="20"/>
+                                <!--<ui:SymbolIcon Symbol="AppFolder48" />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
                         <ui:NavigationViewItem Content="Schedule" Name="T2" Click="T2_Click">
                             <ui:NavigationViewItem.Icon>
-                                <ui:SymbolIcon Symbol="Clock12" />
+                                <ui:ImageIcon Source="../../Content/Images/stroke_1_ek2.png" Width="20" Height="20"/>
+                                <!--<ui:SymbolIcon Symbol="Clock12"  />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
                         <ui:NavigationViewItem Content="Results" Name="T3" Click="T3_Click">
                             <ui:NavigationViewItem.Icon>
-                                <ui:SymbolIcon Symbol="Form48" />
+                                <ui:ImageIcon Source="../../Content/Images/stroke_4.png" Width="20" Height="20"/>
+                                <!--<ui:SymbolIcon Symbol="Form48" />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
                         <ui:NavigationViewItem Content="Notifications" Name="T4">
                             <ui:NavigationViewItem.Icon>
-                                <ui:SymbolIcon Symbol="Alert12" />
+                                <ui:ImageIcon Source="../../Content/Images/stroke_1_ek4.png" Width="20" Height="20"/>
+                                <!--<ui:SymbolIcon Symbol="Alert12" />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
                         <ui:NavigationViewItem Content="Settings" Name="T5">
                             <ui:NavigationViewItem.Icon>
-                                <ui:SymbolIcon Symbol="Settings16" />
+                                <ui:ImageIcon Source="../../Content/Images/path_33946.png" Width="20" Height="20"/>
+                                <!--<ui:SymbolIcon Symbol="Settings16" />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
                     </ui:NavigationView.MenuItems>

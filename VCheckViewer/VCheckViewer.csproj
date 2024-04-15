@@ -12,8 +12,12 @@
     <None Remove="Content\Images\bio_logo.png" />
     <None Remove="Content\Images\collapseleft_120112.png" />
     <None Remove="Content\Images\icons8-barber-pole-64.png" />
+    <None Remove="Content\Images\path_33946.png" />
     <None Remove="Content\Images\path_3550.png" />
     <None Remove="Content\Images\Profile-Avatar-PNG-Picture.png" />
+    <None Remove="Content\Images\stroke_1_ek2.png" />
+    <None Remove="Content\Images\stroke_1_ek4.png" />
+    <None Remove="Content\Images\stroke_4.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,8 +36,12 @@
     <Resource Include="Content\Images\bio_logo.png" />
     <Resource Include="Content\Images\collapseleft_120112.png" />
     <Resource Include="Content\Images\icons8-barber-pole-64.png" />
+    <Resource Include="Content\Images\path_33946.png" />
     <Resource Include="Content\Images\path_3550.png" />
     <Resource Include="Content\Images\Profile-Avatar-PNG-Picture.png" />
+    <Resource Include="Content\Images\stroke_1_ek2.png" />
+    <Resource Include="Content\Images\stroke_1_ek4.png" />
+    <Resource Include="Content\Images\stroke_4.png" />
   </ItemGroup>
 
 </Project>
