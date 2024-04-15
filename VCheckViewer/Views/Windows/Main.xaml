@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-        xmlns:local="clr-namespace:VCheckViewer.Views.Windows"
+        xmlns:local="clr-namespace:VCheckViewer.Views.Windows" 
         mc:Ignorable="d"
         Title="Main" Height="450" Width="800">
     <Grid>
@@ -27,7 +27,8 @@
                     TitleBar="{Binding ElementName=Title1, Mode=OneWay}"
                     PaneDisplayMode="Left" 
                     OpenPaneLength="160" 
-                    IsBackButtonVisible="Collapsed">
+                    IsBackButtonVisible="Collapsed"
+                    MouseDoubleClick="RootNavigation_MouseDoubleClick">
 
                     <ui:NavigationView.Header>
                         <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />

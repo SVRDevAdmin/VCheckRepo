@@ -15,6 +15,17 @@ using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using VCheckViewer.ViewModels.Windows;
+using VCheck.Lib.Logic;
+using MySql.Data.MySqlClient;
+using Microsoft.Extensions.Configuration;
+//using VCheckViewer.Lib.Base;
+using Microsoft.EntityFrameworkCore;
+//using VCheckViewer.Lib.Function;
+using System.Runtime.InteropServices.Marshalling;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using VCheck.Lib.Data;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -23,6 +34,8 @@ namespace VCheckViewer.Views.Windows
     /// </summary>
     public partial class Main : INavigationWindow
     {
+        VCheck.Lib.Data.SampleClass sContext = VCheckViewer.App.GetService<VCheck.Lib.Data.SampleClass>();
+
         public MainViewModel ViewModel { get;  }
         public Main
         (
@@ -68,6 +81,13 @@ namespace VCheckViewer.Views.Windows
         public void SetServiceProvider(IServiceProvider serviceProvider)
         {
             throw new NotImplementedException();
+        }
+
+        private void RootNavigation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            //var sContext = VCheckViewer.App.GetService<VCheck.Lib.Data.SampleClass>();
+            List<VCheck.Lib.Data.Album> sAlbum = sContext.GetData();
+            String abc = "abc";
         }
     }
 }
