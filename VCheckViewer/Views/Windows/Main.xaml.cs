@@ -46,9 +46,9 @@ namespace VCheckViewer.Views.Windows
             SystemThemeWatcher.Watch(this);
 
             InitializeComponent();
-            SetPageService(pageService);
+            //SetPageService(pageService);
 
-            navigationService.SetNavigationControl(RootNavigation);
+            //navigationService.SetNavigationControl(RootNavigation);
         }
 
         #region INavigationWindow methods
@@ -81,6 +81,21 @@ namespace VCheckViewer.Views.Windows
         public void SetServiceProvider(IServiceProvider serviceProvider)
         {
             throw new NotImplementedException();
+        }
+
+        private void T1_Click(object sender, RoutedEventArgs e)
+        {
+            Navigate(typeof(DashboardPage));
+        }
+
+        private void T2_Click(object sender, RoutedEventArgs e)
+        {
+            //Navigate(typeof(Schedulepage));
+        }
+
+        private void T3_Click(object sender, RoutedEventArgs e)
+        {
+            //Navigate(typeof(Page2));
         }
 
         private void RootNavigation_MouseDoubleClick(object sender, MouseButtonEventArgs e)

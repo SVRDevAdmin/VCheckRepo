@@ -7,56 +7,204 @@
         xmlns:local="clr-namespace:VCheckViewer.Views.Windows" 
         mc:Ignorable="d"
         Title="Main" Height="450" Width="800">
-    <Grid>
+
+    <Window.Resources>
+        <Style x:Key="Services_MenuItem_With_Dropdown"
+       TargetType="MenuItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type MenuItem}">
+                        <Border x:Name="border"
+                        Background="White"
+                        BorderThickness="0"
+                        Height="50"
+                        Width="170">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <!--// Icon //-->
+                                <ContentPresenter ContentSource="Icon"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          Height="45"
+                                          Grid.Column="0"/>
+
+                                <!--// Text //-->
+                                <ContentPresenter ContentSource="Header"
+                                          TextBlock.Foreground="Black"
+                                          TextBlock.FontFamily="Rubik Medium"
+                                          TextBlock.FontSize="15"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          Margin="10,0,0,0" 
+                                          Grid.Column="1"/>
+
+                                <!--// Dropdown Icon //-->
+                                <Image Source="../../Content/Images/path_3550.png"
+                               Stretch="None"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Margin="5,0,10,0" 
+                               Grid.Column="2"/>
+
+                                <!--// Popup //-->
+                                <Popup x:Name="PART_Popup"
+                               AllowsTransparency="True"
+                               IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                               Placement="Bottom"
+                               PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"
+                               Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}">
+
+                                    <Border x:Name="SubMenuBorder"
+                                    Background="White"
+                                    BorderBrush="#484546"
+                                    BorderThickness="1">
+
+                                        <ScrollViewer x:Name="SubMenuScrollViewer"
+                                              Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer,TypeInTargetAssembly={x:Type FrameworkElement}}}">
+
+                                            <Grid RenderOptions.ClearTypeHint="Enabled">
+
+                                                <Canvas HorizontalAlignment="Left"
+                                                VerticalAlignment="Top" />
+
+                                                <ItemsPresenter x:Name="ItemsPresenter" />
+
+                                            </Grid>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsSuspendingPopupAnimation"
+                             Value="True">
+                                <Setter Property="PopupAnimation"
+                                TargetName="PART_Popup"
+                                Value="None" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid x:Name="MainGrid" Margin="0,0,10,0">
         <DockPanel Name="dcPanel">
-            <Border Height="88" BorderBrush="Black" BorderThickness="0" DockPanel.Dock="Top">
-                <StackPanel Orientation="Horizontal">
-                    <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Label Content="BIONOTE" FontSize="90" FontWeight="Bold" Padding="30, 30, 40, 20"/>
+            <Border Height="100" BorderBrush="Black" BorderThickness="0" DockPanel.Dock="Top">
+                <Grid x:Name="TopBarGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Border x:Name="MainLogoBorder" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 20 10 10" Grid.Column="0">
+                        <ui:Image Source="../../Content/Images/bio_logo.png"/>
                     </Border>
-                    <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Label Content="DASHBOARD" FontSize="90" FontWeight="Bold" Padding="50, 30, 40, 20" />
+                    <Border VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1">
+                        <TextBlock Text="Dashboard" FontWeight="Bold" FontSize="20"  Padding="0, 30, 0, 20"/>
                     </Border>
-                </StackPanel>
+                    <Border x:Name="MainSearchBarBorder" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="2" Margin="40,0,40,0">
+                        <!--<TextBox Name="MainSearchBar">
+                        <TextBox.Template>
+                            <ControlTemplate>
+                                <Grid>
+                                    <TextBox Padding="20,5,0,5" Margin="5,0,0,0"/>
+                                    <ui:SymbolIcon Symbol="Search12" FontSize="14" HorizontalAlignment="Left" Margin="10,2,0,0"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </TextBox.Template>
+                    </TextBox>-->
+                        <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                            <Grid>
+                                <!-- Search Icon -->
+                                <ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>
+
+                                <!-- TextBox for search input -->
+                                <TextBox BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center">
+                                </TextBox>
+                            </Grid>
+                        </Border>
+                    </Border>
+                    <Border HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="3" Padding="10,0,0,0">
+                        <!--<Button BorderThickness="0" Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon Symbol="Person12" Width="40" FontSize="30" />
+                            <TextBlock FontSize="15" FontWeight="Bold" VerticalAlignment="Center">Dr. Lee Eunji</TextBlock>
+                            <Image Source="../../Content/Images/path_3550.png" Width="30" Height="10" />
+                        </StackPanel>
+                    </Button>-->
+                        <!--<ui:DropDownButton BorderThickness="0">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon Symbol="Person12" Width="40" FontSize="30" />
+                            <TextBlock FontSize="15" FontWeight="Bold" VerticalAlignment="Center">Dr. Lee Eunji</TextBlock>
+                            <Image Source="../../Content/Images/path_3550.png" Width="30" Height="10" />
+                        </StackPanel>
+                    </ui:DropDownButton>-->
+                        <Menu>
+                            <MenuItem Header="Dr. Lee Eunji" Style="{StaticResource Services_MenuItem_With_Dropdown}">
+                                <MenuItem.Icon>
+                                    <Image Source="../../Content/Images/Profile-Avatar-PNG-Picture.png"/>
+                                </MenuItem.Icon>
+                                <MenuItem Header="View profile"/>
+                                <MenuItem Header="Reset password"/>
+                                <Separator />
+                                <MenuItem Header="Logout"/>
+                            </MenuItem>
+                        </Menu>
+                    </Border>
+                </Grid>
             </Border>
             <Border BorderBrush="Black" BorderThickness="0" DockPanel.Dock="Top">
                 <ui:NavigationView
-                    x:Name="RootNavigation"
-                    Padding="42,0,42,0"
-                    FrameMargin="1"
-                    TitleBar="{Binding ElementName=Title1, Mode=OneWay}"
-                    PaneDisplayMode="Left" 
-                    OpenPaneLength="160" 
-                    IsBackButtonVisible="Collapsed"
-                    MouseDoubleClick="RootNavigation_MouseDoubleClick">
+            x:Name="RootNavigation"
+            Padding="42,0,42,0"
+            FrameMargin="1"
+            PaneDisplayMode="Left" 
+            OpenPaneLength="190" 
+            IsBackButtonVisible="Collapsed">
 
                     <ui:NavigationView.Header>
                         <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
                     </ui:NavigationView.Header>
                     <ui:NavigationView.MenuItems>
-                        <ui:NavigationViewItem Content="Dashboard" Name="T1">
+                        <ui:NavigationViewItem Content="Dashboard" Name="T1" Click="T1_Click">
                             <ui:NavigationViewItem.Icon>
-                                <ui:ImageIcon Source="../../Content/Images/icons8-barber-pole-64.png" Width="20" Height="20" />
+                                <ui:ImageIcon Source="../../Content/Images/stroke_4.png" Width="20" Height="20"/>
+                                <!--<ui:SymbolIcon Symbol="AppFolder48" />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Schedule" Name="T2">
+                        <ui:NavigationViewItem Content="Schedule" Name="T2" Click="T2_Click">
                             <ui:NavigationViewItem.Icon>
-                                <ui:SymbolIcon Symbol="DataHistogram24" />
+                                <ui:ImageIcon Source="../../Content/Images/stroke_1_ek2.png" Width="20" Height="20"/>
+                                <!--<ui:SymbolIcon Symbol="Clock12"  />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Results" Name="T3">
+                        <ui:NavigationViewItem Content="Results" Name="T3" Click="T3_Click">
                             <ui:NavigationViewItem.Icon>
-                                <ui:SymbolIcon Symbol="DataHistogram24" />
+                                <ui:ImageIcon Source="../../Content/Images/stroke_4.png" Width="20" Height="20"/>
+                                <!--<ui:SymbolIcon Symbol="Form48" />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
                         <ui:NavigationViewItem Content="Notifications" Name="T4">
                             <ui:NavigationViewItem.Icon>
-                                <ui:SymbolIcon Symbol="DataHistogram24" />
+                                <ui:ImageIcon Source="../../Content/Images/stroke_1_ek4.png" Width="20" Height="20"/>
+                                <!--<ui:SymbolIcon Symbol="Alert12" />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
                         <ui:NavigationViewItem Content="Settings" Name="T5">
                             <ui:NavigationViewItem.Icon>
-                                <ui:SymbolIcon Symbol="DataHistogram24" />
+                                <ui:ImageIcon Source="../../Content/Images/path_33946.png" Width="20" Height="20"/>
+                                <!--<ui:SymbolIcon Symbol="Settings16" />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
                     </ui:NavigationView.MenuItems>
