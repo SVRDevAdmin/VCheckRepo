@@ -11,6 +11,10 @@ using Wpf.Ui;
 using VCheckViewer.Views.Windows;
 using VCheckViewer.ViewModels.Windows;
 using VCheckViewer.Services;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore;
+//using VCheckViewer.Lib.Base;
+using Microsoft.AspNetCore.Hosting.Internal;
 
 namespace VCheckViewer
 {
@@ -19,6 +23,8 @@ namespace VCheckViewer
     /// </summary>
     public partial class App
     {
+        public IConfiguration Configuration { get; }
+
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
         // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
@@ -26,7 +32,10 @@ namespace VCheckViewer
         // https://docs.microsoft.com/dotnet/core/extensions/logging
         private static readonly IHost _host = Host
             .CreateDefaultBuilder()
-            .ConfigureAppConfiguration(c => { c.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)); })
+            .ConfigureAppConfiguration(c => 
+            { 
+                c.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location));
+            })
             .ConfigureServices((context, services) =>
             {
                 //throw new NotImplementedException("No service or window was registered.");
@@ -41,8 +50,11 @@ namespace VCheckViewer
                 services.AddSingleton<INavigationService, NavigationService>();
 
                 services.AddSingleton<INavigationWindow, Main>();
-                //services.AddSingleton<MainViewModel>();
-            }).Build();
+
+                services.Add(new ServiceDescriptor(typeof(VCheck.Lib.Data.SampleClass), new VCheck.Lib.Data.SampleClass(context.Configuration)));
+            })
+            .Build();
+
 
         /// <summary>
         /// Gets registered service.

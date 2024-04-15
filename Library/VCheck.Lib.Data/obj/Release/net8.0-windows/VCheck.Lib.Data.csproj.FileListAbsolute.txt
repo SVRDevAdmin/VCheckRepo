@@ -1,0 +1,14 @@
+C:\Dev\VCheck\Library\VCheck.Lib.Data\bin\Release\net8.0-windows\VCheck.Lib.Data.dll.config
+C:\Dev\VCheck\Library\VCheck.Lib.Data\bin\Release\net8.0-windows\VCheck.Lib.Data.deps.json
+C:\Dev\VCheck\Library\VCheck.Lib.Data\bin\Release\net8.0-windows\VCheck.Lib.Data.dll
+C:\Dev\VCheck\Library\VCheck.Lib.Data\bin\Release\net8.0-windows\VCheck.Lib.Data.pdb
+C:\Dev\VCheck\Library\VCheck.Lib.Data\obj\Release\net8.0-windows\VCheck.Lib.Data.csproj.AssemblyReference.cache
+C:\Dev\VCheck\Library\VCheck.Lib.Data\obj\Release\net8.0-windows\VCheck.Lib.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Dev\VCheck\Library\VCheck.Lib.Data\obj\Release\net8.0-windows\VCheck.Lib.Data.AssemblyInfoInputs.cache
+C:\Dev\VCheck\Library\VCheck.Lib.Data\obj\Release\net8.0-windows\VCheck.Lib.Data.AssemblyInfo.cs
+C:\Dev\VCheck\Library\VCheck.Lib.Data\obj\Release\net8.0-windows\VCheck.Lib.Data.csproj.CoreCompileInputs.cache
+C:\Dev\VCheck\Library\VCheck.Lib.Data\obj\Release\net8.0-windows\VCheck.Lib.Data.sourcelink.json
+C:\Dev\VCheck\Library\VCheck.Lib.Data\obj\Release\net8.0-windows\VCheck.Lib.Data.dll
+C:\Dev\VCheck\Library\VCheck.Lib.Data\obj\Release\net8.0-windows\refint\VCheck.Lib.Data.dll
+C:\Dev\VCheck\Library\VCheck.Lib.Data\obj\Release\net8.0-windows\VCheck.Lib.Data.pdb
+C:\Dev\VCheck\Library\VCheck.Lib.Data\obj\Release\net8.0-windows\ref\VCheck.Lib.Data.dll

@@ -188,6 +188,12 @@ namespace VCheckViewer.Views.Windows {
             return;
             case 6:
             this.RootNavigation = ((Wpf.Ui.Controls.NavigationView)(target));
+            
+            #line 31 "..\..\..\..\..\Views\Windows\Main.xaml"
+            this.RootNavigation.MouseDoubleClick += new System.Windows.Input.MouseButtonEventHandler(this.RootNavigation_MouseDoubleClick);
+            
+            #line default
+            #line hidden
             return;
             case 7:
             this.BreadcrumbBar = ((Wpf.Ui.Controls.BreadcrumbBar)(target));
