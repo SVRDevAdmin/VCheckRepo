@@ -12,12 +12,18 @@
     <Compile Update="Views\Pages\DashboardPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Pages\UserPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Windows\Main.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Pages\DashboardPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\UserPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Windows\Main.xaml">

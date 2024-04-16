@@ -9,6 +9,7 @@ using Wpf.Ui;
 using Microsoft.Extensions.DependencyInjection;
 using VCheckViewer.Views.Windows;
 using VCheck.Lib.Data;
+using VCheckViewer.Views.Pages;
 
 namespace VCheckViewer.Services
 {
@@ -52,6 +53,8 @@ namespace VCheckViewer.Services
                     _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow
                 )!;
                 _navigationWindow!.ShowWindow();
+
+                _navigationWindow.Navigate(typeof(DashboardPage));
             }
 
             await Task.CompletedTask;

@@ -6,7 +6,7 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:VCheckViewer.Views.Windows" 
         mc:Ignorable="d"
-        Title="Main" Height="450" Width="800">
+        Title="Main" WindowState="Maximized">
 
     <Window.Resources>
         <Style x:Key="Services_MenuItem_With_Dropdown"
@@ -35,8 +35,8 @@
                                 <!--// Text //-->
                                 <ContentPresenter ContentSource="Header"
                                           TextBlock.Foreground="Black"
-                                          TextBlock.FontFamily="Rubik Medium"
-                                          TextBlock.FontSize="15"
+                                          TextBlock.FontFamily="Noto Sans"
+                                          TextBlock.FontSize="18"
                                           HorizontalAlignment="Left"
                                           VerticalAlignment="Center"
                                           Margin="10,0,0,0" 
@@ -94,7 +94,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
     </Window.Resources>
 
     <Grid x:Name="MainGrid" Margin="0,0,10,0">
@@ -110,20 +109,10 @@
                     <Border x:Name="MainLogoBorder" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 20 10 10" Grid.Column="0">
                         <ui:Image Source="../../Content/Images/bio_logo.png"/>
                     </Border>
-                    <Border VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1">
-                        <TextBlock Text="Dashboard" FontWeight="Bold" FontSize="20"  Padding="0, 30, 0, 20"/>
+                    <Border VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" Margin="0,0,150,0">
+                        <TextBlock x:Name="PageTitle" FontWeight="Bold" FontFamily="Noto Sans" FontSize="30"  Padding="0, 17, 0, 0"/>
                     </Border>
                     <Border x:Name="MainSearchBarBorder" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="2" Margin="40,0,40,0">
-                        <!--<TextBox Name="MainSearchBar">
-                        <TextBox.Template>
-                            <ControlTemplate>
-                                <Grid>
-                                    <TextBox Padding="20,5,0,5" Margin="5,0,0,0"/>
-                                    <ui:SymbolIcon Symbol="Search12" FontSize="14" HorizontalAlignment="Left" Margin="10,2,0,0"/>
-                                </Grid>
-                            </ControlTemplate>
-                        </TextBox.Template>
-                    </TextBox>-->
                         <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
                             <Grid>
                                 <!-- Search Icon -->
@@ -135,25 +124,11 @@
                             </Grid>
                         </Border>
                     </Border>
-                    <Border HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="3" Padding="10,0,0,0">
-                        <!--<Button BorderThickness="0" Click="Button_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Symbol="Person12" Width="40" FontSize="30" />
-                            <TextBlock FontSize="15" FontWeight="Bold" VerticalAlignment="Center">Dr. Lee Eunji</TextBlock>
-                            <Image Source="../../Content/Images/path_3550.png" Width="30" Height="10" />
-                        </StackPanel>
-                    </Button>-->
-                        <!--<ui:DropDownButton BorderThickness="0">
-                        <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Symbol="Person12" Width="40" FontSize="30" />
-                            <TextBlock FontSize="15" FontWeight="Bold" VerticalAlignment="Center">Dr. Lee Eunji</TextBlock>
-                            <Image Source="../../Content/Images/path_3550.png" Width="30" Height="10" />
-                        </StackPanel>
-                    </ui:DropDownButton>-->
-                        <Menu>
+                    <Border HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="3" Padding="70,0,0,0">
+                    <Menu>
                             <MenuItem Header="Dr. Lee Eunji" Style="{StaticResource Services_MenuItem_With_Dropdown}">
                                 <MenuItem.Icon>
-                                    <Image Source="../../Content/Images/Profile-Avatar-PNG-Picture.png"/>
+                                    <Image Source="../../Content/Images/Screenshot 2024-04-15 152644.png"/>
                                 </MenuItem.Icon>
                                 <MenuItem Header="View profile"/>
                                 <MenuItem Header="Reset password"/>
@@ -177,31 +152,31 @@
                         <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
                     </ui:NavigationView.Header>
                     <ui:NavigationView.MenuItems>
-                        <ui:NavigationViewItem Content="Dashboard" Name="T1" Click="T1_Click">
+                        <ui:NavigationViewItem Content="Dashboard" Name="T1" Click="T1_Click" Margin="0,0,0,30">
                             <ui:NavigationViewItem.Icon>
                                 <ui:ImageIcon Source="../../Content/Images/stroke_4.png" Width="20" Height="20"/>
                                 <!--<ui:SymbolIcon Symbol="AppFolder48" />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Schedule" Name="T2" Click="T2_Click">
+                        <ui:NavigationViewItem Content="Schedule" Name="T2" Click="T2_Click" Margin="0,0,0,30">
                             <ui:NavigationViewItem.Icon>
                                 <ui:ImageIcon Source="../../Content/Images/stroke_1_ek2.png" Width="20" Height="20"/>
                                 <!--<ui:SymbolIcon Symbol="Clock12"  />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Results" Name="T3" Click="T3_Click">
+                        <ui:NavigationViewItem Content="Results" Name="T3" Click="T3_Click" Margin="0,0,0,30">
                             <ui:NavigationViewItem.Icon>
                                 <ui:ImageIcon Source="../../Content/Images/stroke_4.png" Width="20" Height="20"/>
                                 <!--<ui:SymbolIcon Symbol="Form48" />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Notifications" Name="T4">
+                        <ui:NavigationViewItem Content="Notifications" Name="T4" Margin="0,0,0,30">
                             <ui:NavigationViewItem.Icon>
                                 <ui:ImageIcon Source="../../Content/Images/stroke_1_ek4.png" Width="20" Height="20"/>
                                 <!--<ui:SymbolIcon Symbol="Alert12" />-->
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Settings" Name="T5">
+                        <ui:NavigationViewItem Content="Settings" Name="T5" Click="T5_Click" Margin="0,0,0,30">
                             <ui:NavigationViewItem.Icon>
                                 <ui:ImageIcon Source="../../Content/Images/path_33946.png" Width="20" Height="20"/>
                                 <!--<ui:SymbolIcon Symbol="Settings16" />-->

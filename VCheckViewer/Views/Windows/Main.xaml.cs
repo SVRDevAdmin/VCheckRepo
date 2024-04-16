@@ -26,6 +26,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VCheck.Lib.Data;
+using VCheckViewer.Views.Pages;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -49,6 +50,8 @@ namespace VCheckViewer.Views.Windows
             //SetPageService(pageService);
 
             //navigationService.SetNavigationControl(RootNavigation);
+
+            PageTitle.Text = "Dashboard";
         }
 
         #region INavigationWindow methods
@@ -86,16 +89,22 @@ namespace VCheckViewer.Views.Windows
         private void T1_Click(object sender, RoutedEventArgs e)
         {
             Navigate(typeof(DashboardPage));
+
+            PageTitle.Text = "Dashboard";
         }
 
         private void T2_Click(object sender, RoutedEventArgs e)
         {
             //Navigate(typeof(Schedulepage));
+
+            PageTitle.Text = "Schedule";
         }
 
         private void T3_Click(object sender, RoutedEventArgs e)
         {
             //Navigate(typeof(Page2));
+
+            PageTitle.Text = "Results";
         }
 
         private void RootNavigation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -103,6 +112,13 @@ namespace VCheckViewer.Views.Windows
             //var sContext = VCheckViewer.App.GetService<VCheck.Lib.Data.SampleClass>();
             List<VCheck.Lib.Data.Album> sAlbum = sContext.GetData();
             String abc = "abc";
+        }
+
+        private void T5_Click(object sender, RoutedEventArgs e)
+        {
+            Navigate(typeof(UserPage));
+
+            PageTitle.Text = "Setting";
         }
     }
 }
