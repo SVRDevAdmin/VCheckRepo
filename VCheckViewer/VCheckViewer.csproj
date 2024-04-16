@@ -20,6 +20,7 @@
     <None Remove="Content\Images\path_33946.png" />
     <None Remove="Content\Images\path_3550.png" />
     <None Remove="Content\Images\Profile-Avatar-PNG-Picture.png" />
+    <None Remove="Content\Images\Screenshot 2024-04-15 152644.png" />
     <None Remove="Content\Images\stroke_1_ek2.png" />
     <None Remove="Content\Images\stroke_1_ek4.png" />
     <None Remove="Content\Images\stroke_4.png" />
@@ -31,7 +32,6 @@
     <Folder Include="Content\Scripts\" />
     <Folder Include="Lib\Base\" />
     <Folder Include="Lib\Function\" />
-    <Folder Include="Views\Pages\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -63,6 +63,7 @@
     <Resource Include="Content\Images\path_33946.png" />
     <Resource Include="Content\Images\path_3550.png" />
     <Resource Include="Content\Images\Profile-Avatar-PNG-Picture.png" />
+    <Resource Include="Content\Images\Screenshot 2024-04-15 152644.png" />
     <Resource Include="Content\Images\stroke_1_ek2.png" />
     <Resource Include="Content\Images\stroke_1_ek4.png" />
     <Resource Include="Content\Images\stroke_4.png" />
