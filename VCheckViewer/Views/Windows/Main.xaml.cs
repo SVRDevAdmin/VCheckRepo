@@ -27,6 +27,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VCheck.Lib.Data;
 using VCheckViewer.Views.Pages;
+using VCheckViewer.Views.Pages.Setting.User;
+using VCheck.Lib.Data.Models;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -35,9 +37,8 @@ namespace VCheckViewer.Views.Windows
     /// </summary>
     public partial class Main : INavigationWindow
     {
-        VCheck.Lib.Data.SampleClass sContext = VCheckViewer.App.GetService<VCheck.Lib.Data.SampleClass>();
-
         public MainViewModel ViewModel { get;  }
+
         public Main
         (
             INavigationService navigationService,
@@ -51,7 +52,13 @@ namespace VCheckViewer.Views.Windows
 
             //navigationService.SetNavigationControl(RootNavigation);
 
+            UserPage.GoToAddUserPage += new EventHandler(GoToAddUserPage);
+            UserPage.GoToUpdateUserPage += new EventHandler(GoToUpdateUserPage);
+            AddUserPage.GoToMainUserPage += new EventHandler(GoToMainUserPage);
+
             PageTitle.Text = "Dashboard";
+
+
         }
 
         #region INavigationWindow methods
@@ -105,16 +112,24 @@ namespace VCheckViewer.Views.Windows
             PageTitle.Text = "Results";
         }
 
-        private void RootNavigation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            //var sContext = VCheckViewer.App.GetService<VCheck.Lib.Data.SampleClass>();
-            List<VCheck.Lib.Data.Album> sAlbum = sContext.GetData();
-            String abc = "abc";
-        }
-
         private void T5_Click(object sender, RoutedEventArgs e)
         {
-            UserPage();
+            MainUserPage();
+        }
+
+        void GoToAddUserPage(object sender, EventArgs e)
+        {
+            Navigate(typeof(AddUserPage));
+        }
+
+        void GoToUpdateUserPage(object sender, EventArgs e)
+        {
+            Navigate(typeof(UpdateUserPage));
+        }
+
+        void GoToMainUserPage(object sender, EventArgs e)
+        {
+            MainUserPage();
         }
 
         private void DashboardPage()
@@ -124,7 +139,7 @@ namespace VCheckViewer.Views.Windows
             PageTitle.Text = "Dashboard";
         }
 
-        private void UserPage()
+        private void MainUserPage()
         {
             Navigate(typeof(UserPage));
 

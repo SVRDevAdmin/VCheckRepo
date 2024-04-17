@@ -25,6 +25,8 @@ namespace VCheckViewer
     {
         public IConfiguration Configuration { get; }
 
+        public static MainViewModel MainViewModel { get; } = new MainViewModel();
+
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
         // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection

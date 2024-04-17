@@ -16,6 +16,7 @@
   <ItemGroup>
     <None Remove="Content\Images\bio_logo.png" />
     <None Remove="Content\Images\collapseleft_120112.png" />
+    <None Remove="Content\Images\group_10.png" />
     <None Remove="Content\Images\icons8-barber-pole-64.png" />
     <None Remove="Content\Images\path_33946.png" />
     <None Remove="Content\Images\path_3550.png" />
@@ -59,6 +60,7 @@
 
   <ItemGroup>
     <Resource Include="Content\Images\collapseleft_120112.png" />
+    <Resource Include="Content\Images\group_10.png" />
     <Resource Include="Content\Images\icons8-barber-pole-64.png" />
     <Resource Include="Content\Images\path_33946.png" />
     <Resource Include="Content\Images\path_3550.png" />

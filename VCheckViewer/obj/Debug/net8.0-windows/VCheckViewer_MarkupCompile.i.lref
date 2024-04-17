@@ -1,7 +1,8 @@
 ﻿
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\App.xaml;;
-FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\AddUserPage.xaml;;
-FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\DashboardPage.xaml;;
-FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\UserPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Dashboard\DashboardPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\User\AddUserPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\User\UpdateUserPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\User\UserPage.xaml;;
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Windows\Main.xaml;;
 

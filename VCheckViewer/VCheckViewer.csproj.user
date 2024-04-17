@@ -9,13 +9,16 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Views\Pages\AddUserPage.xaml.cs">
+    <Compile Update="Views\Pages\Setting\User\AddUserPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Pages\DashboardPage.xaml.cs">
+    <Compile Update="Views\Pages\Dashboard\DashboardPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Pages\UserPage.xaml.cs">
+    <Compile Update="Views\Pages\Setting\User\UpdateUserPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Pages\Setting\User\UserPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Windows\Main.xaml.cs">
@@ -23,13 +26,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\Pages\AddUserPage.xaml">
+    <Page Update="Views\Pages\Setting\User\AddUserPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Pages\DashboardPage.xaml">
+    <Page Update="Views\Pages\Dashboard\DashboardPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Pages\UserPage.xaml">
+    <Page Update="Views\Pages\Setting\User\UpdateUserPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\Setting\User\UserPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Windows\Main.xaml">
