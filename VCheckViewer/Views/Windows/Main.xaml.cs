@@ -88,9 +88,7 @@ namespace VCheckViewer.Views.Windows
 
         private void T1_Click(object sender, RoutedEventArgs e)
         {
-            Navigate(typeof(DashboardPage));
-
-            PageTitle.Text = "Dashboard";
+            DashboardPage();
         }
 
         private void T2_Click(object sender, RoutedEventArgs e)
@@ -115,6 +113,18 @@ namespace VCheckViewer.Views.Windows
         }
 
         private void T5_Click(object sender, RoutedEventArgs e)
+        {
+            UserPage();
+        }
+
+        private void DashboardPage()
+        {
+            Navigate(typeof(DashboardPage));
+
+            PageTitle.Text = "Dashboard";
+        }
+
+        private void UserPage()
         {
             Navigate(typeof(UserPage));
 

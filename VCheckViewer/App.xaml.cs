@@ -51,7 +51,7 @@ namespace VCheckViewer
 
                 services.AddSingleton<INavigationWindow, Main>();
 
-                services.Add(new ServiceDescriptor(typeof(VCheck.Lib.Data.VCheckDBContext), new VCheck.Lib.Data.VCheckDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(VCheck.Lib.Data.DBContext.UserDBContext), new VCheck.Lib.Data.DBContext.UserDBContext(context.Configuration)));
             })
             .Build();
 

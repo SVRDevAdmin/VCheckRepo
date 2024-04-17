@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VCheck.Lib.Data.Models;
+using VCheckViewer.Views.Windows;
 
 namespace VCheckViewer.Views.Pages
 {
@@ -22,7 +24,7 @@ namespace VCheckViewer.Views.Pages
     /// </summary>
     public partial class UserPage : Page
     {
-        VCheck.Lib.Data.VCheckDBContext sContext = VCheckViewer.App.GetService<VCheck.Lib.Data.VCheckDBContext>();
+        VCheck.Lib.Data.DBContext.UserDBContext sContext = VCheckViewer.App.GetService<VCheck.Lib.Data.DBContext.UserDBContext > ();
 
         public UserPage()
         {
@@ -34,7 +36,7 @@ namespace VCheckViewer.Views.Pages
 
         public ObservableCollection<UserModel> GetUserList(int start, int end)
         {
-            ObservableCollection<UserModel> UserList = sContext.GetUserList(start, end);
+            ObservableCollection<UserModel> UserList = sContext.GetUserListByPage(start, end);
 
             return UserList;
         }
@@ -43,7 +45,6 @@ namespace VCheckViewer.Views.Pages
         {
             var currentPage = Convert.ToInt32(Page.Text);
             var nextpage = currentPage + 1;
-            //dataGrid.DataContext = GetUserList(currentPage*5,(currentPage+1)*5);
 
             var currentlist = GetUserList((nextpage - 1) * 5, 5);
 
@@ -67,6 +68,11 @@ namespace VCheckViewer.Views.Pages
                 dataGrid.ItemsSource = currentlist;
                 Page.Text = (currentPage - 1).ToString();
             }
+        }
+
+        private void AddUserList_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

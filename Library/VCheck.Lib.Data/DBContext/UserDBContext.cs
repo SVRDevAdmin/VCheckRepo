@@ -8,15 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
 
-namespace VCheck.Lib.Data
+namespace VCheck.Lib.Data.DBContext
 {
-    public class VCheckDBContext
+    public class UserDBContext
     {
         private readonly Microsoft.Extensions.Configuration.IConfiguration config;
-        public VCheckDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
+
+        public UserDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
         {
             this.config = config;
         }
+
         private MySqlConnection Connection
         {
             get
@@ -46,7 +48,7 @@ namespace VCheck.Lib.Data
                             //Title = reader["Title"].ToString(),
                             //FirstName = reader["FirstName"].ToString(),
                             //LastName = reader["LastName"].ToString(),
-                            StaffName = reader["Title"].ToString() +". " + reader["FirstName"].ToString() + " " + reader["LastName"].ToString(),
+                            StaffName = reader["Title"].ToString() + ". " + reader["FirstName"].ToString() + " " + reader["LastName"].ToString(),
                             RegistrationNo = reader["RegistrationNo"].ToString(),
                             Gender = reader["Gender"].ToString(),
                             DateOfBirth = DateOnly.FromDateTime(Convert.ToDateTime(reader["DateofBirth"])),
@@ -61,7 +63,7 @@ namespace VCheck.Lib.Data
             return sList;
         }
 
-        public ObservableCollection<UserModel> GetUserList(int start, int end)
+        public ObservableCollection<UserModel> GetUserListByPage(int start, int end)
         {
             ObservableCollection<UserModel> sList = new ObservableCollection<UserModel>();
 

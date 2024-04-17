@@ -25,5 +25,6 @@
         <TextBox Name="Page" Margin="100,369,0,0" Width="100" VerticalAlignment="Top" Text="1"></TextBox>
         <Button Content="Previous" Margin="10,369,0,0" VerticalAlignment="Top" Click="PreviousUserList_Click"></Button>
         <Button Content="Next" Margin="100,369,0,0" VerticalAlignment="Top" Click="NextUserList_Click"></Button>
+        <Button Content="Add" Margin="161,369,0,0" VerticalAlignment="Top" Click="AddUserList_Click"></Button>
     </Grid>
 </Page>
