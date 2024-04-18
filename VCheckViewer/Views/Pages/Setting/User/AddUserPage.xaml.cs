@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,10 +24,30 @@ namespace VCheckViewer.Views.Pages
     public partial class AddUserPage : Page
     {
         UserDBContext sContext = App.GetService<UserDBContext>();
+        public ObservableCollection<ComboBoxItem> cbTitle { get; set; }
+        public ObservableCollection<ComboBoxItem> cbGender { get; set; }
+        public ObservableCollection<ComboBoxItem> cbRoles { get; set; }
+        public ObservableCollection<ComboBoxItem> cbStatus { get; set; }
+        public ComboBoxItem SelectedcbTitle { get; set; }
+        public ComboBoxItem SelectedcbGender { get; set; }
+        public ComboBoxItem SelectedcbRoles { get; set; }
+        public ComboBoxItem SelectedcbStatus { get; set; }
+
 
         public AddUserPage()
         {
             InitializeComponent();
+            DataContext = this;
+
+            cbTitle = App.MainViewModel.cbTitle;
+            cbGender = App.MainViewModel.cbGender;
+            cbRoles = App.MainViewModel.cbRoles;
+            cbStatus = App.MainViewModel.cbStatus;
+
+            SelectedcbTitle = cbTitle.FirstOrDefault();
+            SelectedcbGender = cbGender.FirstOrDefault();
+            SelectedcbRoles = cbRoles.FirstOrDefault();
+            SelectedcbStatus = cbStatus.FirstOrDefault();
         }
 
         public static event EventHandler GoToMainUserPage;

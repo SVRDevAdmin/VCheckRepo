@@ -28,45 +28,10 @@ namespace VCheck.Lib.Data.DBContext
             }
         }
 
-        public ObservableCollection<UserModel> GetUserList()
-        {
-            ObservableCollection<UserModel> sList = new ObservableCollection<UserModel>();
-
-            using (MySqlConnection conn = this.Connection)
-            {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from userlist", conn);
-
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        sList.Add(new UserModel()
-                        {
-                            UserId = Convert.ToInt32(reader["UserId"]),
-                            EmployeeID = reader["EmployeeID"].ToString(),
-                            Title = reader["Title"].ToString(),
-                            FirstName = reader["FirstName"].ToString(),
-                            LastName = reader["LastName"].ToString(),
-                            StaffName = reader["Title"].ToString() + " " + reader["FirstName"].ToString() + " " + reader["LastName"].ToString(),
-                            RegistrationNo = reader["RegistrationNo"].ToString(),
-                            Gender = reader["Gender"].ToString(),
-                            DateOfBirth = reader["DateofBirth"].ToString(),
-                            EmailAddress = reader["EmailAddress"].ToString(),
-                            Status = reader["Status"].ToString(),
-                            Role = reader["Role"].ToString()
-                        });
-                    }
-                }
-            }
-
-            return sList;
-        }
-
         public ObservableCollection<UserModel> GetUserListByPage(int start, int end)
         {
             ObservableCollection<UserModel> sList = new ObservableCollection<UserModel>();
-            int index = 1;
+            int index = start + 1;
 
             using (MySqlConnection conn = this.Connection)
             {

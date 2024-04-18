@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.ViewModels.Windows;
 
@@ -23,27 +25,45 @@ namespace VCheckViewer.Views.Pages.Setting.User
     /// </summary>
     public partial class UpdateUserPage : Page
     {
-        VCheck.Lib.Data.DBContext.UserDBContext sContext = VCheckViewer.App.GetService<VCheck.Lib.Data.DBContext.UserDBContext>();
+        UserDBContext sContext = App.GetService<UserDBContext>();
 
         UserModel userInfo;
+
+        public ObservableCollection<ComboBoxItem> cbTitle { get; set; }
+        public ObservableCollection<ComboBoxItem> cbGender { get; set; }
+        public ObservableCollection<ComboBoxItem> cbRoles { get; set; }
+        public ObservableCollection<ComboBoxItem> cbStatus { get; set; }
+        public ComboBoxItem SelectedcbTitle { get; set; }
+        public ComboBoxItem SelectedcbGender { get; set; }
+        public ComboBoxItem SelectedcbRoles { get; set; }
+        public ComboBoxItem SelectedcbStatus { get; set; }
+
         public UpdateUserPage()
         {
             InitializeComponent();
+            DataContext = this;
 
-            //Title.SelectedValue = userInfo.Title;
+            cbTitle = App.MainViewModel.cbTitle;
+            cbGender = App.MainViewModel.cbGender;
+            cbRoles = App.MainViewModel.cbRoles;
+            cbStatus = App.MainViewModel.cbStatus;
+
             userInfo = App.MainViewModel.Users;
 
-            Title.Text = userInfo.Title;
+            var test = cbTitle.Where(a => a.Content == userInfo.Title);
+
+            SelectedcbTitle = cbTitle.Where(a => (string)a.Content == userInfo.Title).FirstOrDefault();
+            SelectedcbGender = cbGender.Where(a => (string)a.Content == userInfo.Gender).FirstOrDefault();
+            SelectedcbRoles = cbRoles.Where(a => (string)a.Content == userInfo.Role).FirstOrDefault();
+            SelectedcbStatus = cbStatus.Where(a => (string)a.Content == userInfo.Status).FirstOrDefault();
+
             Surname.Text = userInfo.FirstName;
             LastName.Text = userInfo.LastName;
             StaffID.Text = userInfo.EmployeeID;
             RegistrationNo.Text = userInfo.RegistrationNo;
-            Gender.Text = userInfo.Gender;
             DateOfBirth.Text = userInfo.DateOfBirth;
-            Role.Text = userInfo.Role;
             EmailAddress.Text = userInfo.EmailAddress;
-            Status.Text = userInfo.Status;
-            
+
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VCheck.Lib.Logic")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+39dfe34b22cb3c76c62429899a99a8a81fcecb1e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8638dc988286e2299cf70424fd5a2e24de6bb130")]
 [assembly: System.Reflection.AssemblyProductAttribute("VCheck.Lib.Logic")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VCheck.Lib.Logic")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

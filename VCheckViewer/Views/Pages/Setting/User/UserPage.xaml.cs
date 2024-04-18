@@ -19,6 +19,7 @@ using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.ViewModels.Windows;
 using VCheckViewer.Views.Windows;
+using Wpf.Ui.Controls;
 
 namespace VCheckViewer.Views.Pages
 {
@@ -31,19 +32,20 @@ namespace VCheckViewer.Views.Pages
 
         public static event EventHandler GoToAddUserPage;
         public static event EventHandler GoToUpdateUserPage;
+        public int pageSize = 10;
 
         public UserPage()
         {
             InitializeComponent();
 
-            dataGrid.ItemsSource = GetUserList(0, 5);
+            dataGrid.ItemsSource = GetUserList(0, pageSize);
         }
 
         public ObservableCollection<UserModel> GetUserList(int start, int end)
         {
             ObservableCollection<UserModel> UserList = sContext.GetUserListByPage(start, end);
-
             return UserList;
+
         }
 
         private void NextUserList_Click(object sender, RoutedEventArgs e)
@@ -51,7 +53,7 @@ namespace VCheckViewer.Views.Pages
             var currentPage = Convert.ToInt32(Page.Text);
             var nextpage = currentPage + 1;
 
-            var currentlist = GetUserList((nextpage - 1) * 5, 5);
+            var currentlist = GetUserList((nextpage - 1) * pageSize, pageSize);
 
             if(!(currentlist.Count == 0))
             {
@@ -69,7 +71,7 @@ namespace VCheckViewer.Views.Pages
 
             if (!(nextPage < 1))
             {
-                currentlist = GetUserList((nextPage - 1) * 5, 5);
+                currentlist = GetUserList((nextPage - 1) * pageSize, pageSize);
                 dataGrid.ItemsSource = currentlist;
                 Page.Text = (currentPage - 1).ToString();
             }
@@ -82,53 +84,17 @@ namespace VCheckViewer.Views.Pages
 
         private void UpdateUserButton_Click(object sender, RoutedEventArgs e)
         {
-            //App.MainViewModel.Users = new Users() { UserId = 1 };
-
-            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
-                if (vis is DataGridRow)
-                {
-                    // var row = (DataGrid)vis;
-
-                    var rows = GetDataGridRowsForButtons(dataGrid);
-
-                    int id;
-                    foreach (DataGridRow dr in rows)
-                    {
-                        id = (dr.Item as UserModel).UserId;
-                        UserModel userModel = dr.Item as UserModel;
-                        App.MainViewModel.Users = dr.Item as UserModel;
-                        break;
-                    }
-
-                    break;
-                }
+            App.MainViewModel.Users = dataGrid.SelectedItem as UserModel;
 
             GoToUpdateUserPageHandler(e, sender);
         }
 
         private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
         {
-            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
-                if (vis is DataGridRow)
-                {
-                    // var row = (DataGrid)vis;
-
-                    var rows = GetDataGridRowsForButtons(dataGrid);
-
-                    int id;
-                    foreach (DataGridRow dr in rows)
-                    {
-                        id = (dr.Item as UserModel).UserId;
-                        //MessageBox.Show(id.ToString());
-                        sContext.DeleteUser(id);
-                        var currentPage = Convert.ToInt32(Page.Text);
-                        var currentlist = GetUserList((currentPage - 1) * 5, 5);
-                        dataGrid.ItemsSource = currentlist;
-                        break;
-                    }
-
-                    break;
-                }
+            sContext.DeleteUser((dataGrid.SelectedItem as UserModel).UserId);
+            var currentPage = Convert.ToInt32(Page.Text);
+            var currentlist = GetUserList((currentPage - 1) * pageSize, pageSize);
+            dataGrid.ItemsSource = currentlist;
         }
 
         private static void GoToAddUserPageHandler(EventArgs e, object sender)
@@ -144,20 +110,6 @@ namespace VCheckViewer.Views.Pages
             if (GoToUpdateUserPage != null)
             {
                 GoToUpdateUserPage(sender, e);
-            }
-        }
-
-        private IEnumerable<DataGridRow> GetDataGridRowsForButtons(DataGrid grid)
-        {
-            //IQueryable
-            if (!(grid.ItemsSource is IEnumerable itemsSource))
-                yield return null;
-
-            foreach (var item in grid.ItemsSource)
-            {
-                var row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
-                if (null != row & row.IsSelected)
-                    yield return row;
             }
         }
     }

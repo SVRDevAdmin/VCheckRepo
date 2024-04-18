@@ -19,8 +19,8 @@
                                     <ColumnDefinition Width="20"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Source="../../../../Content/Images/group_10.png" Grid.Column="0"/>
-                                <TextBlock Text="Back To User Listing" Grid.Column="1" Margin="10,0,0,0"/>
+                                <Image Source="../../../../Content/Images/group_10.png" Grid.Column="0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Back To User Listing" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
                     </ControlTemplate>
@@ -29,10 +29,11 @@
         </Style>
     </Page.Resources>
 
-    <Grid>
+    <Grid Margin="0,10,0,10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -40,78 +41,85 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Button Grid.Row="0" Style="{StaticResource BackButton}" Click="BackButton_Click"/>
-        <Border Grid.Column="1" Grid.Row="1">
-            <Border Margin="30" BorderThickness="1" BorderBrush="Black">
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="20" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="90,0,70,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Margin="2">
+                    <Button Content="User" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+                <Border Grid.Column="1" Margin="2">
+                    <Button Content="Language &amp; Country" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+                <Border Grid.Column="2" Margin="2">
+                    <Button Content="PMS/LIS/HIS" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+                <Border Grid.Column="3" Margin="2">
+                    <Button Content="Device" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+            </Grid>
+        </Border>
+        <Button Grid.Row="1" Style="{StaticResource BackButton}" Click="BackButton_Click" Margin="0,10,0,0"/>
+        <Border Grid.Column="1" Grid.Row="2">
+            <Border Margin="30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="10" Background="WhiteSmoke">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Title" Grid.Row="0"/>
-                    <ComboBox x:Name="Title" Grid.Row="1">
-                        <ComboBoxItem>Mr.</ComboBoxItem>
-                        <ComboBoxItem>Mrs.</ComboBoxItem>
-                        <ComboBoxItem>Ms.</ComboBoxItem>
-                        <ComboBoxItem IsSelected="True">Dr.</ComboBoxItem>
-                    </ComboBox>
-                    <TextBlock Text="Surname" Grid.Row="2"/>
-                    <TextBox x:Name="Surname" Text="Test" Grid.Row="3"/>
-                    <TextBlock Text="Last Name" Grid.Row="4"/>
-                    <TextBox x:Name="LastName" Text="Test" Grid.Row="5"/>
-                    <TextBlock Text="StaffID" Grid.Row="6"/>
-                    <TextBox x:Name="StaffID" Text="Test" Grid.Row="7"/>
-                    <TextBlock Text="Doctor's Registration No." Grid.Row="8"/>
-                    <TextBox x:Name="RegistrationNo" Text="Test" Grid.Row="9"/>
+                    <TextBlock Text="Title" Grid.Row="0" VerticalAlignment="Bottom" Margin="10"/>
+                    <ComboBox x:Name="Title" Grid.Row="1" Background="White" ItemsSource="{Binding cbTitle}" SelectedItem="{Binding SelectedcbTitle}"/>
+                    <TextBlock Text="Surname" Grid.Row="2" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBox x:Name="Surname" Text="Test" Grid.Row="3" Background="White"/>
+                    <TextBlock Text="Last Name" Grid.Row="4" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBox x:Name="LastName" Text="Test" Grid.Row="5" Background="White"/>
+                    <TextBlock Text="StaffID" Grid.Row="6" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBox x:Name="StaffID" Text="Test" Grid.Row="7" Background="White"/>
+                    <TextBlock Text="Doctor's Registration No." Grid.Row="8" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBox x:Name="RegistrationNo" Text="Test" Grid.Row="9" Background="White"/>
                 </Grid>
             </Border>
         </Border>
-        <Border Grid.Column="2" Grid.Row="1">
-            <Border Margin="30" BorderThickness="1" BorderBrush="Black">
+        <Border Grid.Column="2" Grid.Row="2">
+            <Border Margin="30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="10" Background="WhiteSmoke">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Gender" Grid.Row="0"/>
-                    <ComboBox x:Name="Gender" Grid.Row="1">
-                        <ComboBoxItem IsSelected="True" Tag="M">Male</ComboBoxItem>
-                        <ComboBoxItem Tag="F">Female</ComboBoxItem>
-                    </ComboBox>
-                    <TextBlock Text="Date Of Birth" Grid.Row="2"/>
-                    <DatePicker x:Name="DateOfBirth" Grid.Row="3"/>
-                    <TextBlock Text="User Role" Grid.Row="4"/>
-                    <ComboBox x:Name="Role" Grid.Row="5">
-                        <ComboBoxItem Tag="1">Superadmin</ComboBoxItem>
-                        <ComboBoxItem IsSelected="True" Tag="2">Lab Superadmin</ComboBoxItem>
-                        <ComboBoxItem Tag="3">Lab User</ComboBoxItem>
-                    </ComboBox>
-                    <TextBlock Text="Email Address" Grid.Row="6"/>
-                    <TextBox x:Name="EmailAddress" Text="Test" Grid.Row="7"/>
-                    <TextBlock Text="Status" Grid.Row="8"/>
-                    <ComboBox x:Name="Status" Grid.Row="9">
-                        <ComboBoxItem Tag="1">Inactive</ComboBoxItem>
-                        <ComboBoxItem IsSelected="True" Tag="2">Active</ComboBoxItem>
-                    </ComboBox>
+                    <TextBlock Text="Gender" Grid.Row="0" VerticalAlignment="Bottom" Margin="10"/>
+                    <ComboBox x:Name="Gender" Grid.Row="1" Background="White" ItemsSource="{Binding cbGender}" SelectedItem="{Binding SelectedcbGender}"/>
+                    <TextBlock Text="Date Of Birth" Grid.Row="2" VerticalAlignment="Bottom" Margin="10"/>
+                    <DatePicker x:Name="DateOfBirth" Grid.Row="3" Background="White"/>
+                    <TextBlock Text="User Role" Grid.Row="4" VerticalAlignment="Bottom" Margin="10"/>
+                    <ComboBox x:Name="Role" Grid.Row="5" Background="White" ItemsSource="{Binding cbRoles}" SelectedItem="{Binding SelectedcbRoles}"/>
+                    <TextBlock Text="Email Address" Grid.Row="6" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBox x:Name="EmailAddress" Text="Test" Grid.Row="7" Background="White"/>
+                    <TextBlock Text="Status" Grid.Row="8" VerticalAlignment="Bottom" Margin="10"/>
+                    <ComboBox x:Name="Status" Grid.Row="9" Background="White" ItemsSource="{Binding cbStatus}" SelectedItem="{Binding SelectedcbStatus}"/>
                 </Grid>
             </Border>
         </Border>
-        <Button Content="Update" VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.Column="3" Grid.Row="1" Click="UpdateButton_Click"/>
+        <Button Content="Update" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Click="UpdateButton_Click" Margin="10,0,10,30" Background="DarkOrange" Foreground="White" Style="{DynamicResource RoundButton}"/>
     </Grid>
 </Page>

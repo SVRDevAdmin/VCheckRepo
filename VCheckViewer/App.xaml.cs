@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore;
 //using VCheckViewer.Lib.Base;
 using Microsoft.AspNetCore.Hosting.Internal;
+using VCheck.Lib.Data.DBContext;
 
 namespace VCheckViewer
 {
@@ -53,7 +54,9 @@ namespace VCheckViewer
 
                 services.AddSingleton<INavigationWindow, Main>();
 
-                services.Add(new ServiceDescriptor(typeof(VCheck.Lib.Data.DBContext.UserDBContext), new VCheck.Lib.Data.DBContext.UserDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(UserDBContext), new UserDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(MasterCodeDataDBContext), new MasterCodeDataDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(RolesDBContext), new RolesDBContext(context.Configuration)));
             })
             .Build();
 

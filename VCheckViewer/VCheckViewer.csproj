@@ -14,7 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Content\Images\36687-5-bell-transparent-image.png" />
     <None Remove="Content\Images\bio_logo.png" />
+    <None Remove="Content\Images\clock.256x256.png" />
     <None Remove="Content\Images\collapseleft_120112.png" />
     <None Remove="Content\Images\group_10.png" />
     <None Remove="Content\Images\icons8-barber-pole-64.png" />
@@ -53,12 +55,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Content\Images\36687-5-bell-transparent-image.png" />
     <Resource Include="Content\Images\bio_logo.png" />
     <ProjectReference Include="..\Library\VCheck.Lib.Data\VCheck.Lib.Data.csproj" />
     <ProjectReference Include="..\Library\VCheck.Lib.Logic\VCheck.Lib.Logic.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Content\Images\clock.256x256.png" />
     <Resource Include="Content\Images\collapseleft_120112.png" />
     <Resource Include="Content\Images\group_10.png" />
     <Resource Include="Content\Images\icons8-barber-pole-64.png" />
