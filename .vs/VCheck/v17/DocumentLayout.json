@@ -1,88 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Dev\\VCheck\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{6F4503D7-2361-4356-93B9-D1FB5BC190C8}|VCheckListenerWorker\\VCheckListenerWorker.csproj|c:\\dev\\vcheck\\vchecklistenerworker\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6F4503D7-2361-4356-93B9-D1FB5BC190C8}|VCheckListenerWorker\\VCheckListenerWorker.csproj|solutionrelative:vchecklistenerworker\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6F4503D7-2361-4356-93B9-D1FB5BC190C8}|VCheckListenerWorker\\VCheckListenerWorker.csproj|c:\\dev\\vcheck\\vchecklistenerworker\\worker2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6F4503D7-2361-4356-93B9-D1FB5BC190C8}|VCheckListenerWorker\\VCheckListenerWorker.csproj|solutionrelative:vchecklistenerworker\\worker2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6F4503D7-2361-4356-93B9-D1FB5BC190C8}|VCheckListenerWorker\\VCheckListenerWorker.csproj|c:\\dev\\vcheck\\vchecklistenerworker\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6F4503D7-2361-4356-93B9-D1FB5BC190C8}|VCheckListenerWorker\\VCheckListenerWorker.csproj|solutionrelative:vchecklistenerworker\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6F4503D7-2361-4356-93B9-D1FB5BC190C8}|VCheckListenerWorker\\VCheckListenerWorker.csproj|c:\\dev\\vcheck\\vchecklistenerworker\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{6F4503D7-2361-4356-93B9-D1FB5BC190C8}|VCheckListenerWorker\\VCheckListenerWorker.csproj|solutionrelative:vchecklistenerworker\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 145,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 1,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Worker2.cs",
-              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckListenerWorker\\Worker2.cs",
-              "RelativeDocumentMoniker": "VCheckListenerWorker\\Worker2.cs",
-              "ToolTip": "C:\\Dev\\VCheck\\VCheckListenerWorker\\Worker2.cs",
-              "RelativeToolTip": "VCheckListenerWorker\\Worker2.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T08:54:35.171Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Worker.cs",
-              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckListenerWorker\\Worker.cs",
-              "RelativeDocumentMoniker": "VCheckListenerWorker\\Worker.cs",
-              "ToolTip": "C:\\Dev\\VCheck\\VCheckListenerWorker\\Worker.cs",
-              "RelativeToolTip": "VCheckListenerWorker\\Worker.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T08:54:33.848Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckListenerWorker\\Program.cs",
-              "RelativeDocumentMoniker": "VCheckListenerWorker\\Program.cs",
-              "ToolTip": "C:\\Dev\\VCheck\\VCheckListenerWorker\\Program.cs",
-              "RelativeToolTip": "VCheckListenerWorker\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T08:54:24.397Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckListenerWorker\\appsettings.json",
-              "RelativeDocumentMoniker": "VCheckListenerWorker\\appsettings.json",
-              "ToolTip": "C:\\Dev\\VCheck\\VCheckListenerWorker\\appsettings.json",
-              "RelativeToolTip": "VCheckListenerWorker\\appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-04-19T08:54:19.816Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }
