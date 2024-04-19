@@ -8,12 +8,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Message.cs" />
+    <Compile Remove="Segment.cs" />
+    <Compile Remove="Utils.cs" />
+    <Compile Remove="Worker2.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="MySql.Data" Version="8.3.0" />
+    <PackageReference Include="MySql.Data.EntityFramework" Version="8.3.0" />
     <PackageReference Include="nhapi" Version="3.2.2" />
     <PackageReference Include="NHapiTools" Version="2.0.4" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="bin\Debug\net8.0\runtimes\win\lib\net8.0\" />
+    <Folder Include="Storage\Output\HL7\" />
+    <Folder Include="Storage\Output\XML\" />
   </ItemGroup>
 </Project>
