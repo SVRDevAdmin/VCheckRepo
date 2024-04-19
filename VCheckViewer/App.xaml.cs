@@ -38,20 +38,18 @@ namespace VCheckViewer
             })
             .ConfigureServices((context, services) =>
             {
-                //throw new NotImplementedException("No service or window was registered.");
                 services.AddHostedService<ApplicationHostService>();
 
                 services.AddSingleton<IPageService, PageServices>();
-
                 services.AddSingleton<IThemeService, ThemeService>();
-
                 services.AddSingleton<ITaskBarService, TaskBarService>();
-
                 services.AddSingleton<INavigationService, NavigationService>();
-
                 services.AddSingleton<INavigationWindow, Main>();
 
-                services.Add(new ServiceDescriptor(typeof(VCheck.Lib.Data.SampleClass), new VCheck.Lib.Data.SampleClass(context.Configuration)));
+                services.Add(new ServiceDescriptor(
+                                typeof(VCheck.Lib.Data.SampleClass), 
+                                new VCheck.Lib.Data.SampleClass(context.Configuration)
+                ));
             })
             .Build();
 
