@@ -172,15 +172,6 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\refint\VCheckViewer.dll
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.pdb
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.genruntimeconfig.cache
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\ref\VCheckViewer.dll
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.csproj.AssemblyReference.cache
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Dashboard\DashboardPage.g.cs
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\AddUserPage.g.cs
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UpdateUserPage.g.cs
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UserPage.g.cs
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main.g.cs
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\App.g.cs
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer_MarkupCompile.cache
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer_MarkupCompile.lref
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\VCheckViewer.exe
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\appsettings.json
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\VCheckViewer.deps.json
@@ -336,6 +327,15 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windo
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\VCheck.Lib.Data.pdb
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\VCheck.Lib.Data.dll.config
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\VCheck.Lib.Logic.pdb
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.csproj.AssemblyReference.cache
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Dashboard\DashboardPage.g.cs
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\AddUserPage.g.cs
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UpdateUserPage.g.cs
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UserPage.g.cs
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main.g.cs
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer_MarkupCompile.cache
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer_MarkupCompile.lref
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\App.baml
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Dashboard\DashboardPage.baml
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\AddUserPage.baml
@@ -354,3 +354,5 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windo
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.pdb
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.genruntimeconfig.cache
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\ref\VCheckViewer.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\ViewUserPage.g.cs
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\ViewUserPage.baml

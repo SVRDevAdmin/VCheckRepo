@@ -13,6 +13,12 @@ namespace VCheckViewer.ViewModels.Windows
 {
     public class MainViewModel
     {
+        UserModel _currentUser;
+        public UserModel CurrentUsers
+        {
+            get { return _currentUser; }
+            set { _currentUser = value; }
+        }
 
         UserModel _user;
         public UserModel Users

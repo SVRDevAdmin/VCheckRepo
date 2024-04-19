@@ -62,11 +62,15 @@ namespace VCheckViewer.Views.Windows
 
             UserPage.GoToAddUserPage += new EventHandler(GoToAddUserPage);
             UserPage.GoToUpdateUserPage += new EventHandler(GoToUpdateUserPage);
-            AddUserPage.GoToMainUserPage += new EventHandler(GoToMainUserPage);
+            UserPage.GoToViewUserPage += new EventHandler(GoToViewUserPage);
+
+            App.GoPreviousPage += new EventHandler(PreviousPage);
 
             PageTitle.Text = "Dashboard";
 
             initializedDropdownSelectionList();
+
+            App.MainViewModel.CurrentUsers = new UserModel() { Title = "Dr.", FirstName = "Test", LastName = "Test" , EmployeeID = "456783", RegistrationNo = "456783", Gender = "Male", DateOfBirth = "15 March 1991", Role = "Superadmin", EmailAddress = "Test", Status = "Active"};
         }
 
         #region INavigationWindow methods
@@ -99,6 +103,13 @@ namespace VCheckViewer.Views.Windows
         public void SetServiceProvider(IServiceProvider serviceProvider)
         {
             throw new NotImplementedException();
+        }
+
+        private void ViewProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
+
+            GoToViewUserPage(sender,e);
         }
 
         private void T1_Click(object sender, RoutedEventArgs e)
@@ -135,9 +146,14 @@ namespace VCheckViewer.Views.Windows
             Navigate(typeof(UpdateUserPage));
         }
 
-        void GoToMainUserPage(object sender, EventArgs e)
+        void GoToViewUserPage(object sender, EventArgs e)
         {
-            MainUserPage();
+            Navigate(typeof(ViewUserPage));
+        }
+
+        private void PreviousPage(object sender, EventArgs e)
+        {
+            RootNavigation.GoBack();
         }
 
         private void DashboardPage()

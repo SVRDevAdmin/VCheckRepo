@@ -13,12 +13,114 @@
                 <ui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
 
+            <Style x:Key="Services_MenuItem_With_Dropdown"
+TargetType="MenuItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type MenuItem}">
+                            <Border x:Name="border"
+                 Background="White"
+                 BorderThickness="0"
+                 Height="50"
+                 Width="170">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--// Icon //-->
+                                    <ContentPresenter ContentSource="Icon"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Height="45"
+                                   Grid.Column="0"/>
+
+                                    <!--// Text //-->
+                                    <ContentPresenter ContentSource="Header"
+                                   TextBlock.Foreground="Black"
+                                   TextBlock.FontFamily="Noto Sans"
+                                   TextBlock.FontSize="18"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0" 
+                                   Grid.Column="1"/>
+
+                                    <!--// Dropdown Icon //-->
+                                    <Image Source="../../Content/Images/path_3550.png"
+                        Stretch="None"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="5,0,10,0" 
+                        Grid.Column="2"/>
+
+                                    <!--// Popup //-->
+                                    <Popup x:Name="PART_Popup"
+                        AllowsTransparency="True"
+                        IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                        Placement="Bottom"
+                        PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"
+                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}">
+
+                                        <Border x:Name="SubMenuBorder" Background="White" BorderBrush="#484546" BorderThickness="1" CornerRadius="10">
+
+                                            <ScrollViewer x:Name="SubMenuScrollViewer"
+                                       Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer,TypeInTargetAssembly={x:Type FrameworkElement}}}">
+
+                                                <Grid RenderOptions.ClearTypeHint="Enabled">
+
+                                                    <Canvas HorizontalAlignment="Left"
+                                         VerticalAlignment="Top" />
+
+                                                    <ItemsPresenter x:Name="ItemsPresenter" />
+
+                                                </Grid>
+                                            </ScrollViewer>
+                                        </Border>
+                                    </Popup>
+                                </Grid>
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+
+                                <Trigger Property="IsSuspendingPopupAnimation"
+                      Value="True">
+                                    <Setter Property="PopupAnimation"
+                         TargetName="PART_Popup"
+                         Value="None" />
+                                </Trigger>
+
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <Style TargetType="Button" x:Key="RoundButton">
                 <Style.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="18" />
                     </Style>
                 </Style.Resources>
+            </Style>
+
+            <Style x:Key="BackButton" TargetType="{x:Type Button}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Border x:Name="border" Margin="10,10,0,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="../../../../Content/Images/group_10.png" Grid.Column="0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Back" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

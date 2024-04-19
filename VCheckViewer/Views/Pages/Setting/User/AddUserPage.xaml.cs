@@ -50,18 +50,9 @@ namespace VCheckViewer.Views.Pages
             SelectedcbStatus = cbStatus.FirstOrDefault();
         }
 
-        public static event EventHandler GoToMainUserPage;
-        public static void GoToMainUserPageHandler(EventArgs e, object sender)
-        {
-            if (GoToMainUserPage != null)
-            {
-                GoToMainUserPage(sender, e);
-            }
-        }
-
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            GoToMainUserPageHandler(e, sender);
+            App.GoPreviousPageHandler(e, sender);
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
@@ -82,7 +73,7 @@ namespace VCheckViewer.Views.Pages
 
             sContext.InsertUser(user);
 
-            GoToMainUserPageHandler(e, sender);
+            App.GoPreviousPageHandler(e, sender);
         }
 
     }

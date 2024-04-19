@@ -32,6 +32,7 @@ namespace VCheckViewer.Views.Pages
 
         public static event EventHandler GoToAddUserPage;
         public static event EventHandler GoToUpdateUserPage;
+        public static event EventHandler GoToViewUserPage;
         public int pageSize = 10;
 
         public UserPage()
@@ -39,6 +40,8 @@ namespace VCheckViewer.Views.Pages
             InitializeComponent();
 
             dataGrid.ItemsSource = GetUserList(0, pageSize);
+
+            //DataContext = GetUserList(0, pageSize);
         }
 
         public ObservableCollection<UserModel> GetUserList(int start, int end)
@@ -82,6 +85,13 @@ namespace VCheckViewer.Views.Pages
             GoToAddUserPageHandler(e, sender);
         }
 
+        private void ViewUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.MainViewModel.Users = dataGrid.SelectedItem as UserModel;
+
+            GoToViewUserPageHandler(e, sender);
+        }
+
         private void UpdateUserButton_Click(object sender, RoutedEventArgs e)
         {
             App.MainViewModel.Users = dataGrid.SelectedItem as UserModel;
@@ -94,6 +104,14 @@ namespace VCheckViewer.Views.Pages
             sContext.DeleteUser((dataGrid.SelectedItem as UserModel).UserId);
             var currentPage = Convert.ToInt32(Page.Text);
             var currentlist = GetUserList((currentPage - 1) * pageSize, pageSize);
+
+            if(currentlist.Count == 0)
+            {
+                currentPage = Convert.ToInt32(Page.Text) - 1;
+                currentlist = GetUserList((currentPage - 1) * pageSize, pageSize);
+                Page.Text = currentPage.ToString();
+            }
+
             dataGrid.ItemsSource = currentlist;
         }
 
@@ -102,6 +120,14 @@ namespace VCheckViewer.Views.Pages
             if (GoToAddUserPage != null)
             {
                 GoToAddUserPage(sender, e);
+            }
+        }
+
+        private static void GoToViewUserPageHandler(EventArgs e, object sender)
+        {
+            if (GoToViewUserPage != null)
+            {
+                GoToViewUserPage(sender, e);
             }
         }
 

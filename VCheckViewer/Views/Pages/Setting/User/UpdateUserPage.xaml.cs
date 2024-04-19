@@ -50,8 +50,6 @@ namespace VCheckViewer.Views.Pages.Setting.User
 
             userInfo = App.MainViewModel.Users;
 
-            var test = cbTitle.Where(a => a.Content == userInfo.Title);
-
             SelectedcbTitle = cbTitle.Where(a => (string)a.Content == userInfo.Title).FirstOrDefault();
             SelectedcbGender = cbGender.Where(a => (string)a.Content == userInfo.Gender).FirstOrDefault();
             SelectedcbRoles = cbRoles.Where(a => (string)a.Content == userInfo.Role).FirstOrDefault();
@@ -68,7 +66,7 @@ namespace VCheckViewer.Views.Pages.Setting.User
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            AddUserPage.GoToMainUserPageHandler(e, sender);
+            App.GoPreviousPageHandler(e, sender);
         }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
@@ -90,7 +88,7 @@ namespace VCheckViewer.Views.Pages.Setting.User
 
             sContext.UpdateUser(user);
 
-            AddUserPage.GoToMainUserPageHandler(e, sender);
+            App.GoPreviousPageHandler(e, sender);
         }
     }
 }
