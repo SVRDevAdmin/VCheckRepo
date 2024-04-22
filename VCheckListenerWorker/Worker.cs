@@ -100,37 +100,56 @@ namespace VCheckListenerWorker
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Test 1");
+            try
+            {
+                _logger.LogInformation("Start Listener connection");
+                Console.WriteLine("Start Listener connection");
 
-            var builder = Host.CreateApplicationBuilder();
-            String sHostIP = builder.Configuration.GetSection("Listener:HostIP").Value;
-            int iPortNo = Convert.ToInt32(builder.Configuration.GetSection("Listener:Port").Value); 
+                var builder = Host.CreateApplicationBuilder();
+                String sHostIP = builder.Configuration.GetSection("Listener:HostIP").Value;
+                int iPortNo = Convert.ToInt32(builder.Configuration.GetSection("Listener:Port").Value);
 
-            //IPAddress sIPAddress = IPAddress.Parse(strIP);
-            System.Net.IPEndPoint sIPEndPoint = System.Net.IPEndPoint.Parse(String.Concat(sHostIP, ":", iPortNo));
+                System.Net.IPEndPoint sIPEndPoint = System.Net.IPEndPoint.Parse(String.Concat(sHostIP, ":", iPortNo));
 
-            sListener = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork,
-                                                                                System.Net.Sockets.SocketType.Stream,
-                                                                                System.Net.Sockets.ProtocolType.Tcp);
-            sListener.Bind(sIPEndPoint);
-            sListener.Listen(3);
+                sListener = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork,
+                                                                                    System.Net.Sockets.SocketType.Stream,
+                                                                                    System.Net.Sockets.ProtocolType.Tcp);
+                sListener.Bind(sIPEndPoint);
+                sListener.Listen(3);
 
-            Console.WriteLine("Listener Start.");
-            Console.WriteLine("IP Address :" + sHostIP);
-            Console.WriteLine("Port No :" + iPortNo);
+                _logger.LogInformation("Listener Start Successful.");
+                _logger.LogInformation("IP Address :" + sHostIP + " | Port No : " + iPortNo);
+                Console.WriteLine("Listener Start Successful.");
+                Console.WriteLine("IP Address :" + sHostIP);
+                Console.WriteLine("Port No :" + iPortNo);
 
-
-            return base.StartAsync(cancellationToken);
+                return base.StartAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("StartAsync >>> " + ex.ToString());
+                return base.StopAsync(cancellationToken);
+            }           
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Test 2");
+            try
+            {
+                _logger.LogInformation("Initiated Stop Listener connection.");
 
-            sListener.Disconnect(true);
-            sListener.Dispose();
+                sListener.Disconnect(true);
+                sListener.Dispose();
 
-            return base.StopAsync(cancellationToken);  
+                _logger.LogInformation("Listener connection closed.");
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("StopAsync >>>> " + ex.ToString());
+            }
+
+            return base.StopAsync(cancellationToken);
         }
 
         public void ProcessHL7Message(NHapi.Base.Model.IMessage sIMessage)

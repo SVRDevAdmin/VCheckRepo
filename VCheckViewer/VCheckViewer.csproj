@@ -22,10 +22,12 @@
     <None Remove="Content\Images\group_10.png" />
     <None Remove="Content\Images\icons8-barber-pole-64.png" />
     <None Remove="Content\Images\Icons\favicon.ico" />
+    <None Remove="Content\Images\icon_fa_solid_paw.png" />
     <None Remove="Content\Images\path_33946.png" />
     <None Remove="Content\Images\path_3550.png" />
     <None Remove="Content\Images\Profile-Avatar-PNG-Picture.png" />
     <None Remove="Content\Images\Screenshot 2024-04-15 152644.png" />
+    <None Remove="Content\Images\side_view_of_furry.png" />
     <None Remove="Content\Images\stroke_1_ek2.png" />
     <None Remove="Content\Images\stroke_1_ek4.png" />
     <None Remove="Content\Images\stroke_4.png" />
@@ -73,10 +75,12 @@
     <Resource Include="Content\Images\group_10.png" />
     <Resource Include="Content\Images\icons8-barber-pole-64.png" />
     <Resource Include="Content\Images\Icons\favicon.ico" />
+    <Resource Include="Content\Images\icon_fa_solid_paw.png" />
     <Resource Include="Content\Images\path_33946.png" />
     <Resource Include="Content\Images\path_3550.png" />
     <Resource Include="Content\Images\Profile-Avatar-PNG-Picture.png" />
     <Resource Include="Content\Images\Screenshot 2024-04-15 152644.png" />
+    <Resource Include="Content\Images\side_view_of_furry.png" />
     <Resource Include="Content\Images\stroke_1_ek2.png" />
     <Resource Include="Content\Images\stroke_1_ek4.png" />
     <Resource Include="Content\Images\stroke_4.png" />

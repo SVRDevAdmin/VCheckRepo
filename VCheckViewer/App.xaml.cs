@@ -47,7 +47,7 @@ namespace VCheckViewer
                 services.AddSingleton<IThemeService, ThemeService>();
                 services.AddSingleton<ITaskBarService, TaskBarService>();
                 services.AddSingleton<INavigationService, NavigationService>();
-                services.AddSingleton<INavigationWindow, Main>();
+                services.AddSingleton<Window, Login>();
 
                 //services.Add(new ServiceDescriptor(typeof(VCheck.Lib.Data.VCheckDBContext), new VCheck.Lib.Data.VCheckDBContext(context.Configuration)));
 

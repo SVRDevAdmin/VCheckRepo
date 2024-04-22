@@ -24,11 +24,6 @@ foreach (var p in Ports)
 var builder = Host.CreateApplicationBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-
-//builder.Services.Add(new ServiceDescriptor(
- //                        typeof(TestResultDBContext),
- //                        new VCheckListenerWorker.Context.Data.TestResultDBContext(builder.Configuration))
-//);
 builder.Services.AddHostedService<Worker>();
 
 var host = builder.Build();
