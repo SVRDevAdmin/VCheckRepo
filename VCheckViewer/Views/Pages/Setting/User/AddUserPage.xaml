@@ -1,0 +1,126 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VCheckViewer.Views.Pages"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" x:Class="VCheckViewer.Views.Pages.AddUserPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AddUserPage">
+
+    <Page.Resources>
+        <Style x:Key="BackButton" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border x:Name="border">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="../../../../Content/Images/group_10.png" Grid.Column="0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Back To User Listing" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="0,10,0,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="20" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="90,0,70,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Margin="2">
+                    <Button Content="User" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+                <Border Grid.Column="1" Margin="2">
+                    <Button Content="Language &amp; Country" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+                <Border Grid.Column="2" Margin="2">
+                    <Button Content="PMS/LIS/HIS" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+                <Border Grid.Column="3" Margin="2">
+                    <Button Content="Device" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+            </Grid>
+        </Border>
+        <Button Grid.Row="1" Style="{StaticResource BackButton}" Click="BackButton_Click" Margin="0,10,0,0"/>
+        <Border Grid.Column="1" Grid.Row="2">
+            <Border Margin="30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="10" Background="WhiteSmoke">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Title" Grid.Row="0" VerticalAlignment="Bottom" Margin="10"/>
+                    <ComboBox x:Name="Title" Grid.Row="1" Background="White" ItemsSource="{Binding cbTitle}" SelectedItem="{Binding SelectedcbTitle}"/>
+                    <TextBlock Text="Surname" Grid.Row="2" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBox x:Name="Surname" Grid.Row="3" Background="White"/>
+                    <TextBlock Text="Last Name" Grid.Row="4" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBox x:Name="LastName" Grid.Row="5" Background="White"/>
+                    <TextBlock Text="StaffID" Grid.Row="6" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBox x:Name="StaffID" Grid.Row="7" Background="White"/>
+                    <TextBlock Text="Doctor's Registration No." Grid.Row="8" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBox x:Name="RegistrationNo" Grid.Row="9" Background="White"/>
+                </Grid>
+            </Border>
+        </Border>
+        <Border Grid.Column="2" Grid.Row="2">
+            <Border Margin="30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="10" Background="WhiteSmoke">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Gender" Grid.Row="0" VerticalAlignment="Bottom" Margin="10"/>
+                    <ComboBox x:Name="Gender" Grid.Row="1" Background="White" ItemsSource="{Binding cbGender}" SelectedItem="{Binding SelectedcbGender}"/>
+                    <TextBlock Text="Date Of Birth" Grid.Row="2" VerticalAlignment="Bottom" Margin="10"/>
+                    <DatePicker x:Name="DateOfBirth" Grid.Row="3" Background="White"/>
+                    <TextBlock Text="User Role" Grid.Row="4" VerticalAlignment="Bottom" Margin="10"/>
+                    <ComboBox x:Name="Role" Grid.Row="5" Background="White" ItemsSource="{Binding cbRoles}" SelectedItem="{Binding SelectedcbRoles}"/>
+                    <TextBlock Text="Email Address" Grid.Row="6" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBox x:Name="EmailAddress" Grid.Row="7" Background="White"/>
+                    <TextBlock Text="Status" Grid.Row="8" VerticalAlignment="Bottom" Margin="10"/>
+                    <ComboBox x:Name="Status" Grid.Row="9" Background="White" ItemsSource="{Binding cbStatus}" SelectedItem="{Binding SelectedcbStatus}"/>
+                </Grid>
+            </Border>
+        </Border>
+        <Button Content="Create" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Click="CreateButton_Click" Margin="10,0,10,30" Background="DarkOrange" Foreground="White" Style="{DynamicResource RoundButton}" BorderBrush="White"/>
+    </Grid>
+</Page>

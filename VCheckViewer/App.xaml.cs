@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore;
 //using VCheckViewer.Lib.Base;
 using Microsoft.AspNetCore.Hosting.Internal;
+using VCheck.Lib.Data.DBContext;
 
 namespace VCheckViewer
 {
@@ -24,6 +25,8 @@ namespace VCheckViewer
     public partial class App
     {
         public IConfiguration Configuration { get; }
+
+        public static MainViewModel MainViewModel { get; } = new MainViewModel();
 
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
@@ -46,12 +49,16 @@ namespace VCheckViewer
                 services.AddSingleton<INavigationService, NavigationService>();
                 services.AddSingleton<INavigationWindow, Main>();
 
-                services.Add(new ServiceDescriptor(typeof(VCheck.Lib.Data.VCheckDBContext), new VCheck.Lib.Data.VCheckDBContext(context.Configuration)));
+                //services.Add(new ServiceDescriptor(typeof(VCheck.Lib.Data.VCheckDBContext), new VCheck.Lib.Data.VCheckDBContext(context.Configuration)));
 
                 //services.Add(new ServiceDescriptor(
                 //                typeof(VCheck.Lib.Data.SampleClass), 
                 //                new VCheck.Lib.Data.SampleClass(context.Configuration)
                 //));
+
+                services.Add(new ServiceDescriptor(typeof(UserDBContext), new UserDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(MasterCodeDataDBContext), new MasterCodeDataDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(RolesDBContext), new RolesDBContext(context.Configuration)));
             })
             .Build();
 

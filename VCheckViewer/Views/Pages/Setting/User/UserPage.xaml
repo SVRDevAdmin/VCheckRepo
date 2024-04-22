@@ -1,0 +1,93 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VCheckViewer.Views.Pages"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" x:Class="VCheckViewer.Views.Pages.UserPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="UserPage">
+
+    <Grid Margin="0,10,0,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="20" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="90,0,70,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Margin="2">
+                    <Button Content="User" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+                <Border Grid.Column="1" Margin="2">
+                    <Button Content="Language &amp; Country" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+                <Border Grid.Column="2" Margin="2">
+                    <Button Content="PMS/LIS/HIS" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+                <Border Grid.Column="3" Margin="2">
+                    <Button Content="Device" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Button Content="Create User" VerticalAlignment="Top" Click="AddUserList_Click" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" Height="45" Background="PeachPuff" Style="{DynamicResource RoundButton}" Margin="5,0,20,0" BorderBrush="White"></Button>
+
+        <Border Grid.Row="1" Grid.ColumnSpan="4" Margin="0,20,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <DataGrid Name = "dataGrid" IsReadOnly="True" AutoGenerateColumns = "False" Margin="10" Grid.Row="0" BorderBrush="White" GridLinesVisibility="None" BorderThickness="0" TextBlock.TextAlignment="Center">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header = "No" Binding = "{Binding No}" Width="auto"/>
+                        <DataGridTextColumn Header = "Staff Name" Binding = "{Binding StaffName}" Width="*"/>
+                        <DataGridTextColumn Header = "Staff ID" Binding = "{Binding EmployeeID}" Width="*"/>
+                        <DataGridTextColumn Header = "Doctor's Registration No." Binding = "{Binding RegistrationNo}" Width="*"/>
+                        <DataGridTextColumn Header = "Gender" Binding = "{Binding Gender}" Width="*"/>
+                        <DataGridTextColumn Header = "User Role" Binding = "{Binding Role}" Width="*"/>
+                        <DataGridTextColumn Header = "Date Of Birth" Binding = "{Binding DateOfBirth}" Width="*"/>
+                        <DataGridTextColumn Header = "Email Address" Binding = "{Binding EmailAddress}" Width="*"/>
+                        <DataGridTemplateColumn Width="auto" MinWidth="20">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Right">
+                                        <Menu>
+                                            <MenuItem>
+                                                <MenuItem.Icon>
+                                                    <ui:SymbolIcon Symbol="MoreVertical48" />
+                                                </MenuItem.Icon>
+                                                <MenuItem Header="Delete" Click="DeleteUserButton_Click"/>
+                                                <MenuItem Header="Update" Click="UpdateUserButton_Click"/>
+                                            </MenuItem>
+                                        </Menu>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button Content="Previous" VerticalAlignment="Top" Click="PreviousUserList_Click"></Button>
+                    <TextBox Name="Page" Width="40" VerticalAlignment="Top" Text="1" HorizontalContentAlignment="Center" Margin="10,0,10,0" IsReadOnly="True"></TextBox>
+                    <Button Content="Next" VerticalAlignment="Top" Click="NextUserList_Click"></Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        
+    </Grid>
+</Page>

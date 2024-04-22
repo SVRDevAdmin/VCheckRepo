@@ -1,6 +1,8 @@
 ﻿
 FC:\Dev\VCheck\VCheckViewer\App.xaml;;
-FC:\Dev\VCheck\VCheckViewer\Views\Pages\DashboardPage.xaml;;
-FC:\Dev\VCheck\VCheckViewer\Views\Pages\UserPage.xaml;;
+FC:\Dev\VCheck\VCheckViewer\Views\Pages\Dashboard\DashboardPage.xaml;;
+FC:\Dev\VCheck\VCheckViewer\Views\Pages\Setting\User\AddUserPage.xaml;;
+FC:\Dev\VCheck\VCheckViewer\Views\Pages\Setting\User\UpdateUserPage.xaml;;
+FC:\Dev\VCheck\VCheckViewer\Views\Pages\Setting\User\UserPage.xaml;;
 FC:\Dev\VCheck\VCheckViewer\Views\Windows\Main.xaml;;
 

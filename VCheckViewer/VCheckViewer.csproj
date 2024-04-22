@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Content\Images\Icons\favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,9 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Content\Images\36687-5-bell-transparent-image.png" />
     <None Remove="Content\Images\bio_logo.png" />
+    <None Remove="Content\Images\clock.256x256.png" />
     <None Remove="Content\Images\collapseleft_120112.png" />
+    <None Remove="Content\Images\group_10.png" />
     <None Remove="Content\Images\icons8-barber-pole-64.png" />
+    <None Remove="Content\Images\Icons\favicon.ico" />
     <None Remove="Content\Images\path_33946.png" />
     <None Remove="Content\Images\path_3550.png" />
     <None Remove="Content\Images\Profile-Avatar-PNG-Picture.png" />
@@ -24,6 +29,10 @@
     <None Remove="Content\Images\stroke_1_ek2.png" />
     <None Remove="Content\Images\stroke_1_ek4.png" />
     <None Remove="Content\Images\stroke_4.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\Images\Icons\favicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,14 +61,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Content\Images\36687-5-bell-transparent-image.png" />
     <Resource Include="Content\Images\bio_logo.png" />
     <ProjectReference Include="..\Library\VCheck.Lib.Data\VCheck.Lib.Data.csproj" />
     <ProjectReference Include="..\Library\VCheck.Lib.Logic\VCheck.Lib.Logic.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Content\Images\clock.256x256.png" />
     <Resource Include="Content\Images\collapseleft_120112.png" />
+    <Resource Include="Content\Images\group_10.png" />
     <Resource Include="Content\Images\icons8-barber-pole-64.png" />
+    <Resource Include="Content\Images\Icons\favicon.ico" />
     <Resource Include="Content\Images\path_33946.png" />
     <Resource Include="Content\Images\path_3550.png" />
     <Resource Include="Content\Images\Profile-Avatar-PNG-Picture.png" />
@@ -70,8 +83,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

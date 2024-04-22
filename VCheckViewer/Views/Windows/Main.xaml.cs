@@ -27,6 +27,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VCheck.Lib.Data;
 using VCheckViewer.Views.Pages;
+using VCheckViewer.Views.Pages.Setting.User;
+using VCheck.Lib.Data.Models;
+using VCheck.Lib.Data.DBContext;
+using System.Collections.ObjectModel;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -35,9 +39,14 @@ namespace VCheckViewer.Views.Windows
     /// </summary>
     public partial class Main : INavigationWindow
     {
-        VCheck.Lib.Data.SampleClass sContext = VCheckViewer.App.GetService<VCheck.Lib.Data.SampleClass>();
+        static MasterCodeDataDBContext sContext = App.GetService<MasterCodeDataDBContext>();
+        static RolesDBContext rolesContext = App.GetService<RolesDBContext>();
+
+        List<MasterCodeDataModel> masterCodeDataList = sContext.GetMasterCodeData();
+        List<RolesModel> roleList = rolesContext.GetRoles();
 
         public MainViewModel ViewModel { get;  }
+
         public Main
         (
             INavigationService navigationService,
@@ -51,7 +60,13 @@ namespace VCheckViewer.Views.Windows
 
             //navigationService.SetNavigationControl(RootNavigation);
 
+            UserPage.GoToAddUserPage += new EventHandler(GoToAddUserPage);
+            UserPage.GoToUpdateUserPage += new EventHandler(GoToUpdateUserPage);
+            AddUserPage.GoToMainUserPage += new EventHandler(GoToMainUserPage);
+
             PageTitle.Text = "Dashboard";
+
+            initializedDropdownSelectionList();
         }
 
         #region INavigationWindow methods
@@ -88,9 +103,7 @@ namespace VCheckViewer.Views.Windows
 
         private void T1_Click(object sender, RoutedEventArgs e)
         {
-            Navigate(typeof(DashboardPage));
-
-            PageTitle.Text = "Dashboard";
+            DashboardPage();
         }
 
         private void T2_Click(object sender, RoutedEventArgs e)
@@ -107,18 +120,72 @@ namespace VCheckViewer.Views.Windows
             PageTitle.Text = "Results";
         }
 
-        private void RootNavigation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void T5_Click(object sender, RoutedEventArgs e)
         {
-            //var sContext = VCheckViewer.App.GetService<VCheck.Lib.Data.SampleClass>();
-            List<VCheck.Lib.Data.Album> sAlbum = sContext.GetData();
-            String abc = "abc";
+            MainUserPage();
         }
 
-        private void T5_Click(object sender, RoutedEventArgs e)
+        void GoToAddUserPage(object sender, EventArgs e)
+        {
+            Navigate(typeof(AddUserPage));
+        }
+
+        void GoToUpdateUserPage(object sender, EventArgs e)
+        {
+            Navigate(typeof(UpdateUserPage));
+        }
+
+        void GoToMainUserPage(object sender, EventArgs e)
+        {
+            MainUserPage();
+        }
+
+        private void DashboardPage()
+        {
+            Navigate(typeof(DashboardPage));
+
+            PageTitle.Text = "Dashboard";
+        }
+
+        private void MainUserPage()
         {
             Navigate(typeof(UserPage));
 
             PageTitle.Text = "Setting";
+        }
+
+        public void initializedDropdownSelectionList()
+        {
+            var titleList = masterCodeDataList.Where(a => a.CodeGroup == "Title");
+            var genderList = masterCodeDataList.Where(a => a.CodeGroup == "Gender");
+            var rolesList = roleList.Where(a => a.IsActive);
+            var statusList = masterCodeDataList.Where(a => a.CodeGroup == "UserStatus");
+
+            App.MainViewModel.cbTitle = new ObservableCollection<ComboBoxItem>();
+            App.MainViewModel.cbGender = new ObservableCollection<ComboBoxItem>();
+            App.MainViewModel.cbRoles = new ObservableCollection<ComboBoxItem>();
+            App.MainViewModel.cbStatus = new ObservableCollection<ComboBoxItem>();
+
+
+            var cbDefaultItem = new ComboBoxItem { Content = "<--Select Title-->" };
+            App.MainViewModel.SelectedcbTitle = cbDefaultItem;
+            App.MainViewModel.cbTitle.Add(cbDefaultItem);
+            foreach (var item in titleList) { App.MainViewModel.cbTitle.Add(new ComboBoxItem { Content = item.CodeID }); }
+
+            cbDefaultItem = new ComboBoxItem { Content = "<--Select Gender-->" };
+            App.MainViewModel.SelectedcbGender = cbDefaultItem;
+            App.MainViewModel.cbGender.Add(cbDefaultItem);
+            foreach (var item in genderList) { App.MainViewModel.cbGender.Add(new ComboBoxItem { Content = item.CodeName, Tag = item.CodeID }); }
+
+            cbDefaultItem = new ComboBoxItem { Content = "<--Select Role-->" };
+            App.MainViewModel.SelectedcbRoles = cbDefaultItem;
+            App.MainViewModel.cbRoles.Add(cbDefaultItem);
+            foreach (var item in rolesList) { App.MainViewModel.cbRoles.Add(new ComboBoxItem { Content = item.RoleName, Tag = item.RoleID }); }
+
+            cbDefaultItem = new ComboBoxItem { Content = "<--Select Status-->" };
+            App.MainViewModel.SelectedcbStatus = cbDefaultItem;
+            App.MainViewModel.cbStatus.Add(cbDefaultItem);
+            foreach (var item in statusList) { App.MainViewModel.cbStatus.Add(new ComboBoxItem { Content = item.CodeName, Tag = item.CodeID }); }
         }
     }
 }
