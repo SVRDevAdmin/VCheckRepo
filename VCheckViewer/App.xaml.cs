@@ -29,6 +29,7 @@ namespace VCheckViewer
         public static MainViewModel MainViewModel { get; } = new MainViewModel();
 
         public static event EventHandler GoPreviousPage;
+        public static event EventHandler Popup;
 
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
@@ -105,6 +106,14 @@ namespace VCheckViewer
             if (GoPreviousPage != null)
             {
                 GoPreviousPage(sender, e);
+            }
+        }
+
+        public static void PopupHandler(EventArgs e, object sender)
+        {
+            if (Popup != null)
+            {
+                Popup(sender, e);
             }
         }
     }

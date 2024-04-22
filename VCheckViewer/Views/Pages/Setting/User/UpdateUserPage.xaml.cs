@@ -25,8 +25,6 @@ namespace VCheckViewer.Views.Pages.Setting.User
     /// </summary>
     public partial class UpdateUserPage : Page
     {
-        UserDBContext sContext = App.GetService<UserDBContext>();
-
         UserModel userInfo;
 
         public ObservableCollection<ComboBoxItem> cbTitle { get; set; }
@@ -37,6 +35,9 @@ namespace VCheckViewer.Views.Pages.Setting.User
         public ComboBoxItem SelectedcbGender { get; set; }
         public ComboBoxItem SelectedcbRoles { get; set; }
         public ComboBoxItem SelectedcbStatus { get; set; }
+
+
+        public static event EventHandler UpdateUser;
 
         public UpdateUserPage()
         {
@@ -86,9 +87,11 @@ namespace VCheckViewer.Views.Pages.Setting.User
                 RoleID = Convert.ToInt32(((ComboBoxItem)Role.SelectedItem).Tag.ToString())
             };
 
-            sContext.UpdateUser(user);
+            App.MainViewModel.Origin = "UserUpdateRow";
 
-            App.GoPreviousPageHandler(e, sender);
+            App.MainViewModel.Users = user;
+
+            App.PopupHandler(e, sender);
         }
     }
 }

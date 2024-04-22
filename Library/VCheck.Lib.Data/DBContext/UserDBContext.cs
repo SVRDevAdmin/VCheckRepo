@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -95,8 +96,6 @@ namespace VCheck.Lib.Data.DBContext
 
         public void DeleteUser(int userID)
         {
-            //user.DateOfBirth = "1991-03-15";
-
             string insertQuery = "DELETE FROM `vcheckdb`.`mst_user` WHERE UserID = "+userID;
 
             using (MySqlConnection conn = this.Connection)
@@ -106,6 +105,28 @@ namespace VCheck.Lib.Data.DBContext
 
                 cmd.ExecuteReader();
             }
+        }
+
+        public int GetTotalUser()
+        {
+            string insertQuery = "SELECT Count(Title) FROM `vcheckdb`.`mst_user`";
+            int total = 0;
+
+            using (MySqlConnection conn = this.Connection)
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        total = reader.GetInt32(0);
+                    }
+                }
+            }
+
+            return total;
         }
     }
 }

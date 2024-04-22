@@ -31,6 +31,8 @@ using VCheckViewer.Views.Pages.Setting.User;
 using VCheck.Lib.Data.Models;
 using VCheck.Lib.Data.DBContext;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Effects;
+using VCheckViewer.Lib.Models;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -41,9 +43,12 @@ namespace VCheckViewer.Views.Windows
     {
         static MasterCodeDataDBContext sContext = App.GetService<MasterCodeDataDBContext>();
         static RolesDBContext rolesContext = App.GetService<RolesDBContext>();
+        static UserDBContext usersContext = App.GetService<UserDBContext>();
 
         List<MasterCodeDataModel> masterCodeDataList = sContext.GetMasterCodeData();
         List<RolesModel> roleList = rolesContext.GetRoles();
+
+        public static event EventHandler DeleteRow;
 
         public MainViewModel ViewModel { get;  }
 
@@ -60,9 +65,13 @@ namespace VCheckViewer.Views.Windows
 
             //navigationService.SetNavigationControl(RootNavigation);
 
+            //page
             UserPage.GoToAddUserPage += new EventHandler(GoToAddUserPage);
             UserPage.GoToUpdateUserPage += new EventHandler(GoToUpdateUserPage);
             UserPage.GoToViewUserPage += new EventHandler(GoToViewUserPage);
+
+            //popup
+            App.Popup += new EventHandler(Popup);
 
             App.GoPreviousPage += new EventHandler(PreviousPage);
 
@@ -151,6 +160,44 @@ namespace VCheckViewer.Views.Windows
             Navigate(typeof(ViewUserPage));
         }
 
+        void Popup(object sender, EventArgs e)
+        {
+            if (App.MainViewModel.Origin == "UserDeleteRow") { PopupContent.Text = "Are you sure you want to delete this user profile?"; }
+            if (App.MainViewModel.Origin == "UserAddRow") { PopupContent.Text = "Are you sure you want to create this user profile?"; }
+            if (App.MainViewModel.Origin == "UserUpdateRow") { PopupContent.Text = "Are you sure you want to update this user profile?"; }
+
+
+            PopupBackground.Background = Brushes.DimGray;
+
+            popup.IsOpen = true;
+            // Disable main window
+            this.IsEnabled = false;
+        }
+
+        private void ContinueButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Enable main window
+            this.IsEnabled = true;
+            // Close the popup
+            popup.IsOpen = false;
+
+            PopupBackground.Background = null;
+
+            if (App.MainViewModel.Origin == "UserDeleteRow") { DeleteUserRowHandler(e, sender); }
+            if (App.MainViewModel.Origin == "UserAddRow") { AddUserRowHandler(e, sender); }
+            if (App.MainViewModel.Origin == "UserUpdateRow") { UpdateUserRowHandler(e, sender); }
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Enable main window
+            this.IsEnabled = true;
+            // Close the popup
+            popup.IsOpen = false;
+
+            PopupBackground.Background = null;
+        }
+
         private void PreviousPage(object sender, EventArgs e)
         {
             RootNavigation.GoBack();
@@ -202,6 +249,34 @@ namespace VCheckViewer.Views.Windows
             App.MainViewModel.SelectedcbStatus = cbDefaultItem;
             App.MainViewModel.cbStatus.Add(cbDefaultItem);
             foreach (var item in statusList) { App.MainViewModel.cbStatus.Add(new ComboBoxItem { Content = item.CodeName, Tag = item.CodeID }); }
+        }
+
+
+
+        private static void DeleteUserRowHandler(EventArgs e, object sender)
+        {
+            usersContext.DeleteUser(App.MainViewModel.Users.UserId);
+
+            if (DeleteRow != null)
+            {
+                DeleteRow(sender, e);
+            }
+        }
+
+
+        private void AddUserRowHandler(EventArgs e, object sender)
+        {
+            usersContext.InsertUser(App.MainViewModel.Users);
+
+            PreviousPage(sender, e);
+        }
+
+
+        private void UpdateUserRowHandler(EventArgs e, object sender)
+        {
+            usersContext.UpdateUser(App.MainViewModel.Users);
+
+            PreviousPage(sender, e);
         }
     }
 }

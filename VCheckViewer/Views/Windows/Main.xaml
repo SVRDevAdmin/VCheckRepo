@@ -6,7 +6,7 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:VCheckViewer.Views.Windows" 
         mc:Ignorable="d"
-        Title="Main" WindowState="Maximized">
+        Title="Main" WindowState="Maximized" MinWidth="1290" >
 
     <Grid x:Name="MainGrid" Margin="0,0,10,0">
         <DockPanel Name="dcPanel">
@@ -91,5 +91,28 @@
                 </ui:NavigationView>
             </Border>
         </DockPanel>
+
+        <!-- Define the Popup -->
+        <Border x:Name="PopupBackground">
+            <Popup Name="popup" IsOpen="False" Placement="Center" AllowsTransparency="True">
+                <Border Background="PeachPuff" BorderBrush="DimGray" BorderThickness="0" Width="400" Height="250" CornerRadius="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0">
+                            <TextBlock x:Name="PopupContent" TextWrapping="Wrap" TextAlignment="Center" Margin="40,40,40,0" FontSize="24"/>
+                        </Border>
+                        <Border Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,40">
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="No" Click="CancelButton_Click" Margin="0,0,10,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="Transparent"/>
+                                <Button Content="Yes" Click="ContinueButton_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="DarkOrange" Foreground="White"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Popup>
+        </Border>
     </Grid>
 </Window>

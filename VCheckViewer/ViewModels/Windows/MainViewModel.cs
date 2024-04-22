@@ -13,6 +13,14 @@ namespace VCheckViewer.ViewModels.Windows
 {
     public class MainViewModel
     {
+        string _origin;
+
+        public string Origin
+        {
+            get { return _origin; }
+            set { _origin = value; }
+        }
+
         UserModel _currentUser;
         public UserModel CurrentUsers
         {

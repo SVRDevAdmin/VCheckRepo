@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
+using Wpf.Ui.Controls;
 
 namespace VCheckViewer.Views.Pages
 {
@@ -23,7 +24,6 @@ namespace VCheckViewer.Views.Pages
     /// </summary>
     public partial class AddUserPage : Page
     {
-        UserDBContext sContext = App.GetService<UserDBContext>();
         public ObservableCollection<ComboBoxItem> cbTitle { get; set; }
         public ObservableCollection<ComboBoxItem> cbGender { get; set; }
         public ObservableCollection<ComboBoxItem> cbRoles { get; set; }
@@ -32,6 +32,9 @@ namespace VCheckViewer.Views.Pages
         public ComboBoxItem SelectedcbGender { get; set; }
         public ComboBoxItem SelectedcbRoles { get; set; }
         public ComboBoxItem SelectedcbStatus { get; set; }
+
+
+        public static event EventHandler AddUser;
 
 
         public AddUserPage()
@@ -71,9 +74,12 @@ namespace VCheckViewer.Views.Pages
                 RoleID = Convert.ToInt32(((ComboBoxItem)Role.SelectedItem).Tag.ToString())
             };
 
-            sContext.InsertUser(user);
 
-            App.GoPreviousPageHandler(e, sender);
+            App.MainViewModel.Origin = "UserAddRow";
+
+            App.MainViewModel.Users = user;
+
+            App.PopupHandler(e, sender);
         }
 
     }
