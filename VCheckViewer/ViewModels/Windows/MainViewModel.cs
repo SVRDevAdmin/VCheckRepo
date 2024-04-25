@@ -107,4 +107,22 @@ namespace VCheckViewer.ViewModels.Windows
             set { _SelectedcbStatus = value; }
         }
     }
+
+    public class ValidateUserModel
+    {
+        string _email;
+
+        string Email
+        {
+            get { return _email; }
+            set
+            {
+                _email = value;
+                if (!_email.Contains("@"))
+                {
+                    throw new Exception("Incorrect email format. Must have @.");
+                }
+            }
+        }
+    }
 }

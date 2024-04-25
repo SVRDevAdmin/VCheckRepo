@@ -55,11 +55,13 @@ namespace VCheckViewer
 
                 services.AddSingleton<INavigationService, NavigationService>();
 
-                services.AddSingleton<INavigationWindow, Main>();
+                services.AddSingleton<INavigationWindow, Login>();
+                //services.AddSingleton<INavigationWindow, Main>();
 
                 services.Add(new ServiceDescriptor(typeof(UserDBContext), new UserDBContext(context.Configuration)));
                 services.Add(new ServiceDescriptor(typeof(MasterCodeDataDBContext), new MasterCodeDataDBContext(context.Configuration)));
                 services.Add(new ServiceDescriptor(typeof(RolesDBContext), new RolesDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(UserLoginDBContext), new UserLoginDBContext(context.Configuration)));
             })
             .Build();
 

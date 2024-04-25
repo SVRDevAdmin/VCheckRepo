@@ -33,6 +33,8 @@ using VCheck.Lib.Data.DBContext;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Effects;
 using VCheckViewer.Lib.Models;
+using System.Reflection;
+using System.ComponentModel;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -41,6 +43,9 @@ namespace VCheckViewer.Views.Windows
     /// </summary>
     public partial class Main : INavigationWindow
     {
+        INavigationService _navigationService;
+        IPageService _pageService;
+
         static MasterCodeDataDBContext sContext = App.GetService<MasterCodeDataDBContext>();
         static RolesDBContext rolesContext = App.GetService<RolesDBContext>();
         static UserDBContext usersContext = App.GetService<UserDBContext>();
@@ -49,8 +54,6 @@ namespace VCheckViewer.Views.Windows
         List<RolesModel> roleList = rolesContext.GetRoles();
 
         public static event EventHandler DeleteRow;
-
-        public MainViewModel ViewModel { get;  }
 
         public Main
         (
@@ -65,10 +68,15 @@ namespace VCheckViewer.Views.Windows
 
             //navigationService.SetNavigationControl(RootNavigation);
 
+            _pageService = pageService;
+            _navigationService = navigationService;
+            DataContext = this;
+
             //page
             UserPage.GoToAddUserPage += new EventHandler(GoToAddUserPage);
             UserPage.GoToUpdateUserPage += new EventHandler(GoToUpdateUserPage);
             UserPage.GoToViewUserPage += new EventHandler(GoToViewUserPage);
+            ViewUserPage.GoToUpdateCurrentUserPage += new EventHandler(GoToUpdateUserPage);
 
             //popup
             App.Popup += new EventHandler(Popup);
@@ -79,7 +87,9 @@ namespace VCheckViewer.Views.Windows
 
             initializedDropdownSelectionList();
 
-            App.MainViewModel.CurrentUsers = new UserModel() { Title = "Dr.", FirstName = "Test", LastName = "Test" , EmployeeID = "456783", RegistrationNo = "456783", Gender = "Male", DateOfBirth = "15 March 1991", Role = "Superadmin", EmailAddress = "Test", Status = "Active"};
+            //App.MainViewModel.CurrentUsers = new UserModel() { Title = "Dr.", FirstName = "Lee", LastName = "Eunji", StaffName = "Dr. Lee Eunji", EmployeeID = "456783", RegistrationNo = "456783", Gender = "Male", DateOfBirth = "15 March 1991", Role = "Superadmin", EmailAddress = "eunji@gmail.com", Status = "Active" };
+
+            Username.Header = App.MainViewModel.CurrentUsers.StaffName;
         }
 
         #region INavigationWindow methods
@@ -96,13 +106,13 @@ namespace VCheckViewer.Views.Windows
 
         #endregion INavigationWindow methods
 
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
+        //protected override void OnClosed(EventArgs e)
+        //{
+        //    base.OnClosed(e);
 
-            // Make sure that closing this window will begin the process of closing the application.
-            Application.Current.Shutdown();
-        }
+        //    // Make sure that closing this window will begin the process of closing the application.
+        //    Application.Current.Shutdown();
+        //}
 
         INavigationView INavigationWindow.GetNavigation()
         {
@@ -118,11 +128,20 @@ namespace VCheckViewer.Views.Windows
         {
             App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
 
+            RootNavigation.GoBack();
+
             GoToViewUserPage(sender,e);
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.MainViewModel.Origin = "Logout";
+            Popup(sender, e);
         }
 
         private void T1_Click(object sender, RoutedEventArgs e)
         {
+            isActive(sender as NavigationViewItem);
             DashboardPage();
         }
 
@@ -142,6 +161,7 @@ namespace VCheckViewer.Views.Windows
 
         private void T5_Click(object sender, RoutedEventArgs e)
         {
+            isActive(sender as NavigationViewItem);
             MainUserPage();
         }
 
@@ -165,20 +185,16 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "UserDeleteRow") { PopupContent.Text = "Are you sure you want to delete this user profile?"; }
             if (App.MainViewModel.Origin == "UserAddRow") { PopupContent.Text = "Are you sure you want to create this user profile?"; }
             if (App.MainViewModel.Origin == "UserUpdateRow") { PopupContent.Text = "Are you sure you want to update this user profile?"; }
+            if (App.MainViewModel.Origin == "Logout") { PopupContent.Text = "Are you sure you want to logout?"; }
 
 
             PopupBackground.Background = Brushes.DimGray;
-
+            PopupBackground.Opacity = 0.5;
             popup.IsOpen = true;
-            // Disable main window
-            this.IsEnabled = false;
         }
 
         private void ContinueButton_Click(object sender, RoutedEventArgs e)
         {
-            // Enable main window
-            this.IsEnabled = true;
-            // Close the popup
             popup.IsOpen = false;
 
             PopupBackground.Background = null;
@@ -186,6 +202,12 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "UserDeleteRow") { DeleteUserRowHandler(e, sender); }
             if (App.MainViewModel.Origin == "UserAddRow") { AddUserRowHandler(e, sender); }
             if (App.MainViewModel.Origin == "UserUpdateRow") { UpdateUserRowHandler(e, sender); }
+            if (App.MainViewModel.Origin == "Logout")
+            {
+                Login login = new Login(_navigationService, _pageService);
+                this.CloseWindow();
+                login.Show();
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -200,7 +222,10 @@ namespace VCheckViewer.Views.Windows
 
         private void PreviousPage(object sender, EventArgs e)
         {
-            RootNavigation.GoBack();
+            var originButton = (System.Windows.Controls.Button)sender;
+
+            if(originButton.Name.ToString() == "UserPage") { MainUserPage(); }
+            else { RootNavigation.GoBack(); }
         }
 
         private void DashboardPage()
@@ -217,6 +242,18 @@ namespace VCheckViewer.Views.Windows
             PageTitle.Text = "Setting";
         }
 
+        private void isActive(NavigationViewItem navigationItem)
+        {
+            var childItems = (RootNavigation as NavigationView).MenuItems;
+
+            foreach(NavigationViewItem childItem in childItems)
+            {
+                childItem.IsActive = false;
+            }
+
+            navigationItem.IsActive = true;
+        }
+
         public void initializedDropdownSelectionList()
         {
             var titleList = masterCodeDataList.Where(a => a.CodeGroup == "Title");
@@ -230,22 +267,22 @@ namespace VCheckViewer.Views.Windows
             App.MainViewModel.cbStatus = new ObservableCollection<ComboBoxItem>();
 
 
-            var cbDefaultItem = new ComboBoxItem { Content = "<--Select Title-->" };
+            var cbDefaultItem = new ComboBoxItem { Content = "" };
             App.MainViewModel.SelectedcbTitle = cbDefaultItem;
             App.MainViewModel.cbTitle.Add(cbDefaultItem);
             foreach (var item in titleList) { App.MainViewModel.cbTitle.Add(new ComboBoxItem { Content = item.CodeID }); }
 
-            cbDefaultItem = new ComboBoxItem { Content = "<--Select Gender-->" };
+            cbDefaultItem = new ComboBoxItem { Content = "" };
             App.MainViewModel.SelectedcbGender = cbDefaultItem;
             App.MainViewModel.cbGender.Add(cbDefaultItem);
             foreach (var item in genderList) { App.MainViewModel.cbGender.Add(new ComboBoxItem { Content = item.CodeName, Tag = item.CodeID }); }
 
-            cbDefaultItem = new ComboBoxItem { Content = "<--Select Role-->" };
+            cbDefaultItem = new ComboBoxItem { Content = "" };
             App.MainViewModel.SelectedcbRoles = cbDefaultItem;
             App.MainViewModel.cbRoles.Add(cbDefaultItem);
             foreach (var item in rolesList) { App.MainViewModel.cbRoles.Add(new ComboBoxItem { Content = item.RoleName, Tag = item.RoleID }); }
 
-            cbDefaultItem = new ComboBoxItem { Content = "<--Select Status-->" };
+            cbDefaultItem = new ComboBoxItem { Content = "" };
             App.MainViewModel.SelectedcbStatus = cbDefaultItem;
             App.MainViewModel.cbStatus.Add(cbDefaultItem);
             foreach (var item in statusList) { App.MainViewModel.cbStatus.Add(new ComboBoxItem { Content = item.CodeName, Tag = item.CodeID }); }
@@ -275,6 +312,13 @@ namespace VCheckViewer.Views.Windows
         private void UpdateUserRowHandler(EventArgs e, object sender)
         {
             usersContext.UpdateUser(App.MainViewModel.Users);
+
+            if(App.MainViewModel.CurrentUsers.UserId == App.MainViewModel.Users.UserId)
+            {
+                App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
+                Username.Header = App.MainViewModel.CurrentUsers.StaffName;
+            }
+
 
             PreviousPage(sender, e);
         }

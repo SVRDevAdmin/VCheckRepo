@@ -21,7 +21,7 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <!--// Icon //-->
@@ -31,7 +31,7 @@
                                     <ContentPresenter ContentSource="Header" TextBlock.Foreground="Black" TextBlock.FontFamily="Noto Sans" TextBlock.FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Column="1"/>
 
                                     <!--// Dropdown Icon //-->
-                                    <Image Source="../../Content/Images/path_3550.png" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0,10,0" Grid.Column="2"/>
+                                    <Image Source="../../Content/Images/path_3550.png" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2"/>
 
                                     <!--// Popup //-->
                                     <Popup x:Name="PART_Popup" AllowsTransparency="True" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}">
@@ -76,7 +76,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Source="../../../../Content/Images/group_10.png" Grid.Column="0" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Back" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Back to User Listing" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                 </Grid>
                             </Border>
                         </ControlTemplate>

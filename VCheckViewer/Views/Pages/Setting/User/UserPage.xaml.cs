@@ -87,7 +87,10 @@ namespace VCheckViewer.Views.Pages
             for (int i = startPagination; i <= endPagination; i++)
             {
                 newBtn = new System.Windows.Controls.Button();
-                newBtn.Content = i;
+
+                if(i < 10) { newBtn.Content = "0"+i; }
+                else { newBtn.Content = i; }
+
                 newBtn.Tag = i;
                 newBtn.Style = (Style)Application.Current.FindResource("RoundButton");
                 newBtn.Width = 30;
@@ -139,7 +142,7 @@ namespace VCheckViewer.Views.Pages
             {
                 var child = VisualTreeHelper.GetChild(btn.Parent, i);
                 var frameworkElement = child as System.Windows.Controls.Button;
-                if (frameworkElement.Tag.ToString() == currentPage.ToString() && currentPage != 1)
+                if (frameworkElement.Tag.ToString() == currentPage.ToString() && childrenCount > 3)
                 {
                     frameworkElement.BorderBrush = Brushes.DarkOrange;
                     frameworkElement.Background = Brushes.Transparent;

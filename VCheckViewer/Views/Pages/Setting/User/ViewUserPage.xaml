@@ -41,7 +41,7 @@
                 </Border>
             </Grid>
         </Border>
-        <Button Grid.Row="1" Style="{StaticResource BackButton}" Click="BackButton_Click"/>
+        <Button x:Name="UserPage" Grid.Row="1" Style="{StaticResource BackButton}" Click="BackButton_Click"/>
         <Border Grid.Column="1" Grid.Row="2">
             <Border Margin="30" BorderThickness="1" BorderBrush="White" Padding="20" CornerRadius="20" Background="WhiteSmoke">
                 <Grid>
@@ -98,5 +98,6 @@
                 </Grid>
             </Border>
         </Border>
+        <Button x:Name="Edit" Content="Edit" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Click="UpdateCurrentButton_Click" Margin="30" Background="DarkOrange" Foreground="White" Style="{DynamicResource RoundButton}" BorderBrush="White" Visibility="Hidden"/>
     </Grid>
 </Page>
