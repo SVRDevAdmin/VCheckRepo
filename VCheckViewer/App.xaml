@@ -11,6 +11,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary Theme="Dark" />
                 <ui:ControlsDictionary />
+
+                <ResourceDictionary Source="Template/Templates.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="Button" x:Key="RoundButton">

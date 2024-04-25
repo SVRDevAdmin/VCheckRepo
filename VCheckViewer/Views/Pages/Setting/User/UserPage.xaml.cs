@@ -38,7 +38,7 @@ namespace VCheckViewer.Views.Pages
         {
             InitializeComponent();
 
-            dataGrid.ItemsSource = GetUserList(0, pageSize);
+            //dataGrid.ItemsSource = GetUserList(0, pageSize);
         }
 
         public ObservableCollection<UserModel> GetUserList(int start, int end)

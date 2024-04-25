@@ -98,7 +98,7 @@
 
     <Grid x:Name="MainGrid" Margin="0,0,10,0">
         <DockPanel Name="dcPanel">
-            <Border Height="90" BorderBrush="Black" BorderThickness="0" DockPanel.Dock="Top">
+            <Border Height="90" DockPanel.Dock="Top">
                 <Grid x:Name="TopBarGrid">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200" />
@@ -125,7 +125,7 @@
                         </Border>
                     </Border>
                     <Border HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="3" Padding="70,0,0,0">
-                    <Menu>
+                        <Menu>
                             <MenuItem Header="Dr. Lee Eunji" Style="{StaticResource Services_MenuItem_With_Dropdown}">
                                 <MenuItem.Icon>
                                     <Image Source="../../Content/Images/Screenshot 2024-04-15 152644.png"/>
@@ -139,45 +139,65 @@
                     </Border>
                 </Grid>
             </Border>
-            <Border BorderBrush="Black" BorderThickness="0" DockPanel.Dock="Top">
+            <!--
+            <Border DockPanel.Dock="Top">
+                <Grid>
+                    <StackPanel Background="#2E333A" Width="230" Orientation="Vertical" HorizontalAlignment="Left">
+                        <Menu Height="450" Background="Transparent" Margin="0, 40, 0, 0">
+                            <Grid Height="50" VerticalAlignment="Top" Margin="0, 30, 0,0">
+                                <Border Background="#D61734" Height="25" CornerRadius="3, 0, 0, 3"
+                                        Width="6" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                    
+                                </Border>
+                                <TextBlock Text="Test Menu A" Foreground="#FFFFFF" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Grid>
+                            <Menu.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </Menu.ItemsPanel>
+                        </Menu>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            -->
+            <Border BorderBrush="Black" BorderThickness="2" DockPanel.Dock="Top" Background="#f2f2f2">
+
                 <ui:NavigationView
-            x:Name="RootNavigation"
-            Padding="5,0,10,0"
-            FrameMargin="1"
-            PaneDisplayMode="Left" 
-            OpenPaneLength="190" 
-            IsBackButtonVisible="Collapsed"
-                    PaneTitle="Collapse">
-                    
+                    x:Name="RootNavigation"
+                    Padding="5,0,10,0"
+                    FrameMargin="1"
+                    PaneDisplayMode="Left" 
+                    OpenPaneLength="190"
+                    IsBackButtonVisible="Collapsed"
+                    PaneTitle="Collapse" 
+                    Margin="20, 0, 0, 0" 
+                    FontFamily="Noto Sans" >
+
                     <ui:NavigationView.MenuItems>
-                        <ui:NavigationViewItem Content="Dashboard" Name="T1" Click="T1_Click" Margin="0,0,0,30">
+                        <ui:NavigationViewItem Content="Dashboard" Name="T1" Click="T1_Click" Margin="5,10,0,20" FontFamily="Noto Sans">
                             <ui:NavigationViewItem.Icon>
-                                <ui:ImageIcon Source="../../Content/Images/stroke_4.png" Width="20" Height="20"/>
-                                <!--<ui:SymbolIcon Symbol="AppFolder48" />-->
+                                <ui:ImageIcon Source="../../Content/Images/dashboard.png" Width="20" Height="20" />
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Schedule" Name="T2" Click="T2_Click" Margin="0,0,0,30">
+                        <ui:NavigationViewItem Content="Schedule" Name="T2" Click="T2_Click" Margin="5,0,0,20" FontFamily="Noto Sans">
                             <ui:NavigationViewItem.Icon>
-                                <ui:ImageIcon Source="../../Content/Images/clock.256x256.png" Width="20" Height="20"/>
-                                <!--<ui:SymbolIcon Symbol="Clock12"  />-->
+                                <ui:ImageIcon Source="../../Content/Images/clock.png" Width="20" Height="20"/>
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Results" Name="T3" Click="T3_Click" Margin="0,0,0,30">
+                        <ui:NavigationViewItem Content="Results" Name="T3" Click="T3_Click" Margin="5,0,0,20" FontFamily="Noto Sans">
                             <ui:NavigationViewItem.Icon>
-                                <ui:ImageIcon Source="../../Content/Images/stroke_4.png" Width="20" Height="20"/>
-                                <!--<ui:SymbolIcon Symbol="Form48" />-->
+                                <ui:ImageIcon Source="../../Content/Images/results.png" Width="20" Height="20"/>
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Notifications" Name="T4" Margin="0,0,0,30">
+                        <ui:NavigationViewItem Content="Notifications" Name="T4" Margin="5,0,0,20" FontFamily="Noto Sans">
                             <ui:NavigationViewItem.Icon>
-                                <ui:ImageIcon Source="../../Content/Images/36687-5-bell-transparent-image.png" Width="20" Height="20"/>
-                                <!--<ui:SymbolIcon Symbol="Alert12" />-->
+                                <ui:ImageIcon Source="../../Content/Images/bell.png" Width="20" Height="20"/>
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Settings" Name="T5" Click="T5_Click" Margin="0,0,0,30">
+                        <ui:NavigationViewItem Content="Settings" Name="T5" Click="T5_Click" Margin="5,0,0,20" FontFamily="Noto Sans">
                             <ui:NavigationViewItem.Icon>
-                                <ui:ImageIcon Source="../../Content/Images/path_33946.png" Width="20" Height="20"/>
-                                <!--<ui:SymbolIcon Symbol="Settings16" />-->
+                                <ui:ImageIcon Source="../../Content/Images/setting.png" Width="20" Height="20"/>
                             </ui:NavigationViewItem.Icon>
                         </ui:NavigationViewItem>
                     </ui:NavigationView.MenuItems>

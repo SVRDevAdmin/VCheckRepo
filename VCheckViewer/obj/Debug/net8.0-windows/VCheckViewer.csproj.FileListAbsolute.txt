@@ -159,6 +159,7 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\Add
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UpdateUserPage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UserPage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main.g.cs
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main2.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\App.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer_Content.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer_MarkupCompile.cache
@@ -169,6 +170,7 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\Add
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UpdateUserPage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UserPage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main.baml
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main2.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.g.resources
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.GeneratedMSBuildEditorConfig.editorconfig
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.AssemblyInfoInputs.cache
@@ -181,5 +183,4 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\refint\VCheckViewer.dll
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.pdb
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.genruntimeconfig.cache
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\ref\VCheckViewer.dll
-C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Login.g.cs
-C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Login.baml
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Template\Templates.baml

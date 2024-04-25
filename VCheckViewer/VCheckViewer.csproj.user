@@ -21,14 +21,17 @@
     <Compile Update="Views\Pages\Setting\User\UserPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Windows\Login.xaml.cs">
+    <Compile Update="Views\Windows\Main.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Windows\Main.xaml.cs">
+    <Compile Update="Views\Windows\Main2.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Template\Templates.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\Pages\Setting\User\AddUserPage.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -41,10 +44,10 @@
     <Page Update="Views\Pages\Setting\User\UserPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Windows\Login.xaml">
+    <Page Update="Views\Windows\Main.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Windows\Main.xaml">
+    <Page Update="Views\Windows\Main2.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

@@ -18,9 +18,7 @@ using VCheckViewer.ViewModels.Windows;
 using VCheck.Lib.Logic;
 using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Configuration;
-//using VCheckViewer.Lib.Base;
 using Microsoft.EntityFrameworkCore;
-//using VCheckViewer.Lib.Function;
 using System.Runtime.InteropServices.Marshalling;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +29,7 @@ using VCheckViewer.Views.Pages.Setting.User;
 using VCheck.Lib.Data.Models;
 using VCheck.Lib.Data.DBContext;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Animation;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -187,5 +186,33 @@ namespace VCheckViewer.Views.Windows
             App.MainViewModel.cbStatus.Add(cbDefaultItem);
             foreach (var item in statusList) { App.MainViewModel.cbStatus.Add(new ComboBoxItem { Content = item.CodeName, Tag = item.CodeID }); }
         }
+
+        private void RootNavigation_PaneClosed(NavigationView sender, RoutedEventArgs args)
+        {
+        }
+
+        //private void Border_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    Border sp = sender as Border;
+        //    DoubleAnimation db = new DoubleAnimation();
+        //    //db.From = 12;
+        //    db.To = 150;
+        //    db.Duration = TimeSpan.FromSeconds(0.5);
+        //    db.AutoReverse = false;
+        //    db.RepeatBehavior = new RepeatBehavior(1);
+        //    sp.BeginAnimation(StackPanel.HeightProperty, db);
+        //}
+
+        //private void Border_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    Border sp = sender as Border;
+        //    DoubleAnimation db = new DoubleAnimation();
+        //    //db.From = 12;
+        //    db.To = 12;
+        //    db.Duration = TimeSpan.FromSeconds(0.5);
+        //    db.AutoReverse = false;
+        //    db.RepeatBehavior = new RepeatBehavior(1);
+        //    sp.BeginAnimation(StackPanel.HeightProperty, db);
+        //}
     }
 }

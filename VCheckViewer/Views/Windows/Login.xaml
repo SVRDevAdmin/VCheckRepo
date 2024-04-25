@@ -9,22 +9,34 @@
     <Grid>
         <DockPanel>
             <Border DockPanel.Dock="Top" Height="100" Width="Auto" HorizontalAlignment="Left">
-                <Image Name="imgLogo" Width="217px" Height="95px" Source="../../Content/Images/bio_logo.png" />
+                <Image Name="imgLogo" Width="217px" Source="../../Content/Images/bio_logo.png" />
             </Border>
-            <Border DockPanel.Dock="Bottom" Height="40px" />
-            <Border DockPanel.Dock="Left" Width="300px" Panel.ZIndex="5" BorderBrush="Black" BorderThickness="2">
-                <TextBox Text="Left2" />
+            <Border DockPanel.Dock="Bottom" Height="20px" />
+            <Border DockPanel.Dock="Left" Width="450px" Height="40px" Panel.ZIndex="7" Margin="0, 520, -660, 0">
+                <TextBlock Text="Please log in to access your account" FontSize="20px" FontFamily="Noto Sans" FontWeight="Bold" HorizontalAlignment="Center" />
             </Border>
-            <Border DockPanel.Dock="Left" Width="350px" Panel.ZIndex="5" BorderBrush="Black" BorderThickness="2">
+            <Border DockPanel.Dock="Left" Width="400px" Height="40px" Panel.ZIndex="7" Margin="0, 420, -650, 0">
+                <TextBlock Text="results swiftly." FontSize="34px" FontFamily="Noto Sans" FontWeight="Bold" HorizontalAlignment="Center" />
+            </Border>
+            <Border DockPanel.Dock="Left" Width="400px" Height="40px" Panel.ZIndex="7" Margin="0, 340, -650, 0">
+                <TextBlock Text="Get accurate" FontSize="34px" FontFamily="Noto Sans" FontWeight="Bold" HorizontalAlignment="Center" />
+            </Border>
+            <Border DockPanel.Dock="Left" Width="600px" Height="200px" Panel.ZIndex="7" Margin="0, 83, -700, 0">
+                <Image Name="imgDevice" Width="550px" Source="../../Content/Images/img_devices.png" />
+            </Border>
+            <Border DockPanel.Dock="Left" Width="330px" Panel.ZIndex="6" Margin="0, 50, -880, 0">
+                <Image Name="imgGroup" Width="350px" VerticalAlignment="Top" Source="../../Content/Images/mask_group_5.png" />
+            </Border>
+            <Border DockPanel.Dock="Left" Width="650px" Panel.ZIndex="5">
                 <Image Name="imgPaw" Width="380px" VerticalAlignment="Top" HorizontalAlignment="Right" Source="../../Content/Images/icon_fa_solid_paw.png" />
             </Border>
-            <Border DockPanel.Dock="Right" Width="25px" BorderBrush="Black" BorderThickness="2">
+            <Border DockPanel.Dock="Right" Width="25px">
             </Border>
             <Border DockPanel.Dock="Top" Width="550px" Height="290px" Panel.ZIndex="9" Margin="45, -80, 0, 0">
-                <Image Name="imgFurry" Width="550px" Source="../../Content/Images/side_view_of_furry.png" Margin="0, 30" />
+                <Image Name="imgFurry" Width="550px" Source="../../Content/Images/side_view_of_furry.png" Margin="0, 30"  />
             </Border>
             <Border DockPanel.Dock="Top" Width="550px" Height="450px" Background="#ffddbc" CornerRadius="30" Margin="45, -95, 0, 0">
-                <TextBlock Name="lbLogin" FontFamily="Aria" FontSize="45" FontWeight="Bold" Foreground="Black" VerticalAlignment="Center" Margin="200, -280, 0, 0">Login</TextBlock>
+                <TextBlock Name="lbLogin" FontFamily="Noto Sans" FontSize="45" FontWeight="Bold" Foreground="Black" VerticalAlignment="Center" Margin="200, -280, 0, 0">Login</TextBlock>
             </Border>
             <Border DockPanel.Dock="Top" Width="450px" Height="50px" Background="White" CornerRadius="30" Panel.ZIndex="7" Margin="45, -520, 0,0">
                 <TextBox Name="txtUsername" Width="450px" MinWidth="400px" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" Background="White" Margin="85, 0">User Login</TextBox>
@@ -36,21 +48,5 @@
                 <Button Name="btnLogin" Width="450px" Background="#f08014" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="75, 0" Click="btnLogin_Click">Login</Button>
             </Border>
         </DockPanel>
-                
-        <!--
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Border Background="BlueViolet">
-            <Button x:Name="btnButotn" HorizontalAlignment="Center" VerticalAlignment="Center" Click="btnButotn_Click">
-                Submit
-            </Button>
-        </Border>
-        -->
     </Grid>
 </Window>

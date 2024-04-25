@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Dev\VCheck\VCheckViewer\App.xaml
-6-832289273
+72109517400
 1-1010574020
-16891229472
+16407885361
 2711856948949
-Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Windows\Login.xaml;Views\Windows\Main.xaml;
+Template\Templates.xaml;Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Windows\Main.xaml;Views\Windows\Main2.xaml;
 
 True
 

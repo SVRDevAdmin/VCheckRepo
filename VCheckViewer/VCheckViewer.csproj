@@ -12,25 +12,44 @@
   <ItemGroup>
     <Compile Remove="Lib\Base\ApplicationDBContext.cs" />
     <Compile Remove="Lib\Function\ConfigSettings.cs" />
+    <Compile Remove="Views\Windows\Login.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Content\Images\36687-5-bell-transparent-image.png" />
+    <None Remove="Content\Images\bell.png" />
     <None Remove="Content\Images\bio_logo.png" />
     <None Remove="Content\Images\clock.256x256.png" />
+    <None Remove="Content\Images\clock.png" />
     <None Remove="Content\Images\collapseleft_120112.png" />
+    <None Remove="Content\Images\Collapse_Arrow.png" />
+    <None Remove="Content\Images\Collapse_Arrow_Right.png" />
+    <None Remove="Content\Images\dashboard.png" />
     <None Remove="Content\Images\group_10.png" />
     <None Remove="Content\Images\icons8-barber-pole-64.png" />
+    <None Remove="Content\Images\Icons\dashboard.png" />
     <None Remove="Content\Images\Icons\favicon.ico" />
+    <None Remove="Content\Images\Icons\results.png" />
     <None Remove="Content\Images\icon_fa_solid_paw.png" />
+    <None Remove="Content\Images\img_devices.png" />
+    <None Remove="Content\Images\mask_group_4.png" />
+    <None Remove="Content\Images\mask_group_5.png" />
     <None Remove="Content\Images\path_33946.png" />
     <None Remove="Content\Images\path_3550.png" />
     <None Remove="Content\Images\Profile-Avatar-PNG-Picture.png" />
+    <None Remove="Content\Images\results.png" />
     <None Remove="Content\Images\Screenshot 2024-04-15 152644.png" />
+    <None Remove="Content\Images\setting.png" />
     <None Remove="Content\Images\side_view_of_furry.png" />
     <None Remove="Content\Images\stroke_1_ek2.png" />
     <None Remove="Content\Images\stroke_1_ek4.png" />
     <None Remove="Content\Images\stroke_4.png" />
+    <None Remove="Fonts\Orbitron-Medium.ttf" />
+    <None Remove="Fonts\Roboto-Light.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Views\Windows\Login.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,6 +83,7 @@
 
   <ItemGroup>
     <Resource Include="Content\Images\36687-5-bell-transparent-image.png" />
+    <Resource Include="Content\Images\bell.png" />
     <Resource Include="Content\Images\bio_logo.png" />
     <ProjectReference Include="..\Library\VCheck.Lib.Data\VCheck.Lib.Data.csproj" />
     <ProjectReference Include="..\Library\VCheck.Lib.Logic\VCheck.Lib.Logic.csproj" />
@@ -71,19 +91,34 @@
 
   <ItemGroup>
     <Resource Include="Content\Images\clock.256x256.png" />
+    <Resource Include="Content\Images\clock.png" />
     <Resource Include="Content\Images\collapseleft_120112.png" />
+    <Resource Include="Content\Images\Collapse_Arrow.png" />
+    <Resource Include="Content\Images\Collapse_Arrow_Right.png" />
+    <Resource Include="Content\Images\dashboard.png" />
     <Resource Include="Content\Images\group_10.png" />
     <Resource Include="Content\Images\icons8-barber-pole-64.png" />
     <Resource Include="Content\Images\Icons\favicon.ico" />
     <Resource Include="Content\Images\icon_fa_solid_paw.png" />
+    <Resource Include="Content\Images\img_devices.png" />
+    <Resource Include="Content\Images\mask_group_4.png" />
+    <Resource Include="Content\Images\mask_group_5.png" />
     <Resource Include="Content\Images\path_33946.png" />
     <Resource Include="Content\Images\path_3550.png" />
     <Resource Include="Content\Images\Profile-Avatar-PNG-Picture.png" />
+    <Resource Include="Content\Images\results.png" />
     <Resource Include="Content\Images\Screenshot 2024-04-15 152644.png" />
+    <Resource Include="Content\Images\setting.png" />
     <Resource Include="Content\Images\side_view_of_furry.png" />
     <Resource Include="Content\Images\stroke_1_ek2.png" />
     <Resource Include="Content\Images\stroke_1_ek4.png" />
     <Resource Include="Content\Images\stroke_4.png" />
+    <Resource Include="Fonts\Orbitron-Medium.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\Roboto-Light.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
