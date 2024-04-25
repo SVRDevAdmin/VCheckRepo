@@ -16,6 +16,7 @@ using VCheck.Lib.Data.Models;
 using VCheckViewer.ViewModels.Windows;
 using VCheckViewer.Views.Pages;
 using Wpf.Ui;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace VCheckViewer.Views.Windows
@@ -36,6 +37,7 @@ namespace VCheckViewer.Views.Windows
             IPageService pageService
         )
         {
+            SystemThemeWatcher.Watch(this);
             InitializeComponent();
             _navigationService = navigationService;
             _pageService = pageService;
@@ -68,9 +70,9 @@ namespace VCheckViewer.Views.Windows
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            var userLogin = sContext.ValidateLogin(Username.Text, Password.Text);
+            var userLogin = sContext.ValidateLogin(Username.Text, Password.Password);
 
-            if (userLogin != null)
+            if (userLogin != null && userLogin.UserId != 0)
             {
                 App.MainViewModel.CurrentUsers = userLogin;
                 Main main = new Main(_navigationService, _pageService);
@@ -78,6 +80,12 @@ namespace VCheckViewer.Views.Windows
                 main.Show();
                 main.Navigate(typeof(DashboardPage));
             }
+        }
+
+        private void PasswordPlaceholderHandler(object sender, RoutedEventArgs e)
+        {
+            if (Password.Password == "") { PasswordPlaceholder.Visibility = Visibility.Visible; }
+            else { PasswordPlaceholder.Visibility = Visibility.Collapsed; }
         }
     }
 }

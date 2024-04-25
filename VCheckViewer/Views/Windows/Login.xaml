@@ -67,16 +67,11 @@
                                 <Image Source="../../Content/Images/Password Icon.png" HorizontalAlignment="Left" Height="30" Margin="5,-5,0,0"/>
 
 
-                                <TextBox x:Name="Password" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black"/>
-                                <TextBlock IsHitTestVisible="False" Text="Password" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                                <PasswordBox x:Name="Password" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" PasswordChanged="PasswordPlaceholderHandler"/>
+                                <TextBlock x:Name="PasswordPlaceholder" IsHitTestVisible="False" Text="Password" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Text, ElementName=Password}" Value="">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
+                                            <Setter Property="Visibility" Value="Visible"/>
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>

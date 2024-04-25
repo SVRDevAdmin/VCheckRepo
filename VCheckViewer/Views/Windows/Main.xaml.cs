@@ -61,8 +61,6 @@ namespace VCheckViewer.Views.Windows
             IPageService pageService
         )
         {
-            SystemThemeWatcher.Watch(this);
-
             InitializeComponent();
             //SetPageService(pageService);
 
