@@ -211,11 +211,7 @@
 
             <Trigger Property="IsHighlighted"
                      Value="True">
-                <!--
-                <Setter Property="Background"
-                        TargetName="border"
-                        Value="#404D5B" /> 
-                -->
+
                 <Setter Property="Background"
                         TargetName="border"
                         Value="White" />
@@ -223,8 +219,6 @@
                         TargetName="border"
                         Value="#404D5B" />
             </Trigger>
-
-
         </ControlTemplate.Triggers>
     </ControlTemplate>
 

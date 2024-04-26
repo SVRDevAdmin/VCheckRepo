@@ -34,6 +34,7 @@ using System.Windows.Media.Effects;
 using VCheckViewer.Lib.Models;
 using System.Reflection;
 using System.ComponentModel;
+using System.Xml;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -250,6 +251,7 @@ namespace VCheckViewer.Views.Windows
             frameContent.Content = new UserPage();
 
             PageTitle.Text = "Setting";
+          
         }
 
         private void isActive(NavigationViewItem navigationItem)
@@ -365,7 +367,6 @@ namespace VCheckViewer.Views.Windows
             frameContent.Content = new UserPage();
             PageTitle.Text = "Settings";
         }
-
 
         private void btnCollapse_Click(object sender, RoutedEventArgs e)
         {

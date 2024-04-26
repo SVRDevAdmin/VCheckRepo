@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VCheck.Lib.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+046b018d8e1f4f5124545453054fb2fd4b045b99")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8d935cfc62a1e9781583e4cd61e8ee8037233fe")]
 [assembly: System.Reflection.AssemblyProductAttribute("VCheck.Lib.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VCheck.Lib.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

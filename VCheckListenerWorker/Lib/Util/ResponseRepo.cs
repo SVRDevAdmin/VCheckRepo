@@ -19,7 +19,8 @@ namespace VCheckListenerWorker.Lib.Util
             try
             {
                 Message response = new Message();
-
+                
+                // ------------- Message Header ------------//
                 Segment msh = new Segment("MSH");
                 msh.Field(1, sRU_R01.MSH.FieldSeparator.Value);
                 msh.Field(2, sRU_R01.MSH.EncodingCharacters.Value);
@@ -36,6 +37,7 @@ namespace VCheckListenerWorker.Lib.Util
                 msh.Field(12, sRU_R01.MSH.VersionID.VersionID.Value);
                 response.Add(msh);
 
+                // ------------- Message Acknowledgement ---------------------//
                 Segment msa = new Segment("MSA");
                 msa.Field(1, NHapi.Base.AcknowledgmentCode.CA.ToString());
                 msa.Field(2, sRU_R01.MSH.MessageControlID.Value.ToString());

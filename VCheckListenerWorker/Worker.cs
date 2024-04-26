@@ -4,6 +4,7 @@ using System.Reflection;
 using System.IO;
 using VCheckListenerWorker.Lib.Logic;
 using VCheckListenerWorker.Lib.Models;
+using log4net.Config;
 
 namespace VCheckListenerWorker
 {
@@ -11,6 +12,7 @@ namespace VCheckListenerWorker
     {
         private readonly ILogger<Worker> _logger;
         System.Net.Sockets.Socket sListener;
+        VCheckListenerWorker.Lib.Util.Logger sLogger;
 
         public Worker(ILogger<Worker> logger)
         {
@@ -19,9 +21,11 @@ namespace VCheckListenerWorker
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            XmlConfigurator.Configure(log4net.LogManager.GetRepository(Assembly.GetEntryAssembly()),
+                                      new FileInfo("log4Net.config"));
+            sLogger = new VCheckListenerWorker.Lib.Util.Logger();
+
             var configBuilder = Host.CreateApplicationBuilder();
-            String sOutputPathHL7 = configBuilder.Configuration.GetSection("FileOutput:HL7").Value;
-            String sOutputPathXML = configBuilder.Configuration.GetSection("FileOutput:XML").Value;
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -53,41 +57,20 @@ namespace VCheckListenerWorker
                             String sXMLMessage = sXMLParser.Encode(sIMessage);
                             Console.WriteLine(sXMLMessage);
 
-
-                            //String sAckMessage = ListenerSampleProgra_.Utils.CreateResponseMessage(sRU_R01, sRU_R01.MSH.MessageControlID.Value);
+                            // Populate Acknowledge message & Send back
                             String sAckMessage = Lib.Util.ResponseRepo.CreateResponseMessage(sRU_R01);
                             var sMessageByte = System.Text.Encoding.UTF8.GetBytes(sAckMessage);
                             sClient.SendAsync(sMessageByte, System.Net.Sockets.SocketFlags.None);
 
                             String sFileName = "TestResult_" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
-                            // Output to HL7 file
-                            if (!String.IsNullOrEmpty(sOutputPathHL7))
-                            {
-                                String outputPathHL7 = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), sOutputPathHL7);
-                                if (!Directory.Exists(outputPathHL7))
-                                {
-                                    Directory.CreateDirectory(outputPathHL7);
-                                }
-                                File.WriteAllText(outputPathHL7 + sFileName + ".hl7", sData, System.Text.Encoding.ASCII);
-                            }
-
-                            // Output to XML file
-                            if (!String.IsNullOrEmpty(sOutputPathXML))
-                            {
-                                String outputPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), sOutputPathXML);
-                                if (!Directory.Exists(outputPath))
-                                {
-                                    Directory.CreateDirectory(outputPath);
-                                }
-                                File.WriteAllText(outputPath + sFileName + ".xml", sXMLMessage, System.Text.Encoding.ASCII);
-                            }
+                            // Ouput Message to file
+                            OutputMessage(configBuilder, sFileName, sData, sXMLMessage, sAckMessage);
 
                             // Save raw data
                             ProcessHL7Message(sIMessage);
 
-
-                            Console.WriteLine();
+                            Console.WriteLine("---------------------------------------------------------------------------------");
                         }
 
                         sClient.Close();
@@ -102,7 +85,6 @@ namespace VCheckListenerWorker
         {
             try
             {
-                _logger.LogInformation("Start Listener connection");
                 Console.WriteLine("Start Listener connection");
 
                 var builder = Host.CreateApplicationBuilder();
@@ -117,11 +99,10 @@ namespace VCheckListenerWorker
                 sListener.Bind(sIPEndPoint);
                 sListener.Listen(3);
 
-                _logger.LogInformation("Listener Start Successful.");
-                _logger.LogInformation("IP Address :" + sHostIP + " | Port No : " + iPortNo);
                 Console.WriteLine("Listener Start Successful.");
-                Console.WriteLine("IP Address :" + sHostIP);
-                Console.WriteLine("Port No :" + iPortNo);
+                Console.WriteLine("IP Address : " + sHostIP);
+                Console.WriteLine("Port No : " + iPortNo);
+                Console.WriteLine("-------------------------------------------------------------------");
 
                 return base.StartAsync(cancellationToken);
             }
@@ -136,26 +117,33 @@ namespace VCheckListenerWorker
         {
             try
             {
-                _logger.LogInformation("Initiated Stop Listener connection.");
+                Console.WriteLine("Initiated Stop Listener connection.");
 
                 sListener.Disconnect(true);
                 sListener.Dispose();
 
-                _logger.LogInformation("Listener connection closed.");
+                //_logger.LogInformation("Listener connection closed.");
+                Console.WriteLine("Listener connection closed.");
 
             }
             catch (Exception ex)
             {
                 _logger.LogError("StopAsync >>>> " + ex.ToString());
+                sLogger.Error("StopAsync >>>> " + ex.ToString());
             }
 
             return base.StopAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Process data and save to DB
+        /// </summary>
+        /// <param name="sIMessage"></param>
         public void ProcessHL7Message(NHapi.Base.Model.IMessage sIMessage)
         {
             NHapi.Model.V26.Message.ORU_R01 sRU_R01 = (NHapi.Model.V26.Message.ORU_R01)sIMessage;
 
+            // --------------- Message Header --------------//
             tbltestanalyze_results_messageheader sMSHObj = new tbltestanalyze_results_messageheader
             {
                 FieldSeparator = sRU_R01.MSH.FieldSeparator.Value,
@@ -187,6 +175,7 @@ namespace VCheckListenerWorker
                                            sRU_R01.MSH.GetMessageProfileIdentifier().FirstOrDefault().UniversalIDType.Value : null
             };
 
+            // ------------ Patient Identification --------------------//
             List<tbltestanalyze_results_patientidentification> sPIDObj = new List<tbltestanalyze_results_patientidentification>();
             var sPatientResult = sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetPatientIdentifierList();
             if (sPatientResult.Length > 0)
@@ -222,6 +211,7 @@ namespace VCheckListenerWorker
                 }
             }
 
+            //----------------- Observation Request ----------------------//
             var sNTEObj = new List<tbltestanalyze_results_notes>();
             var sOBXObjList = new List<tbltestanalyze_results_observationresult>();
             var sOBRObj = new tbltestanalyze_results_observationrequest();
@@ -255,7 +245,7 @@ namespace VCheckListenerWorker
                     });
                 }
 
-
+                // --------------- Observation Results ----------------//
                 foreach (var observationDetail in observation.OBSERVATIONs)
                 {
                     String sObservValue = "";
@@ -343,6 +333,7 @@ namespace VCheckListenerWorker
 
                     });
 
+                    // ------------ Notes -------------------//
                     if (observationDetail.NTEs.Count() > 0)
                     {
                         sNTEObj.Add(new tbltestanalyze_results_notes
@@ -368,8 +359,62 @@ namespace VCheckListenerWorker
             };
 
             TestResultRepository.insertTestObservationMessage(sResultObj, sMSHObj, sPIDObj, sOBRObj, sOBXObjList, sNTEObj);
+
+            //todo : insert record to notification module
         }
 
+        /// <summary>
+        /// Output data to file
+        /// </summary>
+        /// <param name="sBuilder"></param>
+        /// <param name="sFileName"></param>
+        /// <param name="sData"></param>
+        /// <param name="sXMLMessage"></param>
+        /// <param name="sAckMessage"></param>
+        public void OutputMessage(HostApplicationBuilder sBuilder, String sFileName, String sData, String sXMLMessage, String sAckMessage)
+        {
+
+            String sOutputPathHL7 = sBuilder.Configuration.GetSection("FileOutput:HL7").Value;
+            String sOutputPathXML = sBuilder.Configuration.GetSection("FileOutput:XML").Value;
+            String sOutputPathACK = sBuilder.Configuration.GetSection("FileOutput:ACK").Value;
+
+            if (!String.IsNullOrEmpty(sOutputPathHL7))
+            {
+                String outputPathHL7 = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), sOutputPathHL7);
+                if (!Directory.Exists(outputPathHL7))
+                {
+                    Directory.CreateDirectory(outputPathHL7);
+                }
+                File.WriteAllText(outputPathHL7 + sFileName + ".hl7", sData, System.Text.Encoding.ASCII);
+            }
+
+            // Output to XML file
+            if (!String.IsNullOrEmpty(sOutputPathXML))
+            {
+                String outputPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), sOutputPathXML);
+                if (!Directory.Exists(outputPath))
+                {
+                    Directory.CreateDirectory(outputPath);
+                }
+                File.WriteAllText(outputPath + sFileName + ".xml", sXMLMessage, System.Text.Encoding.ASCII);
+            }
+
+            if (!String.IsNullOrEmpty(sOutputPathACK))
+            {
+                String outputPathACK = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), sOutputPathACK);
+                if (!Directory.Exists(outputPathACK))
+                {
+                    Directory.CreateDirectory(outputPathACK);
+                }
+                File.WriteAllText(outputPathACK + sFileName + ".hl7", sAckMessage, System.Text.Encoding.ASCII);
+            }
+        }
+
+        /// <summary>
+        /// Get NTE Comment data 
+        /// </summary>
+        /// <param name="nte"></param>
+        /// <returns></returns>
         public String GenerateNTEComments(List<NHapi.Model.V26.Segment.NTE> nte)
         {
             string nteComment = "";
@@ -390,8 +435,9 @@ namespace VCheckListenerWorker
             }
             catch (Exception ex)
             {
-
+                sLogger.Error("GenerateNTEComments >>> " + ex.ToString());
             }
+
             return nteComment;
         }
     }
