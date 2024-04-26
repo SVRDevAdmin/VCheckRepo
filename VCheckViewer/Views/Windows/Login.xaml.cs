@@ -71,21 +71,26 @@ namespace VCheckViewer.Views.Windows
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            var userLogin = sContext.ValidateLogin(Username.Text, Password.Password);
+            //var userLogin = sContext.ValidateLogin(Username.Text, Password.Password);
 
-            if (userLogin != null && userLogin.UserId != 0)
-            {
-                App.MainViewModel.CurrentUsers = userLogin;
-                //Main main = new Main(_navigationService, _pageService);
-                //this.CloseWindow();
-                //main.Show();
-                //main.Navigate(typeof(DashboardPage));
-                Main main = new Main();
-                this.CloseWindow();
-                main.Show();
-                main.frameContent.Content = new DashboardPage();
+            //if (userLogin != null && userLogin.UserId != 0)
+            //{
+            //    App.MainViewModel.CurrentUsers = userLogin;
+            //    //Main main = new Main(_navigationService, _pageService);
+            //    //this.CloseWindow();
+            //    //main.Show();
+            //    //main.Navigate(typeof(DashboardPage));
+            //    Main main = new Main();
+            //    this.CloseWindow();
+            //    main.Show();
+            //    main.frameContent.Content = new DashboardPage();
 
-            }
+            //}
+
+            Main main = new Main();
+            this.CloseWindow();
+            main.Show();
+            main.frameContent.Content = new DashboardPage();
         }
 
         private void PasswordPlaceholderHandler(object sender, RoutedEventArgs e)

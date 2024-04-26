@@ -42,8 +42,8 @@
     <None Remove="Content\Images\Screenshot 2024-04-15 152644.png" />
     <None Remove="Content\Images\setting.png" />
     <None Remove="Content\Images\side_view_of_furry.png" />
-    <None Remove="Fonts\Orbitron-Medium.ttf" />
-    <None Remove="Fonts\Roboto-Light.ttf" />
+    <None Remove="Content\Fonts\Orbitron-Medium.ttf" />
+    <None Remove="Content\Fonts\Roboto-Light.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -302,10 +302,10 @@
     <Resource Include="Content\Images\stroke_1_ek2.png" />
     <Resource Include="Content\Images\stroke_1_ek4.png" />
     <Resource Include="Content\Images\stroke_4.png" />
-    <Resource Include="Fonts\Orbitron-Medium.ttf">
+    <Resource Include="Content\Fonts\Orbitron-Medium.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Fonts\Roboto-Light.ttf">
+    <Resource Include="Content\Fonts\Roboto-Light.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
