@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0L+ZmzCeHHjN32uFk22n+FLD9wnLvBNPdvw/BEKhSR0fxXdjb+5CkSklXlZuMpR78JZ/v3/lJEjLoGipJBB/GA==",
+  "dgSpecHash": "LBXSNNmTL/rLt+1E6pcSmVdp3aFdiFsHh3ytomKQLDzGSUt0NDE08isJQgBV/fPdL0/47B9uHLIGU61EbFD2WQ==",
   "success": true,
   "projectFilePath": "C:\\Dev\\VCheck\\VCheckViewer\\VCheckViewer.csproj",
   "expectedPackageFiles": [
@@ -45,9 +45,9 @@
     "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.4\\microsoft.entityframeworkcore.8.0.4.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.4\\microsoft.entityframeworkcore.abstractions.8.0.4.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\8.0.4\\microsoft.entityframeworkcore.analyzers.8.0.4.nupkg.sha512",
-    "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.entityframeworkcore.design\\8.0.3\\microsoft.entityframeworkcore.design.8.0.3.nupkg.sha512",
-    "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\8.0.3\\microsoft.entityframeworkcore.relational.8.0.3.nupkg.sha512",
-    "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\8.0.3\\microsoft.entityframeworkcore.tools.8.0.3.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.entityframeworkcore.design\\8.0.4\\microsoft.entityframeworkcore.design.8.0.4.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\8.0.4\\microsoft.entityframeworkcore.relational.8.0.4.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\8.0.4\\microsoft.entityframeworkcore.tools.8.0.4.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\8.0.0\\microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.extensions.caching.memory\\8.0.0\\microsoft.extensions.caching.memory.8.0.0.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.extensions.configuration\\8.0.0\\microsoft.extensions.configuration.8.0.0.nupkg.sha512",
@@ -123,7 +123,7 @@
     "C:\\Users\\SVRke\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512",
-    "C:\\Users\\SVRke\\.nuget\\packages\\wpf-ui\\3.0.3\\wpf-ui.3.0.3.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\wpf-ui\\3.0.4\\wpf-ui.3.0.4.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\zstdsharp.port\\0.7.1\\zstdsharp.port.0.7.1.nupkg.sha512"
   ],
   "logs": []

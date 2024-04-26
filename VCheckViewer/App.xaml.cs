@@ -28,6 +28,9 @@ namespace VCheckViewer
 
         public static MainViewModel MainViewModel { get; } = new MainViewModel();
 
+        public static event EventHandler GoPreviousPage;
+        public static event EventHandler Popup;
+
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
         // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
@@ -47,7 +50,10 @@ namespace VCheckViewer
                 services.AddSingleton<IThemeService, ThemeService>();
                 services.AddSingleton<ITaskBarService, TaskBarService>();
                 services.AddSingleton<INavigationService, NavigationService>();
-                services.AddSingleton<INavigationWindow, Main>();
+
+                //services.AddSingleton<INavigationWindow, Main>();
+
+                //services.AddSingleton<INavigationWindow, Login>();
 
                 //services.Add(new ServiceDescriptor(typeof(VCheck.Lib.Data.VCheckDBContext), new VCheck.Lib.Data.VCheckDBContext(context.Configuration)));
 
@@ -59,6 +65,7 @@ namespace VCheckViewer
                 services.Add(new ServiceDescriptor(typeof(UserDBContext), new UserDBContext(context.Configuration)));
                 services.Add(new ServiceDescriptor(typeof(MasterCodeDataDBContext), new MasterCodeDataDBContext(context.Configuration)));
                 services.Add(new ServiceDescriptor(typeof(RolesDBContext), new RolesDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(UserLoginDBContext), new UserLoginDBContext(context.Configuration)));
             })
             .Build();
 
@@ -98,6 +105,22 @@ namespace VCheckViewer
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             // For more info see https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?view=windowsdesktop-6.0
+        }
+
+        public static void GoPreviousPageHandler(EventArgs e, object sender)
+        {
+            if (GoPreviousPage != null)
+            {
+                GoPreviousPage(sender, e);
+            }
+        }
+
+        public static void PopupHandler(EventArgs e, object sender)
+        {
+            if (Popup != null)
+            {
+                Popup(sender, e);
+            }
         }
     }
 

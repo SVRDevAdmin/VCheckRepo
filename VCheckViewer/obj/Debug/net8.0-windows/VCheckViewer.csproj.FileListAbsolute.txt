@@ -154,10 +154,13 @@ C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\VCheck.Lib.Data.pdb
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\VCheck.Lib.Data.dll.config
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\VCheck.Lib.Logic.pdb
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.csproj.AssemblyReference.cache
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Template\Templates.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Dashboard\DashboardPage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\AddUserPage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UpdateUserPage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UserPage.g.cs
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\ViewUserPage.g.cs
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Login.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main2.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\App.g.cs
@@ -169,6 +172,8 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Dashboard\Dashbo
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\AddUserPage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UpdateUserPage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UserPage.baml
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\ViewUserPage.baml
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Login.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main2.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.g.resources
@@ -183,4 +188,3 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\refint\VCheckViewer.dll
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.pdb
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.genruntimeconfig.cache
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\ref\VCheckViewer.dll
-C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Template\Templates.baml

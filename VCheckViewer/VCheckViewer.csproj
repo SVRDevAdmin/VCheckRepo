@@ -7,18 +7,19 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Content\Images\Icons\favicon.ico</ApplicationIcon>
+    <UseWindowsForms>False</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Lib\Base\ApplicationDBContext.cs" />
     <Compile Remove="Lib\Function\ConfigSettings.cs" />
-    <Compile Remove="Views\Windows\Login.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Content\Images\36687-5-bell-transparent-image.png" />
     <None Remove="Content\Images\bell.png" />
     <None Remove="Content\Images\bio_logo.png" />
+    <None Remove="Content\Images\Cat photo.png" />
     <None Remove="Content\Images\clock.256x256.png" />
     <None Remove="Content\Images\clock.png" />
     <None Remove="Content\Images\collapseleft_120112.png" />
@@ -41,27 +42,214 @@
     <None Remove="Content\Images\Screenshot 2024-04-15 152644.png" />
     <None Remove="Content\Images\setting.png" />
     <None Remove="Content\Images\side_view_of_furry.png" />
-    <None Remove="Content\Images\stroke_1_ek2.png" />
-    <None Remove="Content\Images\stroke_1_ek4.png" />
-    <None Remove="Content\Images\stroke_4.png" />
     <None Remove="Fonts\Orbitron-Medium.ttf" />
     <None Remove="Fonts\Roboto-Light.ttf" />
   </ItemGroup>
 
   <ItemGroup>
-    <Page Remove="Views\Windows\Login.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Content Include="bin\Release\net8.0-windows\appsettings.json" />
+    <Content Include="bin\Release\net8.0-windows\publish\appsettings.json" />
+    <Content Include="bin\Release\net8.0-windows\publish\VCheckViewer.deps.json" />
+    <Content Include="bin\Release\net8.0-windows\publish\VCheckViewer.runtimeconfig.json" />
+    <Content Include="bin\Release\net8.0-windows\VCheckViewer.deps.json" />
+    <Content Include="bin\Release\net8.0-windows\VCheckViewer.runtimeconfig.json" />
     <Content Include="Content\Images\Icons\favicon.ico" />
+    <None Remove="Content\Images\Dashboard Icon.png" />
+    <None Remove="Content\Images\Login photo.png" />
+    <None Remove="Content\Images\Password icon.png" />
+    <None Remove="Content\Images\Report Icon.png" />
+    <None Remove="Content\Images\Settings Icon.png" />
+    <None Remove="Content\Images\stroke_1_ek2.png" />
+    <None Remove="Content\Images\stroke_1_ek4.png" />
+    <None Remove="Content\Images\stroke_4.png" />
+    <None Remove="Content\Images\Username icon.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="bin\" />
+    <Folder Include="bin\Debug\" />
     <Folder Include="Content\Style\" />
     <Folder Include="Content\Scripts\" />
     <Folder Include="Lib\Base\" />
     <Folder Include="Lib\Function\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Release\net8.0-windows\BouncyCastle.Cryptography.dll" />
+    <None Include="bin\Release\net8.0-windows\CommunityToolkit.Mvvm.dll" />
+    <None Include="bin\Release\net8.0-windows\cs\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\cs\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\de\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\de\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\de\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\es\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\es\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\es\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\fr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\fr\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\Google.Protobuf.dll" />
+    <None Include="bin\Release\net8.0-windows\Humanizer.dll" />
+    <None Include="bin\Release\net8.0-windows\it\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\it\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\it\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ja\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ja\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\K4os.Compression.LZ4.dll" />
+    <None Include="bin\Release\net8.0-windows\K4os.Compression.LZ4.Streams.dll" />
+    <None Include="bin\Release\net8.0-windows\K4os.Hash.xxHash.dll" />
+    <None Include="bin\Release\net8.0-windows\ko\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ko\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Bcl.AsyncInterfaces.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.CodeAnalysis.CSharp.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.CodeAnalysis.CSharp.Workspaces.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.CodeAnalysis.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.CodeAnalysis.Workspaces.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.EntityFrameworkCore.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.EntityFrameworkCore.Design.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.EntityFrameworkCore.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.EntityFrameworkCore.Relational.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Caching.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Caching.Memory.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.Binder.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.CommandLine.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.Json.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.UserSecrets.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.DependencyInjection.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.DependencyModel.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Diagnostics.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Diagnostics.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.FileProviders.Physical.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Hosting.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Hosting.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.Configuration.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.Console.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.Debug.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.EventLog.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.EventSource.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Options.ConfigurationExtensions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Options.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Primitives.dll" />
+    <None Include="bin\Release\net8.0-windows\Mono.TextTemplating.dll" />
+    <None Include="bin\Release\net8.0-windows\MySql.Data.dll" />
+    <None Include="bin\Release\net8.0-windows\MySqlConnector.dll" />
+    <None Include="bin\Release\net8.0-windows\pl\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\pl\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\Pomelo.EntityFrameworkCore.MySql.dll" />
+    <None Include="bin\Release\net8.0-windows\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\pt-BR\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\BouncyCastle.Cryptography.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\CommunityToolkit.Mvvm.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Google.Protobuf.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\K4os.Compression.LZ4.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\K4os.Compression.LZ4.Streams.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\K4os.Hash.xxHash.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.EntityFrameworkCore.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.EntityFrameworkCore.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.EntityFrameworkCore.Relational.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Caching.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Caching.Memory.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Configuration.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Configuration.Binder.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Configuration.CommandLine.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Configuration.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Configuration.FileExtensions.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Configuration.Json.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Configuration.UserSecrets.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.DependencyInjection.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Diagnostics.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Diagnostics.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.FileProviders.Physical.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.FileSystemGlobbing.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Hosting.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Hosting.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Logging.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Logging.Configuration.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Logging.Console.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Logging.Debug.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Logging.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Logging.EventLog.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Logging.EventSource.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Options.ConfigurationExtensions.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Options.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Microsoft.Extensions.Primitives.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\MySql.Data.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\MySqlConnector.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\Pomelo.EntityFrameworkCore.MySql.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\runtimes\win-x64\native\comerr64.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\runtimes\win-x64\native\gssapi64.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\runtimes\win-x64\native\k5sprt64.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\runtimes\win-x64\native\krb5_64.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\runtimes\win-x64\native\krbcc64.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\System.IO.Pipelines.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\VCheck.Lib.Data.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\VCheck.Lib.Data.dll.config" />
+    <None Include="bin\Release\net8.0-windows\publish\VCheck.Lib.Data.pdb" />
+    <None Include="bin\Release\net8.0-windows\publish\VCheckViewer.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\VCheckViewer.exe" />
+    <None Include="bin\Release\net8.0-windows\publish\VCheckViewer.pdb" />
+    <None Include="bin\Release\net8.0-windows\publish\Wpf.Ui.dll" />
+    <None Include="bin\Release\net8.0-windows\publish\ZstdSharp.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x64\native\comerr64.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x64\native\gssapi64.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x64\native\k5sprt64.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x64\native\krb5_64.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x64\native\krbcc64.dll" />
+    <None Include="bin\Release\net8.0-windows\ru\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ru\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Composition.AttributedModel.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Composition.Convention.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Composition.Hosting.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Composition.Runtime.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Composition.TypedParts.dll" />
+    <None Include="bin\Release\net8.0-windows\System.IO.Pipelines.dll" />
+    <None Include="bin\Release\net8.0-windows\tr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\tr\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\VCheck.Lib.Data.dll" />
+    <None Include="bin\Release\net8.0-windows\VCheck.Lib.Data.dll.config" />
+    <None Include="bin\Release\net8.0-windows\VCheck.Lib.Data.pdb" />
+    <None Include="bin\Release\net8.0-windows\VCheckViewer.dll" />
+    <None Include="bin\Release\net8.0-windows\VCheckViewer.exe" />
+    <None Include="bin\Release\net8.0-windows\VCheckViewer.pdb" />
+    <None Include="bin\Release\net8.0-windows\Wpf.Ui.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ZstdSharp.dll" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,7 +258,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.3">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -78,7 +266,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
-    <PackageReference Include="WPF-UI" Version="3.0.3" />
+    <PackageReference Include="WPF-UI" Version="3.0.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -90,6 +278,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Content\Images\Cat photo.png" />
     <Resource Include="Content\Images\clock.256x256.png" />
     <Resource Include="Content\Images\clock.png" />
     <Resource Include="Content\Images\collapseleft_120112.png" />
@@ -127,6 +316,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Resource Include="Content\Images\Dashboard Icon.png" />
+    <Resource Include="Content\Images\Login photo.png" />
+    <Resource Include="Content\Images\Password icon.png" />
+    <Resource Include="Content\Images\Report Icon.png" />
+    <Resource Include="Content\Images\Settings Icon.png" />
+    <Resource Include="Content\Images\Username icon.png" />
   </ItemGroup>
 
   <ItemGroup>

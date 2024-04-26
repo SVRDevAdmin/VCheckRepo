@@ -6,35 +6,13 @@
       xmlns:local="clr-namespace:VCheckViewer.Views.Pages"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" x:Class="VCheckViewer.Views.Pages.AddUserPage"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
       Title="AddUserPage">
-
-    <Page.Resources>
-        <Style x:Key="BackButton" TargetType="{x:Type Button}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Border x:Name="border">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="20"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Image Source="../../../../Content/Images/group_10.png" Grid.Column="0" VerticalAlignment="Center"/>
-                                <TextBlock Text="Back To User Listing" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Page.Resources>
 
     <Grid Margin="0,10,0,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -42,7 +20,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="20" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="90,0,70,0">
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="20" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="90,0,70,0" MaxWidth="500">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="100"/>
@@ -64,9 +42,9 @@
                 </Border>
             </Grid>
         </Border>
-        <Button Grid.Row="1" Style="{StaticResource BackButton}" Click="BackButton_Click" Margin="0,10,0,0"/>
+        <Button x:Name="UserPage" Grid.Row="1" Style="{StaticResource BackButton}" Click="BackButton_Click" Margin="0,10,0,0"/>
         <Border Grid.Column="1" Grid.Row="2">
-            <Border Margin="30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="10" Background="WhiteSmoke">
+            <Border Margin="30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="20" Background="WhiteSmoke">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -81,20 +59,30 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Text="Title" Grid.Row="0" VerticalAlignment="Bottom" Margin="10"/>
-                    <ComboBox x:Name="Title" Grid.Row="1" Background="White" ItemsSource="{Binding cbTitle}" SelectedItem="{Binding SelectedcbTitle}"/>
+                    <Border Grid.Row="1" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                        <ComboBox x:Name="Title" Grid.Row="1" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbTitle}" SelectedItem="{Binding SelectedcbTitle}" LostFocus="CheckValueExist"/>
+                    </Border>
                     <TextBlock Text="Surname" Grid.Row="2" VerticalAlignment="Bottom" Margin="10"/>
-                    <TextBox x:Name="Surname" Grid.Row="3" Background="White"/>
+                    <Border Grid.Row="3" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                        <TextBox x:Name="Surname" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
+                    </Border>
                     <TextBlock Text="Last Name" Grid.Row="4" VerticalAlignment="Bottom" Margin="10"/>
-                    <TextBox x:Name="LastName" Grid.Row="5" Background="White"/>
+                    <Border Grid.Row="5" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                        <TextBox x:Name="LastName" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center"  LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
+                    </Border>
                     <TextBlock Text="StaffID" Grid.Row="6" VerticalAlignment="Bottom" Margin="10"/>
-                    <TextBox x:Name="StaffID" Grid.Row="7" Background="White"/>
+                    <Border Grid.Row="7" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                        <TextBox x:Name="StaffID" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center"  LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
+                    </Border>
                     <TextBlock Text="Doctor's Registration No." Grid.Row="8" VerticalAlignment="Bottom" Margin="10"/>
-                    <TextBox x:Name="RegistrationNo" Grid.Row="9" Background="White"/>
+                    <Border Grid.Row="9" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                        <TextBox x:Name="RegistrationNo" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center"  LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
+                    </Border>
                 </Grid>
             </Border>
         </Border>
         <Border Grid.Column="2" Grid.Row="2">
-            <Border Margin="30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="10" Background="WhiteSmoke">
+            <Border Margin="30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="20" Background="WhiteSmoke">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
@@ -109,18 +97,28 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Text="Gender" Grid.Row="0" VerticalAlignment="Bottom" Margin="10"/>
-                    <ComboBox x:Name="Gender" Grid.Row="1" Background="White" ItemsSource="{Binding cbGender}" SelectedItem="{Binding SelectedcbGender}"/>
+                    <Border Grid.Row="1" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                        <ComboBox x:Name="Gender" Grid.Row="1" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbGender}" SelectedItem="{Binding SelectedcbGender}" LostFocus="CheckValueExist"/>
+                    </Border>
                     <TextBlock Text="Date Of Birth" Grid.Row="2" VerticalAlignment="Bottom" Margin="10"/>
-                    <DatePicker x:Name="DateOfBirth" Grid.Row="3" Background="White"/>
+                    <Border Grid.Row="3" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                        <DatePicker x:Name="DateOfBirth" Grid.Row="3" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
+                    </Border>
                     <TextBlock Text="User Role" Grid.Row="4" VerticalAlignment="Bottom" Margin="10"/>
-                    <ComboBox x:Name="Role" Grid.Row="5" Background="White" ItemsSource="{Binding cbRoles}" SelectedItem="{Binding SelectedcbRoles}"/>
+                    <Border Grid.Row="5" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                        <ComboBox x:Name="Role" Grid.Row="5" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbRoles}" SelectedItem="{Binding SelectedcbRoles}" LostFocus="CheckValueExist"/>
+                    </Border>
                     <TextBlock Text="Email Address" Grid.Row="6" VerticalAlignment="Bottom" Margin="10"/>
-                    <TextBox x:Name="EmailAddress" Grid.Row="7" Background="White"/>
+                    <Border Grid.Row="7" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                        <TextBox x:Name="EmailAddress" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
+                    </Border>
                     <TextBlock Text="Status" Grid.Row="8" VerticalAlignment="Bottom" Margin="10"/>
-                    <ComboBox x:Name="Status" Grid.Row="9" Background="White" ItemsSource="{Binding cbStatus}" SelectedItem="{Binding SelectedcbStatus}"/>
+                    <Border Grid.Row="9" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                        <ComboBox x:Name="Status" Grid.Row="9" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbStatus}" SelectedItem="{Binding SelectedcbStatus}" LostFocus="CheckValueExist"/>
+                    </Border>
                 </Grid>
             </Border>
         </Border>
-        <Button Content="Create" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Click="CreateButton_Click" Margin="10,0,10,30" Background="DarkOrange" Foreground="White" Style="{DynamicResource RoundButton}" BorderBrush="White"/>
+        <Button x:Name="Create" Content="Create" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Click="CreateButton_Click" Margin="30" Background="DarkOrange" Foreground="White" Style="{DynamicResource RoundButton}" BorderBrush="White" IsEnabled="False"/>
     </Grid>
 </Page>

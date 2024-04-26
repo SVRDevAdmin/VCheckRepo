@@ -13,6 +13,20 @@ namespace VCheckViewer.ViewModels.Windows
 {
     public class MainViewModel
     {
+        string _origin;
+
+        public string Origin
+        {
+            get { return _origin; }
+            set { _origin = value; }
+        }
+
+        UserModel _currentUser;
+        public UserModel CurrentUsers
+        {
+            get { return _currentUser; }
+            set { _currentUser = value; }
+        }
 
         UserModel _user;
         public UserModel Users
@@ -91,6 +105,24 @@ namespace VCheckViewer.ViewModels.Windows
         {
             get { return _SelectedcbStatus; }
             set { _SelectedcbStatus = value; }
+        }
+    }
+
+    public class ValidateUserModel
+    {
+        string _email;
+
+        string Email
+        {
+            get { return _email; }
+            set
+            {
+                _email = value;
+                if (!_email.Contains("@"))
+                {
+                    throw new Exception("Incorrect email format. Must have @.");
+                }
+            }
         }
     }
 }

@@ -4,49 +4,89 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VCheckViewer.Views.Windows"
-        mc:Ignorable="d"
-        Title="Login" Height="450" Width="800">
-    <Grid>
-        <DockPanel>
-            <Border DockPanel.Dock="Top" Height="100" Width="Auto" HorizontalAlignment="Left">
-                <Image Name="imgLogo" Width="217px" Source="../../Content/Images/bio_logo.png" />
-            </Border>
-            <Border DockPanel.Dock="Bottom" Height="20px" />
-            <Border DockPanel.Dock="Left" Width="450px" Height="40px" Panel.ZIndex="7" Margin="0, 520, -660, 0">
-                <TextBlock Text="Please log in to access your account" FontSize="20px" FontFamily="Noto Sans" FontWeight="Bold" HorizontalAlignment="Center" />
-            </Border>
-            <Border DockPanel.Dock="Left" Width="400px" Height="40px" Panel.ZIndex="7" Margin="0, 420, -650, 0">
-                <TextBlock Text="results swiftly." FontSize="34px" FontFamily="Noto Sans" FontWeight="Bold" HorizontalAlignment="Center" />
-            </Border>
-            <Border DockPanel.Dock="Left" Width="400px" Height="40px" Panel.ZIndex="7" Margin="0, 340, -650, 0">
-                <TextBlock Text="Get accurate" FontSize="34px" FontFamily="Noto Sans" FontWeight="Bold" HorizontalAlignment="Center" />
-            </Border>
-            <Border DockPanel.Dock="Left" Width="600px" Height="200px" Panel.ZIndex="7" Margin="0, 83, -700, 0">
-                <Image Name="imgDevice" Width="550px" Source="../../Content/Images/img_devices.png" />
-            </Border>
-            <Border DockPanel.Dock="Left" Width="330px" Panel.ZIndex="6" Margin="0, 50, -880, 0">
-                <Image Name="imgGroup" Width="350px" VerticalAlignment="Top" Source="../../Content/Images/mask_group_5.png" />
-            </Border>
-            <Border DockPanel.Dock="Left" Width="650px" Panel.ZIndex="5">
-                <Image Name="imgPaw" Width="380px" VerticalAlignment="Top" HorizontalAlignment="Right" Source="../../Content/Images/icon_fa_solid_paw.png" />
-            </Border>
-            <Border DockPanel.Dock="Right" Width="25px">
-            </Border>
-            <Border DockPanel.Dock="Top" Width="550px" Height="290px" Panel.ZIndex="9" Margin="45, -80, 0, 0">
-                <Image Name="imgFurry" Width="550px" Source="../../Content/Images/side_view_of_furry.png" Margin="0, 30"  />
-            </Border>
-            <Border DockPanel.Dock="Top" Width="550px" Height="450px" Background="#ffddbc" CornerRadius="30" Margin="45, -95, 0, 0">
-                <TextBlock Name="lbLogin" FontFamily="Noto Sans" FontSize="45" FontWeight="Bold" Foreground="Black" VerticalAlignment="Center" Margin="200, -280, 0, 0">Login</TextBlock>
-            </Border>
-            <Border DockPanel.Dock="Top" Width="450px" Height="50px" Background="White" CornerRadius="30" Panel.ZIndex="7" Margin="45, -520, 0,0">
-                <TextBox Name="txtUsername" Width="450px" MinWidth="400px" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" Background="White" Margin="85, 0">User Login</TextBox>
-            </Border>
-            <Border DockPanel.Dock="Top" Width="450px" Height="50px" Background="White" CornerRadius="30" Panel.ZIndex="7" Margin="45, -380, 0,0">
-                <TextBox Name="txtPassword" Width="450px" MinWidth="400px" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" Background="White" Margin="85, 0">User Password</TextBox>
-            </Border>
-            <Border DockPanel.Dock="Top" Width="450px" Height="50px" Background="#f08014" CornerRadius="30" Panel.ZIndex="7" Margin="45, -200, 0, 0">
-                <Button Name="btnLogin" Width="450px" Background="#f08014" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="75, 0" Click="btnLogin_Click">Login</Button>
-            </Border>
-        </DockPanel>
+        mc:Ignorable="d" WindowState="Maximized" MinHeight="750" MinWidth="1200"
+        Title="Login">
+    
+    <Grid Margin="30,0,30,70">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Row="0" Grid.Column="0" Padding="10,0,0,0">
+            <Image Source="../../Content/Images/bio_logo.png" Width="150" HorizontalAlignment="Left"/>
+        </Border>
+        <Border Grid.Row="1" Grid.Column="0" Padding="10,0,10,20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Image Source="../../Content/Images/Login Photo.png" Grid.Row="0" VerticalAlignment="Top"/>
+                <TextBlock Text="Get accurate results swiftly." Grid.Row="1" TextAlignment="Center" FontWeight="Medium" FontSize="40" Width="300" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <TextBlock Text="Please login to access your account" Grid.Row="2" TextAlignment="Center" FontWeight="Medium" FontSize="25"/>
+            </Grid>
+        </Border>
+        <Border Grid.Row="1" Padding="50,0,50,20" Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border BorderThickness="1" BorderBrush="White" Background="PeachPuff" CornerRadius="20" Grid.Row="1" Padding="0,60,0,0">
+                    <StackPanel HorizontalAlignment="Center" Width="350">
+                        <TextBlock Text="Login" TextAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,0,0,30"/>
+                        <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black" Margin="0,30,0,10">
+                            <Grid>
+
+                                <Image Source="../../Content/Images/Username Icon.png" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0"/>
+
+
+                                <TextBox x:Name="Username" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black"/>
+                                <TextBlock IsHitTestVisible="False" Text="Staff ID" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=Username}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                        <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black" Margin="0,10,0,30">
+                            <Grid>
+
+                                <Image Source="../../Content/Images/Password Icon.png" HorizontalAlignment="Left" Height="30" Margin="5,-5,0,0"/>
+
+
+                                <PasswordBox x:Name="Password" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" PasswordChanged="PasswordPlaceholderHandler"/>
+                                <TextBlock x:Name="PasswordPlaceholder" IsHitTestVisible="False" Text="Password" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                        <Button Content="Login" Style="{DynamicResource RoundButton}" Background="DarkOrange" Foreground="White" HorizontalAlignment="Stretch" Height="40" Margin="0,20,0,15" Click="LoginButton_Click"/>
+                        <Button Content="Forget Password?" Foreground="Black" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="0">
+                    <Image Source="../../Content/Images/Cat Photo.png" Height="120" Margin="0,0,0,-40"/>
+                </Border>
+            </Grid>
+        </Border>
+
     </Grid>
 </Window>

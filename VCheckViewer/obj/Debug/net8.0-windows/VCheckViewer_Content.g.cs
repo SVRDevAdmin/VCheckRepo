@@ -8,6 +8,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/net8.0-windows/appsettings.json")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/net8.0-windows/publish/appsettings.json")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/net8.0-windows/publish/vcheckviewer.deps.json")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/net8.0-windows/publish/vcheckviewer.runtimeconfig.json")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/net8.0-windows/vcheckviewer.deps.json")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/release/net8.0-windows/vcheckviewer.runtimeconfig.json")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("content/images/icons/favicon.ico")]
 
 

@@ -13,14 +13,14 @@
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
           "Microsoft.EntityFrameworkCore": "8.0.4",
           "Microsoft.EntityFrameworkCore.Abstractions": "8.0.4",
-          "Microsoft.EntityFrameworkCore.Tools": "8.0.3",
+          "Microsoft.EntityFrameworkCore.Tools": "8.0.4",
           "Microsoft.Extensions.Configuration.Json": "8.0.0",
           "Microsoft.Extensions.Hosting": "8.0.0",
           "MySql.Data": "8.3.0",
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2",
           "VCheck.Lib.Data": "1.0.0",
           "VCheck.Lib.Logic": "1.0.0",
-          "WPF-UI": "3.0.3"
+          "WPF-UI": "3.0.4"
         },
         "runtime": {
           "VCheckViewer.dll": {}
@@ -720,36 +720,36 @@
         }
       },
       "Microsoft.EntityFrameworkCore.Analyzers/8.0.4": {},
-      "Microsoft.EntityFrameworkCore.Design/8.0.3": {
+      "Microsoft.EntityFrameworkCore.Design/8.0.4": {
         "dependencies": {
           "Humanizer.Core": "2.14.1",
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "4.5.0",
-          "Microsoft.EntityFrameworkCore.Relational": "8.0.3",
+          "Microsoft.EntityFrameworkCore.Relational": "8.0.4",
           "Microsoft.Extensions.DependencyModel": "8.0.0",
           "Mono.TextTemplating": "2.2.1"
         },
         "runtime": {
           "lib/net8.0/Microsoft.EntityFrameworkCore.Design.dll": {
-            "assemblyVersion": "8.0.3.0",
-            "fileVersion": "8.0.324.11510"
+            "assemblyVersion": "8.0.4.0",
+            "fileVersion": "8.0.424.16902"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Relational/8.0.3": {
+      "Microsoft.EntityFrameworkCore.Relational/8.0.4": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "8.0.4",
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0"
         },
         "runtime": {
           "lib/net8.0/Microsoft.EntityFrameworkCore.Relational.dll": {
-            "assemblyVersion": "8.0.3.0",
-            "fileVersion": "8.0.324.11510"
+            "assemblyVersion": "8.0.4.0",
+            "fileVersion": "8.0.424.16902"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Tools/8.0.3": {
+      "Microsoft.EntityFrameworkCore.Tools/8.0.4": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Design": "8.0.3"
+          "Microsoft.EntityFrameworkCore.Design": "8.0.4"
         }
       },
       "Microsoft.Extensions.Caching.Abstractions/8.0.0": {
@@ -1254,7 +1254,7 @@
       },
       "Pomelo.EntityFrameworkCore.MySql/8.0.2": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Relational": "8.0.3",
+          "Microsoft.EntityFrameworkCore.Relational": "8.0.4",
           "MySqlConnector": "2.3.5"
         },
         "runtime": {
@@ -1445,11 +1445,11 @@
           "System.Drawing.Common": "4.7.0"
         }
       },
-      "WPF-UI/3.0.3": {
+      "WPF-UI/3.0.4": {
         "runtime": {
           "lib/net8.0-windows7.0/Wpf.Ui.dll": {
-            "assemblyVersion": "3.0.3.0",
-            "fileVersion": "3.0.3.0"
+            "assemblyVersion": "3.0.4.0",
+            "fileVersion": "3.0.4.0"
           }
         }
       },
@@ -1777,26 +1777,26 @@
       "path": "microsoft.entityframeworkcore.analyzers/8.0.4",
       "hashPath": "microsoft.entityframeworkcore.analyzers.8.0.4.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Design/8.0.3": {
+    "Microsoft.EntityFrameworkCore.Design/8.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-OAh9P0M5VK3+mtmnjOyyw92s3L0r3fmYwWWAnh0pb/8JH3u7L2FmrJnNPFysChBiWIJu17+6Bqj4k/bkFK4RVw==",
-      "path": "microsoft.entityframeworkcore.design/8.0.3",
-      "hashPath": "microsoft.entityframeworkcore.design.8.0.3.nupkg.sha512"
+      "sha512": "sha512-QD5/h3+h4N7GlUaA4bzaYFW9CoeB7ne2KMiDIENIT0GPx+E6up/v9fDA36FAS3NIq9zeKUAQgN8aj6IwE7tMGw==",
+      "path": "microsoft.entityframeworkcore.design/8.0.4",
+      "hashPath": "microsoft.entityframeworkcore.design.8.0.4.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Relational/8.0.3": {
+    "Microsoft.EntityFrameworkCore.Relational/8.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-8JnVZHWaNFkrrD/FC0O4jekiHIYey8y6TQ4Co3OzLz0wd5Dm1cwJfTp++1TvaVu0BBd4bVDtiktppa5epuoPrA==",
-      "path": "microsoft.entityframeworkcore.relational/8.0.3",
-      "hashPath": "microsoft.entityframeworkcore.relational.8.0.3.nupkg.sha512"
+      "sha512": "sha512-aWLT6e9a8oMzXgF0YQpYYa3mDeU+yb2UQSQ+RrIgyGgSpzPfSKgpA7v2kOVDuZr2AQ6NNAlWPaBG7wZuKQI96w==",
+      "path": "microsoft.entityframeworkcore.relational/8.0.4",
+      "hashPath": "microsoft.entityframeworkcore.relational.8.0.4.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Tools/8.0.3": {
+    "Microsoft.EntityFrameworkCore.Tools/8.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-jKczLbj13jY6TvYsXgAYqfhkIow6VdqumCv0m8EvNr3vU1+nJ6LKoG+6pPKnkVOHycXHGy5DEhH0GN0ldmx7Kw==",
-      "path": "microsoft.entityframeworkcore.tools/8.0.3",
-      "hashPath": "microsoft.entityframeworkcore.tools.8.0.3.nupkg.sha512"
+      "sha512": "sha512-txPWQf+SGx8Aa6Z8FbdQ8zMHckArroaE0AlV6iqnqJp9w46RiOBtkJlkPgohteQS1uhxIwjtHfwFiQATw059fg==",
+      "path": "microsoft.entityframeworkcore.tools/8.0.4",
+      "hashPath": "microsoft.entityframeworkcore.tools.8.0.4.nupkg.sha512"
     },
     "Microsoft.Extensions.Caching.Abstractions/8.0.0": {
       "type": "package",
@@ -2323,12 +2323,12 @@
       "path": "system.windows.extensions/4.7.0",
       "hashPath": "system.windows.extensions.4.7.0.nupkg.sha512"
     },
-    "WPF-UI/3.0.3": {
+    "WPF-UI/3.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Nm6Q5StLWxs74eFcqTwNJTGpA6xbTF1BXLniy5HMwnowvjiEa6Wa26/eI3e4/KbD56YF4nZidn69G/lY7t+aNg==",
-      "path": "wpf-ui/3.0.3",
-      "hashPath": "wpf-ui.3.0.3.nupkg.sha512"
+      "sha512": "sha512-Jbt8nJ4MSC/WBhqx6iXOW06Rt2UUNVxA8+23AOSM63jlOIhU6e6P4BIw8rL/UnRPycOdA2vntYl5i7k53E0AGg==",
+      "path": "wpf-ui/3.0.4",
+      "hashPath": "wpf-ui.3.0.4.nupkg.sha512"
     },
     "ZstdSharp.Port/0.7.1": {
       "type": "package",

@@ -914,12 +914,12 @@
           "lib/netstandard2.0/_._": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Design/8.0.3": {
+      "Microsoft.EntityFrameworkCore.Design/8.0.4": {
         "type": "package",
         "dependencies": {
           "Humanizer.Core": "2.14.1",
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "4.5.0",
-          "Microsoft.EntityFrameworkCore.Relational": "8.0.3",
+          "Microsoft.EntityFrameworkCore.Relational": "8.0.4",
           "Microsoft.Extensions.DependencyModel": "8.0.0",
           "Mono.TextTemplating": "2.2.1"
         },
@@ -937,10 +937,10 @@
           "build/net8.0/Microsoft.EntityFrameworkCore.Design.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Relational/8.0.3": {
+      "Microsoft.EntityFrameworkCore.Relational/8.0.4": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "8.0.3",
+          "Microsoft.EntityFrameworkCore": "8.0.4",
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0"
         },
         "compile": {
@@ -954,10 +954,10 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Tools/8.0.3": {
+      "Microsoft.EntityFrameworkCore.Tools/8.0.4": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Design": "8.0.3"
+          "Microsoft.EntityFrameworkCore.Design": "8.0.4"
         },
         "compile": {
           "lib/net8.0/_._": {}
@@ -2373,16 +2373,16 @@
           }
         }
       },
-      "WPF-UI/3.0.3": {
+      "WPF-UI/3.0.4": {
         "type": "package",
         "compile": {
           "lib/net8.0-windows7.0/Wpf.Ui.dll": {
-            "related": ".xml"
+            "related": ".pdb;.xml"
           }
         },
         "runtime": {
           "lib/net8.0-windows7.0/Wpf.Ui.dll": {
-            "related": ".xml"
+            "related": ".pdb;.xml"
           }
         },
         "frameworkReferences": [
@@ -3428,10 +3428,10 @@
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Design/8.0.3": {
-      "sha512": "OAh9P0M5VK3+mtmnjOyyw92s3L0r3fmYwWWAnh0pb/8JH3u7L2FmrJnNPFysChBiWIJu17+6Bqj4k/bkFK4RVw==",
+    "Microsoft.EntityFrameworkCore.Design/8.0.4": {
+      "sha512": "QD5/h3+h4N7GlUaA4bzaYFW9CoeB7ne2KMiDIENIT0GPx+E6up/v9fDA36FAS3NIq9zeKUAQgN8aj6IwE7tMGw==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.design/8.0.3",
+      "path": "microsoft.entityframeworkcore.design/8.0.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3440,14 +3440,14 @@
         "build/net8.0/Microsoft.EntityFrameworkCore.Design.props",
         "lib/net8.0/Microsoft.EntityFrameworkCore.Design.dll",
         "lib/net8.0/Microsoft.EntityFrameworkCore.Design.xml",
-        "microsoft.entityframeworkcore.design.8.0.3.nupkg.sha512",
+        "microsoft.entityframeworkcore.design.8.0.4.nupkg.sha512",
         "microsoft.entityframeworkcore.design.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Relational/8.0.3": {
-      "sha512": "8JnVZHWaNFkrrD/FC0O4jekiHIYey8y6TQ4Co3OzLz0wd5Dm1cwJfTp++1TvaVu0BBd4bVDtiktppa5epuoPrA==",
+    "Microsoft.EntityFrameworkCore.Relational/8.0.4": {
+      "sha512": "aWLT6e9a8oMzXgF0YQpYYa3mDeU+yb2UQSQ+RrIgyGgSpzPfSKgpA7v2kOVDuZr2AQ6NNAlWPaBG7wZuKQI96w==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.relational/8.0.3",
+      "path": "microsoft.entityframeworkcore.relational/8.0.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3455,14 +3455,14 @@
         "PACKAGE.md",
         "lib/net8.0/Microsoft.EntityFrameworkCore.Relational.dll",
         "lib/net8.0/Microsoft.EntityFrameworkCore.Relational.xml",
-        "microsoft.entityframeworkcore.relational.8.0.3.nupkg.sha512",
+        "microsoft.entityframeworkcore.relational.8.0.4.nupkg.sha512",
         "microsoft.entityframeworkcore.relational.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Tools/8.0.3": {
-      "sha512": "jKczLbj13jY6TvYsXgAYqfhkIow6VdqumCv0m8EvNr3vU1+nJ6LKoG+6pPKnkVOHycXHGy5DEhH0GN0ldmx7Kw==",
+    "Microsoft.EntityFrameworkCore.Tools/8.0.4": {
+      "sha512": "txPWQf+SGx8Aa6Z8FbdQ8zMHckArroaE0AlV6iqnqJp9w46RiOBtkJlkPgohteQS1uhxIwjtHfwFiQATw059fg==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.tools/8.0.3",
+      "path": "microsoft.entityframeworkcore.tools/8.0.4",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
@@ -3470,7 +3470,7 @@
         "Icon.png",
         "docs/PACKAGE.md",
         "lib/net8.0/_._",
-        "microsoft.entityframeworkcore.tools.8.0.3.nupkg.sha512",
+        "microsoft.entityframeworkcore.tools.8.0.4.nupkg.sha512",
         "microsoft.entityframeworkcore.tools.nuspec",
         "tools/EntityFrameworkCore.PS2.psd1",
         "tools/EntityFrameworkCore.PS2.psm1",
@@ -6063,29 +6063,35 @@
         "version.txt"
       ]
     },
-    "WPF-UI/3.0.3": {
-      "sha512": "Nm6Q5StLWxs74eFcqTwNJTGpA6xbTF1BXLniy5HMwnowvjiEa6Wa26/eI3e4/KbD56YF4nZidn69G/lY7t+aNg==",
+    "WPF-UI/3.0.4": {
+      "sha512": "Jbt8nJ4MSC/WBhqx6iXOW06Rt2UUNVxA8+23AOSM63jlOIhU6e6P4BIw8rL/UnRPycOdA2vntYl5i7k53E0AGg==",
       "type": "package",
-      "path": "wpf-ui/3.0.3",
+      "path": "wpf-ui/3.0.4",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
         "lib/net462/Wpf.Ui.dll",
+        "lib/net462/Wpf.Ui.pdb",
         "lib/net462/Wpf.Ui.xml",
         "lib/net472/Wpf.Ui.dll",
+        "lib/net472/Wpf.Ui.pdb",
         "lib/net472/Wpf.Ui.xml",
         "lib/net481/Wpf.Ui.dll",
+        "lib/net481/Wpf.Ui.pdb",
         "lib/net481/Wpf.Ui.xml",
         "lib/net6.0-windows7.0/Wpf.Ui.dll",
+        "lib/net6.0-windows7.0/Wpf.Ui.pdb",
         "lib/net6.0-windows7.0/Wpf.Ui.xml",
         "lib/net7.0-windows7.0/Wpf.Ui.dll",
+        "lib/net7.0-windows7.0/Wpf.Ui.pdb",
         "lib/net7.0-windows7.0/Wpf.Ui.xml",
         "lib/net8.0-windows7.0/Wpf.Ui.dll",
+        "lib/net8.0-windows7.0/Wpf.Ui.pdb",
         "lib/net8.0-windows7.0/Wpf.Ui.xml",
         "tools/VisualStudioToolsManifest.xml",
-        "wpf-ui.3.0.3.nupkg.sha512",
+        "wpf-ui.3.0.4.nupkg.sha512",
         "wpf-ui.nuspec",
         "wpfui.png"
       ]
@@ -6126,14 +6132,14 @@
       "Microsoft.AspNetCore.Http.Abstractions >= 2.2.0",
       "Microsoft.EntityFrameworkCore >= 8.0.4",
       "Microsoft.EntityFrameworkCore.Abstractions >= 8.0.4",
-      "Microsoft.EntityFrameworkCore.Tools >= 8.0.3",
+      "Microsoft.EntityFrameworkCore.Tools >= 8.0.4",
       "Microsoft.Extensions.Configuration.Json >= 8.0.0",
       "Microsoft.Extensions.Hosting >= 8.0.0",
       "MySql.Data >= 8.3.0",
       "Pomelo.EntityFrameworkCore.MySql >= 8.0.2",
       "VCheck.Lib.Data >= 1.0.0",
       "VCheck.Lib.Logic >= 1.0.0",
-      "WPF-UI >= 3.0.3"
+      "WPF-UI >= 3.0.4"
     ]
   },
   "packageFolders": {
@@ -6217,7 +6223,7 @@
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
             "target": "Package",
-            "version": "[8.0.3, )"
+            "version": "[8.0.4, )"
           },
           "Microsoft.Extensions.Configuration.Json": {
             "target": "Package",
@@ -6237,7 +6243,7 @@
           },
           "WPF-UI": {
             "target": "Package",
-            "version": "[3.0.3, )"
+            "version": "[3.0.4, )"
           }
         },
         "imports": [
