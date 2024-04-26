@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\
 VCheckViewer
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\App.xaml
-71030301859
-
-14-493345114
-271-431095688
-Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Pages\Setting\User\ViewUserPage.xaml;Views\Windows\Login.xaml;Views\Windows\Main.xaml;
+C:\Dev\VCheck\VCheckViewer\App.xaml
+9-601845833
+71904573285
+161267802159
+271478715707
+Template\Templates.xaml;Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Pages\Setting\User\ViewUserPage.xaml;Views\Windows\Login.xaml;Views\Windows\Main.xaml;Views\Windows\Main2.xaml;
 
 False
 

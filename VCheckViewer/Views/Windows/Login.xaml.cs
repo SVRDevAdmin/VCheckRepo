@@ -24,7 +24,8 @@ namespace VCheckViewer.Views.Windows
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : INavigationWindow
+    //public partial class Login : INavigationWindow
+    public partial class Login : Window
     {
         INavigationService _navigationService;
         IPageService _pageService;
@@ -33,14 +34,14 @@ namespace VCheckViewer.Views.Windows
 
         public Login
         (
-            INavigationService navigationService,
-            IPageService pageService
+            //INavigationService navigationService,
+            //IPageService pageService
         )
         {
             SystemThemeWatcher.Watch(this);
             InitializeComponent();
-            _navigationService = navigationService;
-            _pageService = pageService;
+            //_navigationService = navigationService;
+            //_pageService = pageService;
         }
 
 
@@ -48,25 +49,25 @@ namespace VCheckViewer.Views.Windows
 
         public void CloseWindow() => Close();
 
-        public INavigationView GetNavigation()
-        {
-            throw new NotImplementedException();
-        }
+        //public INavigationView GetNavigation()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public bool Navigate(Type pageType)
-        {
-            throw new NotImplementedException();
-        }
+        //public bool Navigate(Type pageType)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public void SetPageService(IPageService pageService)
-        {
-            throw new NotImplementedException();
-        }
+        //public void SetPageService(IPageService pageService)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public void SetServiceProvider(IServiceProvider serviceProvider)
-        {
-            throw new NotImplementedException();
-        }
+        //public void SetServiceProvider(IServiceProvider serviceProvider)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
@@ -75,10 +76,15 @@ namespace VCheckViewer.Views.Windows
             if (userLogin != null && userLogin.UserId != 0)
             {
                 App.MainViewModel.CurrentUsers = userLogin;
-                Main main = new Main(_navigationService, _pageService);
+                //Main main = new Main(_navigationService, _pageService);
+                //this.CloseWindow();
+                //main.Show();
+                //main.Navigate(typeof(DashboardPage));
+                Main main = new Main();
                 this.CloseWindow();
                 main.Show();
-                main.Navigate(typeof(DashboardPage));
+                main.frameContent.Content = new DashboardPage();
+
             }
         }
 

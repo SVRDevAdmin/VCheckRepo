@@ -31,6 +31,8 @@
       "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\windows\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
+  "WorkspaceRootPath": "C:\\Dev\\VCheck\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -130,6 +132,8 @@
           ]
         }
       ]
+      "VerticalTabListWidth": 145,
+      "DocumentGroups": []
     }
   ]
 }

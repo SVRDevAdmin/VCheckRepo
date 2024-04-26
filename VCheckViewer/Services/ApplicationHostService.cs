@@ -47,15 +47,17 @@ namespace VCheckViewer.Services
         /// </summary>
         private async Task HandleActivationAsync()
         {
-            if (!Application.Current.Windows.OfType<Login>().Any())
-            {
-                _navigationWindow = (
-                    _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow
-                )!;
-                _navigationWindow!.ShowWindow();
+            //if (!Application.Current.Windows.OfType<Login>().Any())
+            //{
+            //     _navigationWindow = (
+            //        _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow
+            //    )!;
+            //     _navigationWindow!.ShowWindow();
 
-                //_navigationWindow.Navigate(typeof(DashboardPage));
-            }
+            //     //_navigationWindow.Navigate(typeof(DashboardPage));
+            // }
+            Login LoginPage = new Login();
+            LoginPage.Show();
 
             await Task.CompletedTask;
         }

@@ -49,7 +49,6 @@ namespace VCheckViewer.Views.Pages
 
             dataGrid.ItemsSource = GetUserList(0, pageSize);
 
-
             Main.DeleteRow += new EventHandler(DeleteRow);
 
 

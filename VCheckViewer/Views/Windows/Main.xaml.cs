@@ -18,9 +18,7 @@ using VCheckViewer.ViewModels.Windows;
 using VCheck.Lib.Logic;
 using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Configuration;
-//using VCheckViewer.Lib.Base;
 using Microsoft.EntityFrameworkCore;
-//using VCheckViewer.Lib.Function;
 using System.Runtime.InteropServices.Marshalling;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +29,7 @@ using VCheckViewer.Views.Pages.Setting.User;
 using VCheck.Lib.Data.Models;
 using VCheck.Lib.Data.DBContext;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using VCheckViewer.Lib.Models;
 using System.Reflection;
@@ -41,7 +40,8 @@ namespace VCheckViewer.Views.Windows
     /// <summary>
     /// Interaction logic for Main.xaml
     /// </summary>
-    public partial class Main : INavigationWindow
+    //public partial class Main : INavigationWindow
+    public partial class Main : Window
     {
         INavigationService _navigationService;
         IPageService _pageService;
@@ -57,8 +57,8 @@ namespace VCheckViewer.Views.Windows
 
         public Main
         (
-            INavigationService navigationService,
-            IPageService pageService
+            //INavigationService navigationService,
+            //IPageService pageService
         )
         {
             InitializeComponent();
@@ -66,8 +66,8 @@ namespace VCheckViewer.Views.Windows
 
             //navigationService.SetNavigationControl(RootNavigation);
 
-            _pageService = pageService;
-            _navigationService = navigationService;
+            //_pageService = pageService;
+            //_navigationService = navigationService;
             DataContext = this;
 
             //page
@@ -87,16 +87,16 @@ namespace VCheckViewer.Views.Windows
 
             //App.MainViewModel.CurrentUsers = new UserModel() { Title = "Dr.", FirstName = "Lee", LastName = "Eunji", StaffName = "Dr. Lee Eunji", EmployeeID = "456783", RegistrationNo = "456783", Gender = "Male", DateOfBirth = "15 March 1991", Role = "Superadmin", EmailAddress = "eunji@gmail.com", Status = "Active" };
 
-            Username.Header = App.MainViewModel.CurrentUsers.StaffName;
+            //Username.Header = App.MainViewModel.CurrentUsers.StaffName;
         }
 
         #region INavigationWindow methods
 
-        public INavigationView GetNavigation() => RootNavigation;
+        //public INavigationView GetNavigation() => RootNavigation;
 
-        public bool Navigate(Type pageType) => RootNavigation.Navigate(pageType);
+        //public bool Navigate(Type pageType) => RootNavigation.Navigate(pageType);
 
-        public void SetPageService(IPageService pageService) => RootNavigation.SetPageService(pageService);
+        //public void SetPageService(IPageService pageService) => RootNavigation.SetPageService(pageService);
 
         public void ShowWindow() => Show();
 
@@ -112,10 +112,10 @@ namespace VCheckViewer.Views.Windows
         //    Application.Current.Shutdown();
         //}
 
-        INavigationView INavigationWindow.GetNavigation()
-        {
-            throw new NotImplementedException();
-        }
+        //INavigationView INavigationWindow.GetNavigation()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public void SetServiceProvider(IServiceProvider serviceProvider)
         {
@@ -126,9 +126,10 @@ namespace VCheckViewer.Views.Windows
         {
             App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
 
-            RootNavigation.GoBack();
+            //RootNavigation.GoBack();
+            frameContent.GoBack();
 
-            GoToViewUserPage(sender,e);
+            GoToViewUserPage(sender, e);
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -137,45 +138,48 @@ namespace VCheckViewer.Views.Windows
             Popup(sender, e);
         }
 
-        private void T1_Click(object sender, RoutedEventArgs e)
-        {
-            isActive(sender as NavigationViewItem);
-            DashboardPage();
-        }
+        //private void T1_Click(object sender, RoutedEventArgs e)
+        //{
+        //    isActive(sender as NavigationViewItem);
+        //    DashboardPage();
+        //}
 
-        private void T2_Click(object sender, RoutedEventArgs e)
-        {
-            //Navigate(typeof(Schedulepage));
+        //private void T2_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //Navigate(typeof(Schedulepage));
 
-            PageTitle.Text = "Schedule";
-        }
+        //    PageTitle.Text = "Schedule";
+        //}
 
-        private void T3_Click(object sender, RoutedEventArgs e)
-        {
-            //Navigate(typeof(Page2));
+        //private void T3_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //Navigate(typeof(Page2));
 
-            PageTitle.Text = "Results";
-        }
+        //    PageTitle.Text = "Results";
+        //}
 
-        private void T5_Click(object sender, RoutedEventArgs e)
-        {
-            isActive(sender as NavigationViewItem);
-            MainUserPage();
-        }
+        //private void T5_Click(object sender, RoutedEventArgs e)
+        //{
+        //    isActive(sender as NavigationViewItem);
+        //    MainUserPage();
+        //}
 
         void GoToAddUserPage(object sender, EventArgs e)
         {
-            Navigate(typeof(AddUserPage));
+            //Navigate(typeof(AddUserPage));
+            frameContent.Content = new AddUserPage();
         }
 
         void GoToUpdateUserPage(object sender, EventArgs e)
         {
-            Navigate(typeof(UpdateUserPage));
+            //Navigate(typeof(UpdateUserPage));
+            frameContent.Content = new UpdateUserPage();
         }
 
         void GoToViewUserPage(object sender, EventArgs e)
         {
-            Navigate(typeof(ViewUserPage));
+            //Navigate(typeof(ViewUserPage));
+            frameContent.Content = new ViewUserPage();
         }
 
         void Popup(object sender, EventArgs e)
@@ -202,7 +206,8 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "UserUpdateRow") { UpdateUserRowHandler(e, sender); }
             if (App.MainViewModel.Origin == "Logout")
             {
-                Login login = new Login(_navigationService, _pageService);
+                //Login login = new Login(_navigationService, _pageService);
+                Login login = new Login();
                 this.CloseWindow();
                 login.Show();
             }
@@ -222,32 +227,39 @@ namespace VCheckViewer.Views.Windows
         {
             var originButton = (System.Windows.Controls.Button)sender;
 
-            if(originButton.Name.ToString() == "UserPage") { MainUserPage(); }
-            else { RootNavigation.GoBack(); }
+            if (originButton.Name.ToString() == "UserPage") { 
+                MainUserPage(); 
+            }
+            else {
+                //RootNavigation.GoBack();
+                frameContent.GoBack();
+            }
         }
 
         private void DashboardPage()
         {
-            Navigate(typeof(DashboardPage));
+            //Navigate(typeof(DashboardPage));
+            frameContent.Content = new DashboardPage();
 
             PageTitle.Text = "Dashboard";
         }
 
         private void MainUserPage()
         {
-            Navigate(typeof(UserPage));
+            //Navigate(typeof(UserPage));
+            frameContent.Content = new UserPage();
 
             PageTitle.Text = "Setting";
         }
 
         private void isActive(NavigationViewItem navigationItem)
         {
-            var childItems = (RootNavigation as NavigationView).MenuItems;
+            //var childItems = (RootNavigation as NavigationView).MenuItems;
 
-            foreach(NavigationViewItem childItem in childItems)
-            {
-                childItem.IsActive = false;
-            }
+            //foreach (NavigationViewItem childItem in childItems)
+            //{
+            //    childItem.IsActive = false;
+            //}
 
             navigationItem.IsActive = true;
         }
@@ -286,7 +298,10 @@ namespace VCheckViewer.Views.Windows
             foreach (var item in statusList) { App.MainViewModel.cbStatus.Add(new ComboBoxItem { Content = item.CodeName, Tag = item.CodeID }); }
         }
 
+        private void RootNavigation_PaneClosed(NavigationView sender, RoutedEventArgs args)
+        {
 
+        }
 
         private static void DeleteUserRowHandler(EventArgs e, object sender)
         {
@@ -311,7 +326,7 @@ namespace VCheckViewer.Views.Windows
         {
             usersContext.UpdateUser(App.MainViewModel.Users);
 
-            if(App.MainViewModel.CurrentUsers.UserId == App.MainViewModel.Users.UserId)
+            if (App.MainViewModel.CurrentUsers.UserId == App.MainViewModel.Users.UserId)
             {
                 App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
                 Username.Header = App.MainViewModel.CurrentUsers.StaffName;
@@ -320,5 +335,80 @@ namespace VCheckViewer.Views.Windows
 
             PreviousPage(sender, e);
         }
+
+        private void mnDashboard_Click(object sender, RoutedEventArgs e)
+        {
+            frameContent.Content = new DashboardPage();
+            PageTitle.Text = "Dashboard";
+        }
+
+        private void mnSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            frameContent.Content = new DashboardPage();
+            PageTitle.Text = "Schedule";
+        }
+
+        private void mnResults_Click(object sender, RoutedEventArgs e)
+        {
+            frameContent.Content = new DashboardPage();
+            PageTitle.Text = "Results";
+        }
+
+        private void mnNotifications_Click(object sender, RoutedEventArgs e)
+        {
+            frameContent.Content = new DashboardPage();
+            PageTitle.Text = "Notification";
+        }
+
+        private void mnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            frameContent.Content = new UserPage();
+            PageTitle.Text = "Settings";
+        }
+
+
+        private void btnCollapse_Click(object sender, RoutedEventArgs e)
+        {
+            menuslide("hidemenu", panel1);
+        }
+
+        private void btnOpen_Click(object sender, RoutedEventArgs e)
+        {
+            menuslide("showmenu", panel1);
+        }
+
+        private void menuslide(String p, StackPanel leftMenu)
+        {
+            Storyboard sb = Resources[p] as Storyboard;
+            sb.Begin(leftMenu);
+
+            if (p.Contains("show"))
+            {
+                btnCollapse.Visibility = System.Windows.Visibility.Visible;
+
+                btnOpen.Visibility = System.Windows.Visibility.Hidden;
+                btnOpen.Visibility = System.Windows.Visibility.Hidden;
+                thumbDashboard.Visibility = System.Windows.Visibility.Hidden;
+                thumbSchedule.Visibility = System.Windows.Visibility.Hidden;
+                thumbResult.Visibility = System.Windows.Visibility.Hidden;
+                thumbNotification.Visibility = System.Windows.Visibility.Hidden;
+                thumbSetting.Visibility = System.Windows.Visibility.Hidden;
+            }
+            else
+            {
+                if (p.Contains("hide"))
+                {
+                    btnCollapse.Visibility = System.Windows.Visibility.Hidden;
+
+                    btnOpen.Visibility = System.Windows.Visibility.Visible;
+                    thumbDashboard.Visibility = System.Windows.Visibility.Visible;
+                    thumbSchedule.Visibility = System.Windows.Visibility.Visible;
+                    thumbResult.Visibility = System.Windows.Visibility.Visible;
+                    thumbNotification.Visibility = System.Windows.Visibility.Visible;
+                    thumbSetting.Visibility = System.Windows.Visibility.Visible;
+                }
+            }
+        }
     }
+    
 }
