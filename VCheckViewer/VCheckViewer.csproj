@@ -29,8 +29,21 @@
     <None Remove="Content\Images\group_10.png" />
     <None Remove="Content\Images\icons8-barber-pole-64.png" />
     <None Remove="Content\Images\Icons\dashboard.png" />
+    <None Remove="Content\Images\Icons\de.png" />
+    <None Remove="Content\Images\Icons\en.png" />
+    <None Remove="Content\Images\Icons\es.png" />
     <None Remove="Content\Images\Icons\favicon.ico" />
+    <None Remove="Content\Images\Icons\fr.png" />
+    <None Remove="Content\Images\Icons\hi.png" />
+    <None Remove="Content\Images\Icons\id.png" />
+    <None Remove="Content\Images\Icons\ja.png" />
+    <None Remove="Content\Images\Icons\ko.png" />
+    <None Remove="Content\Images\Icons\pt.png" />
     <None Remove="Content\Images\Icons\results.png" />
+    <None Remove="Content\Images\Icons\ru.png" />
+    <None Remove="Content\Images\Icons\vi.png" />
+    <None Remove="Content\Images\Icons\zh-Hans.png" />
+    <None Remove="Content\Images\Icons\zh-Hant.png" />
     <None Remove="Content\Images\icon_fa_solid_paw.png" />
     <None Remove="Content\Images\img_devices.png" />
     <None Remove="Content\Images\mask_group_4.png" />
@@ -303,7 +316,20 @@
     <Resource Include="Content\Images\dashboard.png" />
     <Resource Include="Content\Images\group_10.png" />
     <Resource Include="Content\Images\icons8-barber-pole-64.png" />
+    <Resource Include="Content\Images\Icons\de.png" />
+    <Resource Include="Content\Images\Icons\en.png" />
+    <Resource Include="Content\Images\Icons\es.png" />
     <Resource Include="Content\Images\Icons\favicon.ico" />
+    <Resource Include="Content\Images\Icons\fr.png" />
+    <Resource Include="Content\Images\Icons\hi.png" />
+    <Resource Include="Content\Images\Icons\id.png" />
+    <Resource Include="Content\Images\Icons\ja.png" />
+    <Resource Include="Content\Images\Icons\ko.png" />
+    <Resource Include="Content\Images\Icons\pt.png" />
+    <Resource Include="Content\Images\Icons\ru.png" />
+    <Resource Include="Content\Images\Icons\vi.png" />
+    <Resource Include="Content\Images\Icons\zh-Hans.png" />
+    <Resource Include="Content\Images\Icons\zh-Hant.png" />
     <Resource Include="Content\Images\icon_fa_solid_paw.png" />
     <Resource Include="Content\Images\img_devices.png" />
     <Resource Include="Content\Images\mask_group_4.png" />
@@ -346,9 +372,39 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.es.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.hi.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.id.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.ja.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.ko.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.pt.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.vi.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.zh-Hans.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.zh-Hant.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
 
