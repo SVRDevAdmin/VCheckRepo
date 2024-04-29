@@ -5,6 +5,7 @@ using System.IO;
 using VCheckListenerWorker.Lib.Logic;
 using VCheckListenerWorker.Lib.Models;
 using log4net.Config;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace VCheckListenerWorker
 {
@@ -19,6 +20,11 @@ namespace VCheckListenerWorker
             _logger = logger;
         }
 
+        /// <summary>
+        /// Main Logic process the data
+        /// </summary>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             XmlConfigurator.Configure(log4net.LogManager.GetRepository(Assembly.GetEntryAssembly()),
@@ -81,6 +87,11 @@ namespace VCheckListenerWorker
             }
         }
 
+        /// <summary>
+        /// When program start execution
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public override Task StartAsync(CancellationToken cancellationToken)
         {
             try
@@ -113,6 +124,11 @@ namespace VCheckListenerWorker
             }           
         }
 
+        /// <summary>
+        /// When program stopped
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public override Task StopAsync(CancellationToken cancellationToken)
         {
             try
@@ -177,39 +193,41 @@ namespace VCheckListenerWorker
 
             // ------------ Patient Identification --------------------//
             List<tbltestanalyze_results_patientidentification> sPIDObj = new List<tbltestanalyze_results_patientidentification>();
-            var sPatientResult = sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetPatientIdentifierList();
-            if (sPatientResult.Length > 0)
+
+            tbltestanalyze_results_patientidentification sPID = new tbltestanalyze_results_patientidentification();
+            if (sRU_R01.GetPATIENT_RESULT().PATIENT.PID.PatientIdentifierListRepetitionsUsed > 0)
             {
-                foreach(var p in sPatientResult)
+                sPID.SetID = sRU_R01.GetPATIENT_RESULT().PATIENT.PID.SetIDPID.Value;
+                sPID.PatientID = sRU_R01.GetPATIENT_RESULT().PATIENT.PID.PatientID.IDNumber.Value;
+                sPID.AlternatePatientID = (sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetAlternatePatientIDPID().Length > 0) ?
+                                           sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetAlternatePatientIDPID().FirstOrDefault().IDNumber.ToString() : null;
+            }
+
+            if (sRU_R01.GetPATIENT_RESULT().PATIENT.PID.PatientNameRepetitionsUsed > 0)
+            {
+                var sNameObj = sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetPatientName().FirstOrDefault();
+
+                if (sNameObj != null)
                 {
-                    var sNameObj = sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetPatientName().FirstOrDefault();
-                    String sPatientName = "";
-                    if (sNameObj != null)
-                    {
-                        sPatientName = "" + "^" +
+                    sPID.PatientName = "" + "^" +
                                        sNameObj.GivenName + "^" +
                                        sNameObj.SecondAndFurtherGivenNamesOrInitialsThereof + "^" +
                                        sNameObj.SuffixEgJRorIII + "^" +
                                        sNameObj.PrefixEgDR + "^" +
                                        sNameObj.DegreeEgMD + "^" +
                                        sNameObj.NameTypeCode;
-                    }
-                    if (sPatientName.Replace("^", "").Length == 0)
-                    {
-                        sPatientName = "";
-                    }
 
-                    sPIDObj.Add(new tbltestanalyze_results_patientidentification
+                    if (sPID.PatientName.Replace("^", "").Length == 0)
                     {
-                        SetID = sRU_R01.GetPATIENT_RESULT().PATIENT.PID.SetIDPID.Value,
-                        PatientID = sRU_R01.GetPATIENT_RESULT().PATIENT.PID.PatientID.IDNumber.Value,
-                        PatientIdentifierList = p.IDNumber.ToString(),
-                        AlternatePatientID = (sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetAlternatePatientIDPID().Length > 0) ?
-                                             sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetAlternatePatientIDPID().FirstOrDefault().IDNumber.ToString() : null,
-                        PatientName = sPatientName
-                    }); 
+                        sPID.PatientName = "";
+                    }
+                }
+                else
+                {
+                    sPID.PatientName = "";
                 }
             }
+            sPIDObj.Add(sPID);
 
             //----------------- Observation Request ----------------------//
             var sNTEObj = new List<tbltestanalyze_results_notes>();
@@ -218,8 +236,14 @@ namespace VCheckListenerWorker
             foreach (var observation in sRU_R01.PATIENT_RESULTs.FirstOrDefault().ORDER_OBSERVATIONs)
             {
                 sOBRObj.SetID = observation.OBR.SetIDOBR.Value;
-                sOBRObj.PlacerOrderNumber = observation.OBR.PlacerOrderNumber.EntityIdentifier.Value;
-                sOBRObj.FillerOrderNumber = observation.OBR.FillerOrderNumber.EntityIdentifier.Value;
+                sOBRObj.PlacerOrderNumber = observation.OBR.PlacerOrderNumber.EntityIdentifier.Value + "^" +
+                                            observation.OBR.PlacerOrderNumber.NamespaceID.Value + "^" +
+                                            observation.OBR.PlacerOrderNumber.UniversalID.Value + "^" +
+                                            observation.OBR.PlacerOrderNumber.UniversalIDType.Value;
+                sOBRObj.FillerOrderNumber = observation.OBR.FillerOrderNumber.EntityIdentifier.Value + "^" +
+                                            observation.OBR.FillerOrderNumber.NamespaceID.Value + "^" +
+                                            observation.OBR.FillerOrderNumber.UniversalID.Value + "^" +
+                                            observation.OBR.FillerOrderNumber.UniversalIDType.Value;
                 sOBRObj.UniversalServIdentifier = observation.OBR.UniversalServiceIdentifier.Identifier.Value + "^" + 
                                                   observation.OBR.UniversalServiceIdentifier.Text.Value + "^" +  
                                                   observation.OBR.UniversalServiceIdentifier.NameOfCodingSystem.Value;

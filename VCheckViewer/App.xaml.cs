@@ -31,6 +31,11 @@ namespace VCheckViewer
         public static event EventHandler GoPreviousPage;
         public static event EventHandler Popup;
 
+        App()
+        {
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+        }
+
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
         // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection

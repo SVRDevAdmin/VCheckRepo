@@ -26,6 +26,7 @@ using Microsoft.Extensions.Hosting;
 using VCheck.Lib.Data;
 using VCheckViewer.Views.Pages;
 using VCheckViewer.Views.Pages.Setting.User;
+using VCheckViewer.Views.Pages.Test;
 using VCheck.Lib.Data.Models;
 using VCheck.Lib.Data.DBContext;
 using System.Collections.ObjectModel;
@@ -35,6 +36,7 @@ using VCheckViewer.Lib.Models;
 using System.Reflection;
 using System.ComponentModel;
 using System.Xml;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -352,7 +354,8 @@ namespace VCheckViewer.Views.Windows
 
         private void mnResults_Click(object sender, RoutedEventArgs e)
         {
-            frameContent.Content = new DashboardPage();
+            //frameContent.Content = new DashboardPage();
+            frameContent.Content = new LocalizationTestPage();
             PageTitle.Text = "Results";
         }
 

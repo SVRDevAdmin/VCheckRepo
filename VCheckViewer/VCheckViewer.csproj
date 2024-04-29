@@ -7,7 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Content\Images\Icons\favicon.ico</ApplicationIcon>
-    <UseWindowsForms>False</UseWindowsForms>
+    <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -66,7 +66,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="bin\Debug\" />
+    <Folder Include="bin\Debug\net8.0-windows\cs\" />
+    <Folder Include="bin\Debug\net8.0-windows\de\" />
+    <Folder Include="bin\Debug\net8.0-windows\es\" />
+    <Folder Include="bin\Debug\net8.0-windows\fr\" />
+    <Folder Include="bin\Debug\net8.0-windows\it\" />
+    <Folder Include="bin\Debug\net8.0-windows\ja\" />
+    <Folder Include="bin\Debug\net8.0-windows\ko\" />
+    <Folder Include="bin\Debug\net8.0-windows\pl\" />
+    <Folder Include="bin\Debug\net8.0-windows\pt-BR\" />
+    <Folder Include="bin\Debug\net8.0-windows\runtimes\win-x64\nativeassets\netcoreapp2.2\" />
+    <Folder Include="bin\Debug\net8.0-windows\runtimes\win-x64\native\" />
+    <Folder Include="bin\Debug\net8.0-windows\runtimes\win-x86\nativeassets\netcoreapp2.2\" />
+    <Folder Include="bin\Debug\net8.0-windows\ru\" />
+    <Folder Include="bin\Debug\net8.0-windows\tr\" />
+    <Folder Include="bin\Debug\net8.0-windows\zh-Hans\" />
+    <Folder Include="bin\Debug\net8.0-windows\zh-Hant\" />
     <Folder Include="Content\Style\" />
     <Folder Include="Content\Scripts\" />
     <Folder Include="Lib\Base\" />
@@ -267,6 +282,7 @@
     <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
     <PackageReference Include="WPF-UI" Version="3.0.4" />
+    <PackageReference Include="WPFLocalizeExtension" Version="3.10.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -311,6 +327,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
@@ -322,6 +343,13 @@
     <Resource Include="Content\Images\Report Icon.png" />
     <Resource Include="Content\Images\Settings Icon.png" />
     <Resource Include="Content\Images\Username icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

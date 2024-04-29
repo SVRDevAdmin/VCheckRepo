@@ -17,6 +17,9 @@ using System.Windows.Shapes;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.ViewModels.Windows;
+using TextBox = System.Windows.Controls.TextBox;
+using ComboBox = System.Windows.Controls.TextBox;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace VCheckViewer.Views.Pages.Setting.User
 {
