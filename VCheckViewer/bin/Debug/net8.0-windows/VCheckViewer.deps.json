@@ -27,8 +27,44 @@
           "VCheckViewer.dll": {}
         },
         "resources": {
+          "de/VCheckViewer.resources.dll": {
+            "locale": "de"
+          },
           "en/VCheckViewer.resources.dll": {
             "locale": "en"
+          },
+          "es/VCheckViewer.resources.dll": {
+            "locale": "es"
+          },
+          "fr/VCheckViewer.resources.dll": {
+            "locale": "fr"
+          },
+          "hi/VCheckViewer.resources.dll": {
+            "locale": "hi"
+          },
+          "id/VCheckViewer.resources.dll": {
+            "locale": "id"
+          },
+          "ja/VCheckViewer.resources.dll": {
+            "locale": "ja"
+          },
+          "ko/VCheckViewer.resources.dll": {
+            "locale": "ko"
+          },
+          "pt/VCheckViewer.resources.dll": {
+            "locale": "pt"
+          },
+          "ru/VCheckViewer.resources.dll": {
+            "locale": "ru"
+          },
+          "vi/VCheckViewer.resources.dll": {
+            "locale": "vi"
+          },
+          "zh-Hans/VCheckViewer.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "zh-Hant/VCheckViewer.resources.dll": {
+            "locale": "zh-Hant"
           },
           "zh/VCheckViewer.resources.dll": {
             "locale": "zh"
