@@ -180,7 +180,7 @@ namespace VCheckViewer.Views.Pages.Setting.User
                 EmailAddress = EmailAddress.Text,
                 StatusID = Convert.ToInt32(((ComboBoxItem)Status.SelectedItem).Tag.ToString()),
                 Status = Status.Text,
-                RoleID = Convert.ToInt32(((ComboBoxItem)Role.SelectedItem).Tag.ToString()),
+                RoleID = ((ComboBoxItem)Role.SelectedItem).Tag.ToString(),
                 Role = Role.Text
             };
 

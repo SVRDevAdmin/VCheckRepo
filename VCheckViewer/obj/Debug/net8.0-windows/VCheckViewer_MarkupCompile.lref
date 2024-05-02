@@ -1,11 +1,16 @@
 ﻿
-FC:\Dev\VCheck\VCheckViewer\App.xaml;;
-FC:\Dev\VCheck\VCheckViewer\Views\Pages\Dashboard\DashboardPage.xaml;;
-FC:\Dev\VCheck\VCheckViewer\Views\Pages\Setting\User\AddUserPage.xaml;;
-FC:\Dev\VCheck\VCheckViewer\Views\Pages\Setting\User\UpdateUserPage.xaml;;
-FC:\Dev\VCheck\VCheckViewer\Views\Pages\Setting\User\UserPage.xaml;;
-FC:\Dev\VCheck\VCheckViewer\Views\Pages\Setting\User\ViewUserPage.xaml;;
-FC:\Dev\VCheck\VCheckViewer\Views\Windows\Login.xaml;;
-FC:\Dev\VCheck\VCheckViewer\Views\Windows\Main.xaml;;
-FC:\Dev\VCheck\VCheckViewer\Views\Windows\Main2.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\App.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Dashboard\DashboardPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Login\LoginPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Login\PasswordRecoveryPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Login\ResetCurrentUserPasswordPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Login\ResetPasswordPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\User\AddUserPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\User\UpdateUserPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\User\UserPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\User\ViewUserPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Windows\LoginWindow.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Windows\Main.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Windows\Main2.xaml;;
 

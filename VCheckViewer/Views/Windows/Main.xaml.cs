@@ -34,6 +34,10 @@ using System.Windows.Media.Effects;
 using VCheckViewer.Lib.Models;
 using System.Reflection;
 using System.ComponentModel;
+using VCheckViewer.Views.Pages.Login;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using VCheckViewer.Views.Pages.Setting.LanguageCountry;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -75,6 +79,7 @@ namespace VCheckViewer.Views.Windows
             UserPage.GoToUpdateUserPage += new EventHandler(GoToUpdateUserPage);
             UserPage.GoToViewUserPage += new EventHandler(GoToViewUserPage);
             ViewUserPage.GoToUpdateCurrentUserPage += new EventHandler(GoToUpdateUserPage);
+            UserPage.GoToLanguageCountryPage += new EventHandler(GoToLanguageCountryPage);
 
             //popup
             App.Popup += new EventHandler(Popup);
@@ -88,6 +93,7 @@ namespace VCheckViewer.Views.Windows
             //App.MainViewModel.CurrentUsers = new UserModel() { Title = "Dr.", FirstName = "Lee", LastName = "Eunji", StaffName = "Dr. Lee Eunji", EmployeeID = "456783", RegistrationNo = "456783", Gender = "Male", DateOfBirth = "15 March 1991", Role = "Superadmin", EmailAddress = "eunji@gmail.com", Status = "Active" };
 
             //Username.Header = App.MainViewModel.CurrentUsers.StaffName;
+            Username.Header = App.MainViewModel.CurrentUsers.StaffName;
         }
 
         #region INavigationWindow methods
@@ -127,9 +133,16 @@ namespace VCheckViewer.Views.Windows
             App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
 
             //RootNavigation.GoBack();
-            frameContent.GoBack();
+            if (frameContent.CanGoBack) { frameContent.GoBack(); }            
 
             GoToViewUserPage(sender, e);
+        }
+
+        private void ResetPassword(object sender, RoutedEventArgs e)
+        {
+            frameContent.Content = new ResetCurrentUserPasswordPage();
+
+            PageTitle.Text = "Reset Password";
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -182,6 +195,12 @@ namespace VCheckViewer.Views.Windows
             frameContent.Content = new ViewUserPage();
         }
 
+        void GoToLanguageCountryPage(object sender, EventArgs e)
+        {
+            //Navigate(typeof(ViewUserPage));
+            frameContent.Content = new LanguageCountryPage();
+        }
+
         void Popup(object sender, EventArgs e)
         {
             if (App.MainViewModel.Origin == "UserDeleteRow") { PopupContent.Text = "Are you sure you want to delete this user profile?"; }
@@ -207,8 +226,9 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "Logout")
             {
                 //Login login = new Login(_navigationService, _pageService);
-                Login login = new Login();
-                this.CloseWindow();
+                LoginWindow login = new LoginWindow();
+                login.LoginFrame.Content = new LoginPage();
+                Close();
                 login.Show();
             }
         }
@@ -314,11 +334,26 @@ namespace VCheckViewer.Views.Windows
         }
 
 
-        private void AddUserRowHandler(EventArgs e, object sender)
+        private async void AddUserRowHandler(EventArgs e, object sender)
         {
-            usersContext.InsertUser(App.MainViewModel.Users);
+            var user = Activator.CreateInstance<IdentityUser>();
 
-            PreviousPage(sender, e);
+            var emailStore = (IUserEmailStore<IdentityUser>)App.UserStore;
+
+            await App.UserStore.SetUserNameAsync(user, App.MainViewModel.Users.LoginID, CancellationToken.None);
+            await emailStore.SetEmailAsync(user, App.MainViewModel.Users.EmailAddress, CancellationToken.None);
+            var result = await App.UserManager.CreateAsync(user, App.newPassword);
+
+            if (result.Succeeded)
+            {
+                App.MainViewModel.Users.UserId = user.Id;
+
+                usersContext.InsertUser(App.MainViewModel.Users);
+
+                var roleResult = await App.UserManager.AddToRoleAsync(user, App.MainViewModel.Users.Role);
+
+                if (roleResult.Succeeded) { PreviousPage(sender, e); }                
+            }
         }
 
 

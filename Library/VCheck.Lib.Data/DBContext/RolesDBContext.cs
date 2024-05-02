@@ -42,7 +42,7 @@ namespace VCheck.Lib.Data.DBContext
                     {
                         sList.Add(new RolesModel()
                         {
-                            RoleID = Convert.ToInt32(reader["RoleID"]),
+                            RoleID = reader["RoleID"].ToString(),
                             RoleName = reader["RoleName"].ToString(),
                             IsActive = Convert.ToBoolean(reader["IsActive"]),
                             IsSuperadmin = Convert.ToBoolean(reader["IsSuperadmin"]),

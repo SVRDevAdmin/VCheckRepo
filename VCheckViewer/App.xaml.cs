@@ -16,6 +16,10 @@ using Pomelo.EntityFrameworkCore;
 //using VCheckViewer.Lib.Base;
 using Microsoft.AspNetCore.Hosting.Internal;
 using VCheck.Lib.Data.DBContext;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Http;
+using VCheckViewer.Lib.Models;
 
 namespace VCheckViewer
 {
@@ -30,6 +34,13 @@ namespace VCheckViewer
 
         public static event EventHandler GoPreviousPage;
         public static event EventHandler Popup;
+
+        public static SignInManager<IdentityUser> SignInManager { get; set; }
+        public static UserManager<IdentityUser> UserManager { get; set; }
+        public static RoleManager<IdentityRole> RoleManager { get; set; }
+        public static IUserStore<IdentityUser> UserStore { get; set; }
+
+        public static string newPassword {  get; set; }
 
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
@@ -66,6 +77,33 @@ namespace VCheckViewer
                 services.Add(new ServiceDescriptor(typeof(MasterCodeDataDBContext), new MasterCodeDataDBContext(context.Configuration)));
                 services.Add(new ServiceDescriptor(typeof(RolesDBContext), new RolesDBContext(context.Configuration)));
                 services.Add(new ServiceDescriptor(typeof(UserLoginDBContext), new UserLoginDBContext(context.Configuration)));
+
+                services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(context.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 21))));
+
+                var identitySettings = context.Configuration.GetSection("IdentitySettings");
+
+                services.AddIdentityCore<IdentityUser>(options =>
+                {
+                    // Password settings.
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequiredUniqueChars = 1;
+
+
+                    //Lockedout setting
+                    options.SignIn.RequireConfirmedAccount = identitySettings.GetValue<bool>("RequireConfirmedAccount");
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(identitySettings.GetValue<int>("DefaultLockedOutTimeSpan"));
+                    options.Lockout.MaxFailedAccessAttempts = identitySettings.GetValue<int>("MaxFailedAccessAttempts");
+                })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+                services.AddScoped<SignInManager<IdentityUser>>();
+                services.AddHttpContextAccessor();
+                services.AddAuthentication();
             })
             .Build();
 

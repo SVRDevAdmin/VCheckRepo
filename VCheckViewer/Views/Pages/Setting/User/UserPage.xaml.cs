@@ -36,6 +36,7 @@ namespace VCheckViewer.Views.Pages
         public static event EventHandler GoToUpdateUserPage;
         public static event EventHandler GoToViewUserPage;
         public static event EventHandler DeleteUser;
+        public static event EventHandler GoToLanguageCountryPage;
         public int pageSize = 10;
         public int paginationSize = 5;
         public int totalUser = 0;
@@ -47,9 +48,13 @@ namespace VCheckViewer.Views.Pages
         {
             InitializeComponent();
 
-            dataGrid.ItemsSource = GetUserList(0, pageSize);
-
             Main.DeleteRow += new EventHandler(DeleteRow);
+            initializedPage();
+        }
+
+        public void initializedPage()
+        {
+            dataGrid.ItemsSource = GetUserList(0, pageSize);
 
 
             totalUser = sContext.GetTotalUser();
@@ -68,7 +73,6 @@ namespace VCheckViewer.Views.Pages
         {
             ObservableCollection<UserModel> UserList = sContext.GetUserListByPage(start, end);
             return UserList;
-
         }
 
         public void createPagination(int highligtedIndex)
@@ -284,6 +288,11 @@ namespace VCheckViewer.Views.Pages
             App.PopupHandler(e, sender);
         }
 
+        private void LanguageCountry(object sender, RoutedEventArgs e)
+        {
+            GoToLanguageCountryPageHandler(e, sender);
+        }
+
         private static void GoToAddUserPageHandler(EventArgs e, object sender)
         {
             if (GoToAddUserPage != null)
@@ -305,6 +314,14 @@ namespace VCheckViewer.Views.Pages
             if (GoToUpdateUserPage != null)
             {
                 GoToUpdateUserPage(sender, e);
+            }
+        }
+
+        private static void GoToLanguageCountryPageHandler(EventArgs e, object sender)
+        {
+            if (GoToLanguageCountryPage != null)
+            {
+                GoToLanguageCountryPage(sender, e);
             }
         }
 

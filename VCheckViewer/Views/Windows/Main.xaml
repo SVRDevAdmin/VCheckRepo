@@ -72,7 +72,7 @@
                                     <Image Source="../../Content/Images/Screenshot 2024-04-15 152644.png"/>
                                 </MenuItem.Icon>
                                 <MenuItem Header="View profile" Click="ViewProfileButton_Click"/>
-                                <MenuItem Header="Reset password"/>
+                                <MenuItem Header="Reset password" Click="ResetPassword"/>
                                 <Separator />
                                 <MenuItem Header="Logout" Click="LogoutButton_Click"/>
                             </MenuItem>
@@ -173,11 +173,11 @@
                             </Border>
                         </Grid>
                         <Grid Height="30" Margin="0, 0, 0, 0" Background="#f2f2f2">
-                            <Button Name="btnCollapse" Click="btnCollapse_Click" Panel.ZIndex="8" BorderThickness="0">
+                            <Button Name="btnCollapse" Click="btnCollapse_Click" Panel.ZIndex="8" BorderThickness="0" Background="Transparent">
                                 <Image Source="../../Content/Images/Collapse_Arrow.png" Width="20" Height="20"/>
                             </Button>
                             <Label Padding="65, 0" VerticalAlignment="Center" Foreground="SlateGray">Collapse</Label>
-                            <Button Name="btnOpen" Click="btnOpen_Click"  Margin="160, 0, 0, 0" Panel.ZIndex="8" Visibility="Collapsed" BorderThickness="0">
+                            <Button Name="btnOpen" Click="btnOpen_Click"  Margin="160, 0, 0, 0" Panel.ZIndex="8" Visibility="Collapsed" BorderThickness="0" Background="Transparent">
                                 <Image Source="../../Content/Images/Collapse_Arrow_Right.png" Width="20" Height="20" />
                             </Button>
                         </Grid>

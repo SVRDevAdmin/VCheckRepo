@@ -8,7 +8,7 @@ namespace VCheck.Lib.Data.Models
 {
     public class RolesModel
     {
-        public int RoleID { get; set; }
+        public string RoleID { get; set; }
         public string RoleName { get; set; }
         public bool IsActive { get; set; }
         public bool IsSuperadmin { get; set; }

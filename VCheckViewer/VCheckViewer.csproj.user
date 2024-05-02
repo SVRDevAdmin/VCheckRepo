@@ -9,6 +9,21 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\Pages\Login\LoginPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Pages\Login\PasswordRecoveryPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Pages\Login\ResetCurrentUserPasswordPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Pages\Login\ResetPasswordPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Pages\Setting\User\AddUserPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -24,7 +39,7 @@
     <Compile Update="Views\Pages\Setting\User\ViewUserPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Windows\Login.xaml.cs">
+    <Compile Update="Views\Windows\LoginWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Windows\Main.xaml.cs">
@@ -36,6 +51,21 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Template\Templates.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\Login\LoginPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\Login\PasswordRecoveryPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\Login\ResetCurrentUserPasswordPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\Login\ResetPasswordPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Setting\User\AddUserPage.xaml">
@@ -53,7 +83,7 @@
     <Page Update="Views\Pages\Setting\User\ViewUserPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Windows\Login.xaml">
+    <Page Update="Views\Windows\LoginWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Windows\Main.xaml">

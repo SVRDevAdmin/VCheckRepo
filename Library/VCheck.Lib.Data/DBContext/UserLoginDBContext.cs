@@ -59,7 +59,7 @@ namespace VCheck.Lib.Data.DBContext
                     {
                         while (reader.Read())
                         {
-                            sList.UserId = Convert.ToInt32(reader["UserId"]);
+                            sList.UserId = reader["UserId"].ToString();
                             sList.EmployeeID = reader["EmployeeID"].ToString();
                             sList.Title = reader["Title"].ToString();
                             sList.FirstName = reader["FirstName"].ToString();

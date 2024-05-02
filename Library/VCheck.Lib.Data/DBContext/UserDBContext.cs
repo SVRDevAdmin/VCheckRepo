@@ -46,7 +46,7 @@ namespace VCheck.Lib.Data.DBContext
                         sList.Add(new UserModel()
                         {
                             No = index++,
-                            UserId = Convert.ToInt32(reader["UserId"]),
+                            UserId = reader["UserId"].ToString(),
                             EmployeeID = reader["EmployeeID"].ToString(),
                             Title = reader["Title"].ToString(),
                             FirstName = reader["FirstName"].ToString(),
@@ -68,9 +68,9 @@ namespace VCheck.Lib.Data.DBContext
 
         public void InsertUser(UserModel user)
         {
-            string insertQuery = "INSERT INTO `vcheckdb`.`mst_user` (`EmployeeID`,`Title`,`FirstName`,`LastName`,`RegistrationNo`,`Gender`,`DateofBirth`,`EmailAddress`,`Status`,`RoleID`) ";
+            string insertQuery = "INSERT INTO `vcheckdb`.`mst_user` (`UserID`,`EmployeeID`,`Title`,`FirstName`,`LastName`,`RegistrationNo`,`Gender`,`DateofBirth`,`EmailAddress`,`Status`,`RoleID`) ";
 
-            insertQuery += "Values ('"+user.EmployeeID+"', '"+user.Title+"', '"+user.FirstName+"', '"+user.LastName+"', '"+user.RegistrationNo+"', '"+user.Gender+"', '"+user.DateOfBirth+"', '"+user.EmailAddress+"', "+user.StatusID+", "+user.RoleID+")";
+            insertQuery += "Values ('"+user.UserId+"','"+user.EmployeeID+"', '"+user.Title+"', '"+user.FirstName+"', '"+user.LastName+"', '"+user.RegistrationNo+"', '"+user.Gender+"', '"+user.DateOfBirth+"', '"+user.EmailAddress+"', "+user.StatusID+", '"+user.RoleID+"')";
 
             using (MySqlConnection conn = this.Connection)
             {
@@ -94,7 +94,7 @@ namespace VCheck.Lib.Data.DBContext
             }
         }
 
-        public void DeleteUser(int userID)
+        public void DeleteUser(string userID)
         {
             string insertQuery = "DELETE FROM `vcheckdb`.`mst_user` WHERE UserID = "+userID;
 
@@ -127,6 +127,41 @@ namespace VCheck.Lib.Data.DBContext
             }
 
             return total;
+        }
+
+        public UserModel GetUserByID(string userID)
+        {
+            UserModel model = new UserModel();
+
+            using (MySqlConnection conn = this.Connection)
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("Select * from userlist where UserID = '" + userID + "'", conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+
+                        model.UserId = reader["UserId"].ToString();
+                        model.EmployeeID = reader["EmployeeID"].ToString();
+                        model.Title = reader["Title"].ToString();
+                        model.FirstName = reader["FirstName"].ToString();
+                        model.LastName = reader["LastName"].ToString();
+                        model.StaffName = reader["Title"].ToString() + " " + reader["FirstName"].ToString() + " " + reader["LastName"].ToString();
+                        model.RegistrationNo = reader["RegistrationNo"].ToString();
+                        model.Gender = reader["Gender"].ToString();
+                        model.DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy");
+                        model.EmailAddress = reader["EmailAddress"].ToString();
+                        model.Status = reader["Status"].ToString();
+                        model.Role = reader["Role"].ToString();
+                        
+                    }
+                }
+            }
+
+            return model;
+
         }
     }
 }
