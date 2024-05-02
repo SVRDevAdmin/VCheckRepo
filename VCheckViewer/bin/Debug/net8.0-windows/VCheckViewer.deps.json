@@ -24,10 +24,55 @@
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2",
           "VCheck.Lib.Data": "1.0.0",
           "VCheck.Lib.Logic": "1.0.0",
-          "WPF-UI": "3.0.4"
+          "WPF-UI": "3.0.4",
+          "WPFLocalizeExtension": "3.10.0"
         },
         "runtime": {
           "VCheckViewer.dll": {}
+        },
+        "resources": {
+          "de/VCheckViewer.resources.dll": {
+            "locale": "de"
+          },
+          "en/VCheckViewer.resources.dll": {
+            "locale": "en"
+          },
+          "es/VCheckViewer.resources.dll": {
+            "locale": "es"
+          },
+          "fr/VCheckViewer.resources.dll": {
+            "locale": "fr"
+          },
+          "hi/VCheckViewer.resources.dll": {
+            "locale": "hi"
+          },
+          "id/VCheckViewer.resources.dll": {
+            "locale": "id"
+          },
+          "ja/VCheckViewer.resources.dll": {
+            "locale": "ja"
+          },
+          "ko/VCheckViewer.resources.dll": {
+            "locale": "ko"
+          },
+          "pt/VCheckViewer.resources.dll": {
+            "locale": "pt"
+          },
+          "ru/VCheckViewer.resources.dll": {
+            "locale": "ru"
+          },
+          "vi/VCheckViewer.resources.dll": {
+            "locale": "vi"
+          },
+          "zh-Hans/VCheckViewer.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "zh-Hant/VCheckViewer.resources.dll": {
+            "locale": "zh-Hant"
+          },
+          "zh/VCheckViewer.resources.dll": {
+            "locale": "zh"
+          }
         }
       },
       "BouncyCastle.Cryptography/2.2.1": {
@@ -1318,6 +1363,7 @@
       },
       "Microsoft.NETCore.Platforms/3.1.0": {},
       "Microsoft.NETCore.Targets/1.1.0": {},
+      "Microsoft.Win32.SystemEvents/7.0.0": {},
       "Microsoft.Win32.Registry/4.5.0": {
         "dependencies": {
           "System.Security.AccessControl": "4.7.0",
@@ -1331,7 +1377,7 @@
       },
       "Mono.TextTemplating/2.2.1": {
         "dependencies": {
-          "System.CodeDom": "4.4.0"
+          "System.CodeDom": "7.0.0"
         },
         "runtime": {
           "lib/netstandard2.0/Mono.TextTemplating.dll": {
@@ -1414,7 +1460,7 @@
         }
       },
       "System.Buffers/4.5.1": {},
-      "System.CodeDom/4.4.0": {},
+      "System.CodeDom/7.0.0": {},
       "System.Collections.Immutable/6.0.0": {
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
@@ -1487,10 +1533,9 @@
       },
       "System.Diagnostics.DiagnosticSource/8.0.0": {},
       "System.Diagnostics.EventLog/8.0.0": {},
-      "System.Drawing.Common/4.7.0": {
+      "System.Drawing.Common/7.0.0": {
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.1.0",
-          "Microsoft.Win32.SystemEvents": "4.7.0"
+          "Microsoft.Win32.SystemEvents": "7.0.0"
         }
       },
       "System.IO/4.3.0": {
@@ -1507,6 +1552,25 @@
           "lib/net6.0/System.IO.Pipelines.dll": {
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.0.522.21309"
+          }
+        }
+      },
+      "System.Management/7.0.0": {
+        "dependencies": {
+          "System.CodeDom": "7.0.0"
+        },
+        "runtime": {
+          "lib/net7.0/System.Management.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "7.0.22.51805"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net7.0/System.Management.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "7.0.22.51805"
           }
         }
       },
@@ -1602,7 +1666,7 @@
       "System.Threading.Tasks.Extensions/4.5.4": {},
       "System.Windows.Extensions/4.7.0": {
         "dependencies": {
-          "System.Drawing.Common": "4.7.0"
+          "System.Drawing.Common": "7.0.0"
         }
       },
       "WPF-UI/3.0.4": {
@@ -1610,6 +1674,27 @@
           "lib/net8.0-windows7.0/Wpf.Ui.dll": {
             "assemblyVersion": "3.0.4.0",
             "fileVersion": "3.0.4.0"
+          }
+        }
+      },
+      "WPFLocalizeExtension/3.10.0": {
+        "dependencies": {
+          "System.Drawing.Common": "7.0.0",
+          "System.Management": "7.0.0",
+          "XAMLMarkupExtensions": "2.1.3"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/WPFLocalizeExtension.dll": {
+            "assemblyVersion": "3.10.0.0",
+            "fileVersion": "3.10.0.0"
+          }
+        }
+      },
+      "XAMLMarkupExtensions/2.1.3": {
+        "runtime": {
+          "lib/netcoreapp3.1/XAMLMarkupExtensions.dll": {
+            "assemblyVersion": "2.1.3.0",
+            "fileVersion": "2.1.3.0"
           }
         }
       },
@@ -2275,6 +2360,7 @@
       "path": "microsoft.netcore.targets/1.1.0",
       "hashPath": "microsoft.netcore.targets.1.1.0.nupkg.sha512"
     },
+    "Microsoft.Win32.SystemEvents/7.0.0": {
     "Microsoft.Win32.Registry/4.5.0": {
       "type": "package",
       "serviceable": true,
@@ -2285,9 +2371,9 @@
     "Microsoft.Win32.SystemEvents/4.7.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-mtVirZr++rq+XCDITMUdnETD59XoeMxSpLRIII7JRI6Yj0LEDiO1pPn0ktlnIj12Ix8bfvQqQDMMIF9wC98oCA==",
-      "path": "microsoft.win32.systemevents/4.7.0",
-      "hashPath": "microsoft.win32.systemevents.4.7.0.nupkg.sha512"
+      "sha512": "sha512-2nXPrhdAyAzir0gLl8Yy8S5Mnm/uBSQQA7jEsILOS1MTyS7DbmV1NgViMtvV1sfCD1ebITpNwb1NIinKeJgUVQ==",
+      "path": "microsoft.win32.systemevents/7.0.0",
+      "hashPath": "microsoft.win32.systemevents.7.0.0.nupkg.sha512"
     },
     "Mono.TextTemplating/2.2.1": {
       "type": "package",
@@ -2324,12 +2410,12 @@
       "path": "system.buffers/4.5.1",
       "hashPath": "system.buffers.4.5.1.nupkg.sha512"
     },
-    "System.CodeDom/4.4.0": {
+    "System.CodeDom/7.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-2sCCb7doXEwtYAbqzbF/8UAeDRMNmPaQbU2q50Psg1J9KzumyVVCgKQY8s53WIPTufNT0DpSe9QRvVjOzfDWBA==",
-      "path": "system.codedom/4.4.0",
-      "hashPath": "system.codedom.4.4.0.nupkg.sha512"
+      "sha512": "sha512-GLltyqEsE5/3IE+zYRP5sNa1l44qKl9v+bfdMcwg+M9qnQf47wK3H0SUR/T+3N4JEQXF3vV4CSuuo0rsg+nq2A==",
+      "path": "system.codedom/7.0.0",
+      "hashPath": "system.codedom.7.0.0.nupkg.sha512"
     },
     "System.Collections.Immutable/6.0.0": {
       "type": "package",
@@ -2401,12 +2487,12 @@
       "path": "system.diagnostics.eventlog/8.0.0",
       "hashPath": "system.diagnostics.eventlog.8.0.0.nupkg.sha512"
     },
-    "System.Drawing.Common/4.7.0": {
+    "System.Drawing.Common/7.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-v+XbyYHaZjDfn0ENmJEV1VYLgGgCTx1gnfOBcppowbpOAriglYgGCvFCPr2EEZyBvXlpxbEsTwkOlInl107ahA==",
-      "path": "system.drawing.common/4.7.0",
-      "hashPath": "system.drawing.common.4.7.0.nupkg.sha512"
+      "sha512": "sha512-KIX+oBU38pxkKPxvLcLfIkOV5Ien8ReN78wro7OF5/erwcmortzeFx+iBswlh2Vz6gVne0khocQudGwaO1Ey6A==",
+      "path": "system.drawing.common/7.0.0",
+      "hashPath": "system.drawing.common.7.0.0.nupkg.sha512"
     },
     "System.IO/4.3.0": {
       "type": "package",
@@ -2421,6 +2507,13 @@
       "sha512": "sha512-ryTgF+iFkpGZY1vRQhfCzX0xTdlV3pyaTTqRu2ETbEv+HlV7O6y7hyQURnghNIXvctl5DuZ//Dpks6HdL/Txgw==",
       "path": "system.io.pipelines/6.0.3",
       "hashPath": "system.io.pipelines.6.0.3.nupkg.sha512"
+    },
+    "System.Management/7.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-A4jed4QUviDOm7fJNKAJObEAEkEUXmkGL/w0iyCYTzrl1rezTj8LGFHfsVst4Vb9JwFcTpboiDrvdST48avBpw==",
+      "path": "system.management/7.0.0",
+      "hashPath": "system.management.7.0.0.nupkg.sha512"
     },
     "System.Memory/4.5.1": {
       "type": "package",
@@ -2589,6 +2682,20 @@
       "sha512": "sha512-Jbt8nJ4MSC/WBhqx6iXOW06Rt2UUNVxA8+23AOSM63jlOIhU6e6P4BIw8rL/UnRPycOdA2vntYl5i7k53E0AGg==",
       "path": "wpf-ui/3.0.4",
       "hashPath": "wpf-ui.3.0.4.nupkg.sha512"
+    },
+    "WPFLocalizeExtension/3.10.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KtOIGK8yuAlbn2bsczWwFPdMUwukDpRAmgI9vHPwoncuAWOWJBL3hNvhyFg1yjqyobwKZoPsgd1iC+uhVe7rOQ==",
+      "path": "wpflocalizeextension/3.10.0",
+      "hashPath": "wpflocalizeextension.3.10.0.nupkg.sha512"
+    },
+    "XAMLMarkupExtensions/2.1.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8HAZJPLMd3NQw6h6YapkjDu37SrZFobVgp5bZWq5iRn8/1ptA/Jy8kkzDj6V8+224+nYl43kQYzvYELEI4+rNg==",
+      "path": "xamlmarkupextensions/2.1.3",
+      "hashPath": "xamlmarkupextensions.2.1.3.nupkg.sha512"
     },
     "ZstdSharp.Port/0.7.1": {
       "type": "package",

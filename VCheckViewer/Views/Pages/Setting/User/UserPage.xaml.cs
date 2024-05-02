@@ -22,6 +22,8 @@ using VCheck.Lib.Data.Models;
 using VCheckViewer.ViewModels.Windows;
 using VCheckViewer.Views.Windows;
 using Wpf.Ui.Controls;
+using Brushes = System.Windows.Media.Brushes;
+using Application = System.Windows.Application;
 
 namespace VCheckViewer.Views.Pages
 {
@@ -99,7 +101,7 @@ namespace VCheckViewer.Views.Pages
                 newBtn.Width = 30;
                 newBtn.Margin = new Thickness(5, 0, 5, 0);
                 newBtn.FontWeight = FontWeights.Bold;
-                newBtn.HorizontalContentAlignment = HorizontalAlignment.Center;
+                newBtn.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
 
                 if(i == highligtedIndex)
                 {

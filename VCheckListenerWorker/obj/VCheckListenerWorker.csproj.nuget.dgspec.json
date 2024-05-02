@@ -69,6 +69,10 @@
               "target": "Package",
               "version": "[8.0.2, )"
             },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.17, )"
+            },
             "nhapi": {
               "target": "Package",
               "version": "[3.2.2, )"

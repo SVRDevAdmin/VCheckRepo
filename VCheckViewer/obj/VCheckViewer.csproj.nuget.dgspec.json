@@ -285,6 +285,10 @@
             "WPF-UI": {
               "target": "Package",
               "version": "[3.0.4, )"
+            },
+            "WPFLocalizeExtension": {
+              "target": "Package",
+              "version": "[3.10.0, )"
             }
           },
           "imports": [
@@ -302,7 +306,7 @@
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             },
-            "Microsoft.WindowsDesktop.App.WPF": {
+            "Microsoft.WindowsDesktop.App": {
               "privateAssets": "none"
             }
           },

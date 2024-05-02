@@ -7,6 +7,9 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Xml.Linq;
 using VCheck.Lib.Data.Models;
+using TextBox = System.Windows.Controls.TextBox;
+using ComboBox = System.Windows.Controls.ComboBox;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace VCheckViewer.Views.Pages
 {
