@@ -15,7 +15,6 @@ using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using VCheckViewer.ViewModels.Windows;
-using VCheck.Lib.Logic;
 using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;

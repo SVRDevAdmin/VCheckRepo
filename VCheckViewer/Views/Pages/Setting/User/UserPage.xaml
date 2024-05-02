@@ -12,6 +12,12 @@
         <Style x:Key="DataGridVerticalText" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Noto Sans" />
+        </Style>
+        <Style x:Key="DataGridVerticalTextCenterAligned" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="FontFamily" Value="Noto Sans" />
         </Style>
 
         <!-- DataGridColumnHeader style -->
@@ -88,7 +94,7 @@
                 <DataGrid Name = "dataGrid" IsReadOnly="True" AutoGenerateColumns = "False" Margin="10" Grid.Row="0"  GridLinesVisibility="Horizontal" BorderThickness="0"  RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header = "No" Binding = "{Binding No}" Width="auto" ElementStyle="{StaticResource DataGridVerticalText}"/>
-                        <DataGridTextColumn Header = "Staff Name" Binding = "{Binding StaffName}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" FontWeight="Bold"/>
+                        <DataGridTextColumn Header = "Staff Name" Binding = "{Binding StaffName}" Width="*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned }" FontWeight="Bold" />
                         <DataGridTextColumn Header = "Staff ID" Binding = "{Binding EmployeeID}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
                         <DataGridTextColumn Header = "Doctor's Registration No." Binding = "{Binding RegistrationNo}" Width="1.3*" ElementStyle="{StaticResource DataGridVerticalText}"/>
                         <DataGridTextColumn Header = "Gender" Binding = "{Binding Gender}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>

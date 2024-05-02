@@ -13,7 +13,6 @@ using VCheckViewer.ViewModels.Windows;
 using VCheckViewer.Services;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore;
-//using VCheckViewer.Lib.Base;
 using Microsoft.AspNetCore.Hosting.Internal;
 using VCheck.Lib.Data.DBContext;
 

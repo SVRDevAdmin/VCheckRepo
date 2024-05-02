@@ -99,6 +99,7 @@
     <Folder Include="Content\Scripts\" />
     <Folder Include="Lib\Base\" />
     <Folder Include="Lib\Function\" />
+    <Folder Include="EmailTemplate\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -282,6 +283,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
@@ -302,8 +304,8 @@
     <Resource Include="Content\Images\36687-5-bell-transparent-image.png" />
     <Resource Include="Content\Images\bell.png" />
     <Resource Include="Content\Images\bio_logo.png" />
+    <ProjectReference Include="..\Library\VCheck.Helper\VCheck.Helper.csproj" />
     <ProjectReference Include="..\Library\VCheck.Lib.Data\VCheck.Lib.Data.csproj" />
-    <ProjectReference Include="..\Library\VCheck.Lib.Logic\VCheck.Lib.Logic.csproj" />
   </ItemGroup>
 
   <ItemGroup>
