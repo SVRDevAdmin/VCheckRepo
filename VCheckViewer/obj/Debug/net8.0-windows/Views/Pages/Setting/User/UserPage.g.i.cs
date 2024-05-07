@@ -82,7 +82,7 @@ namespace VCheckViewer.Views.Pages {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/VCheckViewer;V1.0.0.0;component/views/pages/setting/user/userpage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/VCheckViewer;component/views/pages/setting/user/userpage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\..\Views\Pages\Setting\User\UserPage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
