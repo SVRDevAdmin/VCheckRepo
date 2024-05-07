@@ -47,7 +47,15 @@ namespace VCheckViewer.Views.Pages {
     public partial class UserPage : System.Windows.Controls.Page, System.Windows.Markup.IComponentConnector, System.Windows.Markup.IStyleConnector {
         
         
-        #line 89 "..\..\..\..\..\..\..\Views\Pages\Setting\User\UserPage.xaml"
+        #line 81 "..\..\..\..\..\..\..\Views\Pages\Setting\User\UserPage.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Button btnDevice;
+        
+        #line default
+        #line hidden
+        
+        
+        #line 93 "..\..\..\..\..\..\..\Views\Pages\Setting\User\UserPage.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.DataGrid dataGrid;
         
@@ -93,6 +101,10 @@ namespace VCheckViewer.Views.Pages {
             switch (connectionId)
             {
             case 1:
+            this.btnDevice = ((System.Windows.Controls.Button)(target));
+            
+            #line 81 "..\..\..\..\..\..\..\Views\Pages\Setting\User\UserPage.xaml"
+            this.btnDevice.Click += new System.Windows.RoutedEventHandler(this.btnDevice_Click);
             
             #line 70 "..\..\..\..\..\..\..\Views\Pages\Setting\User\UserPage.xaml"
             ((System.Windows.Controls.Button)(target)).Click += new System.Windows.RoutedEventHandler(this.LanguageCountry);

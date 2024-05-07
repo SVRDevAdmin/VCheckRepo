@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <Compile Remove="Lib\Base\ApplicationDBContext.cs" />
-    <Compile Remove="Lib\Function\ConfigSettings.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,6 +60,7 @@
     <None Remove="Content\Images\side_view_of_furry.png" />
     <None Remove="Content\Fonts\Orbitron-Medium.ttf" />
     <None Remove="Content\Fonts\Roboto-Light.ttf" />
+    <None Remove="Storage\Device\Img_F200.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -102,7 +102,7 @@
     <Folder Include="Content\Style\" />
     <Folder Include="Content\Scripts\" />
     <Folder Include="Lib\Base\" />
-    <Folder Include="Lib\Function\" />
+    <Folder Include="EmailTemplate\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -310,8 +310,8 @@
     <Resource Include="Content\Images\36687-5-bell-transparent-image.png" />
     <Resource Include="Content\Images\bell.png" />
     <Resource Include="Content\Images\bio_logo.png" />
+    <ProjectReference Include="..\Library\VCheck.Helper\VCheck.Helper.csproj" />
     <ProjectReference Include="..\Library\VCheck.Lib.Data\VCheck.Lib.Data.csproj" />
-    <ProjectReference Include="..\Library\VCheck.Lib.Logic\VCheck.Lib.Logic.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -362,6 +362,7 @@
     <Resource Include="Content\Fonts\Roboto-Light.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Storage\Device\Img_F200.png" />
   </ItemGroup>
 
   <ItemGroup>

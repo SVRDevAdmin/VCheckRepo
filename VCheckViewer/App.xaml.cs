@@ -13,7 +13,6 @@ using VCheckViewer.ViewModels.Windows;
 using VCheckViewer.Services;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore;
-//using VCheckViewer.Lib.Base;
 using Microsoft.AspNetCore.Hosting.Internal;
 using VCheck.Lib.Data.DBContext;
 using Microsoft.AspNetCore.Identity;
@@ -92,6 +91,7 @@ namespace VCheckViewer
                 services.Add(new ServiceDescriptor(typeof(ConfigurationDBContext), new ConfigurationDBContext(context.Configuration)));
                 services.Add(new ServiceDescriptor(typeof(TemplateDBContext), new TemplateDBContext(context.Configuration)));
                 services.Add(new ServiceDescriptor(typeof(NotificationDBContext), new NotificationDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(DeviceDBContext), new DeviceDBContext(context.Configuration)));
 
                 services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(context.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 21))));
 

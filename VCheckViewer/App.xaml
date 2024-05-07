@@ -69,12 +69,40 @@
                 </Setter>
             </Style>
 
-            <Style TargetType="Button" x:Key="RoundButton">
-                <Style.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="18" />
-                    </Style>
-                </Style.Resources>
+            <Style x:Key="RoundButton" TargetType="Button">
+                <Setter Property="SnapsToDevicePixels" Value="False" />
+                <Setter Property="OverridesDefaultStyle" Value="False" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="AllowDrop" Value="False" />
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Name="Border"
+                                    CornerRadius="18"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Height="40"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center">
+                                <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="Border" Property="BorderBrush" Value="#D5D8DC" />
+                                    <Setter TargetName="Border" Property="Background" Value="#D5D8DC" />
+                                    <Setter Property="Foreground" Value="#F4F6F7" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <Style x:Key="BackButton" TargetType="{x:Type Button}">
@@ -88,12 +116,49 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Source="../../../../Content/Images/group_10.png" Grid.Column="0" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Back to User Listing" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="lbBack" Text="Back to User Listing" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                 </Grid>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="AllowDrop" Value="true"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                            <Border 
+                              Name="Border"
+                              CornerRadius="20" 
+                              Padding="10"
+                              Background="#FFFFFF"
+                              BorderBrush="#888888"
+                              BorderThickness="0">
+                                <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="Border" Property="Background" Value="#EEEEEE"/>
+                                    <Setter TargetName="Border" Property="BorderBrush" Value="#EEEEEE"/>
+                                    <Setter Property="Foreground" Value="#888888"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type DatePicker}">
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="OverridesDefaultStyle" Value="False"/>
+                <Setter Property="AllowDrop" Value="true"/>
+                <Setter Property="Height" Value="35" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Margin" Value="10" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

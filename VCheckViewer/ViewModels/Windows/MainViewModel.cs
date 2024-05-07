@@ -98,5 +98,16 @@ namespace VCheckViewer.ViewModels.Windows
             get { return _SelectedcbStatus; }
             set { _SelectedcbStatus = value; }
         }
+
+        DeviceModel _deviceModel;
+        public DeviceModel DeviceModel
+        {
+            get { 
+                return _deviceModel; 
+            }
+            set { 
+                _deviceModel = value; 
+            }
+        }
     }
 }

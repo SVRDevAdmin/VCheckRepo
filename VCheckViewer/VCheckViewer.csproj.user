@@ -30,6 +30,9 @@
     <Compile Update="Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Pages\Setting\Device\DevicePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Pages\Setting\User\AddUserPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -92,6 +95,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\Setting\Device\DevicePage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Setting\User\AddUserPage.xaml">

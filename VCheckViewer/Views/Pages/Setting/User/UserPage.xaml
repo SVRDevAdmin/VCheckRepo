@@ -12,6 +12,12 @@
         <Style x:Key="DataGridVerticalText" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Noto Sans" />
+        </Style>
+        <Style x:Key="DataGridVerticalTextCenterAligned" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="FontFamily" Value="Noto Sans" />
             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
         </Style>
 
@@ -73,13 +79,12 @@
                     <Button Content="PMS/LIS/HIS" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
                 </Border>
                 <Border Grid.Column="3" Margin="2">
-                    <Button Content="Device" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
+                    <Button Name="btnDevice" Content="Device" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
                 </Border>
             </Grid>
         </Border>
 
         <Button Content="Create User" VerticalAlignment="Top" Click="AddUserList_Click" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" Height="45" Background="PeachPuff" Style="{DynamicResource RoundButton}" Margin="5,0,20,0" BorderBrush="White"></Button>
-        
         <Border Grid.Row="1" Grid.ColumnSpan="4" Margin="0,20,0,0">
             <Grid>
                 <Grid.RowDefinitions>
@@ -89,7 +94,7 @@
                 <DataGrid Name = "dataGrid" IsReadOnly="True" AutoGenerateColumns = "False" Margin="10" Grid.Row="0"  GridLinesVisibility="Horizontal" BorderThickness="0"  RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header = "No" Binding = "{Binding No}" Width="auto" ElementStyle="{StaticResource DataGridVerticalText}"/>
-                        <DataGridTextColumn Header = "Staff Name" Binding = "{Binding StaffName}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" FontWeight="Bold"/>
+                        <DataGridTextColumn Header = "Staff Name" Binding = "{Binding StaffName}" Width="*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned }" FontWeight="Bold" />
                         <DataGridTextColumn Header = "Staff ID" Binding = "{Binding EmployeeID}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
                         <DataGridTextColumn Header = "Doctor's Registration No." Binding = "{Binding RegistrationNo}" Width="1.3*" ElementStyle="{StaticResource DataGridVerticalText}"/>
                         <DataGridTextColumn Header = "Gender" Binding = "{Binding Gender}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>

@@ -14,5 +14,7 @@
 
         <Button x:Name="btnZh" Click="btnZh_Click" Margin="0, 0, 20, 0">Chinese</Button>
         <Button x:Name="btnEn" Click="btnEn_Click" Margin="100, 0, 0, 0">English</Button>
+
+        <Button x:Name="btnSendEmail" Click="btnSendEmail_Click" Margin="190, 0, 0, 0">Send Email</Button>
     </Grid>
 </Page>
