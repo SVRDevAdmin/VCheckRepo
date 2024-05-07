@@ -1,4 +1,4 @@
-﻿C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+﻿
 FC:\Dev\VCheck\VCheckViewer\App.xaml;;
 FC:\Dev\VCheck\VCheckViewer\ResourceDictionary.xaml;;
 FC:\Dev\VCheck\VCheckViewer\Views\Pages\Dashboard\DashboardPage.xaml;;
@@ -11,4 +11,5 @@ FC:\Dev\VCheck\VCheckViewer\Views\Pages\Test\LocalizationTestPage.xaml;;
 FC:\Dev\VCheck\VCheckViewer\Views\Windows\Login.xaml;;
 FC:\Dev\VCheck\VCheckViewer\Views\Windows\Main.xaml;;
 FC:\Dev\VCheck\VCheckViewer\Views\Windows\Main2.xaml;;
+FC:\Dev\VCheck\VCheckViewer\Views\Pages\Setting\Interface\ConfigurationPage.xaml;;
 

@@ -38,6 +38,7 @@ using System.ComponentModel;
 using System.Xml;
 using Brushes = System.Windows.Media.Brushes;
 using VCheckViewer.Views.Pages.Setting.Device;
+using VCheckViewer.Views.Pages.Setting.Interface;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -399,8 +400,13 @@ namespace VCheckViewer.Views.Windows
             //frameContent.Content = new DashboardPage();
             //frameContent.Content = new LocalizationTestPage();
             //PageTitle.Text = "Results";
-            frameContent.Content = new DevicePage();
-            PageTitle.Text = "Device";
+
+
+            //frameContent.Content = new DevicePage();
+            //PageTitle.Text = "Device";
+            frameContent.Content = new ConfigurationPage();
+            PageTitle.Text = "Settings";
+
         }
 
         private void mnNotifications_Click(object sender, RoutedEventArgs e)

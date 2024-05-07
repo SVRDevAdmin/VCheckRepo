@@ -144,6 +144,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            
             <Style TargetType="{x:Type DatePicker}">
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="OverridesDefaultStyle" Value="False"/>

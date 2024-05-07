@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Dev\VCheck\VCheckViewer\App.xaml
-12-1346129681
+13-845791905
 71904573285
-22-681520465
+23852495704
 266201302627
-ResourceDictionary.xaml;Template\Templates.xaml;Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Setting\Device\DevicePage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Pages\Setting\User\ViewUserPage.xaml;Views\Pages\Test\LocalizationTestPage.xaml;Views\Windows\Login.xaml;Views\Windows\Main.xaml;Views\Windows\Main2.xaml;
+ResourceDictionary.xaml;Template\Templates.xaml;Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Setting\Device\DevicePage.xaml;Views\Pages\Setting\Interface\ConfigurationPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Pages\Setting\User\ViewUserPage.xaml;Views\Pages\Test\LocalizationTestPage.xaml;Views\Windows\Login.xaml;Views\Windows\Main.xaml;Views\Windows\Main2.xaml;
 
 False
 
