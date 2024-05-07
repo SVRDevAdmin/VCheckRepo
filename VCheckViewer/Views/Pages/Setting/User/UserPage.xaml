@@ -12,6 +12,7 @@
         <Style x:Key="DataGridVerticalText" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
         </Style>
 
         <!-- DataGridColumnHeader style -->

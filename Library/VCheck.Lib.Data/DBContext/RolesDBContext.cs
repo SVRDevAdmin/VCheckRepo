@@ -34,7 +34,7 @@ namespace VCheck.Lib.Data.DBContext
             using (MySqlConnection conn = this.Connection)
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from Mst_Roles", conn);
+                MySqlCommand cmd = new MySqlCommand("Select * from Mst_Roles where IsActive = 1", conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -44,7 +44,6 @@ namespace VCheck.Lib.Data.DBContext
                         {
                             RoleID = reader["RoleID"].ToString(),
                             RoleName = reader["RoleName"].ToString(),
-                            IsActive = Convert.ToBoolean(reader["IsActive"]),
                             IsSuperadmin = Convert.ToBoolean(reader["IsSuperadmin"]),
                             IsAdmin = Convert.ToBoolean(reader["IsAdmin"])
                         });

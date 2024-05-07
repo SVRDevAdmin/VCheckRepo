@@ -9,6 +9,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="UserControls\DateRangePicker.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Pages\Login\LoginPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -19,6 +22,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Pages\Login\ResetPasswordPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Pages\Notification\NotificationPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml.cs">
@@ -53,10 +59,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.zh-Hans.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.zh-Hant.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="ResourceDictionary.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Template\Templates.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\DateRangePicker.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Login\LoginPage.xaml">
@@ -69,6 +86,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Login\ResetPasswordPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\Notification\NotificationPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml">

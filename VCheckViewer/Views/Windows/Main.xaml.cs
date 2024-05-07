@@ -38,6 +38,10 @@ using VCheckViewer.Views.Pages.Login;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using VCheckViewer.Views.Pages.Setting.LanguageCountry;
+using VCheckViewer.Views.Pages.Test;
+using VCheckViewer.Lib.Culture;
+using System.Globalization;
+using VCheckViewer.Views.Pages.Notification;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -53,11 +57,11 @@ namespace VCheckViewer.Views.Windows
         static MasterCodeDataDBContext sContext = App.GetService<MasterCodeDataDBContext>();
         static RolesDBContext rolesContext = App.GetService<RolesDBContext>();
         static UserDBContext usersContext = App.GetService<UserDBContext>();
+        ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
+        TemplateDBContext TemplateContext = App.GetService<TemplateDBContext>();
+        NotificationDBContext NotificationContext = App.GetService<NotificationDBContext>();
 
-        List<MasterCodeDataModel> masterCodeDataList = sContext.GetMasterCodeData();
-        List<RolesModel> roleList = rolesContext.GetRoles();
-
-        public static event EventHandler DeleteRow;
+        public static event EventHandler InitializedUserPage;
 
         public Main
         (
@@ -81,12 +85,15 @@ namespace VCheckViewer.Views.Windows
             ViewUserPage.GoToUpdateCurrentUserPage += new EventHandler(GoToUpdateUserPage);
             UserPage.GoToLanguageCountryPage += new EventHandler(GoToLanguageCountryPage);
 
+            App.GoToSettingUserPage += new EventHandler(SettingUserPage);
+            App.GoToSettingLanguageCountryPage += new EventHandler(GoToLanguageCountryPage);
+
             //popup
             App.Popup += new EventHandler(Popup);
 
             App.GoPreviousPage += new EventHandler(PreviousPage);
 
-            PageTitle.Text = "Dashboard";
+            //PageTitle.Text = "Dashboard";
 
             initializedDropdownSelectionList();
 
@@ -142,7 +149,7 @@ namespace VCheckViewer.Views.Windows
         {
             frameContent.Content = new ResetCurrentUserPasswordPage();
 
-            PageTitle.Text = "Reset Password";
+            //PageTitle.Text = "Reset Password";
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -201,15 +208,28 @@ namespace VCheckViewer.Views.Windows
             frameContent.Content = new LanguageCountryPage();
         }
 
+        void SettingUserPage(object sender, EventArgs e)
+        {
+            //Navigate(typeof(ViewUserPage));
+            frameContent.Content = new UserPage();
+        }
+
         void Popup(object sender, EventArgs e)
         {
             if (App.MainViewModel.Origin == "UserDeleteRow") { PopupContent.Text = "Are you sure you want to delete this user profile?"; }
             if (App.MainViewModel.Origin == "UserAddRow") { PopupContent.Text = "Are you sure you want to create this user profile?"; }
             if (App.MainViewModel.Origin == "UserUpdateRow") { PopupContent.Text = "Are you sure you want to update this user profile?"; }
+            if (App.MainViewModel.Origin == "ChangeLanguageCountry") 
+            {
+                System.Windows.Data.Binding b = new System.Windows.Data.Binding("Popup_Message_LanguageCountryChange");
+                b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+                PopupContent.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+                //PopupContent.Text = "Are you sure you want to save this setting?"; 
+            }
             if (App.MainViewModel.Origin == "Logout") { PopupContent.Text = "Are you sure you want to logout?"; }
 
 
-            PopupBackground.Background = Brushes.DimGray;
+            PopupBackground.Background = System.Windows.Media.Brushes.DimGray;
             PopupBackground.Opacity = 0.5;
             popup.IsOpen = true;
         }
@@ -223,13 +243,18 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "UserDeleteRow") { DeleteUserRowHandler(e, sender); }
             if (App.MainViewModel.Origin == "UserAddRow") { AddUserRowHandler(e, sender); }
             if (App.MainViewModel.Origin == "UserUpdateRow") { UpdateUserRowHandler(e, sender); }
+            if (App.MainViewModel.Origin == "ChangeLanguageCountry") { ChangeLanguageCountryHandler(e, sender); }
             if (App.MainViewModel.Origin == "Logout")
             {
-                //Login login = new Login(_navigationService, _pageService);
-                LoginWindow login = new LoginWindow();
-                login.LoginFrame.Content = new LoginPage();
+                if (!System.Windows.Application.Current.Windows.OfType<LoginWindow>().Any())
+                {
+                    //Login login = new Login(_navigationService, _pageService);
+                    LoginWindow login = new LoginWindow();
+                    login.LoginFrame.Content = new LoginPage();
+                    login.Show();
+                }
+
                 Close();
-                login.Show();
             }
         }
 
@@ -261,7 +286,7 @@ namespace VCheckViewer.Views.Windows
             //Navigate(typeof(DashboardPage));
             frameContent.Content = new DashboardPage();
 
-            PageTitle.Text = "Dashboard";
+            //PageTitle.Text = "Dashboard";
         }
 
         private void MainUserPage()
@@ -269,7 +294,7 @@ namespace VCheckViewer.Views.Windows
             //Navigate(typeof(UserPage));
             frameContent.Content = new UserPage();
 
-            PageTitle.Text = "Setting";
+            //PageTitle.Text = "Setting";
         }
 
         private void isActive(NavigationViewItem navigationItem)
@@ -285,11 +310,11 @@ namespace VCheckViewer.Views.Windows
         }
 
         public void initializedDropdownSelectionList()
-        {
-            var titleList = masterCodeDataList.Where(a => a.CodeGroup == "Title");
-            var genderList = masterCodeDataList.Where(a => a.CodeGroup == "Gender");
-            var rolesList = roleList.Where(a => a.IsActive);
-            var statusList = masterCodeDataList.Where(a => a.CodeGroup == "UserStatus");
+        {            
+            var titleList = sContext.GetMasterCodeData("Title");
+            var genderList = sContext.GetMasterCodeData("Gender");
+            var rolesList = rolesContext.GetRoles();
+            var statusList = sContext.GetMasterCodeData("UserStatus");
 
             App.MainViewModel.cbTitle = new ObservableCollection<ComboBoxItem>();
             App.MainViewModel.cbGender = new ObservableCollection<ComboBoxItem>();
@@ -323,13 +348,17 @@ namespace VCheckViewer.Views.Windows
 
         }
 
-        private static void DeleteUserRowHandler(EventArgs e, object sender)
+        private async static void DeleteUserRowHandler(EventArgs e, object sender)
         {
-            usersContext.DeleteUser(App.MainViewModel.Users.UserId);
+            usersContext.DeleteUser(App.MainViewModel.Users.UserId);       
+            
+            var user = await App.UserManager.FindByIdAsync(App.MainViewModel.Users.UserId);
 
-            if (DeleteRow != null)
+            await App.UserManager.DeleteAsync(user);
+
+            if (InitializedUserPage != null)
             {
-                DeleteRow(sender, e);
+                InitializedUserPage(sender, e);
             }
         }
 
@@ -352,7 +381,14 @@ namespace VCheckViewer.Views.Windows
 
                 var roleResult = await App.UserManager.AddToRoleAsync(user, App.MainViewModel.Users.Role);
 
-                if (roleResult.Succeeded) { PreviousPage(sender, e); }                
+                if (roleResult.Succeeded) 
+                {
+                    if (InitializedUserPage != null)
+                    {
+                        InitializedUserPage(sender, e);
+                    }
+                    PreviousPage(sender, e); 
+                }                
             }
         }
 
@@ -371,34 +407,73 @@ namespace VCheckViewer.Views.Windows
             PreviousPage(sender, e);
         }
 
+
+        private void ChangeLanguageCountryHandler(EventArgs e, object sender)
+        {
+            System.Globalization.CultureInfo sZHCulture = new System.Globalization.CultureInfo(App.MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault().ConfigurationValueTemp);
+
+            CultureResources.ChangeCulture(sZHCulture);
+
+            ConfigurationContext.UpdateConfiguration("SystemSettings_Country", App.MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Country").FirstOrDefault().ConfigurationValueTemp);
+            ConfigurationContext.UpdateConfiguration("SystemSettings_Language", App.MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault().ConfigurationValueTemp);
+
+            var currentCountry = App.MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Country").FirstOrDefault();
+            var currentLanguage = App.MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault();
+
+            currentCountry.ConfigurationValue = currentCountry.ConfigurationValueTemp;
+            currentLanguage.ConfigurationValue = currentLanguage.ConfigurationValueTemp;
+
+            var notificationTemplate = TemplateContext.GetTemplateByCode("LC01");
+            notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'","''");
+
+            NotificationModel notification = new NotificationModel()
+            {
+                NotificationType = "Updates",
+                NotificationTitle = notificationTemplate.TemplateTitle,
+                NotificationContent = notificationTemplate.TemplateContent,
+                CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                CreatedBy = App.MainViewModel.CurrentUsers.StaffName
+            };
+
+            NotificationContext.InsertNotification(notification);
+
+            PreviousPage(sender, e);
+        }
+
         private void mnDashboard_Click(object sender, RoutedEventArgs e)
         {
             frameContent.Content = new DashboardPage();
-            PageTitle.Text = "Dashboard";
+            //PageTitle.Text = "Dashboard";
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
         }
 
         private void mnSchedule_Click(object sender, RoutedEventArgs e)
         {
             frameContent.Content = new DashboardPage();
-            PageTitle.Text = "Schedule";
+            //PageTitle.Text = "Schedule";
         }
 
         private void mnResults_Click(object sender, RoutedEventArgs e)
         {
-            frameContent.Content = new DashboardPage();
-            PageTitle.Text = "Results";
+            frameContent.Content = new LocalizationTestPage();
+            //PageTitle.Text = "Results";
         }
 
         private void mnNotifications_Click(object sender, RoutedEventArgs e)
         {
-            frameContent.Content = new DashboardPage();
-            PageTitle.Text = "Notification";
+            frameContent.Content = new NotificationPage();
+            //PageTitle.Text = "Notification";
         }
 
         private void mnSettings_Click(object sender, RoutedEventArgs e)
         {
             frameContent.Content = new UserPage();
-            PageTitle.Text = "Settings";
+            //PageTitle.Text = "Settings";
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Setting_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
         }
 
 

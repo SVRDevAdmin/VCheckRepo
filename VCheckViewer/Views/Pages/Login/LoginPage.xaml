@@ -27,8 +27,8 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Image Source="../../../Content/Images/Login Photo.png" Grid.Row="0" VerticalAlignment="Top"/>
-                <TextBlock Text="Get accurate results swiftly." Grid.Row="1" TextAlignment="Center" FontWeight="Medium" FontSize="40" Width="300" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                <TextBlock Text="Please login to access your account" Grid.Row="2" TextAlignment="Center" FontWeight="Medium" FontSize="25"/>
+                <TextBlock Text="{Binding Path=Login_Label_LeftMain, Source={StaticResource Resources}}" Grid.Row="1" TextAlignment="Center" FontWeight="Medium" FontSize="40" Width="300" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <TextBlock Text="{Binding Path=Login_Label_LeftSub, Source={StaticResource Resources}}" Grid.Row="2" TextAlignment="Center" FontWeight="Medium" FontSize="25" TextWrapping="Wrap"/>
             </Grid>
         </Border>
         <Border Grid.Row="1" Padding="50,0,50,20" Grid.Column="1">
@@ -39,7 +39,7 @@
                 </Grid.RowDefinitions>
                 <Border BorderThickness="1" BorderBrush="White" Background="PeachPuff" CornerRadius="20" Grid.Row="1" Padding="0,60,0,0">
                     <StackPanel HorizontalAlignment="Center" Width="350">
-                        <TextBlock Text="Login" TextAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,0,0,30"/>
+                        <TextBlock Text="{Binding Path=Login_Title_PageTitle, Source={StaticResource Resources}}" TextAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,0,0,30"/>
                         <TextBlock x:Name="ErrorText" Foreground="Red" Text="Wrong Password" TextAlignment="Center" Visibility="Hidden" TextWrapping="Wrap"/>
                         <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black" Margin="0,30,0,10">
                             <Grid>
@@ -48,7 +48,7 @@
 
 
                                 <TextBox x:Name="Username" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black"/>
-                                <TextBlock IsHitTestVisible="False" Text="Staff ID" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                                <TextBlock IsHitTestVisible="False" Text="{Binding Path=Login_Label_MainUsername, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
                                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -69,7 +69,7 @@
 
 
                                 <PasswordBox x:Name="Password" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" PasswordChanged="PasswordPlaceholderHandler"/>
-                                <TextBlock x:Name="PasswordPlaceholder" IsHitTestVisible="False" Text="Password" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                                <TextBlock x:Name="PasswordPlaceholder" IsHitTestVisible="False" Text="{Binding Path=Login_Label_MainPassword, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
                                             <Setter Property="Visibility" Value="Visible"/>
@@ -78,8 +78,8 @@
                                 </TextBlock>
                             </Grid>
                         </Border>
-                        <Button Content="Login" Style="{DynamicResource RoundButton}" Background="DarkOrange" Foreground="White" HorizontalAlignment="Stretch" Height="40" Margin="0,20,0,15" Click="LoginButton_Click"/>
-                        <Button Content="Forget Password?" Foreground="Black" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Click="ResetPassword"/>
+                        <Button Content="{Binding Path=Login_Label_LoginButton, Source={StaticResource Resources}}" Style="{DynamicResource RoundButton}" Background="DarkOrange" Foreground="White" HorizontalAlignment="Stretch" Height="40" Margin="0,20,0,15" Click="LoginButton_Click"/>
+                        <Button Content="{Binding Path=Login_Label_ForgetPassword, Source={StaticResource Resources}}" Foreground="Black" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Click="ResetPassword"/>
                     </StackPanel>
                 </Border>
 

@@ -35,19 +35,11 @@ namespace VCheckViewer.ViewModels.Windows
             set { _user = value; }
         }
 
-        List<MasterCodeDataModel> _masterCodeDataModel;
-        public List<MasterCodeDataModel> MasterCodeDataModel
+        List<ConfigurationModel> _configurationModel;
+        public List<ConfigurationModel> ConfigurationModel
         {
-            get { return _masterCodeDataModel; }
-            set { _masterCodeDataModel = value; }
-        }
-
-        List<RolesModel> _rolesModel;
-
-        public List<RolesModel> RolesModels
-        {
-            get { return _rolesModel; }
-            set { _rolesModel = value; }
+            get { return _configurationModel; }
+            set { _configurationModel = value; }
         }
 
 
@@ -105,24 +97,6 @@ namespace VCheckViewer.ViewModels.Windows
         {
             get { return _SelectedcbStatus; }
             set { _SelectedcbStatus = value; }
-        }
-    }
-
-    public class ValidateUserModel
-    {
-        string _email;
-
-        string Email
-        {
-            get { return _email; }
-            set
-            {
-                _email = value;
-                if (!_email.Contains("@"))
-                {
-                    throw new Exception("Incorrect email format. Must have @.");
-                }
-            }
         }
     }
 }

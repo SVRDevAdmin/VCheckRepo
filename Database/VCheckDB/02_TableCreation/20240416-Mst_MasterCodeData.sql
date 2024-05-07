@@ -1,16 +1,19 @@
-CREATE TABLE `vcheckdb`.`mst_mastercodedata` (
-  `ID` INT NOT NULL AUTO_INCREMENT,
-  `CodeGroup` VARCHAR(20) NOT NULL,
-  `CodeID` VARCHAR(20) NOT NULL,
-  `CodeName` VARCHAR(20) NOT NULL,
-  `Description` VARCHAR(100) NOT NULL,
-  `IsActive` BIT(1) NOT NULL,
-  `SeqOrder` INT NOT NULL,
-  `CreatedDate` DATETIME(2) NULL,
-  `CreatedBy` VARCHAR(100) NULL,
-  `UpdatedDate` DATETIME(2) NULL,
-  `updatedBy` VARCHAR(100) NULL,
-  PRIMARY KEY (`ID`));
+use vcheckdb;
+
+CREATE TABLE `mst_mastercodedata` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `CodeGroup` varchar(20) NOT NULL,
+  `CodeID` varchar(20) NOT NULL,
+  `CodeName` varchar(20) NOT NULL,
+  `Description` varchar(100) NOT NULL,
+  `IsActive` bit(1) NOT NULL,
+  `SeqOrder` int NOT NULL,
+  `CreatedDate` datetime(2) DEFAULT NULL,
+  `CreatedBy` varchar(100) DEFAULT NULL,
+  `UpdatedDate` datetime(2) DEFAULT NULL,
+  `updatedBy` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
   
   
 Insert into `vcheckdb`.`mst_mastercodedata` (CodeGroup, CodeID, CodeName, Description, IsActive, SeqOrder)
@@ -22,4 +25,17 @@ Values
 ('Title', 'Ms.', 'Miss', 'Title of user', 1, 3),
 ('Title', 'Dr.', 'Doctor', 'Title of user', 1, 4),
 ('Gender', 'M', 'Male', 'Gender of user', 1, 1),
-('Gender', 'F', 'Female', 'Gender of user', 1, 2)
+('Gender', 'F', 'Female', 'Gender of user', 1, 2),
+('LanguageSelection', 'zh-Hans', 'Chinese, Simplified', '', 1, 1),
+('LanguageSelection', 'es', 'Spanish', '', 1, 2),
+('LanguageSelection', 'en', 'English', '', 1, 3),
+('LanguageSelection', 'vi', 'Vietnamese', '', 1, 4),
+('LanguageSelection', 'hi', 'Hindi', '', 1, 5),
+('LanguageSelection', 'pt', 'Portugese', '', 1, 6),
+('LanguageSelection', 'ru', 'Russian', '', 1, 7),
+('LanguageSelection', 'ja', 'Japanese', '', 1, 8),
+('LanguageSelection', 'de', 'German', '', 1, 9),
+('LanguageSelection', 'zh-Hant', 'Chinese, Traditional', '', 1, 10),
+('LanguageSelection', 'id', 'Indonesia', '', 1, 11),
+('LanguageSelection', 'ko', 'Korean', '', 1, 12),
+('LanguageSelection', 'fr', 'French', '', 1, 13)

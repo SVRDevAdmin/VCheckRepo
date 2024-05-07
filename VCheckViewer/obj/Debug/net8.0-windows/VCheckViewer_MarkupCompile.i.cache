@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\App.xaml
-14-1920030769
+18357749613
 71904573285
-23134634455
-28211765369
-Template\Templates.xaml;Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Login\LoginPage.xaml;Views\Pages\Login\PasswordRecoveryPage.xaml;Views\Pages\Login\ResetCurrentUserPasswordPage.xaml;Views\Pages\Login\ResetPasswordPage.xaml;Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Pages\Setting\User\ViewUserPage.xaml;Views\Windows\LoginWindow.xaml;Views\Windows\Main.xaml;Views\Windows\Main2.xaml;
+28729284366
+2941380228522
+ResourceDictionary.xaml;Template\Templates.xaml;UserControls\DateRangePicker.xaml;Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Login\LoginPage.xaml;Views\Pages\Login\PasswordRecoveryPage.xaml;Views\Pages\Login\ResetCurrentUserPasswordPage.xaml;Views\Pages\Login\ResetPasswordPage.xaml;Views\Pages\Notification\NotificationPage.xaml;Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Pages\Setting\User\ViewUserPage.xaml;Views\Pages\Test\LocalizationTestPage.xaml;Views\Windows\LoginWindow.xaml;Views\Windows\Main.xaml;Views\Windows\Main2.xaml;
 
 True
 

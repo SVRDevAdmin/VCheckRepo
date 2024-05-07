@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,8 +34,6 @@ namespace VCheckViewer.Views.Windows
         INavigationService _navigationService;
         IPageService _pageService;
         int maxLoginAttempt = 5;
-
-        static UserLoginDBContext sContext = App.GetService<UserLoginDBContext>();
 
 
         public static event EventHandler ResetPassword;
@@ -81,10 +80,13 @@ namespace VCheckViewer.Views.Windows
 
         public void GoToMainWindow(object sender, EventArgs e)
         {
-            Main main = new Main();
+            if (!System.Windows.Application.Current.Windows.OfType<Main>().Any())
+            {
+                Main main = new Main();
+                main.frameContent.Content = new DashboardPage();
+                main.Show();
+            }
             Close();
-            main.Show();
-            main.frameContent.Content = new DashboardPage();
         }
 
         public void OpenPopup(object sender, EventArgs e)
@@ -93,7 +95,7 @@ namespace VCheckViewer.Views.Windows
             ContinueButton.Visibility = Visibility.Visible;
             CancelButton.Visibility = Visibility.Visible;
 
-            PopupBackground.Background = Brushes.DimGray;
+            PopupBackground.Background = System.Windows.Media.Brushes.DimGray;
             PopupBackground.Opacity = 0.5;
             PopupContent.Text = "Are you sure you want to recover your password?";
             popup.IsOpen = true;

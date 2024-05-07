@@ -50,14 +50,13 @@ namespace VCheckViewer.Views.Pages
         {
             InitializeComponent();
 
-            Main.DeleteRow += new EventHandler(DeleteRow);
-            initializedPage();
+            Main.InitializedUserPage += new EventHandler(initializedPage);
+            initializedPage(null,null);
         }
 
-        public void initializedPage()
+        public void initializedPage(object sender, EventArgs e)
         {
             dataGrid.ItemsSource = GetUserList(0, pageSize);
-
 
             totalUser = sContext.GetTotalUser();
             int totalpage = totalUser / pageSize;
@@ -67,7 +66,9 @@ namespace VCheckViewer.Views.Pages
             if (totalpage > paginationSize) { totalpage = paginationSize; }
 
             endPagination = totalpage;
+            startPagination = 1;
 
+            paginationPanel.Children.Clear();
             createPagination(startPagination);
         }
 
@@ -165,7 +166,6 @@ namespace VCheckViewer.Views.Pages
         {
             System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
             int childrenCount = VisualTreeHelper.GetChildrenCount(btn.Parent);
-            bool exist = false;
 
             var nextpage = currentPage + 1;
 
@@ -325,24 +325,6 @@ namespace VCheckViewer.Views.Pages
             {
                 GoToLanguageCountryPage(sender, e);
             }
-        }
-
-        void DeleteRow(object sender, EventArgs e)
-        {
-            dataGrid.ItemsSource = GetUserList(0, pageSize);
-
-            totalUser = sContext.GetTotalUser();
-            int totalpage = totalUser / pageSize;
-
-            if (totalUser > (pageSize * totalpage)) { totalpage++; }
-
-            if (totalpage > paginationSize) { totalpage = paginationSize; }
-
-            endPagination = totalpage;
-            startPagination = 1;
-
-            paginationPanel.Children.Clear();
-            createPagination(startPagination);
         }
     }
 }

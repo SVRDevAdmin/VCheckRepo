@@ -83,7 +83,7 @@ namespace VCheck.Lib.Data.DBContext
 
         public void UpdateUser(UserModel user)
         {
-            string insertQuery = "UPDATE `vcheckdb`.`mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+"',`FirstName` = '"+user.FirstName+ "',`LastName` = '" + user.LastName + "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = "+user.RoleID+" WHERE `UserID` = " + user.UserId+";";
+            string insertQuery = "UPDATE `vcheckdb`.`mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+"',`FirstName` = '"+user.FirstName+ "',`LastName` = '" + user.LastName + "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = "+user.RoleID+" WHERE `UserID` = '" + user.UserId+"';";
 
             using (MySqlConnection conn = this.Connection)
             {
@@ -96,7 +96,7 @@ namespace VCheck.Lib.Data.DBContext
 
         public void DeleteUser(string userID)
         {
-            string insertQuery = "DELETE FROM `vcheckdb`.`mst_user` WHERE UserID = "+userID;
+            string insertQuery = "DELETE FROM `vcheckdb`.`mst_user` WHERE UserID = '"+userID+"';";
 
             using (MySqlConnection conn = this.Connection)
             {

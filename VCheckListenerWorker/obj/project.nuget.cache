@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "YBmOIW/TsKFOcdI/ydrKLJHAUjb+GdtmTk16nmBtnZTv8zsWukYsSqJAJHHapEU415V1UqWHerf37ntdFU2cvA==",
+  "dgSpecHash": "XfsLvoCcuaSLuB2WUrcGQAOOtTkC2LuNhv5t+syHc2JPlG856Thx1xYYHGO7y+d+IlGFy2hqHwuTkDNYhl+1kg==",
   "success": true,
   "projectFilePath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckListenerWorker\\VCheckListenerWorker.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\azwan\\.nuget\\packages\\k4os.compression.lz4\\1.3.5\\k4os.compression.lz4.1.3.5.nupkg.sha512",
     "C:\\Users\\azwan\\.nuget\\packages\\k4os.compression.lz4.streams\\1.3.5\\k4os.compression.lz4.streams.1.3.5.nupkg.sha512",
     "C:\\Users\\azwan\\.nuget\\packages\\k4os.hash.xxhash\\1.0.8\\k4os.hash.xxhash.1.0.8.nupkg.sha512",
+    "C:\\Users\\azwan\\.nuget\\packages\\log4net\\2.0.17\\log4net.2.0.17.nupkg.sha512",
     "C:\\Users\\azwan\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\azwan\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.4\\microsoft.entityframeworkcore.8.0.4.nupkg.sha512",
     "C:\\Users\\azwan\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.4\\microsoft.entityframeworkcore.abstractions.8.0.4.nupkg.sha512",

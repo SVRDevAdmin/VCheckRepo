@@ -232,3 +232,5 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\obj\Debug\net8
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\obj\Debug\net8.0\VCheckListenerWorker.pdb
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\obj\Debug\net8.0\VCheckListenerWorker.genruntimeconfig.cache
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\obj\Debug\net8.0\ref\VCheckListenerWorker.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\bin\Debug\net8.0\log4net.config
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\bin\Debug\net8.0\log4net.dll

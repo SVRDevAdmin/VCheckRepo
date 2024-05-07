@@ -1,600 +1,222 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Dev\\VCheck\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\views\\pages\\test\\localizationtestpage.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\test\\localizationtestpage.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|C:\\Dev\\VCheck\\vcheckviewer\\views\\windows\\main.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\windows\\main.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|C:\\Dev\\VCheck\\vcheckviewer\\views\\windows\\login.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\windows\\login.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
-    }
-  ],
   "WorkspaceRootPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\setting\\languagecountry\\languagecountrypage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\languagecountry\\languagecountrypage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\notification\\notificationpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\notification\\notificationpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\windows\\main.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\windows\\main.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\library\\vcheck.lib.data\\dbcontext\\notificationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\dbcontext\\notificationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\setting\\user\\userpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\user\\userpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\vcheckviewer\\views\\pages\\notification\\notificationpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\notification\\notificationpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\setting\\user\\adduserpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\user\\adduserpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\vcheckviewer\\usercontrols\\daterangepicker.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\usercontrols\\daterangepicker.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\setting\\user\\adduserpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\user\\adduserpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\vcheckviewer\\usercontrols\\daterangepicker.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\usercontrols\\daterangepicker.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\setting\\user\\userpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\user\\userpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\login\\resetcurrentuserpasswordpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\login\\resetcurrentuserpasswordpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\login\\passwordrecoverypage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\login\\passwordrecoverypage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\login\\passwordrecoverypage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\login\\passwordrecoverypage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\vcheckviewer\\views\\pages\\login\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\login\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\windows\\main.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\windows\\main.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\setting\\user\\updateuserpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\user\\updateuserpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\windows\\main.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\windows\\main.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\setting\\user\\updateuserpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\user\\updateuserpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\vcheckviewer\\views\\pages\\setting\\user\\userpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\user\\userpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\login\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\login\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\vcheckviewer\\views\\pages\\setting\\user\\userpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\user\\userpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\library\\vcheck.lib.data\\dbcontext\\userdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\library\\vcheck.lib.data\\dbcontext\\userdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\dbcontext\\userdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\services\\applicationhostservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\services\\applicationhostservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\library\\vcheck.lib.data\\models\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\models\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\login\\resetpasswordpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\login\\resetpasswordpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\viewmodels\\windows\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\viewmodels\\windows\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\login\\loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\login\\loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\login\\resetcurrentuserpasswordpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\login\\resetcurrentuserpasswordpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\library\\vcheck.lib.data\\models\\rolesmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\models\\rolesmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\library\\vcheck.lib.data\\dbcontext\\rolesdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\dbcontext\\rolesdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\library\\vcheck.lib.data\\dbcontext\\userlogindbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\dbcontext\\userlogindbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\windows\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\windows\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\windows\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\windows\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\vcheckviewer.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\vcheckviewer.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\login\\resetpasswordpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\login\\resetpasswordpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\views\\pages\\setting\\user\\viewuserpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\user\\viewuserpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewer\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\library\\vcheck.lib.data\\dbcontext\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\dbcontext\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\library\\vcheck.lib.data\\migrations\\20240429045508_vcheckviewer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\migrations\\20240429045508_vcheckviewer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\library\\vcheck.lib.data\\dbcontext\\templatedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\dbcontext\\templatedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
-      "VerticalTabListWidth": 145,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LocalizationTestPage.xaml.cs",
-              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Test\\LocalizationTestPage.xaml.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Test\\LocalizationTestPage.xaml.cs",
-              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Test\\LocalizationTestPage.xaml.cs",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Test\\LocalizationTestPage.xaml.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAABQAAAASAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T08:10:49.037Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Main.xaml.cs",
-              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Windows\\Main.xaml.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Windows\\Main.xaml.cs",
-              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Windows\\Main.xaml.cs",
-              "RelativeToolTip": "VCheckViewer\\Views\\Windows\\Main.xaml.cs",
-              "ViewState": "AQIAADABAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T08:10:37.775Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Login.xaml.cs",
-              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Windows\\Login.xaml.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Windows\\Login.xaml.cs",
-              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Windows\\Login.xaml.cs",
-              "RelativeToolTip": "VCheckViewer\\Views\\Windows\\Login.xaml.cs",
-              "ViewState": "AQIAAD8AAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T08:09:49.675Z"
-            }
-          ]
-        }
-      ]
       "VerticalTabListWidth": 201,
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 8,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "UpdateUserPage.xaml",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\UpdateUserPage.xaml",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\User\\UpdateUserPage.xaml",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\UpdateUserPage.xaml",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\User\\UpdateUserPage.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-04-30T15:24:50.465Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LanguageCountryPage.xaml",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\LanguageCountry\\LanguageCountryPage.xaml",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\LanguageCountry\\LanguageCountryPage.xaml",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\LanguageCountry\\LanguageCountryPage.xaml",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\LanguageCountry\\LanguageCountryPage.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-04-30T15:01:11.178Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UserPage.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml.cs",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml.cs",
-              "ViewState": "AQIAABkBAAAAAAAAAIA0wCQBAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-30T08:53:38.225Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserPage.xaml",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-04-30T08:53:33.46Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "RolesModel.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\Models\\RolesModel.cs",
-              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\Models\\RolesModel.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\Models\\RolesModel.cs",
-              "RelativeToolTip": "Library\\VCheck.Lib.Data\\Models\\RolesModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAqAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-30T05:58:26.981Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "RolesDBContext.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\RolesDBContext.cs",
-              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\DBContext\\RolesDBContext.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\RolesDBContext.cs",
-              "RelativeToolTip": "Library\\VCheck.Lib.Data\\DBContext\\RolesDBContext.cs",
-              "ViewState": "AQIAABwAAAAAAAAAAAAawB0AAAAeAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-30T05:57:49.63Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "UpdateUserPage.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\UpdateUserPage.xaml.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\User\\UpdateUserPage.xaml.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\UpdateUserPage.xaml.cs",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\User\\UpdateUserPage.xaml.cs",
-              "ViewState": "AQIAACQAAAAAAAAAAIA0wCwAAAAfAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-30T05:57:16.896Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "MainViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\ViewModels\\Windows\\MainViewModel.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\ViewModels\\Windows\\MainViewModel.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\ViewModels\\Windows\\MainViewModel.cs",
-              "RelativeToolTip": "VCheckViewer\\ViewModels\\Windows\\MainViewModel.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAuwB8AAAAeAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-30T05:37:17.247Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "UserModel.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\Models\\UserModel.cs",
-              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\Models\\UserModel.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\Models\\UserModel.cs",
-              "RelativeToolTip": "Library\\VCheck.Lib.Data\\Models\\UserModel.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAiwBkAAAAdAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-30T05:35:53.139Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "UserLoginDBContext.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\UserLoginDBContext.cs",
-              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\DBContext\\UserLoginDBContext.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\UserLoginDBContext.cs",
-              "RelativeToolTip": "Library\\VCheck.Lib.Data\\DBContext\\UserLoginDBContext.cs",
-              "ViewState": "AQIAACwAAAAAAAAAAAAmwD0AAABFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-30T05:21:55.218Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "VCheckViewer.csproj",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\VCheckViewer.csproj",
-              "RelativeDocumentMoniker": "VCheckViewer\\VCheckViewer.csproj",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\VCheckViewer.csproj",
-              "RelativeToolTip": "VCheckViewer\\VCheckViewer.csproj",
-              "ViewState": "AQIAAPkAAAAAAAAAAAAAAP8AAAAOAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-04-30T03:05:54.951Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "PasswordRecoveryPage.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\PasswordRecoveryPage.xaml.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Login\\PasswordRecoveryPage.xaml.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\PasswordRecoveryPage.xaml.cs",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Login\\PasswordRecoveryPage.xaml.cs",
-              "ViewState": "AQIAAC8AAAAAAAAAAAAgwDoAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-30T00:17:43.45Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "ResetCurrentUserPasswordPage.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\ResetCurrentUserPasswordPage.xaml.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Login\\ResetCurrentUserPasswordPage.xaml.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\ResetCurrentUserPasswordPage.xaml.cs",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Login\\ResetCurrentUserPasswordPage.xaml.cs",
-              "ViewState": "AQIAABQAAAAAAAAAAAAewCIAAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T15:58:34.434Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AddUserPage.xaml",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\AddUserPage.xaml",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\User\\AddUserPage.xaml",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\AddUserPage.xaml",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\User\\AddUserPage.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-04-29T15:53:01.482Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "ViewUserPage.xaml",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\ViewUserPage.xaml",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\User\\ViewUserPage.xaml",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\ViewUserPage.xaml",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\User\\ViewUserPage.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-04-29T15:50:25.047Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "ResetCurrentUserPasswordPage.xaml",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\ResetCurrentUserPasswordPage.xaml",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Login\\ResetCurrentUserPasswordPage.xaml",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\ResetCurrentUserPasswordPage.xaml",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Login\\ResetCurrentUserPasswordPage.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-04-29T15:49:59.558Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "PasswordRecoveryPage.xaml",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\PasswordRecoveryPage.xaml",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Login\\PasswordRecoveryPage.xaml",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\PasswordRecoveryPage.xaml",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Login\\PasswordRecoveryPage.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-04-29T15:40:22.085Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "LoginPage.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\LoginPage.xaml.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Login\\LoginPage.xaml.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\LoginPage.xaml.cs",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Login\\LoginPage.xaml.cs",
-              "ViewState": "AQIAACYAAAAAAAAAAAAiwCsAAABVAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T14:48:03.066Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "ResetPasswordPage.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\ResetPasswordPage.xaml.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Login\\ResetPasswordPage.xaml.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\ResetPasswordPage.xaml.cs",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Login\\ResetPasswordPage.xaml.cs",
-              "ViewState": "AQIAABkAAAAAAAAAAADwvzEAAACDAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T14:45:27.155Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "LoginPage.xaml",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\LoginPage.xaml",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Login\\LoginPage.xaml",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\LoginPage.xaml",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Login\\LoginPage.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-04-29T14:44:53.93Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "ResetPasswordPage.xaml",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\ResetPasswordPage.xaml",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Login\\ResetPasswordPage.xaml",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\ResetPasswordPage.xaml",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Login\\ResetPasswordPage.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-04-29T14:24:18.35Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AddUserPage.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\AddUserPage.xaml.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\User\\AddUserPage.xaml.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\AddUserPage.xaml.cs",
-              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\User\\AddUserPage.xaml.cs",
-              "ViewState": "AQIAAFEAAAAAAAAAAAAmwFsAAABSAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T07:59:16.198Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "20240429045508_vcheckviewer.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\Migrations\\20240429045508_vcheckviewer.cs",
-              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\Migrations\\20240429045508_vcheckviewer.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\Migrations\\20240429045508_vcheckviewer.cs",
-              "RelativeToolTip": "Library\\VCheck.Lib.Data\\Migrations\\20240429045508_vcheckviewer.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAIBJwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T04:55:08.535Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "ApplicationHostService.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Services\\ApplicationHostService.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\Services\\ApplicationHostService.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Services\\ApplicationHostService.cs",
-              "RelativeToolTip": "VCheckViewer\\Services\\ApplicationHostService.cs",
-              "ViewState": "AQIAADgAAAAAAAAAAAAAAEIAAABcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T04:03:29.147Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\DBContext\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\ApplicationDbContext.cs",
-              "RelativeToolTip": "Library\\VCheck.Lib.Data\\DBContext\\ApplicationDbContext.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAIBJwBoAAABlAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T03:58:10.633Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\appsettings.json",
-              "RelativeDocumentMoniker": "VCheckViewer\\appsettings.json",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\appsettings.json",
-              "RelativeToolTip": "VCheckViewer\\appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-04-26T02:36:41.609Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "UserDBContext.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\UserDBContext.cs",
-              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\DBContext\\UserDBContext.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\UserDBContext.cs",
-              "RelativeToolTip": "Library\\VCheck.Lib.Data\\DBContext\\UserDBContext.cs",
-              "ViewState": "AQIAAEQAAAAAAAAAAAAYwEoAAAATAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-26T02:36:07.809Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "App.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\App.xaml.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\App.xaml.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\App.xaml.cs",
-              "RelativeToolTip": "VCheckViewer\\App.xaml.cs",
-              "ViewState": "AQIAAB8AAAAAAAAAAAAiwCgAAABGAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-26T01:41:57Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "App.xaml",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\App.xaml",
-              "RelativeDocumentMoniker": "VCheckViewer\\App.xaml",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\App.xaml",
-              "RelativeToolTip": "VCheckViewer\\App.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-04-25T02:44:30.442Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
               "Title": "Main.xaml",
               "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Windows\\Main.xaml",
               "RelativeDocumentMoniker": "VCheckViewer\\Views\\Windows\\Main.xaml",
               "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Windows\\Main.xaml",
               "RelativeToolTip": "VCheckViewer\\Views\\Windows\\Main.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-04-25T02:34:15.284Z"
+              "WhenOpened": "2024-05-07T02:11:16.034Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "LoginWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Windows\\LoginWindow.xaml",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Windows\\LoginWindow.xaml",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Windows\\LoginWindow.xaml",
-              "RelativeToolTip": "VCheckViewer\\Views\\Windows\\LoginWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-04-25T00:18:15.6Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "LoginWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Windows\\LoginWindow.xaml.cs",
-              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Windows\\LoginWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Windows\\LoginWindow.xaml.cs",
-              "RelativeToolTip": "VCheckViewer\\Views\\Windows\\LoginWindow.xaml.cs",
-              "ViewState": "AQIAAEEAAAAAAAAAAAAiwFEAAAA+AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-25T00:14:13.713Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "Main.xaml.cs",
               "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Windows\\Main.xaml.cs",
               "RelativeDocumentMoniker": "VCheckViewer\\Views\\Windows\\Main.xaml.cs",
               "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Windows\\Main.xaml.cs",
               "RelativeToolTip": "VCheckViewer\\Views\\Windows\\Main.xaml.cs",
-              "ViewState": "AQIAAOQAAAAAAAAAAAAiwPcAAAAMAAAA",
+              "ViewState": "AQIAAM8BAAAAAAAAAAAAAAkCAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-25T00:14:11.793Z",
+              "WhenOpened": "2024-05-07T00:24:44.369Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "UserDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\UserDBContext.cs",
+              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\DBContext\\UserDBContext.cs",
+              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\UserDBContext.cs",
+              "RelativeToolTip": "Library\\VCheck.Lib.Data\\DBContext\\UserDBContext.cs",
+              "ViewState": "AQIAAGMAAAAAAAAAAAAAAG0AAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-06T06:35:28.173Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LoginPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\LoginPage.xaml.cs",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Login\\LoginPage.xaml.cs",
+              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Login\\LoginPage.xaml.cs",
+              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Login\\LoginPage.xaml.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAjwCsAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-06T06:24:09.866Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UserPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml.cs",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml.cs",
+              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml.cs",
+              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml.cs",
+              "ViewState": "AQIAADUAAAAAAAAAAAAAAEYAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-06T05:15:14.292Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UserPage.xaml",
+              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml",
+              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml",
+              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-05-06T04:04:15.744Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "NotificationPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Notification\\NotificationPage.xaml.cs",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Notification\\NotificationPage.xaml.cs",
+              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Notification\\NotificationPage.xaml.cs",
+              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Notification\\NotificationPage.xaml.cs",
+              "ViewState": "AQIAAFcAAAAAAAAAAAAkwGgAAABnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-06T03:35:30.61Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NotificationPage.xaml",
+              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Notification\\NotificationPage.xaml",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Notification\\NotificationPage.xaml",
+              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Views\\Pages\\Notification\\NotificationPage.xaml",
+              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Notification\\NotificationPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-05-06T03:27:58.014Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DateRangePicker.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\UserControls\\DateRangePicker.xaml.cs",
+              "RelativeDocumentMoniker": "VCheckViewer\\UserControls\\DateRangePicker.xaml.cs",
+              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\UserControls\\DateRangePicker.xaml.cs",
+              "RelativeToolTip": "VCheckViewer\\UserControls\\DateRangePicker.xaml.cs",
+              "ViewState": "AQIAACgAAAAAAAAAAAAAAK0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-06T03:04:54.444Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DateRangePicker.xaml",
+              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\UserControls\\DateRangePicker.xaml",
+              "RelativeDocumentMoniker": "VCheckViewer\\UserControls\\DateRangePicker.xaml",
+              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\UserControls\\DateRangePicker.xaml",
+              "RelativeToolTip": "VCheckViewer\\UserControls\\DateRangePicker.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-05-06T03:04:14.714Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "NotificationDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\NotificationDBContext.cs",
+              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\DBContext\\NotificationDBContext.cs",
+              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\NotificationDBContext.cs",
+              "RelativeToolTip": "Library\\VCheck.Lib.Data\\DBContext\\NotificationDBContext.cs",
+              "ViewState": "AQIAAEQAAAAAAAAAAAAAAEwAAAD8AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-06T00:46:51.628Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "TemplateDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\TemplateDBContext.cs",
+              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\DBContext\\TemplateDBContext.cs",
+              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\TemplateDBContext.cs",
+              "RelativeToolTip": "Library\\VCheck.Lib.Data\\DBContext\\TemplateDBContext.cs",
+              "ViewState": "AQIAACsAAAAAAAAAAAAQwDgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-06T00:27:37.178Z"
             }
           ]
         }

@@ -30,6 +30,7 @@ namespace VCheckViewer.Views.Pages.Login
         int maxLoginAttempt = 5;
 
         static UserDBContext sContext = App.GetService<UserDBContext>();
+        static ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
 
         public static event EventHandler GoToResetPasswordPage;
         public static event EventHandler GoToMainWindow;
@@ -50,19 +51,7 @@ namespace VCheckViewer.Views.Pages.Login
 
                 if (loginAttempt.Succeeded)
                 {
-                    //if (userLogin != null && userLogin.UserId != 0)
-                    //{
                     App.MainViewModel.CurrentUsers = sContext.GetUserByID(user.Id);
-                    //    //Main main = new Main(_navigationService, _pageService);
-                    //    //this.CloseWindow();
-                    //    //main.Show();
-                    //    //main.Navigate(typeof(DashboardPage));
-                    //    Main main = new Main();
-                    //    LoginWindow loginWindow = new LoginWindow();
-                    //    loginWindow.CloseWindow();
-                    //    main.Show();
-                    //    main.frameContent.Content = new DashboardPage();
-                    //}
 
                     GoToMainWindowHandler(e, sender);
 

@@ -28,9 +28,6 @@ namespace VCheckViewer.Views.Pages
         public ComboBoxItem SelectedcbStatus { get; set; }
 
 
-        public static event EventHandler AddUser;
-
-
         public AddUserPage()
         {
             InitializeComponent();

@@ -20,6 +20,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Http;
 using VCheckViewer.Lib.Models;
+using VCheckViewer.Lib.Culture;
+using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace VCheckViewer
 {
@@ -35,6 +39,9 @@ namespace VCheckViewer
         public static event EventHandler GoPreviousPage;
         public static event EventHandler Popup;
 
+        public static event EventHandler GoToSettingUserPage;
+        public static event EventHandler GoToSettingLanguageCountryPage;
+
         public static SignInManager<IdentityUser> SignInManager { get; set; }
         public static UserManager<IdentityUser> UserManager { get; set; }
         public static RoleManager<IdentityRole> RoleManager { get; set; }
@@ -42,10 +49,10 @@ namespace VCheckViewer
 
         public static string newPassword {  get; set; }
 
-        App()
-        {
-            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
-        }
+        //App()
+        //{
+        //    System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+        //}
 
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
@@ -81,7 +88,10 @@ namespace VCheckViewer
                 services.Add(new ServiceDescriptor(typeof(UserDBContext), new UserDBContext(context.Configuration)));
                 services.Add(new ServiceDescriptor(typeof(MasterCodeDataDBContext), new MasterCodeDataDBContext(context.Configuration)));
                 services.Add(new ServiceDescriptor(typeof(RolesDBContext), new RolesDBContext(context.Configuration)));
-                services.Add(new ServiceDescriptor(typeof(UserLoginDBContext), new UserLoginDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(CountryDBContext), new CountryDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(ConfigurationDBContext), new ConfigurationDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(TemplateDBContext), new TemplateDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(NotificationDBContext), new NotificationDBContext(context.Configuration)));
 
                 services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(context.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 21))));
 
@@ -129,6 +139,15 @@ namespace VCheckViewer
         /// </summary>
         private void OnStartup(object sender, StartupEventArgs e)
         {
+            ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
+
+            MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
+
+            var language = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault().ConfigurationValue;
+
+            CultureInfo sZHCulture = new CultureInfo(language);
+            CultureResources.ChangeCulture(sZHCulture);
+
             _host.Start();
         }
 
@@ -163,6 +182,22 @@ namespace VCheckViewer
             if (Popup != null)
             {
                 Popup(sender, e);
+            }
+        }
+
+        public static void GoToSettingUserPageHandler(EventArgs e, object sender)
+        {
+            if (GoToSettingUserPage != null)
+            {
+                GoToSettingUserPage(sender, e);
+            }
+        }
+
+        public static void GoToSettingLanguageCountryPageHandler(EventArgs e, object sender)
+        {
+            if (GoToSettingLanguageCountryPage != null)
+            {
+                GoToSettingLanguageCountryPage(sender, e);
             }
         }
     }
