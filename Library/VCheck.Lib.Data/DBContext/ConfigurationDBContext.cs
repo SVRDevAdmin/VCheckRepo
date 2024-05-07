@@ -13,9 +13,9 @@ namespace VCheck.Lib.Data.DBContext
 {
     public class ConfigurationDBContext
     {
-        private readonly Microsoft.Extensions.Configuration.IConfiguration config;
+        private readonly IConfiguration config;
 
-        public ConfigurationDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
+        public ConfigurationDBContext(IConfiguration config)
         {
             this.config = config;
         }

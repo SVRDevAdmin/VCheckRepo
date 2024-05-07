@@ -20,7 +20,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Http;
 using VCheckViewer.Lib.Models;
 using VCheckViewer.Lib.Culture;
-using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
+//using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -40,6 +40,7 @@ namespace VCheckViewer
 
         public static event EventHandler GoToSettingUserPage;
         public static event EventHandler GoToSettingLanguageCountryPage;
+        public static event EventHandler GoToSettingDevicePage;
 
         public static SignInManager<IdentityUser> SignInManager { get; set; }
         public static UserManager<IdentityUser> UserManager { get; set; }
@@ -139,7 +140,7 @@ namespace VCheckViewer
         /// </summary>
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
+            ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
 
             MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
 
@@ -198,6 +199,14 @@ namespace VCheckViewer
             if (GoToSettingLanguageCountryPage != null)
             {
                 GoToSettingLanguageCountryPage(sender, e);
+            }
+        }
+
+        public static void GoToSettingDevicePageHandler(EventArgs e, object sender)
+        {
+            if (GoToSettingDevicePage != null)
+            {
+                GoToSettingDevicePage(sender, e);
             }
         }
     }

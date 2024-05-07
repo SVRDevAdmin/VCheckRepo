@@ -183,9 +183,14 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
             }
         }
 
-        private void UserPage_Click(object sender, RoutedEventArgs e)
+        private void UserPage(object sender, RoutedEventArgs e)
         {
             App.GoToSettingUserPageHandler(e, sender);
+        }
+
+        private void btnDevice_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingDevicePageHandler(e, sender);
         }
     }
 }

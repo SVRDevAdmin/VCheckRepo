@@ -137,7 +137,7 @@ namespace VCheckViewer.Views.Pages.Notification
 
                 newBtn.Tag = i;
                 newBtn.Style = (Style)System.Windows.Application.Current.FindResource("RoundButton");
-                newBtn.Width = 30;
+                newBtn.Width = 40;
                 newBtn.Margin = new Thickness(5, 0, 5, 0);
                 newBtn.FontWeight = FontWeights.Bold;
                 newBtn.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;

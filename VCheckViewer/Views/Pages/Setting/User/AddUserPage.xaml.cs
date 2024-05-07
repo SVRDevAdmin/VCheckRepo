@@ -160,6 +160,16 @@ namespace VCheckViewer.Views.Pages
             App.PopupHandler(e, sender);
         }
 
+        private void LanguageCountry(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingLanguageCountryPageHandler(e, sender);
+        }
+
+        private void btnDevice_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingDevicePageHandler(e, sender);
+        }
+
         private string RandomPasswordGenerator()
         {
             string uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

@@ -62,7 +62,7 @@ namespace VCheckViewer.Views.Windows
         static UserDBContext usersContext = App.GetService<UserDBContext>();
         static DeviceDBContext deviceContext = App.GetService<DeviceDBContext>();
 
-        List<MasterCodeDataModel> masterCodeDataList = sContext.GetMasterCodeData();
+        //List<MasterCodeDataModel> masterCodeDataList = sContext.GetMasterCodeData();
         List<RolesModel> roleList = rolesContext.GetRoles();
         ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
         TemplateDBContext TemplateContext = App.GetService<TemplateDBContext>();
@@ -94,6 +94,7 @@ namespace VCheckViewer.Views.Windows
 
             App.GoToSettingUserPage += new EventHandler(SettingUserPage);
             App.GoToSettingLanguageCountryPage += new EventHandler(GoToLanguageCountryPage);
+            App.GoToSettingDevicePage += new EventHandler(GoToDevicePage);
 
             //popup
             App.Popup += new EventHandler(Popup);
@@ -213,6 +214,11 @@ namespace VCheckViewer.Views.Windows
         {
             //Navigate(typeof(ViewUserPage));
             frameContent.Content = new LanguageCountryPage();
+        }
+        void GoToDevicePage(object sender, EventArgs e)
+        {
+            //Navigate(typeof(ViewUserPage));
+            frameContent.Content = new DevicePage();
         }
 
         void SettingUserPage(object sender, EventArgs e)
