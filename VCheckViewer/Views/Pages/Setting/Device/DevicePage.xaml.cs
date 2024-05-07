@@ -284,5 +284,15 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 ShowHideBorder("Add");
             }
         }
+
+        private void LanguageCountry(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingLanguageCountryPageHandler(e, sender);
+        }
+
+        private void UserPage(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingUserPageHandler(e, sender);
+        }
     }
 }

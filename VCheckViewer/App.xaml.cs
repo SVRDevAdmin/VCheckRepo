@@ -15,6 +15,14 @@ using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting.Internal;
 using VCheck.Lib.Data.DBContext;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Http;
+using VCheckViewer.Lib.Models;
+using VCheckViewer.Lib.Culture;
+//using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace VCheckViewer
 {
@@ -30,10 +38,21 @@ namespace VCheckViewer
         public static event EventHandler GoPreviousPage;
         public static event EventHandler Popup;
 
-        App()
-        {
-            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
-        }
+        public static event EventHandler GoToSettingUserPage;
+        public static event EventHandler GoToSettingLanguageCountryPage;
+        public static event EventHandler GoToSettingDevicePage;
+
+        public static SignInManager<IdentityUser> SignInManager { get; set; }
+        public static UserManager<IdentityUser> UserManager { get; set; }
+        public static RoleManager<IdentityRole> RoleManager { get; set; }
+        public static IUserStore<IdentityUser> UserStore { get; set; }
+
+        public static string newPassword {  get; set; }
+
+        //App()
+        //{
+        //    System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+        //}
 
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
@@ -69,8 +88,38 @@ namespace VCheckViewer
                 services.Add(new ServiceDescriptor(typeof(UserDBContext), new UserDBContext(context.Configuration)));
                 services.Add(new ServiceDescriptor(typeof(MasterCodeDataDBContext), new MasterCodeDataDBContext(context.Configuration)));
                 services.Add(new ServiceDescriptor(typeof(RolesDBContext), new RolesDBContext(context.Configuration)));
-                services.Add(new ServiceDescriptor(typeof(UserLoginDBContext), new UserLoginDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(CountryDBContext), new CountryDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(ConfigurationDBContext), new ConfigurationDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(TemplateDBContext), new TemplateDBContext(context.Configuration)));
+                services.Add(new ServiceDescriptor(typeof(NotificationDBContext), new NotificationDBContext(context.Configuration)));
                 services.Add(new ServiceDescriptor(typeof(DeviceDBContext), new DeviceDBContext(context.Configuration)));
+
+                services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(context.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 21))));
+
+                var identitySettings = context.Configuration.GetSection("IdentitySettings");
+
+                services.AddIdentityCore<IdentityUser>(options =>
+                {
+                    // Password settings.
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequiredUniqueChars = 1;
+
+
+                    //Lockedout setting
+                    options.SignIn.RequireConfirmedAccount = identitySettings.GetValue<bool>("RequireConfirmedAccount");
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(identitySettings.GetValue<int>("DefaultLockedOutTimeSpan"));
+                    options.Lockout.MaxFailedAccessAttempts = identitySettings.GetValue<int>("MaxFailedAccessAttempts");
+                })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+                services.AddScoped<SignInManager<IdentityUser>>();
+                services.AddHttpContextAccessor();
+                services.AddAuthentication();
             })
             .Build();
 
@@ -91,6 +140,15 @@ namespace VCheckViewer
         /// </summary>
         private void OnStartup(object sender, StartupEventArgs e)
         {
+            ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
+
+            MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
+
+            var language = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault().ConfigurationValue;
+
+            CultureInfo sZHCulture = new CultureInfo(language);
+            CultureResources.ChangeCulture(sZHCulture);
+
             _host.Start();
         }
 
@@ -125,6 +183,30 @@ namespace VCheckViewer
             if (Popup != null)
             {
                 Popup(sender, e);
+            }
+        }
+
+        public static void GoToSettingUserPageHandler(EventArgs e, object sender)
+        {
+            if (GoToSettingUserPage != null)
+            {
+                GoToSettingUserPage(sender, e);
+            }
+        }
+
+        public static void GoToSettingLanguageCountryPageHandler(EventArgs e, object sender)
+        {
+            if (GoToSettingLanguageCountryPage != null)
+            {
+                GoToSettingLanguageCountryPage(sender, e);
+            }
+        }
+
+        public static void GoToSettingDevicePageHandler(EventArgs e, object sender)
+        {
+            if (GoToSettingDevicePage != null)
+            {
+                GoToSettingDevicePage(sender, e);
             }
         }
     }

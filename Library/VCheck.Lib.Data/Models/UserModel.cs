@@ -9,7 +9,7 @@ namespace VCheck.Lib.Data.Models
     public class UserModel
     {
         public int No { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public string EmployeeID { get; set; }
         public string Title { get; set; }
         public string FirstName { get; set; }
@@ -22,6 +22,7 @@ namespace VCheck.Lib.Data.Models
         public string Status { get; set; }
         public int StatusID { get; set; }
         public string Role { get; set; }
-        public int RoleID { get; set; }
+        public string RoleID { get; set; }
+        public string LoginID { get; set; }
     }
 }

@@ -1,20 +1,14 @@
 use vcheckdb;
 
-CREATE TABLE `vcheckdb`.`mst_roles` (
-  `RoleID` INT NOT NULL AUTO_INCREMENT,
-  `RoleName` VARCHAR(100) NOT NULL,
-  `IsActive` BIT(1) NOT NULL,
-  `IsSuperadmin` BIT(1) NOT NULL,
-  `IsAdmin` BIT(1) NOT NULL,
-  `CreatedDate` DATETIME(2) NULL,
-  `CreatedBy` VARCHAR(100) NULL,
-  `UpdatedDate` DATETIME(2) NULL,
-  `updatedBy` VARCHAR(100) NULL,
-  PRIMARY KEY (`RoleID`));
-
-
-INSERT INTO `vcheckdb`.`mst_roles`(`RoleName`,`IsActive`,`IsSuperadmin`,`IsAdmin`)
-VALUES
-('Superadmin',1,1,1),
-('Lab SuperAdmin',1,0,1),
-('Lab User',1,0,0);
+CREATE TABLE `mst_roles` (
+  `RoleID` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `RoleName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `IsActive` bit(1) NOT NULL,
+  `IsSuperadmin` bit(1) NOT NULL,
+  `IsAdmin` bit(1) NOT NULL,
+  `CreatedDate` datetime(2) DEFAULT NULL,
+  `CreatedBy` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `UpdatedDate` datetime(2) DEFAULT NULL,
+  `updatedBy` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`RoleID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

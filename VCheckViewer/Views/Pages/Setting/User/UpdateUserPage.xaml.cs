@@ -183,7 +183,7 @@ namespace VCheckViewer.Views.Pages.Setting.User
                 EmailAddress = EmailAddress.Text,
                 StatusID = Convert.ToInt32(((ComboBoxItem)Status.SelectedItem).Tag.ToString()),
                 Status = Status.Text,
-                RoleID = Convert.ToInt32(((ComboBoxItem)Role.SelectedItem).Tag.ToString()),
+                RoleID = ((ComboBoxItem)Role.SelectedItem).Tag.ToString(),
                 Role = Role.Text
             };
 
@@ -192,6 +192,16 @@ namespace VCheckViewer.Views.Pages.Setting.User
             App.MainViewModel.Users = user;
 
             App.PopupHandler(e, sender);
+        }
+
+        private void LanguageCountry(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingLanguageCountryPageHandler(e, sender);
+        }
+
+        private void btnDevice_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingDevicePageHandler(e, sender);
         }
     }
 }

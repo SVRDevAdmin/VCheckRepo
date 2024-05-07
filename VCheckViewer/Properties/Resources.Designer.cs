@@ -61,6 +61,186 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        public static string Dashboard_Title_PageTitle {
+            get {
+                return ResourceManager.GetString("Dashboard_Title_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string General_Label_No {
+            get {
+                return ResourceManager.GetString("General_Label_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string General_Label_Save {
+            get {
+                return ResourceManager.GetString("General_Label_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string General_Label_Yes {
+            get {
+                return ResourceManager.GetString("General_Label_Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot Password?.
+        /// </summary>
+        public static string Login_Label_ForgetPassword {
+            get {
+                return ResourceManager.GetString("Login_Label_ForgetPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get accurate results swiftly..
+        /// </summary>
+        public static string Login_Label_LeftMain {
+            get {
+                return ResourceManager.GetString("Login_Label_LeftMain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please login to access your account.
+        /// </summary>
+        public static string Login_Label_LeftSub {
+            get {
+                return ResourceManager.GetString("Login_Label_LeftSub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string Login_Label_LoginButton {
+            get {
+                return ResourceManager.GetString("Login_Label_LoginButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Login_Label_MainPassword {
+            get {
+                return ResourceManager.GetString("Login_Label_MainPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        public static string Login_Label_MainUsername {
+            get {
+                return ResourceManager.GetString("Login_Label_MainUsername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string Login_Title_PageTitle {
+            get {
+                return ResourceManager.GetString("Login_Title_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string Main_Label_Searchbar {
+            get {
+                return ResourceManager.GetString("Main_Label_Searchbar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collapse.
+        /// </summary>
+        public static string Main_Label_SideMenuCollapse {
+            get {
+                return ResourceManager.GetString("Main_Label_SideMenuCollapse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        public static string Main_Label_SideMenuDashboard {
+            get {
+                return ResourceManager.GetString("Main_Label_SideMenuDashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notification.
+        /// </summary>
+        public static string Main_Label_SideMenuNotification {
+            get {
+                return ResourceManager.GetString("Main_Label_SideMenuNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Results.
+        /// </summary>
+        public static string Main_Label_SideMenuResults {
+            get {
+                return ResourceManager.GetString("Main_Label_SideMenuResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schedule.
+        /// </summary>
+        public static string Main_Label_SideMenuSchedule {
+            get {
+                return ResourceManager.GetString("Main_Label_SideMenuSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setting.
+        /// </summary>
+        public static string Main_Label_SideMenuSetting {
+            get {
+                return ResourceManager.GetString("Main_Label_SideMenuSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to save this setting?.
+        /// </summary>
+        public static string Popup_Message_LanguageCountryChange {
+            get {
+                return ResourceManager.GetString("Popup_Message_LanguageCountryChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setting.
+        /// </summary>
+        public static string Setting_Title_PageTitle {
+            get {
+                return ResourceManager.GetString("Setting_Title_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Label 123.
         /// </summary>
         public static string Test_Label_1 {

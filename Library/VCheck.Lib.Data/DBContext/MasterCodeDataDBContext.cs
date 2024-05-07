@@ -28,14 +28,14 @@ namespace VCheck.Lib.Data.DBContext
             }
         }
 
-        public List<MasterCodeDataModel> GetMasterCodeData()
+        public List<MasterCodeDataModel> GetMasterCodeData(string codeGroup)
         {
             List<MasterCodeDataModel> sList = new List<MasterCodeDataModel>();
 
             using (MySqlConnection conn = this.Connection)
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from Mst_MasterCodeData", conn);
+                MySqlCommand cmd = new MySqlCommand("Select * from Mst_MasterCodeData where CodeGroup = '" + codeGroup + "' AND IsActive = 1;", conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {

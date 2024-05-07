@@ -39,6 +39,7 @@ namespace VCheckViewer.Views.Pages
         public static event EventHandler GoToUpdateUserPage;
         public static event EventHandler GoToViewUserPage;
         public static event EventHandler DeleteUser;
+        public static event EventHandler GoToLanguageCountryPage;
         public int pageSize = 10;
         public int paginationSize = 5;
         public int totalUser = 0;
@@ -50,10 +51,13 @@ namespace VCheckViewer.Views.Pages
         {
             InitializeComponent();
 
+            Main.InitializedUserPage += new EventHandler(initializedPage);
+            initializedPage(null,null);
+        }
+
+        public void initializedPage(object sender, EventArgs e)
+        {
             dataGrid.ItemsSource = GetUserList(0, pageSize);
-
-            Main.DeleteRow += new EventHandler(DeleteRow);
-
 
             totalUser = sContext.GetTotalUser();
             int totalpage = totalUser / pageSize;
@@ -63,7 +67,9 @@ namespace VCheckViewer.Views.Pages
             if (totalpage > paginationSize) { totalpage = paginationSize; }
 
             endPagination = totalpage;
+            startPagination = 1;
 
+            paginationPanel.Children.Clear();
             createPagination(startPagination);
         }
 
@@ -71,7 +77,6 @@ namespace VCheckViewer.Views.Pages
         {
             ObservableCollection<UserModel> UserList = sContext.GetUserListByPage(start, end);
             return UserList;
-
         }
 
         public void createPagination(int highligtedIndex)
@@ -95,7 +100,7 @@ namespace VCheckViewer.Views.Pages
 
                 newBtn.Tag = i;
                 newBtn.Style = (Style)Application.Current.FindResource("RoundButton");
-                newBtn.Width = 30;
+                newBtn.Width = 40;
                 newBtn.Margin = new Thickness(5, 0, 5, 0);
                 newBtn.FontWeight = FontWeights.Bold;
                 newBtn.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
@@ -162,7 +167,6 @@ namespace VCheckViewer.Views.Pages
         {
             System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
             int childrenCount = VisualTreeHelper.GetChildrenCount(btn.Parent);
-            bool exist = false;
 
             var nextpage = currentPage + 1;
 
@@ -287,6 +291,11 @@ namespace VCheckViewer.Views.Pages
             App.PopupHandler(e, sender);
         }
 
+        private void LanguageCountry(object sender, RoutedEventArgs e)
+        {
+            GoToLanguageCountryPageHandler(e, sender);
+        }
+
         private static void GoToAddUserPageHandler(EventArgs e, object sender)
         {
             if (GoToAddUserPage != null)
@@ -311,29 +320,21 @@ namespace VCheckViewer.Views.Pages
             }
         }
 
-        void DeleteRow(object sender, EventArgs e)
+        private static void GoToLanguageCountryPageHandler(EventArgs e, object sender)
         {
-            dataGrid.ItemsSource = GetUserList(0, pageSize);
-
-            totalUser = sContext.GetTotalUser();
-            int totalpage = totalUser / pageSize;
-
-            if (totalUser > (pageSize * totalpage)) { totalpage++; }
-
-            if (totalpage > paginationSize) { totalpage = paginationSize; }
-
-            endPagination = totalpage;
-            startPagination = 1;
-
-            paginationPanel.Children.Clear();
-            createPagination(startPagination);
+            if (GoToLanguageCountryPage != null)
+            {
+                GoToLanguageCountryPage(sender, e);
+            }
         }
 
         private void btnDevice_Click(object sender, RoutedEventArgs e)
         {
-            Main sMain = new Main();
-            sMain.frameContent.NavigationService.Content = new DevicePage();
-            sMain.frameContent.NavigationService.Refresh();
+            //Main sMain = new Main();
+            //sMain.frameContent.NavigationService.Content = new DevicePage();
+            //sMain.frameContent.NavigationService.Refresh();
+
+            App.GoToSettingDevicePageHandler(e, sender);
         }
     }
 }
