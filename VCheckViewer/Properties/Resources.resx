@@ -117,6 +117,66 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Dashboard_Title_PageTitle" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="General_Label_No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="General_Label_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="General_Label_Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Login_Label_ForgetPassword" xml:space="preserve">
+    <value>Forgot Password?</value>
+  </data>
+  <data name="Login_Label_LeftMain" xml:space="preserve">
+    <value>Get accurate results swiftly.</value>
+  </data>
+  <data name="Login_Label_LeftSub" xml:space="preserve">
+    <value>Please login to access your account</value>
+  </data>
+  <data name="Login_Label_LoginButton" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Login_Label_MainPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Login_Label_MainUsername" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Login_Title_PageTitle" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Main_Label_Searchbar" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Main_Label_SideMenuCollapse" xml:space="preserve">
+    <value>Collapse</value>
+  </data>
+  <data name="Main_Label_SideMenuDashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Main_Label_SideMenuNotification" xml:space="preserve">
+    <value>Notification</value>
+  </data>
+  <data name="Main_Label_SideMenuResults" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="Main_Label_SideMenuSchedule" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="Main_Label_SideMenuSetting" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="Popup_Message_LanguageCountryChange" xml:space="preserve">
+    <value>Are you sure you want to save this setting?</value>
+  </data>
+  <data name="Setting_Title_PageTitle" xml:space="preserve">
+    <value>Setting</value>
+  </data>
   <data name="Test_Label_1" xml:space="preserve">
     <value>Label 123</value>
   </data>

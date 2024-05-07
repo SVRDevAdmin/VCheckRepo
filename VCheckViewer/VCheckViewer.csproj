@@ -25,7 +25,9 @@
     <None Remove="Content\Images\Collapse_Arrow.png" />
     <None Remove="Content\Images\Collapse_Arrow_Right.png" />
     <None Remove="Content\Images\dashboard.png" />
+    <None Remove="Content\Images\Email Icon.png" />
     <None Remove="Content\Images\group_10.png" />
+    <None Remove="Content\Images\group_640.png" />
     <None Remove="Content\Images\icons8-barber-pole-64.png" />
     <None Remove="Content\Images\Icons\dashboard.png" />
     <None Remove="Content\Images\Icons\de.png" />
@@ -49,6 +51,8 @@
     <None Remove="Content\Images\mask_group_5.png" />
     <None Remove="Content\Images\path_33946.png" />
     <None Remove="Content\Images\path_3550.png" />
+    <None Remove="Content\Images\path_4002.png" />
+    <None Remove="Content\Images\path_4004.png" />
     <None Remove="Content\Images\Profile-Avatar-PNG-Picture.png" />
     <None Remove="Content\Images\results.png" />
     <None Remove="Content\Images\Screenshot 2024-04-15 152644.png" />
@@ -282,9 +286,11 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
@@ -293,6 +299,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
     <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
     <PackageReference Include="WPF-UI" Version="3.0.4" />
@@ -315,7 +322,9 @@
     <Resource Include="Content\Images\Collapse_Arrow.png" />
     <Resource Include="Content\Images\Collapse_Arrow_Right.png" />
     <Resource Include="Content\Images\dashboard.png" />
+    <Resource Include="Content\Images\Email Icon.png" />
     <Resource Include="Content\Images\group_10.png" />
+    <Resource Include="Content\Images\group_640.png" />
     <Resource Include="Content\Images\icons8-barber-pole-64.png" />
     <Resource Include="Content\Images\Icons\de.png" />
     <Resource Include="Content\Images\Icons\en.png" />
@@ -337,6 +346,8 @@
     <Resource Include="Content\Images\mask_group_5.png" />
     <Resource Include="Content\Images\path_33946.png" />
     <Resource Include="Content\Images\path_3550.png" />
+    <Resource Include="Content\Images\path_4002.png" />
+    <Resource Include="Content\Images\path_4004.png" />
     <Resource Include="Content\Images\Profile-Avatar-PNG-Picture.png" />
     <Resource Include="Content\Images\results.png" />
     <Resource Include="Content\Images\Screenshot 2024-04-15 152644.png" />
@@ -377,20 +388,23 @@
     <EmbeddedResource Update="Properties\Resources.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Properties\Resources.es.resx">
+    <EmbeddedResource Update="Properties\Resources.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.es.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.hi.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator></Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.id.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.ja.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator></Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.ko.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator></Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.pt.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -403,10 +417,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.zh-Hans.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator></Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.zh-Hant.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator></Generator>
     </EmbeddedResource>
   </ItemGroup>
 

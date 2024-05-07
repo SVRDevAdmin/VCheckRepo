@@ -1,0 +1,129 @@
+﻿<Page x:Class="VCheckViewer.Views.Pages.Notification.NotificationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VCheckViewer.Views.Pages.Notification" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:userControls="clr-namespace:VCheckViewer.UserControls"
+      mc:Ignorable="d" 
+      Title="NotificationPage">
+
+    <Page.Resources>
+        <Style x:Key="test" TargetType="DockPanel">
+            <Setter Property="Height" Value="80"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="0,10,0,10" MouseLeftButtonUp="CloseCalenderPopup">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="0" Margin="10,0,10,0">
+            <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black" MouseLeftButtonUp="CloseCalenderPopup">
+                <Grid>
+                    <!-- Search Icon -->
+                    <ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>
+
+                    <!-- TextBox for search input -->
+                    <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" KeyUp="NotificationKeywordSearch"/>
+                    <TextBlock IsHitTestVisible="False" Text="{Binding Path=Main_Label_Searchbar, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=KeywordSearchBar}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+            </Border>
+        </Border>
+        <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,0,0">
+            <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                <Grid>                    
+                    <ui:SymbolIcon Symbol="CalendarEdit16" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>                    
+                    <!--<DatePicker  BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center"/>-->
+
+                    <userControls:DateRangePicker x:Name="RangeDate" SelectedDateRange="{Binding SelectedDates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" PropertyChanged="RangeDate_PropertyChanged"/>
+                </Grid>
+            </Border>
+        </Border>
+        <Border Grid.Column="2" Height="45" CornerRadius="20" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="10,0,10,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Margin="2">
+                    <Button Content="Show All"  Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
+                </Border>
+                <Border Grid.Column="1" Margin="2">
+                    <Button Content="Upcoming Test" Tag="Upcoming Test" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
+                </Border>
+                <Border Grid.Column="2" Margin="2">
+                    <Button Content="Completed Test Results" Tag="Completed Test Results" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
+                </Border>
+                <Border Grid.Column="3" Margin="2">
+                    <Button Content="Updates" Foreground="White" Tag="Updates" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
+                </Border>
+            </Grid>
+        </Border>
+        <Border Grid.ColumnSpan="3" Grid.Row="1" Background="WhiteSmoke" CornerRadius="20" Margin="10" Padding="70,20,70,30">
+                <StackPanel x:Name="NotificationViewList" Background="Transparent">
+                <!--<TextBlock Text="No data available" TextAlignment="Center"/>-->
+                <!--<DockPanel Margin="0,10,0,10" Style="{StaticResource test}">
+                            <DockPanel DockPanel.Dock="Top">
+                                <TextBlock Text="Test result ready to view" FontWeight="Bold" DockPanel.Dock="Left"/>
+                                <TextBlock Text="18 march 2023 08:00" FontWeight="Bold" DockPanel.Dock="Right" TextAlignment="Right"/>
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+                        <TextBlock TextWrapping="Wrap" Text="You've updated the system language and country settings. Please log in again to apply the changes." DockPanel.Dock="Left"/>
+                            </DockPanel>
+                    </DockPanel>
+                    <Separator BorderBrush="Black" BorderThickness="1"/>
+                    <DockPanel Margin="0,10,0,10" Style="{StaticResource test}">
+                        <DockPanel DockPanel.Dock="Top">
+                            <TextBlock Text="Test result ready to view" FontWeight="Bold" DockPanel.Dock="Left"/>
+                            <TextBlock Text="18 march 2023 08:00" FontWeight="Bold" DockPanel.Dock="Right" TextAlignment="Right"/>
+                        </DockPanel>
+                        <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+                        <TextBlock TextWrapping="Wrap" Text="You've updated the system language and country settings. Please log in again to apply the changes." DockPanel.Dock="Left"/>
+                        </DockPanel>
+                </DockPanel>
+                <Separator BorderBrush="Black" BorderThickness="1"/>
+                <DockPanel Margin="0,10,0,10" Style="{StaticResource test}">
+                    <DockPanel DockPanel.Dock="Top">
+                        <TextBlock Text="Test result ready to view" FontWeight="Bold" DockPanel.Dock="Left"/>
+                        <TextBlock Text="18 march 2023 08:00" FontWeight="Bold" DockPanel.Dock="Right" TextAlignment="Right"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+                        <TextBlock TextWrapping="Wrap" Text="You've updated the system language and country settings. Please log in again to apply the changes." DockPanel.Dock="Left"/>
+                    </DockPanel>
+                </DockPanel>
+                <Separator BorderBrush="Black" BorderThickness="1"/>
+                <DockPanel Margin="0,10,0,10" Style="{StaticResource test}">
+                    <DockPanel DockPanel.Dock="Top">
+                        <TextBlock Text="Test result ready to view" FontWeight="Bold" DockPanel.Dock="Left"/>
+                        <TextBlock Text="18 march 2023 08:00" FontWeight="Bold" DockPanel.Dock="Right" TextAlignment="Right"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+                        <TextBlock TextWrapping="Wrap" Text="The test results for patient ID : 346722 is now available for viewing. Please go to Results page to view/print the detailed result report. Your promt attention to this matter is appreciated." DockPanel.Dock="Left"/>
+                    </DockPanel>
+                </DockPanel>-->
+            </StackPanel>
+        </Border>
+        <StackPanel x:Name="paginationPanel" Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.ObjectModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -24,9 +26,6 @@ namespace VCheckViewer.Views.Pages
         public ComboBoxItem SelectedcbGender { get; set; }
         public ComboBoxItem SelectedcbRoles { get; set; }
         public ComboBoxItem SelectedcbStatus { get; set; }
-
-
-        public static event EventHandler AddUser;
 
 
         public AddUserPage()
@@ -120,7 +119,7 @@ namespace VCheckViewer.Views.Pages
         {
             DateTime temp;
 
-            if (Convert.ToString((StaffID.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Title.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Surname.Parent as Border).ToolTip) == "No issue" && Convert.ToString((LastName.Parent as Border).ToolTip) == "No issue" && Convert.ToString((RegistrationNo.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Gender.Parent as Border).ToolTip) == "No issue" && Convert.ToString((DateOfBirth.Parent as Border).ToolTip) == "No issue" && Convert.ToString((EmailAddress.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Status.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Role.Parent as Border).ToolTip) == "No issue" && DateTime.TryParse(DateOfBirth.ToString(), out temp))
+            if (Convert.ToString((StaffID.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Title.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Surname.Parent as Border).ToolTip) == "No issue" && Convert.ToString((LastName.Parent as Border).ToolTip) == "No issue" && Convert.ToString((RegistrationNo.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Gender.Parent as Border).ToolTip) == "No issue" && Convert.ToString((DateOfBirth.Parent as Border).ToolTip) == "No issue" && Convert.ToString((EmailAddress.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Status.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Role.Parent as Border).ToolTip) == "No issue" && DateTime.TryParse(DateOfBirth.ToString(), out temp) && Convert.ToString((LoginID.Parent as Border).ToolTip) == "No issue")
             {
                 Create.IsEnabled = true;
             }
@@ -143,7 +142,9 @@ namespace VCheckViewer.Views.Pages
                 DateOfBirth = Convert.ToDateTime(DateOfBirth.Text).ToString("yyyy-MM-dd"),
                 EmailAddress = EmailAddress.Text,
                 StatusID = Convert.ToInt32(((ComboBoxItem)Status.SelectedItem).Tag.ToString()),
-                RoleID = Convert.ToInt32(((ComboBoxItem)Role.SelectedItem).Tag.ToString())
+                RoleID = ((ComboBoxItem)Role.SelectedItem).Tag.ToString(),
+                Role = Role.Text,
+                LoginID = LoginID.Text
             };
 
             Popup popup = new Popup();
@@ -154,7 +155,66 @@ namespace VCheckViewer.Views.Pages
 
             App.MainViewModel.Users = user;
 
+            App.newPassword = RandomPasswordGenerator();
+
             App.PopupHandler(e, sender);
+        }
+
+        private void LanguageCountry(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingLanguageCountryPageHandler(e, sender);
+        }
+
+        private void btnDevice_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingDevicePageHandler(e, sender);
+        }
+
+        private string RandomPasswordGenerator()
+        {
+            string uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
+            string digits = "0123456789";
+            string specialChars = "!@#$%^&*()-_=+<>?/:;";
+
+            int length = 8;
+            bool includeUppercase = true;
+            bool includeLowercase = true;
+            bool includeDigits = true;
+            bool includeSpecialChars = true;
+
+            StringBuilder charSet = new StringBuilder();
+            if (includeUppercase) charSet.Append(uppercaseLetters);
+            if (includeLowercase) charSet.Append(lowercaseLetters);
+            if (includeDigits) charSet.Append(digits);
+            if (includeSpecialChars) charSet.Append(specialChars);
+
+            StringBuilder password = new StringBuilder(length);
+            Random rnd = new Random();
+            bool passwordIncorrect = true;
+
+            while (passwordIncorrect)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    int randomIndex = rnd.Next(charSet.Length);
+                    password.Append(charSet[randomIndex]);
+                }
+
+
+                if (password.ToString().IndexOfAny(specialChars.ToCharArray()) != -1 && password.ToString().IndexOfAny(uppercaseLetters.ToCharArray()) != -1 && password.ToString().IndexOfAny(lowercaseLetters.ToCharArray()) != -1 && password.ToString().IndexOfAny(digits.ToCharArray()) != -1)
+                {
+                    passwordIncorrect = false;
+                }
+            }
+
+
+            return password.ToString();
+        }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingConfigurationPageHandler(e, sender);
         }
     }
 }

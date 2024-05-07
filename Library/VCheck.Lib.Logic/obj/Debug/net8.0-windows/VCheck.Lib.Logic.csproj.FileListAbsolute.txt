@@ -15,3 +15,20 @@ C:\Dev\VCheck\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\VCheck.Lib.Logic
 C:\Dev\VCheck\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\refint\VCheck.Lib.Logic.dll
 C:\Dev\VCheck\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\VCheck.Lib.Logic.pdb
 C:\Dev\VCheck\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\ref\VCheck.Lib.Logic.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\bin\Debug\net8.0-windows\VCheck.Lib.Logic.deps.json
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\bin\Debug\net8.0-windows\VCheck.Lib.Logic.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\bin\Debug\net8.0-windows\VCheck.Lib.Logic.pdb
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\bin\Debug\net8.0-windows\VCheck.Lib.Data.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\bin\Debug\net8.0-windows\VCheck.Lib.Data.pdb
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\bin\Debug\net8.0-windows\VCheck.Lib.Data.dll.config
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\VCheck.Lib.Logic.csproj.AssemblyReference.cache
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\VCheck.Lib.Logic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\VCheck.Lib.Logic.AssemblyInfoInputs.cache
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\VCheck.Lib.Logic.AssemblyInfo.cs
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\VCheck.Lib.Logic.csproj.CoreCompileInputs.cache
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\VCheck.Lib.Logic.sourcelink.json
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\VCheck.L.AE6D3E2E.Up2Date
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\VCheck.Lib.Logic.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\refint\VCheck.Lib.Logic.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\VCheck.Lib.Logic.pdb
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Lib.Logic\obj\Debug\net8.0-windows\ref\VCheck.Lib.Logic.dll

@@ -24,5 +24,20 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
         {
             InitializeComponent();
         }
+
+        private void btnDevice_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingDevicePageHandler(e, sender);
+        }
+
+        private void btnLanguage_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingLanguageCountryPageHandler(e, sender);
+        }
+
+        private void btnUser_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingUserPageHandler(e, sender);
+        }
     }
 }

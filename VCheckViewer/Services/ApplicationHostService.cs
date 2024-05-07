@@ -10,6 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using VCheckViewer.Views.Windows;
 using VCheck.Lib.Data;
 using VCheckViewer.Views.Pages;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using VCheckViewer.Views.Pages.Login;
 
 namespace VCheckViewer.Services
 {
@@ -56,7 +60,14 @@ namespace VCheckViewer.Services
 
             //     //_navigationWindow.Navigate(typeof(DashboardPage));
             // }
-            Login LoginPage = new Login();
+
+            App.SignInManager = _serviceProvider.GetRequiredService<SignInManager<IdentityUser>>();
+            App.UserManager = _serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            App.RoleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            App.UserStore = _serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
+
+            LoginWindow LoginPage = new LoginWindow();
+            LoginPage.Navigate(new LoginPage());
             LoginPage.Show();
 
             await Task.CompletedTask;

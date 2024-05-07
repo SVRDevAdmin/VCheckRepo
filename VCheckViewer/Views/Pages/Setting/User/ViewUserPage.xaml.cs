@@ -66,5 +66,20 @@ namespace VCheckViewer.Views.Pages.Setting.User
                 GoToUpdateCurrentUserPage(sender, e);
             }
         }
+
+        private void LanguageCountry(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingLanguageCountryPageHandler(e, sender);
+        }
+
+        private void btnDevice_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingDevicePageHandler(e, sender);
+        }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingConfigurationPageHandler(e, sender);
+        }
     }
 }
