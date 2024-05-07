@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VCheck.Lib.Data;
+using VCheckViewer.Lib.Function;
 using VCheckViewer.Views.Pages;
 using VCheckViewer.Views.Pages.Setting.User;
 using VCheckViewer.Views.Pages.Test;
@@ -36,6 +37,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Xml;
 using Brushes = System.Windows.Media.Brushes;
+using VCheckViewer.Views.Pages.Setting.Device;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -51,6 +53,7 @@ namespace VCheckViewer.Views.Windows
         static MasterCodeDataDBContext sContext = App.GetService<MasterCodeDataDBContext>();
         static RolesDBContext rolesContext = App.GetService<RolesDBContext>();
         static UserDBContext usersContext = App.GetService<UserDBContext>();
+        static DeviceDBContext deviceContext = App.GetService<DeviceDBContext>();
 
         List<MasterCodeDataModel> masterCodeDataList = sContext.GetMasterCodeData();
         List<RolesModel> roleList = rolesContext.GetRoles();
@@ -190,7 +193,9 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "UserAddRow") { PopupContent.Text = "Are you sure you want to create this user profile?"; }
             if (App.MainViewModel.Origin == "UserUpdateRow") { PopupContent.Text = "Are you sure you want to update this user profile?"; }
             if (App.MainViewModel.Origin == "Logout") { PopupContent.Text = "Are you sure you want to logout?"; }
-
+            if (App.MainViewModel.Origin == "DeviceAdd") { PopupContent.Text = "Are you sure you want to add this new analyzer";  }
+            if (App.MainViewModel.Origin == "DeviceDelete") { PopupContent.Text = "Are you sure you want to remove this new analyzer"; }
+            if (App.MainViewModel.Origin == "DeviceUpdate") { PopupContent.Text = "Are you sure you want to update this new analyzer"; }
 
             PopupBackground.Background = Brushes.DimGray;
             PopupBackground.Opacity = 0.5;
@@ -206,6 +211,9 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "UserDeleteRow") { DeleteUserRowHandler(e, sender); }
             if (App.MainViewModel.Origin == "UserAddRow") { AddUserRowHandler(e, sender); }
             if (App.MainViewModel.Origin == "UserUpdateRow") { UpdateUserRowHandler(e, sender); }
+            if (App.MainViewModel.Origin == "DeviceAdd") { AddDeviceHandler(e, sender);  }
+            if (App.MainViewModel.Origin == "DeviceDelete") { DeleteDeviceHandler(e, sender);  }
+            if (App.MainViewModel.Origin == "DeviceUpdate") { UpdateDeviceHandler(e, sender); }
             if (App.MainViewModel.Origin == "Logout")
             {
                 //Login login = new Login(_navigationService, _pageService);
@@ -324,7 +332,6 @@ namespace VCheckViewer.Views.Windows
             PreviousPage(sender, e);
         }
 
-
         private void UpdateUserRowHandler(EventArgs e, object sender)
         {
             usersContext.UpdateUser(App.MainViewModel.Users);
@@ -337,6 +344,42 @@ namespace VCheckViewer.Views.Windows
 
 
             PreviousPage(sender, e);
+        }
+
+        private void AddDeviceHandler(EventArgs e, object sender)
+        {
+            if (DeviceRepository.InsertDevice(App.MainViewModel.DeviceModel, ConfigSettings.GetConfigurationSettings()))
+            {
+                frameContent.Content = new DevicePage();
+            }
+            else
+            {
+                //todo : prompt error 
+            }
+        }
+
+        private void DeleteDeviceHandler(EventArgs e, object sender)
+        {
+            if (DeviceRepository.UpdateDevice(App.MainViewModel.DeviceModel, ConfigSettings.GetConfigurationSettings()))
+            {
+                frameContent.Content = new DevicePage();
+            }
+            else
+            {
+                //todo: prompt error
+            }
+        }
+
+        private void UpdateDeviceHandler(EventArgs e, object sender)
+        {
+            if (DeviceRepository.UpdateDevice(App.MainViewModel.DeviceModel, ConfigSettings.GetConfigurationSettings()))
+            {
+                frameContent.Content = new DevicePage();
+            }
+            else
+            {
+                //todo: prompt error
+            }
         }
 
         private void mnDashboard_Click(object sender, RoutedEventArgs e)
@@ -354,8 +397,10 @@ namespace VCheckViewer.Views.Windows
         private void mnResults_Click(object sender, RoutedEventArgs e)
         {
             //frameContent.Content = new DashboardPage();
-            frameContent.Content = new LocalizationTestPage();
-            PageTitle.Text = "Results";
+            //frameContent.Content = new LocalizationTestPage();
+            //PageTitle.Text = "Results";
+            frameContent.Content = new DevicePage();
+            PageTitle.Text = "Device";
         }
 
         private void mnNotifications_Click(object sender, RoutedEventArgs e)

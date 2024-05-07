@@ -78,13 +78,12 @@
                     <Button Content="PMS/LIS/HIS" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
                 </Border>
                 <Border Grid.Column="3" Margin="2">
-                    <Button Content="Device" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
+                    <Button Name="btnDevice" Content="Device" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
                 </Border>
             </Grid>
         </Border>
 
         <Button Content="Create User" VerticalAlignment="Top" Click="AddUserList_Click" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" Height="45" Background="PeachPuff" Style="{DynamicResource RoundButton}" Margin="5,0,20,0" BorderBrush="White"></Button>
-        
         <Border Grid.Row="1" Grid.ColumnSpan="4" Margin="0,20,0,0">
             <Grid>
                 <Grid.RowDefinitions>

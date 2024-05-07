@@ -3,8 +3,28 @@
   "WorkspaceRootPath": "C:\\Dev\\VCheck\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\views\\pages\\setting\\user\\adduserpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\user\\adduserpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\views\\pages\\setting\\device\\devicepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\device\\devicepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\views\\pages\\setting\\user\\userpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\user\\userpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\views\\windows\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\windows\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\views\\pages\\setting\\device\\devicepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\setting\\device\\devicepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +34,79 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AddUserPage.xaml",
+              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Setting\\User\\AddUserPage.xaml",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\User\\AddUserPage.xaml",
+              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Setting\\User\\AddUserPage.xaml",
+              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\User\\AddUserPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-05-07T02:20:59.735Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserPage.xaml",
+              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml",
+              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml",
+              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\User\\UserPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-05-07T02:20:56.639Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DevicePage.xaml",
+              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Setting\\Device\\DevicePage.xaml",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\Device\\DevicePage.xaml",
+              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Setting\\Device\\DevicePage.xaml",
+              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\Device\\DevicePage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-05-07T01:41:49.153Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Login.xaml",
+              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Windows\\Login.xaml",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Windows\\Login.xaml",
+              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Windows\\Login.xaml",
+              "RelativeToolTip": "VCheckViewer\\Views\\Windows\\Login.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-05-07T00:59:55.524Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\appsettings.json",
-              "RelativeDocumentMoniker": "VCheckViewer\\appsettings.json",
-              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\appsettings.json",
-              "RelativeToolTip": "VCheckViewer\\appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAALAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-05-02T01:18:52.433Z",
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\App.xaml",
+              "RelativeDocumentMoniker": "VCheckViewer\\App.xaml",
+              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\App.xaml",
+              "RelativeToolTip": "VCheckViewer\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-05-07T00:48:09.006Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DevicePage.xaml.cs",
+              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Setting\\Device\\DevicePage.xaml.cs",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Setting\\Device\\DevicePage.xaml.cs",
+              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Setting\\Device\\DevicePage.xaml.cs",
+              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Setting\\Device\\DevicePage.xaml.cs",
+              "ViewState": "AQIAAPkAAAAAAAAAAAAAACsAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-07T00:40:07.485Z",
               "EditorCaption": ""
             }
           ]

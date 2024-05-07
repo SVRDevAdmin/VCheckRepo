@@ -2,6 +2,7 @@
 FC:\Dev\VCheck\VCheckViewer\App.xaml;;
 FC:\Dev\VCheck\VCheckViewer\ResourceDictionary.xaml;;
 FC:\Dev\VCheck\VCheckViewer\Views\Pages\Dashboard\DashboardPage.xaml;;
+FC:\Dev\VCheck\VCheckViewer\Views\Pages\Setting\Device\DevicePage.xaml;;
 FC:\Dev\VCheck\VCheckViewer\Views\Pages\Setting\User\AddUserPage.xaml;;
 FC:\Dev\VCheck\VCheckViewer\Views\Pages\Setting\User\UpdateUserPage.xaml;;
 FC:\Dev\VCheck\VCheckViewer\Views\Pages\Setting\User\UserPage.xaml;;

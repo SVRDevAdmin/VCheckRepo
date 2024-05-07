@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "lTkWQLainuJNKA8sBNOONGdoOAOWRYJrAuh/qgPj+5syECZUz0dDueXFCQHjJ/mhTeF4Z3Ttv9OHg+6IFWa5Og==",
+  "dgSpecHash": "QuVg/roYb5m7jbuGYBws3yznQ4YGf5/kP9twK9M2Owigt1mUtl9xBnQqcskdrkIoVOELfSWRNyQbxUHFhQ1sRg==",
   "success": true,
   "projectFilePath": "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
   "expectedPackageFiles": [
@@ -43,6 +43,8 @@
     "C:\\Users\\SVRke\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\mysql.data\\8.3.0\\mysql.data.8.3.0.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\mysqlconnector\\2.3.5\\mysqlconnector.2.3.5.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\8.0.2\\pomelo.entityframeworkcore.mysql.8.0.2.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",

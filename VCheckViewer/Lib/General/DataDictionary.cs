@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace VCheckViewer.Lib
+{
+    public class DataDictionary
+    {
+        public enum DeviceListStatus
+        {
+            Active = 1,
+            Inactive = 2,
+            Deleted = 3
+        }
+    }
+}

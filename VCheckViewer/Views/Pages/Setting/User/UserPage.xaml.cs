@@ -24,6 +24,7 @@ using VCheckViewer.Views.Windows;
 using Wpf.Ui.Controls;
 using Brushes = System.Windows.Media.Brushes;
 using Application = System.Windows.Application;
+using VCheckViewer.Views.Pages.Setting.Device;
 
 namespace VCheckViewer.Views.Pages
 {
@@ -326,6 +327,13 @@ namespace VCheckViewer.Views.Pages
 
             paginationPanel.Children.Clear();
             createPagination(startPagination);
+        }
+
+        private void btnDevice_Click(object sender, RoutedEventArgs e)
+        {
+            Main sMain = new Main();
+            sMain.frameContent.NavigationService.Content = new DevicePage();
+            sMain.frameContent.NavigationService.Refresh();
         }
     }
 }

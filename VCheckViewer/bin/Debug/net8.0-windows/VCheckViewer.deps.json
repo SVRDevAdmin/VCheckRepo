@@ -1279,7 +1279,8 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "8.0.4",
           "Microsoft.Extensions.Configuration.Json": "8.0.0",
-          "MySql.Data": "8.3.0"
+          "MySql.Data": "8.3.0",
+          "Pomelo.EntityFrameworkCore.MySql": "8.0.2"
         },
         "runtime": {
           "VCheck.Lib.Data.dll": {}

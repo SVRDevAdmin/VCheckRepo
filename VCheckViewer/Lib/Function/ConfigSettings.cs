@@ -9,13 +9,11 @@ namespace VCheckViewer.Lib.Function
 {
     public class ConfigSettings
     {
-        public static Microsoft.Extensions.Configuration.IConfiguration GetConnectionConfiguration()
+        public static IConfiguration GetConfigurationSettings()
         {
-            //IConfiguration iConfig = new ConfigurationBuilder()
-            //.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            //.Build();
-            IConfiguration iConfig = null;
-            return iConfig;
+            var iHost = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
+
+            return iHost.Configuration;
         }
 
     }
