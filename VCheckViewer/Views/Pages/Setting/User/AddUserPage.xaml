@@ -125,6 +125,6 @@
                 </Grid>
             </Border>
         </Border>
-        <Button x:Name="Create" Content="Create" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Click="CreateButton_Click" Margin="30" Background="DarkOrange" Foreground="Black" Style="{DynamicResource RoundButton}" BorderBrush="White" IsEnabled="False"/>
+        <Button x:Name="Create" Content="Create" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Click="CreateButton_Click" Margin="30" Background="DarkOrange" Foreground="White" Style="{DynamicResource RoundButton}" BorderBrush="White" IsEnabled="False"/>
     </Grid>
 </Page>

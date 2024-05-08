@@ -132,7 +132,6 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 {
                     sDeviceObj.DeviceName = txtName.Text;
                     sDeviceObj.DeviceIPAddress = txtIPAddress.Text;
-                    sDeviceObj.DeviceIPAddress = txtIPAddress.Text;
                     sDeviceObj.UpdatedDate = DateTime.Now;
                     sDeviceObj.UpdatedBy = "YY";
                 }
@@ -214,7 +213,7 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             else
             {
                 sTxtNameBorder.BorderBrush = System.Windows.Media.Brushes.Black;
-                sTxtNameBorder.ToolTip = "";
+                sTxtNameBorder.ToolTip = null;
             }
 
             String sIPAddress = txtIPAddress.Text;
@@ -229,7 +228,7 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             else
             {
                 borderIPEdit.BorderBrush = System.Windows.Media.Brushes.Black;
-                borderIPEdit.ToolTip = "";
+                borderIPEdit.ToolTip = null;
             }
 
             IPAddress iIP;
@@ -244,7 +243,7 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             else
             {
                 borderIPEdit.BorderBrush = System.Windows.Media.Brushes.Black;
-                borderIPEdit.ToolTip = "";
+                borderIPEdit.ToolTip = null;
             }
 
 

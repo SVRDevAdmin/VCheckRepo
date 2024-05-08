@@ -91,7 +91,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <DataGrid Name = "dataGrid" IsReadOnly="True" AutoGenerateColumns = "False" Margin="10" Grid.Row="0"  GridLinesVisibility="Horizontal" BorderThickness="0"  RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}">
+                <DataGrid Name = "dataGrid" IsReadOnly="True" BorderBrush="Black" AutoGenerateColumns = "False" Margin="10" Grid.Row="0"  GridLinesVisibility="Horizontal" BorderThickness="0"  RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header = "No" Binding = "{Binding No}" Width="auto" ElementStyle="{StaticResource DataGridVerticalText}"/>
                         <DataGridTextColumn Header = "Staff Name" Binding = "{Binding StaffName}" Width="*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned }" FontWeight="Bold" />
@@ -108,7 +108,7 @@
                                         <Menu>
                                             <MenuItem>
                                                 <MenuItem.Icon>
-                                                    <ui:SymbolIcon Symbol="MoreVertical48" FontSize="20"/>
+                                                    <ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />
                                                 </MenuItem.Icon>
                                                 <MenuItem Header="View" Click="ViewUserButton_Click"/>
                                                 <MenuItem Header="Update" Click="UpdateUserButton_Click"/>

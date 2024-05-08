@@ -123,6 +123,9 @@
   <data name="General_Label_No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="General_Label_OK" xml:space="preserve">
+    <value>Ok</value>
+  </data>
   <data name="General_Label_Save" xml:space="preserve">
     <value>Save</value>
   </data>

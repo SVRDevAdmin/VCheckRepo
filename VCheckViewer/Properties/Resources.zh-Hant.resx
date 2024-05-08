@@ -123,6 +123,9 @@
   <data name="General_Label_No" xml:space="preserve">
     <value>唔係</value>
   </data>
+  <data name="General_Label_OK" xml:space="preserve">
+    <value>知到</value>
+  </data>
   <data name="General_Label_Save" xml:space="preserve">
     <value>保存</value>
   </data>

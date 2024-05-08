@@ -7,6 +7,17 @@
       mc:Ignorable="d" 
       Title="LoginPage">
 
+    <!--
+    <Page.Resources>
+        <Style TargetType="{x:Type PasswordBox}">
+            <Setter Property="OverridesDefaultStyle" Value="False" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="10" />
+        </Style>
+    </Page.Resources>
+    -->
     <Grid Margin="30,0,30,70">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -68,7 +79,7 @@
                                 <Image Source="../../../Content/Images/Password Icon.png" HorizontalAlignment="Left" Height="30" Margin="5,-5,0,0"/>
 
 
-                                <PasswordBox x:Name="Password" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" PasswordChanged="PasswordPlaceholderHandler"/>
+                                <PasswordBox x:Name="Password" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" PasswordChanged="PasswordPlaceholderHandler" />
                                 <TextBlock x:Name="PasswordPlaceholder" IsHitTestVisible="False" Text="{Binding Path=Login_Label_MainPassword, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
@@ -78,7 +89,7 @@
                                 </TextBlock>
                             </Grid>
                         </Border>
-                        <Button Content="{Binding Path=Login_Label_LoginButton, Source={StaticResource Resources}}" Style="{DynamicResource RoundButton}" Background="DarkOrange" Foreground="White" HorizontalAlignment="Stretch" Height="40" Margin="0,20,0,15" Click="LoginButton_Click"/>
+                        <Button Content="{Binding Path=Login_Label_LoginButton, Source={StaticResource Resources}}" Style="{DynamicResource RoundButton}" Background="DarkOrange" Foreground="White" HorizontalAlignment="Stretch" Height="40" BorderThickness="0" Margin="0,20,0,15" Click="LoginButton_Click"/>
                         <Button Content="{Binding Path=Login_Label_ForgetPassword, Source={StaticResource Resources}}" Foreground="Black" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Click="ResetPassword"/>
                     </StackPanel>
                 </Border>

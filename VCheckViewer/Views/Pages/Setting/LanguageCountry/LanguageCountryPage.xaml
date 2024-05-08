@@ -120,6 +120,6 @@
                 </Border>
             </Grid>
         </Border>
-        <Button x:Name="SaveButton" Content="{Binding Path=General_Label_Save, Source={StaticResource Resources}}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Margin="30" Background="DarkOrange" Foreground="Black" Style="{DynamicResource RoundButton}" BorderBrush="White" Click="SaveButton_Click" />
+        <Button x:Name="SaveButton" Content="{Binding Path=General_Label_Save, Source={StaticResource Resources}}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Margin="30" Background="DarkOrange" Foreground="White" Style="{DynamicResource RoundButton}" BorderBrush="White" Click="SaveButton_Click" />
     </Grid>
 </Page>

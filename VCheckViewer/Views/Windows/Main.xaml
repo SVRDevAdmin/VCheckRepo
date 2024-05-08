@@ -176,7 +176,7 @@
                             <Button Name="btnCollapse" Click="btnCollapse_Click" Panel.ZIndex="8" BorderThickness="0" Background="Transparent">
                                 <Image Source="../../Content/Images/Collapse_Arrow.png" Width="20" Height="20"/>
                             </Button>
-                            <Label Padding="65, 0" VerticalAlignment="Center" Foreground="SlateGray" Content="{Binding Path=Main_Label_SideMenuCollapse, Source={StaticResource Resources}}"/>
+                            <Label Padding="65, 0" VerticalAlignment="Center" Foreground="SlateGray" FontWeight="SemiBold"  Content="{Binding Path=Main_Label_SideMenuCollapse, Source={StaticResource Resources}}"/>
                             <Button Name="btnOpen" Click="btnOpen_Click"  Margin="160, 0, 0, 0" Panel.ZIndex="8" Visibility="Collapsed" BorderThickness="0" Background="Transparent">
                                 <Image Source="../../Content/Images/Collapse_Arrow_Right.png" Width="20" Height="20" />
                             </Button>
@@ -257,8 +257,9 @@
                         </Border>
                         <Border Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,40">
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="{Binding Path=General_Label_No, Source={StaticResource Resources}}" Click="CancelButton_Click" Margin="0,0,10,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="Transparent"/>
-                                <Button Content="{Binding Path=General_Label_Yes, Source={StaticResource Resources}}" Click="ContinueButton_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="DarkOrange" Foreground="White"/>
+                                <Button Name="btnNo" Content="{Binding Path=General_Label_No, Source={StaticResource Resources}}" Click="CancelButton_Click" Margin="0,0,10,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="Transparent"/>
+                                <Button Name="btnYes" Content="{Binding Path=General_Label_Yes, Source={StaticResource Resources}}" Click="ContinueButton_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="DarkOrange" Foreground="White"/>
+                                <Button Name="btnOk" Content="{Binding Path=General_Label_OK, Source={StaticResource Resources}}" Click="btnOk_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="DarkOrange" Foreground="White" Visibility="Collapsed" />
                             </StackPanel>
                         </Border>
                     </Grid>
