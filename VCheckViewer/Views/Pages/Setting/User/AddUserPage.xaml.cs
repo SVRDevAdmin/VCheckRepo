@@ -42,6 +42,11 @@ namespace VCheckViewer.Views.Pages
             SelectedcbGender = cbGender.FirstOrDefault();
             SelectedcbRoles = cbRoles.FirstOrDefault();
             SelectedcbStatus = cbStatus.FirstOrDefault();
+
+            UserPage.DataContext = App.MainViewModel;
+
+            App.MainViewModel.BackButtonText = Properties.Resources.Setting_Label_UserBackButton;
+
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -119,7 +124,7 @@ namespace VCheckViewer.Views.Pages
         {
             DateTime temp;
 
-            if (Convert.ToString((StaffID.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Title.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Surname.Parent as Border).ToolTip) == "No issue" && Convert.ToString((LastName.Parent as Border).ToolTip) == "No issue" && Convert.ToString((RegistrationNo.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Gender.Parent as Border).ToolTip) == "No issue" && Convert.ToString((DateOfBirth.Parent as Border).ToolTip) == "No issue" && Convert.ToString((EmailAddress.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Status.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Role.Parent as Border).ToolTip) == "No issue" && DateTime.TryParse(DateOfBirth.ToString(), out temp) && Convert.ToString((LoginID.Parent as Border).ToolTip) == "No issue")
+            if (Convert.ToString((StaffID.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Title.Parent as Border).ToolTip) == "No issue" && Convert.ToString((FullName.Parent as Border).ToolTip) == "No issue" && Convert.ToString((RegistrationNo.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Gender.Parent as Border).ToolTip) == "No issue" && Convert.ToString((DateOfBirth.Parent as Border).ToolTip) == "No issue" && Convert.ToString((EmailAddress.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Status.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Role.Parent as Border).ToolTip) == "No issue" && DateTime.TryParse(DateOfBirth.ToString(), out temp) && Convert.ToString((LoginID.Parent as Border).ToolTip) == "No issue")
             {
                 Create.IsEnabled = true;
             }
@@ -135,8 +140,8 @@ namespace VCheckViewer.Views.Pages
             {
                 EmployeeID = StaffID.Text,
                 Title = Title.Text,
-                FirstName = Surname.Text,
-                LastName = LastName.Text,
+                //FirstName = Surname.Text,
+                FullName = FullName.Text,
                 RegistrationNo = RegistrationNo.Text,
                 Gender = ((ComboBoxItem)Gender.SelectedItem).Tag.ToString(),
                 DateOfBirth = Convert.ToDateTime(DateOfBirth.Text).ToString("yyyy-MM-dd"),

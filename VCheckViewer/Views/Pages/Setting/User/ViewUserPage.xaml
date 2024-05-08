@@ -28,16 +28,16 @@
                     <ColumnDefinition Width="auto" MinWidth="100"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="2">
-                    <Button Content="User" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}"></Button>
+                    <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}"></Button>
                 </Border>
                 <Border Grid.Column="1" Margin="2">
-                    <Button Content="Language &amp; Country" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="LanguageCountry"></Button>
+                    <Button Content="{Binding Path=Setting_Label_LanguageCountry, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="LanguageCountry"></Button>
                 </Border>
                 <Border Grid.Column="2" Margin="2">
                     <Button Content="PMS/LIS/HIS" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}"></Button>
                 </Border>
                 <Border Grid.Column="3" Margin="2">
-                    <Button Content="Device" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
+                    <Button Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
                 </Border>
             </Grid>
         </Border>
@@ -57,15 +57,15 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Title" Grid.Row="0" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_Title, Source={StaticResource Resources}}" Grid.Row="0" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
                     <TextBlock x:Name="Title" Grid.Row="1" Margin="10,0,10,10" VerticalAlignment="Center"/>
-                    <TextBlock Text="Surname" Grid.Row="2" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
-                    <TextBlock x:Name="Surname" Grid.Row="3" Margin="10,0,10,10" VerticalAlignment="Center"/>
-                    <TextBlock Text="Last Name" Grid.Row="4" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
-                    <TextBlock x:Name="LastName" Grid.Row="5" Margin="10,0,10,10" VerticalAlignment="Center"/>
-                    <TextBlock Text="Staff ID" Grid.Row="6" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_FullName, Source={StaticResource Resources}}" Grid.Row="2" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
+                    <TextBlock x:Name="FullName" Grid.Row="3" Margin="10,0,10,10" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_LoginID, Source={StaticResource Resources}}" Grid.Row="4" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
+                    <TextBlock x:Name="LoginID" Grid.Row="5" Margin="10,0,10,10" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_StaffID, Source={StaticResource Resources}}" Grid.Row="6" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
                     <TextBlock x:Name="StaffID" Grid.Row="7" Margin="10,0,10,10" VerticalAlignment="Center"/>
-                    <TextBlock Text="Doctor's Registration No." Grid.Row="8" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_RegistrationNo, Source={StaticResource Resources}}" Grid.Row="8" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
                     <TextBlock x:Name="RegistrationNo" Grid.Row="9" Margin="10,0,10,10" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
@@ -85,19 +85,19 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Gender" Grid.Row="0" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_Gender, Source={StaticResource Resources}}" Grid.Row="0" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
                     <TextBlock x:Name="Gender" Grid.Row="1" Margin="10,0,10,10" VerticalAlignment="Center"/>
-                    <TextBlock Text="Date Of Birth" Grid.Row="2" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_DateOfBirth, Source={StaticResource Resources}}" Grid.Row="2" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
                     <TextBlock x:Name="DateOfBirth" Grid.Row="3" Margin="10,0,10,10" VerticalAlignment="Center"/>
-                    <TextBlock Text="User Role" Grid.Row="4" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_Role, Source={StaticResource Resources}}" Grid.Row="4" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
                     <TextBlock x:Name="Role" Grid.Row="5" Margin="10,0,10,10" VerticalAlignment="Center"/>
-                    <TextBlock Text="Email Address" Grid.Row="6" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_Email, Source={StaticResource Resources}}" Grid.Row="6" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
                     <TextBlock x:Name="EmailAddress" Grid.Row="7" Margin="10,0,10,10" VerticalAlignment="Center"/>
-                    <TextBlock Text="Status" Grid.Row="8" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_Status, Source={StaticResource Resources}}" Grid.Row="8" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold"/>
                     <TextBlock x:Name="Status" Grid.Row="9" Margin="10,0,10,10" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
         </Border>
-        <Button x:Name="Edit" Content="Edit" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Click="UpdateCurrentButton_Click" Margin="30" Background="DarkOrange" Foreground="White" Style="{DynamicResource RoundButton}" BorderBrush="White" Visibility="Hidden"/>
+        <Button x:Name="Edit" Content="{Binding Path=General_Label_Edit, Source={StaticResource Resources}}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Click="UpdateCurrentButton_Click" Margin="30" Background="DarkOrange" Foreground="White" Style="{DynamicResource RoundButton}" BorderBrush="White" Visibility="Hidden"/>
     </Grid>
 </Page>

@@ -53,5 +53,20 @@ namespace VCheck.Lib.Data.DBContext
 
             return sList;
         }
+
+        public void InsertRole(RolesModel role)
+        {
+            string insertQuery = "INSERT INTO `vcheckdb`.`mst_roles` (`RoleID`,`RoleName`,`IsActive`,`IsSuperadmin`,`IsAdmin`) ";
+
+            insertQuery += "Values ('" + role.RoleID + "','" + role.RoleName + "', " + role.IsActive + ", " + role.IsSuperadmin + ", " + role.IsAdmin + ")";
+
+            using (MySqlConnection conn = this.Connection)
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+
+                cmd.ExecuteReader();
+            }
+        }
     }
 }

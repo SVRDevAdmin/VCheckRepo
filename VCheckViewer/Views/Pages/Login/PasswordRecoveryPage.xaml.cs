@@ -41,9 +41,17 @@ namespace VCheckViewer.Views.Pages.Login
 
             if(user != null)
             {
-                newPassword = RandomPasswordGenerator();
+                if (user.NormalizedEmail == Email.Text.ToUpper())
+                {
+                    newPassword = RandomPasswordGenerator();
 
-                PopupHandler(e, sender);
+                    PopupHandler(e, sender);
+                }
+                else
+                {
+                    ErrorText.Visibility = Visibility.Visible;
+                    ErrorText.Text = "Wrong email linked to the account, please verify it is the correct email and try again.";
+                }
             }
             else
             {
@@ -84,22 +92,22 @@ namespace VCheckViewer.Views.Pages.Login
             Random res = new Random();
 
             // String that contain alphabets, numbers and special character
-            String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-={}|[];,./:<>?";
-            int size = 8;
+            String lowerCase = "abcdefghijklmnopqrstuvwxyz";
+            String upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            String number = "0123456789";
+            String specialChar = "!@#$%^&*()_+-={}|[];,./:<>?";
 
             // Initializing the empty string 
             String randomstring = "";
 
-            for (int i = 0; i < size; i++)
-            {
-
-                // Selecting a index randomly 
-                int x = res.Next(str.Length);
-
-                // Appending the character at the  
-                // index to the random alphanumeric string. 
-                randomstring = randomstring + str[x];
-            }
+            randomstring += lowerCase[res.Next(lowerCase.Length)];
+            randomstring += upperCase[res.Next(upperCase.Length)];
+            randomstring += number[res.Next(number.Length)];
+            randomstring += specialChar[res.Next(specialChar.Length)];
+            randomstring += lowerCase[res.Next(lowerCase.Length)];
+            randomstring += upperCase[res.Next(upperCase.Length)];
+            randomstring += number[res.Next(number.Length)];
+            randomstring += specialChar[res.Next(specialChar.Length)];
 
             return randomstring;
         }

@@ -13,6 +13,9 @@ namespace VCheckViewer.ViewModels.Windows
 {
     public class MainViewModel
     {
+        string _backButtonText;
+        public string BackButtonText {  get { return _backButtonText; } set {  _backButtonText = value; } }
+
         string _origin;
 
         public string Origin

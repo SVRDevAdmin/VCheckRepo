@@ -25,8 +25,8 @@ namespace VCheckViewer.Views.Pages.Login
     public partial class LoginPage : Page
     {
 
-        INavigationService _navigationService;
-        IPageService _pageService;
+        //INavigationService _navigationService;
+        //IPageService _pageService;
         int maxLoginAttempt = 5;
 
         static UserDBContext sContext = App.GetService<UserDBContext>();

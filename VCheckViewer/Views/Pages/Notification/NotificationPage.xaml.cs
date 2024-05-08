@@ -120,8 +120,8 @@ namespace VCheckViewer.Views.Pages.Notification
 
             currentPage = highligtedIndex;
 
-            System.Windows.Controls.Button newBtn = new System.Windows.Controls.Button();
-            newBtn.Content = "Prev";
+            Button newBtn = new Button();
+            newBtn.Content = Properties.Resources.General_Label_Previous;
             newBtn.Tag = "Prev";
             newBtn.BorderThickness = new Thickness(0);
             newBtn.FontWeight = FontWeights.Bold;
@@ -130,7 +130,7 @@ namespace VCheckViewer.Views.Pages.Notification
 
             for (int i = startPagination; i <= endPagination; i++)
             {
-                newBtn = new System.Windows.Controls.Button();
+                newBtn = new Button();
 
                 if (i < 10) { newBtn.Content = "0" + i; }
                 else { newBtn.Content = i; }
@@ -159,8 +159,8 @@ namespace VCheckViewer.Views.Pages.Notification
                 newBtn.Click += new RoutedEventHandler(newBtn_Click);
             }
 
-            newBtn = new System.Windows.Controls.Button();
-            newBtn.Content = "Next";
+            newBtn = new Button();
+            newBtn.Content = Properties.Resources.General_Label_Next;
             newBtn.Tag = "Next";
             newBtn.BorderThickness = new Thickness(0);
             newBtn.FontWeight = FontWeights.Bold;

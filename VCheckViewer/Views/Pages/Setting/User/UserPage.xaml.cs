@@ -84,7 +84,7 @@ namespace VCheckViewer.Views.Pages
             currentPage = highligtedIndex;
 
             System.Windows.Controls.Button newBtn = new System.Windows.Controls.Button();
-            newBtn.Content = "Prev";
+            newBtn.Content = Properties.Resources.General_Label_Previous;
             newBtn.Tag = "Prev";
             newBtn.BorderThickness = new Thickness(0);
             newBtn.FontWeight = FontWeights.Bold;
@@ -123,7 +123,7 @@ namespace VCheckViewer.Views.Pages
             }
 
             newBtn = new System.Windows.Controls.Button();
-            newBtn.Content = "Next";
+            newBtn.Content = Properties.Resources.General_Label_Next;
             newBtn.Tag = "Next";
             newBtn.BorderThickness = new Thickness(0);
             newBtn.FontWeight = FontWeights.Bold;

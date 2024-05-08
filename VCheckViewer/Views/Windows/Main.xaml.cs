@@ -107,8 +107,8 @@ namespace VCheckViewer.Views.Windows
 
             //App.MainViewModel.CurrentUsers = new UserModel() { Title = "Dr.", FirstName = "Lee", LastName = "Eunji", StaffName = "Dr. Lee Eunji", EmployeeID = "456783", RegistrationNo = "456783", Gender = "Male", DateOfBirth = "15 March 1991", Role = "Superadmin", EmailAddress = "eunji@gmail.com", Status = "Active" };
 
-            //Username.Header = App.MainViewModel.CurrentUsers.StaffName;
             Username.Header = App.MainViewModel.CurrentUsers.StaffName;
+            //Username.Header = App.MainViewModel.CurrentUsers.Title + App.MainViewModel.CurrentUsers.FullName;
         }
 
         #region INavigationWindow methods
@@ -229,17 +229,11 @@ namespace VCheckViewer.Views.Windows
 
         void Popup(object sender, EventArgs e)
         {
-            if (App.MainViewModel.Origin == "UserDeleteRow") { PopupContent.Text = "Are you sure you want to delete this user profile?"; }
-            if (App.MainViewModel.Origin == "UserAddRow") { PopupContent.Text = "Are you sure you want to create this user profile?"; }
-            if (App.MainViewModel.Origin == "UserUpdateRow") { PopupContent.Text = "Are you sure you want to update this user profile?"; }
-            if (App.MainViewModel.Origin == "ChangeLanguageCountry") 
-            {
-                System.Windows.Data.Binding b = new System.Windows.Data.Binding("Popup_Message_LanguageCountryChange");
-                b.Source = System.Windows.Application.Current.TryFindResource("Resources");
-                PopupContent.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
-                //PopupContent.Text = "Are you sure you want to save this setting?"; 
-            }
-            if (App.MainViewModel.Origin == "Logout") { PopupContent.Text = "Are you sure you want to logout?"; }
+            if (App.MainViewModel.Origin == "UserDeleteRow") { PopupContent.Text = Properties.Resources.Popup_Message_DeleteUser; }
+            if (App.MainViewModel.Origin == "UserAddRow") { PopupContent.Text = Properties.Resources.Popup_Message_CreateUser; }
+            if (App.MainViewModel.Origin == "UserUpdateRow") { PopupContent.Text = Properties.Resources.Popup_Message_UpdateUser; }
+            if (App.MainViewModel.Origin == "ChangeLanguageCountry") { PopupContent.Text = Properties.Resources.Popup_Message_LanguageCountryChange; }
+            if (App.MainViewModel.Origin == "Logout") { PopupContent.Text = Properties.Resources.Popup_Message_Logout; }
             if (App.MainViewModel.Origin == "DeviceAdd") { PopupContent.Text = "Are you sure you want to add this new analyzer";  }
             if (App.MainViewModel.Origin == "DeviceDelete") { PopupContent.Text = "Are you sure you want to remove this new analyzer"; }
             if (App.MainViewModel.Origin == "DeviceUpdate") { PopupContent.Text = "Are you sure you want to update this new analyzer"; }
@@ -485,7 +479,7 @@ namespace VCheckViewer.Views.Windows
                 NotificationTitle = notificationTemplate.TemplateTitle,
                 NotificationContent = notificationTemplate.TemplateContent,
                 CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                CreatedBy = App.MainViewModel.CurrentUsers.StaffName
+                CreatedBy = App.MainViewModel.CurrentUsers.FullName
             };
 
             NotificationContext.InsertNotification(notification);
@@ -496,10 +490,10 @@ namespace VCheckViewer.Views.Windows
         private void mnDashboard_Click(object sender, RoutedEventArgs e)
         {
             frameContent.Content = new DashboardPage();
-            //PageTitle.Text = "Dashboard";
-            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
-            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
-            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+            PageTitle.Text = Properties.Resources.Dashboard_Title_PageTitle;
+            //System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
+            //b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            //PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
         }
 
         private void mnSchedule_Click(object sender, RoutedEventArgs e)
@@ -526,10 +520,10 @@ namespace VCheckViewer.Views.Windows
         private void mnSettings_Click(object sender, RoutedEventArgs e)
         {
             frameContent.Content = new UserPage();
-            //PageTitle.Text = "Settings";
-            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Setting_Title_PageTitle");
-            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
-            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+            PageTitle.Text = Properties.Resources.Setting_Title_PageTitle;
+            //System.Windows.Data.Binding b = new System.Windows.Data.Binding("Setting_Title_PageTitle");
+            //b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            //PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
         }
 
 

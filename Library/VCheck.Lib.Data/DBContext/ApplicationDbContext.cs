@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +17,15 @@ namespace VCheck.Lib.Data.DBContext
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            connectionString = this.Database.GetDbConnection().ConnectionString;
+            connectionString = options.FindExtension<MySqlOptionsExtension>().ConnectionString;
         }
 
         public ApplicationDbContext() { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 21)));
-            optionsBuilder.UseMySql("Server=localhost;Database=vcheckdb;User=root;Password=password;", new MySqlServerVersion(new Version(8, 0, 21)));
+            optionsBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 21)));
+            //optionsBuilder.UseMySql("Server=localhost;Database=vcheckdb;User=root;Password=password;", new MySqlServerVersion(new Version(8, 0, 21)));
         }
     }
 }

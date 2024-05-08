@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Views.Windows;
+using WPFLocalizeExtension.Providers;
+using Button = System.Windows.Controls.Button;
 
 namespace VCheckViewer.Views.Pages.Setting.User
 {
@@ -33,8 +35,8 @@ namespace VCheckViewer.Views.Pages.Setting.User
             userInfo = App.MainViewModel.Users;
 
             Title.Text = userInfo.Title;
-            Surname.Text = userInfo.FirstName;
-            LastName.Text = userInfo.LastName;
+            //Surname.Text = userInfo.FirstName;
+            FullName.Text = userInfo.FullName;
             StaffID.Text = userInfo.EmployeeID;
             RegistrationNo.Text = userInfo.RegistrationNo;
             Gender.Text = userInfo.Gender;
@@ -42,8 +44,13 @@ namespace VCheckViewer.Views.Pages.Setting.User
             Role.Text = userInfo.Role;
             EmailAddress.Text = userInfo.EmailAddress;
             Status.Text = userInfo.Status;
+            LoginID.Text = userInfo.LoginID;
 
             if (App.MainViewModel.CurrentUsers.UserId == userInfo.UserId) { Edit.Visibility = Visibility.Visible; }
+
+            UserPage.DataContext = App.MainViewModel;
+
+            App.MainViewModel.BackButtonText = Properties.Resources.Setting_Label_UserBackButton;
         }
 
 

@@ -59,13 +59,17 @@ namespace VCheckViewer.Views.Pages.Setting.User
             SelectedcbRoles = cbRoles.Where(a => (string)a.Content == userInfo.Role).FirstOrDefault();
             SelectedcbStatus = cbStatus.Where(a => (string)a.Content == userInfo.Status).FirstOrDefault();
 
-            Surname.Text = userInfo.FirstName;
-            LastName.Text = userInfo.LastName;
+            //Surname.Text = userInfo.FirstName;
+            FullName.Text = userInfo.FullName;
             StaffID.Text = userInfo.EmployeeID;
             RegistrationNo.Text = userInfo.RegistrationNo;
             DateOfBirth.Text = userInfo.DateOfBirth;
             EmailAddress.Text = userInfo.EmailAddress;
+            LoginID.Text = userInfo.LoginID;
 
+            UserPage.DataContext = App.MainViewModel;
+
+            App.MainViewModel.BackButtonText = Properties.Resources.Setting_Label_UserBackButton;
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -143,7 +147,7 @@ namespace VCheckViewer.Views.Pages.Setting.User
         {
             DateTime temp;
 
-            if (Convert.ToString((StaffID.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Title.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Surname.Parent as Border).ToolTip) == "No issue" && Convert.ToString((LastName.Parent as Border).ToolTip) == "No issue" && Convert.ToString((RegistrationNo.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Gender.Parent as Border).ToolTip) == "No issue" && Convert.ToString((DateOfBirth.Parent as Border).ToolTip) == "No issue" && Convert.ToString((EmailAddress.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Status.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Role.Parent as Border).ToolTip) == "No issue")
+            if (Convert.ToString((StaffID.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Title.Parent as Border).ToolTip) == "No issue" && Convert.ToString((FullName.Parent as Border).ToolTip) == "No issue" && Convert.ToString((RegistrationNo.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Gender.Parent as Border).ToolTip) == "No issue" && Convert.ToString((DateOfBirth.Parent as Border).ToolTip) == "No issue" && Convert.ToString((EmailAddress.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Status.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Role.Parent as Border).ToolTip) == "No issue")
             {
                 Update.IsEnabled = true;
             }
@@ -158,9 +162,10 @@ namespace VCheckViewer.Views.Pages.Setting.User
             if (App.MainViewModel.CurrentUsers.UserId == userInfo.UserId) {
                 App.MainViewModel.CurrentUsers.EmployeeID = StaffID.Text;
                 App.MainViewModel.CurrentUsers.Title = Title.Text;
-                App.MainViewModel.CurrentUsers.FirstName = Surname.Text;
-                App.MainViewModel.CurrentUsers.LastName = LastName.Text;
-                App.MainViewModel.CurrentUsers.StaffName = Title.Text + " " + Surname.Text + " " + LastName.Text;
+                //App.MainViewModel.CurrentUsers.FirstName = Surname.Text;
+                //App.MainViewModel.CurrentUsers.LastName = LastName.Text;
+                App.MainViewModel.CurrentUsers.StaffName = Title.Text + " " + FullName.Text;
+                App.MainViewModel.CurrentUsers.FullName = FullName.Text;
                 App.MainViewModel.CurrentUsers.RegistrationNo = RegistrationNo.Text;
                 App.MainViewModel.CurrentUsers.Gender = Gender.Text;
                 App.MainViewModel.CurrentUsers.DateOfBirth = Convert.ToDateTime(DateOfBirth.Text).ToString("dd MMMM yyyy");
@@ -174,9 +179,9 @@ namespace VCheckViewer.Views.Pages.Setting.User
                 UserId = userInfo.UserId,
                 EmployeeID = StaffID.Text,
                 Title = Title.Text,
-                FirstName = Surname.Text,
-                LastName = LastName.Text,
-                StaffName = Title.Text + " " + Surname.Text + " " + LastName.Text,
+                //FirstName = Surname.Text,
+                //LastName = LastName.Text,
+                FullName = FullName.Text,
                 RegistrationNo = RegistrationNo.Text,
                 Gender = ((ComboBoxItem)Gender.SelectedItem).Tag.ToString(),
                 DateOfBirth = Convert.ToDateTime(DateOfBirth.Text).ToString("yyyy-MM-dd"),

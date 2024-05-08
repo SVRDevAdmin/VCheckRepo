@@ -116,7 +116,8 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Source="../../../../Content/Images/group_10.png" Grid.Column="0" VerticalAlignment="Center"/>
-                                    <TextBlock x:Name="lbBack" Text="Back to User Listing" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    <!--<TextBlock x:Name="lbBack" Text="Back to User Listing" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>-->
+                                    <TextBlock x:Name="lbBack" Text="{Binding Path=BackButtonText}" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                 </Grid>
                             </Border>
                         </ControlTemplate>

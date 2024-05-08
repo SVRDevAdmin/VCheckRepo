@@ -120,14 +120,50 @@
   <data name="Dashboard_Title_PageTitle" xml:space="preserve">
     <value>Dashboard</value>
   </data>
+  <data name="General_Label_Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="General_Label_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="General_Label_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="General_Label_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
   <data name="General_Label_No" xml:space="preserve">
     <value>No</value>
+  </data>
+  <data name="General_Label_Number" xml:space="preserve">
+    <value>No.</value>
+  </data>
+  <data name="General_Label_Previous" xml:space="preserve">
+    <value>Prev</value>
   </data>
   <data name="General_Label_Save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="General_Label_Searchbar" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="General_Label_Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="General_Label_Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="General_Label_View" xml:space="preserve">
+    <value>View</value>
+  </data>
   <data name="General_Label_Yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="Login_Label_BackButton" xml:space="preserve">
+    <value>Back to login</value>
+  </data>
+  <data name="Login_Label_ConfirmPassword" xml:space="preserve">
+    <value>Confirm New Password</value>
   </data>
   <data name="Login_Label_ForgetPassword" xml:space="preserve">
     <value>Forgot Password?</value>
@@ -147,11 +183,29 @@
   <data name="Login_Label_MainUsername" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="Login_Label_NewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="Login_Label_OldPassword" xml:space="preserve">
+    <value>Old Password</value>
+  </data>
+  <data name="Login_Label_PasswordRecovery" xml:space="preserve">
+    <value>Password Recovery</value>
+  </data>
+  <data name="Login_Label_ResetPassword" xml:space="preserve">
+    <value>Reset password</value>
+  </data>
+  <data name="Login_Message_PasswordRecovery" xml:space="preserve">
+    <value>Please enter your email address, and we will send you a link to reset your password.</value>
+  </data>
   <data name="Login_Title_PageTitle" xml:space="preserve">
     <value>Login</value>
   </data>
-  <data name="Main_Label_Searchbar" xml:space="preserve">
-    <value>Search</value>
+  <data name="Main_Label_Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Main_Label_ResetPassword" xml:space="preserve">
+    <value>Reset Password</value>
   </data>
   <data name="Main_Label_SideMenuCollapse" xml:space="preserve">
     <value>Collapse</value>
@@ -171,8 +225,107 @@
   <data name="Main_Label_SideMenuSetting" xml:space="preserve">
     <value>Setting</value>
   </data>
+  <data name="Main_Label_ViewProfile" xml:space="preserve">
+    <value>View Profile</value>
+  </data>
+  <data name="Notification_Label_CompletedTest" xml:space="preserve">
+    <value>Completed Test Results</value>
+  </data>
+  <data name="Notification_Label_ShowAll" xml:space="preserve">
+    <value>Show All</value>
+  </data>
+  <data name="Notification_Label_UpcomingTest" xml:space="preserve">
+    <value>Upcoming Test</value>
+  </data>
+  <data name="Notification_Label_Updates" xml:space="preserve">
+    <value>Updates</value>
+  </data>
+  <data name="Popup_Message_CreateUser" xml:space="preserve">
+    <value>Are you sure you want to create this user profile?</value>
+  </data>
+  <data name="Popup_Message_DeleteUser" xml:space="preserve">
+    <value>Are you sure you want to delete this user profile?</value>
+  </data>
   <data name="Popup_Message_LanguageCountryChange" xml:space="preserve">
     <value>Are you sure you want to save this setting?</value>
+  </data>
+  <data name="Popup_Message_Logout" xml:space="preserve">
+    <value>Are you sure you want to logout?</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP1" xml:space="preserve">
+    <value>We have send you a temporary password to your email. You can use it to log in. &lt;next line&gt; Once you are logged in, you can change it to your preferred password in </value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP2" xml:space="preserve">
+    <value>'Reset Password'</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP3" xml:space="preserve">
+    <value> section</value>
+  </data>
+  <data name="Popup_Message_RecoverPassword" xml:space="preserve">
+    <value>Are you sure you want to recover your password?</value>
+  </data>
+  <data name="Popup_Message_UpdateUser" xml:space="preserve">
+    <value>Are you sure you want to update this user profile?</value>
+  </data>
+  <data name="Setting_Label_Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="Setting_Label_CreateUser" xml:space="preserve">
+    <value>Create User</value>
+  </data>
+  <data name="Setting_Label_DateOfBirth" xml:space="preserve">
+    <value>Date Of Birth</value>
+  </data>
+  <data name="Setting_Label_Device" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="Setting_Label_Email" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="Setting_Label_FullName" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="Setting_Label_Gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="Setting_Label_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Setting_Label_LanguageCountry" xml:space="preserve">
+    <value>Language &amp; Country</value>
+  </data>
+  <data name="Setting_Label_LoginID" xml:space="preserve">
+    <value>Login ID</value>
+  </data>
+  <data name="Setting_Label_RegistrationNo" xml:space="preserve">
+    <value>Doctor's Registration No.</value>
+  </data>
+  <data name="Setting_Label_Role" xml:space="preserve">
+    <value>User Role</value>
+  </data>
+  <data name="Setting_Label_SelectCountry" xml:space="preserve">
+    <value>Select a country</value>
+  </data>
+  <data name="Setting_Label_SelectLanguage" xml:space="preserve">
+    <value>Select a language</value>
+  </data>
+  <data name="Setting_Label_StaffID" xml:space="preserve">
+    <value>Staff ID</value>
+  </data>
+  <data name="Setting_Label_StaffName" xml:space="preserve">
+    <value>Staff Name</value>
+  </data>
+  <data name="Setting_Label_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Setting_Label_Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Setting_Label_User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Setting_Label_UserBackButton" xml:space="preserve">
+    <value>Back to User Listing</value>
   </data>
   <data name="Setting_Title_PageTitle" xml:space="preserve">
     <value>Setting</value>
