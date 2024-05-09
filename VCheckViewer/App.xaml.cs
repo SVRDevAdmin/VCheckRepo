@@ -164,7 +164,7 @@ namespace VCheckViewer
             if (!roles.Where(x => x.Name == "Lab Superadmin").Any())
             {
                 role = new IdentityRole("Lab Superadmin");
-                RoleManager.CreateAsync(role);
+                await RoleManager.CreateAsync(role);
                 roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab Superadmin", IsActive = true, IsSuperadmin = false, IsAdmin = true });
             }
 

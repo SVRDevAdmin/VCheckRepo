@@ -42,7 +42,7 @@
         </Border>
 
         <Border Grid.ColumnSpan="4" Grid.Row="1">
-            <TextBlock Name="ErrorText" HorizontalAlignment="Center" Text="No changes detected." Foreground="Red" Margin="10" Visibility="Hidden"/>
+            <TextBlock Name="ErrorText" HorizontalAlignment="Center" Text="{Binding Path=General_Message_NoChanges, Source={StaticResource Resources}}" Foreground="Red" Margin="10" Visibility="Hidden"/>
         </Border>
         <Border Grid.Column="1" Grid.Row="1">
             <Grid>

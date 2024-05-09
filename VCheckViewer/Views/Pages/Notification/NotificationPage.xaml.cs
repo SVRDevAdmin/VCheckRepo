@@ -108,7 +108,9 @@ namespace VCheckViewer.Views.Pages.Notification
             else
             {
                 TextBlock textBlock = new TextBlock();
-                textBlock.Text = "No data available";
+                //textBlock.Text = "No data available";
+                textBlock.Text = Properties.Resources.General_Message_NoData;
+                textBlock.FontWeight = FontWeights.Bold;
                 textBlock.TextAlignment = TextAlignment.Center;
                 NotificationViewList.Children.Add(textBlock);
             }

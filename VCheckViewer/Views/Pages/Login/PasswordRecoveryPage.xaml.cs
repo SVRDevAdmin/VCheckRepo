@@ -50,13 +50,15 @@ namespace VCheckViewer.Views.Pages.Login
                 else
                 {
                     ErrorText.Visibility = Visibility.Visible;
-                    ErrorText.Text = "Wrong email linked to the account, please verify it is the correct email and try again.";
+                    //ErrorText.Text = "Wrong email linked to the account, please verify it is the correct email and try again.";
+                    ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongEmail;
                 }
             }
             else
             {
                 ErrorText.Visibility = Visibility.Visible;
-                ErrorText.Text = "Cannot find user according to Login ID, please verify it is the correct login ID and try again.";
+                //ErrorText.Text = "Cannot find user according to Login ID, please verify it is the correct login ID and try again.";
+                ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongLoginIDRecovery;
             }
         }
 

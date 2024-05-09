@@ -187,6 +187,78 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No changes detected..
+        /// </summary>
+        public static string General_Message_NoChanges {
+            get {
+                return ResourceManager.GetString("General_Message_NoChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No data available.
+        /// </summary>
+        public static string General_Message_NoData {
+            get {
+                return ResourceManager.GetString("General_Message_NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account are locked. Please contact administrator..
+        /// </summary>
+        public static string Login_ErrorMessage_AccountLocked {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_AccountLocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account are not confirmed yet. Please confirm the account through email..
+        /// </summary>
+        public static string Login_ErrorMessage_AccountNotConfirmed {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_AccountNotConfirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong email linked to the account, please verify it is the correct email and try again..
+        /// </summary>
+        public static string Login_ErrorMessage_WrongEmail {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_WrongEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong login ID..
+        /// </summary>
+        public static string Login_ErrorMessage_WrongLoginID {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_WrongLoginID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find user according to Login ID, please verify it is the correct login ID and try again..
+        /// </summary>
+        public static string Login_ErrorMessage_WrongLoginIDRecovery {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_WrongLoginIDRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong password. You have &lt;attemptcount&gt; attempt[s] left before account are locked..
+        /// </summary>
+        public static string Login_ErrorMessage_WrongPassword {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_WrongPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to login.
         /// </summary>
         public static string Login_Label_BackButton {
@@ -295,11 +367,38 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New and Confirm password are not match..
+        /// </summary>
+        public static string Login_Message_PasswordNewConfirmMismatch {
+            get {
+                return ResourceManager.GetString("Login_Message_PasswordNewConfirmMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter your email address, and we will send you a link to reset your password..
         /// </summary>
         public static string Login_Message_PasswordRecovery {
             get {
                 return ResourceManager.GetString("Login_Message_PasswordRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must have atleast have one digit, one lowercase, one uppercase and consist of eight characters..
+        /// </summary>
+        public static string Login_Message_PasswordRequirement {
+            get {
+                return ResourceManager.GetString("Login_Message_PasswordRequirement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password successfully reset..
+        /// </summary>
+        public static string Login_Message_PasswordResetted {
+            get {
+                return ResourceManager.GetString("Login_Message_PasswordResetted", resourceCulture);
             }
         }
         
@@ -507,6 +606,51 @@ namespace VCheckViewer.Properties {
         public static string Popup_Message_UpdateUser {
             get {
                 return ResourceManager.GetString("Popup_Message_UpdateUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please key in correct date format..
+        /// </summary>
+        public static string Setting_ErrorMessage_DateFormat {
+            get {
+                return ResourceManager.GetString("Setting_ErrorMessage_DateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field must include “@” symbol..
+        /// </summary>
+        public static string Setting_ErrorMessage_EmailFormat {
+            get {
+                return ResourceManager.GetString("Setting_ErrorMessage_EmailFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field must contain at least 5 characters..
+        /// </summary>
+        public static string Setting_ErrorMessage_FiveCharMin {
+            get {
+                return ResourceManager.GetString("Setting_ErrorMessage_FiveCharMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is a mandatory field..
+        /// </summary>
+        public static string Setting_ErrorMessage_MandatoryField {
+            get {
+                return ResourceManager.GetString("Setting_ErrorMessage_MandatoryField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field must contain at least 2 characters..
+        /// </summary>
+        public static string Setting_ErrorMessage_TwoCharMin {
+            get {
+                return ResourceManager.GetString("Setting_ErrorMessage_TwoCharMin", resourceCulture);
             }
         }
         

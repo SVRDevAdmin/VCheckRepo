@@ -159,6 +159,30 @@
   <data name="General_Label_Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="General_Message_NoChanges" xml:space="preserve">
+    <value>No changes detected.</value>
+  </data>
+  <data name="General_Message_NoData" xml:space="preserve">
+    <value>No data available</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountLocked" xml:space="preserve">
+    <value>Account are locked. Please contact administrator.</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountNotConfirmed" xml:space="preserve">
+    <value>Account are not confirmed yet. Please confirm the account through email.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongEmail" xml:space="preserve">
+    <value>Wrong email linked to the account, please verify it is the correct email and try again.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginID" xml:space="preserve">
+    <value>Wrong login ID.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginIDRecovery" xml:space="preserve">
+    <value>Cannot find user according to Login ID, please verify it is the correct login ID and try again.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongPassword" xml:space="preserve">
+    <value>Wrong password. You have &lt;attemptcount&gt; attempt[s] left before account are locked.</value>
+  </data>
   <data name="Login_Label_BackButton" xml:space="preserve">
     <value>Back to login</value>
   </data>
@@ -195,8 +219,17 @@
   <data name="Login_Label_ResetPassword" xml:space="preserve">
     <value>Reset password</value>
   </data>
+  <data name="Login_Message_PasswordNewConfirmMismatch" xml:space="preserve">
+    <value>New and Confirm password are not match.</value>
+  </data>
   <data name="Login_Message_PasswordRecovery" xml:space="preserve">
     <value>Please enter your email address, and we will send you a link to reset your password.</value>
+  </data>
+  <data name="Login_Message_PasswordRequirement" xml:space="preserve">
+    <value>Password must have atleast have one digit, one lowercase, one uppercase and consist of eight characters.</value>
+  </data>
+  <data name="Login_Message_PasswordResetted" xml:space="preserve">
+    <value>Password successfully reset.</value>
   </data>
   <data name="Login_Title_PageTitle" xml:space="preserve">
     <value>Login</value>
@@ -266,6 +299,21 @@
   </data>
   <data name="Popup_Message_UpdateUser" xml:space="preserve">
     <value>Are you sure you want to update this user profile?</value>
+  </data>
+  <data name="Setting_ErrorMessage_DateFormat" xml:space="preserve">
+    <value>Please key in correct date format.</value>
+  </data>
+  <data name="Setting_ErrorMessage_EmailFormat" xml:space="preserve">
+    <value>This field must include “@” symbol.</value>
+  </data>
+  <data name="Setting_ErrorMessage_FiveCharMin" xml:space="preserve">
+    <value>This field must contain at least 5 characters.</value>
+  </data>
+  <data name="Setting_ErrorMessage_MandatoryField" xml:space="preserve">
+    <value>This is a mandatory field.</value>
+  </data>
+  <data name="Setting_ErrorMessage_TwoCharMin" xml:space="preserve">
+    <value>This field must contain at least 2 characters.</value>
   </data>
   <data name="Setting_Label_Country" xml:space="preserve">
     <value>Country</value>

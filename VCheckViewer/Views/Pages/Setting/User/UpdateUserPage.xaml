@@ -66,7 +66,7 @@
                         <TextBox x:Name="FullName" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
                     </Border>
                     <TextBlock Text="{Binding Path=Setting_Label_LoginID, Source={StaticResource Resources}}" Grid.Row="4" VerticalAlignment="Bottom" Margin="10"/>
-                    <Border Grid.Row="5" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black" ToolTip="No issue">
+                    <Border Grid.Row="5" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black" ToolTip="Cannot change login ID">
                         <TextBlock x:Name="LoginID" Height="28" Margin="20,7,10,0" VerticalAlignment="Center" TextAlignment="Left"/>
                     </Border>
                     <TextBlock Text="{Binding Path=Setting_Label_StaffID, Source={StaticResource Resources}}" Grid.Row="6" VerticalAlignment="Bottom" Margin="10"/>

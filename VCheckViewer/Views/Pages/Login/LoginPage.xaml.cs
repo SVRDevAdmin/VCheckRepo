@@ -59,24 +59,28 @@ namespace VCheckViewer.Views.Pages.Login
                 else if (loginAttempt.IsLockedOut)
                 {
                     ErrorText.Visibility = Visibility.Visible;
-                    ErrorText.Text = "Account are locked. Please contact administrator.";
+                    //ErrorText.Text = "Account are locked. Please contact administrator.";
+                    ErrorText.Text = Properties.Resources.Login_ErrorMessage_AccountLocked;
                 }
                 else if (loginAttempt.IsNotAllowed)
                 {
                     ErrorText.Visibility = Visibility.Visible;
-                    ErrorText.Text = "Account are not confirmed yet. Please confirm the account through email.";
+                    //ErrorText.Text = "Account are not confirmed yet. Please confirm the account through email.";
+                    ErrorText.Text = Properties.Resources.Login_ErrorMessage_AccountNotConfirmed;
                 }
                 else
                 {
                     int attemptleft = (maxLoginAttempt - user.AccessFailedCount);
                     ErrorText.Visibility = Visibility.Visible;
-                    ErrorText.Text = "Wrong paswsword. You have " + attemptleft + " attemp[s] left before account are locked.";
+                    //ErrorText.Text = "Wrong password. You have " + attemptleft + " attemp[s] left before account are locked.";
+                    ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongPassword.Replace("<attemptcount>", attemptleft.ToString());
                 }
             }
             else
             {
                 ErrorText.Visibility = Visibility.Visible;
-                ErrorText.Text = "Wrong username.";
+                //ErrorText.Text = "Wrong login ID.";
+                ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongLoginID;
             }
 
 

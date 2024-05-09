@@ -103,35 +103,40 @@ namespace VCheckViewer.Views.Pages.Setting.User
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                parent.ToolTip = "This field must include “@” symbol.";
+                //parent.ToolTip = "This field must include “@” symbol.";
+                parent.ToolTip = Properties.Resources.Setting_ErrorMessage_EmailFormat;
                 CheckAllValueExisted();
             }
-            else if (textBox != null && (textBox.Name == "Surname" || textBox.Name == "LastName") && textBox.Text.Length < 2)
+            else if (textBox != null && (textBox.Name == "FullName") && textBox.Text.Length < 2)
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                parent.ToolTip = "This field must contain at least 2 characters.";
+                //parent.ToolTip = "This field must contain at least 2 characters.";
+                parent.ToolTip = Properties.Resources.Setting_ErrorMessage_TwoCharMin;
                 CheckAllValueExisted();
             }
             else if (textBox != null && (textBox.Name == "StaffID" || textBox.Name == "RegistrationNo") && textBox.Text.Length < 5)
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                parent.ToolTip = "This field must contain at least 5 characters.";
+                //parent.ToolTip = "This field must contain at least 5 characters.";
+                parent.ToolTip = Properties.Resources.Setting_ErrorMessage_FiveCharMin;
                 CheckAllValueExisted();
             }
             else if (datePicker != null && !DateTime.TryParse(datePicker.Text.ToString(), out temp))
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                parent.ToolTip = "Please key in correct date format.";
+                //parent.ToolTip = "Please key in correct date format.";
+                parent.ToolTip = Properties.Resources.Setting_ErrorMessage_DateFormat;
                 CheckAllValueExisted();
             }
             else if ((textBox != null && textBox.Text == "") || (comboBox != null && comboBox.Text == "") || (datePicker != null && datePicker.Text == ""))
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                parent.ToolTip = "This is a mandatory field.";
+                //parent.ToolTip = "This is a mandatory field.";
+                parent.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
                 CheckAllValueExisted();
             }
             else
@@ -145,7 +150,7 @@ namespace VCheckViewer.Views.Pages.Setting.User
 
         private void CheckAllValueExisted()
         {
-            DateTime temp;
+            //DateTime temp;
 
             if (Convert.ToString((StaffID.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Title.Parent as Border).ToolTip) == "No issue" && Convert.ToString((FullName.Parent as Border).ToolTip) == "No issue" && Convert.ToString((RegistrationNo.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Gender.Parent as Border).ToolTip) == "No issue" && Convert.ToString((DateOfBirth.Parent as Border).ToolTip) == "No issue" && Convert.ToString((EmailAddress.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Status.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Role.Parent as Border).ToolTip) == "No issue")
             {

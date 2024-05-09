@@ -393,14 +393,28 @@ namespace VCheckViewer.Views.Windows
 
                 var roleResult = await App.UserManager.AddToRoleAsync(user, App.MainViewModel.Users.Role);
 
-                if (roleResult.Succeeded) 
+                if (roleResult.Succeeded)
                 {
+                    var notificationTemplate = TemplateContext.GetTemplateByCode("U05");
+                    notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("###<staff_id>###", App.MainViewModel.Users.EmployeeID).Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("'", "''");
+
+                    NotificationModel notification = new NotificationModel()
+                    {
+                        NotificationType = "Updates",
+                        NotificationTitle = notificationTemplate.TemplateTitle,
+                        NotificationContent = notificationTemplate.TemplateContent,
+                        CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                        CreatedBy = App.MainViewModel.CurrentUsers.FullName
+                    };
+
+                    NotificationContext.InsertNotification(notification);
+
                     if (InitializedUserPage != null)
                     {
                         InitializedUserPage(sender, e);
                     }
-                    PreviousPage(sender, e); 
-                }                
+                    PreviousPage(sender, e);
+                }
             }
         }
 
@@ -412,6 +426,36 @@ namespace VCheckViewer.Views.Windows
             {
                 App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
                 Username.Header = App.MainViewModel.CurrentUsers.StaffName;
+
+                var notificationTemplate = TemplateContext.GetTemplateByCode("U02");
+                notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''");
+
+                NotificationModel notification = new NotificationModel()
+                {
+                    NotificationType = "Updates",
+                    NotificationTitle = notificationTemplate.TemplateTitle,
+                    NotificationContent = notificationTemplate.TemplateContent,
+                    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreatedBy = App.MainViewModel.CurrentUsers.FullName
+                };
+
+                NotificationContext.InsertNotification(notification);
+            }
+            else
+            {
+                var notificationTemplate = TemplateContext.GetTemplateByCode("U01");
+                notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_id>###", App.MainViewModel.Users.EmployeeID).Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("###<admin_id>###", App.MainViewModel.CurrentUsers.EmployeeID).Replace("###<admin_fullname>###", App.MainViewModel.CurrentUsers.FullName);
+
+                NotificationModel notification = new NotificationModel()
+                {
+                    NotificationType = "Updates",
+                    NotificationTitle = notificationTemplate.TemplateTitle,
+                    NotificationContent = notificationTemplate.TemplateContent,
+                    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreatedBy = App.MainViewModel.CurrentUsers.FullName
+                };
+
+                NotificationContext.InsertNotification(notification);
             }
 
 

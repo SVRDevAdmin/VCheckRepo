@@ -159,6 +159,30 @@
   <data name="General_Label_Yes" xml:space="preserve">
     <value>是的</value>
   </data>
+  <data name="General_Message_NoChanges" xml:space="preserve">
+    <value>未检测到任何更改。</value>
+  </data>
+  <data name="General_Message_NoData" xml:space="preserve">
+    <value>无可用数据</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountLocked" xml:space="preserve">
+    <value>帐户被锁定。请联系管理员。</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountNotConfirmed" xml:space="preserve">
+    <value>帐户尚未确认。请通过电子邮件确认帐户。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongEmail" xml:space="preserve">
+    <value>链接到帐户的错误电子邮件，请验证它是否是正确的电子邮件，然后重试。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginID" xml:space="preserve">
+    <value>登录标识错误。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginIDRecovery" xml:space="preserve">
+    <value>根据登录标识找不到用户，请验证它是否是正确的登录标识，然后重试。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongPassword" xml:space="preserve">
+    <value>密码错误。&lt;attemptcount&gt; 在帐户被锁定之前，您还有剩余的尝试次数。</value>
+  </data>
   <data name="Login_Label_BackButton" xml:space="preserve">
     <value>返回登錄</value>
   </data>
@@ -195,8 +219,17 @@
   <data name="Login_Label_ResetPassword" xml:space="preserve">
     <value>重置密码</value>
   </data>
+  <data name="Login_Message_PasswordNewConfirmMismatch" xml:space="preserve">
+    <value>“新密码”和“确认密码”不匹配。</value>
+  </data>
   <data name="Login_Message_PasswordRecovery" xml:space="preserve">
     <value>请输入您的电子邮件地址，我们将向您发送一个链接以重置您的密码。</value>
+  </data>
+  <data name="Login_Message_PasswordRequirement" xml:space="preserve">
+    <value>密码必须至少有一个数字、一个小写字母、一个大写字母，并且由八个字符组成。</value>
+  </data>
+  <data name="Login_Message_PasswordResetted" xml:space="preserve">
+    <value>密码已成功重置。</value>
   </data>
   <data name="Login_Title_PageTitle" xml:space="preserve">
     <value>登录</value>
@@ -266,6 +299,21 @@
   </data>
   <data name="Popup_Message_UpdateUser" xml:space="preserve">
     <value>是否确实要更新此用户配置文件？</value>
+  </data>
+  <data name="Setting_ErrorMessage_DateFormat" xml:space="preserve">
+    <value>请输入正确的日期格式。</value>
+  </data>
+  <data name="Setting_ErrorMessage_EmailFormat" xml:space="preserve">
+    <value>此字段必须包含“@”符号。</value>
+  </data>
+  <data name="Setting_ErrorMessage_FiveCharMin" xml:space="preserve">
+    <value>此字段必须至少包含五个字符。</value>
+  </data>
+  <data name="Setting_ErrorMessage_MandatoryField" xml:space="preserve">
+    <value>这是必填字段。</value>
+  </data>
+  <data name="Setting_ErrorMessage_TwoCharMin" xml:space="preserve">
+    <value>此字段必须至少包含两个字符。</value>
   </data>
   <data name="Setting_Label_Country" xml:space="preserve">
     <value>国家</value>
