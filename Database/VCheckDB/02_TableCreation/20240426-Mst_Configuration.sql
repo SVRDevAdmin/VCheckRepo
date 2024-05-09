@@ -6,5 +6,5 @@ CREATE TABLE `mst_configuration` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 Insert into vcheckdb.mst_configuration (ConfigurationKey, ConfigurationValue) Values
-("SystemSettings_Country","160"),
+("SystemSettings_Country","KR"),
 ("SystemSettings_Language","en")
