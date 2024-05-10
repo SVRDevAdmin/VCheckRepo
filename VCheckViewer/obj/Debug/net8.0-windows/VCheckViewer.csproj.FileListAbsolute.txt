@@ -251,3 +251,5 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\refint\VCheckViewer.dll
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.pdb
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.genruntimeconfig.cache
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\ref\VCheckViewer.dll
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Schedule\SchedulePage.g.cs
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Schedule\SchedulePage.baml

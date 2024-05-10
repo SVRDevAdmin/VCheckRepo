@@ -27,6 +27,9 @@
     <Compile Update="Views\Pages\Notification\NotificationPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Pages\Schedule\SchedulePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -95,6 +98,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Notification\NotificationPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\Schedule\SchedulePage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml">

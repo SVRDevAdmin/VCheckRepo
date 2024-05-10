@@ -46,6 +46,7 @@ using System.Xml;
 using Brushes = System.Windows.Media.Brushes;
 using VCheckViewer.Views.Pages.Setting.Device;
 using VCheckViewer.Views.Pages.Setting.Interface;
+using VCheckViewer.Views.Pages.Schedule;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace VCheckViewer.Views.Windows
@@ -539,19 +540,19 @@ namespace VCheckViewer.Views.Windows
             currentCountry.ConfigurationValue = currentCountry.ConfigurationValueTemp;
             currentLanguage.ConfigurationValue = currentLanguage.ConfigurationValueTemp;
 
-            var notificationTemplate = TemplateContext.GetTemplateByCode("LC01");
-            notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'","''");
+            //var notificationTemplate = TemplateContext.GetTemplateByCode("LC01");
+            //notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'","''");
 
-            NotificationModel notification = new NotificationModel()
-            {
-                NotificationType = "Updates",
-                NotificationTitle = notificationTemplate.TemplateTitle,
-                NotificationContent = notificationTemplate.TemplateContent,
-                CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                CreatedBy = App.MainViewModel.CurrentUsers.StaffName
-            };
+            //NotificationModel notification = new NotificationModel()
+            //{
+            //    NotificationType = "Updates",
+            //    NotificationTitle = notificationTemplate.TemplateTitle,
+            //   NotificationContent = notificationTemplate.TemplateContent,
+            //    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            //    CreatedBy = App.MainViewModel.CurrentUsers.StaffName
+            //};
 
-            NotificationContext.InsertNotification(notification);
+            //NotificationContext.InsertNotification(notification);
 
             PreviousPage(sender, e);
         }
@@ -571,7 +572,7 @@ namespace VCheckViewer.Views.Windows
 
         private void mnSchedule_Click(object sender, RoutedEventArgs e)
         {
-            frameContent.Content = new DashboardPage();
+            frameContent.Content = new SchedulePage();
             //PageTitle.Text = "Schedule";
 
             ClearMenuItemStyle();

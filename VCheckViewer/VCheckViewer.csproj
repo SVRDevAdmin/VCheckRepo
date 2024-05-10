@@ -24,6 +24,7 @@
     <None Remove="Content\Images\collapseleft_120112.png" />
     <None Remove="Content\Images\Collapse_Arrow.png" />
     <None Remove="Content\Images\Collapse_Arrow_Right.png" />
+    <None Remove="Content\Images\Collapse_BlackArrow_Right.png" />
     <None Remove="Content\Images\dashboard.png" />
     <None Remove="Content\Images\Email Icon.png" />
     <None Remove="Content\Images\group_10.png" />
@@ -36,6 +37,7 @@
     <None Remove="Content\Images\Icons\favicon.ico" />
     <None Remove="Content\Images\Icons\fr.png" />
     <None Remove="Content\Images\Icons\hi.png" />
+    <None Remove="Content\Images\Icons\icon_dog.png" />
     <None Remove="Content\Images\Icons\id.png" />
     <None Remove="Content\Images\Icons\ja.png" />
     <None Remove="Content\Images\Icons\ko.png" />
@@ -47,6 +49,8 @@
     <None Remove="Content\Images\Icons\zh-Hant.png" />
     <None Remove="Content\Images\icon_fa_solid_paw.png" />
     <None Remove="Content\Images\img_devices.png" />
+    <None Remove="Content\Images\Img_Doctor.png" />
+    <None Remove="Content\Images\Img_Pets.png" />
     <None Remove="Content\Images\mask_group_4.png" />
     <None Remove="Content\Images\mask_group_5.png" />
     <None Remove="Content\Images\path_33946.png" />
@@ -321,6 +325,7 @@
     <Resource Include="Content\Images\collapseleft_120112.png" />
     <Resource Include="Content\Images\Collapse_Arrow.png" />
     <Resource Include="Content\Images\Collapse_Arrow_Right.png" />
+    <Resource Include="Content\Images\Collapse_BlackArrow_Right.png" />
     <Resource Include="Content\Images\dashboard.png" />
     <Resource Include="Content\Images\Email Icon.png" />
     <Resource Include="Content\Images\group_10.png" />
@@ -332,6 +337,7 @@
     <Resource Include="Content\Images\Icons\favicon.ico" />
     <Resource Include="Content\Images\Icons\fr.png" />
     <Resource Include="Content\Images\Icons\hi.png" />
+    <Resource Include="Content\Images\Icons\icon_dog.png" />
     <Resource Include="Content\Images\Icons\id.png" />
     <Resource Include="Content\Images\Icons\ja.png" />
     <Resource Include="Content\Images\Icons\ko.png" />
@@ -342,6 +348,8 @@
     <Resource Include="Content\Images\Icons\zh-Hant.png" />
     <Resource Include="Content\Images\icon_fa_solid_paw.png" />
     <Resource Include="Content\Images\img_devices.png" />
+    <Resource Include="Content\Images\Img_Doctor.png" />
+    <Resource Include="Content\Images\Img_Pets.png" />
     <Resource Include="Content\Images\mask_group_4.png" />
     <Resource Include="Content\Images\mask_group_5.png" />
     <Resource Include="Content\Images\path_33946.png" />

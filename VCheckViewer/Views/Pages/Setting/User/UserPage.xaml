@@ -70,7 +70,7 @@
                     <ColumnDefinition Width="auto" MinWidth="100"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="2">
-                    <Button Content="User" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}"></Button>
+                    <Button Content="User" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
                 </Border>
                 <Border Grid.Column="1" Margin="2">
                     <Button Content="Language &amp; Country" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="LanguageCountry"></Button>
