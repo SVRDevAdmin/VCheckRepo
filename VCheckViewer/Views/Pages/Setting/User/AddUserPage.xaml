@@ -29,16 +29,16 @@
                     <ColumnDefinition Width="auto" MinWidth="100"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="2">
-                    <Button Content="User" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
+                    <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}"></Button>
                 </Border>
                 <Border Grid.Column="1" Margin="2">
-                    <Button Content="Language &amp; Country" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="LanguageCountry"></Button>
+                    <Button Content="{Binding Path=Setting_Label_LanguageCountry, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="LanguageCountry"></Button>
                 </Border>
                 <Border Grid.Column="2" Margin="2">
                     <Button Name="btnSettings" Content="PMS/LIS/HIS" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnSettings_Click"></Button>
                 </Border>
                 <Border Grid.Column="3" Margin="2">
-                    <Button Content="Device" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
+                    <Button Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
                 </Border>
             </Grid>
         </Border>
@@ -58,23 +58,23 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Title" Grid.Row="0" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_Title, Source={StaticResource Resources}}" Grid.Row="0" VerticalAlignment="Bottom" Margin="10"/>
                     <Border Grid.Row="1" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
                         <ComboBox x:Name="Title" Grid.Row="1" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbTitle}" SelectedItem="{Binding SelectedcbTitle}" LostFocus="CheckValueExist"/>
                     </Border>
-                    <TextBlock Text="Surname" Grid.Row="2" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_FullName, Source={StaticResource Resources}}" Grid.Row="2" VerticalAlignment="Bottom" Margin="10"/>
                     <Border Grid.Row="3" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
-                        <TextBox x:Name="Surname" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
+                        <TextBox x:Name="FullName" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
                     </Border>
-                    <TextBlock Text="Last Name" Grid.Row="4" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_LoginID, Source={StaticResource Resources}}" Grid.Row="4" VerticalAlignment="Bottom" Margin="10"/>
                     <Border Grid.Row="5" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
-                        <TextBox x:Name="LastName" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center"  LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
+                        <TextBox x:Name="LoginID" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
                     </Border>
-                    <TextBlock Text="StaffID" Grid.Row="6" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_StaffID, Source={StaticResource Resources}}" Grid.Row="6" VerticalAlignment="Bottom" Margin="10"/>
                     <Border Grid.Row="7" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
                         <TextBox x:Name="StaffID" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center"  LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
                     </Border>
-                    <TextBlock Text="Doctor's Registration No." Grid.Row="8" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_RegistrationNo, Source={StaticResource Resources}}" Grid.Row="8" VerticalAlignment="Bottom" Margin="10"/>
                     <Border Grid.Row="9" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
                         <TextBox x:Name="RegistrationNo" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center"  LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
                     </Border>
@@ -95,36 +95,31 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Gender" Grid.Row="0" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_Gender, Source={StaticResource Resources}}" Grid.Row="0" VerticalAlignment="Bottom" Margin="10"/>
                     <Border Grid.Row="1" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
                         <ComboBox x:Name="Gender" Grid.Row="1" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbGender}" SelectedItem="{Binding SelectedcbGender}" LostFocus="CheckValueExist"/>
                     </Border>
-                    <TextBlock Text="Date Of Birth" Grid.Row="2" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_DateOfBirth, Source={StaticResource Resources}}" Grid.Row="2" VerticalAlignment="Bottom" Margin="10"/>
                     <Border Grid.Row="3" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
                         <DatePicker x:Name="DateOfBirth" Grid.Row="3" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
                     </Border>
-                    <TextBlock Text="User Role" Grid.Row="4" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_Role, Source={StaticResource Resources}}" Grid.Row="4" VerticalAlignment="Bottom" Margin="10"/>
                     <Border Grid.Row="5" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
                         <ComboBox x:Name="Role" Grid.Row="5" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbRoles}" SelectedItem="{Binding SelectedcbRoles}" LostFocus="CheckValueExist"/>
                     </Border>
-                    <TextBlock Text="Email Address" Grid.Row="6" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_Email, Source={StaticResource Resources}}" Grid.Row="6" VerticalAlignment="Bottom" Margin="10"/>
                     <Border Grid.Row="7" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
                         <TextBox x:Name="EmailAddress" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
                     </Border>
-                    <TextBlock Text="Status" Grid.Row="8" VerticalAlignment="Bottom" Margin="10"/>
+                    <TextBlock Text="{Binding Path=Setting_Label_Status, Source={StaticResource Resources}}" Grid.Row="8" VerticalAlignment="Bottom" Margin="10"/>
                     <Border Grid.Row="9" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
-                        <ComboBox x:Name="Status" Grid.Row="9" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbStatus}" SelectedItem="{Binding SelectedcbStatus}" LostFocus="CheckValueExist"/>
-                    </Border>
-                    <TextBlock Text="Login ID" Grid.Row="10" VerticalAlignment="Bottom" Margin="10"/>
-                    <Border Grid.Row="11" Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
-                        <TextBox x:Name="LoginID" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
+                        <!--<ComboBox x:Name="Status" Grid.Row="9" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbStatus}" SelectedItem="{Binding SelectedcbStatus}" LostFocus="CheckValueExist"/>-->
+                        <ComboBox x:Name="Status" Grid.Row="9" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbStatus}" SelectedItem="{Binding SelectedcbStatus}" IsEnabled="False"/>
                     </Border>
                 </Grid>
             </Border>
         </Border>
-        <Button x:Name="Create" Content="Create" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Click="CreateButton_Click" Margin="30" Background="DarkOrange" Foreground="White" Style="{DynamicResource RoundButton}" BorderBrush="White" IsEnabled="False"/>
+        <Button x:Name="Create" Content="{Binding Path=General_Label_Create, Source={StaticResource Resources}}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Click="CreateButton_Click" Margin="30" Background="DarkOrange" Foreground="Black" Style="{DynamicResource RoundButton}" BorderBrush="White" IsEnabled="False"/>
     </Grid>
 </Page>

@@ -120,17 +120,77 @@
   <data name="Dashboard_Title_PageTitle" xml:space="preserve">
     <value>仪表板</value>
   </data>
+  <data name="General_Label_Create" xml:space="preserve">
+    <value>创造</value>
+  </data>
+  <data name="General_Label_Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="General_Label_Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="General_Label_Next" xml:space="preserve">
+    <value>下一个</value>
+  </data>
   <data name="General_Label_No" xml:space="preserve">
     <value>不</value>
   </data>
   <data name="General_Label_OK" xml:space="preserve">
     <value>知到</value>
+    </data>
+  <data name="General_Label_Number" xml:space="preserve">
+    <value>数</value>
+  </data>
+  <data name="General_Label_Previous" xml:space="preserve">
+    <value>以前</value>
   </data>
   <data name="General_Label_Save" xml:space="preserve">
     <value>保存</value>
   </data>
+  <data name="General_Label_Searchbar" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="General_Label_Send" xml:space="preserve">
+    <value>发送</value>
+  </data>
+  <data name="General_Label_Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="General_Label_View" xml:space="preserve">
+    <value>视图</value>
+  </data>
   <data name="General_Label_Yes" xml:space="preserve">
     <value>是的</value>
+  </data>
+  <data name="General_Message_NoChanges" xml:space="preserve">
+    <value>未检测到任何更改。</value>
+  </data>
+  <data name="General_Message_NoData" xml:space="preserve">
+    <value>无可用数据</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountLocked" xml:space="preserve">
+    <value>帐户被锁定。请联系管理员。</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountNotConfirmed" xml:space="preserve">
+    <value>帐户尚未确认。请通过电子邮件确认帐户。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongEmail" xml:space="preserve">
+    <value>链接到帐户的错误电子邮件，请验证它是否是正确的电子邮件，然后重试。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginID" xml:space="preserve">
+    <value>登录标识错误。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginIDRecovery" xml:space="preserve">
+    <value>根据登录标识找不到用户，请验证它是否是正确的登录标识，然后重试。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongPassword" xml:space="preserve">
+    <value>密码错误。&lt;attemptcount&gt; 在帐户被锁定之前，您还有剩余的尝试次数。</value>
+  </data>
+  <data name="Login_Label_BackButton" xml:space="preserve">
+    <value>返回登錄</value>
+  </data>
+  <data name="Login_Label_ConfirmPassword" xml:space="preserve">
+    <value>确认新密码</value>
   </data>
   <data name="Login_Label_ForgetPassword" xml:space="preserve">
     <value>忘记密码？</value>
@@ -150,11 +210,38 @@
   <data name="Login_Label_MainUsername" xml:space="preserve">
     <value>用户名</value>
   </data>
+  <data name="Login_Label_NewPassword" xml:space="preserve">
+    <value>新密码</value>
+  </data>
+  <data name="Login_Label_OldPassword" xml:space="preserve">
+    <value>旧密码</value>
+  </data>
+  <data name="Login_Label_PasswordRecovery" xml:space="preserve">
+    <value>密码恢复</value>
+  </data>
+  <data name="Login_Label_ResetPassword" xml:space="preserve">
+    <value>重置密码</value>
+  </data>
+  <data name="Login_Message_PasswordNewConfirmMismatch" xml:space="preserve">
+    <value>“新密码”和“确认密码”不匹配。</value>
+  </data>
+  <data name="Login_Message_PasswordRecovery" xml:space="preserve">
+    <value>请输入您的电子邮件地址，我们将向您发送一个链接以重置您的密码。</value>
+  </data>
+  <data name="Login_Message_PasswordRequirement" xml:space="preserve">
+    <value>密码必须至少有一个数字、一个小写字母、一个大写字母，并且由八个字符组成。</value>
+  </data>
+  <data name="Login_Message_PasswordResetted" xml:space="preserve">
+    <value>密码已成功重置。</value>
+  </data>
   <data name="Login_Title_PageTitle" xml:space="preserve">
     <value>登录</value>
   </data>
-  <data name="Main_Label_Searchbar" xml:space="preserve">
-    <value>搜索</value>
+  <data name="Main_Label_Logout" xml:space="preserve">
+    <value>注销</value>
+  </data>
+  <data name="Main_Label_ResetPassword" xml:space="preserve">
+    <value>重置密码</value>
   </data>
   <data name="Main_Label_SideMenuCollapse" xml:space="preserve">
     <value>折叠</value>
@@ -174,8 +261,122 @@
   <data name="Main_Label_SideMenuSetting" xml:space="preserve">
     <value>设置</value>
   </data>
+  <data name="Main_Label_ViewProfile" xml:space="preserve">
+    <value>查看职业档案</value>
+  </data>
+  <data name="Notification_Label_CompletedTest" xml:space="preserve">
+    <value>完成的测试结果</value>
+  </data>
+  <data name="Notification_Label_ShowAll" xml:space="preserve">
+    <value>显示全部</value>
+  </data>
+  <data name="Notification_Label_UpcomingTest" xml:space="preserve">
+    <value>即将到来的测试</value>
+  </data>
+  <data name="Notification_Label_Updates" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Popup_Message_CreateUser" xml:space="preserve">
+    <value>是否确实要创建此用户配置文件？</value>
+  </data>
+  <data name="Popup_Message_DeleteUser" xml:space="preserve">
+    <value>是否确实要删除此用户配置文件？</value>
+  </data>
   <data name="Popup_Message_LanguageCountryChange" xml:space="preserve">
     <value>是否确实要保存此设置？</value>
+  </data>
+  <data name="Popup_Message_Logout" xml:space="preserve">
+    <value>是否确实要注销？</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP1" xml:space="preserve">
+    <value>我们已向您发送电子邮件的临时密码。您可以使用它登录。&lt;next line&gt; 登录后，您可以将其更改为您的首选密码 </value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP2" xml:space="preserve">
+    <value>“重置密码”</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP3" xml:space="preserve">
+    <value> 部分</value>
+  </data>
+  <data name="Popup_Message_RecoverPassword" xml:space="preserve">
+    <value>您确定要恢复密码吗？</value>
+  </data>
+  <data name="Popup_Message_UpdateUser" xml:space="preserve">
+    <value>是否确实要更新此用户配置文件？</value>
+  </data>
+  <data name="Setting_ErrorMessage_DateFormat" xml:space="preserve">
+    <value>请输入正确的日期格式。</value>
+  </data>
+  <data name="Setting_ErrorMessage_EmailFormat" xml:space="preserve">
+    <value>此字段必须包含“@”符号。</value>
+  </data>
+  <data name="Setting_ErrorMessage_FiveCharMin" xml:space="preserve">
+    <value>此字段必须至少包含五个字符。</value>
+  </data>
+  <data name="Setting_ErrorMessage_MandatoryField" xml:space="preserve">
+    <value>这是必填字段。</value>
+  </data>
+  <data name="Setting_ErrorMessage_TwoCharMin" xml:space="preserve">
+    <value>此字段必须至少包含两个字符。</value>
+  </data>
+  <data name="Setting_Label_Country" xml:space="preserve">
+    <value>国家</value>
+  </data>
+  <data name="Setting_Label_CreateUser" xml:space="preserve">
+    <value>创建用户</value>
+  </data>
+  <data name="Setting_Label_DateOfBirth" xml:space="preserve">
+    <value>出生日期</value>
+  </data>
+  <data name="Setting_Label_Device" xml:space="preserve">
+    <value>装置</value>
+  </data>
+  <data name="Setting_Label_Email" xml:space="preserve">
+    <value>电子邮件地址</value>
+  </data>
+  <data name="Setting_Label_FullName" xml:space="preserve">
+    <value>全名</value>
+  </data>
+  <data name="Setting_Label_Gender" xml:space="preserve">
+    <value>性</value>
+  </data>
+  <data name="Setting_Label_Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Setting_Label_LanguageCountry" xml:space="preserve">
+    <value>语言 &amp; 国家</value>
+  </data>
+  <data name="Setting_Label_LoginID" xml:space="preserve">
+    <value>登录标识</value>
+  </data>
+  <data name="Setting_Label_RegistrationNo" xml:space="preserve">
+    <value>医生注册号码</value>
+  </data>
+  <data name="Setting_Label_Role" xml:space="preserve">
+    <value>用户角色</value>
+  </data>
+  <data name="Setting_Label_SelectCountry" xml:space="preserve">
+    <value>选择国家/地区</value>
+  </data>
+  <data name="Setting_Label_SelectLanguage" xml:space="preserve">
+    <value>选择语言</value>
+  </data>
+  <data name="Setting_Label_StaffID" xml:space="preserve">
+    <value>员工识别</value>
+  </data>
+  <data name="Setting_Label_StaffName" xml:space="preserve">
+    <value>员工姓名</value>
+  </data>
+  <data name="Setting_Label_Status" xml:space="preserve">
+    <value>地位</value>
+  </data>
+  <data name="Setting_Label_Title" xml:space="preserve">
+    <value>标题</value>
+  </data>
+  <data name="Setting_Label_User" xml:space="preserve">
+    <value>用户</value>
+  </data>
+  <data name="Setting_Label_UserBackButton" xml:space="preserve">
+    <value>返回用户列表</value>
   </data>
   <data name="Setting_Title_PageTitle" xml:space="preserve">
     <value>设置</value>

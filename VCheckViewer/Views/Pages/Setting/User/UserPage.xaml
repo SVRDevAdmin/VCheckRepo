@@ -70,21 +70,21 @@
                     <ColumnDefinition Width="auto" MinWidth="100"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="2">
-                    <Button Content="User" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
+                    <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}"></Button>
                 </Border>
                 <Border Grid.Column="1" Margin="2">
-                    <Button Content="Language &amp; Country" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="LanguageCountry"></Button>
+                    <Button Content="{Binding Path=Setting_Label_LanguageCountry, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="LanguageCountry"></Button>
                 </Border>
                 <Border Grid.Column="2" Margin="2">
                     <Button Name="btnSettings" Content="PMS/LIS/HIS" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnSettings_Click"></Button>
                 </Border>
                 <Border Grid.Column="3" Margin="2">
-                    <Button Name="btnDevice" Content="Device" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
+                    <Button Name="btnDevice" Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
                 </Border>
             </Grid>
         </Border>
 
-        <Button Content="Create User" VerticalAlignment="Top" Click="AddUserList_Click" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" Height="45" Background="PeachPuff" Style="{DynamicResource RoundButton}" Margin="5,0,20,0" BorderBrush="White"></Button>
+        <Button Content="{Binding Path=Setting_Label_CreateUser, Source={StaticResource Resources}}" VerticalAlignment="Top" Click="AddUserList_Click" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" Height="45" Background="PeachPuff" Style="{DynamicResource RoundButton}" Margin="5,0,20,0" BorderBrush="White"></Button>
         <Border Grid.Row="1" Grid.ColumnSpan="4" Margin="0,20,0,0">
             <Grid>
                 <Grid.RowDefinitions>
@@ -93,14 +93,14 @@
                 </Grid.RowDefinitions>
                 <DataGrid Name = "dataGrid" IsReadOnly="True" BorderBrush="Black" AutoGenerateColumns = "False" Margin="10" Grid.Row="0"  GridLinesVisibility="Horizontal" BorderThickness="0"  RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header = "No" Binding = "{Binding No}" Width="auto" ElementStyle="{StaticResource DataGridVerticalText}"/>
-                        <DataGridTextColumn Header = "Staff Name" Binding = "{Binding StaffName}" Width="*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned }" FontWeight="Bold" />
-                        <DataGridTextColumn Header = "Staff ID" Binding = "{Binding EmployeeID}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
-                        <DataGridTextColumn Header = "Doctor's Registration No." Binding = "{Binding RegistrationNo}" Width="1.3*" ElementStyle="{StaticResource DataGridVerticalText}"/>
-                        <DataGridTextColumn Header = "Gender" Binding = "{Binding Gender}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
-                        <DataGridTextColumn Header = "User Role" Binding = "{Binding Role}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
-                        <DataGridTextColumn Header = "Date Of Birth" Binding = "{Binding DateOfBirth}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
-                        <DataGridTextColumn Header = "Email Address" Binding = "{Binding EmailAddress}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
+                        <DataGridTextColumn Header = "{Binding Path=General_Label_Number, Source={StaticResource Resources}}" Binding = "{Binding No}" Width="auto" ElementStyle="{StaticResource DataGridVerticalText}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_StaffName, Source={StaticResource Resources}}" Binding = "{Binding StaffName}" Width="*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned }" FontWeight="Bold" />
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_StaffID, Source={StaticResource Resources}}" Binding = "{Binding EmployeeID}" Width="0.5*" ElementStyle="{StaticResource DataGridVerticalText}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_RegistrationNo, Source={StaticResource Resources}}" Binding = "{Binding RegistrationNo}" Width="1.3*" ElementStyle="{StaticResource DataGridVerticalText}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_Gender, Source={StaticResource Resources}}" Binding = "{Binding Gender}" Width="0.5*" ElementStyle="{StaticResource DataGridVerticalText}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_Role, Source={StaticResource Resources}}" Binding = "{Binding Role}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_DateOfBirth, Source={StaticResource Resources}}" Binding = "{Binding DateOfBirth}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_Email, Source={StaticResource Resources}}" Binding = "{Binding EmailAddress}" Width="1.7*" ElementStyle="{StaticResource DataGridVerticalText}"/>
                         <DataGridTemplateColumn Width="auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -110,9 +110,9 @@
                                                 <MenuItem.Icon>
                                                     <ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />
                                                 </MenuItem.Icon>
-                                                <MenuItem Header="View" Click="ViewUserButton_Click"/>
-                                                <MenuItem Header="Update" Click="UpdateUserButton_Click"/>
-                                                <MenuItem Header="Delete" Click="DeleteUserButton_Click"/>
+                                                <MenuItem Header="{Binding Path=General_Label_View, Source={StaticResource Resources}}" Click="ViewUserButton_Click"/>
+                                                <MenuItem Header="{Binding Path=General_Label_Update, Source={StaticResource Resources}}" Click="UpdateUserButton_Click"/>
+                                                <MenuItem Header="{Binding Path=General_Label_Delete, Source={StaticResource Resources}}" Click="DeleteUserButton_Click"/>
                                             </MenuItem>
                                         </Menu>
                                     </Grid>

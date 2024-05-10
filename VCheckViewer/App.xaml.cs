@@ -23,6 +23,7 @@ using VCheckViewer.Lib.Culture;
 //using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using VCheck.Lib.Data.Models;
 
 namespace VCheckViewer
 {
@@ -102,12 +103,8 @@ namespace VCheckViewer
                 services.AddIdentityCore<IdentityUser>(options =>
                 {
                     // Password settings.
-                    options.Password.RequireDigit = true;
-                    options.Password.RequireLowercase = true;
                     options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireUppercase = true;
                     options.Password.RequiredLength = 8;
-                    options.Password.RequiredUniqueChars = 1;
 
 
                     //Lockedout setting
@@ -139,9 +136,11 @@ namespace VCheckViewer
         /// <summary>
         /// Occurs when the application is loading.
         /// </summary>
-        private void OnStartup(object sender, StartupEventArgs e)
+        private async void OnStartup(object sender, StartupEventArgs e)
         {
             ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
+            UserDBContext usersContext = GetService<UserDBContext>();
+            RolesDBContext roleContext = GetService<RolesDBContext>();
 
             MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
 
@@ -151,6 +150,75 @@ namespace VCheckViewer
             CultureResources.ChangeCulture(sZHCulture);
 
             _host.Start();
+
+            var roles = RoleManager.Roles.ToList();
+            IdentityRole role = new IdentityRole();
+
+            if (!roles.Where(x => x.Name == "Lab User").Any())
+            {
+                role = new IdentityRole("Lab User");
+                await RoleManager.CreateAsync(role);
+                roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab User", IsActive = true, IsSuperadmin = false, IsAdmin = false});
+            }
+
+
+            if (!roles.Where(x => x.Name == "Lab Superadmin").Any())
+            {
+                role = new IdentityRole("Lab Superadmin");
+                await RoleManager.CreateAsync(role);
+                roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab Superadmin", IsActive = true, IsSuperadmin = false, IsAdmin = true });
+            }
+
+
+            if (!roles.Where(x => x.Name == "Superadmin").Any())
+            {
+                role = new IdentityRole("Superadmin");
+                var test = await RoleManager.CreateAsync(role);
+                roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Superadmin", IsActive = true, IsSuperadmin = true, IsAdmin = false });
+            }
+
+            roles = RoleManager.Roles.ToList();
+
+            var user = await UserManager.FindByNameAsync("superadmin");
+
+            if (user == null)
+            {
+                UserModel adminAccount = new UserModel()
+                {
+                    Title = "Dr.",
+                    //FirstName = "Lee",
+                    StaffName = "Dr. Lee Eunji",
+                    FullName = "Lee Eunji",
+                    EmployeeID = "456783",
+                    RegistrationNo = "456783",
+                    Gender = "M",
+                    DateOfBirth = "1991-03-15",
+                    RoleID = roles.Where(x => x.Name == "Superadmin").FirstOrDefault().Id,
+                    EmailAddress = "superadmin@superadmin.com",
+                    StatusID = 1
+                };
+
+                user = Activator.CreateInstance<IdentityUser>();
+
+                var emailStore = (IUserEmailStore<IdentityUser>)UserStore;
+
+                await UserStore.SetUserNameAsync(user, "superadmin", CancellationToken.None);
+                await emailStore.SetEmailAsync(user, "superadmin@superadmin.com", CancellationToken.None);
+                var result = await UserManager.CreateAsync(user, "Abcd@1234");
+
+                if (result.Succeeded)
+                {
+                    adminAccount.UserId = user.Id;
+
+                    usersContext.InsertUser(adminAccount);
+
+                    var roleResult = await UserManager.AddToRoleAsync(user, "superadmin");
+
+                }
+            }
+
+            
+
         }
 
         /// <summary>

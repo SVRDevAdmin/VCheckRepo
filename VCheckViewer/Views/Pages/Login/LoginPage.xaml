@@ -59,7 +59,7 @@
 
 
                                 <TextBox x:Name="Username" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black"/>
-                                <TextBlock IsHitTestVisible="False" Text="{Binding Path=Login_Label_MainUsername, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                                <TextBlock IsHitTestVisible="False" Text="{Binding Path=Setting_Label_LoginID, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
                                             <Setter Property="Visibility" Value="Collapsed"/>

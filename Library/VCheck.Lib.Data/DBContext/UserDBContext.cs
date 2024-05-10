@@ -49,15 +49,18 @@ namespace VCheck.Lib.Data.DBContext
                             UserId = reader["UserId"].ToString(),
                             EmployeeID = reader["EmployeeID"].ToString(),
                             Title = reader["Title"].ToString(),
-                            FirstName = reader["FirstName"].ToString(),
-                            LastName = reader["LastName"].ToString(),
-                            StaffName = reader["Title"].ToString() + " " + reader["FirstName"].ToString() + " " + reader["LastName"].ToString(),
+                            //FirstName = reader["FirstName"].ToString(),
+                            //LastName = reader["LastName"].ToString(),
+                            StaffName = reader["Title"].ToString() + " " + reader["FullName"].ToString(),
+                            FullName = reader["FullName"].ToString(),
                             RegistrationNo = reader["RegistrationNo"].ToString(),
                             Gender = reader["Gender"].ToString(),
                             DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy"),
                             EmailAddress = reader["EmailAddress"].ToString(),
                             Status = reader["Status"].ToString(),
-                            Role = reader["Role"].ToString()
+                            Role = reader["Role"].ToString(),
+                            LoginID = reader["LoginID"].ToString()
+
                         });
                     }
                 }
@@ -68,9 +71,9 @@ namespace VCheck.Lib.Data.DBContext
 
         public void InsertUser(UserModel user)
         {
-            string insertQuery = "INSERT INTO `vcheckdb`.`mst_user` (`UserID`,`EmployeeID`,`Title`,`FirstName`,`LastName`,`RegistrationNo`,`Gender`,`DateofBirth`,`EmailAddress`,`Status`,`RoleID`) ";
+            string insertQuery = "INSERT INTO `vcheckdb`.`mst_user` (`UserID`,`EmployeeID`,`Title`,`FullName`,`RegistrationNo`,`Gender`,`DateofBirth`,`EmailAddress`,`Status`,`RoleID`) ";
 
-            insertQuery += "Values ('"+user.UserId+"','"+user.EmployeeID+"', '"+user.Title+"', '"+user.FirstName+"', '"+user.LastName+"', '"+user.RegistrationNo+"', '"+user.Gender+"', '"+user.DateOfBirth+"', '"+user.EmailAddress+"', "+user.StatusID+", '"+user.RoleID+"')";
+            insertQuery += "Values ('"+user.UserId+"','"+user.EmployeeID+"', '"+user.Title+"', '"+user.FullName+"', '"+user.RegistrationNo+"', '"+user.Gender+"', '"+user.DateOfBirth+"', '"+user.EmailAddress+"', "+user.StatusID+", '"+user.RoleID+"')";
 
             using (MySqlConnection conn = this.Connection)
             {
@@ -83,7 +86,7 @@ namespace VCheck.Lib.Data.DBContext
 
         public void UpdateUser(UserModel user)
         {
-            string insertQuery = "UPDATE `vcheckdb`.`mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+"',`FirstName` = '"+user.FirstName+ "',`LastName` = '" + user.LastName + "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = "+user.RoleID+" WHERE `UserID` = '" + user.UserId+"';";
+            string insertQuery = "UPDATE `vcheckdb`.`mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+ "',`FullName` = '" + user.FullName+ "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = "+user.RoleID+" WHERE `UserID` = '" + user.UserId+"';";
 
             using (MySqlConnection conn = this.Connection)
             {
@@ -146,16 +149,18 @@ namespace VCheck.Lib.Data.DBContext
                         model.UserId = reader["UserId"].ToString();
                         model.EmployeeID = reader["EmployeeID"].ToString();
                         model.Title = reader["Title"].ToString();
-                        model.FirstName = reader["FirstName"].ToString();
-                        model.LastName = reader["LastName"].ToString();
-                        model.StaffName = reader["Title"].ToString() + " " + reader["FirstName"].ToString() + " " + reader["LastName"].ToString();
+                        //model.FirstName = reader["FirstName"].ToString();
+                        //model.LastName = reader["LastName"].ToString();
+                        model.StaffName = reader["Title"].ToString() + " " + reader["FullName"].ToString();
+                        model.FullName = reader["FullName"].ToString();
                         model.RegistrationNo = reader["RegistrationNo"].ToString();
                         model.Gender = reader["Gender"].ToString();
                         model.DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy");
                         model.EmailAddress = reader["EmailAddress"].ToString();
                         model.Status = reader["Status"].ToString();
                         model.Role = reader["Role"].ToString();
-                        
+                        model.LoginID = reader["LoginID"].ToString();
+
                     }
                 }
             }

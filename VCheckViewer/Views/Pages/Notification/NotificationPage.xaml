@@ -32,7 +32,7 @@
 
                     <!-- TextBox for search input -->
                     <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" KeyUp="NotificationKeywordSearch"/>
-                    <TextBlock IsHitTestVisible="False" Text="{Binding Path=Main_Label_Searchbar, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                    <TextBlock IsHitTestVisible="False" Text="{Binding Path=General_Label_Searchbar, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -61,21 +61,21 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="auto" MinWidth="120"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto" MinWidth="100"/>
                     <ColumnDefinition Width="auto" MinWidth="100"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="2">
-                    <Button Content="Show All"  Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
+                    <Button Content="{Binding Path=Notification_Label_ShowAll, Source={StaticResource Resources}}"  Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
                 </Border>
                 <Border Grid.Column="1" Margin="2">
-                    <Button Content="Upcoming Test" Tag="Upcoming Test" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
+                    <Button Content="{Binding Path=Notification_Label_UpcomingTest, Source={StaticResource Resources}}" Tag="Upcoming Test" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
                 </Border>
                 <Border Grid.Column="2" Margin="2">
-                    <Button Content="Completed Test Results" Tag="Completed Test Results" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
+                    <Button Content="{Binding Path=Notification_Label_CompletedTest, Source={StaticResource Resources}}" Tag="Completed Test Results" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
                 </Border>
                 <Border Grid.Column="3" Margin="2">
-                    <Button Content="Updates" Foreground="White" Tag="Updates" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
+                    <Button Content="{Binding Path=Notification_Label_Updates, Source={StaticResource Resources}}" Foreground="White" Tag="Updates" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
                 </Border>
             </Grid>
         </Border>

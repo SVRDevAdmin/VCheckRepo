@@ -97,7 +97,7 @@ namespace VCheckViewer.Views.Windows
 
             PopupBackground.Background = System.Windows.Media.Brushes.DimGray;
             PopupBackground.Opacity = 0.5;
-            PopupContent.Text = "Are you sure you want to recover your password?";
+            PopupContent.Text = Properties.Resources.Popup_Message_RecoverPassword;
             popup.IsOpen = true;
         }
 
@@ -108,15 +108,20 @@ namespace VCheckViewer.Views.Windows
             CancelButton.Visibility = Visibility.Collapsed;
 
             Run bold = new Run();
-            bold.Text = "'Reset Password'";
+            //bold.Text = "'Reset Password'";
+            bold.Text = Properties.Resources.Popup_Message_PasswordRecoveredP2;
 
             bold.FontWeight = FontWeights.Bold;
 
             PopupContent.Text = "";
 
-            PopupContent.Inlines.Add("We have send you a temporary password to your email. You can use it to log in. \r\n \r\n Once you are logged in, you can change it to your preferred password in ");
+            var firstpartSection = (Properties.Resources.Popup_Message_PasswordRecoveredP1).Split("<next line>");
+
+            //PopupContent.Inlines.Add("We have send you a temporary password to your email. You can use it to log in. \r\n \r\n Once you are logged in, you can change it to your preferred password in ");
+            PopupContent.Inlines.Add(firstpartSection[0] + "\r\n \r\n" + firstpartSection[1]);
             PopupContent.Inlines.Add(bold);
-            PopupContent.Inlines.Add(" section");
+            //PopupContent.Inlines.Add(" section");
+            PopupContent.Inlines.Add(Properties.Resources.Popup_Message_PasswordRecoveredP3);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

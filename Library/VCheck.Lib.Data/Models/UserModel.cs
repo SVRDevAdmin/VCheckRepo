@@ -12,9 +12,9 @@ namespace VCheck.Lib.Data.Models
         public string UserId { get; set; }
         public string EmployeeID { get; set; }
         public string Title { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        //public string FirstName { get; set; }
         public string StaffName { get; set; }
+        public string FullName { get; set; }
         public string RegistrationNo { get; set; }
         public string Gender { get; set; }
         public string DateOfBirth { get; set; }

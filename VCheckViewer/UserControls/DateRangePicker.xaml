@@ -14,7 +14,7 @@
             BorderBrush="{Binding ElementName=DateRangePicker_TextBox, Path=BorderBrush}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30" />
+                        <RowDefinition Height="35" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />

@@ -68,6 +68,7 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
 
                 radioButton.Tag = language.CodeID;
                 radioButton.Checked += new RoutedEventHandler(LanguageSelected_Checked);
+                radioButton.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
                 dockPanel.Height = 34;
                 dockPanel.Margin = new Thickness(0, -6, 0, 0);
                 image.Source = bitmap;
@@ -94,7 +95,7 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
                 item.Header = country.CountryName;
                 item.Tag = country.CountryCode;
 
-                if (country.CountryCode == currentCountry.ConfigurationValue) { item.Header += " (selected)"; countrySelected = currentCountry.ConfigurationValue; item.Foreground = System.Windows.Media.Brushes.DarkOrange; }
+                if (country.CountryCode == currentCountry.ConfigurationValue) { CountryListView.SelectedItem = item; countrySelected = currentCountry.ConfigurationValue; }
 
                 item.BorderThickness = new Thickness(0);
                 item.Click += new RoutedEventHandler(CountrySelected_Click);
@@ -111,7 +112,7 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
             //var getSelectedLanguage = (TextBlock)VisualTreeHelper.GetChild((DockPanel)radioButton.Content, 1);
             //SelectedLanguage.Text = getSelectedLanguage.Text;   
 
-
+            LanguageListView.SelectedItems.Clear();
 
         }
 
@@ -139,7 +140,7 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
                 item.Header = country.CountryName;
                 item.Tag = country.CountryCode;
 
-                if (country.CountryCode == countrySelected) { item.Header += " (selected)"; item.Foreground = System.Windows.Media.Brushes.DarkOrange; }
+                if (country.CountryCode == countrySelected) { CountryListView.SelectedItem = item; }
 
                 item.BorderThickness = new Thickness(0);
                 item.Click += new RoutedEventHandler(CountrySelected_Click);
@@ -154,7 +155,9 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
 
             countrySelected = item.Tag.ToString();
 
-            CountrySearchBar_KeyUp(null, null);
+            CountryListView.SelectedItem = item;
+
+            //CountrySearchBar_KeyUp(null, null);
 
             //SelectedCountry.Text = item.Header.ToString();
 

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace VCheckViewer.Views.Pages.Login
 {
@@ -28,27 +29,45 @@ namespace VCheckViewer.Views.Pages.Login
 
         private async void ResetPassword_Click(object sender, RoutedEventArgs e)
         {
-            IdentityUser user = await App.UserManager.FindByIdAsync(App.MainViewModel.CurrentUsers.UserId.ToString());
-
-            var changePassword = await App.UserManager.ChangePasswordAsync(user, OldPassword.Password, ConfirmPassword.Password);
-
-            if (changePassword.Succeeded)
+            if(NewPassword.Password == ConfirmPassword.Password)
             {
+                IdentityUser user = await App.UserManager.FindByIdAsync(App.MainViewModel.CurrentUsers.UserId.ToString());
 
+                var changePassword = await App.UserManager.ChangePasswordAsync(user, OldPassword.Password, ConfirmPassword.Password);
+
+                if (changePassword.Succeeded)
+                {
+                    ErrorText.Text = Properties.Resources.Login_Message_PasswordResetted;
+                    ErrorText.Foreground = Brushes.Green;
+                }
+                else
+                {
+                    //string errorText = "";
+
+                    //var errors = changePassword.Errors.ToList();
+
+                    //foreach (var error in errors)
+                    //{
+                    //    errorText += "- " + error.Description + "\r\n";
+                    //}
+
+                    //ErrorText.Text = errorText;
+                    ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement;
+                    ErrorText.Foreground = Brushes.Red;
+                }
             }
             else
             {
-                string errorText = "";
-
-                var errors = changePassword.Errors.ToList();
-
-                foreach (var error in errors)
-                {
-                    errorText += "- " + error.Description + "\r\n";
-                }
-
-                ErrorText.Text = errorText;
+                ErrorText.Text = Properties.Resources.Login_Message_PasswordNewConfirmMismatch;
+                ErrorText.Foreground = Brushes.Red;
             }
+            
+        }
+
+        private void ValueCheck(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (OldPassword.Password != "" && NewPassword.Password != "" && ConfirmPassword.Password != "") { ResetPassword.IsEnabled = true; }
+            else { ResetPassword.IsEnabled = false; }
         }
     }
 }

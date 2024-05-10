@@ -27,22 +27,22 @@
                     <ColumnDefinition Width="auto" MinWidth="100"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="2">
-                    <Button Content="User" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="UserPage"></Button>
+                    <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="UserPage"></Button>
                 </Border>
                 <Border Grid.Column="1" Margin="2">
-                    <Button Content="Language &amp; Country" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="DarkOrange" Style="{DynamicResource RoundButton}"></Button>
+                    <Button Content="{Binding Path=Setting_Label_LanguageCountry, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="DarkOrange" Style="{DynamicResource RoundButton}"></Button>
                 </Border>
                 <Border Grid.Column="2" Margin="2">
                     <Button Name="btnSettings" Content="PMS/LIS/HIS" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnSettings_Click"></Button>
                 </Border>
                 <Border Grid.Column="3" Margin="2">
-                    <Button Content="Device" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
+                    <Button Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
                 </Border>
             </Grid>
         </Border>
 
         <Border Grid.ColumnSpan="4" Grid.Row="1">
-            <TextBlock Name="ErrorText" HorizontalAlignment="Center" Text="No changes detected." Foreground="Red" Margin="10" Visibility="Hidden"/>
+            <TextBlock Name="ErrorText" HorizontalAlignment="Center" Text="{Binding Path=General_Message_NoChanges, Source={StaticResource Resources}}" Foreground="Red" Margin="10" Visibility="Hidden"/>
         </Border>
         <Border Grid.Column="1" Grid.Row="1">
             <Grid>
@@ -56,12 +56,12 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Language" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold"/>
-                        <TextBlock x:Name="SelectedLanguage" Text="Select a language" Grid.Column="1" VerticalAlignment="Center" Foreground="Orange" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Path=Setting_Label_Language, Source={StaticResource Resources}}" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold"/>
+                        <TextBlock x:Name="SelectedLanguage" Text="{Binding Path=Setting_Label_SelectLanguage, Source={StaticResource Resources}}" Grid.Column="1" VerticalAlignment="Center" Foreground="Orange" FontWeight="Bold"/>
                     </Grid>
                 </Border>
                 <Border Grid.Row="1" Margin="30,0,30,30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="20" Background="White">
-                    <ListView Name="LanguageListView" BorderBrush="White">
+                    <ListView Name="LanguageListView" BorderBrush="White" HorizontalContentAlignment="Stretch" Padding="0,0,20,0">
                     </ListView>
                 </Border>
             </Grid>
@@ -78,8 +78,8 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Country" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold"/>
-                        <TextBlock x:Name="SelectedCountry" Text="Select a country" Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold" Foreground="Orange"/>
+                        <TextBlock Text="{Binding Path=Setting_Label_Country, Source={StaticResource Resources}}" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold"/>
+                        <TextBlock x:Name="SelectedCountry" Text="{Binding Path=Setting_Label_SelectCountry, Source={StaticResource Resources}}" Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold" Foreground="Orange"/>
                     </Grid>
                 </Border>
                 <Border Grid.Row="1" Margin="30,0,30,30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="20" Background="WhiteSmoke">
@@ -96,7 +96,7 @@
 
                                      
                                     <TextBox x:Name="CountrySearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" KeyUp="CountrySearchBar_KeyUp"/>
-                                    <TextBlock IsHitTestVisible="False" Text="Search" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                                    <TextBlock IsHitTestVisible="False" Text="{Binding Path=General_Label_Searchbar, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -112,7 +112,7 @@
                             </Border>
                         </Border>
                         <Border Grid.Row="1">
-                            <ListView Name="CountryListView" Background="Transparent" BorderThickness="0" Margin="0,10,0,0" HorizontalContentAlignment="Stretch">
+                            <ListView Name="CountryListView" Background="Transparent" BorderThickness="0" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" Padding="0,0,20,0">
                             </ListView>
                         </Border>
                     </Grid>

@@ -120,17 +120,77 @@
   <data name="Dashboard_Title_PageTitle" xml:space="preserve">
     <value>儀表板</value>
   </data>
+  <data name="General_Label_Create" xml:space="preserve">
+    <value>創造</value>
+  </data>
+  <data name="General_Label_Delete" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="General_Label_Edit" xml:space="preserve">
+    <value>編輯</value>
+  </data>
+  <data name="General_Label_Next" xml:space="preserve">
+    <value>下一個</value>
+  </data>
   <data name="General_Label_No" xml:space="preserve">
     <value>唔係</value>
   </data>
   <data name="General_Label_OK" xml:space="preserve">
     <value>知到</value>
   </data>
+  <data name="General_Label_Number" xml:space="preserve">
+    <value>數</value>
+  </data>
+  <data name="General_Label_Previous" xml:space="preserve">
+    <value>以前</value>
+  </data>
   <data name="General_Label_Save" xml:space="preserve">
     <value>保存</value>
   </data>
+  <data name="General_Label_Searchbar" xml:space="preserve">
+    <value>搜尋</value>
+  </data>
+  <data name="General_Label_Send" xml:space="preserve">
+    <value>發送</value>
+  </data>
+  <data name="General_Label_Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="General_Label_View" xml:space="preserve">
+    <value>視圖</value>
+  </data>
   <data name="General_Label_Yes" xml:space="preserve">
     <value>係</value>
+  </data>
+  <data name="General_Message_NoChanges" xml:space="preserve">
+    <value>未檢測到任何更改。</value>
+  </data>
+  <data name="General_Message_NoData" xml:space="preserve">
+    <value>無可用數據</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountLocked" xml:space="preserve">
+    <value>帳戶被鎖定。請聯繫管理員。</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountNotConfirmed" xml:space="preserve">
+    <value>帳戶尚未確認。請通過電子郵件確認帳戶。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongEmail" xml:space="preserve">
+    <value>連結到帳戶的錯誤電子郵件，請驗證它是否是正確的電子郵件，然後重試。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginID" xml:space="preserve">
+    <value>登錄標識錯誤。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginIDRecovery" xml:space="preserve">
+    <value>根據登錄標識找不到使用者，請驗證它是否是正確的登錄標識，然後重試。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongPassword" xml:space="preserve">
+    <value>密碼錯誤。&lt;attemptcount&gt; 在帳戶被鎖定之前，您還有剩餘的嘗試次數。</value>
+  </data>
+  <data name="Login_Label_BackButton" xml:space="preserve">
+    <value>返回登錄</value>
+  </data>
+  <data name="Login_Label_ConfirmPassword" xml:space="preserve">
+    <value>確認新密碼</value>
   </data>
   <data name="Login_Label_ForgetPassword" xml:space="preserve">
     <value>忘記密碼？</value>
@@ -150,11 +210,38 @@
   <data name="Login_Label_MainUsername" xml:space="preserve">
     <value>用戶名</value>
   </data>
+  <data name="Login_Label_NewPassword" xml:space="preserve">
+    <value>新密碼</value>
+  </data>
+  <data name="Login_Label_OldPassword" xml:space="preserve">
+    <value>舊密碼</value>
+  </data>
+  <data name="Login_Label_PasswordRecovery" xml:space="preserve">
+    <value>密碼恢復</value>
+  </data>
+  <data name="Login_Label_ResetPassword" xml:space="preserve">
+    <value>重置密碼</value>
+  </data>
+  <data name="Login_Message_PasswordNewConfirmMismatch" xml:space="preserve">
+    <value>“新密碼”和“確認密碼”不匹配。</value>
+  </data>
+  <data name="Login_Message_PasswordRecovery" xml:space="preserve">
+    <value>請輸入您的電子郵件地址，我們將向您發送一個連結以重置您的密碼。</value>
+  </data>
+  <data name="Login_Message_PasswordRequirement" xml:space="preserve">
+    <value>密碼必須至少有一個數位、一個小寫字母、一個大寫字母，並且由八個字元組成。</value>
+  </data>
+  <data name="Login_Message_PasswordResetted" xml:space="preserve">
+    <value>密碼已成功重置。</value>
+  </data>
   <data name="Login_Title_PageTitle" xml:space="preserve">
     <value>登錄</value>
   </data>
-  <data name="Main_Label_Searchbar" xml:space="preserve">
-    <value>搜尋</value>
+  <data name="Main_Label_Logout" xml:space="preserve">
+    <value>註銷</value>
+  </data>
+  <data name="Main_Label_ResetPassword" xml:space="preserve">
+    <value>重置密碼</value>
   </data>
   <data name="Main_Label_SideMenuCollapse" xml:space="preserve">
     <value>折叠</value>
@@ -174,8 +261,122 @@
   <data name="Main_Label_SideMenuSetting" xml:space="preserve">
     <value>設置</value>
   </data>
+  <data name="Main_Label_ViewProfile" xml:space="preserve">
+    <value>查看職業檔案</value>
+  </data>
+  <data name="Notification_Label_CompletedTest" xml:space="preserve">
+    <value>完成的测试结果</value>
+  </data>
+  <data name="Notification_Label_ShowAll" xml:space="preserve">
+    <value>顯示全部</value>
+  </data>
+  <data name="Notification_Label_UpcomingTest" xml:space="preserve">
+    <value>即將到來的測試</value>
+  </data>
+  <data name="Notification_Label_Updates" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Popup_Message_CreateUser" xml:space="preserve">
+    <value>是否確實要創建此使用者配置檔？</value>
+  </data>
+  <data name="Popup_Message_DeleteUser" xml:space="preserve">
+    <value>是否確實要刪除此使用者配置檔？</value>
+  </data>
   <data name="Popup_Message_LanguageCountryChange" xml:space="preserve">
     <value>是否確實要保存此設置？</value>
+  </data>
+  <data name="Popup_Message_Logout" xml:space="preserve">
+    <value>是否確實要註銷？</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP1" xml:space="preserve">
+    <value>我們已向您發送電子郵件的臨時密碼。您可以使用它登錄。 &lt;next line&gt; 登錄后，您可以將其更改為您的首選密碼 </value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP2" xml:space="preserve">
+    <value>“重置密碼”</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP3" xml:space="preserve">
+    <value> 部分</value>
+  </data>
+  <data name="Popup_Message_RecoverPassword" xml:space="preserve">
+    <value>您確定要恢復密碼嗎？</value>
+  </data>
+  <data name="Popup_Message_UpdateUser" xml:space="preserve">
+    <value>是否確實要更新此使用者配置檔？</value>
+  </data>
+  <data name="Setting_ErrorMessage_DateFormat" xml:space="preserve">
+    <value>請輸入正確的日期格式。</value>
+  </data>
+  <data name="Setting_ErrorMessage_EmailFormat" xml:space="preserve">
+    <value>此欄位必須包含“@”符號。</value>
+  </data>
+  <data name="Setting_ErrorMessage_FiveCharMin" xml:space="preserve">
+    <value>此欄位必須至少包含五個字元。</value>
+  </data>
+  <data name="Setting_ErrorMessage_MandatoryField" xml:space="preserve">
+    <value>這是必填欄位。</value>
+  </data>
+  <data name="Setting_ErrorMessage_TwoCharMin" xml:space="preserve">
+    <value>此欄位必須至少包含兩個字元。</value>
+  </data>
+  <data name="Setting_Label_Country" xml:space="preserve">
+    <value>國家</value>
+  </data>
+  <data name="Setting_Label_CreateUser" xml:space="preserve">
+    <value>創建使用者</value>
+  </data>
+  <data name="Setting_Label_DateOfBirth" xml:space="preserve">
+    <value>出生日期</value>
+  </data>
+  <data name="Setting_Label_Device" xml:space="preserve">
+    <value>裝置</value>
+  </data>
+  <data name="Setting_Label_Email" xml:space="preserve">
+    <value>电子邮件地址</value>
+  </data>
+  <data name="Setting_Label_FullName" xml:space="preserve">
+    <value>全名</value>
+  </data>
+  <data name="Setting_Label_Gender" xml:space="preserve">
+    <value>性</value>
+  </data>
+  <data name="Setting_Label_Language" xml:space="preserve">
+    <value>語言</value>
+  </data>
+  <data name="Setting_Label_LanguageCountry" xml:space="preserve">
+    <value>语言 &amp; 国家 ...</value>
+  </data>
+  <data name="Setting_Label_LoginID" xml:space="preserve">
+    <value>登录标识</value>
+  </data>
+  <data name="Setting_Label_RegistrationNo" xml:space="preserve">
+    <value>医生注册号码</value>
+  </data>
+  <data name="Setting_Label_Role" xml:space="preserve">
+    <value>用户角色</value>
+  </data>
+  <data name="Setting_Label_SelectCountry" xml:space="preserve">
+    <value>選擇國家/地區</value>
+  </data>
+  <data name="Setting_Label_SelectLanguage" xml:space="preserve">
+    <value>選擇語言</value>
+  </data>
+  <data name="Setting_Label_StaffID" xml:space="preserve">
+    <value>员工识别</value>
+  </data>
+  <data name="Setting_Label_StaffName" xml:space="preserve">
+    <value>員工姓名</value>
+  </data>
+  <data name="Setting_Label_Status" xml:space="preserve">
+    <value>地位</value>
+  </data>
+  <data name="Setting_Label_Title" xml:space="preserve">
+    <value>标题</value>
+  </data>
+  <data name="Setting_Label_User" xml:space="preserve">
+    <value>使用者</value>
+  </data>
+  <data name="Setting_Label_UserBackButton" xml:space="preserve">
+    <value>返回使用者清單</value>
   </data>
   <data name="Setting_Title_PageTitle" xml:space="preserve">
     <value>設置</value>
