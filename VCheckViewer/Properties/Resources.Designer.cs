@@ -205,6 +205,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account are deactivated. Please contact administrator..
+        /// </summary>
+        public static string Login_ErrorMessage_AccountDeactivated {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_AccountDeactivated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account are locked. Please contact administrator..
         /// </summary>
         public static string Login_ErrorMessage_AccountLocked {

@@ -171,5 +171,11 @@ namespace VCheckViewer.UserControls
         }
 
         #endregion
+
+        private void DateRangePicker_TextBox_GotMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (IsDropDownOpen) { IsDropDownOpen = false; }
+            else { IsDropDownOpen = true; }
+        }
     }
 }

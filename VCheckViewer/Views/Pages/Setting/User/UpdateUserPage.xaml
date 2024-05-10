@@ -42,6 +42,9 @@
             </Grid>
         </Border>
         <Button x:Name="UserPage" Grid.Row="1" Style="{StaticResource BackButton}" Click="BackButton_Click" Margin="0,10,0,0"/>
+        <Border Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1">
+            <TextBlock Name="ErrorText" HorizontalAlignment="Center" Text="{Binding Path=General_Message_NoChanges, Source={StaticResource Resources}}" Foreground="Red" Margin="10" Visibility="Hidden"/>
+        </Border>
         <Border Grid.Column="1" Grid.Row="2">
             <Border Margin="30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="20" Background="WhiteSmoke">
                 <Grid>

@@ -165,6 +165,9 @@
   <data name="General_Message_NoData" xml:space="preserve">
     <value>无可用数据</value>
   </data>
+  <data name="Login_ErrorMessage_AccountDeactivated" xml:space="preserve">
+    <value>帐户已停用。请联系管理员。</value>
+  </data>
   <data name="Login_ErrorMessage_AccountLocked" xml:space="preserve">
     <value>帐户被锁定。请联系管理员。</value>
   </data>

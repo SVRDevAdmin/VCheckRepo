@@ -49,6 +49,7 @@ namespace VCheckViewer
         public static IUserStore<IdentityUser> UserStore { get; set; }
 
         public static string newPassword {  get; set; }
+        public static SMTPModel SMTP {  get; set; }
 
         //App()
         //{
@@ -97,6 +98,17 @@ namespace VCheckViewer
 
                 services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(context.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 21))));
 
+                var smtpSetting = context.Configuration.GetSection("SMTP");
+
+                SMTP = new SMTPModel()
+                {
+                    Host = smtpSetting.GetValue<string>("Host"),
+                    Port = smtpSetting.GetValue<int>("Port"),
+                    Username = smtpSetting.GetValue<string>("Username"),
+                    Password = smtpSetting.GetValue<string>("Password"),
+                    Sender = smtpSetting.GetValue<string>("Sender")
+                };
+                
                 var identitySettings = context.Configuration.GetSection("IdentitySettings");
 
                 services.AddIdentityCore<IdentityUser>(options =>

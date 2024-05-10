@@ -18,8 +18,9 @@ using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.ViewModels.Windows;
 using TextBox = System.Windows.Controls.TextBox;
-using ComboBox = System.Windows.Controls.TextBox;
+using ComboBox = System.Windows.Controls.ComboBox;
 using Brushes = System.Windows.Media.Brushes;
+//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace VCheckViewer.Views.Pages.Setting.User
 {
@@ -160,6 +161,8 @@ namespace VCheckViewer.Views.Pages.Setting.User
             {
                 Update.IsEnabled = false;
             }
+
+            ErrorText.Visibility = Visibility.Hidden;
         }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
@@ -197,11 +200,41 @@ namespace VCheckViewer.Views.Pages.Setting.User
                 Role = Role.Text
             };
 
-            App.MainViewModel.Origin = "UserUpdateRow";
+            if(user.Title != userInfo.Title || user.FullName != userInfo.FullName || user.EmployeeID != userInfo.EmployeeID || user.RegistrationNo != userInfo.RegistrationNo
+                || Gender.Text != userInfo.Gender || DateTime.Parse(user.DateOfBirth)  != DateTime.Parse(userInfo.DateOfBirth) || user.Role != userInfo.Role || user.EmailAddress != userInfo.EmailAddress || user.Status != userInfo.Status)
+            {
+                App.MainViewModel.Origin = "UserUpdateRow";
 
-            App.MainViewModel.Users = user;
+                if(user.Status != userInfo.Status) { user.StatusChanged = true; }
+                else { user.StatusChanged = false; }
 
-            App.PopupHandler(e, sender);
+                App.MainViewModel.Users = user;
+
+                App.PopupHandler(e, sender);
+            }
+            else
+            {
+                ErrorText.Visibility = Visibility.Visible;
+            }
+
+            //App.MainViewModel.Origin = "UserUpdateRow";
+
+            //App.MainViewModel.Users = user;
+
+            //App.MainViewModel.Users.UserId = userInfo.UserId;
+            //App.MainViewModel.Users.EmployeeID = StaffID.Text;
+            //App.MainViewModel.Users.Title = Title.Text;
+            //App.MainViewModel.Users.FullName = FullName.Text;
+            //App.MainViewModel.Users.RegistrationNo = RegistrationNo.Text;
+            //App.MainViewModel.Users.Gender = ((ComboBoxItem)Gender.SelectedItem).Tag.ToString();
+            //App.MainViewModel.Users.DateOfBirth = Convert.ToDateTime(DateOfBirth.Text).ToString("yyyy-MM-dd");
+            //App.MainViewModel.Users.EmailAddress = EmailAddress.Text;
+            //App.MainViewModel.Users.StatusID = Convert.ToInt32(((ComboBoxItem)Status.SelectedItem).Tag.ToString());
+            //App.MainViewModel.Users.NewStatus = Status.Text;
+            //App.MainViewModel.Users.RoleID = ((ComboBoxItem)Role.SelectedItem).Tag.ToString();
+            //App.MainViewModel.Users.Role = Role.Text;
+
+            //App.PopupHandler(e, sender);
         }
 
         private void LanguageCountry(object sender, RoutedEventArgs e)

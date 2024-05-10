@@ -59,7 +59,7 @@ namespace VCheckViewer.Views.Pages.Test
                 sEmail.SenderEmail = sBuilder.Configuration.GetSection("Smtp:Sender").Value;
 
                 List<String> sRecipientList = new List<string>();
-                sRecipientList.Add("svrkenny@hotmail.com");
+                sRecipientList.Add("azwan@svrtech.com.my");
 
 
                 sEmail.RecipientEmail = sRecipientList;

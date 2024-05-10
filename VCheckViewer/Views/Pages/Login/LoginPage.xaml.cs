@@ -51,9 +51,20 @@ namespace VCheckViewer.Views.Pages.Login
 
                 if (loginAttempt.Succeeded)
                 {
-                    App.MainViewModel.CurrentUsers = sContext.GetUserByID(user.Id);
+                    var userAcount = sContext.GetUserByID(user.Id);
 
-                    GoToMainWindowHandler(e, sender);
+                    if(userAcount.Status == "Active")
+                    {
+                        App.MainViewModel.CurrentUsers = userAcount;
+
+                        GoToMainWindowHandler(e, sender);
+                    }
+                    else
+                    {
+                        ErrorText.Visibility = Visibility.Visible;
+                        //ErrorText.Text = "Account are deactivated. Please contact administrator.";
+                        ErrorText.Text = Properties.Resources.Login_ErrorMessage_AccountDeactivated;
+                    }
 
                 }
                 else if (loginAttempt.IsLockedOut)
