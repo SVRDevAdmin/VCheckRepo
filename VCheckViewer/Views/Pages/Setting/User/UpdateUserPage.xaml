@@ -28,7 +28,7 @@
                     <ColumnDefinition Width="auto" MinWidth="100"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="2">
-                    <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}"></Button>
+                    <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
                 </Border>
                 <Border Grid.Column="1" Margin="2">
                     <Button Content="{Binding Path=Setting_Label_LanguageCountry, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="LanguageCountry"></Button>
