@@ -173,6 +173,7 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Login\PasswordRe
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Login\ResetCurrentUserPasswordPage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Login\ResetPasswordPage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Notification\NotificationPage.g.cs
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Schedule\SchedulePage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Device\DevicePage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Interface\ConfigurationPage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\LanguageCountry\LanguageCountryPage.g.cs
@@ -198,6 +199,7 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Login\PasswordRe
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Login\ResetCurrentUserPasswordPage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Login\ResetPasswordPage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Notification\NotificationPage.baml
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Schedule\SchedulePage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Device\DevicePage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Interface\ConfigurationPage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\LanguageCountry\LanguageCountryPage.baml
