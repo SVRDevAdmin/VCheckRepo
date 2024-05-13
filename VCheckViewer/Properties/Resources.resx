@@ -387,4 +387,16 @@
   <data name="Test_Label_1" xml:space="preserve">
     <value>Label 123</value>
   </data>
+  <data name="Dashboard_Message_DownloadLatest" xml:space="preserve">
+    <value>Ensure optimal performance by regularly updating your analyzer software and firmware.&lt;nextline&gt;Get the latest versions of your analyzer.</value>
+  </data>
+  <data name="General_Label_Busy" xml:space="preserve">
+    <value>Busy</value>
+  </data>
+  <data name="General_Label_Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="General_Label_Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
 </root>

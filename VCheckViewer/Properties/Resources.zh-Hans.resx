@@ -137,7 +137,7 @@
   </data>
   <data name="General_Label_OK" xml:space="preserve">
     <value>知到</value>
-    </data>
+  </data>
   <data name="General_Label_Number" xml:space="preserve">
     <value>数</value>
   </data>
@@ -383,5 +383,17 @@
   </data>
   <data name="Setting_Title_PageTitle" xml:space="preserve">
     <value>设置</value>
+  </data>
+  <data name="Dashboard_Message_DownloadLatest" xml:space="preserve">
+    <value>通过定期更新分析仪软件和固件来确保最佳性能。&lt;nextline&gt;获取最新版本的分析仪。</value>
+  </data>
+  <data name="General_Label_Busy" xml:space="preserve">
+    <value>忙</value>
+  </data>
+  <data name="General_Label_Download" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="General_Label_Ready" xml:space="preserve">
+    <value>准备</value>
   </data>
 </root>

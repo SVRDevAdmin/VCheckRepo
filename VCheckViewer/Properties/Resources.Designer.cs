@@ -61,11 +61,29 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ensure optimal performance by regularly updating your analyzer software and firmware.&lt;nextline&gt;Get the latest versions of your analyzer..
+        /// </summary>
+        public static string Dashboard_Message_DownloadLatest {
+            get {
+                return ResourceManager.GetString("Dashboard_Message_DownloadLatest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         public static string Dashboard_Title_PageTitle {
             get {
                 return ResourceManager.GetString("Dashboard_Title_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Busy.
+        /// </summary>
+        public static string General_Label_Busy {
+            get {
+                return ResourceManager.GetString("General_Label_Busy", resourceCulture);
             }
         }
         
@@ -84,6 +102,15 @@ namespace VCheckViewer.Properties {
         public static string General_Label_Delete {
             get {
                 return ResourceManager.GetString("General_Label_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        public static string General_Label_Download {
+            get {
+                return ResourceManager.GetString("General_Label_Download", resourceCulture);
             }
         }
         
@@ -138,6 +165,15 @@ namespace VCheckViewer.Properties {
         public static string General_Label_Previous {
             get {
                 return ResourceManager.GetString("General_Label_Previous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ready.
+        /// </summary>
+        public static string General_Label_Ready {
+            get {
+                return ResourceManager.GetString("General_Label_Ready", resourceCulture);
             }
         }
         

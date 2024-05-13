@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\
 VCheckViewer
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\Dev\VCheck\VCheckViewer\App.xaml
-21-1138034599
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\App.xaml
+241955794902
 71904573285
-331788950923
-278-1287776027
-ResourceDictionary.xaml;Template\Templates.xaml;UserControls\DateRangePicker.xaml;Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Login\LoginPage.xaml;Views\Pages\Login\PasswordRecoveryPage.xaml;Views\Pages\Login\ResetCurrentUserPasswordPage.xaml;Views\Pages\Login\ResetPasswordPage.xaml;Views\Pages\Notification\NotificationPage.xaml;Views\Pages\Schedule\SchedulePage.xaml;Views\Pages\Setting\Device\DevicePage.xaml;Views\Pages\Setting\Interface\ConfigurationPage.xaml;Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Pages\Setting\User\ViewUserPage.xaml;Views\Pages\Test\LocalizationTestPage.xaml;Views\Windows\LoginWindow.xaml;Views\Windows\Main.xaml;Views\Windows\Main2.xaml;
+3681276402
+278-937347734
+ResourceDictionary.xaml;Template\Templates.xaml;UserControls\DateRangePicker.xaml;Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Dashboard\NotificationList.xaml;Views\Pages\Dashboard\ScheduleTestList.xaml;Views\Pages\Dashboard\TestResultList.xaml;Views\Pages\Login\LoginPage.xaml;Views\Pages\Login\PasswordRecoveryPage.xaml;Views\Pages\Login\ResetCurrentUserPasswordPage.xaml;Views\Pages\Login\ResetPasswordPage.xaml;Views\Pages\Notification\NotificationPage.xaml;Views\Pages\Schedule\SchedulePage.xaml;Views\Pages\Setting\Device\DevicePage.xaml;Views\Pages\Setting\Interface\ConfigurationPage.xaml;Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Pages\Setting\User\ViewUserPage.xaml;Views\Pages\Test\LocalizationTestPage.xaml;Views\Windows\LoginWindow.xaml;Views\Windows\Main.xaml;Views\Windows\Main2.xaml;
 
-True
+False
 

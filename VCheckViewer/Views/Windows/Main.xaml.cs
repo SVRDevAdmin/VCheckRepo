@@ -19,10 +19,10 @@ using VCheckViewer.Views.Pages.Test;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 using Brushes = System.Windows.Media.Brushes;
-using VCheckViewer.Views.Pages.Setting.Device;
 using VCheckViewer.Views.Pages.Setting.Interface;
 using VCheckViewer.Views.Pages.Schedule;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Windows.Media;
 
 namespace VCheckViewer.Views.Windows
 {
