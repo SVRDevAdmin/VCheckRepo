@@ -27,10 +27,16 @@
     <Compile Update="Views\Pages\Notification\NotificationPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Pages\Schedule\SchedulePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Pages\Setting\Device\DevicePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Pages\Setting\Interface\ConfigurationPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Pages\Setting\User\AddUserPage.xaml.cs">
@@ -62,6 +68,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.en.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.zh-Hans.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -94,10 +106,16 @@
     <Page Update="Views\Pages\Notification\NotificationPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\Pages\Schedule\SchedulePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Setting\Device\DevicePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\Setting\Interface\ConfigurationPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Setting\User\AddUserPage.xaml">

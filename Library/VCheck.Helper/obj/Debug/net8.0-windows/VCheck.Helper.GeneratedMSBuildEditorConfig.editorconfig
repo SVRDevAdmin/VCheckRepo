@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = VCheck.Helper
-build_property.ProjectDir = C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Helper\
+build_property.ProjectDir = C:\Dev\VCheck\Library\VCheck.Helper\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

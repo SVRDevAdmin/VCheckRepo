@@ -101,6 +101,7 @@ namespace VCheckViewer.Views.Pages
                 newBtn.Tag = i;
                 newBtn.Style = (Style)Application.Current.FindResource("RoundButton");
                 newBtn.Width = 40;
+                newBtn.Height = 40;
                 newBtn.Margin = new Thickness(5, 0, 5, 0);
                 newBtn.FontWeight = FontWeights.Bold;
                 newBtn.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
@@ -330,11 +331,12 @@ namespace VCheckViewer.Views.Pages
 
         private void btnDevice_Click(object sender, RoutedEventArgs e)
         {
-            //Main sMain = new Main();
-            //sMain.frameContent.NavigationService.Content = new DevicePage();
-            //sMain.frameContent.NavigationService.Refresh();
-
             App.GoToSettingDevicePageHandler(e, sender);
+        }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingConfigurationPageHandler(e, sender);
         }
     }
 }

@@ -68,5 +68,20 @@ namespace VCheck.Lib.Data.DBContext
                 cmd.ExecuteReader();
             }
         }
+
+        public void AddConfiguation(string ConfigurationKey, String ConfigurationValue)
+        {
+            String InsertQuery = "INSERT INTO Mst_Configuration(ConfigurationKey, ConfigurationValue) " +
+                                 "VALUES('" + ConfigurationKey + "', '" + ConfigurationValue + "')";
+
+            using (MySqlConnection conn = this.Connection)
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(InsertQuery, conn);
+                cmd.ExecuteReader();
+
+                conn.Close();
+            }
+        }
     }
 }

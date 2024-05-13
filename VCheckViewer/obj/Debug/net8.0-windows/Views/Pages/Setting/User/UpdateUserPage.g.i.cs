@@ -43,6 +43,14 @@ namespace VCheckViewer.Views.Pages.Setting.User {
     public partial class UpdateUserPage : System.Windows.Controls.Page, System.Windows.Markup.IComponentConnector {
         
         
+        #line 37 "..\..\..\..\..\..\..\Views\Pages\Setting\User\UpdateUserPage.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Button btnSettings;
+        
+        #line default
+        #line hidden
+        
+        
         #line 44 "..\..\..\..\..\..\..\Views\Pages\Setting\User\UpdateUserPage.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Button UserPage;
@@ -152,13 +160,13 @@ namespace VCheckViewer.Views.Pages.Setting.User {
         /// InitializeComponent
         /// </summary>
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "8.0.4.0")]
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "8.0.3.0")]
         public void InitializeComponent() {
             if (_contentLoaded) {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/VCheckViewer;component/views/pages/setting/user/updateuserpage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/VCheckViewer;V1.0.0.0;component/views/pages/setting/user/updateuserpage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\..\Views\Pages\Setting\User\UpdateUserPage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
@@ -168,7 +176,7 @@ namespace VCheckViewer.Views.Pages.Setting.User {
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "8.0.4.0")]
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "8.0.3.0")]
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")]
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
@@ -185,6 +193,15 @@ namespace VCheckViewer.Views.Pages.Setting.User {
             #line hidden
             return;
             case 2:
+            this.btnSettings = ((System.Windows.Controls.Button)(target));
+            
+            #line 37 "..\..\..\..\..\..\..\Views\Pages\Setting\User\UpdateUserPage.xaml"
+            this.btnSettings.Click += new System.Windows.RoutedEventHandler(this.btnSettings_Click);
+            
+            #line default
+            #line hidden
+            return;
+            case 3:
             
             #line 40 "..\..\..\..\..\..\..\Views\Pages\Setting\User\UpdateUserPage.xaml"
             ((System.Windows.Controls.Button)(target)).Click += new System.Windows.RoutedEventHandler(this.btnDevice_Click);
@@ -192,7 +209,7 @@ namespace VCheckViewer.Views.Pages.Setting.User {
             #line default
             #line hidden
             return;
-            case 3:
+            case 4:
             this.UserPage = ((System.Windows.Controls.Button)(target));
             
             #line 44 "..\..\..\..\..\..\..\Views\Pages\Setting\User\UpdateUserPage.xaml"

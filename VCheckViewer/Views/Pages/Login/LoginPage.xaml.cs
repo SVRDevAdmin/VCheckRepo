@@ -42,6 +42,11 @@ namespace VCheckViewer.Views.Pages.Login
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            //VCheck.Lib.Data.Models.UserModel sUser = new VCheck.Lib.Data.Models.UserModel();
+            //sUser.UserId = "Tester";
+            //App.MainViewModel.CurrentUsers = sUser;
+            //GoToMainWindowHandler(e, sender);
+            //return;
             IdentityUser user = await App.UserManager.FindByNameAsync(Username.Text);
 
             if (user != null)

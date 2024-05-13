@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Dashboard_Title_PageTitle" xml:space="preserve">
-    <value>挡泥板</value>
+    <value>仪表板</value>
   </data>
   <data name="General_Label_Create" xml:space="preserve">
     <value>创造</value>
@@ -135,6 +135,9 @@
   <data name="General_Label_No" xml:space="preserve">
     <value>不</value>
   </data>
+  <data name="General_Label_OK" xml:space="preserve">
+    <value>知到</value>
+    </data>
   <data name="General_Label_Number" xml:space="preserve">
     <value>数</value>
   </data>
@@ -142,7 +145,7 @@
     <value>以前</value>
   </data>
   <data name="General_Label_Save" xml:space="preserve">
-    <value>救</value>
+    <value>保存</value>
   </data>
   <data name="General_Label_Searchbar" xml:space="preserve">
     <value>搜索</value>
@@ -244,10 +247,10 @@
     <value>重置密码</value>
   </data>
   <data name="Main_Label_SideMenuCollapse" xml:space="preserve">
-    <value>崩溃</value>
+    <value>折叠</value>
   </data>
   <data name="Main_Label_SideMenuDashboard" xml:space="preserve">
-    <value>挡泥板</value>
+    <value>仪表板</value>
   </data>
   <data name="Main_Label_SideMenuNotification" xml:space="preserve">
     <value>通知</value>

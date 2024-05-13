@@ -19,6 +19,10 @@ using VCheckViewer.Views.Pages.Test;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 using Brushes = System.Windows.Media.Brushes;
+using VCheckViewer.Views.Pages.Setting.Device;
+using VCheckViewer.Views.Pages.Setting.Interface;
+using VCheckViewer.Views.Pages.Schedule;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -69,6 +73,7 @@ namespace VCheckViewer.Views.Windows
             App.GoToSettingUserPage += new EventHandler(SettingUserPage);
             App.GoToSettingLanguageCountryPage += new EventHandler(GoToLanguageCountryPage);
             App.GoToSettingDevicePage += new EventHandler(GoToDevicePage);
+            App.GoToSettingConfigurationPage += new EventHandler(GoToConfigurationPage);
 
             //popup
             App.Popup += new EventHandler(Popup);
@@ -195,6 +200,11 @@ namespace VCheckViewer.Views.Windows
             frameContent.Content = new DevicePage();
         }
 
+        void GoToConfigurationPage(object sender, EventArgs e)
+        {
+            frameContent.Content = new ConfigurationPage();
+        }
+
         void SettingUserPage(object sender, EventArgs e)
         {
             //Navigate(typeof(ViewUserPage));
@@ -211,6 +221,14 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "DeviceAdd") { PopupContent.Text = "Are you sure you want to add this new analyzer"; }
             if (App.MainViewModel.Origin == "DeviceDelete") { PopupContent.Text = "Are you sure you want to remove this new analyzer"; }
             if (App.MainViewModel.Origin == "DeviceUpdate") { PopupContent.Text = "Are you sure you want to update this new analyzer"; }
+            if (App.MainViewModel.Origin == "SettingsUpdate") { PopupContent.Text = "Are you sure you want to save this setting"; }
+            if (App.MainViewModel.Origin == "SetingsUpdateCompleted") {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+
+                PopupContent.Text = "You've updated the PMS/LIS/HIS settings. Please Login again to apply changes."; 
+            }
 
             PopupBackground.Background = Brushes.DimGray;
             PopupBackground.Opacity = 0.5;
@@ -230,6 +248,7 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "DeviceDelete") { DeleteDeviceHandler(e, sender); }
             if (App.MainViewModel.Origin == "DeviceUpdate") { UpdateDeviceHandler(e, sender); }
             if (App.MainViewModel.Origin == "ChangeLanguageCountry") { ChangeLanguageCountryHandler(e, sender); }
+            if (App.MainViewModel.Origin == "SettingsUpdate") { UpdateSettingsHandler(e, sender);  }
             if (App.MainViewModel.Origin == "Logout")
             {
                 if (!System.Windows.Application.Current.Windows.OfType<LoginWindow>().Any())
@@ -252,6 +271,21 @@ namespace VCheckViewer.Views.Windows
             popup.IsOpen = false;
 
             PopupBackground.Background = null;
+        }
+
+        private void btnOk_Click(object sender, RoutedEventArgs e)
+        {
+            if (App.MainViewModel.Origin == "SetingsUpdateCompleted")
+            {
+                this.IsEnabled = true;
+                popup.IsOpen = false;
+
+                PopupBackground.Background = null;
+
+                btnOk.Visibility = Visibility.Collapsed;
+                btnYes.Visibility = Visibility.Visible;
+                btnNo.Visibility = Visibility.Visible;
+            }
         }
 
         private void PreviousPage(object sender, EventArgs e)
@@ -520,6 +554,37 @@ namespace VCheckViewer.Views.Windows
             }
         }
 
+        private void UpdateSettingsHandler(EventArgs e, object sender)
+        {
+            try
+            {
+                var sSettingsObj = App.MainViewModel.ConfigurationModel;
+                foreach (var s in sSettingsObj)
+                {
+                    var sConfigObj = ConfigurationContext.GetConfigurationData(s.ConfigurationKey).FirstOrDefault();
+                    if (sConfigObj != null)
+                    {
+                        ConfigurationContext.UpdateConfiguration(s.ConfigurationKey, s.ConfigurationValue);
+                    }
+                    else
+                    {
+                        ConfigurationContext.AddConfiguation(s.ConfigurationKey, s.ConfigurationValue);
+                    }
+                }
+
+                System.Windows.Controls.Primitives.Popup sMessagePopup = new System.Windows.Controls.Primitives.Popup();
+                sMessagePopup.IsOpen = true;
+
+
+                App.MainViewModel.Origin = "SetingsUpdateCompleted";
+
+                App.PopupHandler(e, sender);
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+        }
 
         private void ChangeLanguageCountryHandler(EventArgs e, object sender)
         {
@@ -556,42 +621,59 @@ namespace VCheckViewer.Views.Windows
         private void mnDashboard_Click(object sender, RoutedEventArgs e)
         {
             frameContent.Content = new DashboardPage();
+
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+
+            ClearMenuItemStyle();
+            mnDashboard.Background = System.Windows.Media.Brushes.White;
+            mnDashboard.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#404D5B"));
             PageTitle.Text = Properties.Resources.Dashboard_Title_PageTitle;
-            //System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
-            //b.Source = System.Windows.Application.Current.TryFindResource("Resources");
-            //PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
         }
 
         private void mnSchedule_Click(object sender, RoutedEventArgs e)
         {
-            frameContent.Content = new DashboardPage();
-            //PageTitle.Text = "Schedule";
+            frameContent.Content = new SchedulePage();
+
+            ClearMenuItemStyle();
+            mnSchedule.Background = System.Windows.Media.Brushes.White;
+            mnSchedule.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#404D5B"));
         }
 
         private void mnResults_Click(object sender, RoutedEventArgs e)
         {
-            //frameContent.Content = new DashboardPage();
-            //frameContent.Content = new LocalizationTestPage();
-            //PageTitle.Text = "Results";
-            frameContent.Content = new DevicePage();
-            PageTitle.Text = "Device";
+            frameContent.Content = new DashboardPage();
+            PageTitle.Text = "Results";
+
+            ClearMenuItemStyle();
+            mnResults.Background = System.Windows.Media.Brushes.White;
+            mnResults.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#404D5B"));
         }
 
         private void mnNotifications_Click(object sender, RoutedEventArgs e)
         {
             frameContent.Content = new NotificationPage();
             //PageTitle.Text = "Notification";
+
+            ClearMenuItemStyle();
+            mnNotifications.Background = System.Windows.Media.Brushes.White;
+            mnNotifications.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#404D5B"));
         }
 
         private void mnSettings_Click(object sender, RoutedEventArgs e)
         {
             frameContent.Content = new UserPage();
-            PageTitle.Text = Properties.Resources.Setting_Title_PageTitle;
-            //System.Windows.Data.Binding b = new System.Windows.Data.Binding("Setting_Title_PageTitle");
-            //b.Source = System.Windows.Application.Current.TryFindResource("Resources");
-            //PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
-        }
 
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Setting_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+
+            ClearMenuItemStyle();
+            mnSettings.Background = System.Windows.Media.Brushes.White;
+            mnSettings.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#404D5B"));
+            PageTitle.Text = Properties.Resources.Setting_Title_PageTitle;
+        }
 
         private void btnCollapse_Click(object sender, RoutedEventArgs e)
         {
@@ -634,6 +716,15 @@ namespace VCheckViewer.Views.Windows
                     thumbSetting.Visibility = System.Windows.Visibility.Visible;
                 }
             }
+        }
+
+        private void ClearMenuItemStyle()
+        {
+            mnSettings.Background = System.Windows.Media.Brushes.Transparent;
+            mnDashboard.Background = System.Windows.Media.Brushes.Transparent;
+            mnSchedule.Background = System.Windows.Media.Brushes.Transparent;
+            mnResults.Background = System.Windows.Media.Brushes.Transparent;
+            mnNotifications.Background = System.Windows.Media.Brushes.Transparent;
         }
     }
 

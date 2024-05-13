@@ -83,5 +83,10 @@ namespace VCheckViewer.Views.Pages.Setting.User
         {
             App.GoToSettingDevicePageHandler(e, sender);
         }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingConfigurationPageHandler(e, sender);
+        }
     }
 }

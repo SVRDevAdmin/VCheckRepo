@@ -248,5 +248,10 @@ namespace VCheckViewer.Views.Pages
 
             return randomstring;
         }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingConfigurationPageHandler(e, sender);
+        }
     }
 }

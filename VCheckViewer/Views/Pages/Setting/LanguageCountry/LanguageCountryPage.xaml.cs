@@ -195,5 +195,10 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
         {
             App.GoToSettingDevicePageHandler(e, sender);
         }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingConfigurationPageHandler(e, sender);
+        }
     }
 }
