@@ -403,7 +403,7 @@
     <value>返回設備</value>
   </data>
   <data name="Device_Label_Button_BackViewDevice" xml:space="preserve">
-    <value>返回查看設備。</value>
+    <value>返回查看設備</value>
   </data>
   <data name="Device_Label_Button_Cancel" xml:space="preserve">
     <value>取消</value>

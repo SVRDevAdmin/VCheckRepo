@@ -160,9 +160,10 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 borderButtonView.Visibility = Visibility.Visible;
                 borderButtonUpdate.Visibility = Visibility.Collapsed;
 
-                btnBackDevice.Visibility = Visibility.Visible;
-                App.MainViewModel.BackButtonText = Properties.Resources.Device_Label_Button_BackDevice;
-                //btnBackDevice.Content = "Back to Device.";
+                imgBack.Visibility = Visibility.Visible;
+                btnBack.Visibility = Visibility.Visible;
+
+                btnBack.Content = Properties.Resources.Device_Label_Button_BackDevice;
             }
             else if (sType.ToLower() == "update")
             {
@@ -176,9 +177,9 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 borderButtonView.Visibility = Visibility.Collapsed;
                 borderButtonUpdate.Visibility = Visibility.Visible;
 
-                btnBackDevice.Visibility = Visibility.Visible;
-                App.MainViewModel.BackButtonText = Properties.Resources.Device_Label_Button_BackViewDevice;
-                //btnBackDevice.Content = "Back to View Device.";
+                imgBack.Visibility = Visibility.Visible;
+                btnBack.Visibility = Visibility.Visible;
+                btnBack.Content = Properties.Resources.Device_Label_Button_BackViewDevice;
             }
             else if (sType.ToLower() == "add")
             {
@@ -194,7 +195,10 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 borderButtonView.Visibility = Visibility.Collapsed;
                 borderButtonUpdate.Visibility = Visibility.Collapsed;
 
-                btnBackDevice.Visibility = Visibility.Collapsed;
+                imgBack.Visibility = Visibility.Collapsed;
+                btnBack.Visibility = Visibility.Collapsed;
+
+                btnBack.Content = Properties.Resources.Device_Label_Button_BackDevice;
             }
         }
 
@@ -277,17 +281,17 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             }
         }
 
-        private void btnBackDevice_Click(object sender, RoutedEventArgs e)
-        {
-            if (borderNameEdit.Visibility == Visibility.Visible && borderButtonUpdate.Visibility == Visibility.Visible)
-            {
-                ShowHideBorder("View");
-            }
-            else if (borderNameEdit.Visibility == Visibility.Collapsed && borderButtonView.Visibility == Visibility.Visible)
-            {
-                ShowHideBorder("Add");
-            }
-        }
+        //private void btnBackDevice_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (borderNameEdit.Visibility == Visibility.Visible && borderButtonUpdate.Visibility == Visibility.Visible)
+        //    {
+        //        ShowHideBorder("View");
+        //    }
+        //    else if (borderNameEdit.Visibility == Visibility.Collapsed && borderButtonView.Visibility == Visibility.Visible)
+        //    {
+        //        ShowHideBorder("Add");
+        //    }
+        //}
 
         private void LanguageCountry(object sender, RoutedEventArgs e)
         {
@@ -302,6 +306,28 @@ namespace VCheckViewer.Views.Pages.Setting.Device
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             App.GoToSettingConfigurationPageHandler(e, sender);
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateBackButton();
+        }
+
+        private void imgBack_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateBackButton();
+        }
+
+        private void NavigateBackButton()
+        {
+            if (borderNameEdit.Visibility == Visibility.Visible && borderButtonUpdate.Visibility == Visibility.Visible)
+            {
+                ShowHideBorder("View");
+            }
+            else if (borderNameEdit.Visibility == Visibility.Collapsed && borderButtonView.Visibility == Visibility.Visible)
+            {
+                ShowHideBorder("Add");
+            }
         }
     }
 }

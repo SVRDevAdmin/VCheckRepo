@@ -90,6 +90,29 @@ namespace VCheckListenerWorker.Lib.Logic
             return isSuccess;
         }
 
+        public static Boolean createTestResult(txn_testresults sTestResult)
+        {
+            Boolean isSuccess = false;
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                {
+                    ctx.txn_Testresults.Add(sTestResult);
+                    ctx.SaveChanges();
+
+                    isSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                String abc = ex.ToString();
+                isSuccess = false;
+            }
+
+            return isSuccess;
+        }
+
         /// <summary>
         /// Get Appsetting configuration
         /// </summary>

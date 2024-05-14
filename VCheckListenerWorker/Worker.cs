@@ -160,9 +160,12 @@ namespace VCheckListenerWorker
             NHapi.Model.V26.Message.ORU_R01 sRU_R01 = (NHapi.Model.V26.Message.ORU_R01)sIMessage;
             String sResultRule = "";
             String sResultStatus = "";
+            String sResultTestType = "";
             String sOperatorID = "";
             String sPatientID = "";
+            String strObserveValue = "";
             Decimal iResultValue = 0;
+            DateTime dAnalysisDateTime = DateTime.MinValue;
 
             // --------------- Message Header --------------//
             tbltestanalyze_results_messageheader sMSHObj = new tbltestanalyze_results_messageheader
@@ -206,6 +209,8 @@ namespace VCheckListenerWorker
                 sPID.PatientID = sRU_R01.GetPATIENT_RESULT().PATIENT.PID.PatientID.IDNumber.Value;
                 sPID.AlternatePatientID = (sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetAlternatePatientIDPID().Length > 0) ?
                                            sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetAlternatePatientIDPID().FirstOrDefault().IDNumber.ToString() : null;
+
+                sOperatorID = sPID.PatientID;
             }
 
             if (sRU_R01.GetPATIENT_RESULT().PATIENT.PID.PatientNameRepetitionsUsed > 0)
@@ -240,6 +245,8 @@ namespace VCheckListenerWorker
             var sOBRObj = new tbltestanalyze_results_observationrequest();
             foreach (var observation in sRU_R01.PATIENT_RESULTs.FirstOrDefault().ORDER_OBSERVATIONs)
             {
+                sResultTestType = observation.OBR.UniversalServiceIdentifier.Text.Value;
+
                 sOBRObj.SetID = observation.OBR.SetIDOBR.Value;
                 sOBRObj.PlacerOrderNumber = observation.OBR.PlacerOrderNumber.EntityIdentifier.Value + "^" +
                                             observation.OBR.PlacerOrderNumber.NamespaceID.Value + "^" +
@@ -260,7 +267,7 @@ namespace VCheckListenerWorker
                 sOBRObj.CollectorIdentifier = (observation.OBR.GetCollectorIdentifier().Count() > 0) ?
                                                observation.OBR.GetCollectorIdentifier().FirstOrDefault().IDNumber.Value : null;
                 sOBRObj.SpecimenActionCode = observation.OBR.SpecimenActionCode.Value;
-
+               
                 if (observation.NTEs.Count() > 0)
                 {
                     sNTEObj.Add(new tbltestanalyze_results_notes
@@ -316,9 +323,9 @@ namespace VCheckListenerWorker
                             sObservValue = observationDetail.OBX.GetObservationValue().FirstOrDefault().Data.ToString();
                         }
                     }
+                    strObserveValue = sObservValue;
 
-
-                    String sUnitValue = "";
+                     String sUnitValue = "";
                     sUnitValue = observationDetail.OBX.Units.Identifier.Value + "^" +
                             observationDetail.OBX.Units.Text.Value + "^" +
                             observationDetail.OBX.Units.NameOfCodingSystem;
@@ -338,6 +345,21 @@ namespace VCheckListenerWorker
                         sObservIdentifier = "";
                     }
 
+                    if (observationDetail.OBX.GetResponsibleObserver().Length > 0)
+                    {
+                        sOperatorID = observationDetail.OBX.GetResponsibleObserver().FirstOrDefault().IDNumber.Value;
+                    }
+                    else
+                    {
+                        sOperatorID = null;
+                    }
+
+                    if (!String.IsNullOrEmpty(observationDetail.OBX.DateTimeOfTheAnalysis.Value))
+                    {
+                        //dAnalysisDateTime = DateTime.ParseExact(observationDetail.OBX.DateTimeOfTheAnalysis.Value, "yyyyMMddHHmmss-ZZZZ", System.Globalization.CultureInfo.InvariantCulture);
+                        dAnalysisDateTime = DateTime.ParseExact(observationDetail.OBX.DateTimeOfTheAnalysis.Value, "yyyyMMddHHmmss-ffff", System.Globalization.CultureInfo.InvariantCulture);
+                    }
+                    
                     sOBXObjList.Add(new tbltestanalyze_results_observationresult
                     {
                         SetID = observationDetail.OBX.SetIDOBX.Value,
@@ -352,8 +374,7 @@ namespace VCheckListenerWorker
                         ObservationResultStatus = observationDetail.OBX.ObservationResultStatus.Value,
                         ObservationDateTime = observationDetail.OBX.DateTimeOfTheObservation.Value,
                         ProducerID = observationDetail.OBX.ProducerSID.Text.Value,
-                        ResponsibleObserver = (observationDetail.OBX.GetResponsibleObserver().Length > 0) ?
-                                              observationDetail.OBX.GetResponsibleObserver().FirstOrDefault().IDNumber.Value : null,
+                        ResponsibleObserver = sOperatorID,
                         ObservationMethod = (observationDetail.OBX.GetObservationMethod().Length > 0) ?
                                              observationDetail.OBX.GetObservationMethod().FirstOrDefault().Text.ToString() : null,
                         EquipmentInstanceIdentifier = (observationDetail.OBX.GetEquipmentInstanceIdentifier().Length > 0) ?
@@ -378,7 +399,7 @@ namespace VCheckListenerWorker
                             //Comment = GenerateNTEComments(observationDetail.NTEs.ToList())
                         });
 
-                        if (sComment.Contains("Cut Off Index"))
+                        if (sComment.ToLower().Contains("cut off index"))
                         {
                             sResultRule = "COI";
 
@@ -397,12 +418,12 @@ namespace VCheckListenerWorker
             }
 
             txn_testresults sTestResultObj = new txn_testresults();
-            //sTestResultObj.TestResultDateTime
-            sTestResultObj.TestResultType = "";
-            sTestResultObj.OperatorID = "";
-            sTestResultObj.PatientID = "";
+            sTestResultObj.TestResultDateTime = dAnalysisDateTime;
+            sTestResultObj.TestResultType = sResultTestType;
+            sTestResultObj.OperatorID = sOperatorID;
+            sTestResultObj.PatientID = sPatientID;
             sTestResultObj.InchargePerson = "";
-            sTestResultObj.ObservationStatus = "";
+            sTestResultObj.ObservationStatus = strObserveValue;
             sTestResultObj.TestResultStatus = (iResultValue >= 1 ? "Positive" : "Negative");
             sTestResultObj.TestResultValue = iResultValue;
             sTestResultObj.TestResultRules = sResultRule;
@@ -414,10 +435,14 @@ namespace VCheckListenerWorker
                 MessageType = sRU_R01.MSH.MessageType.MessageStructure.Value,
                 MessageDateTime = DateTime.Now,
                 CreatedDate = DateTime.Now,
-                CreatedBy = "Testing"
+                CreatedBy = "VCheckViewer Listener"
             };
 
-            TestResultRepository.insertTestObservationMessage(sResultObj, sMSHObj, sPIDObj, sOBRObj, sOBXObjList, sNTEObj);
+            Boolean bResult = TestResultRepository.insertTestObservationMessage(sResultObj, sMSHObj, sPIDObj, sOBRObj, sOBXObjList, sNTEObj);
+            if (bResult)
+            {
+                TestResultRepository.createTestResult(sTestResultObj);
+            }
 
             //todo : insert record to notification module
         }

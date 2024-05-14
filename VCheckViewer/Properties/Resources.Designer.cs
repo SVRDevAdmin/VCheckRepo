@@ -124,7 +124,7 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Back to View Device..
+        ///   Looks up a localized string similar to Back to View Device.
         /// </summary>
         public static string Device_Label_Button_BackViewDevice {
             get {

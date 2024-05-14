@@ -22,6 +22,7 @@ namespace VCheckListenerWorker.Lib.DBContext
         public DbSet<tbltestanalyze_results_observationrequest> tbltestanalyze_results_observationrequest { get; set; }
         public DbSet<tbltestanalyze_results_observationresult> tbltestanalyze_results_observationresult { get; set; }
         public DbSet<tbltestanalyze_results_patientidentification> tbltestanalyze_results_patientidentification { get; set; }
+        public DbSet<txn_testresults> txn_Testresults { get; set; }
 
         public TestResultDBContext(IConfiguration config)
         {
