@@ -73,8 +73,8 @@
                         </ScrollViewer>
 
                     </Border>
-                    <Border Name="borderNoTestResult" Grid.Row="0" Margin="25, 35, 25, 50" Padding="30" Panel.ZIndex="23" Visibility="Collapsed">
-                        <TextBlock Margin="50, 0, 20, 0" FontFamily="Noto Sans" FontSize="12">No Scheduled test available.</TextBlock>
+                    <Border Name="borderNoTestResult" Grid.Row="0" Padding="30" Panel.ZIndex="23" Visibility="Collapsed">
+                        <TextBlock TextAlignment="Center" FontFamily="Noto Sans" FontSize="12" Text="{Binding Path=General_Message_NoCompletedTest, Source={StaticResource Resources}}"/>
                     </Border>
                 </Grid>
             </Border>

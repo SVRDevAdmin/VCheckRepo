@@ -399,4 +399,19 @@
   <data name="General_Label_Ready" xml:space="preserve">
     <value>Ready</value>
   </data>
+  <data name="Login_Message_WrongCurrentPassword" xml:space="preserve">
+    <value>Wrong current password.</value>
+  </data>
+  <data name="General_Message_NoCompletedTest" xml:space="preserve">
+    <value>No completed test available.</value>
+  </data>
+  <data name="General_Message_NoDevice" xml:space="preserve">
+    <value>No device available.</value>
+  </data>
+  <data name="General_Message_NoNotification" xml:space="preserve">
+    <value>No notification available.</value>
+  </data>
+  <data name="General_Message_NoScheduleTest" xml:space="preserve">
+    <value>No scheduled test available.</value>
+  </data>
 </root>

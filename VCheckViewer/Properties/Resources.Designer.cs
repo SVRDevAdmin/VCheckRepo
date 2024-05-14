@@ -241,11 +241,47 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No completed test available..
+        /// </summary>
+        public static string General_Message_NoCompletedTest {
+            get {
+                return ResourceManager.GetString("General_Message_NoCompletedTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No data available.
         /// </summary>
         public static string General_Message_NoData {
             get {
                 return ResourceManager.GetString("General_Message_NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No device available..
+        /// </summary>
+        public static string General_Message_NoDevice {
+            get {
+                return ResourceManager.GetString("General_Message_NoDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No notification available..
+        /// </summary>
+        public static string General_Message_NoNotification {
+            get {
+                return ResourceManager.GetString("General_Message_NoNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No scheduled test available..
+        /// </summary>
+        public static string General_Message_NoScheduleTest {
+            get {
+                return ResourceManager.GetString("General_Message_NoScheduleTest", resourceCulture);
             }
         }
         
@@ -453,6 +489,15 @@ namespace VCheckViewer.Properties {
         public static string Login_Message_PasswordResetted {
             get {
                 return ResourceManager.GetString("Login_Message_PasswordResetted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong current password..
+        /// </summary>
+        public static string Login_Message_WrongCurrentPassword {
+            get {
+                return ResourceManager.GetString("Login_Message_WrongCurrentPassword", resourceCulture);
             }
         }
         

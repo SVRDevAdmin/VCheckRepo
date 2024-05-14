@@ -14,14 +14,14 @@
                     <DockPanel VerticalAlignment="Stretch">
                         <StackPanel Orientation="Vertical" Margin="40,20,0,20">
                             <TextBlock x:Name="updateMessage" TextWrapping="WrapWithOverflow" FontSize="23" FontWeight="Bold" Width="550" Margin="0,0,0,10" Grid.Row="0" LineHeight="30"/>
-                            <Button Content="{Binding Path=General_Label_Download, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Left" BorderBrush="PeachPuff" Background="DarkOrange" Style="{DynamicResource RoundButton}" Grid.Row="1" Width="130" Height="40" Margin="0,10,0,0"/>
+                            <Button Content="{Binding Path=General_Label_Download, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Left" BorderBrush="PeachPuff" Background="DarkOrange" Style="{DynamicResource RoundButton}" Grid.Row="1" Width="130" Height="40" Margin="0,10,0,0" Click="DownloadButton_Clicked"/>
                         </StackPanel>
                         <Image Source="../../../Content/Images/mask_group_1.png" Height="240" HorizontalAlignment="Right" Margin="0,-37,40,0"/>
                     </DockPanel>
                 </Border>
             </DockPanel>
             <DockPanel DockPanel.Dock="Bottom">
-                <Border CornerRadius="30" BorderThickness="1" Width="auto" BorderBrush="Black" DockPanel.Dock="Left" Margin="10">
+                <Border CornerRadius="30" BorderThickness="1" Width="auto" MaxWidth="450" BorderBrush="Black" DockPanel.Dock="Left" Margin="10">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -60,7 +60,7 @@
                                                             </Border>
 
                                                             <Border Grid.Column="1" Grid.Row="0" Margin="20,0,0,5">
-                                                                <TextBlock FontFamily="Noto Sans" FontSize="20" FontWeight="Bold" VerticalAlignment="Bottom" Text="{Binding DeviceName}"></TextBlock>
+                                                                <TextBlock FontFamily="Noto Sans" FontSize="20" FontWeight="Bold" VerticalAlignment="Bottom" Text="{Binding DeviceName}" TextWrapping="Wrap"></TextBlock>
                                                             </Border>
                                                             <Border Grid.Column="1" Grid.Row="1" Margin="20,5,0,0">
                                                                 <Border Width="70" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="4">
@@ -99,8 +99,8 @@
                                         </ScrollViewer>
 
                                     </Border>
-                                    <Border Name="borderNoDeviceList" Grid.Row="0" Margin="25, 35, 25, 50" Padding="30" Panel.ZIndex="23" Visibility="Collapsed">
-                                        <TextBlock Margin="50, 0, 20, 0" FontFamily="Noto Sans" FontSize="12">No Scheduled test available.</TextBlock>
+                                    <Border Name="borderNoDeviceList" Grid.Row="0" Margin="25, 35, 25, 50" Padding="10" Visibility="Collapsed">
+                                        <TextBlock FontFamily="Noto Sans" FontSize="12" Text="{Binding Path=General_Message_NoDevice, Source={StaticResource Resources}}"/>
                                     </Border>
                                 </Grid>
                             </Border>

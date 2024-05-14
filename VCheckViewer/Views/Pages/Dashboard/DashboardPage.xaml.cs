@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,7 +67,9 @@ namespace VCheckViewer.Views.Pages
 
         public void initializeData()
         {
-            List<DeviceModel> sScheduledList = DeviceList;
+            List<DeviceModel> sScheduledList = VCheck.Lib.Data.DeviceRepository.GetDeviceList(ConfigSettings.GetConfigurationSettings()); ;
+            //List<DeviceModel> sScheduledList = DeviceList;
+
             if (sScheduledList != null && sScheduledList.Count > 0)
             {
                 icDeviceList.ItemsSource = sScheduledList.ToList();
@@ -114,6 +117,11 @@ namespace VCheckViewer.Views.Pages
             if (notificationTypeBtn.Tag.ToString() == "Schedule") { RightListContent.Content = new ScheduleTestList(); }
             else if (notificationTypeBtn.Tag.ToString() == "Completed Test Results") { RightListContent.Content = new TestResultList(); }
             else { RightListContent.Content = new NotificationList(); }
+        }
+
+        private void DownloadButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://www.bionote.com/software-updates") { UseShellExecute = true });
         }
     }
 }

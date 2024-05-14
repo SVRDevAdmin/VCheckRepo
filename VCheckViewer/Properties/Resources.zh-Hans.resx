@@ -396,4 +396,19 @@
   <data name="General_Label_Ready" xml:space="preserve">
     <value>准备</value>
   </data>
+  <data name="Login_Message_WrongCurrentPassword" xml:space="preserve">
+    <value>当前密码错误。</value>
+  </data>
+  <data name="General_Message_NoCompletedTest" xml:space="preserve">
+    <value>没有可用的完整测试。</value>
+  </data>
+  <data name="General_Message_NoDevice" xml:space="preserve">
+    <value>没有可用的设备。</value>
+  </data>
+  <data name="General_Message_NoNotification" xml:space="preserve">
+    <value>没有可用的通知。</value>
+  </data>
+  <data name="General_Message_NoScheduleTest" xml:space="preserve">
+    <value>没有可用的预定测试。</value>
+  </data>
 </root>
