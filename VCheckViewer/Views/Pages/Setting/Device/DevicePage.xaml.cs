@@ -45,7 +45,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             {
                 DeviceName = txtName.Text,
                 DeviceIPAddress = txtIPAddress.Text,
-                DeviceImagePath = "C:\\Dev\\VCheck\\VCheckViewer\\Storage\\Device\\Img_F200.png", // Temp Hardcode
+                //DeviceImagePath = "C:\\Dev\\VCheck\\VCheckViewer\\Storage\\Device\\Img_F200.png", // Temp Hardcode
+                DeviceImagePath = "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Content\\Images\\VCheck200Image.png", // Temp Hardcode
                 status = (int)DataDictionary.DeviceListStatus.Active,
                 CreatedDate = DateTime.Now,
                 CreatedBy = "Test"

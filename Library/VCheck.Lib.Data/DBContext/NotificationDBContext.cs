@@ -34,6 +34,7 @@ namespace VCheck.Lib.Data.DBContext
             string sqlQueryCondition = "";
 
             if (notificationType != null) { sqlQueryCondition += "WHERE NotificationType = '" + notificationType + "'"; }
+            else { sqlQueryCondition += "WHERE NotificationType <> 'Email'"; }
 
             if (startDate != null && endDate != null) { if (sqlQueryCondition != "") { sqlQueryCondition += " AND "; } else { sqlQueryCondition += "WHERE "; } sqlQueryCondition += "CreatedDate between '"+startDate+"' and '"+endDate+"'"; }
             else if(startDate != null && endDate == null) { if (sqlQueryCondition != "") { sqlQueryCondition += " AND "; } else { sqlQueryCondition += "WHERE "; } sqlQueryCondition += "CreatedDate = '" + startDate + "'"; }
@@ -43,7 +44,7 @@ namespace VCheck.Lib.Data.DBContext
             using (MySqlConnection conn = this.Connection)
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from txn_notification " + sqlQueryCondition+" order by CreatedDate LIMIT " + start + "," + end, conn);
+                MySqlCommand cmd = new MySqlCommand("Select * from txn_notification " + sqlQueryCondition+" order by CreatedDate DESC LIMIT " + start + "," + end, conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -70,6 +71,7 @@ namespace VCheck.Lib.Data.DBContext
             string sqlQueryCondition = "";
 
             if (notificationType != null) { sqlQueryCondition += "WHERE NotificationType = '" + notificationType + "'"; }
+            else { sqlQueryCondition += "WHERE NotificationType <> 'Email'"; }
 
             if (startDate != null && endDate != null) { if (sqlQueryCondition != "") { sqlQueryCondition += " AND "; } else { sqlQueryCondition += "WHERE "; } sqlQueryCondition += "CreatedDate between '" + startDate + "' and '" + endDate + "'"; }
             else if (startDate != null && endDate == null) { if (sqlQueryCondition != "") { sqlQueryCondition += " AND "; } else { sqlQueryCondition += "WHERE "; } sqlQueryCondition += "CreatedDate = '" + startDate + "'"; }

@@ -180,46 +180,73 @@ namespace VCheckViewer.Views.Pages
             App.GoToSettingDevicePageHandler(e, sender);
         }
 
+        //private string RandomPasswordGenerator()
+        //{
+        //    string uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        //    string lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
+        //    string digits = "0123456789";
+        //    string specialChars = "!@#$%^&*()-_=+<>?/:;";
+
+        //    int length = 8;
+        //    bool includeUppercase = true;
+        //    bool includeLowercase = true;
+        //    bool includeDigits = true;
+        //    bool includeSpecialChars = true;
+
+        //    StringBuilder charSet = new StringBuilder();
+        //    if (includeUppercase) charSet.Append(uppercaseLetters);
+        //    if (includeLowercase) charSet.Append(lowercaseLetters);
+        //    if (includeDigits) charSet.Append(digits);
+        //    if (includeSpecialChars) charSet.Append(specialChars);
+
+        //    StringBuilder password = new StringBuilder(length);
+        //    Random rnd = new Random();
+        //    bool passwordIncorrect = true;
+
+        //    while (passwordIncorrect)
+        //    {
+        //        password.Clear();
+
+        //        for (int i = 0; i < length; i++)
+        //        {
+        //            int randomIndex = rnd.Next(charSet.Length);
+        //            password.Append(charSet[randomIndex]);
+        //        }
+
+
+        //        if (password.ToString().IndexOfAny(specialChars.ToCharArray()) != -1 && password.ToString().IndexOfAny(uppercaseLetters.ToCharArray()) != -1 && password.ToString().IndexOfAny(lowercaseLetters.ToCharArray()) != -1 && password.ToString().IndexOfAny(digits.ToCharArray()) != -1)
+        //        {
+        //            passwordIncorrect = false;
+        //        }
+        //    }
+
+
+        //    return password.ToString();
+        //}
+
         private string RandomPasswordGenerator()
         {
-            string uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            string lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
-            string digits = "0123456789";
-            string specialChars = "!@#$%^&*()-_=+<>?/:;";
+            Random res = new Random();
 
-            int length = 8;
-            bool includeUppercase = true;
-            bool includeLowercase = true;
-            bool includeDigits = true;
-            bool includeSpecialChars = true;
+            // String that contain alphabets, numbers and special character
+            String lowerCase = "abcdefghijklmnopqrstuvwxyz";
+            String upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            String number = "0123456789";
+            String specialChar = "!@#$%^&*()_+-={}|[];,./:<>?";
 
-            StringBuilder charSet = new StringBuilder();
-            if (includeUppercase) charSet.Append(uppercaseLetters);
-            if (includeLowercase) charSet.Append(lowercaseLetters);
-            if (includeDigits) charSet.Append(digits);
-            if (includeSpecialChars) charSet.Append(specialChars);
+            // Initializing the empty string 
+            String randomstring = "";
 
-            StringBuilder password = new StringBuilder(length);
-            Random rnd = new Random();
-            bool passwordIncorrect = true;
+            randomstring += lowerCase[res.Next(lowerCase.Length)];
+            randomstring += upperCase[res.Next(upperCase.Length)];
+            randomstring += number[res.Next(number.Length)];
+            randomstring += specialChar[res.Next(specialChar.Length)];
+            randomstring += lowerCase[res.Next(lowerCase.Length)];
+            randomstring += upperCase[res.Next(upperCase.Length)];
+            randomstring += number[res.Next(number.Length)];
+            randomstring += specialChar[res.Next(specialChar.Length)];
 
-            while (passwordIncorrect)
-            {
-                for (int i = 0; i < length; i++)
-                {
-                    int randomIndex = rnd.Next(charSet.Length);
-                    password.Append(charSet[randomIndex]);
-                }
-
-
-                if (password.ToString().IndexOfAny(specialChars.ToCharArray()) != -1 && password.ToString().IndexOfAny(uppercaseLetters.ToCharArray()) != -1 && password.ToString().IndexOfAny(lowercaseLetters.ToCharArray()) != -1 && password.ToString().IndexOfAny(digits.ToCharArray()) != -1)
-                {
-                    passwordIncorrect = false;
-                }
-            }
-
-
-            return password.ToString();
+            return randomstring;
         }
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)

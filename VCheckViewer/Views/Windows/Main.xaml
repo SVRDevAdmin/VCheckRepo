@@ -32,17 +32,17 @@
                 <Grid x:Name="TopBarGrid">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1.2*" />
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Border x:Name="MainLogoBorder" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 20 10 10" Grid.Column="0">
                         <ui:Image Source="../../Content/Images/bio_logo.png"/>
                     </Border>
-                    <Border VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" Margin="50,0,150,0">
+                    <Border VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" Margin="50,0,50,0">
                         <TextBlock x:Name="PageTitle" FontWeight="Bold" FontFamily="Noto Sans" FontSize="25"  Padding="0, 17, 0, 0"/>
                     </Border>
-                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="2" Margin="40,0,40,0">
+                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="2" Margin="50,0,0,0">
                         <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
                             <Grid>
                                 <!-- Search Icon -->
@@ -65,7 +65,7 @@
                             </Grid>
                         </Border>
                     </Border>
-                    <Border HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="3" Padding="70,0,0,0">
+                    <Border HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="3">
                         <Menu>
                             <MenuItem Name="Username" Style="{StaticResource Services_MenuItem_With_Dropdown}">
                                 <MenuItem.Icon>

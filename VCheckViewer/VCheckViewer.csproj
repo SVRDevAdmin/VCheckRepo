@@ -51,6 +51,7 @@
     <None Remove="Content\Images\img_devices.png" />
     <None Remove="Content\Images\Img_Doctor.png" />
     <None Remove="Content\Images\Img_Pets.png" />
+    <None Remove="Content\Images\mask_group_1.png" />
     <None Remove="Content\Images\mask_group_4.png" />
     <None Remove="Content\Images\mask_group_5.png" />
     <None Remove="Content\Images\path_33946.png" />
@@ -64,6 +65,8 @@
     <None Remove="Content\Images\side_view_of_furry.png" />
     <None Remove="Content\Fonts\Orbitron-Medium.ttf" />
     <None Remove="Content\Fonts\Roboto-Light.ttf" />
+    <None Remove="Content\Images\VCheck200Image.png" />
+    <None Remove="Content\Images\VCheck2400Image.png" />
     <None Remove="Storage\Device\Img_F200.png" />
   </ItemGroup>
 
@@ -350,6 +353,7 @@
     <Resource Include="Content\Images\img_devices.png" />
     <Resource Include="Content\Images\Img_Doctor.png" />
     <Resource Include="Content\Images\Img_Pets.png" />
+    <Resource Include="Content\Images\mask_group_1.png" />
     <Resource Include="Content\Images\mask_group_4.png" />
     <Resource Include="Content\Images\mask_group_5.png" />
     <Resource Include="Content\Images\path_33946.png" />
@@ -370,6 +374,8 @@
     <Resource Include="Content\Fonts\Roboto-Light.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Content\Images\VCheck200Image.png" />
+    <Resource Include="Content\Images\VCheck2400Image.png" />
     <Resource Include="Storage\Device\Img_F200.png" />
   </ItemGroup>
 

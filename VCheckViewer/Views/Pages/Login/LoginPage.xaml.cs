@@ -38,6 +38,9 @@ namespace VCheckViewer.Views.Pages.Login
         public LoginPage()
         {
             InitializeComponent();
+
+            var Login_Label_LeftMain_array = Properties.Resources.Login_Label_LeftMain.Split("<nextline>");
+            //Login_Label_LeftMain.Text = Login_Label_LeftMain_array[0] + "\r\n" + Login_Label_LeftMain_array[1];
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -56,9 +59,20 @@ namespace VCheckViewer.Views.Pages.Login
 
                 if (loginAttempt.Succeeded)
                 {
-                    App.MainViewModel.CurrentUsers = sContext.GetUserByID(user.Id);
+                    var userAcount = sContext.GetUserByID(user.Id);
 
-                    GoToMainWindowHandler(e, sender);
+                    if(userAcount.Status == "Active")
+                    {
+                        App.MainViewModel.CurrentUsers = userAcount;
+
+                        GoToMainWindowHandler(e, sender);
+                    }
+                    else
+                    {
+                        ErrorText.Visibility = Visibility.Visible;
+                        //ErrorText.Text = "Account are deactivated. Please contact administrator.";
+                        ErrorText.Text = Properties.Resources.Login_ErrorMessage_AccountDeactivated;
+                    }
 
                 }
                 else if (loginAttempt.IsLockedOut)

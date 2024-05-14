@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VCheck.Helper;
+using VCheck.Lib.Data.DBContext;
+using VCheck.Lib.Data.Models;
 using VCheckViewer.Views.Windows;
 
 namespace VCheckViewer.Views.Pages.Login
@@ -27,12 +30,23 @@ namespace VCheckViewer.Views.Pages.Login
         public static event EventHandler GoToLoginPage;
         public string newPassword;
         public IdentityUser user;
+        public UserModel userModel;
+
+        TemplateDBContext TemplateContext = App.GetService<TemplateDBContext>();
+        UserDBContext UserContext = App.GetService<UserDBContext>();
+        NotificationDBContext NotificationContext = App.GetService<NotificationDBContext>();
 
         public PasswordRecoveryPage()
         {
             InitializeComponent();
 
             LoginWindow.ResetPassword += new EventHandler(ProceedResetPassword);
+
+            var pageTitle = Properties.Resources.Login_Label_PasswordRecovery.Split("<nextline>");
+            Login_Label_PasswordRecovery.Text = pageTitle[0] + "\r\n" + pageTitle[1];
+
+            var Login_Label_LeftMain_array = Properties.Resources.Login_Label_LeftMain.Split("<nextline>");
+            Login_Label_LeftMain.Text = Login_Label_LeftMain_array[0] + "\r\n" + Login_Label_LeftMain_array[1];
         }
 
         private async void ResetPassword(object sender, RoutedEventArgs e)
@@ -45,7 +59,11 @@ namespace VCheckViewer.Views.Pages.Login
                 {
                     newPassword = RandomPasswordGenerator();
 
-                    PopupHandler(e, sender);
+                    userModel = UserContext.GetUserByID(user.Id);
+
+                    if(userModel != null) { PopupHandler(e, sender); }
+
+                    
                 }
                 else
                 {
@@ -65,7 +83,59 @@ namespace VCheckViewer.Views.Pages.Login
         private async void ProceedResetPassword(object sender, EventArgs e)
         {
             await App.UserManager.RemovePasswordAsync(user);
-            var test = await App.UserManager.AddPasswordAsync(user, newPassword);            
+            var resetPassword = await App.UserManager.AddPasswordAsync(user, newPassword);
+
+            if (resetPassword.Succeeded)
+            {
+                var notificationTemplate = TemplateContext.GetTemplateByCode("EN02");
+                notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###",userModel.FullName).Replace("###<password>###", newPassword);
+
+                string sErrorMessage = "";
+
+                try
+                {
+                    EmailObject sEmail = new EmailObject();
+
+                    sEmail.SenderEmail = App.SMTP.Sender;
+
+                    List<String> sRecipientList = new List<string>() { "azwan@svrtech.com.my" };
+
+
+                    sEmail.RecipientEmail = sRecipientList;
+                    sEmail.IsHtml = true;
+                    sEmail.Subject = "[VCheck Viewer] " + notificationTemplate.TemplateTitle;
+                    sEmail.Body = notificationTemplate.TemplateContent;
+                    sEmail.SMTPHost = App.SMTP.Host;
+                    sEmail.PortNo = App.SMTP.Port;
+                    sEmail.HostUsername = App.SMTP.Username;
+                    sEmail.HostPassword = App.SMTP.Password;
+                    sEmail.EnableSsl = true;
+                    sEmail.UseDefaultCredentials = false;
+
+                    EmailHelper.SendEmail(sEmail, out sErrorMessage);
+
+                    NotificationModel notification = new NotificationModel()
+                    {
+                        NotificationType = "Email",
+                        NotificationTitle = notificationTemplate.TemplateTitle,
+                        NotificationContent = notificationTemplate.TemplateContent,
+                        CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                        CreatedBy = userModel.FullName
+                    };
+
+                    NotificationContext.InsertNotification(notification);
+                }
+                catch (Exception ex)
+                {
+                    ErrorText.Visibility = Visibility.Visible;
+                    ErrorText.Text = "Error occur when creating password. Please contact administrator.";
+                }
+            }
+            else
+            {
+                ErrorText.Visibility = Visibility.Visible;
+                ErrorText.Text = "Error occur when creating password. Please contact administrator.";
+            }
         }
 
         private void BackToLogin(object sender, RoutedEventArgs e)

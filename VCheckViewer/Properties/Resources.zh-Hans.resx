@@ -168,6 +168,9 @@
   <data name="General_Message_NoData" xml:space="preserve">
     <value>无可用数据</value>
   </data>
+  <data name="Login_ErrorMessage_AccountDeactivated" xml:space="preserve">
+    <value>帐户已停用。请联系管理员。</value>
+  </data>
   <data name="Login_ErrorMessage_AccountLocked" xml:space="preserve">
     <value>帐户被锁定。请联系管理员。</value>
   </data>
@@ -196,7 +199,7 @@
     <value>忘记密码？</value>
   </data>
   <data name="Login_Label_LeftMain" xml:space="preserve">
-    <value>快速获得准确的结果。</value>
+    <value>快速获得准确的&lt;nextline&gt;结果。</value>
   </data>
   <data name="Login_Label_LeftSub" xml:space="preserve">
     <value>请登录以访问您的帐户</value>
@@ -217,7 +220,7 @@
     <value>旧密码</value>
   </data>
   <data name="Login_Label_PasswordRecovery" xml:space="preserve">
-    <value>密码恢复</value>
+    <value>密码&lt;nextline&gt;恢复</value>
   </data>
   <data name="Login_Label_ResetPassword" xml:space="preserve">
     <value>重置密码</value>
@@ -473,5 +476,35 @@
   </data>
   <data name="Setting_ErrorMessage_InvalidIP" xml:space="preserve">
     <value>输入的 IP 地址无效</value>
+  </data>
+  <data name="Dashboard_Message_DownloadLatest" xml:space="preserve">
+    <value>通过定期更新分析仪软件和固件来确保最佳性能。&lt;nextline&gt;获取最新版本的分析仪。</value>
+  </data>
+  <data name="General_Label_Busy" xml:space="preserve">
+    <value>忙</value>
+  </data>
+  <data name="General_Label_Download" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="General_Label_Ready" xml:space="preserve">
+    <value>准备</value>
+  </data>
+  <data name="Login_Message_WrongCurrentPassword" xml:space="preserve">
+    <value>当前密码错误。</value>
+  </data>
+  <data name="General_Message_NoCompletedTest" xml:space="preserve">
+    <value>没有可用的完整测试。</value>
+  </data>
+  <data name="General_Message_NoDevice" xml:space="preserve">
+    <value>没有可用的设备。</value>
+  </data>
+  <data name="General_Message_NoNotification" xml:space="preserve">
+    <value>没有可用的通知。</value>
+  </data>
+  <data name="General_Message_NoScheduleTest" xml:space="preserve">
+    <value>没有可用的预定测试。</value>
+  </data>
+  <data name="ResetPassword_Title_PageTitle" xml:space="preserve">
+    <value>重设密码</value>
   </data>
 </root>

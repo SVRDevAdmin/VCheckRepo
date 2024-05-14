@@ -100,7 +100,7 @@
                         <DataGridTextColumn Header = "{Binding Path=Setting_Label_Gender, Source={StaticResource Resources}}" Binding = "{Binding Gender}" Width="0.5*" ElementStyle="{StaticResource DataGridVerticalText}"/>
                         <DataGridTextColumn Header = "{Binding Path=Setting_Label_Role, Source={StaticResource Resources}}" Binding = "{Binding Role}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
                         <DataGridTextColumn Header = "{Binding Path=Setting_Label_DateOfBirth, Source={StaticResource Resources}}" Binding = "{Binding DateOfBirth}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
-                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_Email, Source={StaticResource Resources}}" Binding = "{Binding EmailAddress}" Width="1.7*" ElementStyle="{StaticResource DataGridVerticalText}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_Email, Source={StaticResource Resources}}" Binding = "{Binding EmailAddress}" Width="1.7*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
                         <DataGridTemplateColumn Width="auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

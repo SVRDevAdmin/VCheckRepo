@@ -38,7 +38,7 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Image Source="../../../Content/Images/Login Photo.png" Grid.Row="0" VerticalAlignment="Top"/>
-                <TextBlock Text="{Binding Path=Login_Label_LeftMain, Source={StaticResource Resources}}" Grid.Row="1" TextAlignment="Center" FontWeight="Medium" FontSize="40" Width="300" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <TextBlock Name="Login_Label_LeftMain" Grid.Row="1" TextAlignment="Center" FontWeight="Medium" FontSize="40" Width="400" TextWrapping="Wrap" VerticalAlignment="Top"/>
                 <TextBlock Text="{Binding Path=Login_Label_LeftSub, Source={StaticResource Resources}}" Grid.Row="2" TextAlignment="Center" FontWeight="Medium" FontSize="25" TextWrapping="Wrap"/>
             </Grid>
         </Border>

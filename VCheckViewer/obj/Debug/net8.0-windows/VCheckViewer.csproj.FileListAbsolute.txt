@@ -168,6 +168,9 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.csproj.Assembly
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Template\Templates.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\UserControls\DateRangePicker.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Dashboard\DashboardPage.g.cs
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Dashboard\NotificationList.g.cs
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Dashboard\ScheduleTestList.g.cs
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Dashboard\TestResultList.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Login\LoginPage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Login\PasswordRecoveryPage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Login\ResetCurrentUserPasswordPage.g.cs
@@ -195,6 +198,9 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\App.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\ResourceDictionary.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\UserControls\DateRangePicker.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Dashboard\DashboardPage.baml
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Dashboard\NotificationList.baml
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Dashboard\ScheduleTestList.baml
+C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Dashboard\TestResultList.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Login\LoginPage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Login\PasswordRecoveryPage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Login\ResetCurrentUserPasswordPage.baml

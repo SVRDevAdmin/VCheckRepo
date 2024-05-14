@@ -88,6 +88,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ensure optimal performance by regularly updating your analyzer software and firmware.&lt;nextline&gt;Get the latest versions of your analyzer..
+        /// </summary>
+        public static string Dashboard_Message_DownloadLatest {
+            get {
+                return ResourceManager.GetString("Dashboard_Message_DownloadLatest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         public static string Dashboard_Title_PageTitle {
@@ -187,6 +196,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Busy.
+        /// </summary>
+        public static string General_Label_Busy {
+            get {
+                return ResourceManager.GetString("General_Label_Busy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
         public static string General_Label_Create {
@@ -201,6 +219,15 @@ namespace VCheckViewer.Properties {
         public static string General_Label_Delete {
             get {
                 return ResourceManager.GetString("General_Label_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        public static string General_Label_Download {
+            get {
+                return ResourceManager.GetString("General_Label_Download", resourceCulture);
             }
         }
         
@@ -268,6 +295,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ready.
+        /// </summary>
+        public static string General_Label_Ready {
+            get {
+                return ResourceManager.GetString("General_Label_Ready", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string General_Label_Save {
@@ -331,11 +367,56 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No completed test available..
+        /// </summary>
+        public static string General_Message_NoCompletedTest {
+            get {
+                return ResourceManager.GetString("General_Message_NoCompletedTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No data available.
         /// </summary>
         public static string General_Message_NoData {
             get {
                 return ResourceManager.GetString("General_Message_NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No device available..
+        /// </summary>
+        public static string General_Message_NoDevice {
+            get {
+                return ResourceManager.GetString("General_Message_NoDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No notification available..
+        /// </summary>
+        public static string General_Message_NoNotification {
+            get {
+                return ResourceManager.GetString("General_Message_NoNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No scheduled test available..
+        /// </summary>
+        public static string General_Message_NoScheduleTest {
+            get {
+                return ResourceManager.GetString("General_Message_NoScheduleTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account are deactivated. Please contact administrator..
+        /// </summary>
+        public static string Login_ErrorMessage_AccountDeactivated {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_AccountDeactivated", resourceCulture);
             }
         }
         
@@ -421,7 +502,7 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Get accurate results swiftly..
+        ///   Looks up a localized string similar to Get accurate&lt;nextline&gt;results swiftly..
         /// </summary>
         public static string Login_Label_LeftMain {
             get {
@@ -484,7 +565,7 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password Recovery.
+        ///   Looks up a localized string similar to Password&lt;nextline&gt;Recovery.
         /// </summary>
         public static string Login_Label_PasswordRecovery {
             get {
@@ -534,6 +615,15 @@ namespace VCheckViewer.Properties {
         public static string Login_Message_PasswordResetted {
             get {
                 return ResourceManager.GetString("Login_Message_PasswordResetted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong current password..
+        /// </summary>
+        public static string Login_Message_WrongCurrentPassword {
+            get {
+                return ResourceManager.GetString("Login_Message_WrongCurrentPassword", resourceCulture);
             }
         }
         
@@ -786,6 +876,15 @@ namespace VCheckViewer.Properties {
         public static string Popup_Message_UpdateUser {
             get {
                 return ResourceManager.GetString("Popup_Message_UpdateUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Password.
+        /// </summary>
+        public static string ResetPassword_Title_PageTitle {
+            get {
+                return ResourceManager.GetString("ResetPassword_Title_PageTitle", resourceCulture);
             }
         }
         

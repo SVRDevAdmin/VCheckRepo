@@ -25,15 +25,15 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type MenuItem}">
-                            <Border x:Name="border" Background="White" BorderThickness="0" Height="53" Width="210">
-                                <Grid>
+                            <Border x:Name="border" Background="White" BorderThickness="0" Height="53" MaxWidth="310">
+                                <Grid HorizontalAlignment="Right">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="5*" />
-                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
                                     <!--// Icon //-->
-                                    <ContentPresenter ContentSource="Icon" HorizontalAlignment="Left" VerticalAlignment="Center" Height="45" Grid.Column="0"/>
+                                    <ContentPresenter ContentSource="Icon" HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" Grid.Column="0"/>
 
                                     <!--// Text //-->
                                     <ContentPresenter ContentSource="Header" TextBlock.Foreground="Black" TextBlock.FontFamily="Noto Sans" TextBlock.FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Column="1">
@@ -43,7 +43,7 @@
                                     </ContentPresenter>
 
                                     <!--// Dropdown Icon //-->
-                                    <Image Source="../../Content/Images/path_3550.png" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2"/>
+                                    <Image Source="../../Content/Images/path_3550.png" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2" Margin="10,0,0,0"/>
 
                                     <!--// Popup //-->
                                     <Popup x:Name="PART_Popup" AllowsTransparency="True" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}">
