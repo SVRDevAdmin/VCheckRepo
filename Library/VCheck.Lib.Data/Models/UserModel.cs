@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VCheck.Lib.Data.Models
 {
-    public class UserModel
+    public class UserModel : AuditModel
     {
         public int No { get; set; }
         public string UserId { get; set; }
@@ -21,8 +21,10 @@ namespace VCheck.Lib.Data.Models
         public string EmailAddress { get; set; }
         public string Status { get; set; }
         public int StatusID { get; set; }
+        public bool StatusChanged { get; set; }
         public string Role { get; set; }
         public string RoleID { get; set; }
         public string LoginID { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

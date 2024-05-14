@@ -37,7 +37,7 @@ namespace VCheck.Lib.Data.DBContext
             using (MySqlConnection conn = this.Connection)
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from userlist order by UserID LIMIT " + start + "," + end, conn);
+                MySqlCommand cmd = new MySqlCommand("Select * from userlist where IsDeleted = 0 order by UserID LIMIT " + start + "," + end, conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -71,9 +71,9 @@ namespace VCheck.Lib.Data.DBContext
 
         public void InsertUser(UserModel user)
         {
-            string insertQuery = "INSERT INTO `vcheckdb`.`mst_user` (`UserID`,`EmployeeID`,`Title`,`FullName`,`RegistrationNo`,`Gender`,`DateofBirth`,`EmailAddress`,`Status`,`RoleID`) ";
+            string insertQuery = "INSERT INTO `vcheckdb`.`mst_user` (`UserID`,`EmployeeID`,`Title`,`FullName`,`RegistrationNo`,`Gender`,`DateofBirth`,`EmailAddress`,`Status`,`RoleID`, `IsDeleted`) ";
 
-            insertQuery += "Values ('"+user.UserId+"','"+user.EmployeeID+"', '"+user.Title+"', '"+user.FullName+"', '"+user.RegistrationNo+"', '"+user.Gender+"', '"+user.DateOfBirth+"', '"+user.EmailAddress+"', "+user.StatusID+", '"+user.RoleID+"')";
+            insertQuery += "Values ('"+user.UserId+"','"+user.EmployeeID+"', '"+user.Title+"', '"+user.FullName+"', '"+user.RegistrationNo+"', '"+user.Gender+"', '"+user.DateOfBirth+"', '"+user.EmailAddress+"', "+user.StatusID+", '"+user.RoleID+"', 0)";
 
             using (MySqlConnection conn = this.Connection)
             {
@@ -86,7 +86,7 @@ namespace VCheck.Lib.Data.DBContext
 
         public void UpdateUser(UserModel user)
         {
-            string insertQuery = "UPDATE `vcheckdb`.`mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+ "',`FullName` = '" + user.FullName+ "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = '"+user.RoleID+"' WHERE `UserID` = '" + user.UserId+"';";
+            string insertQuery = "UPDATE `vcheckdb`.`mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+ "',`FullName` = '" + user.FullName+ "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = '"+user.RoleID+"' WHERE `UserID` = '" + user.UserId+"' and IsDeleted = 0;";
 
             using (MySqlConnection conn = this.Connection)
             {
@@ -99,7 +99,8 @@ namespace VCheck.Lib.Data.DBContext
 
         public void DeleteUser(string userID)
         {
-            string insertQuery = "DELETE FROM `vcheckdb`.`mst_user` WHERE UserID = '"+userID+"';";
+            //string insertQuery = "DELETE FROM `vcheckdb`.`mst_user` WHERE UserID = '"+userID+"';";
+            string insertQuery = "Update `vcheckdb`.`mst_user` set IsDeleted = 1 WHERE UserID = '" + userID + "';";
 
             using (MySqlConnection conn = this.Connection)
             {
@@ -112,7 +113,7 @@ namespace VCheck.Lib.Data.DBContext
 
         public int GetTotalUser()
         {
-            string insertQuery = "SELECT Count(Title) FROM `vcheckdb`.`mst_user`";
+            string insertQuery = "SELECT Count(Title) FROM `vcheckdb`.`mst_user` where IsDeleted = 0";
             int total = 0;
 
             using (MySqlConnection conn = this.Connection)
@@ -139,7 +140,7 @@ namespace VCheck.Lib.Data.DBContext
             using (MySqlConnection conn = this.Connection)
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from userlist where UserID = '" + userID + "'", conn);
+                MySqlCommand cmd = new MySqlCommand("Select * from userlist where UserID = '" + userID + "' and IsDeleted = 0", conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {

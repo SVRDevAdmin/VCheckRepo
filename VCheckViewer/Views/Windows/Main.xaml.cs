@@ -1,53 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Wpf.Ui;
-using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls;
-using VCheckViewer.ViewModels.Windows;
-using MySql.Data.MySqlClient;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices.Marshalling;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using System.Windows.Media.Animation;
+using VCheck.Helper;
 using VCheck.Lib.Data;
+using VCheck.Lib.Data.DBContext;
+using VCheck.Lib.Data.Models;
+using VCheckViewer.Lib.Culture;
 using VCheckViewer.Lib.Function;
 using VCheckViewer.Views.Pages;
-using VCheckViewer.Views.Pages.Setting.User;
-using VCheck.Lib.Data.Models;
-using VCheck.Lib.Data.DBContext;
-using System.Collections.ObjectModel;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Effects;
-using VCheckViewer.Lib.Models;
-using System.Reflection;
-using System.ComponentModel;
 using VCheckViewer.Views.Pages.Login;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using VCheckViewer.Views.Pages.Setting.LanguageCountry;
-using VCheckViewer.Views.Pages.Test;
-using VCheckViewer.Lib.Culture;
-using System.Globalization;
 using VCheckViewer.Views.Pages.Notification;
-using System.Xml;
-using Brushes = System.Windows.Media.Brushes;
 using VCheckViewer.Views.Pages.Setting.Device;
+using VCheckViewer.Views.Pages.Setting.LanguageCountry;
+using VCheckViewer.Views.Pages.Setting.User;
+using VCheckViewer.Views.Pages.Test;
+using Wpf.Ui;
+using Wpf.Ui.Controls;
+using Brushes = System.Windows.Media.Brushes;
 using VCheckViewer.Views.Pages.Setting.Interface;
 using VCheckViewer.Views.Pages.Schedule;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Windows.Media;
 using VCheckViewer.Views.Pages.Results;
 
 namespace VCheckViewer.Views.Windows
@@ -76,8 +51,8 @@ namespace VCheckViewer.Views.Windows
 
         public Main
         (
-            //INavigationService navigationService,
-            //IPageService pageService
+        //INavigationService navigationService,
+        //IPageService pageService
         )
         {
             InitializeComponent();
@@ -114,6 +89,10 @@ namespace VCheckViewer.Views.Windows
 
             Username.Header = App.MainViewModel.CurrentUsers.StaffName;
             //Username.Header = App.MainViewModel.CurrentUsers.Title + App.MainViewModel.CurrentUsers.FullName;
+
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
         }
 
         #region INavigationWindow methods
@@ -153,7 +132,7 @@ namespace VCheckViewer.Views.Windows
             App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
 
             //RootNavigation.GoBack();
-            if (frameContent.CanGoBack) { frameContent.GoBack(); }            
+            if (frameContent.CanGoBack) { frameContent.GoBack(); }
 
             GoToViewUserPage(sender, e);
         }
@@ -270,8 +249,8 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "UserDeleteRow") { DeleteUserRowHandler(e, sender); }
             if (App.MainViewModel.Origin == "UserAddRow") { AddUserRowHandler(e, sender); }
             if (App.MainViewModel.Origin == "UserUpdateRow") { UpdateUserRowHandler(e, sender); }
-            if (App.MainViewModel.Origin == "DeviceAdd") { AddDeviceHandler(e, sender);  }
-            if (App.MainViewModel.Origin == "DeviceDelete") { DeleteDeviceHandler(e, sender);  }
+            if (App.MainViewModel.Origin == "DeviceAdd") { AddDeviceHandler(e, sender); }
+            if (App.MainViewModel.Origin == "DeviceDelete") { DeleteDeviceHandler(e, sender); }
             if (App.MainViewModel.Origin == "DeviceUpdate") { UpdateDeviceHandler(e, sender); }
             if (App.MainViewModel.Origin == "ChangeLanguageCountry") { ChangeLanguageCountryHandler(e, sender); }
             if (App.MainViewModel.Origin == "SettingsUpdate") { UpdateSettingsHandler(e, sender);  }
@@ -318,10 +297,12 @@ namespace VCheckViewer.Views.Windows
         {
             var originButton = (System.Windows.Controls.Button)sender;
 
-            if (originButton.Name.ToString() == "UserPage") { 
-                MainUserPage(); 
+            if (originButton.Name.ToString() == "UserPage")
+            {
+                MainUserPage();
             }
-            else {
+            else
+            {
                 //RootNavigation.GoBack();
                 frameContent.GoBack();
             }
@@ -356,7 +337,7 @@ namespace VCheckViewer.Views.Windows
         }
 
         public void initializedDropdownSelectionList()
-        {            
+        {
             var titleList = sContext.GetMasterCodeData("Title");
             var genderList = sContext.GetMasterCodeData("Gender");
             var rolesList = rolesContext.GetRoles();
@@ -396,8 +377,8 @@ namespace VCheckViewer.Views.Windows
 
         private async static void DeleteUserRowHandler(EventArgs e, object sender)
         {
-            usersContext.DeleteUser(App.MainViewModel.Users.UserId);       
-            
+            usersContext.DeleteUser(App.MainViewModel.Users.UserId);
+
             var user = await App.UserManager.FindByIdAsync(App.MainViewModel.Users.UserId);
 
             await App.UserManager.DeleteAsync(user);
@@ -429,7 +410,7 @@ namespace VCheckViewer.Views.Windows
 
                 if (roleResult.Succeeded)
                 {
-                    var notificationTemplate = TemplateContext.GetTemplateByCode("U05");
+                    var notificationTemplate = TemplateContext.GetTemplateByCode("US05");
                     notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("###<staff_id>###", App.MainViewModel.Users.EmployeeID).Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("'", "''");
 
                     NotificationModel notification = new NotificationModel()
@@ -443,6 +424,48 @@ namespace VCheckViewer.Views.Windows
 
                     NotificationContext.InsertNotification(notification);
 
+                    notificationTemplate = TemplateContext.GetTemplateByCode("EN01");
+                    notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("###<password>###", App.newPassword).Replace("###<login_id>###", user.UserName);
+
+                    string sErrorMessage = "";
+
+                    try
+                    {
+                        EmailObject sEmail = new EmailObject();
+
+                        sEmail.SenderEmail = App.SMTP.Sender;
+
+                        List<String> sRecipientList = new List<string>() { "azwan@svrtech.com.my" };
+
+
+                        sEmail.RecipientEmail = sRecipientList;
+                        sEmail.IsHtml = true;
+                        sEmail.Subject = "[VCheck Viewer] " + notificationTemplate.TemplateTitle;
+                        sEmail.Body = notificationTemplate.TemplateContent;
+                        sEmail.SMTPHost = App.SMTP.Host;
+                        sEmail.PortNo = App.SMTP.Port;
+                        sEmail.HostUsername = App.SMTP.Username;
+                        sEmail.HostPassword = App.SMTP.Password;
+                        sEmail.EnableSsl = true;
+                        sEmail.UseDefaultCredentials = false;
+
+                        EmailHelper.SendEmail(sEmail, out sErrorMessage);
+
+                        notification = new NotificationModel()
+                        {
+                            NotificationType = "Email",
+                            NotificationTitle = notificationTemplate.TemplateTitle,
+                            NotificationContent = notificationTemplate.TemplateContent,
+                            CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                            CreatedBy = App.MainViewModel.CurrentUsers.FullName
+                        };
+
+                        NotificationContext.InsertNotification(notification);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+
                     if (InitializedUserPage != null)
                     {
                         InitializedUserPage(sender, e);
@@ -455,42 +478,46 @@ namespace VCheckViewer.Views.Windows
         private void UpdateUserRowHandler(EventArgs e, object sender)
         {
             usersContext.UpdateUser(App.MainViewModel.Users);
+            TemplateModel notificationTemplate;
 
-            if (App.MainViewModel.CurrentUsers.UserId == App.MainViewModel.Users.UserId)
+            if (App.MainViewModel.Users.StatusChanged)
+            {
+                if (App.MainViewModel.Users.Status == "Active")
+                {
+                    notificationTemplate = TemplateContext.GetTemplateByCode("US03");
+                }
+                else
+                {
+                    notificationTemplate = TemplateContext.GetTemplateByCode("US04");
+                }
+
+                notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_id>###", App.MainViewModel.Users.EmployeeID).Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("###<admin_id>###", App.MainViewModel.CurrentUsers.EmployeeID).Replace("###<admin_fullname>###", App.MainViewModel.CurrentUsers.FullName);
+            }
+            else if (App.MainViewModel.CurrentUsers.UserId == App.MainViewModel.Users.UserId)
             {
                 App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
                 Username.Header = App.MainViewModel.CurrentUsers.StaffName;
 
-                var notificationTemplate = TemplateContext.GetTemplateByCode("U02");
+                notificationTemplate = TemplateContext.GetTemplateByCode("US02");
                 notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''");
-
-                NotificationModel notification = new NotificationModel()
-                {
-                    NotificationType = "Updates",
-                    NotificationTitle = notificationTemplate.TemplateTitle,
-                    NotificationContent = notificationTemplate.TemplateContent,
-                    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                    CreatedBy = App.MainViewModel.CurrentUsers.FullName
-                };
-
-                NotificationContext.InsertNotification(notification);
             }
             else
             {
-                var notificationTemplate = TemplateContext.GetTemplateByCode("U01");
+                notificationTemplate = TemplateContext.GetTemplateByCode("US01");
                 notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_id>###", App.MainViewModel.Users.EmployeeID).Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("###<admin_id>###", App.MainViewModel.CurrentUsers.EmployeeID).Replace("###<admin_fullname>###", App.MainViewModel.CurrentUsers.FullName);
-
-                NotificationModel notification = new NotificationModel()
-                {
-                    NotificationType = "Updates",
-                    NotificationTitle = notificationTemplate.TemplateTitle,
-                    NotificationContent = notificationTemplate.TemplateContent,
-                    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                    CreatedBy = App.MainViewModel.CurrentUsers.FullName
-                };
-
-                NotificationContext.InsertNotification(notification);
             }
+
+
+            NotificationModel notification = new NotificationModel()
+            {
+                NotificationType = "Updates",
+                NotificationTitle = notificationTemplate.TemplateTitle,
+                NotificationContent = notificationTemplate.TemplateContent,
+                CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                CreatedBy = App.MainViewModel.CurrentUsers.FullName
+            };
+
+            NotificationContext.InsertNotification(notification);
 
 
             PreviousPage(sender, e);
@@ -585,7 +612,7 @@ namespace VCheckViewer.Views.Windows
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
             var notificationTemplate = TemplateContext.GetTemplateByCode("LC01");
-            notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'","''");
+            notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''");
 
             NotificationModel notification = new NotificationModel()
             {
@@ -714,5 +741,5 @@ namespace VCheckViewer.Views.Windows
             mnNotifications.Background = System.Windows.Media.Brushes.Transparent;
         }
     }
-    
+
 }

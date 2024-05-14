@@ -50,9 +50,11 @@ namespace VCheckViewer.Views.Pages.Login
                     //{
                     //    errorText += "- " + error.Description + "\r\n";
                     //}
+                    if(changePassword.Errors.Any(x => x.Code.ToString() == "PasswordMismatch")) { ErrorText.Text = Properties.Resources.Login_Message_WrongCurrentPassword; }
+                    else { ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement; }
 
                     //ErrorText.Text = errorText;
-                    ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement;
+                    //ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement;
                     ErrorText.Foreground = Brushes.Red;
                 }
             }

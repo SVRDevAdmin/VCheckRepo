@@ -168,6 +168,9 @@
   <data name="General_Message_NoData" xml:space="preserve">
     <value>No data available</value>
   </data>
+  <data name="Login_ErrorMessage_AccountDeactivated" xml:space="preserve">
+    <value>Account are deactivated. Please contact administrator.</value>
+  </data>
   <data name="Login_ErrorMessage_AccountLocked" xml:space="preserve">
     <value>Account are locked. Please contact administrator.</value>
   </data>
@@ -196,7 +199,7 @@
     <value>Forgot Password?</value>
   </data>
   <data name="Login_Label_LeftMain" xml:space="preserve">
-    <value>Get accurate results swiftly.</value>
+    <value>Get accurate&lt;nextline&gt;results swiftly.</value>
   </data>
   <data name="Login_Label_LeftSub" xml:space="preserve">
     <value>Please login to access your account</value>
@@ -217,7 +220,7 @@
     <value>Old Password</value>
   </data>
   <data name="Login_Label_PasswordRecovery" xml:space="preserve">
-    <value>Password Recovery</value>
+    <value>Password&lt;nextline&gt;Recovery</value>
   </data>
   <data name="Login_Label_ResetPassword" xml:space="preserve">
     <value>Reset password</value>
@@ -380,6 +383,33 @@
   </data>
   <data name="Setting_Title_PageTitle" xml:space="preserve">
     <value>Setting</value>
+  </data>
+  <data name="Dashboard_Message_DownloadLatest" xml:space="preserve">
+    <value>Ensure optimal performance by regularly updating your analyzer software and firmware.&lt;nextline&gt;Get the latest versions of your analyzer.</value>
+  </data>
+  <data name="General_Label_Busy" xml:space="preserve">
+    <value>Busy</value>
+  </data>
+  <data name="General_Label_Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="General_Label_Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="Login_Message_WrongCurrentPassword" xml:space="preserve">
+    <value>Wrong current password.</value>
+  </data>
+  <data name="General_Message_NoCompletedTest" xml:space="preserve">
+    <value>No completed test available.</value>
+  </data>
+  <data name="General_Message_NoDevice" xml:space="preserve">
+    <value>No device available.</value>
+  </data>
+  <data name="General_Message_NoNotification" xml:space="preserve">
+    <value>No notification available.</value>
+  </data>
+  <data name="General_Message_NoScheduleTest" xml:space="preserve">
+    <value>No scheduled test available.</value>
   </data>
   <data name="Schedule_Title_PageTitle" xml:space="preserve">
     <value>Schedule</value>
