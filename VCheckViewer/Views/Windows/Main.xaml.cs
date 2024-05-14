@@ -23,6 +23,7 @@ using VCheckViewer.Views.Pages.Setting.Interface;
 using VCheckViewer.Views.Pages.Schedule;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Windows.Media;
+using VCheckViewer.Views.Pages.Results;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -218,16 +219,16 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "UserUpdateRow") { PopupContent.Text = Properties.Resources.Popup_Message_UpdateUser; }
             if (App.MainViewModel.Origin == "ChangeLanguageCountry") { PopupContent.Text = Properties.Resources.Popup_Message_LanguageCountryChange; }
             if (App.MainViewModel.Origin == "Logout") { PopupContent.Text = Properties.Resources.Popup_Message_Logout; }
-            if (App.MainViewModel.Origin == "DeviceAdd") { PopupContent.Text = "Are you sure you want to add this new analyzer"; }
-            if (App.MainViewModel.Origin == "DeviceDelete") { PopupContent.Text = "Are you sure you want to remove this new analyzer"; }
-            if (App.MainViewModel.Origin == "DeviceUpdate") { PopupContent.Text = "Are you sure you want to update this new analyzer"; }
-            if (App.MainViewModel.Origin == "SettingsUpdate") { PopupContent.Text = "Are you sure you want to save this setting"; }
+            if (App.MainViewModel.Origin == "DeviceAdd") { PopupContent.Text = Properties.Resources.Popup_Message_AddAnalyzer;  }
+            if (App.MainViewModel.Origin == "DeviceDelete") { PopupContent.Text = Properties.Resources.Popup_Message_RemoveAnalyzer; }
+            if (App.MainViewModel.Origin == "DeviceUpdate") { PopupContent.Text = Properties.Resources.Popup_Message_UpdateAnalyzer; }
+            if (App.MainViewModel.Origin == "SettingsUpdate") { PopupContent.Text = Properties.Resources.Popup_Message_SaveSettings; }
             if (App.MainViewModel.Origin == "SetingsUpdateCompleted") {
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
 
-                PopupContent.Text = "You've updated the PMS/LIS/HIS settings. Please Login again to apply changes."; 
+                PopupContent.Text = Properties.Resources.Popup_Message_SavePMSLISHIS; 
             }
 
             PopupBackground.Background = Brushes.DimGray;
@@ -577,6 +578,7 @@ namespace VCheckViewer.Views.Windows
 
 
                 App.MainViewModel.Origin = "SetingsUpdateCompleted";
+                App.MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
 
                 App.PopupHandler(e, sender);
             }
@@ -600,6 +602,10 @@ namespace VCheckViewer.Views.Windows
 
             currentCountry.ConfigurationValue = currentCountry.ConfigurationValueTemp;
             currentLanguage.ConfigurationValue = currentLanguage.ConfigurationValueTemp;
+
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Setting_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
             var notificationTemplate = TemplateContext.GetTemplateByCode("LC01");
             notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''");
@@ -636,6 +642,10 @@ namespace VCheckViewer.Views.Windows
         {
             frameContent.Content = new SchedulePage();
 
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Schedule_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+
             ClearMenuItemStyle();
             mnSchedule.Background = System.Windows.Media.Brushes.White;
             mnSchedule.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#404D5B"));
@@ -643,7 +653,7 @@ namespace VCheckViewer.Views.Windows
 
         private void mnResults_Click(object sender, RoutedEventArgs e)
         {
-            frameContent.Content = new DashboardPage();
+            frameContent.Content = new ResultPage();
             PageTitle.Text = "Results";
 
             ClearMenuItemStyle();

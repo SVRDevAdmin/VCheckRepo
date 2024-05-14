@@ -117,8 +117,92 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Configuration_Label_Button_Update" xml:space="preserve">
+    <value>업데이트</value>
+  </data>
+  <data name="Configuration_Label_PMS_LIS_HIS" xml:space="preserve">
+    <value>PMS / LIS / HIS IP 주소</value>
+  </data>
+  <data name="Configuration_Label_PMS_LIS_HIS_PortNo" xml:space="preserve">
+    <value>PMS / LIS / HIS 포트 번호</value>
+  </data>
   <data name="Dashboard_Title_PageTitle" xml:space="preserve">
     <value>대시보드</value>
+  </data>
+  <data name="Device_Label_AddedDevices" xml:space="preserve">
+    <value>추가된 장치</value>
+  </data>
+  <data name="Device_Label_Button_Add" xml:space="preserve">
+    <value>추가하다</value>
+  </data>
+  <data name="Device_Label_Button_BackDevice" xml:space="preserve">
+    <value>장치로 돌아가기</value>
+  </data>
+  <data name="Device_Label_Button_BackViewDevice" xml:space="preserve">
+    <value>장치 보기로 돌아갑니다.</value>
+  </data>
+  <data name="Device_Label_Button_Cancel" xml:space="preserve">
+    <value>취소</value>
+  </data>
+  <data name="Device_Label_Button_Delete" xml:space="preserve">
+    <value>삭제</value>
+  </data>
+  <data name="Device_Label_Button_Edit" xml:space="preserve">
+    <value>편집하다</value>
+  </data>
+  <data name="Device_Label_Button_Update" xml:space="preserve">
+    <value>업데이트</value>
+  </data>
+  <data name="Device_Label_DeviceIPAddress" xml:space="preserve">
+    <value>장치 IP 주소</value>
+  </data>
+  <data name="Device_Label_DeviceName" xml:space="preserve">
+    <value>장치 이름</value>
+  </data>
+  <data name="General_Label_Create" xml:space="preserve">
+    <value>만들다</value>
+  </data>
+  <data name="General_Label_Delete" xml:space="preserve">
+    <value>삭제</value>
+  </data>
+  <data name="General_Label_Next" xml:space="preserve">
+    <value>다음</value>
+  </data>
+  <data name="General_Label_No" xml:space="preserve">
+    <value>아니요</value>
+  </data>
+  <data name="General_Label_Number" xml:space="preserve">
+    <value>아니요</value>
+  </data>
+  <data name="General_Label_OK" xml:space="preserve">
+    <value>좋아요</value>
+  </data>
+  <data name="General_Label_Prev" xml:space="preserve">
+    <value>이전의</value>
+  </data>
+  <data name="General_Label_Previous" xml:space="preserve">
+    <value>이전의</value>
+  </data>
+  <data name="General_Label_Save" xml:space="preserve">
+    <value>구하다</value>
+  </data>
+  <data name="General_Label_Searchbar" xml:space="preserve">
+    <value>찾다</value>
+  </data>
+  <data name="General_Label_Update" xml:space="preserve">
+    <value>업데이트</value>
+  </data>
+  <data name="General_Label_View" xml:space="preserve">
+    <value>보다</value>
+  </data>
+  <data name="General_Label_Yes" xml:space="preserve">
+    <value>예</value>
+  </data>
+  <data name="General_Message_NoChanges" xml:space="preserve">
+    <value>변경사항이 감지되지 않았습니다.</value>
+  </data>
+  <data name="Login_Label_ConfirmPassword" xml:space="preserve">
+    <value>새 암호를 확인합니다</value>
   </data>
   <data name="Login_Label_ForgetPassword" xml:space="preserve">
     <value>비밀번호를 잊으셨나요?</value>
@@ -138,8 +222,194 @@
   <data name="Login_Label_MainUsername" xml:space="preserve">
     <value>사용자 이름</value>
   </data>
+  <data name="Login_Label_NewPassword" xml:space="preserve">
+    <value>새 비밀번호</value>
+  </data>
+  <data name="Login_Label_OldPassword" xml:space="preserve">
+    <value>기존 비밀번호</value>
+  </data>
+  <data name="Login_Label_ResetPassword" xml:space="preserve">
+    <value>암호를 재설정</value>
+  </data>
+  <data name="Login_Message_PasswordNewConfirmMismatch" xml:space="preserve">
+    <value>신규 비밀번호와 확인 비밀번호가 일치하지 않습니다.</value>
+  </data>
+  <data name="Login_Message_PasswordRequirement" xml:space="preserve">
+    <value>비밀번호는 숫자 1개, 소문자 1개, 대문자 1개 이상을 포함해야 하며 8자리 이상이어야 합니다.</value>
+  </data>
+  <data name="Login_Message_PasswordResetted" xml:space="preserve">
+    <value>비밀번호가 재설정되었습니다.</value>
+  </data>
   <data name="Login_Title_PageTitle" xml:space="preserve">
     <value>로그인</value>
+  </data>
+  <data name="Main_Label_Logout" xml:space="preserve">
+    <value>로그 아웃</value>
+  </data>
+  <data name="Main_Label_ResetPassword" xml:space="preserve">
+    <value>암호를 재설정</value>
+  </data>
+  <data name="Main_Label_SideMenuCollapse" xml:space="preserve">
+    <value>무너뜨리다</value>
+  </data>
+  <data name="Main_Label_SideMenuDashboard" xml:space="preserve">
+    <value>기계판</value>
+  </data>
+  <data name="Main_Label_SideMenuNotification" xml:space="preserve">
+    <value>공고</value>
+  </data>
+  <data name="Main_Label_SideMenuResults" xml:space="preserve">
+    <value>검사 결과</value>
+  </data>
+  <data name="Main_Label_SideMenuSchedule" xml:space="preserve">
+    <value>예정표</value>
+  </data>
+  <data name="Main_Label_SideMenuSetting" xml:space="preserve">
+    <value>설정</value>
+  </data>
+  <data name="Main_Label_ViewProfile" xml:space="preserve">
+    <value>프로필보기</value>
+  </data>
+  <data name="Popup_Message_AddAnalyzer" xml:space="preserve">
+    <value>이 새 분석기를 추가하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_CreateUser" xml:space="preserve">
+    <value>이 사용자 프로필을 만드시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_DeleteUser" xml:space="preserve">
+    <value>이 사용자 프로필을 삭제하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_LanguageCountryChange" xml:space="preserve">
+    <value>이 설정을 저장하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_Logout" xml:space="preserve">
+    <value>정말로 로그아웃하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_RemoveAnalyzer" xml:space="preserve">
+    <value>이 새 분석기를 제거하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_SavePMSLISHIS" xml:space="preserve">
+    <value>PMS/LIS/HIS 설정을 업데이트했습니다. 변경 사항을 적용하려면 다시 로그인하세요.</value>
+  </data>
+  <data name="Popup_Message_SaveSettings" xml:space="preserve">
+    <value>이 설정을 저장하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_UpdateAnalyzer" xml:space="preserve">
+    <value>이 새 분석기를 업데이트하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_UpdateUser" xml:space="preserve">
+    <value>이 사용자 프로필을 업데이트하시겠습니까?</value>
+  </data>
+  <data name="Schedule_Label_NewPatients" xml:space="preserve">
+    <value>새로운 환자</value>
+  </data>
+  <data name="Schedule_Label_NoScheduleTestAvailable" xml:space="preserve">
+    <value>예약된 테스트가 없습니다.</value>
+  </data>
+  <data name="Schedule_Label_NoTestResultAvailable" xml:space="preserve">
+    <value>테스트 결과가 없습니다.</value>
+  </data>
+  <data name="Schedule_Label_PatientID" xml:space="preserve">
+    <value>환자번호:</value>
+  </data>
+  <data name="Schedule_Label_Patients" xml:space="preserve">
+    <value>환자</value>
+  </data>
+  <data name="Schedule_Label_RecentTestResults" xml:space="preserve">
+    <value>최근 테스트 결과</value>
+  </data>
+  <data name="Schedule_Label_TestsDone" xml:space="preserve">
+    <value>테스트 완료</value>
+  </data>
+  <data name="Schedule_Label_UpcomingTest" xml:space="preserve">
+    <value>다가오는 테스트</value>
+  </data>
+  <data name="Schedule_Label_ViewReport" xml:space="preserve">
+    <value>보고서보기</value>
+  </data>
+  <data name="Schedule_Label_ViewSchedulePMS" xml:space="preserve">
+    <value>PMS에서 일정 보기</value>
+  </data>
+  <data name="Schedule_Title_PageTitle" xml:space="preserve">
+    <value>예정표</value>
+  </data>
+  <data name="Setting_ErrorMessage_DateFormat" xml:space="preserve">
+    <value>올바른 날짜 형식을 입력하세요.</value>
+  </data>
+  <data name="Setting_ErrorMessage_EmailFormat" xml:space="preserve">
+    <value>이 필드에는 "@" 기호가 포함되어야 합니다.</value>
+  </data>
+  <data name="Setting_ErrorMessage_FiveCharMin" xml:space="preserve">
+    <value>이 필드에는 5자 이상이 포함되어야 합니다.</value>
+  </data>
+  <data name="Setting_ErrorMessage_InvalidIP" xml:space="preserve">
+    <value>잘못된 IP 주소를 입력했습니다.</value>
+  </data>
+  <data name="Setting_ErrorMessage_MandatoryField" xml:space="preserve">
+    <value>필수 입력란입니다.</value>
+  </data>
+  <data name="Setting_ErrorMessage_TwoCharMin" xml:space="preserve">
+    <value>이 필드에는 2자 이상이 포함되어야 합니다.</value>
+  </data>
+  <data name="Setting_Label_Country" xml:space="preserve">
+    <value>국가</value>
+  </data>
+  <data name="Setting_Label_CreateUser" xml:space="preserve">
+    <value>사용자 생성</value>
+  </data>
+  <data name="Setting_Label_DateOfBirth" xml:space="preserve">
+    <value>생일</value>
+  </data>
+  <data name="Setting_Label_Device" xml:space="preserve">
+    <value>장치</value>
+  </data>
+  <data name="Setting_Label_Email" xml:space="preserve">
+    <value>이메일 주소</value>
+  </data>
+  <data name="Setting_Label_FullName" xml:space="preserve">
+    <value>성명</value>
+  </data>
+  <data name="Setting_Label_Gender" xml:space="preserve">
+    <value>성별</value>
+  </data>
+  <data name="Setting_Label_Language" xml:space="preserve">
+    <value>언어</value>
+  </data>
+  <data name="Setting_Label_LanguageCountry" xml:space="preserve">
+    <value>언어 및 국가</value>
+  </data>
+  <data name="Setting_Label_LoginID" xml:space="preserve">
+    <value>로그인 ID</value>
+  </data>
+  <data name="Setting_Label_RegistrationNo" xml:space="preserve">
+    <value>의사등록번호</value>
+  </data>
+  <data name="Setting_Label_Role" xml:space="preserve">
+    <value>사용자 역할</value>
+  </data>
+  <data name="Setting_Label_SelectCountry" xml:space="preserve">
+    <value>국가를 고르시 오</value>
+  </data>
+  <data name="Setting_Label_SelectLanguage" xml:space="preserve">
+    <value>언어를 선택하세요</value>
+  </data>
+  <data name="Setting_Label_StaffID" xml:space="preserve">
+    <value>직원 ID</value>
+  </data>
+  <data name="Setting_Label_StaffName" xml:space="preserve">
+    <value>직원 이름</value>
+  </data>
+  <data name="Setting_Label_Status" xml:space="preserve">
+    <value>상태</value>
+  </data>
+  <data name="Setting_Label_Title" xml:space="preserve">
+    <value>제목</value>
+  </data>
+  <data name="Setting_Label_User" xml:space="preserve">
+    <value>사용자</value>
+  </data>
+  <data name="Setting_Label_UserBackButton" xml:space="preserve">
+    <value>사용자 목록으로 돌아가기</value>
   </data>
   <data name="Setting_Title_PageTitle" xml:space="preserve">
     <value>설정</value>

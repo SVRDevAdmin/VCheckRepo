@@ -36,6 +36,9 @@
     <Compile Update="Views\Pages\Notification\NotificationPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Pages\Results\ResultPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Pages\Schedule\SchedulePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -77,6 +80,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.de.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.en.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -122,6 +128,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Notification\NotificationPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\Results\ResultPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Schedule\SchedulePage.xaml">

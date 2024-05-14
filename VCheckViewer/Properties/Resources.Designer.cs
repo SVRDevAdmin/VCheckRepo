@@ -162,6 +162,15 @@ namespace VCheckViewer.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Prev.
         /// </summary>
+        public static string General_Label_Prev {
+            get {
+                return ResourceManager.GetString("General_Label_Prev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prev.
+        /// </summary>
         public static string General_Label_Previous {
             get {
                 return ResourceManager.GetString("General_Label_Previous", resourceCulture);
@@ -628,6 +637,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to add this new analyzer.
+        /// </summary>
+        public static string Popup_Message_AddAnalyzer {
+            get {
+                return ResourceManager.GetString("Popup_Message_AddAnalyzer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to create this user profile?.
         /// </summary>
         public static string Popup_Message_CreateUser {
@@ -700,11 +718,146 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove this new analyzer.
+        /// </summary>
+        public static string Popup_Message_RemoveAnalyzer {
+            get {
+                return ResourceManager.GetString("Popup_Message_RemoveAnalyzer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ve updated the PMS/LIS/HIS settings. Please Login again to apply changes..
+        /// </summary>
+        public static string Popup_Message_SavePMSLISHIS {
+            get {
+                return ResourceManager.GetString("Popup_Message_SavePMSLISHIS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to save this setting.
+        /// </summary>
+        public static string Popup_Message_SaveSettings {
+            get {
+                return ResourceManager.GetString("Popup_Message_SaveSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to update this new analyzer.
+        /// </summary>
+        public static string Popup_Message_UpdateAnalyzer {
+            get {
+                return ResourceManager.GetString("Popup_Message_UpdateAnalyzer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to update this user profile?.
         /// </summary>
         public static string Popup_Message_UpdateUser {
             get {
                 return ResourceManager.GetString("Popup_Message_UpdateUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Patients.
+        /// </summary>
+        public static string Schedule_Label_NewPatients {
+            get {
+                return ResourceManager.GetString("Schedule_Label_NewPatients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Scheduled test available..
+        /// </summary>
+        public static string Schedule_Label_NoScheduleTestAvailable {
+            get {
+                return ResourceManager.GetString("Schedule_Label_NoScheduleTestAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No test results available..
+        /// </summary>
+        public static string Schedule_Label_NoTestResultAvailable {
+            get {
+                return ResourceManager.GetString("Schedule_Label_NoTestResultAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Patient ID:.
+        /// </summary>
+        public static string Schedule_Label_PatientID {
+            get {
+                return ResourceManager.GetString("Schedule_Label_PatientID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Patients.
+        /// </summary>
+        public static string Schedule_Label_Patients {
+            get {
+                return ResourceManager.GetString("Schedule_Label_Patients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recent Test Results.
+        /// </summary>
+        public static string Schedule_Label_RecentTestResults {
+            get {
+                return ResourceManager.GetString("Schedule_Label_RecentTestResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tests Done.
+        /// </summary>
+        public static string Schedule_Label_TestsDone {
+            get {
+                return ResourceManager.GetString("Schedule_Label_TestsDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upcoming Test.
+        /// </summary>
+        public static string Schedule_Label_UpcomingTest {
+            get {
+                return ResourceManager.GetString("Schedule_Label_UpcomingTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Report.
+        /// </summary>
+        public static string Schedule_Label_ViewReport {
+            get {
+                return ResourceManager.GetString("Schedule_Label_ViewReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Schedule in PMS.
+        /// </summary>
+        public static string Schedule_Label_ViewSchedulePMS {
+            get {
+                return ResourceManager.GetString("Schedule_Label_ViewSchedulePMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schedule.
+        /// </summary>
+        public static string Schedule_Title_PageTitle {
+            get {
+                return ResourceManager.GetString("Schedule_Title_PageTitle", resourceCulture);
             }
         }
         
@@ -732,6 +885,15 @@ namespace VCheckViewer.Properties {
         public static string Setting_ErrorMessage_FiveCharMin {
             get {
                 return ResourceManager.GetString("Setting_ErrorMessage_FiveCharMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid IP address entered.
+        /// </summary>
+        public static string Setting_ErrorMessage_InvalidIP {
+            get {
+                return ResourceManager.GetString("Setting_ErrorMessage_InvalidIP", resourceCulture);
             }
         }
         
@@ -939,15 +1101,6 @@ namespace VCheckViewer.Properties {
         public static string Setting_Title_PageTitle {
             get {
                 return ResourceManager.GetString("Setting_Title_PageTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Label 123.
-        /// </summary>
-        public static string Test_Label_1 {
-            get {
-                return ResourceManager.GetString("Test_Label_1", resourceCulture);
             }
         }
     }

@@ -257,9 +257,9 @@
                         </Border>
                         <Border Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,40">
                             <StackPanel Orientation="Horizontal">
-                                <Button Name="btnNo" Content="{Binding Path=General_Label_No, Source={StaticResource Resources}}" Click="CancelButton_Click" Margin="0,0,10,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="Transparent"/>
-                                <Button Name="btnYes" Content="{Binding Path=General_Label_Yes, Source={StaticResource Resources}}" Click="ContinueButton_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="DarkOrange" Foreground="White"/>
-                                <Button Name="btnOk" Content="{Binding Path=General_Label_OK, Source={StaticResource Resources}}" Click="btnOk_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="DarkOrange" Foreground="White" Visibility="Collapsed" />
+                                <Button Name="btnNo" Content="{Binding Path=General_Label_No, Source={StaticResource Resources}}" Click="CancelButton_Click" Margin="0,0,10,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="Transparent" />
+                                <Button Name="btnYes" Content="{Binding Path=General_Label_Yes, Source={StaticResource Resources}}" Click="ContinueButton_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="DarkOrange" Foreground="White" BorderThickness="0" />
+                                <Button Name="btnOk" Content="{Binding Path=General_Label_OK, Source={StaticResource Resources}}" Click="btnOk_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="DarkOrange" Foreground="White" Visibility="Collapsed" BorderThickness="0" />
                             </StackPanel>
                         </Border>
                     </Grid>
