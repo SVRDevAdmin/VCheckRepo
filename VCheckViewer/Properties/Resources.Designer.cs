@@ -61,6 +61,33 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string Configuration_Label_Button_Update {
+            get {
+                return ResourceManager.GetString("Configuration_Label_Button_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PMS / LIS / HIS IP Address.
+        /// </summary>
+        public static string Configuration_Label_PMS_LIS_HIS {
+            get {
+                return ResourceManager.GetString("Configuration_Label_PMS_LIS_HIS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PMS / LIS / HIS Port Number.
+        /// </summary>
+        public static string Configuration_Label_PMS_LIS_HIS_PortNo {
+            get {
+                return ResourceManager.GetString("Configuration_Label_PMS_LIS_HIS_PortNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ensure optimal performance by regularly updating your analyzer software and firmware.&lt;nextline&gt;Get the latest versions of your analyzer..
         /// </summary>
         public static string Dashboard_Message_DownloadLatest {
@@ -75,6 +102,96 @@ namespace VCheckViewer.Properties {
         public static string Dashboard_Title_PageTitle {
             get {
                 return ResourceManager.GetString("Dashboard_Title_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Added Devices.
+        /// </summary>
+        public static string Device_Label_AddedDevices {
+            get {
+                return ResourceManager.GetString("Device_Label_AddedDevices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Device_Label_Button_Add {
+            get {
+                return ResourceManager.GetString("Device_Label_Button_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to Device.
+        /// </summary>
+        public static string Device_Label_Button_BackDevice {
+            get {
+                return ResourceManager.GetString("Device_Label_Button_BackDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to View Device..
+        /// </summary>
+        public static string Device_Label_Button_BackViewDevice {
+            get {
+                return ResourceManager.GetString("Device_Label_Button_BackViewDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Device_Label_Button_Cancel {
+            get {
+                return ResourceManager.GetString("Device_Label_Button_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Device_Label_Button_Delete {
+            get {
+                return ResourceManager.GetString("Device_Label_Button_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string Device_Label_Button_Edit {
+            get {
+                return ResourceManager.GetString("Device_Label_Button_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string Device_Label_Button_Update {
+            get {
+                return ResourceManager.GetString("Device_Label_Button_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device IP Address.
+        /// </summary>
+        public static string Device_Label_DeviceIPAddress {
+            get {
+                return ResourceManager.GetString("Device_Label_DeviceIPAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device Name.
+        /// </summary>
+        public static string Device_Label_DeviceName {
+            get {
+                return ResourceManager.GetString("Device_Label_DeviceName", resourceCulture);
             }
         }
         
@@ -385,7 +502,7 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Get accurate results swiftly..
+        ///   Looks up a localized string similar to Get accurate&lt;nextline&gt;results swiftly..
         /// </summary>
         public static string Login_Label_LeftMain {
             get {
@@ -448,7 +565,7 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password Recovery.
+        ///   Looks up a localized string similar to Password&lt;nextline&gt;Recovery.
         /// </summary>
         public static string Login_Label_PasswordRecovery {
             get {

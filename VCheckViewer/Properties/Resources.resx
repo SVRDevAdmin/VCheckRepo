@@ -199,7 +199,7 @@
     <value>Forgot Password?</value>
   </data>
   <data name="Login_Label_LeftMain" xml:space="preserve">
-    <value>Get accurate results swiftly.</value>
+    <value>Get accurate&lt;nextline&gt;results swiftly.</value>
   </data>
   <data name="Login_Label_LeftSub" xml:space="preserve">
     <value>Please login to access your account</value>
@@ -220,7 +220,7 @@
     <value>Old Password</value>
   </data>
   <data name="Login_Label_PasswordRecovery" xml:space="preserve">
-    <value>Password Recovery</value>
+    <value>Password&lt;nextline&gt;Recovery</value>
   </data>
   <data name="Login_Label_ResetPassword" xml:space="preserve">
     <value>Reset password</value>

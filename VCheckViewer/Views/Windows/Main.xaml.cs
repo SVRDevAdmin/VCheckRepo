@@ -89,6 +89,10 @@ namespace VCheckViewer.Views.Windows
 
             Username.Header = App.MainViewModel.CurrentUsers.StaffName;
             //Username.Header = App.MainViewModel.CurrentUsers.Title + App.MainViewModel.CurrentUsers.FullName;
+
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
         }
 
         #region INavigationWindow methods

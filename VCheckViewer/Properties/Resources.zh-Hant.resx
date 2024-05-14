@@ -199,7 +199,7 @@
     <value>忘記密碼？</value>
   </data>
   <data name="Login_Label_LeftMain" xml:space="preserve">
-    <value>快速獲得準確嘅結果。</value>
+    <value>快速獲得準確的&lt;nextline&gt;結果。</value>
   </data>
   <data name="Login_Label_LeftSub" xml:space="preserve">
     <value>請登錄以訪問您的帳戶</value>
@@ -220,7 +220,7 @@
     <value>舊密碼</value>
   </data>
   <data name="Login_Label_PasswordRecovery" xml:space="preserve">
-    <value>密碼恢復</value>
+    <value>密碼&lt;nextline&gt;恢復</value>
   </data>
   <data name="Login_Label_ResetPassword" xml:space="preserve">
     <value>重置密碼</value>
