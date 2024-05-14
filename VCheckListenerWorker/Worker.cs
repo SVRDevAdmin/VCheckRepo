@@ -158,6 +158,11 @@ namespace VCheckListenerWorker
         public void ProcessHL7Message(NHapi.Base.Model.IMessage sIMessage)
         {
             NHapi.Model.V26.Message.ORU_R01 sRU_R01 = (NHapi.Model.V26.Message.ORU_R01)sIMessage;
+            String sResultRule = "";
+            String sResultStatus = "";
+            String sOperatorID = "";
+            String sPatientID = "";
+            Decimal iResultValue = 0;
 
             // --------------- Message Header --------------//
             tbltestanalyze_results_messageheader sMSHObj = new tbltestanalyze_results_messageheader
@@ -360,6 +365,8 @@ namespace VCheckListenerWorker
                     // ------------ Notes -------------------//
                     if (observationDetail.NTEs.Count() > 0)
                     {
+                        String sComment = GenerateNTEComments(observationDetail.NTEs.ToList());
+
                         sNTEObj.Add(new tbltestanalyze_results_notes
                         {
                             SetID = (observationDetail.NTEs.Count() > 0) ? 
@@ -367,12 +374,40 @@ namespace VCheckListenerWorker
                             Segment = "OBX",
                             SourceComment = (observationDetail.NTEs.Count() > 0) ?
                                              observationDetail.NTEs.FirstOrDefault().SourceOfComment.Value : null,
-                            Comment = GenerateNTEComments(observationDetail.NTEs.ToList())
+                            Comment = sComment
+                            //Comment = GenerateNTEComments(observationDetail.NTEs.ToList())
                         });
+
+                        if (sComment.Contains("Cut Off Index"))
+                        {
+                            sResultRule = "COI";
+
+                            String sValue = "";
+                            String[] strArryValue = sComment.Split(",");
+                            if (strArryValue.Length > 0)
+                            {
+                                sValue = strArryValue[1].Replace("Value=", "").Trim();
+                            }
+
+                            Decimal.TryParse(sValue, out iResultValue);
+                        }
                     }
 
                 }
             }
+
+            txn_testresults sTestResultObj = new txn_testresults();
+            //sTestResultObj.TestResultDateTime
+            sTestResultObj.TestResultType = "";
+            sTestResultObj.OperatorID = "";
+            sTestResultObj.PatientID = "";
+            sTestResultObj.InchargePerson = "";
+            sTestResultObj.ObservationStatus = "";
+            sTestResultObj.TestResultStatus = (iResultValue >= 1 ? "Positive" : "Negative");
+            sTestResultObj.TestResultValue = iResultValue;
+            sTestResultObj.TestResultRules = sResultRule;
+            sTestResultObj.CreatedDate = DateTime.Now;
+            sTestResultObj.CreatedBy = "VCheckViewer Listener";
 
             tbltestanalyze_results sResultObj = new tbltestanalyze_results
             {

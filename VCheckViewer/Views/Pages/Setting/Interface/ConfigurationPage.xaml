@@ -30,16 +30,16 @@
                     <ColumnDefinition Width="auto" MinWidth="100"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="2">
-                    <Button Name="btnUser" Background="Black" BorderThickness="0" Content="User" Foreground="White" HorizontalAlignment="Stretch" Style="{DynamicResource RoundButton}" Click="btnUser_Click"></Button>
+                    <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Name="btnUser" Background="Black" BorderThickness="0" Foreground="White" HorizontalAlignment="Stretch" Style="{DynamicResource RoundButton}" Click="btnUser_Click"></Button>
                 </Border>
                 <Border Grid.Column="1" Margin="2">
-                    <Button Name="btnLanguage" Content="Language &amp; Country" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnLanguage_Click"></Button>
+                    <Button Content="{Binding Path=Setting_Label_LanguageCountry, Source={StaticResource Resources}}" Name="btnLanguage" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnLanguage_Click"></Button>
                 </Border>
                 <Border Grid.Column="2" Margin="2">
                     <Button Content="PMS/LIS/HIS" Background="DarkOrange" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
                 </Border>
                 <Border Grid.Column="3" Margin="2">
-                    <Button Name="btnDevice" Content="Device" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
+                    <Button Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Name="btnDevice" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
                 </Border>
             </Grid>
         </Border>
@@ -55,20 +55,20 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="PMS / LIS / HIS IP Address" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
+                    <TextBlock Text="{Binding Path=Configuration_Label_PMS_LIS_HIS, Source={StaticResource Resources}}" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
                     <Border Name="borderIP" Grid.Row="2" Background="White" Padding="5, 12, 0, 0" BorderBrush="Black" BorderThickness="1" CornerRadius="20">
                         <WindowsFormsHost KeyUp="FieldsVal_KeyUp" Margin="10, 0" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Noto Sans" FontSize="12" FontWeight="Light" Background="White">
                             <wf:MaskedTextBox x:Name="txtIP" Mask="###.###.###.###" Width="350" Height="30" TextAlign="Left" BorderStyle="None" />
                         </WindowsFormsHost>
                     </Border>
 
-                    <TextBlock Text="PMS / LIS / HIS Port Number" Grid.Row="3" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
+                    <TextBlock Text="{Binding Path=Configuration_Label_PMS_LIS_HIS_PortNo, Source={StaticResource Resources}}" Grid.Row="3" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
                     <Border Name="borderPortNo" Grid.Row="4" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="20">
                         <TextBox x:Name="txtPortNo" VerticalAlignment="Center" BorderThickness="0" PreviewTextInput="NumberValidationOnly" MaxLength="3" KeyUp="FieldsVal_KeyUp" />
                     </Border>
 
                     <Border Name="BorderButton" Grid.Row="5" Margin="0, 30">
-                        <Button x:Name="btnUpdate" Content="Update" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="White"
+                        <Button x:Name="btnUpdate" Content="{Binding Path=Configuration_Label_Button_Update, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="White"
                                 Background="DarkOrange" BorderBrush="White" Margin="0" Style="{DynamicResource RoundButton}" 
                                 IsEnabled="False" Click="btnUpdate_Click"/>
                     </Border>

@@ -9,6 +9,6 @@
       Title="DashboardPage">
 
     <Grid>
-        <TextBlock TextWrapping="Wrap" Text="Dashboard Page" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock TextWrapping="Wrap" Text="{Binding Path=Dashboard_Title_PageTitle, Source={StaticResource Resources}}" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
     </Grid>
 </Page>

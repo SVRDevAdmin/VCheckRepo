@@ -110,4 +110,24 @@ namespace VCheckListenerWorker.Lib.Models
         public String? MotherMaidenName { get; set; }
         public String? DateofBirth { get; set; }
     }
+
+    public class txn_testresults
+    {
+        [Key]
+        public long ID { get; set; }
+        public DateTime? TestResultDateTime { get; set; }
+        public String? TestResultType { get; set; }
+        public String? OperatorID { get; set; }
+        public String? PatientID { get; set; }
+        public String? InchargePerson { get; set; }
+        public String? ObservationStatus { get; set; }
+        public String? TestResultStatus { get; set; }
+        public Decimal? TestResultValue { get; set; }
+        public String? TestResultRules { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public String? CreatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public String? UpdatedBy { get; set; }
+    }
+
 }

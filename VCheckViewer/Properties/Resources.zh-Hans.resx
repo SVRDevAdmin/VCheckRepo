@@ -137,7 +137,7 @@
   </data>
   <data name="General_Label_OK" xml:space="preserve">
     <value>知到</value>
-    </data>
+  </data>
   <data name="General_Label_Number" xml:space="preserve">
     <value>数</value>
   </data>
@@ -380,5 +380,98 @@
   </data>
   <data name="Setting_Title_PageTitle" xml:space="preserve">
     <value>设置</value>
+  </data>
+  <data name="Schedule_Title_PageTitle" xml:space="preserve">
+    <value>日程表</value>
+  </data>
+  <data name="Configuration_Label_Button_Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Configuration_Label_PMS_LIS_HIS" xml:space="preserve">
+    <value>PMS / LIS / HIS IP位址</value>
+  </data>
+  <data name="Configuration_Label_PMS_LIS_HIS_PortNo" xml:space="preserve">
+    <value>PMS / LIS / HIS 端口号</value>
+  </data>
+  <data name="Device_Label_AddedDevices" xml:space="preserve">
+    <value>添加的设备</value>
+  </data>
+  <data name="Device_Label_Button_Add" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="Device_Label_Button_BackDevice" xml:space="preserve">
+    <value>返回设备</value>
+  </data>
+  <data name="Device_Label_Button_BackViewDevice" xml:space="preserve">
+    <value>返回查看设备。</value>
+  </data>
+  <data name="Device_Label_Button_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Device_Label_Button_Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Device_Label_Button_Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="Device_Label_Button_Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Device_Label_DeviceIPAddress" xml:space="preserve">
+    <value>设备IP地址</value>
+  </data>
+  <data name="Device_Label_DeviceName" xml:space="preserve">
+    <value>设备名称</value>
+  </data>
+  <data name="General_Label_Prev" xml:space="preserve">
+    <value>上一页</value>
+  </data>
+  <data name="Popup_Message_AddAnalyzer" xml:space="preserve">
+    <value>您确定要添加这个新分析器吗?</value>
+  </data>
+  <data name="Popup_Message_RemoveAnalyzer" xml:space="preserve">
+    <value>您确定要删除这个新分析器吗?</value>
+  </data>
+  <data name="Popup_Message_SavePMSLISHIS" xml:space="preserve">
+    <value>您已更新 PMS/LIS/HIS 设置。 请再次登录以应用更改。</value>
+  </data>
+  <data name="Popup_Message_SaveSettings" xml:space="preserve">
+    <value>您确定要保存此设置吗?</value>
+  </data>
+  <data name="Popup_Message_UpdateAnalyzer" xml:space="preserve">
+    <value>您确定要更新这个新分析仪吗</value>
+  </data>
+  <data name="Schedule_Label_NewPatients" xml:space="preserve">
+    <value>新患者</value>
+  </data>
+  <data name="Schedule_Label_NoScheduleTestAvailable" xml:space="preserve">
+    <value>没有可用的预定测试。</value>
+  </data>
+  <data name="Schedule_Label_NoTestResultAvailable" xml:space="preserve">
+    <value>没有可用的测试结果。</value>
+  </data>
+  <data name="Schedule_Label_PatientID" xml:space="preserve">
+    <value>患者 ID:</value>
+  </data>
+  <data name="Schedule_Label_Patients" xml:space="preserve">
+    <value>患者</value>
+  </data>
+  <data name="Schedule_Label_RecentTestResults" xml:space="preserve">
+    <value>最近的测试结果</value>
+  </data>
+  <data name="Schedule_Label_TestsDone" xml:space="preserve">
+    <value>测试完成</value>
+  </data>
+  <data name="Schedule_Label_UpcomingTest" xml:space="preserve">
+    <value>即将进行的测试</value>
+  </data>
+  <data name="Schedule_Label_ViewReport" xml:space="preserve">
+    <value>查看报告</value>
+  </data>
+  <data name="Schedule_Label_ViewSchedulePMS" xml:space="preserve">
+    <value>在 PMS 中查看时间表</value>
+  </data>
+  <data name="Setting_ErrorMessage_InvalidIP" xml:space="preserve">
+    <value>输入的 IP 地址无效</value>
   </data>
 </root>

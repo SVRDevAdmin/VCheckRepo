@@ -161,7 +161,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 borderButtonUpdate.Visibility = Visibility.Collapsed;
 
                 btnBackDevice.Visibility = Visibility.Visible;
-                btnBackDevice.Content = "Back to Device.";
+                App.MainViewModel.BackButtonText = Properties.Resources.Device_Label_Button_BackDevice;
+                //btnBackDevice.Content = "Back to Device.";
             }
             else if (sType.ToLower() == "update")
             {
@@ -176,7 +177,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 borderButtonUpdate.Visibility = Visibility.Visible;
 
                 btnBackDevice.Visibility = Visibility.Visible;
-                btnBackDevice.Content = "Back to View Device.";
+                App.MainViewModel.BackButtonText = Properties.Resources.Device_Label_Button_BackViewDevice;
+                //btnBackDevice.Content = "Back to View Device.";
             }
             else if (sType.ToLower() == "add")
             {
@@ -206,7 +208,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             {
                 sTxtNameBorder.BorderBrush = System.Windows.Media.Brushes.Red;
                 sTxtNameBorder.BorderThickness = new Thickness(1);
-                sTxtNameBorder.ToolTip = "This is a mandatory field";
+                sTxtNameBorder.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
+                //sTxtNameBorder.ToolTip = "This is a mandatory field";
 
                 IsFieldEmpty = true;
             }
@@ -221,7 +224,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             {
                 borderIPEdit.BorderBrush = System.Windows.Media.Brushes.Red;
                 borderIPEdit.BorderThickness = new Thickness(1);
-                borderIPEdit.ToolTip = "This is a mandatory field";
+                borderIPEdit.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
+                //borderIPEdit.ToolTip = "This is a mandatory field";
 
                 IsFieldEmpty = true;
             }
@@ -236,7 +240,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             {
                 borderIPEdit.BorderBrush = System.Windows.Media.Brushes.Red;
                 borderIPEdit.BorderThickness = new Thickness(1);
-                borderIPEdit.ToolTip = "Invalid IP address entered";
+                borderIPEdit.ToolTip = Properties.Resources.Setting_ErrorMessage_InvalidIP;
+                //borderIPEdit.ToolTip = "Invalid IP address entered";
 
                 IsFieldEmpty = true;
             }

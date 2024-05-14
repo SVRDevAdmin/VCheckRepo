@@ -49,7 +49,7 @@
                                 <TextBlock Name="lbTotalTest" FontFamily="Noto Sans" FontSize="40" FontWeight="Bold">0</TextBlock>
                             </Border>
                             <Border Grid.Row="0" Margin="75, 110, 140, 30" Panel.ZIndex="22">
-                                <TextBlock FontFamily="Noto Sans" FontSize="16">Tests Done</TextBlock>
+                                <TextBlock FontFamily="Noto Sans" FontSize="16" Text="{Binding Path=Schedule_Label_TestsDone, Source={StaticResource Resources}}"></TextBlock>
                             </Border>
                             <Border Grid.Row="0" Margin="180, 52, 10, 0" Panel.ZIndex="20">
                                 <Image Source="../../../Content/Images/Img_Doctor.png" Width="100"/>
@@ -71,7 +71,7 @@
                                 <TextBlock Name="lbTotalPatients" FontFamily="Noto Sans" FontSize="40" FontWeight="Bold">0</TextBlock>
                             </Border>
                             <Border Grid.Row="0" Margin="75, 110, 140, 30" Panel.ZIndex="22">
-                                <TextBlock FontFamily="Noto Sans" FontSize="16">Patients</TextBlock>
+                                <TextBlock FontFamily="Noto Sans" FontSize="16" Text="{Binding Path=Schedule_Label_Patients, Source={StaticResource Resources}}"></TextBlock>
                             </Border>
                             <Border Grid.Row="0" Margin="180, 65, 10, 0" Panel.ZIndex="20">
                                 <Image Source="../../../Content/Images/Img_Pets.png" Width="110"/>
@@ -93,7 +93,7 @@
                                 <TextBlock Name="lbTotalNewPatients" FontFamily="Noto Sans" FontSize="40" FontWeight="Bold">0</TextBlock>
                             </Border>
                             <Border Grid.Row="0" Margin="75, 110, 140, 30" Panel.ZIndex="22">
-                                <TextBlock FontFamily="Noto Sans" FontSize="16">New Patients</TextBlock>
+                                <TextBlock FontFamily="Noto Sans" FontSize="16" Text="{Binding Path=Schedule_Label_NewPatients, Source={StaticResource Resources}}"></TextBlock>
                             </Border>
                             <Border Grid.Row="0" Margin="180, 65, 10, 0" Panel.ZIndex="20">
                                 <Image Source="../../../Content/Images/Img_Pets.png" Width="110"/>
@@ -118,7 +118,8 @@
                 </Grid.ColumnDefinitions>
 
                 <Border Grid.Row="0" BorderBrush="Black" BorderThickness="0">
-                    <TextBlock FontFamily="Noto Sans" FontSize="22" FontWeight="Bold" Margin="85, 40, 0, 0">Upcoming Test</TextBlock>
+                    <TextBlock Text="{Binding Path=Schedule_Label_UpcomingTest, Source={StaticResource Resources}}" FontFamily="Noto Sans" FontSize="22" FontWeight="Bold" Margin="85, 40, 0, 0">
+                    </TextBlock>
                 </Border>
                 <Border Grid.Row="1" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="0">
                     <Border BorderThickness="0">
@@ -165,7 +166,7 @@
                                                     <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0" Height="15">
                                                         <Border>
                                                             <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center">
-                                                            <Run Text="Patient ID: " />
+                                                            <Run Text="{Binding PatientIDString }" />
                                                             <Run Text="{Binding PatientID}" FontWeight="Bold" />
                                                             </TextBlock>
                                                         </Border>
@@ -174,7 +175,7 @@
                                                         <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Text="{Binding InchargePerson}"></TextBlock>
                                                     </Border>
                                                     <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0" Height="25">
-                                                        <TextBlock Foreground="Gray" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center">View Schedule in PMS</TextBlock>
+                                                        <TextBlock Text="{Binding Path=Schedule_Label_ViewSchedulePMS, Source={StaticResource Resources}}" Foreground="Gray" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center"></TextBlock>
                                                     </Border>
                                                     <Border Grid.Column="1" Grid.Row="4" BorderBrush="Black" BorderThickness="0, 0, 0, 1" Height="45">
                                                         <Border Width="70" Height="30" Background="#FAD5A5" HorizontalAlignment="Left" CornerRadius="4">
@@ -197,7 +198,7 @@
 
                             </Border>
                             <Border Name="borderNoScheduledTest" Grid.Row="0" Margin="25, 35, 25, 50" Padding="30" Panel.ZIndex="23" Visibility="Collapsed">
-                                <TextBlock Margin="50, 0, 20, 0" FontFamily="Noto Sans" FontSize="12">No Scheduled test available.</TextBlock>
+                                <TextBlock Text="{Binding Path=Schedule_Label_NoScheduleTestAvailable, Source={StaticResource Resources}}" Margin="50, 0, 20, 0" FontFamily="Noto Sans" FontSize="12"></TextBlock>
                             </Border>
                         </Grid>
                     </Border>
@@ -219,8 +220,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Border Grid.Row="0" BorderBrush="Black" BorderThickness="0">
-                    <TextBlock FontFamily="Noto Sans" FontSize="22" FontWeight="Bold" Margin="85, 40, 0, 0">
-                        Recent Test Results
+                    <TextBlock Text="{Binding Path=Schedule_Label_RecentTestResults, Source={StaticResource Resources}}" FontFamily="Noto Sans" FontSize="22" FontWeight="Bold" Margin="85, 40, 0, 0">
                     </TextBlock>
                 </Border>
                 <Border Grid.Row="1" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="0">
@@ -268,7 +268,7 @@
                                                     <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0" Height="15">
                                                         <Border>
                                                             <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center">
-                                                            <Run Text="Patient ID: " />
+                                                            <Run Text="{Binding PatientIDString}" />
                                                             <Run Text="{Binding PatientID}" FontWeight="Bold" />
                                                             </TextBlock>
                                                         </Border>
@@ -277,7 +277,8 @@
                                                         <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Text="{Binding InchargePerson}"></TextBlock>
                                                     </Border>
                                                     <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0" Height="25">
-                                                        <TextBlock Foreground="Gray" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center">View Report</TextBlock>
+                                                        <TextBlock Text="{Binding Path=Schedule_Label_ViewReport, Source={StaticResource Resources}}" 
+                                                                   Foreground="Gray" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center"></TextBlock>
                                                     </Border>
                                                     <Border Grid.Column="1" Grid.Row="4" BorderBrush="Black" BorderThickness="0, 0, 0, 1" Height="45">
                                                         <Border Width="70" Height="30" Background="#7FFFD4" HorizontalAlignment="Left" CornerRadius="4">
@@ -300,7 +301,7 @@
                                 
                             </Border>
                             <Border Name="borderNoTestsCompleted" Grid.Row="0" Margin="25, 35, 25, 50" Padding="30" Panel.ZIndex="23" Visibility="Collapsed">
-                                <TextBlock Margin="50, 0, 20, 0" FontFamily="Noto Sans" FontSize="12">No test results available.</TextBlock>
+                                <TextBlock Text="{Binding Path=Schedule_Label_NoTestResultAvailable, Source={StaticResource Resources}}" Margin="50, 0, 20, 0" FontFamily="Noto Sans" FontSize="12"></TextBlock>
                             </Border>
                         </Grid>
                     </Border>
