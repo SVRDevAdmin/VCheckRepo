@@ -50,57 +50,71 @@ namespace VCheckViewer.Views.Pages.Login
             //App.MainViewModel.CurrentUsers = sUser;
             //GoToMainWindowHandler(e, sender);
             //return;
-            IdentityUser user = await App.UserManager.FindByNameAsync(Username.Text);
 
-            if (user != null)
+            try
             {
-                SignInResult loginAttempt = new SignInResult();
-                if (user != null) { loginAttempt = await App.SignInManager.CheckPasswordSignInAsync(user, Password.Password, lockoutOnFailure: true); }
+                IdentityUser user = await App.UserManager.FindByNameAsync(Username.Text);
 
-                if (loginAttempt.Succeeded)
+                if (user != null)
                 {
-                    var userAcount = sContext.GetUserByID(user.Id);
+                    SignInResult loginAttempt = new SignInResult();
+                    if (user != null) { loginAttempt = await App.SignInManager.CheckPasswordSignInAsync(user, Password.Password, lockoutOnFailure: true); }
 
-                    if(userAcount.Status == "Active")
+                    if (loginAttempt.Succeeded)
                     {
-                        App.MainViewModel.CurrentUsers = userAcount;
+                        var userAcount = sContext.GetUserByID(user.Id);
 
-                        GoToMainWindowHandler(e, sender);
+                        if (userAcount == null)
+                        {
+                            ErrorText.Visibility = Visibility.Visible;
+                            ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongLoginID;
+                        }
+                        else if (userAcount.Status == "Active")
+                        {
+                            App.MainViewModel.CurrentUsers = userAcount;
+
+                            GoToMainWindowHandler(e, sender);
+                        }
+                        else
+                        {
+                            ErrorText.Visibility = Visibility.Visible;
+                            //ErrorText.Text = "Account are deactivated. Please contact administrator.";
+                            ErrorText.Text = Properties.Resources.Login_ErrorMessage_AccountDeactivated;
+                        }
+
+                    }
+                    else if (loginAttempt.IsLockedOut)
+                    {
+                        ErrorText.Visibility = Visibility.Visible;
+                        //ErrorText.Text = "Account are locked. Please contact administrator.";
+                        ErrorText.Text = Properties.Resources.Login_ErrorMessage_AccountLocked;
+                    }
+                    else if (loginAttempt.IsNotAllowed)
+                    {
+                        ErrorText.Visibility = Visibility.Visible;
+                        //ErrorText.Text = "Account are not confirmed yet. Please confirm the account through email.";
+                        ErrorText.Text = Properties.Resources.Login_ErrorMessage_AccountNotConfirmed;
                     }
                     else
                     {
+                        int attemptleft = (maxLoginAttempt - user.AccessFailedCount);
                         ErrorText.Visibility = Visibility.Visible;
-                        //ErrorText.Text = "Account are deactivated. Please contact administrator.";
-                        ErrorText.Text = Properties.Resources.Login_ErrorMessage_AccountDeactivated;
+                        //ErrorText.Text = "Wrong password. You have " + attemptleft + " attemp[s] left before account are locked.";
+                        ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongPassword.Replace("<attemptcount>", attemptleft.ToString());
                     }
-
-                }
-                else if (loginAttempt.IsLockedOut)
-                {
-                    ErrorText.Visibility = Visibility.Visible;
-                    //ErrorText.Text = "Account are locked. Please contact administrator.";
-                    ErrorText.Text = Properties.Resources.Login_ErrorMessage_AccountLocked;
-                }
-                else if (loginAttempt.IsNotAllowed)
-                {
-                    ErrorText.Visibility = Visibility.Visible;
-                    //ErrorText.Text = "Account are not confirmed yet. Please confirm the account through email.";
-                    ErrorText.Text = Properties.Resources.Login_ErrorMessage_AccountNotConfirmed;
                 }
                 else
                 {
-                    int attemptleft = (maxLoginAttempt - user.AccessFailedCount);
                     ErrorText.Visibility = Visibility.Visible;
-                    //ErrorText.Text = "Wrong password. You have " + attemptleft + " attemp[s] left before account are locked.";
-                    ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongPassword.Replace("<attemptcount>", attemptleft.ToString());
+                    //ErrorText.Text = "Wrong login ID.";
+                    ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongLoginID;
                 }
             }
-            else
+            catch
             {
-                ErrorText.Visibility = Visibility.Visible;
-                //ErrorText.Text = "Wrong login ID.";
-                ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongLoginID;
+
             }
+            
 
 
 

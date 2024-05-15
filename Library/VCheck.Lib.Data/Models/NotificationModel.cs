@@ -12,6 +12,7 @@ namespace VCheck.Lib.Data.Models
         public string NotificationType { get; set; }
         public string NotificationTitle { get; set; }
         public string NotificationContent { get; set; }
+        public string? Receiver {  get; set; }
         //public string CreatedDate { get; set; }
         //public string CreatedBy { get; set;}
     }

@@ -31,24 +31,31 @@ namespace VCheck.Lib.Data.DBContext
         {
             List<CountryModel> sList = new List<CountryModel>();
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from mst_countrylist where CountryName like '%"+ partialName+"%'", conn);
-
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = this.Connection)
                 {
-                    while (reader.Read())
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select * from mst_countrylist where CountryName like '%" + partialName + "%'", conn);
+
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        sList.Add(new CountryModel()
+                        while (reader.Read())
                         {
-                            CountryCode = reader["CountryCode"].ToString(),
-                            CountryName = reader["CountryName"].ToString(),
-                            IsActive = Convert.ToBoolean(reader["IsActive"])
-                        });
+                            sList.Add(new CountryModel()
+                            {
+                                CountryCode = reader["CountryCode"].ToString(),
+                                CountryName = reader["CountryName"].ToString(),
+                                IsActive = Convert.ToBoolean(reader["IsActive"])
+                            });
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+
+            }            
 
             return sList;
         }

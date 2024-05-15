@@ -208,6 +208,12 @@ namespace VCheckViewer.Views.Pages.Setting.User
                 if(user.Status != userInfo.Status) { user.StatusChanged = true; }
                 else { user.StatusChanged = false; }
 
+                if(user.EmailAddress != userInfo.EmailAddress) { user.EmailAddressChanged = true; }
+                else { user.EmailAddressChanged= false; }
+
+                if(user.Role != userInfo.Role) {  user.RoleChanged = true; }
+                else { user.RoleChanged= false; }
+
                 App.MainViewModel.Users = user;
 
                 App.PopupHandler(e, sender);

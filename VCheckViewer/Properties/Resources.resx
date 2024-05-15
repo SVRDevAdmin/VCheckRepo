@@ -504,4 +504,7 @@
   <data name="General_Message_NoScheduleTest" xml:space="preserve">
     <value>No scheduled test available.</value>
   </data>
+  <data name="Setting_Message_NoUserData" xml:space="preserve">
+    <value>No user existed</value>
+  </data>
 </root>

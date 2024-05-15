@@ -71,6 +71,7 @@ namespace VCheckViewer.Views.Pages
 
             paginationPanel.Children.Clear();
             createPagination(startPagination);
+            
         }
 
         public ObservableCollection<UserModel> GetUserList(int start, int end)

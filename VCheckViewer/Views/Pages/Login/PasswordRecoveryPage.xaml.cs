@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -119,11 +120,19 @@ namespace VCheckViewer.Views.Pages.Login
                         NotificationType = "Email",
                         NotificationTitle = notificationTemplate.TemplateTitle,
                         NotificationContent = notificationTemplate.TemplateContent,
+                        Receiver = string.Join(", ", sRecipientList),
                         CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                         CreatedBy = userModel.FullName
                     };
 
-                    NotificationContext.InsertNotification(notification);
+                    if (NotificationContext.InsertNotification(notification))
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
                 }
                 catch (Exception ex)
                 {

@@ -24,6 +24,8 @@ using VCheckViewer.Lib.Culture;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using VCheck.Lib.Data.Models;
+using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace VCheckViewer
 {
@@ -32,6 +34,8 @@ namespace VCheckViewer
     /// </summary>
     public partial class App
     {
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
+
         public IConfiguration Configuration { get; }
 
         public static MainViewModel MainViewModel { get; } = new MainViewModel();
@@ -150,89 +154,97 @@ namespace VCheckViewer
         /// </summary>
         private async void OnStartup(object sender, StartupEventArgs e)
         {
-            ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
-            UserDBContext usersContext = GetService<UserDBContext>();
-            RolesDBContext roleContext = GetService<RolesDBContext>();
-
-            MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
-
-            var language = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault().ConfigurationValue;
-
-            CultureInfo sZHCulture = new CultureInfo(language);
-            CultureResources.ChangeCulture(sZHCulture);
-
-            _host.Start();
-
-            var roles = RoleManager.Roles.ToList();
-            IdentityRole role = new IdentityRole();
-
-            if (!roles.Where(x => x.Name == "Lab User").Any())
+            try
             {
-                role = new IdentityRole("Lab User");
-                await RoleManager.CreateAsync(role);
-                roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab User", IsActive = true, IsSuperadmin = false, IsAdmin = false});
-            }
+                ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
+                UserDBContext usersContext = GetService<UserDBContext>();
+                RolesDBContext roleContext = GetService<RolesDBContext>();
 
+                MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
 
-            if (!roles.Where(x => x.Name == "Lab Superadmin").Any())
-            {
-                role = new IdentityRole("Lab Superadmin");
-                await RoleManager.CreateAsync(role);
-                roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab Superadmin", IsActive = true, IsSuperadmin = false, IsAdmin = true });
-            }
+                var language = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault().ConfigurationValue;
 
+                CultureInfo sZHCulture = new CultureInfo(language);
+                CultureResources.ChangeCulture(sZHCulture);
 
-            if (!roles.Where(x => x.Name == "Superadmin").Any())
-            {
-                role = new IdentityRole("Superadmin");
-                var test = await RoleManager.CreateAsync(role);
-                roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Superadmin", IsActive = true, IsSuperadmin = true, IsAdmin = false });
-            }
+                _host.Start();
 
-            roles = RoleManager.Roles.ToList();
+                var roles = RoleManager.Roles.ToList();
+                IdentityRole role = new IdentityRole();
+                bool addRoleSuccess;
 
-            var user = await UserManager.FindByNameAsync("superadmin");
-
-            if (user == null)
-            {
-                UserModel adminAccount = new UserModel()
+                if (!roles.Where(x => x.Name == "Lab User").Any())
                 {
-                    Title = "Dr.",
-                    //FirstName = "Lee",
-                    StaffName = "Dr. Lee Eunji",
-                    FullName = "Lee Eunji",
-                    EmployeeID = "456783",
-                    RegistrationNo = "456783",
-                    Gender = "M",
-                    DateOfBirth = "1991-03-15",
-                    RoleID = roles.Where(x => x.Name == "Superadmin").FirstOrDefault().Id,
-                    EmailAddress = "superadmin@superadmin.com",
-                    StatusID = 1
-                };
+                    role = new IdentityRole("Lab User");
+                    await RoleManager.CreateAsync(role);
+                    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab User", IsActive = true, IsSuperadmin = false, IsAdmin = false });
+                    if (addRoleSuccess) { }
+                    else { }
+                }
 
-                user = Activator.CreateInstance<IdentityUser>();
 
-                var emailStore = (IUserEmailStore<IdentityUser>)UserStore;
-
-                await UserStore.SetUserNameAsync(user, "superadmin", CancellationToken.None);
-                await emailStore.SetEmailAsync(user, "superadmin@superadmin.com", CancellationToken.None);
-                var result = await UserManager.CreateAsync(user, "Abcd@1234");
-
-                if (result.Succeeded)
+                if (!roles.Where(x => x.Name == "Lab Superadmin").Any())
                 {
-                    adminAccount.UserId = user.Id;
+                    role = new IdentityRole("Lab Superadmin");
+                    await RoleManager.CreateAsync(role);
+                    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab Superadmin", IsActive = true, IsSuperadmin = false, IsAdmin = true });
+                    if (addRoleSuccess) { }
+                    else { }
+                }
 
-                    usersContext.InsertUser(adminAccount);
 
-                    var roleResult = await UserManager.AddToRoleAsync(user, "superadmin");
+                if (!roles.Where(x => x.Name == "Superadmin").Any())
+                {
+                    role = new IdentityRole("Superadmin");
+                    var test = await RoleManager.CreateAsync(role);
+                    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Superadmin", IsActive = true, IsSuperadmin = true, IsAdmin = false });
+                    if (addRoleSuccess) { }
+                    else { }
+                }
 
+                roles = RoleManager.Roles.ToList();
+
+                var user = await UserManager.FindByNameAsync("superadmin");
+
+                if (user == null)
+                {
+                    UserModel adminAccount = new UserModel()
+                    {
+                        Title = "Dr.",
+                        //FirstName = "Lee",
+                        StaffName = "Dr. Lee Eunji",
+                        FullName = "Lee Eunji",
+                        EmployeeID = "456783",
+                        RegistrationNo = "456783",
+                        Gender = "M",
+                        DateOfBirth = "1991-03-15",
+                        RoleID = roles.Where(x => x.Name == "Superadmin").FirstOrDefault().Id,
+                        EmailAddress = "superadmin@superadmin.com",
+                        StatusID = 1
+                    };
+
+                    user = Activator.CreateInstance<IdentityUser>();
+
+                    var emailStore = (IUserEmailStore<IdentityUser>)UserStore;
+
+                    await UserStore.SetUserNameAsync(user, "superadmin", CancellationToken.None);
+                    await emailStore.SetEmailAsync(user, "superadmin@superadmin.com", CancellationToken.None);
+                    var result = await UserManager.CreateAsync(user, "Abcd@1234");
+
+                    if (result.Succeeded)
+                    {
+                        adminAccount.UserId = user.Id;
+
+                        if (usersContext.InsertUser(adminAccount)) { var roleResult = await UserManager.AddToRoleAsync(user, "superadmin"); }
+
+                    }
                 }
             }
+            catch (Exception ex)
+            {
 
-            
-
+            }        
         }
-
         /// <summary>
         /// Occurs when the application is closing.
         /// </summary>
@@ -249,6 +261,8 @@ namespace VCheckViewer
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             // For more info see https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?view=windowsdesktop-6.0
+            var ex = e.Exception;
+            e.Handled = true;
         }
 
         public static void GoPreviousPageHandler(EventArgs e, object sender)

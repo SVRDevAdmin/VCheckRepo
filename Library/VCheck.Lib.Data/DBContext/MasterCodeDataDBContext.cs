@@ -32,23 +32,30 @@ namespace VCheck.Lib.Data.DBContext
         {
             List<MasterCodeDataModel> sList = new List<MasterCodeDataModel>();
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from Mst_MasterCodeData where CodeGroup = '" + codeGroup + "' AND IsActive = 1;", conn);
-
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = this.Connection)
                 {
-                    while (reader.Read())
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select * from Mst_MasterCodeData where CodeGroup = '" + codeGroup + "' AND IsActive = 1;", conn);
+
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        sList.Add(new MasterCodeDataModel()
+                        while (reader.Read())
                         {
-                            CodeGroup = reader["CodeGroup"].ToString(),
-                            CodeID = reader["CodeID"].ToString(),
-                            CodeName = reader["CodeName"].ToString()
-                        });
+                            sList.Add(new MasterCodeDataModel()
+                            {
+                                CodeGroup = reader["CodeGroup"].ToString(),
+                                CodeID = reader["CodeID"].ToString(),
+                                CodeName = reader["CodeName"].ToString()
+                            });
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
 
             return sList;

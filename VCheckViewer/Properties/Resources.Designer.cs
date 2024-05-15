@@ -1213,6 +1213,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No user existed.
+        /// </summary>
+        public static string Setting_Message_NoUserData {
+            get {
+                return ResourceManager.GetString("Setting_Message_NoUserData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Setting.
         /// </summary>
         public static string Setting_Title_PageTitle {

@@ -346,6 +346,7 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windo
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\Mono.TextTemplating.dll
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\MySql.Data.dll
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\MySqlConnector.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\NLog.dll
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\System.Composition.AttributedModel.dll
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\System.Composition.Convention.dll

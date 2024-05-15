@@ -31,23 +31,30 @@ namespace VCheck.Lib.Data.DBContext
         {
             TemplateModel sList = new TemplateModel();
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from mst_template where TemplateCode = '" + templateCode + "'", conn);
-
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = this.Connection)
                 {
-                    while (reader.Read())
-                    {
-                        sList.TemplateID = reader.GetInt32("TemplateID");
-                        sList.TemplateType = reader["TemplateType"].ToString();
-                        sList.TemplateCode = reader["TemplateCode"].ToString();
-                        sList.TemplateTitle = reader["TemplateTitle"].ToString();
-                        sList.TemplateContent = reader["TemplateContent"].ToString();
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select * from mst_template where TemplateCode = '" + templateCode + "'", conn);
 
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            sList.TemplateID = reader.GetInt32("TemplateID");
+                            sList.TemplateType = reader["TemplateType"].ToString();
+                            sList.TemplateCode = reader["TemplateCode"].ToString();
+                            sList.TemplateTitle = reader["TemplateTitle"].ToString();
+                            sList.TemplateContent = reader["TemplateContent"].ToString();
+
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
 
             return sList;

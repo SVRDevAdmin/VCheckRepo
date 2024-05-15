@@ -19,11 +19,13 @@ namespace VCheck.Lib.Data.Models
         public string Gender { get; set; }
         public string DateOfBirth { get; set; }
         public string EmailAddress { get; set; }
+        public bool EmailAddressChanged { get; set; }
         public string Status { get; set; }
         public int StatusID { get; set; }
         public bool StatusChanged { get; set; }
         public string Role { get; set; }
         public string RoleID { get; set; }
+        public bool RoleChanged { get; set; }
         public string LoginID { get; set; }
         public bool IsDeleted { get; set; }
     }

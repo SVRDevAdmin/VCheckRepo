@@ -504,4 +504,7 @@
   <data name="General_Message_NoScheduleTest" xml:space="preserve">
     <value>没有可用的预定测试。</value>
   </data>
+  <data name="Setting_Message_NoUserData" xml:space="preserve">
+    <value>不存在用户</value>
+  </data>
 </root>

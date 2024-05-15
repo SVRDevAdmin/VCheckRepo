@@ -504,4 +504,7 @@
   <data name="Setting_ErrorMessage_InvalidIP" xml:space="preserve">
     <value>Invalid IP address entered</value>
   </data>
+  <data name="Setting_Message_NoUserData" xml:space="preserve">
+    <value>No user existed</value>
+  </data>
 </root>
