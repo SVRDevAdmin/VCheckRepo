@@ -322,6 +322,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select duration.
+        /// </summary>
+        public static string General_Label_SelectDuration {
+            get {
+                return ResourceManager.GetString("General_Label_SelectDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send.
         /// </summary>
         public static string General_Label_Send {

@@ -71,7 +71,14 @@ namespace VCheckViewer.Views.Pages.Login
                         }
                         else if (userAcount.Status == "Active")
                         {
+                            userAcount.LastLoginDate = DateTime.Now;
+                            userAcount.Gender = userAcount.Gender == "Male" ? "M" : "F";
+                            userAcount.DateOfBirth = Convert.ToDateTime(userAcount.DateOfBirth).ToString("yyyy-MM-dd");
+                            userAcount.UpdatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            userAcount.updatedBy = "System";
                             App.MainViewModel.CurrentUsers = userAcount;
+
+                            sContext.UpdateUser(userAcount);
 
                             GoToMainWindowHandler(e, sender);
                         }

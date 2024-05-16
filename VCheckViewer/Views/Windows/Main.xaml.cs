@@ -298,7 +298,7 @@ namespace VCheckViewer.Views.Windows
         {
             var originButton = (System.Windows.Controls.Button)sender;
 
-            if (originButton.Name.ToString() == "UserPage")
+            if (originButton.Name.ToString() == "UserPage" || App.MainViewModel.Origin == "UserUpdateRow")
             {
                 MainUserPage();
             }
@@ -418,6 +418,8 @@ namespace VCheckViewer.Views.Windows
                 if (result.Succeeded)
                 {
                     App.MainViewModel.Users.UserId = user.Id;
+                    App.MainViewModel.Users.CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    App.MainViewModel.Users.CreatedBy = App.MainViewModel.CurrentUsers.FullName;
 
                     if (usersContext.InsertUser(App.MainViewModel.Users))
                     {
@@ -518,6 +520,8 @@ namespace VCheckViewer.Views.Windows
         private async void UpdateUserRowHandler(EventArgs e, object sender)
         {
             TemplateModel notificationTemplate;
+            App.MainViewModel.Users.UpdatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            App.MainViewModel.Users.updatedBy = App.MainViewModel.CurrentUsers.FullName;
 
             try
             {

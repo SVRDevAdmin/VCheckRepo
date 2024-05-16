@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,7 +62,7 @@ namespace VCheck.Lib.Data.DBContext
                                 EmailAddress = reader["EmailAddress"].ToString(),
                                 Status = reader["Status"].ToString(),
                                 Role = reader["Role"].ToString(),
-                                LoginID = reader["LoginID"].ToString()
+                                LoginID = reader["LoginID"].ToString(),
 
                             });
                         }
@@ -78,9 +79,9 @@ namespace VCheck.Lib.Data.DBContext
 
         public bool InsertUser(UserModel user)
         {
-            string insertQuery = "INSERT INTO `vcheckdb`.`mst_user` (`UserID`,`EmployeeID`,`Title`,`FullName`,`RegistrationNo`,`Gender`,`DateofBirth`,`EmailAddress`,`Status`,`RoleID`, `IsDeleted`) ";
+            string insertQuery = "INSERT INTO `vcheckdb`.`mst_user` (`UserID`,`EmployeeID`,`Title`,`FullName`,`RegistrationNo`,`Gender`,`DateofBirth`,`EmailAddress`,`Status`,`RoleID`, `IsDeleted`, `CreatedDate`, `CreatedBy`) ";
 
-            insertQuery += "Values ('"+user.UserId+"','"+user.EmployeeID+"', '"+user.Title+"', '"+user.FullName+"', '"+user.RegistrationNo+"', '"+user.Gender+"', '"+user.DateOfBirth+"', '"+user.EmailAddress+"', "+user.StatusID+", '"+user.RoleID+"', 0)";
+            insertQuery += "Values ('"+user.UserId+"','"+user.EmployeeID+"', '"+user.Title+"', '"+user.FullName+"', '"+user.RegistrationNo+"', '"+user.Gender+"', '"+user.DateOfBirth+"', '"+user.EmailAddress+"', "+user.StatusID+", '"+user.RoleID+"', 0, '"+user.CreatedDate+"', '"+user.CreatedBy+"' )";
 
             try
             {
@@ -102,7 +103,10 @@ namespace VCheck.Lib.Data.DBContext
 
         public bool UpdateUser(UserModel user)
         {
-            string insertQuery = "UPDATE `vcheckdb`.`mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+ "',`FullName` = '" + user.FullName+ "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = '"+user.RoleID+"' WHERE `UserID` = '" + user.UserId+"' and IsDeleted = 0;";
+            var lastLoginDatetimeColumn = "";
+            if (user.LastLoginDate != null) { lastLoginDatetimeColumn = ", `LastLoginDateTime` = '" + user.LastLoginDate.ToString("yyyy-MM-dd HH:mm:ss")+"'"; }
+
+            string insertQuery = "UPDATE `vcheckdb`.`mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+ "',`FullName` = '" + user.FullName+ "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = '"+user.RoleID+"'"+lastLoginDatetimeColumn+", `UpdatedDate` = '"+user.UpdatedDate+"', `UpdatedBy` = '"+user.updatedBy+"'  WHERE `UserID` = '" + user.UserId+"' and IsDeleted = 0;";
 
             try
             {
@@ -200,7 +204,9 @@ namespace VCheck.Lib.Data.DBContext
                             model.DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy");
                             model.EmailAddress = reader["EmailAddress"].ToString();
                             model.Status = reader["Status"].ToString();
+                            model.StatusID = Convert.ToInt32(reader["StatusID"]);
                             model.Role = reader["Role"].ToString();
+                            model.RoleID = reader["RoleID"].ToString();
                             model.LoginID = reader["LoginID"].ToString();
 
                         }

@@ -35,7 +35,7 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
-                                    <Border Name="borderDeviceList" Grid.Row="0"  Padding="10,10,0,10" BorderThickness="0">
+                                    <Border Name="borderDeviceList" Grid.Row="0"  Padding="0,15,0,10" BorderThickness="0">
 
                                         <ScrollViewer  VerticalScrollBarVisibility="Auto">
                                             <ItemsControl Name="icDeviceList" Margin="0"
@@ -43,7 +43,7 @@
 
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Grid Margin="15">
+                                                        <Grid Margin="15,0,15,15">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="3*"  />
                                                                 <ColumnDefinition Width="6*" />
@@ -54,9 +54,11 @@
                                                             </Grid.RowDefinitions>
 
                                                             <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
-                                                                <Border CornerRadius="20" BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" Height="100" Width="125">
-                                                                    <Image Source="{Binding DeviceImagePath}"/>
-                                                                </Border>
+                                                                <Grid>
+                                                                    <Border CornerRadius="20" BorderBrush="Gray" BorderThickness="2" Background="LightGray" Opacity="0.5" Height="100" Width="125">
+                                                                    </Border>
+                                                                    <Image Source="{Binding DeviceImagePath}" Height="100" Width="125"/>
+                                                                </Grid>
                                                             </Border>
 
                                                             <Border Grid.Column="1" Grid.Row="0" Margin="20,0,0,5">

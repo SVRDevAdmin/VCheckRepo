@@ -44,19 +44,22 @@ namespace VCheckViewer.Views.Pages.Notification
             List<NotificationModel> notificationList = sContext.GetNotificationByPage(0, pageSize, null, null, null, null);
             createList(notificationList);
 
+            paginationPanel.Children.Clear();
 
+            if (notificationList.Count > 0)
+            {
+                totalNotification = sContext.GetTotalNotification(null, null, null, null);
+                int totalpage = totalNotification / pageSize;
+             
+                if (totalNotification > (pageSize * totalpage)) { totalpage++; }
 
-            totalNotification = sContext.GetTotalNotification(null, null, null, null);
-            int totalpage = totalNotification / pageSize;
+                if (totalpage > paginationSize) { totalpage = paginationSize; }
 
-            if (totalNotification > (pageSize * totalpage)) { totalpage++; }
+                endPagination = totalpage;
+                startPagination = 1;
 
-            if (totalpage > paginationSize) { totalpage = paginationSize; }
-
-            endPagination = totalpage;
-            startPagination = 1;
-
-            createPagination(startPagination);
+                createPagination(startPagination);
+            }
         }
 
         public void createList(List<NotificationModel> notificationList)
@@ -118,8 +121,6 @@ namespace VCheckViewer.Views.Pages.Notification
 
         public void createPagination(int highligtedIndex)
         {
-            paginationPanel.Children.Clear();
-
             currentPage = highligtedIndex;
 
             Button newBtn = new Button();
@@ -127,6 +128,7 @@ namespace VCheckViewer.Views.Pages.Notification
             newBtn.Tag = "Prev";
             newBtn.BorderThickness = new Thickness(0);
             newBtn.FontWeight = FontWeights.Bold;
+            newBtn.Foreground = Brushes.Gray;
             paginationPanel.Children.Add(newBtn);
             newBtn.Click += new RoutedEventHandler(PreviousUserList_Click);
 
@@ -383,17 +385,22 @@ namespace VCheckViewer.Views.Pages.Notification
 
             createList(notificationList);
 
-            totalNotification = sContext.GetTotalNotification(currentNotificationType, startDate, endDate, keyword);
-            int totalpage = totalNotification / pageSize;
+            paginationPanel.Children.Clear();
 
-            if (totalNotification > (pageSize * totalpage)) { totalpage++; }
+            if (notificationList.Count > 0)
+            {
+                totalNotification = sContext.GetTotalNotification(currentNotificationType, startDate, endDate, keyword);
+                int totalpage = totalNotification / pageSize;
 
-            if (totalpage > paginationSize) { totalpage = paginationSize; }
+                if (totalNotification > (pageSize * totalpage)) { totalpage++; }
 
-            endPagination = totalpage;
-            startPagination = 1;
-            
-            createPagination(startPagination);
+                if (totalpage > paginationSize) { totalpage = paginationSize; }
+
+                endPagination = totalpage;
+                startPagination = 1;
+
+                createPagination(startPagination);
+            }
         }
 
         private void NotificationKeywordSearch(object sender, System.Windows.Input.KeyEventArgs e)
@@ -417,17 +424,22 @@ namespace VCheckViewer.Views.Pages.Notification
 
             createList(notificationList);
 
-            totalNotification = sContext.GetTotalNotification(currentNotificationType, startDate, endDate, keyword);
-            int totalpage = totalNotification / pageSize;
+            paginationPanel.Children.Clear();
 
-            if (totalNotification > (pageSize * totalpage)) { totalpage++; }
+            if (notificationList.Count > 0)
+            {
+                totalNotification = sContext.GetTotalNotification(currentNotificationType, startDate, endDate, keyword);
+                int totalpage = totalNotification / pageSize;
 
-            if (totalpage > paginationSize) { totalpage = paginationSize; }
+                if (totalNotification > (pageSize * totalpage)) { totalpage++; }
 
-            endPagination = totalpage;
-            startPagination = 1;
+                if (totalpage > paginationSize) { totalpage = paginationSize; }
 
-            createPagination(startPagination);
+                endPagination = totalpage;
+                startPagination = 1;
+
+                createPagination(startPagination);
+            }
 
             RangeDate.DateRangePicker_Popup.IsOpen = false;
         }
@@ -477,17 +489,22 @@ namespace VCheckViewer.Views.Pages.Notification
 
             createList(notificationList);
 
-            totalNotification = sContext.GetTotalNotification(currentNotificationType, startDate, endDate, keyword);
-            int totalpage = totalNotification / pageSize;
+            paginationPanel.Children.Clear();
 
-            if (totalNotification > (pageSize * totalpage)) { totalpage++; }
+            if (notificationList.Count > 0)
+            {
+                totalNotification = sContext.GetTotalNotification(currentNotificationType, startDate, endDate, keyword);
+                int totalpage = totalNotification / pageSize;
 
-            if (totalpage > paginationSize) { totalpage = paginationSize; }
+                if (totalNotification > (pageSize * totalpage)) { totalpage++; }
 
-            endPagination = totalpage;
-            startPagination = 1;
+                if (totalpage > paginationSize) { totalpage = paginationSize; }
 
-            createPagination(startPagination);
+                endPagination = totalpage;
+                startPagination = 1;
+
+                createPagination(startPagination);
+            }
 
             RangeDate.DateRangePicker_Popup.IsOpen = false;
 

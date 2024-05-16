@@ -4,21 +4,24 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VCheckViewer.Views.Pages"
-      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" x:Class="VCheckViewer.Views.Pages.UserPage"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" x:Class="VCheckViewer.Views.Pages.UserPage" xmlns:Converter="clr-namespace:VCheckViewer.Converter"
       mc:Ignorable="d" 
       Title="UserPage">
 
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        
-        <Style x:Key="DataGridVerticalText" TargetType="TextBlock">
+        <Converter:IndexedConverter x:Key="IndexedConverter"/>
+
+        <Style x:Key="DataGridVerticalTextLeftAligned" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="FontFamily" Value="Noto Sans" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="5"/>
         </Style>
         <Style x:Key="DataGridVerticalTextCenterAligned" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="FontFamily" Value="Noto Sans" />
             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
             <Setter Property="Margin" Value="5"/>
@@ -94,16 +97,17 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <DataGrid Name = "dataGrid" IsReadOnly="True" BorderBrush="Black" AutoGenerateColumns = "False" Margin="10" Grid.Row="0"  GridLinesVisibility="Horizontal" BorderThickness="0"  RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}">
+                <DataGrid Name = "dataGrid" IsReadOnly="True" BorderBrush="Black" AutoGenerateColumns = "False" Margin="10" Grid.Row="0"  GridLinesVisibility="Horizontal" BorderThickness="0"  RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header = "{Binding Path=General_Label_Number, Source={StaticResource Resources}}" Binding = "{Binding No}" Width="auto" ElementStyle="{StaticResource DataGridVerticalText}"/>
-                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_StaffName, Source={StaticResource Resources}}" Binding = "{Binding StaffName}" Width="1.1*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned }" FontWeight="Bold" />
-                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_StaffID, Source={StaticResource Resources}}" Binding = "{Binding EmployeeID}" Width="0.5*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
-                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_RegistrationNo, Source={StaticResource Resources}}" Binding = "{Binding RegistrationNo}" Width="1.1*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
-                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_Gender, Source={StaticResource Resources}}" Binding = "{Binding Gender}" Width="0.5*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
-                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_Role, Source={StaticResource Resources}}" Binding = "{Binding Role}" Width="0.6*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
-                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_DateOfBirth, Source={StaticResource Resources}}" Binding = "{Binding DateOfBirth}" Width="*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
-                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_Email, Source={StaticResource Resources}}" Binding = "{Binding EmailAddress}" Width="1.5*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
+                        <!--<DataGridTextColumn Header = "{Binding Path=General_Label_Number, Source={StaticResource Resources}}" Binding = "{Binding No}" Width="auto" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>-->
+                        <DataGridTextColumn Header = "{Binding Path=General_Label_Number, Source={StaticResource Resources}}" Binding="{Binding AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource IndexedConverter}}" Width="auto" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_StaffName, Source={StaticResource Resources}}" Binding = "{Binding StaffName}" Width="1.1*" ElementStyle="{StaticResource DataGridVerticalTextLeftAligned }" FontWeight="Bold" />
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_StaffID, Source={StaticResource Resources}}" Binding = "{Binding EmployeeID}" Width="0.5*" ElementStyle="{StaticResource DataGridVerticalTextLeftAligned}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_RegistrationNo, Source={StaticResource Resources}}" Binding = "{Binding RegistrationNo}" Width="1.1*" ElementStyle="{StaticResource DataGridVerticalTextLeftAligned}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_Gender, Source={StaticResource Resources}}" Binding = "{Binding Gender}" Width="0.5*" ElementStyle="{StaticResource DataGridVerticalTextLeftAligned}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_Role, Source={StaticResource Resources}}" Binding = "{Binding Role}" Width="0.6*" ElementStyle="{StaticResource DataGridVerticalTextLeftAligned}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_DateOfBirth, Source={StaticResource Resources}}" Binding = "{Binding DateOfBirth}" Width="*" ElementStyle="{StaticResource DataGridVerticalTextLeftAligned}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_Email, Source={StaticResource Resources}}" Binding = "{Binding EmailAddress}" Width="1.5*" ElementStyle="{StaticResource DataGridVerticalTextLeftAligned}"/>
                         <DataGridTemplateColumn Width="auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

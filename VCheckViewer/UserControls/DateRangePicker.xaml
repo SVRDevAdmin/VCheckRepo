@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VCheckViewer.UserControls"
              mc:Ignorable="d" 
-             x:Name="this"
-             d:DesignHeight="450" d:DesignWidth="800">
+             x:Name="this">
     <Grid>
         <StackPanel>
             <Border
@@ -18,7 +17,7 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
-                        <ColumnDefinition Width="30" />
+                        <!--<ColumnDefinition Width="30" />-->
                     </Grid.ColumnDefinitions>
                     <TextBox
                     x:Name="DateRangePicker_TextBox"
@@ -29,7 +28,19 @@
                     d:Text="14.03.2023 - 20.03.2023"
                     Text="{Binding ElementName=this, Path=DisplayValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=300}"
                     KeyUp="Handle_Escape_Button" GotMouseCapture="DateRangePicker_TextBox_GotMouseCapture"/>
-                    <ToggleButton
+                    <TextBlock IsHitTestVisible="False" Text="{Binding Path=General_Label_SelectDuration, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=DateRangePicker_TextBox}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <!--<ToggleButton
                     x:Name="DateRangePicker_ArrowButton"
                     Grid.Column="1"
                     Height="{Binding ElementName=DateRangePicker_TextBox, Path=Height}"
@@ -49,7 +60,7 @@
                                 <SolidColorBrush Color="#FF444444"/>
                             </Path.Fill>
                         </Path>
-                    </ToggleButton>
+                    </ToggleButton>-->
                 </Grid>
             </Border>
             <Popup

@@ -57,26 +57,37 @@ namespace VCheckViewer.Views.Pages
 
         public void initializedPage(object sender, EventArgs e)
         {
-            dataGrid.ItemsSource = GetUserList(0, pageSize);
+            var userList = GetUserList(0, pageSize);
 
-            totalUser = sContext.GetTotalUser();
-            int totalpage = totalUser / pageSize;
-
-            if (totalUser > (pageSize * totalpage)) { totalpage++; }
-
-            if (totalpage > paginationSize) { totalpage = paginationSize; }
-
-            endPagination = totalpage;
-            startPagination = 1;
+            dataGrid.ItemsSource = userList;
 
             paginationPanel.Children.Clear();
-            createPagination(startPagination);
+
+            if (userList.Count > 0)
+            {
+                totalUser = sContext.GetTotalUser();
+                int totalpage = totalUser / pageSize;
+
+                if (totalUser > (pageSize * totalpage)) { totalpage++; }
+
+                if (totalpage > paginationSize) { totalpage = paginationSize; }
+
+                endPagination = totalpage;
+                startPagination = 1;
+
+                createPagination(startPagination);
+            }
             
+        }
+        void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = (e.Row.GetIndex()).ToString();
         }
 
         public ObservableCollection<UserModel> GetUserList(int start, int end)
         {
             ObservableCollection<UserModel> UserList = sContext.GetUserListByPage(start, end);
+            App.MainViewModel.CurrentUserIndexStart = start + 1;
             return UserList;
         }
 
@@ -89,6 +100,7 @@ namespace VCheckViewer.Views.Pages
             newBtn.Tag = "Prev";
             newBtn.BorderThickness = new Thickness(0);
             newBtn.FontWeight = FontWeights.Bold;
+            newBtn.Foreground = Brushes.Gray;
             paginationPanel.Children.Add(newBtn);
             newBtn.Click += new RoutedEventHandler(PreviousUserList_Click);
 

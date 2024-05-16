@@ -507,4 +507,7 @@
   <data name="Setting_Message_NoUserData" xml:space="preserve">
     <value>不存在用户</value>
   </data>
+  <data name="General_Label_SelectDuration" xml:space="preserve">
+    <value>选择持续时间</value>
+  </data>
 </root>

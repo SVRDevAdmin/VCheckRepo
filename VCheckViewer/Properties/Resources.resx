@@ -507,4 +507,7 @@
   <data name="Setting_Message_NoUserData" xml:space="preserve">
     <value>No user existed</value>
   </data>
+  <data name="General_Label_SelectDuration" xml:space="preserve">
+    <value>Select duration</value>
+  </data>
 </root>

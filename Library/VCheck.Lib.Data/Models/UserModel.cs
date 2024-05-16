@@ -28,5 +28,6 @@ namespace VCheck.Lib.Data.Models
         public bool RoleChanged { get; set; }
         public string LoginID { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime LastLoginDate {  get; set; }
     }
 }

@@ -220,7 +220,9 @@ namespace VCheckViewer
                         DateOfBirth = "1991-03-15",
                         RoleID = roles.Where(x => x.Name == "Superadmin").FirstOrDefault().Id,
                         EmailAddress = "superadmin@superadmin.com",
-                        StatusID = 1
+                        StatusID = 1,
+                        CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                        CreatedBy = "System"
                     };
 
                     user = Activator.CreateInstance<IdentityUser>();

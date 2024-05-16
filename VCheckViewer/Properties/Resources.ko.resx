@@ -204,6 +204,9 @@
   <data name="General_Label_Searchbar" xml:space="preserve">
     <value>찾다</value>
   </data>
+  <data name="General_Label_SelectDuration" xml:space="preserve">
+    <value>지속 시간 선택</value>
+  </data>
   <data name="General_Label_Send" xml:space="preserve">
     <value>보내기</value>
   </data>
