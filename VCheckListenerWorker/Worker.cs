@@ -15,6 +15,8 @@ namespace VCheckListenerWorker
         System.Net.Sockets.Socket sListener;
         VCheckListenerWorker.Lib.Util.Logger sLogger;
 
+        public String sSystemName = "VCheckViewer Listener";
+
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
@@ -428,23 +430,47 @@ namespace VCheckListenerWorker
             sTestResultObj.TestResultValue = iResultValue;
             sTestResultObj.TestResultRules = sResultRule;
             sTestResultObj.CreatedDate = DateTime.Now;
-            sTestResultObj.CreatedBy = "VCheckViewer Listener";
+            sTestResultObj.CreatedBy = sSystemName;
 
             tbltestanalyze_results sResultObj = new tbltestanalyze_results
             {
                 MessageType = sRU_R01.MSH.MessageType.MessageStructure.Value,
                 MessageDateTime = DateTime.Now,
                 CreatedDate = DateTime.Now,
-                CreatedBy = "VCheckViewer Listener"
+                CreatedBy = sSystemName
             };
 
             Boolean bResult = TestResultRepository.insertTestObservationMessage(sResultObj, sMSHObj, sPIDObj, sOBRObj, sOBXObjList, sNTEObj);
             if (bResult)
             {
+                // Insert into Test Result table & create notification 
                 TestResultRepository.createTestResult(sTestResultObj);
+                SendNotification(sTestResultObj);
+            }
+        }
+
+        public void SendNotification(txn_testresults sResult)
+        {
+            String sNotificationContent = "";
+
+            var sTemplateObj = TestResultRepository.GetNotificationTemplate("TR01");
+            if (sTemplateObj != null)
+            {
+                sNotificationContent = sTemplateObj.TemplateContent;
             }
 
-            //todo : insert record to notification module
+            sNotificationContent = sNotificationContent.Replace("###<patient_id>###", sResult.PatientID);
+
+            txn_notification sNotificationSend = new txn_notification()
+            {
+                NotificationType = "Updates",
+                NotificationTitle = (sTemplateObj != null) ? sTemplateObj.TemplateTitle : "",
+                NotificationContent = sNotificationContent,
+                CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                CreatedBy = sSystemName
+            };
+
+            TestResultRepository.insertNotification(sNotificationSend);
         }
 
         /// <summary>

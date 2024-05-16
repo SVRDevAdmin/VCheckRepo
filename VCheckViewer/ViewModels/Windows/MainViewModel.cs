@@ -74,6 +74,20 @@ namespace VCheckViewer.ViewModels.Windows
             set { _cbStatus = value; }
         }
 
+        ObservableCollection<ComboBoxItem> _cbSort;
+        public ObservableCollection<ComboBoxItem> cbSort
+        {
+            get { return _cbSort; }
+            set { _cbSort = value; }
+        }
+
+        ComboBoxItem _SelectedcbSort;
+        public ComboBoxItem SelectedcbSort
+        {
+            get { return _SelectedcbSort; }
+            set { _SelectedcbSort = value; }
+        }
+
         ComboBoxItem _SelectedcbTitle;
         public ComboBoxItem SelectedcbTitle
         {

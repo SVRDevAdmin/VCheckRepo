@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VCheck.Lib.Data", "Library\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VCheck.Helper", "Library\VCheck.Helper\VCheck.Helper.csproj", "{997AE9EA-5561-4695-9A22-501A0DE56EFC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VCheckViewerAPI", "VCheckViewerAPI\VCheckViewerAPI.csproj", "{22EAAA8A-5762-4C2D-9EDB-18E85CB60C8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{997AE9EA-5561-4695-9A22-501A0DE56EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{997AE9EA-5561-4695-9A22-501A0DE56EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{997AE9EA-5561-4695-9A22-501A0DE56EFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22EAAA8A-5762-4C2D-9EDB-18E85CB60C8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22EAAA8A-5762-4C2D-9EDB-18E85CB60C8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22EAAA8A-5762-4C2D-9EDB-18E85CB60C8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22EAAA8A-5762-4C2D-9EDB-18E85CB60C8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

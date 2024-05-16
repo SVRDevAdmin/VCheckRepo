@@ -28,4 +28,12 @@ namespace VCheck.Lib.Data.Models
         public DateTime? UpdatedDate { get; set; }
         public String? UpdatedBy { get; set; }
     }
+
+    public class TestResultListingObj : TestResultModel 
+    { 
+        public long RowNo { get; set; }
+        public String? statusBackground { get; set; }
+        public String? statusFontColor { get; set; }
+    }
+
 }

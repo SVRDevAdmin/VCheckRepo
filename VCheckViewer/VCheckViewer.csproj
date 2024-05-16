@@ -26,6 +26,7 @@
     <None Remove="Content\Images\Collapse_Arrow_Right.png" />
     <None Remove="Content\Images\Collapse_BlackArrow_Right.png" />
     <None Remove="Content\Images\dashboard.png" />
+    <None Remove="Content\Images\Download.png" />
     <None Remove="Content\Images\Email Icon.png" />
     <None Remove="Content\Images\group_10.png" />
     <None Remove="Content\Images\group_640.png" />
@@ -58,6 +59,7 @@
     <None Remove="Content\Images\path_3550.png" />
     <None Remove="Content\Images\path_4002.png" />
     <None Remove="Content\Images\path_4004.png" />
+    <None Remove="Content\Images\Print.png" />
     <None Remove="Content\Images\Profile-Avatar-PNG-Picture.png" />
     <None Remove="Content\Images\results.png" />
     <None Remove="Content\Images\Screenshot 2024-04-15 152644.png" />
@@ -330,6 +332,7 @@
     <Resource Include="Content\Images\Collapse_Arrow_Right.png" />
     <Resource Include="Content\Images\Collapse_BlackArrow_Right.png" />
     <Resource Include="Content\Images\dashboard.png" />
+    <Resource Include="Content\Images\Download.png" />
     <Resource Include="Content\Images\Email Icon.png" />
     <Resource Include="Content\Images\group_10.png" />
     <Resource Include="Content\Images\group_640.png" />
@@ -360,6 +363,7 @@
     <Resource Include="Content\Images\path_3550.png" />
     <Resource Include="Content\Images\path_4002.png" />
     <Resource Include="Content\Images\path_4004.png" />
+    <Resource Include="Content\Images\Print.png" />
     <Resource Include="Content\Images\Profile-Avatar-PNG-Picture.png" />
     <Resource Include="Content\Images\results.png" />
     <Resource Include="Content\Images\Screenshot 2024-04-15 152644.png" />
