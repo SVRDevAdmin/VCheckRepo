@@ -25,6 +25,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Windows.Media;
 using VCheckViewer.Views.Pages.Results;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic.Logging;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -49,6 +50,8 @@ namespace VCheckViewer.Views.Windows
         NotificationDBContext NotificationContext = App.GetService<NotificationDBContext>();
 
         public static event EventHandler InitializedUserPage;
+
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public Main
         (
@@ -398,7 +401,7 @@ namespace VCheckViewer.Views.Windows
             }
             catch (Exception ex)
             {
-
+                App.log.Error("User Deletion Error >>> ", ex);
             }
         }
 
@@ -496,6 +499,7 @@ namespace VCheckViewer.Views.Windows
                             }
                             catch (Exception ex)
                             {
+                                App.log.Error("Email Error >>> ", ex);
                             }
 
                             if (InitializedUserPage != null)
@@ -513,7 +517,7 @@ namespace VCheckViewer.Views.Windows
             }
             catch(Exception ex)
             {
-
+                App.log.Error("Add User Error >>> ", ex);
             }
         }
 
@@ -596,7 +600,7 @@ namespace VCheckViewer.Views.Windows
             }
             catch (Exception ex)
             {
-
+                App.log.Error("Update User Error >>> ", ex);
             }
             
         }
@@ -658,7 +662,7 @@ namespace VCheckViewer.Views.Windows
                     }
                     else
                     {
-                        if(ConfigurationContext.AddConfiguation(s.ConfigurationKey, s.ConfigurationValue))
+                        if(ConfigurationContext.AddConfiguration(s.ConfigurationKey, s.ConfigurationValue))
                         {
 
                         }
@@ -680,6 +684,7 @@ namespace VCheckViewer.Views.Windows
             }
             catch (Exception ex)
             {
+                App.log.Error("Update Setting Error >>> ", ex);
                 return;
             }
         }
@@ -733,7 +738,7 @@ namespace VCheckViewer.Views.Windows
             }
             catch(Exception ex)
             {
-
+                App.log.Error("Change language Error >>> ", ex);
             }
         }
 

@@ -367,6 +367,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to process. Please contact administrator..
+        /// </summary>
+        public static string General_Message_Error {
+            get {
+                return ResourceManager.GetString("General_Message_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No changes detected..
         /// </summary>
         public static string General_Message_NoChanges {
@@ -592,6 +601,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error occur when creating password. Please contact administrator..
+        /// </summary>
+        public static string Login_Message_CreatePasswordError {
+            get {
+                return ResourceManager.GetString("Login_Message_CreatePasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New and Confirm password are not match..
         /// </summary>
         public static string Login_Message_PasswordNewConfirmMismatch {
@@ -624,6 +642,15 @@ namespace VCheckViewer.Properties {
         public static string Login_Message_PasswordResetted {
             get {
                 return ResourceManager.GetString("Login_Message_PasswordResetted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error occur when removing password. Please contact administrator..
+        /// </summary>
+        public static string Login_Message_RemovePasswordError {
+            get {
+                return ResourceManager.GetString("Login_Message_RemovePasswordError", resourceCulture);
             }
         }
         

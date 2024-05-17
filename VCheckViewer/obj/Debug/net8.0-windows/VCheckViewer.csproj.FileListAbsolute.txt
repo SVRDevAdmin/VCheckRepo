@@ -519,3 +519,5 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windo
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.pdb
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.genruntimeconfig.cache
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\ref\VCheckViewer.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\log4net.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\log4net.config

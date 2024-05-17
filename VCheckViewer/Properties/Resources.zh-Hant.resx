@@ -510,4 +510,13 @@
   <data name="General_Label_SelectDuration" xml:space="preserve">
     <value>選擇持續時間</value>
   </data>
+  <data name="General_Message_Error" xml:space="preserve">
+    <value>無法處理。請聯繫管理員。</value>
+  </data>
+  <data name="Login_Message_CreatePasswordError" xml:space="preserve">
+    <value>創建密碼時發生錯誤。請聯繫管理員。</value>
+  </data>
+  <data name="Login_Message_RemovePasswordError" xml:space="preserve">
+    <value>刪除密碼時發生錯誤。請聯繫管理員。</value>
+  </data>
 </root>

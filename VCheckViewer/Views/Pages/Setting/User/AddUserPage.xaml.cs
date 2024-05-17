@@ -180,50 +180,6 @@ namespace VCheckViewer.Views.Pages
             App.GoToSettingDevicePageHandler(e, sender);
         }
 
-        //private string RandomPasswordGenerator()
-        //{
-        //    string uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        //    string lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
-        //    string digits = "0123456789";
-        //    string specialChars = "!@#$%^&*()-_=+<>?/:;";
-
-        //    int length = 8;
-        //    bool includeUppercase = true;
-        //    bool includeLowercase = true;
-        //    bool includeDigits = true;
-        //    bool includeSpecialChars = true;
-
-        //    StringBuilder charSet = new StringBuilder();
-        //    if (includeUppercase) charSet.Append(uppercaseLetters);
-        //    if (includeLowercase) charSet.Append(lowercaseLetters);
-        //    if (includeDigits) charSet.Append(digits);
-        //    if (includeSpecialChars) charSet.Append(specialChars);
-
-        //    StringBuilder password = new StringBuilder(length);
-        //    Random rnd = new Random();
-        //    bool passwordIncorrect = true;
-
-        //    while (passwordIncorrect)
-        //    {
-        //        password.Clear();
-
-        //        for (int i = 0; i < length; i++)
-        //        {
-        //            int randomIndex = rnd.Next(charSet.Length);
-        //            password.Append(charSet[randomIndex]);
-        //        }
-
-
-        //        if (password.ToString().IndexOfAny(specialChars.ToCharArray()) != -1 && password.ToString().IndexOfAny(uppercaseLetters.ToCharArray()) != -1 && password.ToString().IndexOfAny(lowercaseLetters.ToCharArray()) != -1 && password.ToString().IndexOfAny(digits.ToCharArray()) != -1)
-        //        {
-        //            passwordIncorrect = false;
-        //        }
-        //    }
-
-
-        //    return password.ToString();
-        //}
-
         private string RandomPasswordGenerator()
         {
             Random res = new Random();
@@ -246,6 +202,17 @@ namespace VCheckViewer.Views.Pages
             randomstring += number[res.Next(number.Length)];
             randomstring += specialChar[res.Next(specialChar.Length)];
 
+            char[] chars = randomstring.ToCharArray();
+
+            for (int i = 0; i < chars.Length; i++)
+            {
+                int randomIndex = res.Next(0, chars.Length);
+                char temp = chars[randomIndex];
+                chars[randomIndex] = chars[i];
+                chars[i] = temp;
+            }
+
+            randomstring = string.Join("", chars);
             return randomstring;
         }
 

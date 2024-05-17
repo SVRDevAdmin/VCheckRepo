@@ -12,7 +12,7 @@ namespace VCheck.Lib.Data.DBContext
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
-        private string connectionString;
+        private string connectionString = "";
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

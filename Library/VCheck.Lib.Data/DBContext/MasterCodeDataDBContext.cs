@@ -13,6 +13,7 @@ namespace VCheck.Lib.Data.DBContext
     public class MasterCodeDataDBContext
     {
         private readonly Microsoft.Extensions.Configuration.IConfiguration config;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public MasterCodeDataDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
         {
@@ -55,7 +56,7 @@ namespace VCheck.Lib.Data.DBContext
             }
             catch (Exception ex)
             {
-
+                log.Error("Database Error >>> ", ex);
             }
 
             return sList;

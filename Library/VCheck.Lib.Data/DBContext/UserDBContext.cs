@@ -15,6 +15,7 @@ namespace VCheck.Lib.Data.DBContext
     public class UserDBContext
     {
         private readonly Microsoft.Extensions.Configuration.IConfiguration config;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public UserDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
         {
@@ -71,7 +72,7 @@ namespace VCheck.Lib.Data.DBContext
             }
             catch (Exception ex)
             {
-
+                log.Error("Database Error >>> ", ex);
             }           
 
             return sList;
@@ -97,6 +98,7 @@ namespace VCheck.Lib.Data.DBContext
             }
             catch (Exception ex)
             {
+                log.Error("Database Error >>> ", ex);
                 return false;
             }
         }
@@ -121,6 +123,7 @@ namespace VCheck.Lib.Data.DBContext
             }
             catch (Exception ex)
             {
+                log.Error("Database Error >>> ", ex);
                 return false;
             }
         }
@@ -141,8 +144,9 @@ namespace VCheck.Lib.Data.DBContext
                 }
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error("Database Error >>> ", ex);
                 return false;
             }
         }
@@ -170,7 +174,7 @@ namespace VCheck.Lib.Data.DBContext
             }
             catch(Exception ex)
             {
-
+                log.Error("Database Error >>> ", ex);
             }
 
             return total;
@@ -215,7 +219,7 @@ namespace VCheck.Lib.Data.DBContext
             }
             catch (Exception ex)
             {
-
+                log.Error("Database Error >>> ", ex);
             }            
 
             return model;

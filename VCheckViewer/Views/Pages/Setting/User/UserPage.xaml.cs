@@ -79,10 +79,6 @@ namespace VCheckViewer.Views.Pages
             }
             
         }
-        void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
-        {
-            e.Row.Header = (e.Row.GetIndex()).ToString();
-        }
 
         public ObservableCollection<UserModel> GetUserList(int start, int end)
         {

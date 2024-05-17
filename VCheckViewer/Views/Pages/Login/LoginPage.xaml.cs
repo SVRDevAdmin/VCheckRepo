@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -117,9 +118,11 @@ namespace VCheckViewer.Views.Pages.Login
                     ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongLoginID;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                ErrorText.Visibility = Visibility.Visible;
+                ErrorText.Text = Properties.Resources.General_Message_Error;
+                App.log.Error("Login Error >>> ", ex);
             }
             
 

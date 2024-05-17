@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using log4net;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace VCheck.Lib.Data.DBContext
     public class CountryDBContext
     {
         private readonly Microsoft.Extensions.Configuration.IConfiguration config;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public CountryDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
         {
@@ -54,7 +56,7 @@ namespace VCheck.Lib.Data.DBContext
             }
             catch (Exception ex)
             {
-
+                log.Error("Database Error >>> ", ex);
             }            
 
             return sList;

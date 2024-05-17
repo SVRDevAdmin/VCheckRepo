@@ -219,6 +219,9 @@
   <data name="General_Label_Yes" xml:space="preserve">
     <value>예</value>
   </data>
+  <data name="General_Message_Error" xml:space="preserve">
+    <value>처리할 수 없습니다. 관리자에게 문의하십시오.</value>
+  </data>
   <data name="General_Message_NoChanges" xml:space="preserve">
     <value>변경사항이 감지되지 않았습니다.</value>
   </data>
@@ -294,6 +297,9 @@
   <data name="Login_Label_ResetPassword" xml:space="preserve">
     <value>암호를 재설정</value>
   </data>
+  <data name="Login_Message_CreatePasswordError" xml:space="preserve">
+    <value>암호를 만들 때 오류가 발생했습니다. 관리자에게 문의하십시오.</value>
+  </data>
   <data name="Login_Message_PasswordNewConfirmMismatch" xml:space="preserve">
     <value>신규 비밀번호와 확인 비밀번호가 일치하지 않습니다.</value>
   </data>
@@ -305,6 +311,9 @@
   </data>
   <data name="Login_Message_PasswordResetted" xml:space="preserve">
     <value>비밀번호가 재설정되었습니다.</value>
+  </data>
+  <data name="Login_Message_RemovePasswordError" xml:space="preserve">
+    <value>암호를 제거할 때 오류가 발생합니다. 관리자에게 문의하십시오.</value>
   </data>
   <data name="Login_Message_WrongCurrentPassword" xml:space="preserve">
     <value>현재 암호가 잘못되었습니다.</value>

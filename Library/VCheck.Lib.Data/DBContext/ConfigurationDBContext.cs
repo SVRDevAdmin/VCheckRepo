@@ -14,6 +14,8 @@ namespace VCheck.Lib.Data.DBContext
     public class ConfigurationDBContext
     {
         private readonly IConfiguration config;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 
         public ConfigurationDBContext(IConfiguration config)
         {
@@ -57,7 +59,7 @@ namespace VCheck.Lib.Data.DBContext
             }
             catch (Exception ex)
             {
-
+                log.Error("Database Error >>> ", ex);
             }           
 
             return sList;
@@ -82,11 +84,12 @@ namespace VCheck.Lib.Data.DBContext
             }
             catch (Exception ex)
             {
+                log.Error("Database Error >>> ", ex);
                 return false;
             }
         }
 
-        public bool AddConfiguation(string ConfigurationKey, String ConfigurationValue)
+        public bool AddConfiguration(string ConfigurationKey, String ConfigurationValue)
         {
             String InsertQuery = "INSERT INTO Mst_Configuration(ConfigurationKey, ConfigurationValue) " +
                                  "VALUES('" + ConfigurationKey + "', '" + ConfigurationValue + "')";
@@ -106,6 +109,7 @@ namespace VCheck.Lib.Data.DBContext
             }
             catch (Exception ex)
             {
+                log.Error("Database Error >>> ", ex);
                 return false ;
             }
         }
