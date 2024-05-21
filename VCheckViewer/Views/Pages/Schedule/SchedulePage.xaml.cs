@@ -53,7 +53,7 @@ namespace VCheckViewer.Views.Pages.Schedule
                         PatientID = t.PatientID,
                         PatientIDString = Properties.Resources.Schedule_Label_PatientID,
                         InchargePerson = t.InchargePerson,
-                        TestCompleted = t.TestCompleted,
+                        ScheduleTestStatus = t.ScheduleTestStatus,
                         CreatedDate = t.CreatedDate,
                         CreatedBy = t.CreatedBy,
                         UpdatedDate = t.UpdatedDate,
