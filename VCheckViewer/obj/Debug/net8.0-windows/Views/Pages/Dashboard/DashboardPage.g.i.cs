@@ -43,7 +43,7 @@ namespace VCheckViewer.Views.Pages {
     public partial class DashboardPage : System.Windows.Controls.Page, System.Windows.Markup.IComponentConnector {
         
         
-        #line 16 "..\..\..\..\..\..\Views\Pages\Dashboard\DashboardPage.xaml"
+        #line 17 "..\..\..\..\..\..\Views\Pages\Dashboard\DashboardPage.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.TextBlock updateMessage;
         
@@ -51,7 +51,7 @@ namespace VCheckViewer.Views.Pages {
         #line hidden
         
         
-        #line 38 "..\..\..\..\..\..\Views\Pages\Dashboard\DashboardPage.xaml"
+        #line 39 "..\..\..\..\..\..\Views\Pages\Dashboard\DashboardPage.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Border borderDeviceList;
         
@@ -59,7 +59,7 @@ namespace VCheckViewer.Views.Pages {
         #line hidden
         
         
-        #line 41 "..\..\..\..\..\..\Views\Pages\Dashboard\DashboardPage.xaml"
+        #line 42 "..\..\..\..\..\..\Views\Pages\Dashboard\DashboardPage.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.ItemsControl icDeviceList;
         
@@ -117,7 +117,7 @@ namespace VCheckViewer.Views.Pages {
             return;
             case 2:
             
-            #line 17 "..\..\..\..\..\..\Views\Pages\Dashboard\DashboardPage.xaml"
+            #line 18 "..\..\..\..\..\..\Views\Pages\Dashboard\DashboardPage.xaml"
             ((System.Windows.Controls.Button)(target)).Click += new System.Windows.RoutedEventHandler(this.DownloadButton_Clicked);
             
             #line default

@@ -138,6 +138,10 @@ namespace VCheckViewer.Views.Windows
             //RootNavigation.GoBack();
             if (frameContent.CanGoBack) { frameContent.GoBack(); }
 
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Setting_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+
             GoToViewUserPage(sender, e);
         }
 
@@ -145,6 +149,9 @@ namespace VCheckViewer.Views.Windows
         {
             frameContent.Content = new ResetCurrentUserPasswordPage();
 
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("ResetPassword_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
             //PageTitle.Text = "Reset Password";
         }
 
@@ -346,11 +353,13 @@ namespace VCheckViewer.Views.Windows
             var genderList = sContext.GetMasterCodeData("Gender");
             var rolesList = rolesContext.GetRoles();
             var statusList = sContext.GetMasterCodeData("UserStatus");
+            var sortDirectionList = sContext.GetMasterCodeData("SortDirection");
 
             App.MainViewModel.cbTitle = new ObservableCollection<ComboBoxItem>();
             App.MainViewModel.cbGender = new ObservableCollection<ComboBoxItem>();
             App.MainViewModel.cbRoles = new ObservableCollection<ComboBoxItem>();
             App.MainViewModel.cbStatus = new ObservableCollection<ComboBoxItem>();
+            App.MainViewModel.cbSort = new ObservableCollection<ComboBoxItem>();
 
 
             var cbDefaultItem = new ComboBoxItem { Content = "" };
@@ -372,6 +381,18 @@ namespace VCheckViewer.Views.Windows
             App.MainViewModel.SelectedcbStatus = cbDefaultItem;
             App.MainViewModel.cbStatus.Add(cbDefaultItem);
             foreach (var item in statusList) { App.MainViewModel.cbStatus.Add(new ComboBoxItem { Content = item.CodeName, Tag = item.CodeID }); }
+
+            //cbDefaultItem = new ComboBoxItem { Content = "" };
+            //App.MainViewModel.SelectedcbStatus = cbDefaultItem;
+            //App.MainViewModel.cbSort.Add(cbDefaultItem);
+            foreach(var item in sortDirectionList)
+            {
+                App.MainViewModel.cbSort.Add(new ComboBoxItem
+                {
+                    Content = item.CodeName,
+                    Tag = item.CodeID
+                });
+            }
         }
 
         private void RootNavigation_PaneClosed(NavigationView sender, RoutedEventArgs args)

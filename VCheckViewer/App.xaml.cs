@@ -171,6 +171,7 @@ namespace VCheckViewer
         {
             try
             {
+                QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
                 ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
                 UserDBContext usersContext = GetService<UserDBContext>();
                 RolesDBContext roleContext = GetService<RolesDBContext>();

@@ -406,7 +406,7 @@
     <value>返回设备</value>
   </data>
   <data name="Device_Label_Button_BackViewDevice" xml:space="preserve">
-    <value>返回查看设备。</value>
+    <value>返回查看设备</value>
   </data>
   <data name="Device_Label_Button_Cancel" xml:space="preserve">
     <value>取消</value>
@@ -518,5 +518,8 @@
   </data>
   <data name="Login_Message_RemovePasswordError" xml:space="preserve">
     <value>刪除密碼時發生錯誤。請聯繫管理員。</value>
+  </data>
+  <data name="ResetPassword_Title_PageTitle" xml:space="preserve">
+    <value>重设密码</value>
   </data>
 </root>

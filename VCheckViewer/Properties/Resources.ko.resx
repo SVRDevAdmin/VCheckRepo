@@ -402,6 +402,9 @@
   <data name="Popup_Message_UpdateUser" xml:space="preserve">
     <value>이 사용자 프로필을 업데이트하시겠습니까?</value>
   </data>
+  <data name="ResetPassword_Title_PageTitle" xml:space="preserve">
+    <value>암호를 재설정</value>
+  </data>
   <data name="Schedule_Label_NewPatients" xml:space="preserve">
     <value>새로운 환자</value>
   </data>

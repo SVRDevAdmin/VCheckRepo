@@ -130,4 +130,28 @@ namespace VCheckListenerWorker.Lib.Models
         public String? UpdatedBy { get; set; }
     }
 
+    public class txn_notification
+    {
+        [Key]
+        public int NotificationID { get; set; }
+        public string NotificationType { get; set; }
+        public string NotificationTitle { get; set; }
+        public string NotificationContent { get; set; }
+        public string CreatedDate { get; set; }
+        public string CreatedBy { get; set;}
+    }
+
+    public class mst_template
+    {
+        [Key]
+        public int TemplateID { get; set; }
+        public String? TemplateType { get; set; }
+        public String? TemplateCode { get; set; }
+        public String? TemplateTitle { get; set; }
+        public String? TemplateContent { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public String? CreatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public String? UpdatedBy { get; set; }
+    }
 }

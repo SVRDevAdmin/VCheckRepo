@@ -133,7 +133,7 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Back to View Device..
+        ///   Looks up a localized string similar to Back to View Device.
         /// </summary>
         public static string Device_Label_Button_BackViewDevice {
             get {
@@ -912,6 +912,15 @@ namespace VCheckViewer.Properties {
         public static string Popup_Message_UpdateUser {
             get {
                 return ResourceManager.GetString("Popup_Message_UpdateUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Password.
+        /// </summary>
+        public static string ResetPassword_Title_PageTitle {
+            get {
+                return ResourceManager.GetString("ResetPassword_Title_PageTitle", resourceCulture);
             }
         }
         
