@@ -257,6 +257,7 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.genruntimeconfi
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\ref\VCheckViewer.dll
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\VCheckViewer.exe
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\appsettings.json
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\log4net.config
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\VCheckViewer.deps.json
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\VCheckViewer.runtimeconfig.json
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\VCheckViewer.dll
@@ -282,6 +283,7 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windo
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\K4os.Compression.LZ4.dll
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\K4os.Compression.LZ4.Streams.dll
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\K4os.Hash.xxHash.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\log4net.dll
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\Microsoft.AspNetCore.Authentication.dll
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\Microsoft.AspNetCore.Authentication.Abstractions.dll
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\Microsoft.AspNetCore.Authentication.Cookies.dll
@@ -519,5 +521,3 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windo
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.pdb
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.genruntimeconfig.cache
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\ref\VCheckViewer.dll
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\log4net.dll
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\log4net.config
