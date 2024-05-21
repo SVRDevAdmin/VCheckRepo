@@ -409,7 +409,7 @@
     <value>Back to Device</value>
   </data>
   <data name="Device_Label_Button_BackViewDevice" xml:space="preserve">
-    <value>Back to View Device.</value>
+    <value>Back to View Device</value>
   </data>
   <data name="Device_Label_Button_Cancel" xml:space="preserve">
     <value>Cancel</value>
@@ -518,5 +518,8 @@
   </data>
   <data name="Login_Message_RemovePasswordError" xml:space="preserve">
     <value>Error occur when removing password. Please contact administrator.</value>
+  </data>
+  <data name="ResetPassword_Title_PageTitle" xml:space="preserve">
+    <value>Reset Password</value>
   </data>
 </root>

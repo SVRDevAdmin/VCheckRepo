@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -82,6 +83,79 @@ namespace VCheckListenerWorker.Lib.Logic
                 }
             }
             catch(Exception ex)
+            {
+                String abc = ex.ToString();
+                isSuccess = false;
+            }
+
+            return isSuccess;
+        }
+
+        /// <summary>
+        /// Insert into Test Result Table
+        /// </summary>
+        /// <param name="sTestResult"></param>
+        /// <returns></returns>
+        public static Boolean createTestResult(txn_testresults sTestResult)
+        {
+            Boolean isSuccess = false;
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                {
+                    ctx.txn_Testresults.Add(sTestResult);
+                    ctx.SaveChanges();
+
+                    isSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                String abc = ex.ToString();
+                isSuccess = false;
+            }
+
+            return isSuccess;
+        }
+
+        /// <summary>
+        /// Get Notification Template By Code
+        /// </summary>
+        /// <param name="sTemplateCode"></param>
+        /// <returns></returns>
+        public static mst_template GetNotificationTemplate(String sTemplateCode)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                {
+                    return ctx.mst_template.Where(x => x.TemplateCode == sTemplateCode).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                String abc = ex.ToString();
+            }
+
+            return null;
+        }
+
+        public static Boolean insertNotification(txn_notification sNotification)
+        {
+            Boolean isSuccess = false;
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                {
+                    ctx.txn_notification.Add(sNotification);
+                    ctx.SaveChanges();
+
+                    isSuccess = true;
+                }
+            }
+            catch (Exception ex)
             {
                 String abc = ex.ToString();
                 isSuccess = false;

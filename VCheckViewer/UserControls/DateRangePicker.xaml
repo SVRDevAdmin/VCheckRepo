@@ -77,7 +77,7 @@
                 Stretch="Fill">
                     <Calendar
                     x:Name="DateRangePicker_Calendar"
-                    SelectionMode="SingleRange"
+                    SelectionMode="MultipleRange"
                     SelectedDatesChanged="DateRangePicker_Calendar_SelectedDatesChanged"/>
                 </Viewbox>
             </Popup>
