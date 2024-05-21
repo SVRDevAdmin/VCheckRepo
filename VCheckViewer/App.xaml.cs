@@ -150,6 +150,8 @@ namespace VCheckViewer
         /// </summary>
         private async void OnStartup(object sender, StartupEventArgs e)
         {
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
             ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
             UserDBContext usersContext = GetService<UserDBContext>();
             RolesDBContext roleContext = GetService<RolesDBContext>();

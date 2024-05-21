@@ -294,6 +294,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspose.PDF" Version="24.5.1" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
@@ -311,6 +312,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
     <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
+    <PackageReference Include="QuestPDF" Version="2024.3.6" />
     <PackageReference Include="WPF-UI" Version="3.0.4" />
     <PackageReference Include="WPFLocalizeExtension" Version="3.10.0" />
   </ItemGroup>
@@ -318,7 +320,9 @@
   <ItemGroup>
     <Resource Include="Content\Images\36687-5-bell-transparent-image.png" />
     <Resource Include="Content\Images\bell.png" />
-    <Resource Include="Content\Images\bio_logo.png" />
+    <Resource Include="Content\Images\bio_logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <ProjectReference Include="..\Library\VCheck.Helper\VCheck.Helper.csproj" />
     <ProjectReference Include="..\Library\VCheck.Lib.Data\VCheck.Lib.Data.csproj" />
   </ItemGroup>

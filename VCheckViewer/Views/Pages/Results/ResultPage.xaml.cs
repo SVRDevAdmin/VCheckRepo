@@ -20,6 +20,11 @@ using Brushes = System.Windows.Media.Brushes;
 using Button = System.Windows.Controls.Button;
 using TextBlock = System.Windows.Controls.TextBlock;
 using ZstdSharp.Unsafe;
+using VCheckViewer.Views.Pages.Schedule;
+using VCheck.Lib.Data.Models;
+using VCheckViewer.Lib.DocumentTemplate;
+using QuestPDF.Fluent;
+using Pomelo.EntityFrameworkCore.MySql.Query.Internal;
 
 namespace VCheckViewer.Views.Pages.Results
 {
@@ -49,12 +54,44 @@ namespace VCheckViewer.Views.Pages.Results
 
         private void menuDownload_Click(object sender, RoutedEventArgs e)
         {
+            TestResultListingObj sTestResultObj = dgResult.SelectedItem as TestResultListingObj;
+            sTestResultObj.printedBy = App.MainViewModel.CurrentUsers.FullName;
+            sTestResultObj.printedOn = DateTime.Now;
+            sTestResultObj.isPrint = false;
 
+            try
+            {
+                TestResultTemplate sTestResultTemplate = new TestResultTemplate(sTestResultObj);
+                sTestResultTemplate.GeneratePdf();
+
+                //System.Windows.MessageBox.Show("Download completed",
+                //               "Download Completed", MessageBoxButton.OK);
+                //lbMessage.Text = "Download completed";
+                //lbMessage.Foreground = Brushes.Green;
+            }
+            catch (Exception ex)
+            {
+                //lbMessage.Text = "Failed to download result, please contact Admininistrator.";
+                //lbMessage.Foreground = Brushes.Red;
+            }
         }
 
         private void menuPrint_Click(object sender, RoutedEventArgs e)
         {
+            TestResultListingObj sTestResultObj = dgResult.SelectedItem as TestResultListingObj;
+            sTestResultObj.printedBy = App.MainViewModel.CurrentUsers.FullName;
+            sTestResultObj.printedOn = DateTime.Now;
+            sTestResultObj.isPrint = true;
 
+            try
+            {
+                TestResultTemplate sTestResultTemplate = new TestResultTemplate(sTestResultObj);
+                sTestResultTemplate.GeneratePdfAndShow();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private void LoadResultDataGrid()
@@ -223,6 +260,19 @@ namespace VCheckViewer.Views.Pages.Results
             startPagination--;
 
             LoadResultDataGrid();
+        }
+
+        private void btnDownload_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //TestResultTemplate sTest = new TestResultTemplate();
+                //sTest.GeneratePdf();
+            }
+            catch (Exception ex)
+            {
+                string efg = "efg";
+            }
         }
     }
 }

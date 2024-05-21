@@ -75,10 +75,10 @@ namespace VCheckViewer.Views.Pages.Notification
                     TextBlock content = new TextBlock();
 
                     title.Text = notification.NotificationTitle;
-                    title.TextAlignment = TextAlignment.Left;
+                    title.TextAlignment = System.Windows.TextAlignment.Left;
                     title.FontWeight = FontWeights.Bold;
                     date.Text = notification.CreatedDate;
-                    date.TextAlignment = TextAlignment.Right;
+                    date.TextAlignment = System.Windows.TextAlignment.Right;
                     date.FontWeight = FontWeights.Bold;
                     content.Text = notification.NotificationContent;
                     content.TextWrapping = TextWrapping.Wrap;
@@ -111,7 +111,7 @@ namespace VCheckViewer.Views.Pages.Notification
                 //textBlock.Text = "No data available";
                 textBlock.Text = Properties.Resources.General_Message_NoData;
                 textBlock.FontWeight = FontWeights.Bold;
-                textBlock.TextAlignment = TextAlignment.Center;
+                textBlock.TextAlignment = System.Windows.TextAlignment.Center;
                 NotificationViewList.Children.Add(textBlock);
             }
         }

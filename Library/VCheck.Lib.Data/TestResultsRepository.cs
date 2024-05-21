@@ -92,6 +92,7 @@ namespace VCheck.Lib.Data
                                     sResult.Add(new TestResultListingObj
                                     {
                                         RowNo = iIndex,
+                                        ID = sReader.GetInt64("ID"),
                                         TestResultDateTime = Convert.ToDateTime(sReader["TestResultDateTime"]),
                                         TestResultType = sReader["TestResultType"].ToString(),
                                         OperatorID = sReader["OperatorID"].ToString(),

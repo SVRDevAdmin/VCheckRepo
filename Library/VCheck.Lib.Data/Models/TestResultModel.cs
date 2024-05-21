@@ -34,6 +34,9 @@ namespace VCheck.Lib.Data.Models
         public long RowNo { get; set; }
         public String? statusBackground { get; set; }
         public String? statusFontColor { get; set; }
+        public String? printedBy { get; set;  }
+        public DateTime? printedOn { get; set; }
+        public Boolean isPrint { get; set; }
     }
 
 }
