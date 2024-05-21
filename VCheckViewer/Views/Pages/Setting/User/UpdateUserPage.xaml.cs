@@ -29,7 +29,7 @@ namespace VCheckViewer.Views.Pages.Setting.User
     /// </summary>
     public partial class UpdateUserPage : Page
     {
-        UserModel userInfo;
+        UserModel userInfoUpdatePage = new UserModel();
 
         public ObservableCollection<ComboBoxItem> cbTitle { get; set; }
         public ObservableCollection<ComboBoxItem> cbGender { get; set; }
@@ -53,24 +53,37 @@ namespace VCheckViewer.Views.Pages.Setting.User
             cbRoles = App.MainViewModel.cbRoles;
             cbStatus = App.MainViewModel.cbStatus;
 
-            userInfo = App.MainViewModel.Users;
+            userInfoUpdatePage = App.MainViewModel.Users;
 
-            SelectedcbTitle = cbTitle.Where(a => (string)a.Content == userInfo.Title).FirstOrDefault();
-            SelectedcbGender = cbGender.Where(a => (string)a.Content == userInfo.Gender).FirstOrDefault();
-            SelectedcbRoles = cbRoles.Where(a => (string)a.Content == userInfo.Role).FirstOrDefault();
-            SelectedcbStatus = cbStatus.Where(a => (string)a.Content == userInfo.Status).FirstOrDefault();
+            SelectedcbTitle = cbTitle.Where(a => (string)a.Content == userInfoUpdatePage.Title).FirstOrDefault();
+            SelectedcbGender = cbGender.Where(a => (string)a.Content == userInfoUpdatePage.Gender).FirstOrDefault();
+            SelectedcbRoles = cbRoles.Where(a => (string)a.Content == userInfoUpdatePage.Role).FirstOrDefault();
+            SelectedcbStatus = cbStatus.Where(a => (string)a.Content == userInfoUpdatePage.Status).FirstOrDefault();
 
             //Surname.Text = userInfo.FirstName;
-            FullName.Text = userInfo.FullName;
-            StaffID.Text = userInfo.EmployeeID;
-            RegistrationNo.Text = userInfo.RegistrationNo;
-            DateOfBirth.Text = userInfo.DateOfBirth;
-            EmailAddress.Text = userInfo.EmailAddress;
-            LoginID.Text = userInfo.LoginID;
+            FullName.Text = userInfoUpdatePage.FullName;
+            StaffID.Text = userInfoUpdatePage.EmployeeID;
+            RegistrationNo.Text = userInfoUpdatePage.RegistrationNo;
+            DateOfBirth.Text = userInfoUpdatePage.DateOfBirth;
+            EmailAddress.Text = userInfoUpdatePage.EmailAddress;
+            LoginID.Text = userInfoUpdatePage.LoginID;
 
-            UserPage.DataContext = App.MainViewModel;
+            if (App.MainViewModel.CurrentUsers.Role == "Lab User")
+            {
+                btnSettings.IsEnabled = false;
+                btnDeviceSetting.IsEnabled = false;
 
-            App.MainViewModel.BackButtonText = Properties.Resources.Setting_Label_UserBackButton;
+                UserPage.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                btnSettings.IsEnabled = true;
+                btnDeviceSetting.IsEnabled = true;
+
+                UserPage.DataContext = App.MainViewModel;
+
+                App.MainViewModel.BackButtonText = Properties.Resources.Setting_Label_UserBackButton;
+            }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -167,24 +180,9 @@ namespace VCheckViewer.Views.Pages.Setting.User
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (App.MainViewModel.CurrentUsers.UserId == userInfo.UserId) {
-                App.MainViewModel.CurrentUsers.EmployeeID = StaffID.Text;
-                App.MainViewModel.CurrentUsers.Title = Title.Text;
-                //App.MainViewModel.CurrentUsers.FirstName = Surname.Text;
-                //App.MainViewModel.CurrentUsers.LastName = LastName.Text;
-                App.MainViewModel.CurrentUsers.StaffName = Title.Text + " " + FullName.Text;
-                App.MainViewModel.CurrentUsers.FullName = FullName.Text;
-                App.MainViewModel.CurrentUsers.RegistrationNo = RegistrationNo.Text;
-                App.MainViewModel.CurrentUsers.Gender = Gender.Text;
-                App.MainViewModel.CurrentUsers.DateOfBirth = Convert.ToDateTime(DateOfBirth.Text).ToString("dd MMMM yyyy");
-                App.MainViewModel.CurrentUsers.EmailAddress = EmailAddress.Text;
-                App.MainViewModel.CurrentUsers.Status = Status.Text;
-                App.MainViewModel.CurrentUsers.Role = Role.Text;
-            }
-
             UserModel user = new UserModel()
             {
-                UserId = userInfo.UserId,
+                UserId = userInfoUpdatePage.UserId,
                 EmployeeID = StaffID.Text,
                 Title = Title.Text,
                 //FirstName = Surname.Text,
@@ -200,18 +198,18 @@ namespace VCheckViewer.Views.Pages.Setting.User
                 Role = Role.Text
             };
 
-            if(user.Title != userInfo.Title || user.FullName != userInfo.FullName || user.EmployeeID != userInfo.EmployeeID || user.RegistrationNo != userInfo.RegistrationNo
-                || Gender.Text != userInfo.Gender || DateTime.Parse(user.DateOfBirth)  != DateTime.Parse(userInfo.DateOfBirth) || user.Role != userInfo.Role || user.EmailAddress != userInfo.EmailAddress || user.Status != userInfo.Status)
+            if(user.Title != userInfoUpdatePage.Title || user.FullName != userInfoUpdatePage.FullName || user.EmployeeID != userInfoUpdatePage.EmployeeID || user.RegistrationNo != userInfoUpdatePage.RegistrationNo
+                || Gender.Text != userInfoUpdatePage.Gender || DateTime.Parse(user.DateOfBirth)  != DateTime.Parse(userInfoUpdatePage.DateOfBirth) || user.Role != userInfoUpdatePage.Role || user.EmailAddress != userInfoUpdatePage.EmailAddress || user.Status != userInfoUpdatePage.Status)
             {
                 App.MainViewModel.Origin = "UserUpdateRow";
 
-                if(user.Status != userInfo.Status) { user.StatusChanged = true; }
+                if(user.Status != userInfoUpdatePage.Status) { user.StatusChanged = true; }
                 else { user.StatusChanged = false; }
 
-                if(user.EmailAddress != userInfo.EmailAddress) { user.EmailAddressChanged = true; }
+                if(user.EmailAddress != userInfoUpdatePage.EmailAddress) { user.EmailAddressChanged = true; }
                 else { user.EmailAddressChanged= false; }
 
-                if(user.Role != userInfo.Role) {  user.RoleChanged = true; }
+                if(user.Role != userInfoUpdatePage.Role) {  user.RoleChanged = true; }
                 else { user.RoleChanged= false; }
 
                 App.MainViewModel.Users = user;

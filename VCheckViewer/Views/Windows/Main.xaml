@@ -43,7 +43,7 @@
                         <TextBlock x:Name="PageTitle" FontWeight="Bold" FontFamily="Noto Sans" FontSize="25"  Padding="0, 17, 0, 0"/>
                     </Border>
                     <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="2" Margin="50,0,0,0">
-                        <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                        <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black" Visibility="Hidden">
                             <Grid>
                                 <!-- Search Icon -->
                                 <ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>

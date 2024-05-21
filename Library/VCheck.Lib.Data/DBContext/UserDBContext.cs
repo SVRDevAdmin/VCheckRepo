@@ -80,7 +80,7 @@ namespace VCheck.Lib.Data.DBContext
 
         public bool InsertUser(UserModel user)
         {
-            string insertQuery = "INSERT INTO `vcheckdb`.`mst_user` (`UserID`,`EmployeeID`,`Title`,`FullName`,`RegistrationNo`,`Gender`,`DateofBirth`,`EmailAddress`,`Status`,`RoleID`, `IsDeleted`, `CreatedDate`, `CreatedBy`) ";
+            string insertQuery = "INSERT INTO `mst_user` (`UserID`,`EmployeeID`,`Title`,`FullName`,`RegistrationNo`,`Gender`,`DateofBirth`,`EmailAddress`,`Status`,`RoleID`, `IsDeleted`, `CreatedDate`, `CreatedBy`) ";
 
             insertQuery += "Values ('"+user.UserId+"','"+user.EmployeeID+"', '"+user.Title+"', '"+user.FullName+"', '"+user.RegistrationNo+"', '"+user.Gender+"', '"+user.DateOfBirth+"', '"+user.EmailAddress+"', "+user.StatusID+", '"+user.RoleID+"', 0, '"+user.CreatedDate+"', '"+user.CreatedBy+"' )";
 
@@ -108,7 +108,7 @@ namespace VCheck.Lib.Data.DBContext
             var lastLoginDatetimeColumn = "";
             if (user.LastLoginDate != null) { lastLoginDatetimeColumn = ", `LastLoginDateTime` = '" + user.LastLoginDate.ToString("yyyy-MM-dd HH:mm:ss")+"'"; }
 
-            string insertQuery = "UPDATE `vcheckdb`.`mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+ "',`FullName` = '" + user.FullName+ "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = '"+user.RoleID+"'"+lastLoginDatetimeColumn+", `UpdatedDate` = '"+user.UpdatedDate+"', `UpdatedBy` = '"+user.updatedBy+"'  WHERE `UserID` = '" + user.UserId+"' and IsDeleted = 0;";
+            string insertQuery = "UPDATE `mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+ "',`FullName` = '" + user.FullName+ "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = '"+user.RoleID+"'"+lastLoginDatetimeColumn+", `UpdatedDate` = '"+user.UpdatedDate+"', `UpdatedBy` = '"+user.updatedBy+"'  WHERE `UserID` = '" + user.UserId+"' and IsDeleted = 0;";
 
             try
             {
@@ -131,7 +131,7 @@ namespace VCheck.Lib.Data.DBContext
         public bool DeleteUser(string userID)
         {
             //string insertQuery = "DELETE FROM `vcheckdb`.`mst_user` WHERE UserID = '"+userID+"';";
-            string insertQuery = "Update `vcheckdb`.`mst_user` set IsDeleted = 1 WHERE UserID = '" + userID + "';";
+            string insertQuery = "Update `mst_user` set IsDeleted = 1 WHERE UserID = '" + userID + "';";
 
             try
             {
@@ -153,7 +153,7 @@ namespace VCheck.Lib.Data.DBContext
 
         public int GetTotalUser()
         {
-            string insertQuery = "SELECT Count(Title) FROM `vcheckdb`.`mst_user` where IsDeleted = 0";
+            string insertQuery = "SELECT Count(Title) FROM `mst_user` where IsDeleted = 0";
             int total = 0;
 
             try

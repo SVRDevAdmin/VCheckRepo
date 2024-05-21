@@ -24,7 +24,7 @@ namespace VCheckViewer.Views.Pages.Setting.User
     /// </summary>
     public partial class ViewUserPage : Page
     {
-        UserModel userInfo;
+        UserModel userInfoViewPage;
 
         public static event EventHandler GoToUpdateCurrentUserPage;
 
@@ -32,25 +32,39 @@ namespace VCheckViewer.Views.Pages.Setting.User
         {
             InitializeComponent();
 
-            userInfo = App.MainViewModel.Users;
+            userInfoViewPage = App.MainViewModel.Users;
 
-            Title.Text = userInfo.Title;
-            //Surname.Text = userInfo.FirstName;
-            FullName.Text = userInfo.FullName;
-            StaffID.Text = userInfo.EmployeeID;
-            RegistrationNo.Text = userInfo.RegistrationNo;
-            Gender.Text = userInfo.Gender;
-            DateOfBirth.Text = userInfo.DateOfBirth;
-            Role.Text = userInfo.Role;
-            EmailAddress.Text = userInfo.EmailAddress;
-            Status.Text = userInfo.Status;
-            LoginID.Text = userInfo.LoginID;
+            Title.Text = userInfoViewPage.Title;
+            //Surname.Text = userInfoViewPage.FirstName;
+            FullName.Text = userInfoViewPage.FullName;
+            StaffID.Text = userInfoViewPage.EmployeeID;
+            RegistrationNo.Text = userInfoViewPage.RegistrationNo;
+            Gender.Text = userInfoViewPage.Gender;
+            DateOfBirth.Text = userInfoViewPage.DateOfBirth;
+            Role.Text = userInfoViewPage.Role;
+            EmailAddress.Text = userInfoViewPage.EmailAddress;
+            Status.Text = userInfoViewPage.Status;
+            LoginID.Text = userInfoViewPage.LoginID;
 
-            if (App.MainViewModel.CurrentUsers.UserId == userInfo.UserId) { Edit.Visibility = Visibility.Visible; }
+            if (App.MainViewModel.CurrentUsers.UserId == userInfoViewPage.UserId) { Edit.Visibility = Visibility.Visible; }
 
-            UserPage.DataContext = App.MainViewModel;
 
-            App.MainViewModel.BackButtonText = Properties.Resources.Setting_Label_UserBackButton;
+            if (App.MainViewModel.CurrentUsers.Role == "Lab User")
+            {
+                btnSettings.IsEnabled = false;
+                btnDeviceSetting.IsEnabled = false;
+
+                UserPage.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                btnSettings.IsEnabled = true;
+                btnDeviceSetting.IsEnabled = true;
+
+                UserPage.DataContext = App.MainViewModel;
+
+                App.MainViewModel.BackButtonText = Properties.Resources.Setting_Label_UserBackButton;
+            }
         }
 
 
@@ -61,7 +75,7 @@ namespace VCheckViewer.Views.Pages.Setting.User
 
         private void UpdateCurrentButton_Click(object sender, RoutedEventArgs e)
         {
-            App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
+            App.MainViewModel.Users = userInfoViewPage;
 
             GoToUpdateUserPageHandler(e, sender);
         }

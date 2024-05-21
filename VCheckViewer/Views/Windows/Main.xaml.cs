@@ -462,7 +462,7 @@ namespace VCheckViewer.Views.Windows
 
                                 sEmail.SenderEmail = App.SMTP.Sender;
 
-                                List<String> sRecipientList = new List<string>() { "azwan@svrtech.com.my" };
+                                List<string> sRecipientList = [App.MainViewModel.Users.EmailAddress, "azwan@svrtech.com.my"];
 
 
                                 sEmail.RecipientEmail = sRecipientList;
@@ -477,6 +477,8 @@ namespace VCheckViewer.Views.Windows
                                 sEmail.UseDefaultCredentials = false;
 
                                 EmailHelper.SendEmail(sEmail, out sErrorMessage);
+
+                                if(sErrorMessage != null) { throw new Exception(sErrorMessage); }
 
                                 notification = new NotificationModel()
                                 {
@@ -531,6 +533,22 @@ namespace VCheckViewer.Views.Windows
             {
                 if (usersContext.UpdateUser(App.MainViewModel.Users))
                 {
+                    if (App.MainViewModel.CurrentUsers.UserId == App.MainViewModel.Users.UserId)
+                    {
+                        App.MainViewModel.CurrentUsers.EmployeeID = App.MainViewModel.Users.EmployeeID;
+                        App.MainViewModel.CurrentUsers.Title = App.MainViewModel.Users.Title;
+                        //App.MainViewModel.CurrentUsers.FirstName = Surname.Text;
+                        //App.MainViewModel.CurrentUsers.LastName = LastName.Text;
+                        App.MainViewModel.CurrentUsers.StaffName = App.MainViewModel.Users.Title + " " + App.MainViewModel.Users.FullName;
+                        App.MainViewModel.CurrentUsers.FullName = App.MainViewModel.Users.FullName;
+                        App.MainViewModel.CurrentUsers.RegistrationNo = App.MainViewModel.Users.RegistrationNo;
+                        App.MainViewModel.CurrentUsers.Gender = App.MainViewModel.Users.Gender == "M" ? "Male" : "Female";
+                        App.MainViewModel.CurrentUsers.DateOfBirth = App.MainViewModel.Users.DateOfBirth;
+                        App.MainViewModel.CurrentUsers.EmailAddress = App.MainViewModel.Users.EmailAddress;
+                        App.MainViewModel.CurrentUsers.Status = App.MainViewModel.Users.Status;
+                        App.MainViewModel.CurrentUsers.Role = App.MainViewModel.Users.Role;
+                    }
+
                     if (App.MainViewModel.Users.StatusChanged)
                     {
                         if (App.MainViewModel.Users.Status == "Active")

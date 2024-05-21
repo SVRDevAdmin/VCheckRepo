@@ -96,7 +96,7 @@ namespace VCheckViewer.Views.Pages.Login
                     var notificationTemplate = TemplateContext.GetTemplateByCode("EN02");
                     notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###", userModel.FullName).Replace("###<password>###", newPassword);
 
-                    string sErrorMessage = "";
+                    string sErrorMessage;
 
                     try
                     {
@@ -104,7 +104,7 @@ namespace VCheckViewer.Views.Pages.Login
 
                         sEmail.SenderEmail = App.SMTP.Sender;
 
-                        List<String> sRecipientList = new List<string>() { "azwan@svrtech.com.my" };
+                        List<string> sRecipientList = [user.NormalizedEmail, "azwan@svrtech.com.my"];
 
 
                         sEmail.RecipientEmail = sRecipientList;
@@ -119,6 +119,8 @@ namespace VCheckViewer.Views.Pages.Login
                         sEmail.UseDefaultCredentials = false;
 
                         EmailHelper.SendEmail(sEmail, out sErrorMessage);
+
+                        if(sErrorMessage != null) { throw new Exception(sErrorMessage); }
 
                         NotificationModel notification = new NotificationModel()
                         {

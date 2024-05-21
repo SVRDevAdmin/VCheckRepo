@@ -81,6 +81,8 @@ namespace VCheckViewer.Views.Pages.Login
 
                             sContext.UpdateUser(userAcount);
 
+                            App.MainViewModel.CurrentUsers.Gender = App.MainViewModel.CurrentUsers.Gender == "M" ? "Male" : "Female";
+
                             GoToMainWindowHandler(e, sender);
                         }
                         else

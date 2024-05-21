@@ -53,6 +53,17 @@ namespace VCheckViewer.Views.Pages
 
             Main.InitializedUserPage += new EventHandler(initializedPage);
             initializedPage(null,null);
+
+            if (App.MainViewModel.CurrentUsers.Role == "Lab User")
+            {
+                btnSettings.IsEnabled = false;
+                btnDevice.IsEnabled = false;
+            }
+            else
+            {
+                btnSettings.IsEnabled = true;
+                btnDevice.IsEnabled = true;
+            }
         }
 
         public void initializedPage(object sender, EventArgs e)
