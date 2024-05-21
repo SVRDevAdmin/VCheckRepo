@@ -8,8 +8,8 @@
       Title="DashboardPage">
 
     <Grid>
-        <TextBlock TextWrapping="Wrap" Text="{Binding Path=Dashboard_Title_PageTitle, Source={StaticResource Resources}}" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <DockPanel Visibility="collapsed">
+        <TextBlock TextWrapping="Wrap" Text="{Binding Path=Dashboard_Title_PageTitle, Source={StaticResource Resources}}" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="collapsed"/>
+        <DockPanel Visibility="Visible">
             <DockPanel DockPanel.Dock="Top">
                 <Border CornerRadius="20" BorderThickness="1" BorderBrush="White" Background="PeachPuff" Height="200" HorizontalAlignment="Stretch" Margin="10">
                     <DockPanel VerticalAlignment="Stretch">
