@@ -169,11 +169,11 @@ namespace VCheckViewer
         /// </summary>
         private async void OnStartup(object sender, StartupEventArgs e)
         {
-            try
-            {
-                ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
-                UserDBContext usersContext = GetService<UserDBContext>();
-                RolesDBContext roleContext = GetService<RolesDBContext>();
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
+            ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
+            UserDBContext usersContext = GetService<UserDBContext>();
+            RolesDBContext roleContext = GetService<RolesDBContext>();
 
                 MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
 
