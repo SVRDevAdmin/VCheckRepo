@@ -1,12 +1,13 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-using Aspose.Pdf.Facades;
 using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -19,21 +20,21 @@ namespace VCheckViewer.Lib.DocumentTemplate
 {
     public class TestResultTemplate : IDocument
     {
-        public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
-        public DocumentSettings GetSettings() => DocumentSettings.Default;
-
-        public TestResultListingObj sTestResultRow { get; set; }
+        private TestResultListingObj sTestResultRow { get; set; }
 
         public TestResultTemplate(TestResultListingObj sRow)
         {
             this.sTestResultRow = sRow;
         }
 
+        private DocumentMetadata GetMetadata() => DocumentMetadata.Default;
+        private DocumentSettings GetSettings() => DocumentSettings.Default;
+
         public void Compose(IDocumentContainer container)
         {
             var sBuilder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
             String sIconPath = sBuilder.Configuration.GetSection("PrintTemplate:IconPath").Value;
-            String sDownloadPath = sBuilder.Configuration.GetSection("PrintTemplate:DownloadPath").Value;
+            String sDownloadPath = sBuilder.Configuration.GetSection("Configuration:DownloadFolderPath").Value;
 
             try
             {
@@ -47,7 +48,6 @@ namespace VCheckViewer.Lib.DocumentTemplate
                         page.PageColor(Colors.White);
                         page.DefaultTextStyle(x => x.FontSize(10));
                         page.DefaultTextStyle(x => x.FontFamily("Noto Sans"));
-
 
                         // -- Header -- //
                         page.Header()
@@ -191,39 +191,29 @@ namespace VCheckViewer.Lib.DocumentTemplate
                             })
                             ;
 
+                        page.Footer();
                     });
                 });
 
                 String sFileName = "TestResult_" + sTestResultRow.TestResultType.Replace(" ", "") +
-                   "_PatientID_" + sTestResultRow.PatientID.Replace(" ", "") + "_" +
-                   DateTime.Now.ToString("yyyyMMddHHmmss") + ".pdf";
+                                   "_PatientID_" + sTestResultRow.PatientID.Replace(" ", "") + "_" +
+                                   DateTime.Now.ToString("yyyyMMddHHmmss") + ".pdf";
 
                 sDocument.GeneratePdf(System.IO.Path.Combine(sDownloadPath, sFileName));
-
                 if (sTestResultRow.isPrint)
                 {
-                    Aspose.Pdf.Facades.PdfViewer v = new Aspose.Pdf.Facades.PdfViewer();
-                    v.BindPdf(System.IO.Path.Combine(sDownloadPath, sFileName));
+                    ProcessStartInfo infoPrint = new ProcessStartInfo();
+                    infoPrint.FileName = System.IO.Path.Combine(sDownloadPath, sFileName);
+                    infoPrint.Verb = "PrintTo";
+                    infoPrint.CreateNoWindow = false;
+                    infoPrint.WindowStyle = ProcessWindowStyle.Normal;
+                    infoPrint.UseShellExecute = true;
 
-                    v.AutoResize = true;
-                    v.AutoRotate = true;
-                    v.PrintPageDialog = true;
-
-                    //PrintDialog pdialog = new PrintDialog();
-                    //if (pdialog.ShowDialog() == DialogResult.OK)
-                    //{
-
-                    //}
-                    //v.PrintDocumentWithSetup();
+                    Process printProcess = new Process();
+                    printProcess = Process.Start(infoPrint);
                 }
-                else
-                {
-                    //String sFileName = "TestResult_" + sTestResultRow.TestResultType.Replace(" ", "") +
-                    //                   "_PatientID_" + sTestResultRow.PatientID.Replace(" ", "") + "_" + 
-                     //                  DateTime.Now.ToString("yyyyMMddHHmmss") + ".pdf";
 
-                    //sDocument.GeneratePdf(System.IO.Path.Combine(sDownloadPath, sFileName));
-                }
+                sDocument = null;
             }
             catch (Exception ex)
             {
@@ -231,44 +221,5 @@ namespace VCheckViewer.Lib.DocumentTemplate
             }
 
         }
-
-        //public void Showsss()
-        //{
-        //    Document.Create(container =>
-        //    {
-        //        container.Page(page =>
-        //        {
-        //            page.Size(PageSizes.A4);
-        //            page.Margin(2, Unit.Centimetre);
-        //            page.PageColor(Colors.White);
-        //            page.DefaultTextStyle(x => x.FontSize(20));
-
-        //            page.Header()
-        //                .Text("Hello PDF!")
-        //                .SemiBold().FontSize(36).FontColor(Colors.Blue.Medium);
-
-        //            page.Content()
-        //                .PaddingVertical(1, Unit.Centimetre)
-        //                .Column(x =>
-        //                {
-        //                    x.Spacing(20);
-
-        //                    x.Item().Text(Placeholders.LoremIpsum());
-        //                    x.Item().Image(Placeholders.Image(200, 100));
-        //                });
-
-        //            page.Footer()
-        //                .AlignCenter()
-        //                .Text(x =>
-        //                {
-        //                    x.Span("Page ");
-        //                    x.CurrentPageNumber();
-        //                });
-        //        });
-        //    })
-        //    .GeneratePdfAndShow();
-
-        //    //.GeneratePdf("hello.pdf");
-        //}
     }
 }

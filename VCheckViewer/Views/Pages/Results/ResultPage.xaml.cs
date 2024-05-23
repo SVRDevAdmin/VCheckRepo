@@ -25,13 +25,21 @@ using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.DocumentTemplate;
 using QuestPDF.Fluent;
 using Pomelo.EntityFrameworkCore.MySql.Query.Internal;
+using System.Data;
+using ClosedXML.Excel;
+using System.IO;
+using System.Diagnostics;
+using DocumentFormat.OpenXml.Spreadsheet;
+using System.ComponentModel;
+using Spire.Xls;
+
 
 namespace VCheckViewer.Views.Pages.Results
 {
     /// <summary>
     /// Interaction logic for ResultPage.xaml
     /// </summary>
-    public partial class ResultPage : Page
+    public partial class ResultPage : System.Windows.Controls.Page
     {
         public ObservableCollection<ComboBoxItem> cbSort { get; set; }
         public ComboBoxItem SelectedcbSort { get; set;  }
@@ -64,15 +72,11 @@ namespace VCheckViewer.Views.Pages.Results
                 TestResultTemplate sTestResultTemplate = new TestResultTemplate(sTestResultObj);
                 sTestResultTemplate.GeneratePdf();
 
-                //System.Windows.MessageBox.Show("Download completed",
-                //               "Download Completed", MessageBoxButton.OK);
-                //lbMessage.Text = "Download completed";
-                //lbMessage.Foreground = Brushes.Green;
+                //todo : prompt msg
             }
             catch (Exception ex)
             {
-                //lbMessage.Text = "Failed to download result, please contact Admininistrator.";
-                //lbMessage.Foreground = Brushes.Red;
+                String abc = "efg";
             }
         }
 
@@ -90,11 +94,41 @@ namespace VCheckViewer.Views.Pages.Results
             }
             catch (Exception ex)
             {
-
+                String abc = "anc";
             }
         }
 
+        private void btnFilter_Click(object sender, RoutedEventArgs e)
+        {
+            LoadResultDataGrid();
+        }
+
         private void LoadResultDataGrid()
+        {
+            int iTotalRecord = 0;
+            dgResult.ItemsSource = GetTestResultBySearch(paginationSize, out iTotalRecord);
+
+            if (iTotalRecord <= 0)
+            {
+                btnPrint.Visibility = Visibility.Collapsed;
+                btnDownload.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                btnPrint.Visibility = Visibility.Visible;
+                btnDownload.Visibility = Visibility.Visible;
+            }
+
+            txtTotalCount.Text = iTotalRecord.ToString();
+            int totalPage = iTotalRecord / paginationSize;
+             
+            endPagination = totalPage;
+            startPagination = 1;
+
+            createPagination(startPagination);
+        }
+
+        public List<TestResultListingObj> GetTestResultBySearch(int pageSize, out int iTotalRecord)
         {
             String sSortDirection = "DESC";
             if (cboSort.SelectedItem != null)
@@ -121,38 +155,13 @@ namespace VCheckViewer.Views.Pages.Results
                 sStart = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 sEnd = DateTime.Now.AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd HH:mm:ss");
             }
-            
 
             String sKeyword = KeywordSearchBar.Text;
 
-            int iTotalRecord = 0;
-            dgResult.ItemsSource = VCheck.Lib.Data.TestResultsRepository.GetTestResultListBySearch(
-                                            ConfigSettings.GetConfigurationSettings(), 
-                                            sStart, sEnd, sKeyword, sSortDirection, 
-                                            startPagination, paginationSize, out iTotalRecord);
-
-            //int totalRecord = 10;
-            int totalPage = iTotalRecord / paginationSize;
-             
-            endPagination = totalPage;
-            startPagination = 1;
-
-            createPagination(startPagination);
-        }
-
-        private void KeywordSearchBar_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            LoadResultDataGrid();
-        }
-
-        private void RangeDate_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            LoadResultDataGrid();
-        }
-
-        private void cboSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            LoadResultDataGrid();
+            return VCheck.Lib.Data.TestResultsRepository.GetTestResultListBySearch(
+                                            ConfigSettings.GetConfigurationSettings(),
+                                            sStart, sEnd, sKeyword, sSortDirection,
+                                            startPagination, pageSize, out iTotalRecord);
         }
 
         public void createPagination(int highligtedIndex)
@@ -264,10 +273,88 @@ namespace VCheckViewer.Views.Pages.Results
 
         private void btnDownload_Click(object sender, RoutedEventArgs e)
         {
+            DownloadSearchResult();
+        }
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            DownloadSearchResult(true);
+        }
+
+        private void DownloadSearchResult(Boolean isPrint = false)
+        {
+            var sBuilder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
+            String sDownloadPath = sBuilder.Configuration.GetSection("Configuration:DownloadFolderPath").Value;
+            String sProcessingPath = System.IO.Path.Combine(sDownloadPath, "Processing");
+
+            if (!System.IO.Path.Exists(sProcessingPath))
+            {
+                System.IO.Directory.CreateDirectory(sProcessingPath);
+            }
+
+            int iTotalCount = 0;
+            int iPageSize = 0;
+
             try
             {
-                //TestResultTemplate sTest = new TestResultTemplate();
-                //sTest.GeneratePdf();
+                String sFileName = "TestResultsListing_Download_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                String sExcelOutputPath = System.IO.Path.Combine(sProcessingPath, sFileName + ".xlsx"); 
+                String sPDFOutputPath = System.IO.Path.Combine(sDownloadPath, sFileName + ".pdf");
+
+                int.TryParse(txtTotalCount.Text, out iPageSize);
+
+                List<TestResultListingObj> sResult = new List<TestResultListingObj>();
+                sResult = GetTestResultBySearch(iPageSize, out iTotalCount);
+
+                DataTable sDatatable = Lib.General.Utils.ToDataTable(sResult);
+                sDatatable.Columns.Remove("statusBackground");
+                sDatatable.Columns.Remove("statusFontColor");
+                sDatatable.Columns.Remove("printedBy");
+                sDatatable.Columns.Remove("printedOn");
+                sDatatable.Columns.Remove("isPrint");
+                sDatatable.Columns.Remove("ID");
+                sDatatable.Columns.Remove("ObservationStatus");
+                sDatatable.Columns.Remove("TestResultRules");
+                sDatatable.Columns.Remove("CreatedDate");
+                sDatatable.Columns.Remove("CreatedBy");
+                sDatatable.Columns.Remove("UpdatedDate");
+                sDatatable.Columns.Remove("UpdatedBy");
+
+                // ----- Generate Excel file ------- //
+                XLWorkbook workbook = new XLWorkbook();
+                workbook.Worksheets.Add(sDatatable, "Test Results")
+                                   .Columns().AdjustToContents();
+                workbook.SaveAs(sExcelOutputPath);
+
+                // --- Output to PDF ----- //
+                Spire.Xls.Workbook spireWorkbook = new Spire.Xls.Workbook();
+                spireWorkbook.LoadFromFile(sExcelOutputPath);
+                spireWorkbook.Worksheets[0].PageSetup.Orientation = PageOrientationType.Landscape;
+                spireWorkbook.Worksheets[0].PageSetup.IsFitToPage = true;
+
+                spireWorkbook.SaveToFile(sPDFOutputPath, Spire.Xls.FileFormat.PDF);
+                if (System.IO.File.Exists(sPDFOutputPath))
+                {
+                    System.IO.File.Delete(sExcelOutputPath);
+                }
+
+                if (isPrint)
+                {
+                    // --- Prompt Print Dialog --- //
+                    ProcessStartInfo infoPrint = new ProcessStartInfo();
+                    infoPrint.FileName = sPDFOutputPath;
+                    infoPrint.Verb = "PrintTo";
+                    infoPrint.CreateNoWindow = false;
+                    infoPrint.WindowStyle = ProcessWindowStyle.Normal;
+                    infoPrint.UseShellExecute = true;
+
+                    Process printProcess = new Process();
+                    printProcess = Process.Start(infoPrint);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Download completed.");
+                }
             }
             catch (Exception ex)
             {

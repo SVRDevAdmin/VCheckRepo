@@ -80,8 +80,10 @@ namespace VCheck.Lib.Data
                                                 "WHERE (TestResultDateTime >= '" + dStartDate + "' AND TestResultDateTime <= '" + dEndDate + "')" +
                                                 "AND (OperatorID LIKE '%" + sKeyword + "%' OR " +
                                                 "InchargePerson LIKE '%" + sKeyword + "%' OR " +
-                                                "PatientID LIKE '%" + sKeyword + "%')" +
-                                                "ORDER BY TestResultDateTime " + sSortDirection;
+                                                "PatientID LIKE '%" + sKeyword + "%') " +
+                                                ((!sSortDirection.Contains("Status")) ? 
+                                                 "ORDER BY TestResultDateTime " + sSortDirection : 
+                                                 "ORDER BY TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
 
                         using (MySqlCommand sCommand = new MySqlCommand(sSelectCommand, sConn))
                         {
