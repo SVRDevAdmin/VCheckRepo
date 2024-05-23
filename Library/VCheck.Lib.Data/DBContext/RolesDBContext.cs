@@ -65,7 +65,7 @@ namespace VCheck.Lib.Data.DBContext
 
         public bool InsertRole(RolesModel role)
         {
-            string insertQuery = "INSERT INTO `vcheckdb`.`mst_roles` (`RoleID`,`RoleName`,`IsActive`,`IsSuperadmin`,`IsAdmin`) ";
+            string insertQuery = "INSERT INTO `mst_roles` (`RoleID`,`RoleName`,`IsActive`,`IsSuperadmin`,`IsAdmin`) ";
 
             insertQuery += "Values ('" + role.RoleID + "','" + role.RoleName + "', " + role.IsActive + ", " + role.IsSuperadmin + ", " + role.IsAdmin + ")";
 

@@ -127,7 +127,7 @@ namespace VCheck.Lib.Data.DBContext
                 receiverData = ", '"+notification.Receiver+"'";
             }
 
-            string insertQuery = "INSERT INTO `vcheckdb`.`txn_notification` (`NotificationType`,`NotificationTitle`,`NotificationContent`,`CreatedDate`,`CreatedBy`" + receiverColumn + ") ";
+            string insertQuery = "INSERT INTO `txn_notification` (`NotificationType`,`NotificationTitle`,`NotificationContent`,`CreatedDate`,`CreatedBy`" + receiverColumn + ") ";
 
             insertQuery += "Values ('" + notification.NotificationType + "','" + notification.NotificationTitle + "', '" + notification.NotificationContent + "', '" + notification.CreatedDate + "', '" + notification.CreatedBy + "'" + receiverData + ")";
 

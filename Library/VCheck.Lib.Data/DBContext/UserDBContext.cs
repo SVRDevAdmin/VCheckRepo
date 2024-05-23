@@ -130,7 +130,7 @@ namespace VCheck.Lib.Data.DBContext
 
         public bool DeleteUser(string userID)
         {
-            //string insertQuery = "DELETE FROM `vcheckdb`.`mst_user` WHERE UserID = '"+userID+"';";
+            //string insertQuery = "DELETE FROM `mst_user` WHERE UserID = '"+userID+"';";
             string insertQuery = "Update `mst_user` set IsDeleted = 1 WHERE UserID = '" + userID + "';";
 
             try

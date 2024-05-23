@@ -67,7 +67,7 @@ namespace VCheck.Lib.Data.DBContext
 
         public bool UpdateConfiguration(string ConfigurationKey, string ConfigurationValue)
         {
-            string insertQuery = "UPDATE `vcheckdb`.`mst_configuration` SET `ConfigurationValue` = '" + ConfigurationValue + "' WHERE `ConfigurationKey` = '" + ConfigurationKey + "';";
+            string insertQuery = "UPDATE `mst_configuration` SET `ConfigurationValue` = '" + ConfigurationValue + "' WHERE `ConfigurationKey` = '" + ConfigurationKey + "';";
 
             try
             {
