@@ -271,7 +271,7 @@
     <value>完成的测试结果</value>
   </data>
   <data name="Notification_Label_ShowAll" xml:space="preserve">
-    <value>顯示全部</value>
+    <value>都</value>
   </data>
   <data name="Notification_Label_UpcomingTest" xml:space="preserve">
     <value>即將到來的測試</value>

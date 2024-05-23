@@ -271,7 +271,7 @@
     <value>Completed Test Results</value>
   </data>
   <data name="Notification_Label_ShowAll" xml:space="preserve">
-    <value>Show All</value>
+    <value>All</value>
   </data>
   <data name="Notification_Label_UpcomingTest" xml:space="preserve">
     <value>Upcoming Test</value>

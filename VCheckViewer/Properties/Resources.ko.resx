@@ -352,7 +352,7 @@
     <value>완료된 테스트 결과</value>
   </data>
   <data name="Notification_Label_ShowAll" xml:space="preserve">
-    <value>모두 보기</value>
+    <value>모두</value>
   </data>
   <data name="Notification_Label_UpcomingTest" xml:space="preserve">
     <value>다가오는 테스트</value>

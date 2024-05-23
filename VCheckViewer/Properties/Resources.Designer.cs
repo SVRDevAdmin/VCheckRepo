@@ -763,7 +763,7 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show All.
+        ///   Looks up a localized string similar to All.
         /// </summary>
         public static string Notification_Label_ShowAll {
             get {

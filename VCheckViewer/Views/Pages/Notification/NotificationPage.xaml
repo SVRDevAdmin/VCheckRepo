@@ -16,15 +16,17 @@
     <Grid Margin="0,10,0,10" MouseLeftButtonUp="CloseCalenderPopup">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.65*"/>
+            <ColumnDefinition Width="0.84*"/>
+            <ColumnDefinition Width="0.7*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="6*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="0" Margin="10,0,10,0">
+        <Border Grid.Row="0" Grid.ColumnSpan="4" Background="WhiteSmoke" CornerRadius="40" Margin="10,5,10,5"></Border>
+        <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="0" Margin="20,0,10,0">
             <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black" MouseLeftButtonUp="CloseCalenderPopup">
                 <Grid>
                     <!-- Search Icon -->
@@ -50,15 +52,15 @@
         <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,0,0">
             <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
                 <Grid>                    
-                    <ui:SymbolIcon Symbol="CalendarEdit16" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>                    
+                    <ui:SymbolIcon Symbol="CalendarLtr32" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>                    
                     <!--<DatePicker  BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center"/>-->
 
-                    <userControls:DateRangePicker x:Name="RangeDate" SelectedDateRange="{Binding SelectedDates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" PropertyChanged="RangeDate_PropertyChanged"/>
+                    <userControls:DateRangePicker x:Name="RangeDate" SelectedDateRange="{Binding SelectedDates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
         </Border>
-        <Border Grid.Column="2" Height="45" CornerRadius="20" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="10,0,10,0">
-            <Grid>
+        <Border Grid.Column="2" Height="45" CornerRadius="20" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="10,0,0,0">
+            <!--<Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="100"/>
                     <ColumnDefinition Width="auto" MinWidth="120"/>
@@ -77,9 +79,25 @@
                 <Border Grid.Column="3" Margin="2">
                     <Button Content="{Binding Path=Notification_Label_Updates, Source={StaticResource Resources}}" Foreground="White" Tag="Updates" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
                 </Border>
-            </Grid>
+            </Grid>-->
+            <Border Background="White" CornerRadius="20" Padding="5,0,5,0">
+                <Grid>
+                    <!--<ui:SymbolIcon Symbol="CalendarEdit16" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->
+                    <TextBlock Text="Show :" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+
+                    <ComboBox Name="NotificationType" Background="White" BorderThickness="0" VerticalAlignment="Center" Margin="50,0,0,0" TextBlock.FontWeight="Bold" GotFocus="ChangeNotificationType">
+                        <ComboBoxItem Content="{Binding Path=Notification_Label_ShowAll, Source={StaticResource Resources}}" TextBlock.FontWeight="Normal" Selector.IsSelected="True"/>
+                        <ComboBoxItem Content="{Binding Path=Notification_Label_UpcomingTest, Source={StaticResource Resources}}" Tag="Upcoming Test" TextBlock.FontWeight="Normal"/>
+                        <ComboBoxItem Content="{Binding Path=Notification_Label_CompletedTest, Source={StaticResource Resources}}" Tag="Completed Test Results" TextBlock.FontWeight="Normal"/>
+                        <ComboBoxItem Content="{Binding Path=Notification_Label_Updates, Source={StaticResource Resources}}" Tag="Updates" TextBlock.FontWeight="Normal"/>
+                    </ComboBox>
+                </Grid>
+            </Border>
         </Border>
-        <Border Grid.ColumnSpan="3" Grid.Row="1" Background="WhiteSmoke" CornerRadius="20" Margin="10" Padding="70,20,70,30">
+        <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="3" Margin="10,0,20,0">
+            <Button Content="Update Filter" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}" Click="UpdateFilter"/>
+        </Border>
+        <Border Grid.ColumnSpan="4" Grid.Row="1" Background="WhiteSmoke" CornerRadius="20" Margin="10" Padding="70,20,70,30">
                 <StackPanel x:Name="NotificationViewList" Background="Transparent">
                 <!--<TextBlock Text="No data available" TextAlignment="Center"/>-->
                 <!--<DockPanel Margin="0,10,0,10" Style="{StaticResource test}">
@@ -123,7 +141,7 @@
                 </DockPanel>-->
             </StackPanel>
         </Border>
-        <StackPanel x:Name="paginationPanel" Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel x:Name="paginationPanel" Grid.Row="2" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Right">
         </StackPanel>
     </Grid>
 </Page>
