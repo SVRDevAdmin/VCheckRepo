@@ -178,7 +178,7 @@ namespace VCheckViewer
 
                 MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
 
-                var language = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault().ConfigurationValue;
+                var language = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault()?.ConfigurationValue;
 
                 CultureInfo sZHCulture = new CultureInfo(language);
                 CultureResources.ChangeCulture(sZHCulture);
@@ -232,7 +232,7 @@ namespace VCheckViewer
                         RegistrationNo = "456783",
                         Gender = "M",
                         DateOfBirth = "1991-03-15",
-                        RoleID = roles.Where(x => x.Name == "Superadmin").FirstOrDefault().Id,
+                        RoleID = roles.FirstOrDefault(x => x.Name == "Superadmin").Id,
                         EmailAddress = "superadmin@superadmin.com",
                         StatusID = 1,
                         CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),

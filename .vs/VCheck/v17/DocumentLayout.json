@@ -1,48 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{22EAAA8A-5762-4C2D-9EDB-18E85CB60C8D}|VCheckViewerAPI\\VCheckViewerAPI.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewerapi\\models\\apiresponsemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22EAAA8A-5762-4C2D-9EDB-18E85CB60C8D}|VCheckViewerAPI\\VCheckViewerAPI.csproj|solutionrelative:vcheckviewerapi\\models\\apiresponsemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22EAAA8A-5762-4C2D-9EDB-18E85CB60C8D}|VCheckViewerAPI\\VCheckViewerAPI.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewerapi\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22EAAA8A-5762-4C2D-9EDB-18E85CB60C8D}|VCheckViewerAPI\\VCheckViewerAPI.csproj|solutionrelative:vcheckviewerapi\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22EAAA8A-5762-4C2D-9EDB-18E85CB60C8D}|VCheckViewerAPI\\VCheckViewerAPI.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewerapi\\models\\apirequestmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22EAAA8A-5762-4C2D-9EDB-18E85CB60C8D}|VCheckViewerAPI\\VCheckViewerAPI.csproj|solutionrelative:vcheckviewerapi\\models\\apirequestmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\library\\vcheck.lib.data\\models\\scheduledtestmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\models\\scheduledtestmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\library\\vcheck.lib.data\\testresultsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\testresultsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\library\\vcheck.lib.data\\dbcontext\\testresultdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\dbcontext\\testresultdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\library\\vcheck.lib.data\\models\\clientauthmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\models\\clientauthmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\library\\vcheck.lib.data\\models\\clientmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\models\\clientmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\library\\vcheck.lib.data\\dbcontext\\clientauthdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7121EE73-A106-4BC0-8BBD-6E86A40DA698}|Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj|solutionrelative:library\\vcheck.lib.data\\dbcontext\\clientauthdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22EAAA8A-5762-4C2D-9EDB-18E85CB60C8D}|VCheckViewerAPI\\VCheckViewerAPI.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheckviewerapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22EAAA8A-5762-4C2D-9EDB-18E85CB60C8D}|VCheckViewerAPI\\VCheckViewerAPI.csproj|solutionrelative:vcheckviewerapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -50,141 +9,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ScheduledTestModel.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\Models\\ScheduledTestModel.cs",
-              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\Models\\ScheduledTestModel.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\Models\\ScheduledTestModel.cs",
-              "RelativeToolTip": "Library\\VCheck.Lib.Data\\Models\\ScheduledTestModel.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAADwvxMAAAAzAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T08:07:22.982Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TestResultsRepository.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\TestResultsRepository.cs",
-              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\TestResultsRepository.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\TestResultsRepository.cs",
-              "RelativeToolTip": "Library\\VCheck.Lib.Data\\TestResultsRepository.cs",
-              "ViewState": "AQIAABEAAAAAAAAAAAAAwBQAAAAfAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T07:43:07.813Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "TestResultDBContext.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\TestResultDBContext.cs",
-              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\DBContext\\TestResultDBContext.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\TestResultDBContext.cs",
-              "RelativeToolTip": "Library\\VCheck.Lib.Data\\DBContext\\TestResultDBContext.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAABIAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T05:38:30.156Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ClientAuthDBContext.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\ClientAuthDBContext.cs",
-              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\DBContext\\ClientAuthDBContext.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\DBContext\\ClientAuthDBContext.cs",
-              "RelativeToolTip": "Library\\VCheck.Lib.Data\\DBContext\\ClientAuthDBContext.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T05:38:19.207Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ClientAuthModel.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\Models\\ClientAuthModel.cs",
-              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\Models\\ClientAuthModel.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\Models\\ClientAuthModel.cs",
-              "RelativeToolTip": "Library\\VCheck.Lib.Data\\Models\\ClientAuthModel.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAA4wBUAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T05:35:32.468Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ClientModel.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\Models\\ClientModel.cs",
-              "RelativeDocumentMoniker": "Library\\VCheck.Lib.Data\\Models\\ClientModel.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\Models\\ClientModel.cs",
-              "RelativeToolTip": "Library\\VCheck.Lib.Data\\Models\\ClientModel.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABMAAAAWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T05:32:07.665Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\Program.cs",
-              "RelativeDocumentMoniker": "VCheckViewerAPI\\Program.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\Program.cs",
-              "RelativeToolTip": "VCheckViewerAPI\\Program.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAjwBoAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T05:09:22.854Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "APIResponseModel.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\Models\\APIResponseModel.cs",
-              "RelativeDocumentMoniker": "VCheckViewerAPI\\Models\\APIResponseModel.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\Models\\APIResponseModel.cs",
-              "RelativeToolTip": "VCheckViewerAPI\\Models\\APIResponseModel.cs",
-              "ViewState": "AQIAAAIAAAAAAAAAAAAkwAYAAAAzAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T05:18:55.662Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "APIRequestModel.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\Models\\APIRequestModel.cs",
-              "RelativeDocumentMoniker": "VCheckViewerAPI\\Models\\APIRequestModel.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\Models\\APIRequestModel.cs",
-              "RelativeToolTip": "VCheckViewerAPI\\Models\\APIRequestModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T05:12:13.652Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "APIController.cs",
-              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\Controllers\\APIController.cs",
-              "RelativeDocumentMoniker": "VCheckViewerAPI\\Controllers\\APIController.cs",
-              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\Controllers\\APIController.cs",
-              "RelativeToolTip": "VCheckViewerAPI\\Controllers\\APIController.cs",
-              "ViewState": "AQIAAJUAAAAAAAAAAAAIwKQAAABfAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T04:57:03.879Z",
-              "EditorCaption": ""
             }
           ]
         }

@@ -210,13 +210,13 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "AutoWrapper.Core": {
-              "target": "Package",
-              "version": "[4.5.1, )"
-            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.17, )"
             }
           },
           "imports": [

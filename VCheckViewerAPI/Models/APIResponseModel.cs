@@ -5,9 +5,9 @@
         public string ResponseCode { get; set; }
         public string ResponseStatus { get; set; }
         public string ResponseMessage { get; set; }
-        public object Results { get; set; }
+        public object? Results { get; set; }
 
-        public APIResponseModel(string ResponseCode, string ResponseStatus, string ResponseMessage, object Results)
+        public APIResponseModel(string ResponseCode, string ResponseStatus, string ResponseMessage, object? Results)
         {
             this.ResponseCode = ResponseCode;
             this.ResponseStatus = ResponseStatus;

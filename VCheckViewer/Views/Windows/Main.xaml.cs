@@ -548,7 +548,7 @@ namespace VCheckViewer.Views.Windows
         {
             TemplateModel notificationTemplate;
             App.MainViewModel.Users.UpdatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            App.MainViewModel.Users.updatedBy = App.MainViewModel.CurrentUsers.FullName;
+            App.MainViewModel.Users.UpdatedBy = App.MainViewModel.CurrentUsers.FullName;
 
             try
             {

@@ -29,12 +29,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoWrapper.Core" Version="4.5.1" />
+    <PackageReference Include="log4net" Version="2.0.17" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Library\VCheck.Lib.Data\VCheck.Lib.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

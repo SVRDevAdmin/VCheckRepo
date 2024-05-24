@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VCheck.Lib.Data.Models
 {
-    public class ClientModel : AuditModel
+    public class ClientModel
     {
         [Key]
         public int ID { get; set; }

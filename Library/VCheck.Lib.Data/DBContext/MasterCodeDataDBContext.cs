@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using log4net;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
@@ -13,7 +15,7 @@ namespace VCheck.Lib.Data.DBContext
     public class MasterCodeDataDBContext
     {
         private readonly Microsoft.Extensions.Configuration.IConfiguration config;
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
 
         public MasterCodeDataDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
         {

@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
+using Microsoft.EntityFrameworkCore;
+using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewerAPI.Models;
@@ -10,10 +13,12 @@ namespace VCheckViewerAPI.Controllers
     [ApiController]
     public class APIController : ControllerBase
     {
+        private ApiRepository _apiRepository = new ApiRepository();
+
         [HttpGet(Name = "GetTestObject")]
         public ActionResult<IEnumerable<VCheckViewerAPI.Models.TestObject>> GetTestClass()
         {
-            //var sTest = new VCheckViewerAPI.Models.TestClass();
+            var sTest = new VCheckViewerAPI.Models.TestClass();
             return VCheckViewerAPI.Models.TestClass.GetTestObject();
         }
 
@@ -26,143 +31,51 @@ namespace VCheckViewerAPI.Controllers
             return sResp;
         }
 
-        [HttpGet(Name = "GetTest12")]
+        [HttpGet(Name = "GetTest2")]
         public ActionResult GetTest2(string test)
         {
             return Ok();
         }
 
         [HttpPost(Name = "GetPatientResult")]
-        public APIResponseModel GetPatientResult([FromHeader] string timestamp, [FromHeader] string clientKey, APIRequestModel request)
+        public APIResponseModel GetPatientResult(APIRequestModel requestBody)
         {
-            List<TestResultModel> result = new List<TestResultModel>();
-            bool ClientAuthenticated = false;
+            object? response = null;
             string responseCode, responseMessage, responseStatus;
 
-            try
+            if (requestBody.PatientID != null)
             {
-                if (request.PatientID != null)
-                {
-                    using (var ctx = new ClientAuthDBContext())
-                    {
-                        var ClientAuthIndex = ctx.Mst_Client_Auth.Where(x => x.ClientKey == clientKey).Select(x => x.ClientID).FirstOrDefault();
-                        ClientAuthenticated = ctx.Mst_Client.Where(x => x.ID == ClientAuthIndex && x.Status == 1).Any();
-                    }
-
-                    if (ClientAuthenticated)
-                    {
-                        using (var ctx = new TestResultDBContext(Host.CreateApplicationBuilder().Configuration))
-                        {
-                            result = ctx.txn_testResults.Where(x => x.PatientID == request.PatientID).ToList();
-
-                            if(result.Count > 0) { responseCode = "VV.0001"; responseMessage = "Success"; }
-                            else { responseCode = "VV.0002"; responseMessage = "No Data"; }
-                            responseStatus = "Success";
-                        }
-
-                    }
-                    else
-                    {
-                        responseCode = "VV.0003";
-                        responseStatus = "Fail";
-                        responseMessage = "Unauthorized Request";
-                    }
-                }
-                else
-                {
-                    responseCode = "VV.1002";
-                    responseStatus = "Fail";
-                    responseMessage = "Missing Patient ID";
-                }                              
-
+                _apiRepository.GetTestResults(requestBody.PatientID, out response, out responseCode, out responseMessage, out responseStatus);
             }
-            catch (Exception ex)
+            else
             {
-                responseCode = "VV.9999";
+                responseCode = "VV.1002";
                 responseStatus = "Fail";
-                responseMessage = "Internal Error";
-            }
+                responseMessage = "Missing Patient ID";
+            }                              
 
-            Response.Headers.Append("timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            Response.Headers.Append("clientKey", clientKey);
-
-            return new APIResponseModel(responseCode, responseStatus, responseMessage, result);
+            return new APIResponseModel(responseCode, responseStatus, responseMessage, response);
         }
 
         [HttpPost(Name = "UpdateScheduledTest")]
-        public APIResponseModel UpdateScheduledTest([FromHeader] string timestamp, [FromHeader] string clientKey, APIRequestModel request)
+        public APIResponseModel UpdateScheduledTest(APIRequestModel requestBody)
         {
-            ScheduledTestModel result = new ScheduledTestModel();
-            bool ClientAuthenticated = false;
+            object? response = null;
             string responseCode, responseMessage, responseStatus;
 
-            try
+            if (requestBody.ScheduledUniqueID != null)
             {
-                if (request.ScheduledUniqueID != null)
-                {
-                    using (var ctx = new ClientAuthDBContext())
-                    {
-                        var ClientAuthIndex = ctx.Mst_Client_Auth.Where(x => x.ClientKey == clientKey).Select(x => x.ClientID).FirstOrDefault();
-                        ClientAuthenticated = ctx.Mst_Client.Where(x => x.ID == ClientAuthIndex && x.Status == 1).Any();
-                    }
-
-                    if (ClientAuthenticated)
-                    {
-                        using (var ctx = new ScheduleDBContext(Host.CreateApplicationBuilder().Configuration))
-                        {
-                            result = ctx.Txn_ScheduledTests.Where(x => x.ScheduleUniqueID == request.ScheduledUniqueID).ToList().FirstOrDefault();
-
-                            if (result != null)
-                            {
-                                result.ScheduledDateTime = request.ScheduledDatetime != null ? DateTime.Parse(request.ScheduledDatetime) : result.ScheduledDateTime;
-                                result.InchargePerson = request.InchargePerson != null ? request.InchargePerson : result.InchargePerson;
-
-                                ctx.Txn_ScheduledTests.Update(result);
-                                var tracker1 = ctx.ChangeTracker.DetectChanges;
-                                ctx.SaveChanges();
-                                var tracker2 = ctx.ChangeTracker.DetectChanges;
-
-                                responseCode = "VV.0001";
-                                responseMessage = "Success";
-                            }
-                            else
-                            {
-                                responseCode = "VV.0002";
-                                responseMessage = "No Data";
-                            }
-
-                            responseStatus = "Success";
-                        }
-
-                    }
-                    else
-                    {
-                        responseCode = "VV.0003";
-                        responseStatus = "Fail";
-                        responseMessage = "Unauthorized Request";
-                    }
-                }
-                else
-                {
-                    responseCode = "VV.2001";
-                    responseStatus = "Fail";
-                    responseMessage = "Missing Scheduled Unique ID";
-
-                }
-                
-
+                _apiRepository.UpdateScheduledTest(requestBody.ScheduledUniqueID, requestBody.ScheduledDatetime, requestBody.InchargePerson, out response, out responseCode, out responseMessage, out responseStatus);
             }
-            catch (Exception ex)
+            else
             {
-                responseCode = "VV.9999";
+                responseCode = "VV.2002";
                 responseStatus = "Fail";
-                responseMessage = "Internal Error";
+                responseMessage = "Missing Scheduled Unique ID";
+
             }
 
-            Response.Headers.Append("timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            Response.Headers.Append("clientKey", clientKey);
-
-            return new APIResponseModel(responseCode, responseStatus, responseMessage, result);
+            return new APIResponseModel(responseCode, responseStatus, responseMessage, response);
         }
     }
 }

@@ -101,6 +101,5 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewerAPI\obj\Debug\net8.0\re
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewerAPI\obj\Debug\net8.0\VCheckViewerAPI.pdb
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewerAPI\obj\Debug\net8.0\VCheckViewerAPI.genruntimeconfig.cache
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewerAPI\obj\Debug\net8.0\ref\VCheckViewerAPI.dll
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewerAPI\bin\Debug\net8.0\AutoWrapper.dll
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewerAPI\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewerAPI\obj\Debug\net8.0\VCheckViewerAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewerAPI\bin\Debug\net8.0\log4net.config

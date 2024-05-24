@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using log4net;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
@@ -15,7 +17,7 @@ namespace VCheck.Lib.Data.DBContext
     public class UserDBContext
     {
         private readonly Microsoft.Extensions.Configuration.IConfiguration config;
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
 
         public UserDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
         {
@@ -108,7 +110,7 @@ namespace VCheck.Lib.Data.DBContext
             var lastLoginDatetimeColumn = "";
             if (user.LastLoginDate != null) { lastLoginDatetimeColumn = ", `LastLoginDateTime` = '" + user.LastLoginDate.ToString("yyyy-MM-dd HH:mm:ss")+"'"; }
 
-            string insertQuery = "UPDATE `mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+ "',`FullName` = '" + user.FullName+ "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = '"+user.RoleID+"'"+lastLoginDatetimeColumn+", `UpdatedDate` = '"+user.UpdatedDate+"', `UpdatedBy` = '"+user.updatedBy+"'  WHERE `UserID` = '" + user.UserId+"' and IsDeleted = 0;";
+            string insertQuery = "UPDATE `mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+ "',`FullName` = '" + user.FullName+ "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = '"+user.RoleID+"'"+lastLoginDatetimeColumn+", `UpdatedDate` = '"+user.UpdatedDate+"', `UpdatedBy` = '"+user.UpdatedBy+"'  WHERE `UserID` = '" + user.UserId+"' and IsDeleted = 0;";
 
             try
             {
