@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "/aG2POJ38VitmZv73vLlG1giNun8d9ekHxOdTvCBflflYVkCG/FW+sCfpNUBbkb3EnKaotQ58Qrd9EiRNURfKg==",
+  "dgSpecHash": "b5QGI2bSwIsa5DyvfoIwGwDyzCckKE/rRUs/XqXLjWQgk+6qhy05XAoxzR/hfi54pvamveCKnv/H2zadj/lOEg==",
   "success": true,
   "projectFilePath": "C:\\Dev\\VCheck\\VCheckViewer\\VCheckViewer.csproj",
   "expectedPackageFiles": [
@@ -91,7 +91,7 @@
     "C:\\Users\\SVRke\\.nuget\\packages\\mysqlconnector\\2.3.5\\mysqlconnector.2.3.5.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\8.0.2\\pomelo.entityframeworkcore.mysql.8.0.2.nupkg.sha512",
-    "C:\\Users\\SVRke\\.nuget\\packages\\questpdf\\2024.3.6\\questpdf.2024.3.6.nupkg.sha512",
+    "C:\\Users\\SVRke\\.nuget\\packages\\questpdf\\2024.3.9\\questpdf.2024.3.9.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",

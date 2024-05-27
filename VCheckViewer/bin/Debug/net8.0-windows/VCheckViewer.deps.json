@@ -25,7 +25,7 @@
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
           "MySql.Data": "8.3.0",
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2",
-          "QuestPDF": "2024.3.6",
+          "QuestPDF": "2024.3.9",
           "VCheck.Helper": "1.0.0",
           "VCheck.Lib.Data": "1.0.0",
           "WPF-UI": "3.0.4",
@@ -1329,11 +1329,11 @@
           }
         }
       },
-      "QuestPDF/2024.3.6": {
+      "QuestPDF/2024.3.9": {
         "runtime": {
           "lib/net8.0/QuestPDF.dll": {
-            "assemblyVersion": "2024.3.6.0",
-            "fileVersion": "2024.3.6.0"
+            "assemblyVersion": "2024.3.9.0",
+            "fileVersion": "2024.3.9.0"
           }
         },
         "runtimeTargets": {
@@ -2849,12 +2849,12 @@
       "path": "pomelo.entityframeworkcore.mysql/8.0.2",
       "hashPath": "pomelo.entityframeworkcore.mysql.8.0.2.nupkg.sha512"
     },
-    "QuestPDF/2024.3.6": {
+    "QuestPDF/2024.3.9": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-VJnbdGW++MF9WqOkA95ir6Sr8yx051Ag8tphrpWTrnuGQ85a8EUYM5Wf6pFdahPzZV5sUiV/5GOSLihtViqpjg==",
-      "path": "questpdf/2024.3.6",
-      "hashPath": "questpdf.2024.3.6.nupkg.sha512"
+      "sha512": "sha512-OvYSDRfg+hs3SWHIC97SxLZJrS/ijR7wTqix0NSNJE/fEvLp/q8I44sfmV9oaCh+nu0AfaBrs0BQ/UofnkqnWw==",
+      "path": "questpdf/2024.3.9",
+      "hashPath": "questpdf.2024.3.9.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
       "type": "package",

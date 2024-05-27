@@ -889,6 +889,150 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Doctor.
+        /// </summary>
+        public static string Results_Label_Doctor {
+            get {
+                return ResourceManager.GetString("Results_Label_Doctor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        public static string Results_Label_Download {
+            get {
+                return ResourceManager.GetString("Results_Label_Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lot.
+        /// </summary>
+        public static string Results_Label_Lot {
+            get {
+                return ResourceManager.GetString("Results_Label_Lot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string Results_Label_No {
+            get {
+                return ResourceManager.GetString("Results_Label_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operator ID.
+        /// </summary>
+        public static string Results_Label_OperatorID {
+            get {
+                return ResourceManager.GetString("Results_Label_OperatorID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Patient ID.
+        /// </summary>
+        public static string Results_Label_PatientID {
+            get {
+                return ResourceManager.GetString("Results_Label_PatientID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print.
+        /// </summary>
+        public static string Results_Label_Print {
+            get {
+                return ResourceManager.GetString("Results_Label_Print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Procedural Cont.
+        /// </summary>
+        public static string Results_Label_ProceduralCont {
+            get {
+                return ResourceManager.GetString("Results_Label_ProceduralCont", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result.
+        /// </summary>
+        public static string Results_Label_Result {
+            get {
+                return ResourceManager.GetString("Results_Label_Result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search from keyword.
+        /// </summary>
+        public static string Results_Label_Searchbar {
+            get {
+                return ResourceManager.GetString("Results_Label_Searchbar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        public static string Results_Label_Time {
+            get {
+                return ResourceManager.GetString("Results_Label_Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Units.
+        /// </summary>
+        public static string Results_Label_Units {
+            get {
+                return ResourceManager.GetString("Results_Label_Units", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Filter.
+        /// </summary>
+        public static string Results_Label_UpdateFilter {
+            get {
+                return ResourceManager.GetString("Results_Label_UpdateFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Valid until.
+        /// </summary>
+        public static string Results_Label_Valid {
+            get {
+                return ResourceManager.GetString("Results_Label_Valid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Result Listing completed..
+        /// </summary>
+        public static string Results_Message_DownloadComplete {
+            get {
+                return ResourceManager.GetString("Results_Message_DownloadComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test result download completed..
+        /// </summary>
+        public static string Results_Message_TestResultDownloadCompleted {
+            get {
+                return ResourceManager.GetString("Results_Message_TestResultDownloadCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Patients.
         /// </summary>
         public static string Schedule_Label_NewPatients {

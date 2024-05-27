@@ -2,6 +2,7 @@
 FC:\Dev\VCheck\VCheckViewer\App.xaml;;
 FC:\Dev\VCheck\VCheckViewer\ResourceDictionary.xaml;;
 FC:\Dev\VCheck\VCheckViewer\UserControls\DateRangePicker.xaml;;
+FC:\Dev\VCheck\VCheckViewer\UserControls\PagingControl.xaml;;
 FC:\Dev\VCheck\VCheckViewer\Views\Pages\Dashboard\DashboardPage.xaml;;
 FC:\Dev\VCheck\VCheckViewer\Views\Pages\Dashboard\NotificationList.xaml;;
 FC:\Dev\VCheck\VCheckViewer\Views\Pages\Dashboard\ScheduleTestList.xaml;;

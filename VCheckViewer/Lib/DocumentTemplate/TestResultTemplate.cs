@@ -42,14 +42,12 @@ namespace VCheckViewer.Lib.DocumentTemplate
                 {
                     container.Page(page =>
                     {
-                        // -- Page -- //
                         page.Size(PageSizes.A3);
                         page.Margin(2, Unit.Centimetre);
                         page.PageColor(Colors.White);
                         page.DefaultTextStyle(x => x.FontSize(10));
                         page.DefaultTextStyle(x => x.FontFamily("Noto Sans"));
 
-                        // -- Header -- //
                         page.Header()
                             .Height(1, Unit.Centimetre)
                             .Image(sIconPath);
@@ -88,10 +86,8 @@ namespace VCheckViewer.Lib.DocumentTemplate
 
                                 c.Item().Height(25).Background(Colors.White);
 
-                                // -- Result Content -- //
                                 c.Item().Row(row =>
                                 {
-                                    // -- Column Left -- //
                                     row.RelativeItem().Column(c1 =>
                                     {
 
@@ -127,7 +123,6 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                                 });
                                     });
 
-                                    // -- Column Center --- //
                                     row.RelativeItem().Column(c2 =>
                                     {
                                         c2.Item().Background("#f2f2f2")
@@ -157,7 +152,6 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                                 });
                                     });
 
-                                    // -- Column Right --- //
                                     row.RelativeItem().Column(c3 =>
                                     {
                                         c3.Item().Background("#f2f2f2")
@@ -198,8 +192,9 @@ namespace VCheckViewer.Lib.DocumentTemplate
                 String sFileName = "TestResult_" + sTestResultRow.TestResultType.Replace(" ", "") +
                                    "_PatientID_" + sTestResultRow.PatientID.Replace(" ", "") + "_" +
                                    DateTime.Now.ToString("yyyyMMddHHmmss") + ".pdf";
+                String sOutputPath = System.IO.Path.Combine(sDownloadPath, sFileName);
 
-                sDocument.GeneratePdf(System.IO.Path.Combine(sDownloadPath, sFileName));
+                sDocument.GeneratePdf(sOutputPath);
                 if (sTestResultRow.isPrint)
                 {
                     ProcessStartInfo infoPrint = new ProcessStartInfo();

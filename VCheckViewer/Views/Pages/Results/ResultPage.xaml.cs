@@ -32,6 +32,9 @@ using System.Diagnostics;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System.ComponentModel;
 using Spire.Xls;
+using Microsoft.Extensions.Logging;
+using VCheckViewer.UserControls;
+using System.Management;
 
 
 namespace VCheckViewer.Views.Pages.Results
@@ -46,7 +49,7 @@ namespace VCheckViewer.Views.Pages.Results
 
         public int currentPage = 1;
         public int paginationSize = 2;
-        public int startPagination = 0;
+        public int startPagination = 1;
         public int endPagination = 0;
 
         public ResultPage()
@@ -57,44 +60,59 @@ namespace VCheckViewer.Views.Pages.Results
             cbSort = App.MainViewModel.cbSort;
             SelectedcbSort = cbSort.FirstOrDefault();
 
+            pagination.ButtonNextControlClick += new EventHandler(PaginationNextButton_Click);
+            pagination.ButtonPrevControlClick += new EventHandler(PaginationPrevButton_Click);
+            pagination.ButtonPageControlClick += new EventHandler(PaginationNumButton_Click);
+
             LoadResultDataGrid();
         }
 
         private void menuDownload_Click(object sender, RoutedEventArgs e)
         {
-            TestResultListingObj sTestResultObj = dgResult.SelectedItem as TestResultListingObj;
-            sTestResultObj.printedBy = App.MainViewModel.CurrentUsers.FullName;
-            sTestResultObj.printedOn = DateTime.Now;
-            sTestResultObj.isPrint = false;
-
-            try
-            {
-                TestResultTemplate sTestResultTemplate = new TestResultTemplate(sTestResultObj);
-                sTestResultTemplate.GeneratePdf();
-
-                //todo : prompt msg
-            }
-            catch (Exception ex)
-            {
-                String abc = "efg";
-            }
+            LoadTestResultData();
         }
 
         private void menuPrint_Click(object sender, RoutedEventArgs e)
         {
+            LoadTestResultData(true);
+        }
+
+        private void LoadTestResultData(Boolean isPrint = false)
+        {
             TestResultListingObj sTestResultObj = dgResult.SelectedItem as TestResultListingObj;
             sTestResultObj.printedBy = App.MainViewModel.CurrentUsers.FullName;
             sTestResultObj.printedOn = DateTime.Now;
-            sTestResultObj.isPrint = true;
+            sTestResultObj.isPrint = isPrint;
 
             try
             {
                 TestResultTemplate sTestResultTemplate = new TestResultTemplate(sTestResultObj);
-                sTestResultTemplate.GeneratePdfAndShow();
+
+                if (isPrint)
+                {
+                    sTestResultTemplate.GeneratePdfAndShow();
+                }
+                else
+                {
+                    sTestResultTemplate.GeneratePdf();
+                }              
+            }
+            catch (QuestPDF.Drawing.Exceptions.DocumentDrawingException drawEx)
+            {
             }
             catch (Exception ex)
             {
-                String abc = "anc";
+                return;
+            }
+
+
+            if (!isPrint)
+            {
+                Popup sConfirmPopup = new Popup();
+                sConfirmPopup.IsOpen = true;
+
+                App.MainViewModel.Origin = "TestResultDownloadCompleted";
+                App.PopupHandler(null, null);
             }
         }
 
@@ -103,7 +121,7 @@ namespace VCheckViewer.Views.Pages.Results
             LoadResultDataGrid();
         }
 
-        private void LoadResultDataGrid()
+        public void LoadResultDataGrid()
         {
             int iTotalRecord = 0;
             dgResult.ItemsSource = GetTestResultBySearch(paginationSize, out iTotalRecord);
@@ -120,12 +138,11 @@ namespace VCheckViewer.Views.Pages.Results
             }
 
             txtTotalCount.Text = iTotalRecord.ToString();
-            int totalPage = iTotalRecord / paginationSize;
-             
-            endPagination = totalPage;
-            startPagination = 1;
 
-            createPagination(startPagination);
+            pagination.iTotalRecords = iTotalRecord;
+            pagination.iPageIndex = startPagination;
+            pagination.iPageSize = paginationSize;
+            pagination.LoadPagingNumber();
         }
 
         public List<TestResultListingObj> GetTestResultBySearch(int pageSize, out int iTotalRecord)
@@ -164,109 +181,26 @@ namespace VCheckViewer.Views.Pages.Results
                                             startPagination, pageSize, out iTotalRecord);
         }
 
-        public void createPagination(int highligtedIndex)
-        {
-            paginationPanel.Children.Clear();
-
-            currentPage = highligtedIndex;
-
-            Button newBtn = new Button();
-            newBtn.Content = Properties.Resources.General_Label_Previous;
-            newBtn.Tag = "Prev";
-            newBtn.BorderThickness = new Thickness(0);
-            newBtn.FontWeight = FontWeights.Bold;
-            paginationPanel.Children.Add(newBtn);
-            newBtn.Click += new RoutedEventHandler(PreviousUserList_Click);
-
-            for (int i = startPagination; i <= endPagination; i++)
-            {
-                newBtn = new Button();
-
-                if (i < 10) { newBtn.Content = "0" + i; }
-                else { newBtn.Content = i; }
-
-                newBtn.Tag = i;
-                newBtn.Style = (Style)System.Windows.Application.Current.FindResource("RoundButton");
-                newBtn.Width = 40;
-                newBtn.Margin = new Thickness(5, 0, 5, 0);
-                newBtn.FontWeight = FontWeights.Bold;
-                newBtn.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
-
-                if (i == highligtedIndex)
-                {
-                    newBtn.BorderBrush = Brushes.DarkOrange;
-                    newBtn.Background = Brushes.DarkOrange;
-                    newBtn.Foreground = Brushes.White;
-                }
-                else
-                {
-                    newBtn.BorderBrush = Brushes.DarkOrange;
-                    newBtn.Background = Brushes.Transparent;
-                    newBtn.Foreground = Brushes.DarkOrange;
-                }
-
-                paginationPanel.Children.Add(newBtn);
-                newBtn.Click += new RoutedEventHandler(newBtn_Click);
-            }
-
-            newBtn = new Button();
-            newBtn.Content = Properties.Resources.General_Label_Next;
-            newBtn.Tag = "Next";
-            newBtn.BorderThickness = new Thickness(0);
-            newBtn.FontWeight = FontWeights.Bold;
-            newBtn.Foreground = Brushes.DarkOrange;
-            paginationPanel.Children.Add(newBtn);
-            newBtn.Click += new RoutedEventHandler(NextUserList_Click);
-        }
-
-        public static int GetPageCountByRecordCount(int TotalRecords, int PageSize)
-        {
-            int pageCount = 0;
-            int remainder = 0;
-
-            pageCount = Math.DivRem(TotalRecords, PageSize, out remainder);
-            if (remainder > 0)
-            {
-                pageCount += 1;
-            }
-
-            return pageCount;
-        }
-
-        public void NextUserList_Click(object sender, RoutedEventArgs e)
+        protected void PaginationNextButton_Click(object sender, EventArgs e)
         {
             startPagination++;
 
             LoadResultDataGrid();
         }
 
-        public void newBtn_Click(object sender, RoutedEventArgs e)
+        protected void PaginationPrevButton_Click(object sender, EventArgs e)
         {
-            System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
-            btn.BorderBrush = Brushes.DarkOrange;
-            btn.Background = Brushes.DarkOrange;
-            btn.Foreground = Brushes.White;
+            startPagination--;
 
-            int childrenCount = VisualTreeHelper.GetChildrenCount(btn.Parent);
-            for (int i = 0; i < VisualChildrenCount; i++)
-            {
-                var child = VisualTreeHelper.GetChild(btn.Parent, i);
-                var frameworkElement = child as System.Windows.Controls.Button;
-                if (frameworkElement.Tag.ToString() == currentPage.ToString() && childrenCount > 3)
-                {
-                    frameworkElement.BorderBrush = Brushes.DarkOrange;
-                    frameworkElement.Background = Brushes.Transparent;
-                    frameworkElement.Foreground = Brushes.DarkOrange;
-                }
-            }
-
-            startPagination = Convert.ToInt32(btn.Content);
             LoadResultDataGrid();
         }
 
-        public void PreviousUserList_Click(object sender, RoutedEventArgs e)
+        protected void PaginationNumButton_Click(object sender, EventArgs e)
         {
-            startPagination--;
+            System.Windows.Controls.Button btnNum = sender as System.Windows.Controls.Button;
+            int iNumberSelected = Convert.ToInt32(btnNum.Tag);
+
+            startPagination = iNumberSelected;
 
             LoadResultDataGrid();
         }
@@ -353,7 +287,11 @@ namespace VCheckViewer.Views.Pages.Results
                 }
                 else
                 {
-                    System.Windows.MessageBox.Show("Download completed.");
+                    Popup sConfirmPopup = new Popup();
+                    sConfirmPopup.IsOpen = true;
+
+                    App.MainViewModel.Origin = "ListingDownloadCompleted";
+                    App.PopupHandler(null, null);
                 }
             }
             catch (Exception ex)

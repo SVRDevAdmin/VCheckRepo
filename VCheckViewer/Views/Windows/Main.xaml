@@ -6,7 +6,7 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:VCheckViewer.Views.Windows" xmlns:local1="clr-namespace:VCheckViewer.ViewModels.Windows"
         mc:Ignorable="d"
-        Title="Main" WindowState="Maximized" MinWidth="1290" >
+        Title="Main" WindowState="Maximized" MinWidth="1290">
 
     <Window.Resources>
         <Storyboard x:Key="showmenu">

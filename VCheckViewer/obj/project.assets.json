@@ -1812,7 +1812,7 @@
           }
         }
       },
-      "QuestPDF/2024.3.6": {
+      "QuestPDF/2024.3.9": {
         "type": "package",
         "compile": {
           "lib/net8.0/QuestPDF.dll": {
@@ -6123,10 +6123,10 @@
         "pomelo.entityframeworkcore.mysql.nuspec"
       ]
     },
-    "QuestPDF/2024.3.6": {
-      "sha512": "VJnbdGW++MF9WqOkA95ir6Sr8yx051Ag8tphrpWTrnuGQ85a8EUYM5Wf6pFdahPzZV5sUiV/5GOSLihtViqpjg==",
+    "QuestPDF/2024.3.9": {
+      "sha512": "OvYSDRfg+hs3SWHIC97SxLZJrS/ijR7wTqix0NSNJE/fEvLp/q8I44sfmV9oaCh+nu0AfaBrs0BQ/UofnkqnWw==",
       "type": "package",
-      "path": "questpdf/2024.3.6",
+      "path": "questpdf/2024.3.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6178,7 +6178,7 @@
         "lib/net8.0/QuestPDF.xml",
         "lib/netstandard2.0/QuestPDF.dll",
         "lib/netstandard2.0/QuestPDF.xml",
-        "questpdf.2024.3.6.nupkg.sha512",
+        "questpdf.2024.3.9.nupkg.sha512",
         "questpdf.nuspec",
         "runtimes/linux-arm64/native/libQuestPdfSkia.so",
         "runtimes/linux-musl-x64/native/libQuestPdfSkia.so",
@@ -10495,7 +10495,7 @@
       "Microsoft.Extensions.Hosting.Abstractions >= 8.0.0",
       "MySql.Data >= 8.3.0",
       "Pomelo.EntityFrameworkCore.MySql >= 8.0.2",
-      "QuestPDF >= 2024.3.6",
+      "QuestPDF >= 2024.3.9",
       "VCheck.Helper >= 1.0.0",
       "VCheck.Lib.Data >= 1.0.0",
       "WPF-UI >= 3.0.4",
@@ -10631,7 +10631,7 @@
           },
           "QuestPDF": {
             "target": "Package",
-            "version": "[2024.3.6, )"
+            "version": "[2024.3.9, )"
           },
           "WPF-UI": {
             "target": "Package",

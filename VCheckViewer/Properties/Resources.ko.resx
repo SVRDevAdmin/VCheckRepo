@@ -393,6 +393,54 @@
   <data name="ResetPassword_Title_PageTitle" xml:space="preserve">
     <value>암호를 재설정</value>
   </data>
+  <data name="Results_Label_Doctor" xml:space="preserve">
+    <value>의사</value>
+  </data>
+  <data name="Results_Label_Download" xml:space="preserve">
+    <value>다운로드</value>
+  </data>
+  <data name="Results_Label_Lot" xml:space="preserve">
+    <value>로트 번호</value>
+  </data>
+  <data name="Results_Label_No" xml:space="preserve">
+    <value>번</value>
+  </data>
+  <data name="Results_Label_OperatorID" xml:space="preserve">
+    <value>운영자 ID</value>
+  </data>
+  <data name="Results_Label_PatientID" xml:space="preserve">
+    <value>환자번호</value>
+  </data>
+  <data name="Results_Label_Print" xml:space="preserve">
+    <value>인쇄</value>
+  </data>
+  <data name="Results_Label_ProceduralCont" xml:space="preserve">
+    <value>절차적 계속</value>
+  </data>
+  <data name="Results_Label_Result" xml:space="preserve">
+    <value>결과</value>
+  </data>
+  <data name="Results_Label_Searchbar" xml:space="preserve">
+    <value>키워드로 검색</value>
+  </data>
+  <data name="Results_Label_Time" xml:space="preserve">
+    <value>시간</value>
+  </data>
+  <data name="Results_Label_Units" xml:space="preserve">
+    <value>단위</value>
+  </data>
+  <data name="Results_Label_UpdateFilter" xml:space="preserve">
+    <value>필터 업데이트</value>
+  </data>
+  <data name="Results_Label_Valid" xml:space="preserve">
+    <value>까지 유효하다</value>
+  </data>
+  <data name="Results_Message_DownloadComplete" xml:space="preserve">
+    <value>결과 목록 다운로드가 완료되었습니다.</value>
+  </data>
+  <data name="Results_Message_TestResultDownloadCompleted" xml:space="preserve">
+    <value>테스트 결과 다운로드가 완료되었습니다.</value>
+  </data>
   <data name="Schedule_Label_NewPatients" xml:space="preserve">
     <value>새로운 환자</value>
   </data>

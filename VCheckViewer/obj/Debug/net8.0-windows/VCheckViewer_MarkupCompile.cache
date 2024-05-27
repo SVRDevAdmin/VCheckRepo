@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Dev\VCheck\VCheckViewer\App.xaml
-25-1813937186
+26-1547364447
 6-1379819991
-38-229247213
-288374086794
-ResourceDictionary.xaml;Template\Templates.xaml;UserControls\DateRangePicker.xaml;Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Dashboard\NotificationList.xaml;Views\Pages\Dashboard\ScheduleTestList.xaml;Views\Pages\Dashboard\TestResultList.xaml;Views\Pages\Login\LoginPage.xaml;Views\Pages\Login\PasswordRecoveryPage.xaml;Views\Pages\Login\ResetCurrentUserPasswordPage.xaml;Views\Pages\Login\ResetPasswordPage.xaml;Views\Pages\Notification\NotificationPage.xaml;Views\Pages\Results\ResultPage.xaml;Views\Pages\Schedule\SchedulePage.xaml;Views\Pages\Setting\Device\DevicePage.xaml;Views\Pages\Setting\Interface\ConfigurationPage.xaml;Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Pages\Setting\User\ViewUserPage.xaml;Views\Pages\Test\LocalizationTestPage.xaml;Views\Windows\LoginWindow.xaml;Views\Windows\Main.xaml;Views\Windows\Main2.xaml;
+391830159124
+288-1699541289
+ResourceDictionary.xaml;Template\Templates.xaml;UserControls\DateRangePicker.xaml;UserControls\PagingControl.xaml;Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Dashboard\NotificationList.xaml;Views\Pages\Dashboard\ScheduleTestList.xaml;Views\Pages\Dashboard\TestResultList.xaml;Views\Pages\Login\LoginPage.xaml;Views\Pages\Login\PasswordRecoveryPage.xaml;Views\Pages\Login\ResetCurrentUserPasswordPage.xaml;Views\Pages\Login\ResetPasswordPage.xaml;Views\Pages\Notification\NotificationPage.xaml;Views\Pages\Results\ResultPage.xaml;Views\Pages\Schedule\SchedulePage.xaml;Views\Pages\Setting\Device\DevicePage.xaml;Views\Pages\Setting\Interface\ConfigurationPage.xaml;Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Pages\Setting\User\ViewUserPage.xaml;Views\Pages\Test\LocalizationTestPage.xaml;Views\Windows\LoginWindow.xaml;Views\Windows\Main.xaml;Views\Windows\Main2.xaml;
 
 False
 

@@ -106,7 +106,7 @@
                                     <ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
 
                                     <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" />
-                                    <TextBlock IsHitTestVisible="False" Text="{Binding Path=General_Label_Searchbar, Source={StaticResource Resources}}" 
+                                    <TextBlock IsHitTestVisible="False" Text="{Binding Path=Results_Label_Searchbar, Source={StaticResource Resources}}" 
                                                VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
@@ -141,8 +141,8 @@
                         </Border>
                         <Border BorderBrush="Black" BorderThickness="0" Grid.Column="3">
                             <Border CornerRadius="20" Margin="5" BorderThickness="0" BorderBrush="Black" Background="DarkOrange">
-                                <Button Name="btnFilter" Content="Update Filter" Width="120" 
-                                        Foreground="White" VerticalAlignment="Stretch" HorizontalAlignment="Center" 
+                                <Button Name="btnFilter" Content="{Binding Path=Results_Label_UpdateFilter, Source={StaticResource Resources}}" 
+                                        Width="120" Foreground="White" VerticalAlignment="Stretch" HorizontalAlignment="Center" 
                                         BorderThickness="0" Background="Transparent" 
                                         Style="{DynamicResource RoundButton}"
                                         Click="btnFilter_Click">
@@ -164,29 +164,29 @@
             </Grid>
         </Border>
         <TextBlock Name="txtTotalCount" Text="0" Visibility="Collapsed" />
-        <Border BorderBrush="Black" BorderThickness="0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Margin="15, 10, 10, 5"> 
+        <Border BorderBrush="Black" BorderThickness="0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Margin="15, 10, 10, 5">
             <DataGrid Name="dgResult" BorderThickness="0" AutoGenerateColumns="False" GridLinesVisibility="Horizontal"
                 RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}" CanUserAddRows="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="No" Binding="{Binding RowNo}" Width="35" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="Time" Binding="{Binding TestResultDateTime, StringFormat={}{0:yyyy-MM-dd HH:ss}}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="Operator ID" Binding="{Binding OperatorID}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="Patient ID" Binding="{Binding PatientID}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="Procedural Cont" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTemplateColumn Header="Result" Width="120" HeaderStyle="{StaticResource columnHeaderStyleCenterAlign}">
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_No, Source={StaticResource Resources}}" Binding="{Binding RowNo}" Width="35" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_Time, Source={StaticResource Resources}}" Binding="{Binding TestResultDateTime, StringFormat={}{0:yyyy-MM-dd HH:ss}}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_OperatorID, Source={StaticResource Resources}}" Binding="{Binding OperatorID}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_PatientID, Source={StaticResource Resources}}" Binding="{Binding PatientID}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_ProceduralCont, Source={StaticResource Resources}}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTemplateColumn Header="{Binding Path=Results_Label_Result, Source={StaticResource Resources}}" Width="120" HeaderStyle="{StaticResource columnHeaderStyleCenterAlign}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Border CornerRadius="4" Margin="15, 5, 15, 5" Background="{Binding statusBackground}">
-                                    <TextBlock Text="{Binding TestResultStatus}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                               FontSize="11" FontWeight="Bold" Foreground="{Binding statusFontColor}"/>
+                                    <TextBlock Text="{Binding TestResultStatus}" FontSize="11" FontWeight="Bold" 
+                                               Foreground="{Binding statusFontColor}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Border>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Units" Binding="{Binding TestResultValue, StringFormat={}{0:0.##}}" Width="80" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="Lot" Width="80" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="Valid until" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="Doctor" Binding="{Binding InchargePerson}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}"/>
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_Units, Source={StaticResource Resources}}" Binding="{Binding TestResultValue, StringFormat={}{0:0.##}}" Width="80" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_Lot, Source={StaticResource Resources}}" Width="80" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <!--<DataGridTextColumn Header="{Binding Path=Results_Label_Valid, Source={StaticResource Resources}}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" /> -->
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_Doctor, Source={StaticResource Resources}}" Binding="{Binding InchargePerson}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}"/>
                     <DataGridTemplateColumn Width="auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -196,8 +196,8 @@
                                             <MenuItem.Icon>
                                                 <ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />
                                             </MenuItem.Icon>
-                                            <MenuItem Name="menuDownload" Header="Download" Click="menuDownload_Click" />
-                                            <MenuItem Name="menuPrint" Header="Print" Click="menuPrint_Click" />
+                                            <MenuItem Name="menuDownload" Header="{Binding Path=Results_Label_Download, Source={StaticResource Resources}}" Click="menuDownload_Click" />
+                                            <MenuItem Name="menuPrint" Header="{Binding Path=Results_Label_Print, Source={StaticResource Resources}}" Click="menuPrint_Click" />
                                         </MenuItem>
                                     </Menu>
                                 </Grid>
@@ -207,7 +207,8 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
-        <StackPanel x:Name="paginationPanel" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalAlignment="Right">
-        </StackPanel>
+        <!-- // Pagination Control // -->
+        <userControls:PagingControl x:Name="pagination" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6">
+        </userControls:PagingControl>
     </Grid>
 </Page>
