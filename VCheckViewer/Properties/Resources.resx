@@ -522,4 +522,52 @@
   <data name="ResetPassword_Title_PageTitle" xml:space="preserve">
     <value>Reset Password</value>
   </data>
+  <data name="Results_Label_Doctor" xml:space="preserve">
+    <value>Doctor</value>
+  </data>
+  <data name="Results_Label_Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="Results_Label_Lot" xml:space="preserve">
+    <value>Lot</value>
+  </data>
+  <data name="Results_Label_No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Results_Label_OperatorID" xml:space="preserve">
+    <value>Operator ID</value>
+  </data>
+  <data name="Results_Label_PatientID" xml:space="preserve">
+    <value>Patient ID</value>
+  </data>
+  <data name="Results_Label_Print" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="Results_Label_ProceduralCont" xml:space="preserve">
+    <value>Procedural Cont</value>
+  </data>
+  <data name="Results_Label_Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="Results_Label_Searchbar" xml:space="preserve">
+    <value>Search from keyword</value>
+  </data>
+  <data name="Results_Label_Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Results_Label_Units" xml:space="preserve">
+    <value>Units</value>
+  </data>
+  <data name="Results_Label_UpdateFilter" xml:space="preserve">
+    <value>Update Filter</value>
+  </data>
+  <data name="Results_Label_Valid" xml:space="preserve">
+    <value>Valid until</value>
+  </data>
+  <data name="Results_Message_DownloadComplete" xml:space="preserve">
+    <value>Download Result Listing completed.</value>
+  </data>
+  <data name="Results_Message_TestResultDownloadCompleted" xml:space="preserve">
+    <value>Test result download completed.</value>
+  </data>
 </root>

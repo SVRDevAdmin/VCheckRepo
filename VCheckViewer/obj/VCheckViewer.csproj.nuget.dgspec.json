@@ -276,13 +276,21 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "dependencies": {
-            "Aspose.PDF": {
+            "Aspose.Cells": {
               "target": "Package",
-              "version": "[24.5.1, )"
+              "version": "[24.5.0, )"
+            },
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.102.2, )"
             },
             "CommunityToolkit.Mvvm": {
               "target": "Package",
               "version": "[8.2.2, )"
+            },
+            "FreeSpire.XLS": {
+              "target": "Package",
+              "version": "[14.2.0, )"
             },
             "Microsoft.AspNetCore.Cryptography.KeyDerivation": {
               "target": "Package",
@@ -344,7 +352,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2024.3.6, )"
+              "version": "[2024.3.9, )"
             },
             "WPF-UI": {
               "target": "Package",

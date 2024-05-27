@@ -245,6 +245,21 @@ namespace VCheckViewer.Views.Windows
 
                 PopupContent.Text = Properties.Resources.Popup_Message_SavePMSLISHIS; 
             }
+            if (App.MainViewModel.Origin == "ListingDownloadCompleted") {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+
+                PopupContent.Text = Properties.Resources.Results_Message_DownloadComplete; 
+            }
+            if (App.MainViewModel.Origin == "TestResultDownloadCompleted")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+
+                PopupContent.Text = Properties.Resources.Results_Message_TestResultDownloadCompleted;
+            }
 
             PopupBackground.Background = Brushes.DimGray;
             PopupBackground.Opacity = 0.5;
@@ -291,7 +306,9 @@ namespace VCheckViewer.Views.Windows
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            if (App.MainViewModel.Origin == "SetingsUpdateCompleted")
+            if (App.MainViewModel.Origin == "SetingsUpdateCompleted" || 
+                App.MainViewModel.Origin == "ListingDownloadCompleted" ||
+                App.MainViewModel.Origin == "TestResultDownloadCompleted")
             {
                 this.IsEnabled = true;
                 popup.IsOpen = false;

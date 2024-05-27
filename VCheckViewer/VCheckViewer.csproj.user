@@ -12,6 +12,9 @@
     <Compile Update="UserControls\DateRangePicker.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UserControls\PagingControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Pages\Dashboard\ScheduleTestList.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -104,6 +107,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UserControls\DateRangePicker.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\PagingControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Dashboard\ScheduleTestList.xaml">

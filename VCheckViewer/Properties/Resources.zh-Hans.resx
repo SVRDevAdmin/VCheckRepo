@@ -130,7 +130,7 @@
     <value>编辑</value>
   </data>
   <data name="General_Label_Next" xml:space="preserve">
-    <value>下一个</value>
+    <value>下一页</value>
   </data>
   <data name="General_Label_No" xml:space="preserve">
     <value>不</value>
@@ -325,7 +325,7 @@
     <value>国家</value>
   </data>
   <data name="Setting_Label_CreateUser" xml:space="preserve">
-    <value>创建用户</value>
+    <value>加用户</value>
   </data>
   <data name="Setting_Label_DateOfBirth" xml:space="preserve">
     <value>出生日期</value>
@@ -340,7 +340,7 @@
     <value>全名</value>
   </data>
   <data name="Setting_Label_Gender" xml:space="preserve">
-    <value>性</value>
+    <value>性别</value>
   </data>
   <data name="Setting_Label_Language" xml:space="preserve">
     <value>语言</value>
@@ -521,5 +521,53 @@
   </data>
   <data name="ResetPassword_Title_PageTitle" xml:space="preserve">
     <value>重设密码</value>
+  </data>
+  <data name="Results_Label_Doctor" xml:space="preserve">
+    <value>医生</value>
+  </data>
+  <data name="Results_Label_Download" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="Results_Label_Lot" xml:space="preserve">
+    <value>批号</value>
+  </data>
+  <data name="Results_Label_No" xml:space="preserve">
+    <value>号</value>
+  </data>
+  <data name="Results_Label_OperatorID" xml:space="preserve">
+    <value>操作员 ID</value>
+  </data>
+  <data name="Results_Label_PatientID" xml:space="preserve">
+    <value>患者 ID</value>
+  </data>
+  <data name="Results_Label_Print" xml:space="preserve">
+    <value>打印</value>
+  </data>
+  <data name="Results_Label_ProceduralCont" xml:space="preserve">
+    <value>程序控制</value>
+  </data>
+  <data name="Results_Label_Result" xml:space="preserve">
+    <value>结果</value>
+  </data>
+  <data name="Results_Label_Searchbar" xml:space="preserve">
+    <value>按关键字搜索</value>
+  </data>
+  <data name="Results_Label_Time" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="Results_Label_Units" xml:space="preserve">
+    <value>单位</value>
+  </data>
+  <data name="Results_Label_UpdateFilter" xml:space="preserve">
+    <value>更新筛选器</value>
+  </data>
+  <data name="Results_Label_Valid" xml:space="preserve">
+    <value>有效期至</value>
+  </data>
+  <data name="Results_Message_DownloadComplete" xml:space="preserve">
+    <value>下载结果列表已完成。</value>
+  </data>
+  <data name="Results_Message_TestResultDownloadCompleted" xml:space="preserve">
+    <value>测试结果下载完成。</value>
   </data>
 </root>
