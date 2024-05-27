@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
@@ -76,6 +77,41 @@ namespace VCheckViewerAPI.Controllers
             }
 
             return new APIResponseModel(responseCode, responseStatus, responseMessage, response);
+        }
+
+
+
+        [HttpGet(Name = "TestSQLite")]
+        public void TestSQLite()
+        {
+            using (var connection = new SqliteConnection("Data Source=C:\\Users\\azwan\\Downloads\\sqlite-tools-win-x64-3460000\\Databases\\vcheck.db"))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+
+                //command.CommandText = "Insert into apiLog values('test','test')";
+
+                //command.ExecuteReader();
+
+                //command.Dispose();
+
+                command.CommandText =
+                @"
+                    SELECT *
+                    FROM apiLog
+                ";
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var name = reader.GetString(0);
+
+                        Console.WriteLine($"Hello, {name}!");
+                    }
+                }
+            }
         }
     }
 }
