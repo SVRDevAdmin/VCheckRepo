@@ -749,12 +749,12 @@ namespace VCheckViewer.Views.Windows
         {
             try
             {
-                System.Globalization.CultureInfo sZHCulture = new System.Globalization.CultureInfo(App.MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault().ConfigurationValueTemp);
+                System.Globalization.CultureInfo sZHCulture = new(App.MainViewModel.ConfigurationModel.FirstOrDefault(x => x.ConfigurationKey == "SystemSettings_Language").ConfigurationValueTemp);
 
                 CultureResources.ChangeCulture(sZHCulture);
 
-                var updateCountrySuccess = ConfigurationContext.UpdateConfiguration("SystemSettings_Country", App.MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Country").FirstOrDefault().ConfigurationValueTemp);
-                var updateLanguageSuccess = ConfigurationContext.UpdateConfiguration("SystemSettings_Language", App.MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault().ConfigurationValueTemp);
+                bool updateCountrySuccess = ConfigurationContext.UpdateConfiguration("SystemSettings_Country", App.MainViewModel.ConfigurationModel.FirstOrDefault(x => x.ConfigurationKey == "SystemSettings_Country").ConfigurationValueTemp);
+                bool updateLanguageSuccess = ConfigurationContext.UpdateConfiguration("SystemSettings_Language", App.MainViewModel.ConfigurationModel.FirstOrDefault(x => x.ConfigurationKey == "SystemSettings_Language").ConfigurationValueTemp);
 
                 if (updateCountrySuccess && updateLanguageSuccess)
                 {
@@ -808,7 +808,7 @@ namespace VCheckViewer.Views.Windows
 
             ClearMenuItemStyle();
             mnDashboard.Background = System.Windows.Media.Brushes.White;
-            mnDashboard.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#404D5B"));
+            mnDashboard.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
             PageTitle.Text = Properties.Resources.Dashboard_Title_PageTitle;
         }
 
@@ -822,7 +822,7 @@ namespace VCheckViewer.Views.Windows
 
             ClearMenuItemStyle();
             mnSchedule.Background = System.Windows.Media.Brushes.White;
-            mnSchedule.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#404D5B"));
+            mnSchedule.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
         }
 
         private void mnResults_Click(object sender, RoutedEventArgs e)
@@ -832,17 +832,17 @@ namespace VCheckViewer.Views.Windows
 
             ClearMenuItemStyle();
             mnResults.Background = System.Windows.Media.Brushes.White;
-            mnResults.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#404D5B"));
+            mnResults.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
         }
 
         private void mnNotifications_Click(object sender, RoutedEventArgs e)
         {
             frameContent.Content = new NotificationPage();
-            //PageTitle.Text = "Notification";
+            PageTitle.Text = Properties.Resources.Main_Label_SideMenuNotification;
 
             ClearMenuItemStyle();
             mnNotifications.Background = System.Windows.Media.Brushes.White;
-            mnNotifications.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#404D5B"));
+            mnNotifications.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
         }
 
         private void mnSettings_Click(object sender, RoutedEventArgs e)
@@ -857,7 +857,7 @@ namespace VCheckViewer.Views.Windows
 
             ClearMenuItemStyle();
             mnSettings.Background = System.Windows.Media.Brushes.White;
-            mnSettings.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#404D5B"));
+            mnSettings.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
             PageTitle.Text = Properties.Resources.Setting_Title_PageTitle;
         }
 
@@ -873,7 +873,7 @@ namespace VCheckViewer.Views.Windows
 
         private void menuslide(String p, StackPanel leftMenu)
         {
-            Storyboard sb = Resources[p] as Storyboard;
+            Storyboard? sb = Resources[p] as Storyboard;
             sb.Begin(leftMenu);
 
             if (p.Contains("show"))

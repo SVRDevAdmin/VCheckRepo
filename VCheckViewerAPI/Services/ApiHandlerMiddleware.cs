@@ -53,8 +53,9 @@ namespace VCheckViewerAPI.Services
             }
             else
             {
-                await response.WriteAsJsonAsync(new APIResponseModel("VV.0003", "Fail", "Unauthorized Request", null));
-                responseBodyJson = new APIResponseModel("VV.0003", "Fail", "Unauthorized Request", null);
+                var responseData = new APIResponseModel("VV.0003", "Fail", "Unauthorized Request", null);
+                responseBodyJson = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(responseData));
+                await response.WriteAsJsonAsync(responseData);
             }
 
             Logger sLogger = new Logger();

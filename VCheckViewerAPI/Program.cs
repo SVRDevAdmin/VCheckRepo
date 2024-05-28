@@ -1,5 +1,7 @@
 using log4net.Config;
 using Microsoft.AspNetCore.Diagnostics;
+using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System.Net;
 using System.Reflection;
 using VCheckViewerAPI.Lib.Util;
@@ -47,9 +49,13 @@ app.UseExceptionHandler(a => a.Run(async context =>
     var clientKey = context.Request.Headers.Where(x => x.Key == "ClientKey").FirstOrDefault().Value.ToString();
     response.Headers.Append("ClientKey", clientKey != "" ? clientKey : "No Key");
 
-    var model = new APIResponseModel("VV.9999", "Fail", "Internal Error", null);
+    context.Request.EnableBuffering();
 
-    await context.Response.WriteAsJsonAsync(model);
+    var responseData = new APIResponseModel("VV.9999", "Fail", "Internal Error", null);
+    await response.WriteAsJsonAsync(responseData);
+
+    var responseBodyJson = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(responseData));
+    sLogger.ApiLog(context, responseBodyJson);
 }));
 
 

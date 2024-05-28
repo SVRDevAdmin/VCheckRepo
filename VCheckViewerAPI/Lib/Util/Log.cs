@@ -65,9 +65,9 @@ namespace VCheckViewerAPI.Lib.Util
 
                     command.CommandText = "Insert into apiLog(RequestHeader, RequestBody, ResponseHeader, ResponseBody) values('" + requestHeader.ToString() + "', '" + requestBody?.ToString() + "', '" + responseHeader.ToString() + "', '" + responseBody + "')";
 
-                    command.ExecuteReader();
+                    //command.ExecuteReader();
 
-                    command.Dispose();
+                    //command.Dispose();
 
                     //command.CommandText =
                     //@"
