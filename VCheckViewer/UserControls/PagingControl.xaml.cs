@@ -104,17 +104,17 @@ namespace VCheckViewer.UserControls
                 btnNext.Visibility = Visibility.Collapsed;
                 btnPrev.Visibility = Visibility.Collapsed;
             }
-            else if (iPageIndex == iTotalPage)
+            else if (iPageIndex == iTotalPage && iPageIndex != 1)
             {
                 btnNext.Visibility = Visibility.Collapsed;
                 btnPrev.Visibility = Visibility.Visible;
             }
-            else if (iPageIndex == 1 && iPageSize == iPageIndex)
+            else if (iPageIndex == 1 && iTotalPage == iPageIndex)
             {
                 btnNext.Visibility = Visibility.Collapsed;
                 btnPrev.Visibility = Visibility.Collapsed;
             }
-            else if (iPageIndex == 1 && iPageSize != iPageIndex)
+            else if (iPageIndex == 1 && iTotalPage != iPageIndex)
             {
                 btnNext.Visibility = Visibility.Visible;
                 btnPrev.Visibility = Visibility.Collapsed;

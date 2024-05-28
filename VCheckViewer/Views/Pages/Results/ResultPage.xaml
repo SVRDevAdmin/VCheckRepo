@@ -62,7 +62,7 @@
                                        FontSize="13"/>
 
                         </Border>
-                    </ControlTemplate>                    
+                    </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -135,8 +135,13 @@
                         </Border>
                         <Border BorderBrush="Black" BorderThickness="0" Grid.Column="2">
                             <Border CornerRadius="20" Margin="5, 5, 5, 5" BorderThickness="1" BorderBrush="Black" Background="White">
-                                <ComboBox x:Name="cboSort" Background="Transparent" BorderThickness="0" Margin="5, 0, 5, 0"
+                                <Grid>
+                                    <Label Content="{Binding Path=Results_Label_SortBy, Source={StaticResource Resources}}" 
+                                           FontFamily="Noto Sanes" Foreground="Black" VerticalContentAlignment="Center" 
+                                           Margin="5, 5, 0, 0" />
+                                    <ComboBox x:Name="cboSort" Background="Transparent" BorderThickness="0" Margin="60, 0, 5, 0"
                                           ItemsSource="{Binding cbSort}"  SelectedItem="{Binding SelectedcbSort}" />
+                                </Grid>
                             </Border>
                         </Border>
                         <Border BorderBrush="Black" BorderThickness="0" Grid.Column="3">

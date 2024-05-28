@@ -20,31 +20,29 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="30" />
                     </Grid.ColumnDefinitions>
-                    <TextBox
-                    x:Name="DateRangePicker_TextBox"
-                    Grid.Column="0"
-                    Margin="0"
-                    MinHeight="30"
-                    BorderThickness="0"
-                    d:Text="14.03.2023 - 20.03.2023"
-                    Text="{Binding ElementName=this, Path=DisplayValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=300}"
-                    KeyUp="Handle_Escape_Button" GotMouseCapture="DateRangePicker_TextBox_GotMouseCapture"/>
-                    <ToggleButton
-                    x:Name="DateRangePicker_ArrowButton"
-                    Grid.Column="1"
-                    Height="{Binding ElementName=DateRangePicker_TextBox, Path=Height}"
-                    Focusable="False"
-                    ClickMode="Press"
-                    IsChecked="{Binding ElementName=this, Path=IsDropDownOpen, Mode=TwoWay}"
-                    MinWidth="30"
-                    Background="{Binding ElementName=DateRangePicker_TextBox, Path=Background}"
-                    BorderBrush="{Binding ElementName=DateRangePicker_TextBox, Path=Background}"
-                    BorderThickness="0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Stretch">
-                        <Path
-                        x:Name="DateRangePicker_Arrow"
-                        Data="M 0 0 L 4 4 L 8 0 Z">
+                    <TextBox x:Name="DateRangePicker_TextBox"
+                            Grid.Column="0"
+                            Margin="0"
+                            MinHeight="30"
+                            BorderThickness="0"
+                            d:Text="14.03.2023 - 20.03.2023"
+                            Text="{Binding ElementName=this, Path=DisplayValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=300}"
+                            KeyUp="Handle_Escape_Button" 
+                             GotMouseCapture="DateRangePicker_TextBox_GotMouseCapture"/>
+                    <ToggleButton x:Name="DateRangePicker_ArrowButton"
+                                  Grid.Column="1"
+                                  Height="{Binding ElementName=DateRangePicker_TextBox, Path=Height}"
+                                  Focusable="False"
+                                  ClickMode="Press"
+                                  IsChecked="{Binding ElementName=this, Path=IsDropDownOpen, Mode=TwoWay}"
+                                  MinWidth="30"
+                                  Background="{Binding ElementName=DateRangePicker_TextBox, Path=Background}"
+                                  BorderBrush="{Binding ElementName=DateRangePicker_TextBox, Path=Background}"
+                                  BorderThickness="0"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Stretch">
+                        <Path x:Name="DateRangePicker_Arrow"
+                            Data="M 0 0 L 4 4 L 8 0 Z">
                             <Path.Fill>
                                 <SolidColorBrush Color="#FF444444"/>
                             </Path.Fill>
@@ -52,13 +50,12 @@
                     </ToggleButton>
                 </Grid>
             </Border>
-            <Popup
-            x:Name="DateRangePicker_Popup"
-            Placement="Bottom"
-            IsOpen="{Binding ElementName=this, Path=IsDropDownOpen}"
-            AllowsTransparency="True"
-            Focusable="False"
-            PopupAnimation="Slide">
+            <Popup x:Name="DateRangePicker_Popup"
+                    Placement="Bottom"
+                    IsOpen="{Binding ElementName=this, Path=IsDropDownOpen}"
+                    AllowsTransparency="True"
+                    Focusable="False"
+                    PopupAnimation="Slide">
 
                 <Viewbox
                 x:Name="DateRangePicker_DropDown"

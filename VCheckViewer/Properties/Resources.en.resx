@@ -555,4 +555,16 @@
   <data name="Results_Message_TestResultDownloadCompleted" xml:space="preserve">
     <value>Test result download completed.</value>
   </data>
+  <data name="Results_Title_PageTitle" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="Popup_Message_FailedDownloadListing" xml:space="preserve">
+    <value>Failed to download Test Results listing.</value>
+  </data>
+  <data name="Popup_Message_FailedOpenPrint" xml:space="preserve">
+    <value>Failed to Open Print.</value>
+  </data>
+  <data name="Results_Label_SortBy" xml:space="preserve">
+    <value>Sort By :</value>
+  </data>
 </root>

@@ -544,7 +544,7 @@
     <value>单位</value>
   </data>
   <data name="Results_Label_UpdateFilter" xml:space="preserve">
-    <value>更新筛选器</value>
+    <value>更新筛选</value>
   </data>
   <data name="Results_Label_Valid" xml:space="preserve">
     <value>有效期至</value>
@@ -554,5 +554,17 @@
   </data>
   <data name="Results_Message_TestResultDownloadCompleted" xml:space="preserve">
     <value>测试结果下载完成。</value>
+  </data>
+  <data name="Results_Title_PageTitle" xml:space="preserve">
+    <value>测试结果</value>
+  </data>
+  <data name="Popup_Message_FailedDownloadListing" xml:space="preserve">
+    <value>无法下载测试结果列表</value>
+  </data>
+  <data name="Popup_Message_FailedOpenPrint" xml:space="preserve">
+    <value>无法打开打印。</value>
+  </data>
+  <data name="Results_Label_SortBy" xml:space="preserve">
+    <value>排序 :</value>
   </data>
 </root>

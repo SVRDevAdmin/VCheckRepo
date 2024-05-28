@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VCheck.Helper")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba6c9c60f7701ea81df0b82f0e1c76ffc3e3f62c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+483b9b49173df6df9512c7df3e8c74fd1bf6fffd")]
 [assembly: System.Reflection.AssemblyProductAttribute("VCheck.Helper")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VCheck.Helper")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

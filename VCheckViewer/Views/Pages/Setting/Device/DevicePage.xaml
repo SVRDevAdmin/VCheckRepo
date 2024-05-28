@@ -63,7 +63,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button Name="imgBack" Click="imgBack_Click" Grid.Column="0" Background="Transparent" BorderThickness="0" Visibility="Collapsed">
-                    <Image Source="../../../../Content/Images/group_10.png" VerticalAlignment="Center"/>
+                    <Image Source="../../../../Content/Images/BackArrow.png" VerticalAlignment="Center"/>
                 </Button>
                 <Button Name="btnBack" Width="250" BorderThickness="0" Background="Transparent" Grid.Column="1" Margin="-5, 0, 0, 0" 
                         HorizontalContentAlignment="Left" Foreground="Black" 
