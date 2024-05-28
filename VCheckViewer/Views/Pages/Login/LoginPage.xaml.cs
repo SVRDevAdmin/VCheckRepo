@@ -76,7 +76,7 @@ namespace VCheckViewer.Views.Pages.Login
                             userAcount.Gender = userAcount.Gender == "Male" ? "M" : "F";
                             userAcount.DateOfBirth = Convert.ToDateTime(userAcount.DateOfBirth).ToString("yyyy-MM-dd");
                             userAcount.UpdatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                            userAcount.updatedBy = "System";
+                            userAcount.UpdatedBy = "System";
                             App.MainViewModel.CurrentUsers = userAcount;
 
                             sContext.UpdateUser(userAcount);

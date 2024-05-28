@@ -141,7 +141,11 @@
                 </DockPanel>-->
             </StackPanel>
         </Border>
-        <StackPanel x:Name="paginationPanel" Grid.Row="2" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Right">
-        </StackPanel>
+        <!--<StackPanel x:Name="paginationPanel" Grid.Row="2" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Right">
+        </StackPanel>-->
+
+        <!-- // Pagination Control // -->
+        <userControls:PagingControl x:Name="pagination" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6">
+        </userControls:PagingControl>
     </Grid>
 </Page>

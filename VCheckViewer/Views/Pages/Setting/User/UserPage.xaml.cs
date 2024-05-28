@@ -25,6 +25,8 @@ using Wpf.Ui.Controls;
 using Brushes = System.Windows.Media.Brushes;
 using Application = System.Windows.Application;
 using VCheckViewer.Views.Pages.Setting.Device;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Mysqlx.Session;
 
 namespace VCheckViewer.Views.Pages
 {
@@ -35,11 +37,11 @@ namespace VCheckViewer.Views.Pages
     {
         UserDBContext sContext = App.GetService<UserDBContext>();
 
-        public static event EventHandler GoToAddUserPage;
-        public static event EventHandler GoToUpdateUserPage;
-        public static event EventHandler GoToViewUserPage;
-        public static event EventHandler DeleteUser;
-        public static event EventHandler GoToLanguageCountryPage;
+        public static event EventHandler? GoToAddUserPage;
+        public static event EventHandler? GoToUpdateUserPage;
+        public static event EventHandler? GoToViewUserPage;
+        public static event EventHandler? DeleteUser;
+        public static event EventHandler? GoToLanguageCountryPage;
         public int pageSize = 10;
         public int paginationSize = 5;
         public int totalUser = 0;
@@ -52,6 +54,10 @@ namespace VCheckViewer.Views.Pages
             InitializeComponent();
 
             Main.InitializedUserPage += new EventHandler(initializedPage);
+            pagination.ButtonNextControlClick += new EventHandler(PaginationNextButton_Click);
+            pagination.ButtonPrevControlClick += new EventHandler(PaginationPrevButton_Click);
+            pagination.ButtonPageControlClick += new EventHandler(PaginationNumButton_Click);
+
             initializedPage(null,null);
 
             if (App.MainViewModel.CurrentUsers.Role == "Lab User")
@@ -66,222 +72,278 @@ namespace VCheckViewer.Views.Pages
             }
         }
 
-        public void initializedPage(object sender, EventArgs e)
+        public void initializedPage(object? sender, EventArgs? e)
         {
-            var userList = GetUserList(0, pageSize);
+            //var userList = GetUserList(0, pageSize);
 
-            dataGrid.ItemsSource = userList;
+            //dataGrid.ItemsSource = GetUserList(0, pageSize);
 
-            paginationPanel.Children.Clear();
+            //paginationPanel.Children.Clear();
 
-            if (userList.Count > 0)
-            {
-                totalUser = sContext.GetTotalUser();
-                int totalpage = totalUser / pageSize;
+            //if (userList.Count > 0)
+            //{
+            //    totalUser = sContext.GetTotalUser();
+            //    int totalpage = totalUser / pageSize;
 
-                if (totalUser > (pageSize * totalpage)) { totalpage++; }
+            //    if (totalUser > (pageSize * totalpage)) { totalpage++; }
 
-                if (totalpage > paginationSize) { totalpage = paginationSize; }
+            //    if (totalpage > paginationSize) { totalpage = paginationSize; }
 
-                endPagination = totalpage;
-                startPagination = 1;
+            //    endPagination = totalpage;
+            //    startPagination = 1;
 
-                createPagination(startPagination);
-            }
-            
+            //    createPagination(startPagination);
+            //}
+
+            reloadData(0, pageSize, true);
+
         }
 
-        public ObservableCollection<UserModel> GetUserList(int start, int end)
+        public void reloadData(int start, int end, bool reset)
         {
-            ObservableCollection<UserModel> UserList = sContext.GetUserListByPage(start, end);
+            dataGrid.ItemsSource = sContext.GetUserListByPage(start, end);
             App.MainViewModel.CurrentUserIndexStart = start + 1;
-            return UserList;
-        }
 
-        public void createPagination(int highligtedIndex)
-        {
-            currentPage = highligtedIndex;
-
-            System.Windows.Controls.Button newBtn = new System.Windows.Controls.Button();
-            newBtn.Content = Properties.Resources.General_Label_Previous;
-            newBtn.Tag = "Prev";
-            newBtn.BorderThickness = new Thickness(0);
-            newBtn.FontWeight = FontWeights.Bold;
-            newBtn.Foreground = Brushes.Gray;
-            paginationPanel.Children.Add(newBtn);
-            newBtn.Click += new RoutedEventHandler(PreviousUserList_Click);
-
-            for (int i = startPagination; i <= endPagination; i++)
+            if (reset)
             {
-                newBtn = new System.Windows.Controls.Button();
-
-                if(i < 10) { newBtn.Content = "0"+i; }
-                else { newBtn.Content = i; }
-
-                newBtn.Tag = i;
-                newBtn.Style = (Style)Application.Current.FindResource("RoundButton");
-                newBtn.Width = 40;
-                newBtn.Height = 40;
-                newBtn.Margin = new Thickness(5, 0, 5, 0);
-                newBtn.FontWeight = FontWeights.Bold;
-                newBtn.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
-
-                if(i == highligtedIndex)
-                {
-                    newBtn.BorderBrush = Brushes.DarkOrange;
-                    newBtn.Background = Brushes.DarkOrange;
-                    newBtn.Foreground = Brushes.White;
-                }
-                else
-                {
-                    newBtn.BorderBrush = Brushes.DarkOrange;
-                    newBtn.Background = Brushes.Transparent;
-                    newBtn.Foreground = Brushes.DarkOrange;
-                }
-
-                paginationPanel.Children.Add(newBtn);
-                newBtn.Click += new RoutedEventHandler(newBtn_Click);
+                pagination.iTotalRecords = sContext.GetTotalUser();
+                pagination.iPaginationLimit = paginationSize;
+                pagination.iPageSize = pageSize;
+                currentPage = 1;
+                pagination.GetPageCountByRecordCountWithLimit();
             }
 
-            newBtn = new System.Windows.Controls.Button();
-            newBtn.Content = Properties.Resources.General_Label_Next;
-            newBtn.Tag = "Next";
-            newBtn.BorderThickness = new Thickness(0);
-            newBtn.FontWeight = FontWeights.Bold;
-            newBtn.Foreground = Brushes.DarkOrange;
-            paginationPanel.Children.Add(newBtn);
-            newBtn.Click += new RoutedEventHandler(NextUserList_Click);
+            pagination.LoadPagingNumberWithLimit();
         }
 
-        private void newBtn_Click(object sender, RoutedEventArgs e)
+        //public ObservableCollection<UserModel> GetUserList(int start, int end)
+        //{
+        //    ObservableCollection<UserModel> UserList = sContext.GetUserListByPage(start, end);
+        //    App.MainViewModel.CurrentUserIndexStart = start + 1;
+        //    return UserList;
+        //}
+
+        //public void createPagination(int highligtedIndex)
+        //{
+        //    currentPage = highligtedIndex;
+
+        //    //System.Windows.Controls.Button newBtn = new System.Windows.Controls.Button();
+        //    //newBtn.Content = Properties.Resources.General_Label_Previous;
+        //    //newBtn.Tag = "Prev";
+        //    //newBtn.BorderThickness = new Thickness(0);
+        //    //newBtn.FontWeight = FontWeights.Bold;
+        //    //newBtn.Foreground = Brushes.Gray;
+        //    ////paginationPanel.Children.Add(newBtn);
+        //    //newBtn.Click += new RoutedEventHandler(PreviousUserList_Click);
+
+        //    //for (int i = startPagination; i <= endPagination; i++)
+        //    //{
+        //    //    newBtn = new System.Windows.Controls.Button();
+
+        //    //    if(i < 10) { newBtn.Content = "0"+i; }
+        //    //    else { newBtn.Content = i; }
+
+        //    //    newBtn.Tag = i;
+        //    //    newBtn.Style = (Style)Application.Current.FindResource("RoundButton");
+        //    //    newBtn.Width = 40;
+        //    //    newBtn.Height = 40;
+        //    //    newBtn.Margin = new Thickness(5, 0, 5, 0);
+        //    //    newBtn.FontWeight = FontWeights.Bold;
+        //    //    newBtn.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+
+        //    //    if(i == highligtedIndex)
+        //    //    {
+        //    //        newBtn.BorderBrush = Brushes.DarkOrange;
+        //    //        newBtn.Background = Brushes.DarkOrange;
+        //    //        newBtn.Foreground = Brushes.White;
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        newBtn.BorderBrush = Brushes.DarkOrange;
+        //    //        newBtn.Background = Brushes.Transparent;
+        //    //        newBtn.Foreground = Brushes.DarkOrange;
+        //    //    }
+
+        //    //    //paginationPanel.Children.Add(newBtn);
+        //    //    newBtn.Click += new RoutedEventHandler(newBtn_Click);
+        //    //}
+
+        //    //newBtn = new System.Windows.Controls.Button();
+        //    //newBtn.Content = Properties.Resources.General_Label_Next;
+        //    //newBtn.Tag = "Next";
+        //    //newBtn.BorderThickness = new Thickness(0);
+        //    //newBtn.FontWeight = FontWeights.Bold;
+        //    //newBtn.Foreground = Brushes.DarkOrange;
+        //    ////paginationPanel.Children.Add(newBtn);
+        //    //newBtn.Click += new RoutedEventHandler(NextUserList_Click);
+        //}
+
+        //private void newBtn_Click(object sender, RoutedEventArgs e)
+        //{
+        //    System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
+
+        //    btn.BorderBrush = Brushes.DarkOrange;
+        //    btn.Background = Brushes.DarkOrange;
+        //    btn.Foreground = Brushes.White;
+
+        //    var currentlist = GetUserList((((int)btn.Tag) - 1) * pageSize, pageSize);
+        //    dataGrid.ItemsSource = currentlist;
+
+        //    int childrenCount = VisualTreeHelper.GetChildrenCount(btn.Parent);
+
+        //    for (int i = 0; i < childrenCount; i++)
+        //    {
+        //        var child = VisualTreeHelper.GetChild(btn.Parent, i);
+        //        var frameworkElement = child as System.Windows.Controls.Button;
+        //        if (frameworkElement.Tag.ToString() == currentPage.ToString() && childrenCount > 3)
+        //        {
+        //            frameworkElement.BorderBrush = Brushes.DarkOrange;
+        //            frameworkElement.Background = Brushes.Transparent;
+        //            frameworkElement.Foreground = Brushes.DarkOrange;
+        //        }
+        //    }
+
+        //    currentPage = (int)btn.Tag;
+
+        //    if (currentPage == endPagination) { GoToNextPaginationGroup(); return; }
+        //    else if (currentPage == startPagination && currentPage != 1) { GoToPreviousPaginationGroup(); return; }
+        //}
+
+        protected void PaginationNumButton_Click(object? sender, EventArgs? e)
         {
-            System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
+            System.Windows.Controls.Button btnNum = sender as System.Windows.Controls.Button;
+            int iNumberSelected = Convert.ToInt32(btnNum?.Tag);
 
-            btn.BorderBrush = Brushes.DarkOrange;
-            btn.Background = Brushes.DarkOrange;
-            btn.Foreground = Brushes.White;
+            currentPage = iNumberSelected;
 
-            var currentlist = GetUserList((((int)btn.Tag) - 1) * pageSize, pageSize);
-            dataGrid.ItemsSource = currentlist;
+            pagination.iPageIndex = currentPage;
 
-            int childrenCount = VisualTreeHelper.GetChildrenCount(btn.Parent);
+            if (pagination.iPaginationEnd == currentPage && pagination.iPaginationEnd != pagination.iLastPage) { pagination.iPaginationStart++; pagination.iPaginationEnd++; }
+            else if (pagination.iPaginationStart == currentPage && currentPage != 1) { pagination.iPaginationStart--; pagination.iPaginationEnd--; }
 
-            for (int i = 0; i < childrenCount; i++)
-            {
-                var child = VisualTreeHelper.GetChild(btn.Parent, i);
-                var frameworkElement = child as System.Windows.Controls.Button;
-                if (frameworkElement.Tag.ToString() == currentPage.ToString() && childrenCount > 3)
-                {
-                    frameworkElement.BorderBrush = Brushes.DarkOrange;
-                    frameworkElement.Background = Brushes.Transparent;
-                    frameworkElement.Foreground = Brushes.DarkOrange;
-                }
-            }
-
-            currentPage = (int)btn.Tag;
-
-            if (currentPage == endPagination) { GoToNextPaginationGroup(); return; }
-            else if (currentPage == startPagination && currentPage != 1) { GoToPreviousPaginationGroup(); return; }
+            reloadData((currentPage - 1) * pageSize, pageSize, false);
         }
 
-        private void NextUserList_Click(object sender, RoutedEventArgs e)
+        //private void NextUserList_Click(object sender, RoutedEventArgs e)
+        //{
+        //    System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
+        //    int childrenCount = VisualTreeHelper.GetChildrenCount(btn.Parent);
+
+        //    var nextpage = currentPage + 1;
+
+        //    var currentlist = GetUserList((nextpage - 1) * pageSize, pageSize);
+
+        //    if(!(currentlist.Count == 0))
+        //    {
+        //        dataGrid.ItemsSource = currentlist;
+
+        //        for (int i = 0; i < childrenCount; i++)
+        //        {
+        //            var child = VisualTreeHelper.GetChild(btn.Parent, i);
+        //            var frameworkElement = child as System.Windows.Controls.Button;
+        //            if (frameworkElement.Tag.ToString() == currentPage.ToString())
+        //            {
+        //                frameworkElement.BorderBrush = Brushes.DarkOrange;
+        //                frameworkElement.Background = Brushes.Transparent;
+        //                frameworkElement.Foreground = Brushes.DarkOrange;
+        //            }
+        //            else if (frameworkElement.Tag.ToString() == nextpage.ToString())
+        //            {
+        //                frameworkElement.BorderBrush = Brushes.DarkOrange;
+        //                frameworkElement.Background = Brushes.DarkOrange;
+        //                frameworkElement.Foreground = Brushes.White;
+        //            }
+        //        }
+
+        //        currentPage = nextpage;
+        //    }
+
+        //    if (currentPage == endPagination) { GoToNextPaginationGroup(); return; }
+        //}
+
+        protected void PaginationNextButton_Click(object? sender, EventArgs? e)
         {
-            System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
-            int childrenCount = VisualTreeHelper.GetChildrenCount(btn.Parent);
+            currentPage++;
 
-            var nextpage = currentPage + 1;
+            pagination.iPageIndex = currentPage;
 
-            var currentlist = GetUserList((nextpage - 1) * pageSize, pageSize);
+            if (pagination.iPaginationEnd == currentPage && pagination.iPaginationEnd != pagination.iLastPage) { pagination.iPaginationStart++; pagination.iPaginationEnd++; }
 
-            if(!(currentlist.Count == 0))
-            {
-                dataGrid.ItemsSource = currentlist;
-
-                for (int i = 0; i < childrenCount; i++)
-                {
-                    var child = VisualTreeHelper.GetChild(btn.Parent, i);
-                    var frameworkElement = child as System.Windows.Controls.Button;
-                    if (frameworkElement.Tag.ToString() == currentPage.ToString())
-                    {
-                        frameworkElement.BorderBrush = Brushes.DarkOrange;
-                        frameworkElement.Background = Brushes.Transparent;
-                        frameworkElement.Foreground = Brushes.DarkOrange;
-                    }
-                    else if (frameworkElement.Tag.ToString() == nextpage.ToString())
-                    {
-                        frameworkElement.BorderBrush = Brushes.DarkOrange;
-                        frameworkElement.Background = Brushes.DarkOrange;
-                        frameworkElement.Foreground = Brushes.White;
-                    }
-                }
-
-                currentPage = nextpage;
-            }
-
-            if (currentPage == endPagination) { GoToNextPaginationGroup(); return; }
+            reloadData((currentPage - 1) * pageSize, pageSize, false);
         }
-        
-        private void GoToNextPaginationGroup()
-        {
-            var currentlist = GetUserList((endPagination) * pageSize, pageSize);
 
-            if(!(currentlist.Count == 0))
-            {
-                startPagination++;
-                endPagination++;
+        //private void GoToNextPaginationGroup()
+        //{
+        //    var currentlist = GetUserList((endPagination) * pageSize, pageSize);
 
-                paginationPanel.Children.Clear();
-                createPagination(endPagination - 1); 
-            }
+        //    if(!(currentlist.Count == 0))
+        //    {
+        //        startPagination++;
+        //        endPagination++;
+
+        //        //paginationPanel.Children.Clear();
+        //        createPagination(endPagination - 1); 
+        //    }
             
-        }
+        //}
 
-        private void GoToPreviousPaginationGroup()
+        //private void GoToPreviousPaginationGroup()
+        //{
+        //    //paginationPanel.Children.Clear();
+
+        //    startPagination--;
+        //    endPagination--;
+
+        //    createPagination(startPagination + 1);
+        //}
+
+
+        //private void PreviousUserList_Click(object sender, RoutedEventArgs e)
+        //{
+        //    System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
+        //    int childrenCount = VisualTreeHelper.GetChildrenCount(btn.Parent);
+
+        //    var nextPage = currentPage - 1;   
+        //    ObservableCollection<UserModel> currentlist;
+
+        //    if (!(nextPage < 1))
+        //    {
+        //        currentlist = GetUserList((nextPage - 1) * pageSize, pageSize);
+        //        dataGrid.ItemsSource = currentlist;
+
+        //        for (int i = 0; i < childrenCount; i++)
+        //        {
+        //            var child = VisualTreeHelper.GetChild(btn.Parent, i);
+        //            var frameworkElement = child as System.Windows.Controls.Button;
+        //            if (frameworkElement.Tag.ToString() == currentPage.ToString())
+        //            {
+        //                frameworkElement.BorderBrush = Brushes.DarkOrange;
+        //                frameworkElement.Background = Brushes.Transparent;
+        //                frameworkElement.Foreground = Brushes.DarkOrange;
+        //            }
+        //            else if (frameworkElement.Tag.ToString() == nextPage.ToString())
+        //            {
+        //                frameworkElement.BorderBrush = Brushes.DarkOrange;
+        //                frameworkElement.Background = Brushes.DarkOrange;
+        //                frameworkElement.Foreground = Brushes.White;
+        //            }
+        //        }
+
+        //        currentPage = nextPage;
+        //    }
+
+        //    if (currentPage == startPagination && currentPage != 1) { GoToPreviousPaginationGroup(); return; }
+        //}
+
+        protected void PaginationPrevButton_Click(object? sender, EventArgs? e)
         {
-            paginationPanel.Children.Clear();
+            currentPage--;
 
-            startPagination--;
-            endPagination--;
+            pagination.iPageIndex = currentPage;
 
-            createPagination(startPagination + 1);
-        }
+            if (pagination.iPaginationStart == currentPage && currentPage != 1) { pagination.iPaginationStart--; pagination.iPaginationEnd--; }
 
-
-        private void PreviousUserList_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
-            int childrenCount = VisualTreeHelper.GetChildrenCount(btn.Parent);
-
-            var nextPage = currentPage - 1;   
-            ObservableCollection<UserModel> currentlist;
-
-            if (!(nextPage < 1))
-            {
-                currentlist = GetUserList((nextPage - 1) * pageSize, pageSize);
-                dataGrid.ItemsSource = currentlist;
-
-                for (int i = 0; i < childrenCount; i++)
-                {
-                    var child = VisualTreeHelper.GetChild(btn.Parent, i);
-                    var frameworkElement = child as System.Windows.Controls.Button;
-                    if (frameworkElement.Tag.ToString() == currentPage.ToString())
-                    {
-                        frameworkElement.BorderBrush = Brushes.DarkOrange;
-                        frameworkElement.Background = Brushes.Transparent;
-                        frameworkElement.Foreground = Brushes.DarkOrange;
-                    }
-                    else if (frameworkElement.Tag.ToString() == nextPage.ToString())
-                    {
-                        frameworkElement.BorderBrush = Brushes.DarkOrange;
-                        frameworkElement.Background = Brushes.DarkOrange;
-                        frameworkElement.Foreground = Brushes.White;
-                    }
-                }
-
-                currentPage = nextPage;
-            }
-
-            if (currentPage == startPagination && currentPage != 1) { GoToPreviousPaginationGroup(); return; }
+            reloadData((currentPage - 1) * pageSize, pageSize, false);
         }
 
         private void AddUserList_Click(object sender, RoutedEventArgs e)

@@ -33,7 +33,7 @@ namespace VCheck.Lib.Data.DBContext
             }
         }
 
-        public List<NotificationModel> GetNotificationByPage(int start, int end, string notificationType, string startDate, string endDate, string keyword)
+        public List<NotificationModel> GetNotificationByPage(int start, int end, string? notificationType, string? startDate, string? endDate, string? keyword)
         {
             List<NotificationModel> sList = new List<NotificationModel>();
             string sqlQueryCondition = "";
@@ -81,7 +81,7 @@ namespace VCheck.Lib.Data.DBContext
             return sList;
         }
 
-        public int GetTotalNotification(string notificationType, string startDate, string endDate, string keyword)
+        public int GetTotalNotification(string? notificationType, string? startDate, string? endDate, string? keyword)
         {
             string sqlQueryCondition = "";
 
