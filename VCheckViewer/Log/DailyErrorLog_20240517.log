@@ -1,0 +1,5 @@
+2024-05-17 12:04:03,402 ERROR VCheckViewer.Lib.Culture.CultureResources..cctor [41] - MESSAGE: Culture Resource Error >>> 
+ System.Globalization.CultureNotFoundException: Culture is not supported. (Parameter 'name')
+runtimes is an invalid culture identifier.
+   at System.Globalization.CultureInfo.GetCultureInfo(String name)
+   at VCheckViewer.Lib.Culture.CultureResources..cctor() in C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Lib\Culture\CultureResources.cs:line 41

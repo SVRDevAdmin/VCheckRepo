@@ -64,6 +64,7 @@ namespace VCheckViewer.UserControls
 
                         if (isFirstDateValid && isLastDateValid)
                         {
+                            DateRangePicker_Calendar?.SelectedDates.Clear();
                             DateRangePicker_Calendar?.SelectedDates.AddRange(firstDate, lastDate);
                         }
                     }
@@ -72,6 +73,7 @@ namespace VCheckViewer.UserControls
                         var isValidDate = DateTime.TryParse(dates.First(), out var date) && dates.First().Length == 10;
                         if (isValidDate)
                         {
+                            DateRangePicker_Calendar?.SelectedDates.Clear();
                             DateRangePicker_Calendar?.SelectedDates.Add(date);
                         }
                     }

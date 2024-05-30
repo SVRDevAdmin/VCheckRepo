@@ -26,34 +26,34 @@ namespace VCheckViewer.Views.Pages
     /// </summary>
     public partial class DashboardPage : Page
     {
-        public List<DeviceModel> DeviceList = new List<DeviceModel>()
-        {
-            new DeviceModel()
-            {
-                DeviceImagePath = "../../../Content/Images/VCheck200Image.png",
-                DeviceName = "VCheck 200",
-                status = 1
-            },
-            new DeviceModel()
-            {
-                DeviceImagePath = "../../../Content/Images/VCheck2400Image.png",
-                DeviceName = "VCheck 2400",
-                status = 0
-            },
-            new DeviceModel()
-            {
-                DeviceImagePath = "../../../Content/Images/VCheck200Image.png",
-                DeviceName = "VCheck 200 (2)",
-                status = 1
-            },
-            new DeviceModel()
-            {
-                DeviceImagePath = "../../../Content/Images/VCheck2400Image.png",
-                DeviceName = "VCheck 2400 (2)",
-                status = 0
-            }
+        //public List<DeviceModel> DeviceList = new List<DeviceModel>()
+        //{
+        //    new DeviceModel()
+        //    {
+        //        DeviceImagePath = "../../../Content/Images/VCheck200Image.png",
+        //        DeviceName = "VCheck 200",
+        //        status = 1
+        //    },
+        //    new DeviceModel()
+        //    {
+        //        DeviceImagePath = "../../../Content/Images/VCheck2400Image.png",
+        //        DeviceName = "VCheck 2400",
+        //        status = 0
+        //    },
+        //    new DeviceModel()
+        //    {
+        //        DeviceImagePath = "../../../Content/Images/VCheck200Image.png",
+        //        DeviceName = "VCheck 200 (2)",
+        //        status = 1
+        //    },
+        //    new DeviceModel()
+        //    {
+        //        DeviceImagePath = "../../../Content/Images/VCheck2400Image.png",
+        //        DeviceName = "VCheck 2400 (2)",
+        //        status = 0
+        //    }
 
-        };
+        //};
 
         public DashboardPage()
         {

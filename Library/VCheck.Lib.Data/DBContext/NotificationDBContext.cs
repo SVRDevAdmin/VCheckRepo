@@ -1,9 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using log4net;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
+using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
@@ -13,6 +17,7 @@ namespace VCheck.Lib.Data.DBContext
     public class NotificationDBContext
     {
         private readonly Microsoft.Extensions.Configuration.IConfiguration config;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
 
         public NotificationDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
         {
@@ -28,7 +33,7 @@ namespace VCheck.Lib.Data.DBContext
             }
         }
 
-        public List<NotificationModel> GetNotificationByPage(int start, int end, string notificationType, string startDate, string endDate, string keyword)
+        public List<NotificationModel> GetNotificationByPage(int start, int end, string? notificationType, string? startDate, string? endDate, string? keyword)
         {
             List<NotificationModel> sList = new List<NotificationModel>();
             string sqlQueryCondition = "";
@@ -41,32 +46,42 @@ namespace VCheck.Lib.Data.DBContext
 
             if (keyword != null) { if (sqlQueryCondition != "") { sqlQueryCondition += " AND "; } else { sqlQueryCondition += "WHERE "; } sqlQueryCondition += "(NotificationTitle like '%" + keyword + "%' OR NotificationContent like '%"+keyword+"%')"; }
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from txn_notification " + sqlQueryCondition+" order by CreatedDate DESC LIMIT " + start + "," + end, conn);
-
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = this.Connection)
                 {
-                    while (reader.Read())
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select * from txn_notification " + sqlQueryCondition + " order by CreatedDate DESC LIMIT " + start + "," + end, conn);
+
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        sList.Add(new NotificationModel()
+                        while (reader.Read())
                         {
-                            NotificationID = reader.GetInt32("NotificationID"),
-                            NotificationType = reader.GetString("NotificationType"),
-                            NotificationTitle = reader.GetString("NotificationTitle"),
-                            NotificationContent = reader.GetString("NotificationContent"),
-                            CreatedDate = reader.GetDateTime("CreatedDate").ToString("dd MMMM yyyy HH:mm"),
-                            CreatedBy = reader.GetString("CreatedBy")
-                        });
+                            sList.Add(new NotificationModel()
+                            {
+                                NotificationID = reader.GetInt32("NotificationID"),
+                                NotificationType = reader.GetString("NotificationType"),
+                                NotificationTitle = reader.GetString("NotificationTitle"),
+                                NotificationContent = reader.GetString("NotificationContent"),
+
+                                Receiver = !reader.IsDBNull("Receiver") ? reader.GetString("Receiver") : null,
+
+                                CreatedDate = reader.GetDateTime("CreatedDate").ToString("dd MMMM yyyy HH:mm"),
+                                CreatedBy = reader.GetString("CreatedBy")
+                            });
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
             }
 
             return sList;
         }
 
-        public int GetTotalNotification(string notificationType, string startDate, string endDate, string keyword)
+        public int GetTotalNotification(string? notificationType, string? startDate, string? endDate, string? keyword)
         {
             string sqlQueryCondition = "";
 
@@ -80,35 +95,60 @@ namespace VCheck.Lib.Data.DBContext
 
             int total = 0;
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select Count(NotificationTitle) from txn_notification " + sqlQueryCondition, conn);
-
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = this.Connection)
                 {
-                    while (reader.Read())
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select Count(NotificationTitle) from txn_notification " + sqlQueryCondition, conn);
+
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        total = reader.GetInt32(0);
+                        while (reader.Read())
+                        {
+                            total = reader.GetInt32(0);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
             }
 
             return total;
         }
 
-        public void InsertNotification(NotificationModel notification)
+        public bool InsertNotification(NotificationModel notification)
         {
-            string insertQuery = "INSERT INTO `vcheckdb`.`txn_notification` (`NotificationType`,`NotificationTitle`,`NotificationContent`,`CreatedDate`,`CreatedBy`) ";
-
-            insertQuery += "Values ('" + notification.NotificationType + "','" + notification.NotificationTitle + "', '" + notification.NotificationContent + "', '" + notification.CreatedDate + "', '" + notification.CreatedBy + "')";
-
-            using (MySqlConnection conn = this.Connection)
+            string receiverColumn = "";
+            string receiverData = "";
+            if(notification.Receiver != null)
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+                receiverColumn = ", `Receiver`";
+                receiverData = ", '"+notification.Receiver+"'";
+            }
 
-                cmd.ExecuteReader();
+            string insertQuery = "INSERT INTO `txn_notification` (`NotificationType`,`NotificationTitle`,`NotificationContent`,`CreatedDate`,`CreatedBy`" + receiverColumn + ") ";
+
+            insertQuery += "Values ('" + notification.NotificationType + "','" + notification.NotificationTitle + "', '" + notification.NotificationContent + "', '" + notification.CreatedDate + "', '" + notification.CreatedBy + "'" + receiverData + ")";
+
+            try
+            {
+                using (MySqlConnection conn = this.Connection)
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+
+                    cmd.ExecuteReader();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+                return false;
             }
         }
     }

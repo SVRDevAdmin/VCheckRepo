@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using VCheckViewer.Views.Pages.Login;
+using Microsoft.VisualBasic.Logging;
 
 namespace VCheckViewer.Services
 {
@@ -21,7 +22,7 @@ namespace VCheckViewer.Services
     {
         private readonly IServiceProvider _serviceProvider;
 
-        private INavigationWindow _navigationWindow;
+        //private INavigationWindow _navigationWindow;
 
         public ApplicationHostService(IServiceProvider serviceProvider)
         {
@@ -60,11 +61,17 @@ namespace VCheckViewer.Services
 
             //     //_navigationWindow.Navigate(typeof(DashboardPage));
             // }
-
-            App.SignInManager = _serviceProvider.GetRequiredService<SignInManager<IdentityUser>>();
-            App.UserManager = _serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            App.RoleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            App.UserStore = _serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
+            try
+            {
+                App.SignInManager = _serviceProvider.GetRequiredService<SignInManager<IdentityUser>>();
+                App.UserManager = _serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                App.RoleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                App.UserStore = _serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
+            }
+            catch (Exception ex)
+            {
+                App.log.Error("Database Error >>> ", ex);
+            }
 
             LoginWindow LoginPage = new LoginWindow();
             LoginPage.Navigate(new LoginPage());

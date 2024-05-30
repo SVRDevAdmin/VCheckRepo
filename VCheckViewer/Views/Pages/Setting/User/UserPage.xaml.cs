@@ -25,6 +25,8 @@ using Wpf.Ui.Controls;
 using Brushes = System.Windows.Media.Brushes;
 using Application = System.Windows.Application;
 using VCheckViewer.Views.Pages.Setting.Device;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Mysqlx.Session;
 
 namespace VCheckViewer.Views.Pages
 {
@@ -35,11 +37,11 @@ namespace VCheckViewer.Views.Pages
     {
         UserDBContext sContext = App.GetService<UserDBContext>();
 
-        public static event EventHandler GoToAddUserPage;
-        public static event EventHandler GoToUpdateUserPage;
-        public static event EventHandler GoToViewUserPage;
-        public static event EventHandler DeleteUser;
-        public static event EventHandler GoToLanguageCountryPage;
+        public static event EventHandler? GoToAddUserPage;
+        public static event EventHandler? GoToUpdateUserPage;
+        public static event EventHandler? GoToViewUserPage;
+        public static event EventHandler? DeleteUser;
+        public static event EventHandler? GoToLanguageCountryPage;
         public int pageSize = 10;
         public int paginationSize = 5;
         public int totalUser = 0;
@@ -52,101 +54,128 @@ namespace VCheckViewer.Views.Pages
             InitializeComponent();
 
             Main.InitializedUserPage += new EventHandler(initializedPage);
-
             pagination.ButtonNextControlClick += new EventHandler(PaginationNextButton_Click);
             pagination.ButtonPrevControlClick += new EventHandler(PaginationPrevButton_Click);
             pagination.ButtonPageControlClick += new EventHandler(PaginationNumButton_Click);
 
             initializedPage(null,null);
+
+            if (App.MainViewModel.CurrentUsers.Role == "Lab User")
+            {
+                btnSettings.IsEnabled = false;
+                btnDevice.IsEnabled = false;
+            }
+            else
+            {
+                btnSettings.IsEnabled = true;
+                btnDevice.IsEnabled = true;
+            }
         }
 
-        public void initializedPage(object sender, EventArgs e)
+        public void initializedPage(object? sender, EventArgs? e)
         {
+            //var userList = GetUserList(0, pageSize);
+
             //dataGrid.ItemsSource = GetUserList(0, pageSize);
 
-            //totalUser = sContext.GetTotalUser();
-            //int totalpage = totalUser / pageSize;
-
-            //if (totalUser > (pageSize * totalpage)) { totalpage++; }
-
-            //if (totalpage > paginationSize) { totalpage = paginationSize; }
-
-            //endPagination = totalpage;
-            //startPagination = 1;
-
             //paginationPanel.Children.Clear();
-            //createPagination(startPagination);
-            dataGrid.ItemsSource = GetUserList((startPagination -1) * pageSize, pageSize);
 
-            totalUser = sContext.GetTotalUser();
-            int totalpage = totalUser / pageSize;
+            //if (userList.Count > 0)
+            //{
+            //    totalUser = sContext.GetTotalUser();
+            //    int totalpage = totalUser / pageSize;
 
-            endPagination = totalpage;
+            //    if (totalUser > (pageSize * totalpage)) { totalpage++; }
 
-            pagination.iTotalRecords = totalUser;
-            pagination.iPageIndex = startPagination;
-            pagination.iPageSize = pageSize;
-            pagination.LoadPagingNumber();
+            //    if (totalpage > paginationSize) { totalpage = paginationSize; }
+
+            //    endPagination = totalpage;
+            //    startPagination = 1;
+
+            //    createPagination(startPagination);
+            //}
+
+            reloadData(0, pageSize, true);
+
         }
 
-        public ObservableCollection<UserModel> GetUserList(int start, int end)
+        public void reloadData(int start, int end, bool reset)
         {
-            ObservableCollection<UserModel> UserList = sContext.GetUserListByPage(start, end);
-            return UserList;
+            dataGrid.ItemsSource = sContext.GetUserListByPage(start, end);
+            App.MainViewModel.CurrentUserIndexStart = start + 1;
+
+            if (reset)
+            {
+                pagination.iTotalRecords = sContext.GetTotalUser();
+                pagination.iPaginationLimit = paginationSize;
+                pagination.iPageSize = pageSize;
+                currentPage = 1;
+                pagination.GetPageCountByRecordCountWithLimit();
+            }
+
+            pagination.LoadPagingNumberWithLimit();
         }
+
+        //public ObservableCollection<UserModel> GetUserList(int start, int end)
+        //{
+        //    ObservableCollection<UserModel> UserList = sContext.GetUserListByPage(start, end);
+        //    App.MainViewModel.CurrentUserIndexStart = start + 1;
+        //    return UserList;
+        //}
 
         //public void createPagination(int highligtedIndex)
         //{
         //    currentPage = highligtedIndex;
 
-        //    System.Windows.Controls.Button newBtn = new System.Windows.Controls.Button();
-        //    newBtn.Content = Properties.Resources.General_Label_Previous;
-        //    newBtn.Tag = "Prev";
-        //    newBtn.BorderThickness = new Thickness(0);
-        //    newBtn.FontWeight = FontWeights.Bold;
-        //    paginationPanel.Children.Add(newBtn);
-        //    newBtn.Click += new RoutedEventHandler(PreviousUserList_Click);
+        //    //System.Windows.Controls.Button newBtn = new System.Windows.Controls.Button();
+        //    //newBtn.Content = Properties.Resources.General_Label_Previous;
+        //    //newBtn.Tag = "Prev";
+        //    //newBtn.BorderThickness = new Thickness(0);
+        //    //newBtn.FontWeight = FontWeights.Bold;
+        //    //newBtn.Foreground = Brushes.Gray;
+        //    ////paginationPanel.Children.Add(newBtn);
+        //    //newBtn.Click += new RoutedEventHandler(PreviousUserList_Click);
 
-        //    for (int i = startPagination; i <= endPagination; i++)
-        //    {
-        //        newBtn = new System.Windows.Controls.Button();
+        //    //for (int i = startPagination; i <= endPagination; i++)
+        //    //{
+        //    //    newBtn = new System.Windows.Controls.Button();
 
-        //        if(i < 10) { newBtn.Content = "0"+i; }
-        //        else { newBtn.Content = i; }
+        //    //    if(i < 10) { newBtn.Content = "0"+i; }
+        //    //    else { newBtn.Content = i; }
 
-        //        newBtn.Tag = i;
-        //        newBtn.Style = (Style)Application.Current.FindResource("RoundButton");
-        //        newBtn.Width = 40;
-        //        newBtn.Height = 40;
-        //        newBtn.Margin = new Thickness(5, 0, 5, 0);
-        //        newBtn.FontWeight = FontWeights.Bold;
-        //        newBtn.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+        //    //    newBtn.Tag = i;
+        //    //    newBtn.Style = (Style)Application.Current.FindResource("RoundButton");
+        //    //    newBtn.Width = 40;
+        //    //    newBtn.Height = 40;
+        //    //    newBtn.Margin = new Thickness(5, 0, 5, 0);
+        //    //    newBtn.FontWeight = FontWeights.Bold;
+        //    //    newBtn.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
 
-        //        if(i == highligtedIndex)
-        //        {
-        //            newBtn.BorderBrush = Brushes.DarkOrange;
-        //            newBtn.Background = Brushes.DarkOrange;
-        //            newBtn.Foreground = Brushes.White;
-        //        }
-        //        else
-        //        {
-        //            newBtn.BorderBrush = Brushes.DarkOrange;
-        //            newBtn.Background = Brushes.Transparent;
-        //            newBtn.Foreground = Brushes.DarkOrange;
-        //        }
+        //    //    if(i == highligtedIndex)
+        //    //    {
+        //    //        newBtn.BorderBrush = Brushes.DarkOrange;
+        //    //        newBtn.Background = Brushes.DarkOrange;
+        //    //        newBtn.Foreground = Brushes.White;
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        newBtn.BorderBrush = Brushes.DarkOrange;
+        //    //        newBtn.Background = Brushes.Transparent;
+        //    //        newBtn.Foreground = Brushes.DarkOrange;
+        //    //    }
 
-        //        paginationPanel.Children.Add(newBtn);
-        //        newBtn.Click += new RoutedEventHandler(newBtn_Click);
-        //    }
+        //    //    //paginationPanel.Children.Add(newBtn);
+        //    //    newBtn.Click += new RoutedEventHandler(newBtn_Click);
+        //    //}
 
-        //    newBtn = new System.Windows.Controls.Button();
-        //    newBtn.Content = Properties.Resources.General_Label_Next;
-        //    newBtn.Tag = "Next";
-        //    newBtn.BorderThickness = new Thickness(0);
-        //    newBtn.FontWeight = FontWeights.Bold;
-        //    newBtn.Foreground = Brushes.DarkOrange;
-        //    paginationPanel.Children.Add(newBtn);
-        //    newBtn.Click += new RoutedEventHandler(NextUserList_Click);
+        //    //newBtn = new System.Windows.Controls.Button();
+        //    //newBtn.Content = Properties.Resources.General_Label_Next;
+        //    //newBtn.Tag = "Next";
+        //    //newBtn.BorderThickness = new Thickness(0);
+        //    //newBtn.FontWeight = FontWeights.Bold;
+        //    //newBtn.Foreground = Brushes.DarkOrange;
+        //    ////paginationPanel.Children.Add(newBtn);
+        //    //newBtn.Click += new RoutedEventHandler(NextUserList_Click);
         //}
 
         //private void newBtn_Click(object sender, RoutedEventArgs e)
@@ -179,6 +208,21 @@ namespace VCheckViewer.Views.Pages
         //    if (currentPage == endPagination) { GoToNextPaginationGroup(); return; }
         //    else if (currentPage == startPagination && currentPage != 1) { GoToPreviousPaginationGroup(); return; }
         //}
+
+        protected void PaginationNumButton_Click(object? sender, EventArgs? e)
+        {
+            System.Windows.Controls.Button btnNum = sender as System.Windows.Controls.Button;
+            int iNumberSelected = Convert.ToInt32(btnNum?.Tag);
+
+            currentPage = iNumberSelected;
+
+            pagination.iPageIndex = currentPage;
+
+            if (pagination.iPaginationEnd == currentPage && pagination.iPaginationEnd != pagination.iLastPage) { pagination.iPaginationStart++; pagination.iPaginationEnd++; }
+            else if (pagination.iPaginationStart == currentPage && currentPage != 1) { pagination.iPaginationStart--; pagination.iPaginationEnd--; }
+
+            reloadData((currentPage - 1) * pageSize, pageSize, false);
+        }
 
         //private void NextUserList_Click(object sender, RoutedEventArgs e)
         //{
@@ -216,7 +260,18 @@ namespace VCheckViewer.Views.Pages
 
         //    if (currentPage == endPagination) { GoToNextPaginationGroup(); return; }
         //}
-        
+
+        protected void PaginationNextButton_Click(object? sender, EventArgs? e)
+        {
+            currentPage++;
+
+            pagination.iPageIndex = currentPage;
+
+            if (pagination.iPaginationEnd == currentPage && pagination.iPaginationEnd != pagination.iLastPage) { pagination.iPaginationStart++; pagination.iPaginationEnd++; }
+
+            reloadData((currentPage - 1) * pageSize, pageSize, false);
+        }
+
         //private void GoToNextPaginationGroup()
         //{
         //    var currentlist = GetUserList((endPagination) * pageSize, pageSize);
@@ -226,7 +281,7 @@ namespace VCheckViewer.Views.Pages
         //        startPagination++;
         //        endPagination++;
 
-        //        paginationPanel.Children.Clear();
+        //        //paginationPanel.Children.Clear();
         //        createPagination(endPagination - 1); 
         //    }
             
@@ -234,7 +289,7 @@ namespace VCheckViewer.Views.Pages
 
         //private void GoToPreviousPaginationGroup()
         //{
-        //    paginationPanel.Children.Clear();
+        //    //paginationPanel.Children.Clear();
 
         //    startPagination--;
         //    endPagination--;
@@ -280,38 +335,15 @@ namespace VCheckViewer.Views.Pages
         //    if (currentPage == startPagination && currentPage != 1) { GoToPreviousPaginationGroup(); return; }
         //}
 
-        private void LoadUserListing()
+        protected void PaginationPrevButton_Click(object? sender, EventArgs? e)
         {
-            ObservableCollection<UserModel> currentlist = GetUserList((startPagination - 1) * pageSize, pageSize);
-            dataGrid.ItemsSource = currentlist;
+            currentPage--;
 
-            pagination.iPageIndex = startPagination;
-            pagination.iPageSize = pageSize;
-            pagination.LoadPagingNumber();
-        }
+            pagination.iPageIndex = currentPage;
 
-        private void PaginationNextButton_Click(object sender, EventArgs e)
-        {
-            startPagination++;
+            if (pagination.iPaginationStart == currentPage && currentPage != 1) { pagination.iPaginationStart--; pagination.iPaginationEnd--; }
 
-            LoadUserListing();
-        }
-
-        private void PaginationPrevButton_Click(object sender, EventArgs e)
-        {
-            startPagination--;
-
-            LoadUserListing();
-        }
-
-        private void PaginationNumButton_Click(object sender, EventArgs e)
-        {
-            System.Windows.Controls.Button btnNum = sender as System.Windows.Controls.Button;
-            int iNumberSelected = Convert.ToInt32(btnNum.Tag);
-
-            startPagination = iNumberSelected;
-
-            LoadUserListing();
+            reloadData((currentPage - 1) * pageSize, pageSize, false);
         }
 
         private void AddUserList_Click(object sender, RoutedEventArgs e)

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.VisualBasic.Logging;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,6 +37,8 @@ namespace VCheckViewer.Views.Pages.Login
         TemplateDBContext TemplateContext = App.GetService<TemplateDBContext>();
         UserDBContext UserContext = App.GetService<UserDBContext>();
         NotificationDBContext NotificationContext = App.GetService<NotificationDBContext>();
+
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public PasswordRecoveryPage()
         {
@@ -82,60 +86,83 @@ namespace VCheckViewer.Views.Pages.Login
 
         private async void ProceedResetPassword(object sender, EventArgs e)
         {
-            await App.UserManager.RemovePasswordAsync(user);
-            var resetPassword = await App.UserManager.AddPasswordAsync(user, newPassword);
-
-            if (resetPassword.Succeeded)
+            var removepassword = await App.UserManager.RemovePasswordAsync(user);
+            if(removepassword.Succeeded)
             {
-                var notificationTemplate = TemplateContext.GetTemplateByCode("EN02");
-                notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###",userModel.FullName).Replace("###<password>###", newPassword);
+                var resetPassword = await App.UserManager.AddPasswordAsync(user, newPassword);
 
-                string sErrorMessage = "";
-
-                try
+                if (resetPassword.Succeeded)
                 {
-                    EmailObject sEmail = new EmailObject();
+                    var notificationTemplate = TemplateContext.GetTemplateByCode("EN02");
+                    notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###", userModel.FullName).Replace("###<password>###", newPassword);
 
-                    sEmail.SenderEmail = App.SMTP.Sender;
+                    string sErrorMessage;
 
-                    List<String> sRecipientList = new List<string>() { "azwan@svrtech.com.my" };
-
-
-                    sEmail.RecipientEmail = sRecipientList;
-                    sEmail.IsHtml = true;
-                    sEmail.Subject = "[VCheck Viewer] " + notificationTemplate.TemplateTitle;
-                    sEmail.Body = notificationTemplate.TemplateContent;
-                    sEmail.SMTPHost = App.SMTP.Host;
-                    sEmail.PortNo = App.SMTP.Port;
-                    sEmail.HostUsername = App.SMTP.Username;
-                    sEmail.HostPassword = App.SMTP.Password;
-                    sEmail.EnableSsl = true;
-                    sEmail.UseDefaultCredentials = false;
-
-                    EmailHelper.SendEmail(sEmail, out sErrorMessage);
-
-                    NotificationModel notification = new NotificationModel()
+                    try
                     {
-                        NotificationType = "Email",
-                        NotificationTitle = notificationTemplate.TemplateTitle,
-                        NotificationContent = notificationTemplate.TemplateContent,
-                        CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                        CreatedBy = userModel.FullName
-                    };
+                        EmailObject sEmail = new EmailObject();
 
-                    NotificationContext.InsertNotification(notification);
+                        sEmail.SenderEmail = App.SMTP.Sender;
+
+                        List<string> sRecipientList = [user.NormalizedEmail, "azwan@svrtech.com.my"];
+
+
+                        sEmail.RecipientEmail = sRecipientList;
+                        sEmail.IsHtml = true;
+                        sEmail.Subject = "[VCheck Viewer] " + notificationTemplate.TemplateTitle;
+                        sEmail.Body = notificationTemplate.TemplateContent;
+                        sEmail.SMTPHost = App.SMTP.Host;
+                        sEmail.PortNo = App.SMTP.Port;
+                        sEmail.HostUsername = App.SMTP.Username;
+                        sEmail.HostPassword = App.SMTP.Password;
+                        sEmail.EnableSsl = true;
+                        sEmail.UseDefaultCredentials = false;
+
+                        EmailHelper.SendEmail(sEmail, out sErrorMessage);
+
+                        if(sErrorMessage != null) { throw new Exception(sErrorMessage); }
+
+                        NotificationModel notification = new NotificationModel()
+                        {
+                            NotificationType = "Email",
+                            NotificationTitle = notificationTemplate.TemplateTitle,
+                            NotificationContent = notificationTemplate.TemplateContent,
+                            Receiver = string.Join(", ", sRecipientList),
+                            CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                            CreatedBy = userModel.FullName
+                        };
+
+                        if (NotificationContext.InsertNotification(notification))
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorText.Visibility = Visibility.Visible;
+                        //ErrorText.Text = "Error occur when creating password. Please contact administrator.";
+                        ErrorText.Text = Properties.Resources.Login_Message_CreatePasswordError;
+                        App.log.Error("Password Recovery Error >>> ", ex);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
                     ErrorText.Visibility = Visibility.Visible;
-                    ErrorText.Text = "Error occur when creating password. Please contact administrator.";
+                    //ErrorText.Text = "Error occur when creating password. Please contact administrator.";
+                    ErrorText.Text = Properties.Resources.Login_Message_CreatePasswordError;
                 }
             }
             else
             {
                 ErrorText.Visibility = Visibility.Visible;
-                ErrorText.Text = "Error occur when creating password. Please contact administrator.";
+                //ErrorText.Text = "Error occur when removing password. Please contact administrator.";
+                ErrorText.Text = Properties.Resources.Login_Message_RemovePasswordError;
             }
+            
         }
 
         private void BackToLogin(object sender, RoutedEventArgs e)
@@ -180,6 +207,18 @@ namespace VCheckViewer.Views.Pages.Login
             randomstring += upperCase[res.Next(upperCase.Length)];
             randomstring += number[res.Next(number.Length)];
             randomstring += specialChar[res.Next(specialChar.Length)];
+
+            char[] chars = randomstring.ToCharArray();
+
+            for (int i = 0; i < chars.Length; i++)
+            {
+                int randomIndex = res.Next(0, chars.Length);
+                char temp = chars[randomIndex];
+                chars[randomIndex] = chars[i];
+                chars[i] = temp;
+            }
+
+            randomstring = string.Join("",chars);
 
             return randomstring;
         }

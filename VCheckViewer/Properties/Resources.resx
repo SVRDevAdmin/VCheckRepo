@@ -271,7 +271,7 @@
     <value>Completed Test Results</value>
   </data>
   <data name="Notification_Label_ShowAll" xml:space="preserve">
-    <value>Show All</value>
+    <value>All</value>
   </data>
   <data name="Notification_Label_UpcomingTest" xml:space="preserve">
     <value>Upcoming Test</value>
@@ -503,6 +503,21 @@
   </data>
   <data name="General_Message_NoScheduleTest" xml:space="preserve">
     <value>No scheduled test available.</value>
+  </data>
+  <data name="Setting_Message_NoUserData" xml:space="preserve">
+    <value>No user existed</value>
+  </data>
+  <data name="General_Label_SelectDuration" xml:space="preserve">
+    <value>Select duration</value>
+  </data>
+  <data name="General_Message_Error" xml:space="preserve">
+    <value>Unable to process. Please contact administrator.</value>
+  </data>
+  <data name="Login_Message_CreatePasswordError" xml:space="preserve">
+    <value>Error occur when creating password. Please contact administrator.</value>
+  </data>
+  <data name="Login_Message_RemovePasswordError" xml:space="preserve">
+    <value>Error occur when removing password. Please contact administrator.</value>
   </data>
   <data name="ResetPassword_Title_PageTitle" xml:space="preserve">
     <value>Reset Password</value>

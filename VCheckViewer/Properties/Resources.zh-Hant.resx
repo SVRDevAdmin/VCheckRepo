@@ -271,7 +271,7 @@
     <value>完成的测试结果</value>
   </data>
   <data name="Notification_Label_ShowAll" xml:space="preserve">
-    <value>顯示全部</value>
+    <value>都</value>
   </data>
   <data name="Notification_Label_UpcomingTest" xml:space="preserve">
     <value>即將到來的測試</value>
@@ -503,6 +503,21 @@
   </data>
   <data name="General_Message_NoScheduleTest" xml:space="preserve">
     <value>沒有可用的預定測試。</value>
+  </data>
+  <data name="Setting_Message_NoUserData" xml:space="preserve">
+    <value>不存在使用者</value>
+  </data>
+  <data name="General_Label_SelectDuration" xml:space="preserve">
+    <value>選擇持續時間</value>
+  </data>
+  <data name="General_Message_Error" xml:space="preserve">
+    <value>無法處理。請聯繫管理員。</value>
+  </data>
+  <data name="Login_Message_CreatePasswordError" xml:space="preserve">
+    <value>創建密碼時發生錯誤。請聯繫管理員。</value>
+  </data>
+  <data name="Login_Message_RemovePasswordError" xml:space="preserve">
+    <value>刪除密碼時發生錯誤。請聯繫管理員。</value>
   </data>
   <data name="ResetPassword_Title_PageTitle" xml:space="preserve">
     <value>重新設密碼</value>

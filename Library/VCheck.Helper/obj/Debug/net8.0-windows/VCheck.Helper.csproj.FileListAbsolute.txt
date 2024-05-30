@@ -10,3 +10,15 @@ C:\Dev\VCheck\Library\VCheck.Helper\obj\Debug\net8.0-windows\VCheck.Helper.dll
 C:\Dev\VCheck\Library\VCheck.Helper\obj\Debug\net8.0-windows\refint\VCheck.Helper.dll
 C:\Dev\VCheck\Library\VCheck.Helper\obj\Debug\net8.0-windows\VCheck.Helper.pdb
 C:\Dev\VCheck\Library\VCheck.Helper\obj\Debug\net8.0-windows\ref\VCheck.Helper.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Helper\bin\Debug\net8.0-windows\VCheck.Helper.deps.json
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Helper\bin\Debug\net8.0-windows\VCheck.Helper.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Helper\bin\Debug\net8.0-windows\VCheck.Helper.pdb
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Helper\obj\Debug\net8.0-windows\VCheck.Helper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Helper\obj\Debug\net8.0-windows\VCheck.Helper.AssemblyInfoInputs.cache
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Helper\obj\Debug\net8.0-windows\VCheck.Helper.AssemblyInfo.cs
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Helper\obj\Debug\net8.0-windows\VCheck.Helper.csproj.CoreCompileInputs.cache
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Helper\obj\Debug\net8.0-windows\VCheck.Helper.sourcelink.json
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Helper\obj\Debug\net8.0-windows\VCheck.Helper.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Helper\obj\Debug\net8.0-windows\refint\VCheck.Helper.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Helper\obj\Debug\net8.0-windows\VCheck.Helper.pdb
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\Library\VCheck.Helper\obj\Debug\net8.0-windows\ref\VCheck.Helper.dll

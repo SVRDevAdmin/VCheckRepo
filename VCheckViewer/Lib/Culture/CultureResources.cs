@@ -15,6 +15,7 @@ namespace VCheckViewer.Lib.Culture
         private static bool bFoundInstalledCultures = false;
 
         private static List<CultureInfo> pSupportedCultures = new List<CultureInfo>();
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         /// List of available cultures, enumerated at startup
@@ -46,8 +47,9 @@ namespace VCheckViewer.Lib.Culture
                             Debug.WriteLine(string.Format(" Found Culture: {0} [{1}]", tCulture.DisplayName, tCulture.Name));
                         }
                     }
-                    catch (ArgumentException) //ignore exceptions generated for any unrelated directories in the bin folder
+                    catch (ArgumentException ex) //ignore exceptions generated for any unrelated directories in the bin folder
                     {
+                        //App.log.Error("Culture Resource Error >>> ", ex);
                     }
                 }
                 bFoundInstalledCultures = true;

@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using log4net;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
@@ -14,6 +16,8 @@ namespace VCheck.Lib.Data.DBContext
     public class ConfigurationDBContext
     {
         private readonly IConfiguration config;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
+
 
         public ConfigurationDBContext(IConfiguration config)
         {
@@ -33,54 +37,82 @@ namespace VCheck.Lib.Data.DBContext
         {
             List<ConfigurationModel> sList = new List<ConfigurationModel>();
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from mst_configuration where ConfigurationKey like '%" + configurationKey + "%'", conn);
-
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = this.Connection)
                 {
-                    while (reader.Read())
-                    {
-                        sList.Add(new ConfigurationModel()
-                        {
-                            ConfigurationID = reader.GetInt32("ConfigurationID"),
-                            ConfigurationKey = reader["ConfigurationKey"].ToString(),
-                            ConfigurationValue = reader["ConfigurationValue"].ToString()
-                    });
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select * from mst_configuration where ConfigurationKey like '%" + configurationKey + "%'", conn);
 
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            sList.Add(new ConfigurationModel()
+                            {
+                                ConfigurationID = reader.GetInt32("ConfigurationID"),
+                                ConfigurationKey = reader["ConfigurationKey"].ToString(),
+                                ConfigurationValue = reader["ConfigurationValue"].ToString()
+                            });
+
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+            }           
 
             return sList;
         }
 
-        public void UpdateConfiguration(string ConfigurationKey, string ConfigurationValue)
+        public bool UpdateConfiguration(string ConfigurationKey, string ConfigurationValue)
         {
-            string insertQuery = "UPDATE `vcheckdb`.`mst_configuration` SET `ConfigurationValue` = '" + ConfigurationValue + "' WHERE `ConfigurationKey` = '" + ConfigurationKey + "';";
+            string insertQuery = "UPDATE `mst_configuration` SET `ConfigurationValue` = '" + ConfigurationValue + "' WHERE `ConfigurationKey` = '" + ConfigurationKey + "';";
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
 
-                cmd.ExecuteReader();
+                using (MySqlConnection conn = this.Connection)
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+
+                    cmd.ExecuteReader();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+                return false;
             }
         }
 
-        public void AddConfiguation(string ConfigurationKey, String ConfigurationValue)
+        public bool AddConfiguration(string ConfigurationKey, String ConfigurationValue)
         {
             String InsertQuery = "INSERT INTO Mst_Configuration(ConfigurationKey, ConfigurationValue) " +
                                  "VALUES('" + ConfigurationKey + "', '" + ConfigurationValue + "')";
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(InsertQuery, conn);
-                cmd.ExecuteReader();
+                using (MySqlConnection conn = this.Connection)
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(InsertQuery, conn);
+                    cmd.ExecuteReader();
 
-                conn.Close();
+                    conn.Close();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+                return false ;
             }
         }
     }

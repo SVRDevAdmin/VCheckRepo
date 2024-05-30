@@ -38,6 +38,19 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
             InitializeComponent();
 
             initializedList();
+
+            if (App.MainViewModel.CurrentUsers.Role == "Lab User")
+            {
+                btnUserSetting.IsEnabled = false;
+                btnSettings.IsEnabled = false;
+                btnDeviceSetting.IsEnabled = false;
+            }
+            else
+            {
+                btnUserSetting.IsEnabled = true;
+                btnSettings.IsEnabled = true;
+                btnDeviceSetting.IsEnabled = true;
+            }
         }
 
         public void initializedList()

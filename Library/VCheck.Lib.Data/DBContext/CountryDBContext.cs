@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using log4net;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
@@ -12,6 +14,7 @@ namespace VCheck.Lib.Data.DBContext
     public class CountryDBContext
     {
         private readonly Microsoft.Extensions.Configuration.IConfiguration config;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
 
         public CountryDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
         {
@@ -31,24 +34,31 @@ namespace VCheck.Lib.Data.DBContext
         {
             List<CountryModel> sList = new List<CountryModel>();
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from mst_countrylist where CountryName like '%"+ partialName+"%'", conn);
-
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = this.Connection)
                 {
-                    while (reader.Read())
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select * from mst_countrylist where CountryName like '%" + partialName + "%'", conn);
+
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        sList.Add(new CountryModel()
+                        while (reader.Read())
                         {
-                            CountryCode = reader["CountryCode"].ToString(),
-                            CountryName = reader["CountryName"].ToString(),
-                            IsActive = Convert.ToBoolean(reader["IsActive"])
-                        });
+                            sList.Add(new CountryModel()
+                            {
+                                CountryCode = reader["CountryCode"].ToString(),
+                                CountryName = reader["CountryName"].ToString(),
+                                IsActive = Convert.ToBoolean(reader["IsActive"])
+                            });
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+            }            
 
             return sList;
         }

@@ -63,7 +63,7 @@
                         </ScrollViewer>
 
                     </Border>
-                    <Border Name="borderNoNotification" Grid.Row="0" Padding="30" Panel.ZIndex="23" Visibility="Collapsed">
+                    <Border Name="borderNoNotification" Grid.Row="0" Margin="10" Padding="0,10,0,10" Panel.ZIndex="23" Background="WhiteSmoke" CornerRadius="20" Visibility="Collapsed">
                         <TextBlock TextAlignment="Center" FontFamily="Noto Sans" FontSize="12" Text="{Binding Path=General_Message_NoNotification, Source={StaticResource Resources}}"/>
                     </Border>
                 </Grid>

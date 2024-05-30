@@ -80,12 +80,13 @@ namespace VCheckViewer.Views.Windows
 
         public void GoToMainWindow(object sender, EventArgs e)
         {
-            if (!System.Windows.Application.Current.Windows.OfType<Main>().Any())
+            if (System.Windows.Application.Current.Windows.OfType<Main>().Any())
             {
-                Main main = new Main();
-                main.frameContent.Content = new DashboardPage();
-                main.Show();
+                System.Windows.Application.Current.Windows.OfType<Main>().First().Close();
             }
+            Main main = new Main();
+            main.frameContent.Content = new DashboardPage();
+            main.Show();
             Close();
         }
 

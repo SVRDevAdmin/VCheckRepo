@@ -1,0 +1,16 @@
+2024-05-28 14:36:27,262 ERROR VCheckViewerAPI.Lib.Util.Logger.Error [35] - MESSAGE: Internal Error >>> 
+ System.Exception: Exception of type 'System.Exception' was thrown.
+   at VCheckViewerAPI.Services.ApiHandlerMiddleware.Invoke(HttpContext context) in C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewerAPI\Services\ApiHandlerMiddleware.cs:line 25
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+2024-05-28 14:36:27,506 ERROR VCheckViewerAPI.Lib.Util.Logger.Error [35] - MESSAGE: Logging Error >>> 
+ System.NotSupportedException: Specified method is not supported.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestStream.Seek(Int64 offset, SeekOrigin origin)
+   at VCheckViewerAPI.Lib.Util.Logger.ApiLog(HttpContext context, Object responseBody) in C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewerAPI\Lib\Util\Log.cs:line 49
+2024-05-28 14:36:47,330 ERROR VCheckViewerAPI.Lib.Util.Logger.Error [35] - MESSAGE: Internal Error >>> 
+ System.Exception: Exception of type 'System.Exception' was thrown.
+   at VCheckViewerAPI.Services.ApiHandlerMiddleware.Invoke(HttpContext context) in C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewerAPI\Services\ApiHandlerMiddleware.cs:line 25
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+2024-05-28 14:37:50,652 ERROR VCheckViewerAPI.Lib.Util.Logger.Error [35] - MESSAGE: Internal Error >>> 
+ System.Exception: Exception of type 'System.Exception' was thrown.
+   at VCheckViewerAPI.Services.ApiHandlerMiddleware.Invoke(HttpContext context) in C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewerAPI\Services\ApiHandlerMiddleware.cs:line 25
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)

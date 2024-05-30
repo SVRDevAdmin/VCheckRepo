@@ -31,6 +31,13 @@ namespace VCheckViewer.ViewModels.Windows
             set { _currentUser = value; }
         }
 
+        int _currentUserIndexStart;
+        public int CurrentUserIndexStart
+        {
+            get { return _currentUserIndexStart; }
+            set { _currentUserIndexStart = value; }
+        }
+
         UserModel _user;
         public UserModel Users
         {
