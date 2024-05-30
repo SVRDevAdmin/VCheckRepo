@@ -348,6 +348,9 @@
   <data name="Notification_Label_Updates" xml:space="preserve">
     <value>업데이트</value>
   </data>
+  <data name="Notification_Title_PageTitle" xml:space="preserve">
+    <value>공지 사항 게시판</value>
+  </data>
   <data name="Popup_Message_AddAnalyzer" xml:space="preserve">
     <value>이 새 분석기를 추가하시겠습니까?</value>
   </data>
@@ -357,11 +360,20 @@
   <data name="Popup_Message_DeleteUser" xml:space="preserve">
     <value>이 사용자 프로필을 삭제하시겠습니까?</value>
   </data>
+  <data name="Popup_Message_FailedAddDevice" xml:space="preserve">
+    <value>장치를 추가하지 못했습니다. 시스템 관리자에게 문의하세요.</value>
+  </data>
+  <data name="Popup_Message_FailedDeleteDevice" xml:space="preserve">
+    <value>장치를 제거하지 못했습니다. 시스템 관리자에게 문의하세요.</value>
+  </data>
   <data name="Popup_Message_FailedDownloadListing" xml:space="preserve">
     <value>테스트 결과 목록을 다운로드하지 못했습니다.</value>
   </data>
   <data name="Popup_Message_FailedOpenPrint" xml:space="preserve">
     <value>인쇄를 열지 못했습니다.</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateDevice" xml:space="preserve">
+    <value>장치를 업데이트하지 못했습니다. 시스템 관리자에게 문의하세요.</value>
   </data>
   <data name="Popup_Message_LanguageCountryChange" xml:space="preserve">
     <value>이 설정을 저장하시겠습니까?</value>

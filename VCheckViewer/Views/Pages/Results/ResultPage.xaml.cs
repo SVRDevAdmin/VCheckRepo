@@ -49,7 +49,7 @@ namespace VCheckViewer.Views.Pages.Results
         public ComboBoxItem SelectedcbSort { get; set;  }
 
         public int currentPage = 1;
-        public int paginationSize = 2;
+        public int paginationSize = 10;
         public int startPagination = 1;
         public int endPagination = 0;
 

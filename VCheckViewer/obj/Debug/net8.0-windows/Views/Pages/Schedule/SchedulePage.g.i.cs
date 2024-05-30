@@ -126,7 +126,7 @@ namespace VCheckViewer.Views.Pages.Schedule {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/VCheckViewer;component/views/pages/schedule/schedulepage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/VCheckViewer;V1.0.0.0;component/views/pages/schedule/schedulepage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\Views\Pages\Schedule\SchedulePage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

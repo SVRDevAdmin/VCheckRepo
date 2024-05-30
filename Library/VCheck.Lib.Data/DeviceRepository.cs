@@ -26,11 +26,13 @@ namespace VCheck.Lib.Data
 
             try
             {
-                var ctx = new DeviceDBContext(config);
-                ctx.mst_deviceslist.Add(sDevice);
-                ctx.SaveChanges();
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    ctx.mst_deviceslist.Add(sDevice);
+                    ctx.SaveChanges();
 
-                isSuccess = true;
+                    isSuccess = true;
+                }
             }
             catch (Exception ex)
             {
@@ -49,9 +51,10 @@ namespace VCheck.Lib.Data
         {
             try
             {
-                var ctx = new DeviceDBContext(config);
-
-                return ctx.mst_deviceslist.Where(x => x.status == 1).ToList();
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    return ctx.mst_deviceslist.Where(x => x.status == 1).ToList();
+                }
             }
             catch (Exception ex)
             {
@@ -69,8 +72,10 @@ namespace VCheck.Lib.Data
         {
             try
             {
-                var ctx = new DeviceDBContext(config);
-                return ctx.mst_deviceslist.Where(x => x.id == iID).FirstOrDefault();
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    return ctx.mst_deviceslist.Where(x => x.id == iID).FirstOrDefault();
+                }
             }
             catch (Exception ex)
             {

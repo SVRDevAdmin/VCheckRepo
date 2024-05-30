@@ -81,7 +81,7 @@ CREATE TABLE `tbltestanalyze_results_observationresult` (
 	`ObservationSubID` VARCHAR(10) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`ObservationValue` VARCHAR(300) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`Units` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-	`ReferencesRange` VARCHAR(10) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`ReferencesRange` VARCHAR(60) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`AbnormalFlag` VARCHAR(1) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`ObservationResultStatus` VARCHAR(1) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`ObservationDateTime` VARCHAR(30) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',

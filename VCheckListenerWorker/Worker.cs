@@ -6,6 +6,8 @@ using VCheckListenerWorker.Lib.Logic;
 using VCheckListenerWorker.Lib.Models;
 using log4net.Config;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using NHapi.Model.V23.Segment;
+using Org.BouncyCastle.Asn1;
 
 namespace VCheckListenerWorker
 {
@@ -174,9 +176,9 @@ namespace VCheckListenerWorker
             {
                 FieldSeparator = sRU_R01.MSH.FieldSeparator.Value,
                 EncodingCharacters = sRU_R01.MSH.EncodingCharacters.Value,
-                SendingApplication = sRU_R01.MSH.SendingApplication.NamespaceID.Value + "^" +
-                                     sRU_R01.MSH.SendingApplication.UniversalID.Value + "^" +
-                                     sRU_R01.MSH.SendingApplication.UniversalIDType.Value,
+                SendingApplication = sRU_R01.MSH.SendingApplication.NamespaceID.Value.Trim() + "^" +
+                                     sRU_R01.MSH.SendingApplication.UniversalID.Value.Trim() + "^" +
+                                     sRU_R01.MSH.SendingApplication.UniversalIDType.Value.Trim(),
                 SendingFacility = sRU_R01.MSH.SendingFacility.NamespaceID.Value,
                 ReceivingApplication = sRU_R01.MSH.ReceivingApplication.NamespaceID.Value,
                 ReceivingFacility = sRU_R01.MSH.ReceivingFacility.NamespaceID.Value,
@@ -287,6 +289,7 @@ namespace VCheckListenerWorker
                 foreach (var observationDetail in observation.OBSERVATIONs)
                 {
                     String sObservValue = "";
+                    strObserveValue = "";
                     if (observationDetail.OBX.GetObservationValue().Count() > 0)
                     {
                         if (observationDetail.OBX.GetObservationValue().FirstOrDefault().Data.GetType() == typeof(NHapi.Model.V26.Datatype.NA))
@@ -322,12 +325,54 @@ namespace VCheckListenerWorker
                         }
                         else
                         {
-                            sObservValue = observationDetail.OBX.GetObservationValue().FirstOrDefault().Data.ToString();
+                            if (observationDetail.OBX.GetObservationValue().FirstOrDefault().Data.GetType() == typeof(NHapi.Model.V26.Datatype.CWE))
+                            {
+                                var sCWEObject = observationDetail.OBX.GetObservationValue().FirstOrDefault().Data;
+
+                                List<String> sCWEVal = new List<String>();
+                                PropertyInfo[] propCWE = sCWEObject.GetType().GetProperties(); 
+                                foreach(PropertyInfo c in propCWE)
+                                {
+                                    if (c.PropertyType == typeof(NHapi.Base.Model.IType[]))
+                                    {
+                                        NHapi.Base.Model.IType[] iTypeObj = (NHapi.Base.Model.IType[])c.GetValue(sCWEObject, null);
+                                        for (int i = 0; i < 4; i++)
+                                        {
+                                            sCWEVal.Add(iTypeObj[i].ToString());
+                                        }
+                                    }
+                                }
+
+                                if (sCWEVal.Count() > 0)
+                                {
+                                    sObservValue = String.Join("^", sCWEVal);
+                                }
+                            }
+                            else
+                            {
+                                sObservValue = observationDetail.OBX.GetObservationValue().FirstOrDefault().Data.ToString();
+                            }
+                            
+                        }
+
+                        strObserveValue = sObservValue;
+                    }
+                    else
+                    {
+                        if (observationDetail.OBX.ObservationResultStatus != null)
+                        {
+                            if (observationDetail.OBX.ObservationResultStatus.Value == "F")
+                            {
+                                strObserveValue = "Valid";
+                            }
+                            if (observationDetail.OBX.ObservationResultStatus.Value == "X")
+                            {
+                                strObserveValue = "Invalid";
+                            }
                         }
                     }
-                    strObserveValue = sObservValue;
-
-                     String sUnitValue = "";
+                    
+                    String sUnitValue = "";
                     sUnitValue = observationDetail.OBX.Units.Identifier.Value + "^" +
                             observationDetail.OBX.Units.Text.Value + "^" +
                             observationDetail.OBX.Units.NameOfCodingSystem;
@@ -359,7 +404,14 @@ namespace VCheckListenerWorker
                     if (!String.IsNullOrEmpty(observationDetail.OBX.DateTimeOfTheAnalysis.Value))
                     {
                         //dAnalysisDateTime = DateTime.ParseExact(observationDetail.OBX.DateTimeOfTheAnalysis.Value, "yyyyMMddHHmmss-ZZZZ", System.Globalization.CultureInfo.InvariantCulture);
-                        dAnalysisDateTime = DateTime.ParseExact(observationDetail.OBX.DateTimeOfTheAnalysis.Value, "yyyyMMddHHmmss-ffff", System.Globalization.CultureInfo.InvariantCulture);
+                        if (observationDetail.OBX.DateTimeOfTheAnalysis.Value.Length == 14)
+                        {
+                            dAnalysisDateTime = DateTime.ParseExact(observationDetail.OBX.DateTimeOfTheAnalysis.Value, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture);
+                        }
+                        else
+                        {
+                            dAnalysisDateTime = DateTime.ParseExact(observationDetail.OBX.DateTimeOfTheAnalysis.Value, "yyyyMMddHHmmss-ffff", System.Globalization.CultureInfo.InvariantCulture);
+                        }             
                     }
                     
                     sOBXObjList.Add(new tbltestanalyze_results_observationresult
@@ -393,7 +445,7 @@ namespace VCheckListenerWorker
                         sNTEObj.Add(new tbltestanalyze_results_notes
                         {
                             SetID = (observationDetail.NTEs.Count() > 0) ? 
-                                    observationDetail.NTEs.FirstOrDefault().SetIDNTE.Value : null,
+                                    observationDetail.NTEs.FirstOrDefault().SetIDNTE.Value.Trim() : null,
                             Segment = "OBX",
                             SourceComment = (observationDetail.NTEs.Count() > 0) ?
                                              observationDetail.NTEs.FirstOrDefault().SourceOfComment.Value : null,

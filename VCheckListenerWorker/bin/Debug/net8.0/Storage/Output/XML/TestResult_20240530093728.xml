@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ORU_R01 xmlns="urn:hl7-org:v2xml">
+  <MSH>
+    <MSH.1>|</MSH.1>
+    <MSH.2>^~\&amp;</MSH.2>
+    <MSH.3>
+      <HD.1> VA20B02VA1038</HD.1>
+      <HD.2>70b3d57372401173</HD.2>
+      <HD.3>EUI-64</HD.3>
+    </MSH.3>
+    <MSH.4>
+      <HD.1>BioNote</HD.1>
+    </MSH.4>
+    <MSH.7>20180122113226</MSH.7>
+    <MSH.9>
+      <MSG.1>ORU</MSG.1>
+      <MSG.2>R01</MSG.2>
+      <MSG.3>ORU_R01</MSG.3>
+    </MSH.9>
+    <MSH.10>{5acbc741-5dbd-4f20-bf13-5b3aa586a86e}</MSH.10>
+    <MSH.11>
+      <PT.1>P</PT.1>
+    </MSH.11>
+    <MSH.12>
+      <VID.1>2.6</VID.1>
+    </MSH.12>
+    <MSH.15>AL</MSH.15>
+    <MSH.16>NE</MSH.16>
+    <MSH.18>UNICODE UTF-8</MSH.18>
+    <MSH.19>
+      <CWE.1>EN</CWE.1>
+      <CWE.2>English</CWE.2>
+      <CWE.3>ISO639</CWE.3>
+    </MSH.19>
+    <MSH.21>
+      <EI.1>IHE_PCD_ORU_R01</EI.1>
+      <EI.2>IHE PCD</EI.2>
+      <EI.3>1.3.6.1.4.1.19376.1.6.4.1</EI.3>
+      <EI.4>ISO</EI.4>
+    </MSH.21>
+  </MSH>
+  <ORU_R01.PATIENT_RESULT>
+    <ORU_R01.PATIENT>
+      <PID>
+        <PID.5>
+          <XPN.7>U</XPN.7>
+        </PID.5>
+      </PID>
+    </ORU_R01.PATIENT>
+    <ORU_R01.ORDER_OBSERVATION>
+      <OBR>
+        <OBR.1>1</OBR.1>
+        <OBR.2>
+          <EI.1>d77ccc52-ed33-4f5d-8ba7-b32b844ecfdf</EI.1>
+          <EI.2>VA20B02VA1038</EI.2>
+          <EI.3>70b3d57372401173</EI.3>
+          <EI.4>GUID</EI.4>
+        </OBR.2>
+        <OBR.3>
+          <EI.1>d77ccc52-ed33-4f5d-8ba7-b32b844ecfdf</EI.1>
+          <EI.2>VA20B02VA1038</EI.2>
+          <EI.3>70b3d57372401173</EI.3>
+          <EI.4>GUID</EI.4>
+        </OBR.3>
+        <OBR.4>
+          <CWE.1>BN0330</CWE.1>
+          <CWE.2>CPV/CCV Ag</CWE.2>
+          <CWE.3>LN</CWE.3>
+        </OBR.4>
+        <OBR.7>20170628144032</OBR.7>
+        <OBR.8>20170628144032</OBR.8>
+      </OBR>
+      <NTE>
+        <NTE.1>1</NTE.1>
+        <NTE.3>Device Information,Date of manufacture=20180327,LotNo=1,SerialNo=00001,Kind=QFLine</NTE.3>
+      </NTE>
+      <ORU_R01.OBSERVATION>
+        <OBX>
+          <OBX.1>1</OBX.1>
+          <OBX.2>CWE</OBX.2>
+          <OBX.3>
+            <CWE.1>BN0330</CWE.1>
+            <CWE.2>CPV/CCV Ag</CWE.2>
+            <CWE.3>LN</CWE.3>
+          </OBX.3>
+          <OBX.4>1.0.0.33</OBX.4>
+          <OBX.5>
+            <CWE.1>BN0330-1</CWE.1>
+            <CWE.2>CPV Ag</CWE.2>
+            <CWE.3>Positive</CWE.3>
+            <CWE.4>LN</CWE.4>
+          </OBX.5>
+          <OBX.11>F</OBX.11>
+          <OBX.14>20170628144032</OBX.14>
+          <OBX.16>
+            <XCN.1>guest</XCN.1>
+          </OBX.16>
+          <OBX.19>20170628144032</OBX.19>
+        </OBX>
+        <NTE>
+          <NTE.1>1</NTE.1>
+          <NTE.3>Cut Off Index,Value=2.12</NTE.3>
+        </NTE>
+      </ORU_R01.OBSERVATION>
+      <ORU_R01.OBSERVATION>
+        <OBX>
+          <OBX.1>2</OBX.1>
+          <OBX.2>CWE</OBX.2>
+          <OBX.3>
+            <CWE.1>BN0330</CWE.1>
+            <CWE.2>CPV/CCV Ag</CWE.2>
+            <CWE.3>LN</CWE.3>
+          </OBX.3>
+          <OBX.4>1.0.0.33</OBX.4>
+          <OBX.5>
+            <CWE.1>BN0330-2</CWE.1>
+            <CWE.2>CCV Ag</CWE.2>
+            <CWE.3>Negative</CWE.3>
+            <CWE.4>LN</CWE.4>
+          </OBX.5>
+          <OBX.11>F</OBX.11>
+          <OBX.14>20170628144032</OBX.14>
+          <OBX.16>
+            <XCN.1>guest</XCN.1>
+          </OBX.16>
+          <OBX.19>20170628144032</OBX.19>
+        </OBX>
+        <NTE>
+          <NTE.1> 2</NTE.1>
+          <NTE.3>Cut Off Index,Value=0.42</NTE.3>
+        </NTE>
+      </ORU_R01.OBSERVATION>
+    </ORU_R01.ORDER_OBSERVATION>
+  </ORU_R01.PATIENT_RESULT>
+</ORU_R01>

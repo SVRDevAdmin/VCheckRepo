@@ -529,7 +529,7 @@
     <value>Print</value>
   </data>
   <data name="Results_Label_ProceduralCont" xml:space="preserve">
-    <value>Procedural Cont</value>
+    <value>Procedural Control</value>
   </data>
   <data name="Results_Label_Result" xml:space="preserve">
     <value>Result</value>
@@ -566,5 +566,17 @@
   </data>
   <data name="Results_Label_SortBy" xml:space="preserve">
     <value>Sort By :</value>
+  </data>
+  <data name="Notification_Title_PageTitle" xml:space="preserve">
+    <value>Notification</value>
+  </data>
+  <data name="Popup_Message_FailedAddDevice" xml:space="preserve">
+    <value>Failed to add device, please contact system admin.</value>
+  </data>
+  <data name="Popup_Message_FailedDeleteDevice" xml:space="preserve">
+    <value>Failed to remove device, please contact System Admin.</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateDevice" xml:space="preserve">
+    <value>Failed to update device, please contact System Admin.</value>
   </data>
 </root>

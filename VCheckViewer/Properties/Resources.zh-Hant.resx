@@ -133,13 +133,13 @@
     <value>下一頁</value>
   </data>
   <data name="General_Label_No" xml:space="preserve">
-    <value>唔係</value>
+    <value>不</value>
   </data>
   <data name="General_Label_OK" xml:space="preserve">
     <value>知到</value>
   </data>
   <data name="General_Label_Number" xml:space="preserve">
-    <value>數</value>
+    <value>號碼</value>
   </data>
   <data name="General_Label_Previous" xml:space="preserve">
     <value>以前</value>
@@ -157,10 +157,10 @@
     <value>更新</value>
   </data>
   <data name="General_Label_View" xml:space="preserve">
-    <value>視圖</value>
+    <value>详细</value>
   </data>
   <data name="General_Label_Yes" xml:space="preserve">
-    <value>係</value>
+    <value>是的</value>
   </data>
   <data name="General_Message_NoChanges" xml:space="preserve">
     <value>未檢測到任何更改。</value>
@@ -253,13 +253,13 @@
     <value>儀表板</value>
   </data>
   <data name="Main_Label_SideMenuNotification" xml:space="preserve">
-    <value>通知</value>
+    <value>告示板</value>
   </data>
   <data name="Main_Label_SideMenuResults" xml:space="preserve">
-    <value>結果</value>
+    <value>測試結果</value>
   </data>
   <data name="Main_Label_SideMenuSchedule" xml:space="preserve">
-    <value>附表</value>
+    <value>日程表</value>
   </data>
   <data name="Main_Label_SideMenuSetting" xml:space="preserve">
     <value>設置</value>
@@ -460,13 +460,13 @@
     <value>患者</value>
   </data>
   <data name="Schedule_Label_RecentTestResults" xml:space="preserve">
-    <value>最近的測試結果</value>
+    <value>最新測試結果</value>
   </data>
   <data name="Schedule_Label_TestsDone" xml:space="preserve">
     <value>測試完成</value>
   </data>
   <data name="Schedule_Label_UpcomingTest" xml:space="preserve">
-    <value>即將進行的測試</value>
+    <value>即將進行測試</value>
   </data>
   <data name="Schedule_Label_ViewReport" xml:space="preserve">
     <value>查看報告</value>
@@ -517,7 +517,7 @@
     <value>批號</value>
   </data>
   <data name="Results_Label_No" xml:space="preserve">
-    <value>號</value>
+    <value>號碼</value>
   </data>
   <data name="Results_Label_OperatorID" xml:space="preserve">
     <value>操作員 ID</value>
@@ -556,7 +556,7 @@
     <value>測試結果下載完成。</value>
   </data>
   <data name="Results_Title_PageTitle" xml:space="preserve">
-    <value>测试结果</value>
+    <value>測試結果</value>
   </data>
   <data name="Popup_Message_FailedDownloadListing" xml:space="preserve">
     <value>無法下載測試結果列表</value>
@@ -566,5 +566,17 @@
   </data>
   <data name="Results_Label_SortBy" xml:space="preserve">
     <value>排序 :</value>
+  </data>
+  <data name="Notification_Title_PageTitle" xml:space="preserve">
+    <value>告示板</value>
+  </data>
+  <data name="Popup_Message_FailedAddDevice" xml:space="preserve">
+    <value>新增設備失敗，請聯絡系統管理員。</value>
+  </data>
+  <data name="Popup_Message_FailedDeleteDevice" xml:space="preserve">
+    <value>刪除設備失敗，請聯絡系統管理員。</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateDevice" xml:space="preserve">
+    <value>設備更新失敗，請聯絡系統管理員。</value>
   </data>
 </root>

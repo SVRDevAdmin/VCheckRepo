@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using System.Runtime.CompilerServices;
+using System.CodeDom;
 
 namespace VCheck.Lib.Data
 {
@@ -59,6 +60,18 @@ namespace VCheck.Lib.Data
             }
         }
 
+        /// <summary>
+        /// Get Test results listing by search criteria
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="dStartDate"></param>
+        /// <param name="dEndDate"></param>
+        /// <param name="sKeyword"></param>
+        /// <param name="sSortDirection"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalRecords"></param>
+        /// <returns></returns>
         public static List<TestResultListingObj> GetTestResultListBySearch(IConfiguration config, String dStartDate, String dEndDate, 
                                                                            String sKeyword, String sSortDirection, int pageIndex, int pageSize,
                                                                            out int totalRecords)
@@ -128,7 +141,7 @@ namespace VCheck.Lib.Data
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
 
             return sResult;
