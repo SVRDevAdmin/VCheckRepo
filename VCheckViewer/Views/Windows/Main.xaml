@@ -43,7 +43,7 @@
                         <TextBlock x:Name="PageTitle" FontWeight="Bold" FontFamily="Noto Sans" FontSize="25"  Padding="0, 17, 0, 0"/>
                     </Border>
                     <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="2" Margin="50,0,0,0">
-                        <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black" Visibility="Hidden">
+                        <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black" Visibility="Collapsed">
                             <Grid>
                                 <!-- Search Icon -->
                                 <ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>
@@ -69,7 +69,7 @@
                         <Menu>
                             <MenuItem Name="Username" Style="{StaticResource Services_MenuItem_With_Dropdown}">
                                 <MenuItem.Icon>
-                                    <Image Source="../../Content/Images/Screenshot 2024-04-15 152644.png"/>
+                                    <Image Source="../../Content/Images/Avatar_Orange.png"/>
                                 </MenuItem.Icon>
                                 <MenuItem Header="{Binding Path=Main_Label_ViewProfile, Source={StaticResource Resources}}" Click="ViewProfileButton_Click"/>
                                 <MenuItem Header="{Binding Path=Main_Label_ResetPassword, Source={StaticResource Resources}}" Click="ResetPassword"/>

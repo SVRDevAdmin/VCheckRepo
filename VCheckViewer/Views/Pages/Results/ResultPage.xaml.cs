@@ -35,6 +35,7 @@ using Spire.Xls;
 using Microsoft.Extensions.Logging;
 using VCheckViewer.UserControls;
 using System.Management;
+using System.Globalization;
 
 
 namespace VCheckViewer.Views.Pages.Results
@@ -99,12 +100,12 @@ namespace VCheckViewer.Views.Pages.Results
             }
             catch (QuestPDF.Drawing.Exceptions.DocumentDrawingException drawEx)
             {
+                Debug.WriteLine(drawEx.ToString());
             }
             catch (Exception ex)
             {
                 return;
             }
-
 
             if (!isPrint)
             {
@@ -171,6 +172,9 @@ namespace VCheckViewer.Views.Pages.Results
             {
                 sStart = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 sEnd = DateTime.Now.AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd HH:mm:ss");
+
+                RangeDate.DisplayValue = (DateTime.ParseExact(sStart, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)).ToString("dd/MM/yyyy") + " - " +
+                                    (DateTime.ParseExact(sEnd, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)).ToString("dd/MM/yyyy");
             }
 
             String sKeyword = KeywordSearchBar.Text;
@@ -241,6 +245,8 @@ namespace VCheckViewer.Views.Pages.Results
                 sResult = GetTestResultBySearch(iPageSize, out iTotalCount);
 
                 DataTable sDatatable = Lib.General.Utils.ToDataTable(sResult);
+                sDatatable.Columns.Remove("TestResultValue");
+                sDatatable.Columns.Remove("TestResultDateTime");
                 sDatatable.Columns.Remove("statusBackground");
                 sDatatable.Columns.Remove("statusFontColor");
                 sDatatable.Columns.Remove("printedBy");
@@ -254,6 +260,25 @@ namespace VCheckViewer.Views.Pages.Results
                 sDatatable.Columns.Remove("UpdatedDate");
                 sDatatable.Columns.Remove("UpdatedBy");
 
+
+                sDatatable.Columns["RowNo"].SetOrdinal(0);
+                sDatatable.Columns["RowNo"].ColumnName = "No.";
+                sDatatable.Columns["TestResultDateTimeString"].SetOrdinal(1);
+                sDatatable.Columns["TestResultDateTimeString"].ColumnName = "Observation DateTime";
+                sDatatable.Columns["TestResultType"].SetOrdinal(2);
+                sDatatable.Columns["TestResultType"].ColumnName = "Observation Type";
+                sDatatable.Columns["TestResultStatus"].SetOrdinal(3);
+                sDatatable.Columns["TestResultStatus"].ColumnName = "Result Status";
+                sDatatable.Columns["TestResultValueString"].SetOrdinal(4);
+                sDatatable.Columns["TestResultValueString"].ColumnName = "Results Value";
+                sDatatable.Columns["OperatorID"].SetOrdinal(5);
+                sDatatable.Columns["OperatorID"].ColumnName = "Operator ID";
+                sDatatable.Columns["PatientID"].SetOrdinal(6);
+                sDatatable.Columns["PatientID"].ColumnName = "Patient ID";
+                sDatatable.Columns["InchargePerson"].SetOrdinal(7);
+                sDatatable.Columns["InchargePerson"].ColumnName = "Doctor";
+                
+                               
                 // ----- Generate Excel file ------- //
                 XLWorkbook workbook = new XLWorkbook();
                 workbook.Worksheets.Add(sDatatable, "Test Results")
@@ -296,7 +321,11 @@ namespace VCheckViewer.Views.Pages.Results
             }
             catch (Exception ex)
             {
-                string efg = "efg";
+                Popup sNotificationPopup = new Popup();
+                sNotificationPopup.IsOpen = true;
+
+                App.MainViewModel.Origin = (!isPrint) ? "FailedDownloadListing" : "FailedToShowPrint";
+                App.PopupHandler(null, null);
             }
         }
     }

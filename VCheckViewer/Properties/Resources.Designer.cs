@@ -817,6 +817,24 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to download Test Results listing..
+        /// </summary>
+        public static string Popup_Message_FailedDownloadListing {
+            get {
+                return ResourceManager.GetString("Popup_Message_FailedDownloadListing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to Open Print..
+        /// </summary>
+        public static string Popup_Message_FailedOpenPrint {
+            get {
+                return ResourceManager.GetString("Popup_Message_FailedOpenPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to save this setting?.
         /// </summary>
         public static string Popup_Message_LanguageCountryChange {
@@ -1015,6 +1033,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sort By :.
+        /// </summary>
+        public static string Results_Label_SortBy {
+            get {
+                return ResourceManager.GetString("Results_Label_SortBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Time.
         /// </summary>
         public static string Results_Label_Time {
@@ -1065,6 +1092,15 @@ namespace VCheckViewer.Properties {
         public static string Results_Message_TestResultDownloadCompleted {
             get {
                 return ResourceManager.GetString("Results_Message_TestResultDownloadCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Results.
+        /// </summary>
+        public static string Results_Title_PageTitle {
+            get {
+                return ResourceManager.GetString("Results_Title_PageTitle", resourceCulture);
             }
         }
         

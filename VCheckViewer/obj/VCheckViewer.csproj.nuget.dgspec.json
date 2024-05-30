@@ -297,7 +297,7 @@
             },
             "Microsoft.AspNetCore.Cryptography.KeyDerivation": {
               "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[8.0.5, )"
             },
             "Microsoft.AspNetCore.Http": {
               "target": "Package",
@@ -321,7 +321,7 @@
             },
             "Microsoft.EntityFrameworkCore.Abstractions": {
               "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[8.0.5, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -343,7 +343,7 @@
             },
             "MySql.Data": {
               "target": "Package",
-              "version": "[8.3.0, )"
+              "version": "[8.4.0, )"
             },
             "NLog": {
               "target": "Package",
@@ -355,7 +355,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2024.3.9, )"
+              "version": "[2024.3.10, )"
             },
             "WPF-UI": {
               "target": "Package",

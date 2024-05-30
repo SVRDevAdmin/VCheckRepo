@@ -15,22 +15,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Content\Images\36687-5-bell-transparent-image.png" />
+    <None Remove="Content\Images\Avatar_Orange.png" />
+    <None Remove="Content\Images\BackArrow.png" />
     <None Remove="Content\Images\bell.png" />
     <None Remove="Content\Images\bio_logo.png" />
     <None Remove="Content\Images\Cat photo.png" />
-    <None Remove="Content\Images\clock.256x256.png" />
     <None Remove="Content\Images\clock.png" />
-    <None Remove="Content\Images\collapseleft_120112.png" />
     <None Remove="Content\Images\Collapse_Arrow.png" />
     <None Remove="Content\Images\Collapse_Arrow_Right.png" />
     <None Remove="Content\Images\Collapse_BlackArrow_Right.png" />
     <None Remove="Content\Images\dashboard.png" />
     <None Remove="Content\Images\Download.png" />
     <None Remove="Content\Images\Email Icon.png" />
-    <None Remove="Content\Images\group_10.png" />
     <None Remove="Content\Images\group_640.png" />
-    <None Remove="Content\Images\icons8-barber-pole-64.png" />
     <None Remove="Content\Images\Icons\dashboard.png" />
     <None Remove="Content\Images\Icons\de.png" />
     <None Remove="Content\Images\Icons\en.png" />
@@ -49,8 +46,6 @@
     <None Remove="Content\Images\Icons\vi.png" />
     <None Remove="Content\Images\Icons\zh-Hans.png" />
     <None Remove="Content\Images\Icons\zh-Hant.png" />
-    <None Remove="Content\Images\icon_fa_solid_paw.png" />
-    <None Remove="Content\Images\img_devices.png" />
     <None Remove="Content\Images\Img_Doctor.png" />
     <None Remove="Content\Images\Img_Pets.png" />
     <None Remove="Content\Images\mask_group_1.png" />
@@ -61,11 +56,9 @@
     <None Remove="Content\Images\path_4002.png" />
     <None Remove="Content\Images\path_4004.png" />
     <None Remove="Content\Images\Print.png" />
-    <None Remove="Content\Images\Profile-Avatar-PNG-Picture.png" />
     <None Remove="Content\Images\results.png" />
     <None Remove="Content\Images\Screenshot 2024-04-15 152644.png" />
     <None Remove="Content\Images\setting.png" />
-    <None Remove="Content\Images\side_view_of_furry.png" />
     <None Remove="Content\Fonts\Orbitron-Medium.ttf" />
     <None Remove="Content\Fonts\Roboto-Light.ttf" />
     <None Remove="Content\Images\VCheck200Image.png" />
@@ -80,11 +73,8 @@
     <Content Include="bin\Release\net8.0-windows\publish\VCheckViewer.runtimeconfig.json" />
     <Content Include="bin\Release\net8.0-windows\VCheckViewer.deps.json" />
     <Content Include="bin\Release\net8.0-windows\VCheckViewer.runtimeconfig.json" />
-    <None Remove="Content\Images\Dashboard Icon.png" />
     <None Remove="Content\Images\Login photo.png" />
     <None Remove="Content\Images\Password icon.png" />
-    <None Remove="Content\Images\Report Icon.png" />
-    <None Remove="Content\Images\Settings Icon.png" />
     <None Remove="Content\Images\stroke_1_ek2.png" />
     <None Remove="Content\Images\stroke_1_ek4.png" />
     <None Remove="Content\Images\stroke_4.png" />
@@ -101,9 +91,7 @@
     <Folder Include="bin\Debug\net8.0-windows\ko\" />
     <Folder Include="bin\Debug\net8.0-windows\pl\" />
     <Folder Include="bin\Debug\net8.0-windows\pt-BR\" />
-    <Folder Include="bin\Debug\net8.0-windows\runtimes\win-x64\nativeassets\netcoreapp2.2\" />
-    <Folder Include="bin\Debug\net8.0-windows\runtimes\win-x64\native\" />
-    <Folder Include="bin\Debug\net8.0-windows\runtimes\win-x86\nativeassets\netcoreapp2.2\" />
+    <Folder Include="bin\Debug\net8.0-windows\runtimes\" />
     <Folder Include="bin\Debug\net8.0-windows\ru\" />
     <Folder Include="bin\Debug\net8.0-windows\tr\" />
     <Folder Include="bin\Debug\net8.0-windows\zh-Hans\" />
@@ -300,13 +288,13 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="log4net" Version="2.0.17" />
     <PackageReference Include="FreeSpire.XLS" Version="14.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="8.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -317,13 +305,13 @@
     <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="NLog" Version="5.3.2" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
-    <PackageReference Include="QuestPDF" Version="2024.3.9" />
+    <PackageReference Include="QuestPDF" Version="2024.3.10" />
     <PackageReference Include="WPF-UI" Version="3.0.4" />
     <PackageReference Include="WPFLocalizeExtension" Version="3.10.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Content\Images\36687-5-bell-transparent-image.png" />
+    <Resource Include="Content\Images\Avatar_Orange.png" />
     <Resource Include="Content\Images\bell.png" />
     <Resource Include="Content\Images\bio_logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -334,23 +322,18 @@
 
   <ItemGroup>
     <Resource Include="Content\Images\Cat photo.png" />
-    <Resource Include="Content\Images\clock.256x256.png" />
     <Resource Include="Content\Images\clock.png" />
-    <Resource Include="Content\Images\collapseleft_120112.png" />
     <Resource Include="Content\Images\Collapse_Arrow.png" />
     <Resource Include="Content\Images\Collapse_Arrow_Right.png" />
     <Resource Include="Content\Images\Collapse_BlackArrow_Right.png" />
     <Resource Include="Content\Images\dashboard.png" />
     <Resource Include="Content\Images\Download.png" />
     <Resource Include="Content\Images\Email Icon.png" />
-    <Resource Include="Content\Images\group_10.png" />
-    <Resource Include="Content\Images\group_640.png" />
-    <Resource Include="Content\Images\icons8-barber-pole-64.png" />
+    <Resource Include="Content\Images\BackArrow.png" />
     <Resource Include="Content\Images\Icons\de.png" />
     <Resource Include="Content\Images\Icons\en.png" />
     <Resource Include="Content\Images\Icons\es.png" />
     <Resource Include="Content\Images\Icons\favicon.ico" />
-    <Resource Include="Content\Images\Icons\favicon.png" />
     <Resource Include="Content\Images\Icons\fr.png" />
     <Resource Include="Content\Images\Icons\hi.png" />
     <Resource Include="Content\Images\Icons\icon_dog.png" />
@@ -362,8 +345,6 @@
     <Resource Include="Content\Images\Icons\vi.png" />
     <Resource Include="Content\Images\Icons\zh-Hans.png" />
     <Resource Include="Content\Images\Icons\zh-Hant.png" />
-    <Resource Include="Content\Images\icon_fa_solid_paw.png" />
-    <Resource Include="Content\Images\img_devices.png" />
     <Resource Include="Content\Images\Img_Doctor.png" />
     <Resource Include="Content\Images\Img_Pets.png" />
     <Resource Include="Content\Images\mask_group_1.png" />
@@ -374,11 +355,8 @@
     <Resource Include="Content\Images\path_4002.png" />
     <Resource Include="Content\Images\path_4004.png" />
     <Resource Include="Content\Images\Print.png" />
-    <Resource Include="Content\Images\Profile-Avatar-PNG-Picture.png" />
     <Resource Include="Content\Images\results.png" />
-    <Resource Include="Content\Images\Screenshot 2024-04-15 152644.png" />
     <Resource Include="Content\Images\setting.png" />
-    <Resource Include="Content\Images\side_view_of_furry.png" />
     <Resource Include="Content\Images\stroke_1_ek2.png" />
     <Resource Include="Content\Images\stroke_1_ek4.png" />
     <Resource Include="Content\Images\stroke_4.png" />
@@ -404,11 +382,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Resource Include="Content\Images\Dashboard Icon.png" />
     <Resource Include="Content\Images\Login photo.png" />
     <Resource Include="Content\Images\Password icon.png" />
-    <Resource Include="Content\Images\Report Icon.png" />
-    <Resource Include="Content\Images\Settings Icon.png" />
     <Resource Include="Content\Images\Username icon.png" />
   </ItemGroup>
 

@@ -63,13 +63,12 @@
                     </ToggleButton>-->
                 </Grid>
             </Border>
-            <Popup
-            x:Name="DateRangePicker_Popup"
-            Placement="Bottom"
-            IsOpen="{Binding ElementName=this, Path=IsDropDownOpen}"
-            AllowsTransparency="True"
-            Focusable="False"
-            PopupAnimation="Slide">
+            <Popup x:Name="DateRangePicker_Popup"
+                    Placement="Bottom"
+                    IsOpen="{Binding ElementName=this, Path=IsDropDownOpen}"
+                    AllowsTransparency="True"
+                    Focusable="False"
+                    PopupAnimation="Slide">
 
                 <Viewbox
                 x:Name="DateRangePicker_DropDown"

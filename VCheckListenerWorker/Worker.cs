@@ -463,7 +463,7 @@ namespace VCheckListenerWorker
 
             txn_notification sNotificationSend = new txn_notification()
             {
-                NotificationType = "Updates",
+                NotificationType = "Completed Test Results",
                 NotificationTitle = (sTemplateObj != null) ? sTemplateObj.TemplateTitle : "",
                 NotificationContent = sNotificationContent,
                 CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),

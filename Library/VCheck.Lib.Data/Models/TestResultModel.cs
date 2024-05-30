@@ -32,6 +32,8 @@ namespace VCheck.Lib.Data.Models
     public class TestResultListingObj : TestResultModel 
     { 
         public long RowNo { get; set; }
+        public String? TestResultDateTimeString { get; set; }
+        public String? TestResultValueString { get; set; }
         public String? statusBackground { get; set; }
         public String? statusFontColor { get; set; }
         public String? printedBy { get; set;  }

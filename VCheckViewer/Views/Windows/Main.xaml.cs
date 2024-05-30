@@ -260,6 +260,22 @@ namespace VCheckViewer.Views.Windows
 
                 PopupContent.Text = Properties.Resources.Results_Message_TestResultDownloadCompleted;
             }
+            if (App.MainViewModel.Origin == "FailedDownloadListing")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_FailedDownloadListing;
+            }
+            if (App.MainViewModel.Origin == "FailedToShowPrint")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_FailedOpenPrint;
+            }
 
             PopupBackground.Background = Brushes.DimGray;
             PopupBackground.Opacity = 0.5;
@@ -308,7 +324,9 @@ namespace VCheckViewer.Views.Windows
         {
             if (App.MainViewModel.Origin == "SetingsUpdateCompleted" || 
                 App.MainViewModel.Origin == "ListingDownloadCompleted" ||
-                App.MainViewModel.Origin == "TestResultDownloadCompleted")
+                App.MainViewModel.Origin == "TestResultDownloadCompleted" ||
+                App.MainViewModel.Origin == "FailedDownloadListing" ||
+                App.MainViewModel.Origin == "FailedToShowPrint")
             {
                 this.IsEnabled = true;
                 popup.IsOpen = false;
@@ -828,7 +846,10 @@ namespace VCheckViewer.Views.Windows
         private void mnResults_Click(object sender, RoutedEventArgs e)
         {
             frameContent.Content = new ResultPage();
-            PageTitle.Text = "Results";
+
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Results_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
             ClearMenuItemStyle();
             mnResults.Background = System.Windows.Media.Brushes.White;
