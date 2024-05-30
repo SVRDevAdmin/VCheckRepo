@@ -30,7 +30,7 @@ namespace VCheckViewer.UserControls
         public int iPageSize = 0;
         public int iTotalPage = 0;
 
-        //Below are new variable to accommodate limit the total pagination showed
+        //Below are new variable to implement limit to the total pagination showed
         public int iPaginationLimit = 0;
         public int iPaginationStart = 0;
         public int iPaginationEnd = 0;
@@ -132,7 +132,7 @@ namespace VCheckViewer.UserControls
             }
         }
 
-        //Below are new method to accommodate limit the total pagination showed
+        //Below are new method to implement limit to the total pagination showed
         public void LoadPagingNumberWithLimit()
         {
             numberingSection.Children.Clear();

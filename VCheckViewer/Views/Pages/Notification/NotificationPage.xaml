@@ -34,7 +34,7 @@
 
                     <!-- TextBox for search input -->
                     <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" KeyUp="NotificationKeywordSearch"/>
-                    <TextBlock IsHitTestVisible="False" Text="{Binding Path=General_Label_Searchbar, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                    <TextBlock IsHitTestVisible="False" Text="{Binding Path=Results_Label_Searchbar, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
