@@ -1,3 +1,17 @@
+using log4net.Config;
+using Microsoft.AspNetCore.Diagnostics;
+using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Ocsp;
+using System.Net;
+using System.Reflection;
+using VCheckViewerAPI.Lib.Util;
+using VCheckViewerAPI.Models;
+using VCheckViewerAPI.Services;
+
+
+XmlConfigurator.Configure(log4net.LogManager.GetRepository(Assembly.GetEntryAssembly()),
+                                  new FileInfo("log4Net.config"));
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -19,6 +33,33 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+
+app.UseExceptionHandler(a => a.Run(async context =>
+{
+    var error = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+
+    Logger sLogger = new Logger();
+    sLogger.Error("Internal Error >>> " ,error);
+
+    var response = context.Response;
+    response.ContentType = "application/json";
+    response.Headers.Append("Timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+    var clientKey = context.Request.Headers.Where(x => x.Key == "ClientKey").FirstOrDefault().Value.ToString();
+    response.Headers.Append("ClientKey", clientKey != "" ? clientKey : "No Key");
+
+    context.Request.EnableBuffering();
+
+    var responseData = new APIResponseModel("VV.9999", "Fail", "Internal Error", null);
+    await response.WriteAsJsonAsync(responseData);
+
+    var responseBodyJson = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(responseData));
+    sLogger.ApiLog(context, responseBodyJson);
+}));
+
+
+app.UseMiddleware<ApiHandlerMiddleware>();
 
 app.MapControllers();
 

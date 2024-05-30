@@ -33,28 +33,36 @@ namespace VCheckViewer.Views.Pages.Login
             {
                 IdentityUser user = await App.UserManager.FindByIdAsync(App.MainViewModel.CurrentUsers.UserId.ToString());
 
-                var changePassword = await App.UserManager.ChangePasswordAsync(user, OldPassword.Password, ConfirmPassword.Password);
-
-                if (changePassword.Succeeded)
+                if(user != null)
                 {
-                    ErrorText.Text = Properties.Resources.Login_Message_PasswordResetted;
-                    ErrorText.Foreground = Brushes.Green;
+                    var changePassword = await App.UserManager.ChangePasswordAsync(user, OldPassword.Password, ConfirmPassword.Password);
+
+                    if (changePassword.Succeeded)
+                    {
+                        ErrorText.Text = Properties.Resources.Login_Message_PasswordResetted;
+                        ErrorText.Foreground = Brushes.Green;
+                    }
+                    else
+                    {
+                        //string errorText = "";
+
+                        //var errors = changePassword.Errors.ToList();
+
+                        //foreach (var error in errors)
+                        //{
+                        //    errorText += "- " + error.Description + "\r\n";
+                        //}
+                        if (changePassword.Errors.Any(x => x.Code.ToString() == "PasswordMismatch")) { ErrorText.Text = Properties.Resources.Login_Message_WrongCurrentPassword; }
+                        else { ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement; }
+
+                        //ErrorText.Text = errorText;
+                        //ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement;
+                        ErrorText.Foreground = Brushes.Red;
+                    }
                 }
                 else
                 {
-                    //string errorText = "";
-
-                    //var errors = changePassword.Errors.ToList();
-
-                    //foreach (var error in errors)
-                    //{
-                    //    errorText += "- " + error.Description + "\r\n";
-                    //}
-                    if(changePassword.Errors.Any(x => x.Code.ToString() == "PasswordMismatch")) { ErrorText.Text = Properties.Resources.Login_Message_WrongCurrentPassword; }
-                    else { ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement; }
-
-                    //ErrorText.Text = errorText;
-                    //ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement;
+                    ErrorText.Text = Properties.Resources.General_Message_Error;
                     ErrorText.Foreground = Brushes.Red;
                 }
             }

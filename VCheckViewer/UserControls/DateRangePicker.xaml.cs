@@ -64,6 +64,7 @@ namespace VCheckViewer.UserControls
 
                         if (isFirstDateValid && isLastDateValid)
                         {
+                            DateRangePicker_Calendar?.SelectedDates.Clear();
                             DateRangePicker_Calendar?.SelectedDates.AddRange(firstDate, lastDate);
                         }
                     }
@@ -72,6 +73,7 @@ namespace VCheckViewer.UserControls
                         var isValidDate = DateTime.TryParse(dates.First(), out var date) && dates.First().Length == 10;
                         if (isValidDate)
                         {
+                            DateRangePicker_Calendar?.SelectedDates.Clear();
                             DateRangePicker_Calendar?.SelectedDates.Add(date);
                         }
                     }
@@ -148,9 +150,9 @@ namespace VCheckViewer.UserControls
 
         public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
-#if DEBUG
+            #if DEBUG
             Debug.Print($"RaisePropertyChanged for {propertyName}");
-#endif
+            #endif
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 

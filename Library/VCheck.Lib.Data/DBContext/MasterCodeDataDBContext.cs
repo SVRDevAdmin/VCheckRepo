@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using log4net;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
@@ -13,6 +15,7 @@ namespace VCheck.Lib.Data.DBContext
     public class MasterCodeDataDBContext
     {
         private readonly Microsoft.Extensions.Configuration.IConfiguration config;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
 
         public MasterCodeDataDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
         {
@@ -32,23 +35,30 @@ namespace VCheck.Lib.Data.DBContext
         {
             List<MasterCodeDataModel> sList = new List<MasterCodeDataModel>();
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from Mst_MasterCodeData where CodeGroup = '" + codeGroup + "' AND IsActive = 1;", conn);
-
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = this.Connection)
                 {
-                    while (reader.Read())
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select * from Mst_MasterCodeData where CodeGroup = '" + codeGroup + "' AND IsActive = 1;", conn);
+
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        sList.Add(new MasterCodeDataModel()
+                        while (reader.Read())
                         {
-                            CodeGroup = reader["CodeGroup"].ToString(),
-                            CodeID = reader["CodeID"].ToString(),
-                            CodeName = reader["CodeName"].ToString()
-                        });
+                            sList.Add(new MasterCodeDataModel()
+                            {
+                                CodeGroup = reader["CodeGroup"].ToString(),
+                                CodeID = reader["CodeID"].ToString(),
+                                CodeName = reader["CodeName"].ToString()
+                            });
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
             }
 
             return sList;

@@ -24,6 +24,8 @@ using VCheckViewer.Lib.Culture;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using VCheck.Lib.Data.Models;
+using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace VCheckViewer
 {
@@ -32,6 +34,8 @@ namespace VCheckViewer
     /// </summary>
     public partial class App
     {
+        public static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public IConfiguration Configuration { get; }
 
         public static MainViewModel MainViewModel { get; } = new MainViewModel();
@@ -49,8 +53,8 @@ namespace VCheckViewer
         public static RoleManager<IdentityRole> RoleManager { get; set; }
         public static IUserStore<IdentityUser> UserStore { get; set; }
 
-        public static string newPassword {  get; set; }
-        public static SMTPModel SMTP {  get; set; }
+        public static string newPassword { get; set; }
+        public static SMTPModel SMTP { get; set; }
 
         //App()
         //{
@@ -65,71 +69,86 @@ namespace VCheckViewer
         private static readonly IHost _host = Host
             .CreateDefaultBuilder()
             .ConfigureAppConfiguration(c => 
-            { 
-                c.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location));
+            {
+                try
+                {
+                    c.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location));
+                }
+                catch (Exception ex)
+                {
+                    log.Error("App Configuration Error >>> ", ex);
+                }
             })
             .ConfigureServices((context, services) =>
             {
-                services.AddHostedService<ApplicationHostService>();
-
-                services.AddSingleton<IPageService, PageServices>();
-                services.AddSingleton<IThemeService, ThemeService>();
-                services.AddSingleton<ITaskBarService, TaskBarService>();
-                services.AddSingleton<INavigationService, NavigationService>();
-
-                //services.AddSingleton<INavigationWindow, Main>();
-
-                //services.AddSingleton<INavigationWindow, Login>();
-
-                //services.Add(new ServiceDescriptor(typeof(VCheck.Lib.Data.VCheckDBContext), new VCheck.Lib.Data.VCheckDBContext(context.Configuration)));
-
-                //services.Add(new ServiceDescriptor(
-                //                typeof(VCheck.Lib.Data.SampleClass), 
-                //                new VCheck.Lib.Data.SampleClass(context.Configuration)
-                //));
-
-                services.Add(new ServiceDescriptor(typeof(UserDBContext), new UserDBContext(context.Configuration)));
-                services.Add(new ServiceDescriptor(typeof(MasterCodeDataDBContext), new MasterCodeDataDBContext(context.Configuration)));
-                services.Add(new ServiceDescriptor(typeof(RolesDBContext), new RolesDBContext(context.Configuration)));
-                services.Add(new ServiceDescriptor(typeof(CountryDBContext), new CountryDBContext(context.Configuration)));
-                services.Add(new ServiceDescriptor(typeof(ConfigurationDBContext), new ConfigurationDBContext(context.Configuration)));
-                services.Add(new ServiceDescriptor(typeof(TemplateDBContext), new TemplateDBContext(context.Configuration)));
-                services.Add(new ServiceDescriptor(typeof(NotificationDBContext), new NotificationDBContext(context.Configuration)));
-                services.Add(new ServiceDescriptor(typeof(DeviceDBContext), new DeviceDBContext(context.Configuration)));
-
-                services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(context.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 21))));
-
-                var smtpSetting = context.Configuration.GetSection("SMTP");
-
-                SMTP = new SMTPModel()
+                try
                 {
-                    Host = smtpSetting.GetValue<string>("Host"),
-                    Port = smtpSetting.GetValue<int>("Port"),
-                    Username = smtpSetting.GetValue<string>("Username"),
-                    Password = smtpSetting.GetValue<string>("Password"),
-                    Sender = smtpSetting.GetValue<string>("Sender")
-                };
+                    services.AddHostedService<ApplicationHostService>();
+
+                    services.AddSingleton<IPageService, PageServices>();
+                    services.AddSingleton<IThemeService, ThemeService>();
+                    services.AddSingleton<ITaskBarService, TaskBarService>();
+                    services.AddSingleton<INavigationService, NavigationService>();
+
+                    //services.AddSingleton<INavigationWindow, Main>();
+
+                    //services.AddSingleton<INavigationWindow, Login>();
+
+                    //services.Add(new ServiceDescriptor(typeof(VCheck.Lib.Data.VCheckDBContext), new VCheck.Lib.Data.VCheckDBContext(context.Configuration)));
+
+                    //services.Add(new ServiceDescriptor(
+                    //                typeof(VCheck.Lib.Data.SampleClass), 
+                    //                new VCheck.Lib.Data.SampleClass(context.Configuration)
+                    //));
+
+                    services.Add(new ServiceDescriptor(typeof(UserDBContext), new UserDBContext(context.Configuration)));
+                    services.Add(new ServiceDescriptor(typeof(MasterCodeDataDBContext), new MasterCodeDataDBContext(context.Configuration)));
+                    services.Add(new ServiceDescriptor(typeof(RolesDBContext), new RolesDBContext(context.Configuration)));
+                    services.Add(new ServiceDescriptor(typeof(CountryDBContext), new CountryDBContext(context.Configuration)));
+                    services.Add(new ServiceDescriptor(typeof(ConfigurationDBContext), new ConfigurationDBContext(context.Configuration)));
+                    services.Add(new ServiceDescriptor(typeof(TemplateDBContext), new TemplateDBContext(context.Configuration)));
+                    services.Add(new ServiceDescriptor(typeof(NotificationDBContext), new NotificationDBContext(context.Configuration)));
+                    services.Add(new ServiceDescriptor(typeof(DeviceDBContext), new DeviceDBContext(context.Configuration)));
+
+                    services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(context.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 21))));
+
+                    var smtpSetting = context.Configuration.GetSection("SMTP");
+
+                    SMTP = new SMTPModel()
+                    {
+                        Host = smtpSetting.GetValue<string>("Host"),
+                        Port = smtpSetting.GetValue<int>("Port"),
+                        Username = smtpSetting.GetValue<string>("Username"),
+                        Password = smtpSetting.GetValue<string>("Password"),
+                        Sender = smtpSetting.GetValue<string>("Sender")
+                    };
+
+                    var identitySettings = context.Configuration.GetSection("IdentitySettings");
+
+                    services.AddIdentityCore<IdentityUser>(options =>
+                    {
+                        // Password settings.
+                        options.Password.RequireNonAlphanumeric = false;
+                        options.Password.RequiredLength = 8;
+
+
+                        //Lockedout setting
+                        options.SignIn.RequireConfirmedAccount = identitySettings.GetValue<bool>("RequireConfirmedAccount");
+                        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(identitySettings.GetValue<int>("DefaultLockedOutTimeSpan"));
+                        options.Lockout.MaxFailedAccessAttempts = identitySettings.GetValue<int>("MaxFailedAccessAttempts");
+                    })
+                    .AddRoles<IdentityRole>()
+                    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+                    services.AddScoped<SignInManager<IdentityUser>>();
+                    services.AddHttpContextAccessor();
+                    services.AddAuthentication();
+                }
+                catch(Exception ex)
+                {
+                    log.Error("Service Configuration Error >>> ", ex);
+                }
                 
-                var identitySettings = context.Configuration.GetSection("IdentitySettings");
-
-                services.AddIdentityCore<IdentityUser>(options =>
-                {
-                    // Password settings.
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequiredLength = 8;
-
-
-                    //Lockedout setting
-                    options.SignIn.RequireConfirmedAccount = identitySettings.GetValue<bool>("RequireConfirmedAccount");
-                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(identitySettings.GetValue<int>("DefaultLockedOutTimeSpan"));
-                    options.Lockout.MaxFailedAccessAttempts = identitySettings.GetValue<int>("MaxFailedAccessAttempts");
-                })
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-                services.AddScoped<SignInManager<IdentityUser>>();
-                services.AddHttpContextAccessor();
-                services.AddAuthentication();
             })
             .Build();
 
@@ -150,99 +169,115 @@ namespace VCheckViewer
         /// </summary>
         private async void OnStartup(object sender, StartupEventArgs e)
         {
-            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
-
-            ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
-            UserDBContext usersContext = GetService<UserDBContext>();
-            RolesDBContext roleContext = GetService<RolesDBContext>();
-
-            MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
-
-            var language = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault().ConfigurationValue;
-
-            CultureInfo sZHCulture = new CultureInfo(language);
-            CultureResources.ChangeCulture(sZHCulture);
-
-            _host.Start();
-
-            var roles = RoleManager.Roles.ToList();
-            IdentityRole role = new IdentityRole();
-
-            if (!roles.Where(x => x.Name == "Lab User").Any())
+            try
             {
-                role = new IdentityRole("Lab User");
-                await RoleManager.CreateAsync(role);
-                roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab User", IsActive = true, IsSuperadmin = false, IsAdmin = false});
-            }
+                QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+                ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
+                UserDBContext usersContext = GetService<UserDBContext>();
+                RolesDBContext roleContext = GetService<RolesDBContext>();
 
+                MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
 
-            if (!roles.Where(x => x.Name == "Lab Superadmin").Any())
-            {
-                role = new IdentityRole("Lab Superadmin");
-                await RoleManager.CreateAsync(role);
-                roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab Superadmin", IsActive = true, IsSuperadmin = false, IsAdmin = true });
-            }
+                var language = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault()?.ConfigurationValue;
 
+                CultureInfo sZHCulture = new CultureInfo(language);
+                CultureResources.ChangeCulture(sZHCulture);
 
-            if (!roles.Where(x => x.Name == "Superadmin").Any())
-            {
-                role = new IdentityRole("Superadmin");
-                var test = await RoleManager.CreateAsync(role);
-                roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Superadmin", IsActive = true, IsSuperadmin = true, IsAdmin = false });
-            }
+                var roles = GetService<RoleManager<IdentityRole>>().Roles.ToList();
+                IdentityRole role = new IdentityRole();
+                bool addRoleSuccess;
 
-            roles = RoleManager.Roles.ToList();
-
-            var user = await UserManager.FindByNameAsync("superadmin");
-
-            if (user == null)
-            {
-                UserModel adminAccount = new UserModel()
+                if (!roles.Where(x => x.Name == "Lab User").Any())
                 {
-                    Title = "Dr.",
-                    //FirstName = "Lee",
-                    StaffName = "Dr. Lee Eunji",
-                    FullName = "Lee Eunji",
-                    EmployeeID = "456783",
-                    RegistrationNo = "456783",
-                    Gender = "M",
-                    DateOfBirth = "1991-03-15",
-                    RoleID = roles.Where(x => x.Name == "Superadmin").FirstOrDefault().Id,
-                    EmailAddress = "superadmin@superadmin.com",
-                    StatusID = 1
-                };
-
-                user = Activator.CreateInstance<IdentityUser>();
-
-                var emailStore = (IUserEmailStore<IdentityUser>)UserStore;
-
-                await UserStore.SetUserNameAsync(user, "superadmin", CancellationToken.None);
-                await emailStore.SetEmailAsync(user, "superadmin@superadmin.com", CancellationToken.None);
-                var result = await UserManager.CreateAsync(user, "Abcd@1234");
-
-                if (result.Succeeded)
-                {
-                    adminAccount.UserId = user.Id;
-
-                    usersContext.InsertUser(adminAccount);
-
-                    var roleResult = await UserManager.AddToRoleAsync(user, "superadmin");
-
+                    role = new IdentityRole("Lab User");
+                    await RoleManager.CreateAsync(role);
+                    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab User", IsActive = true, IsSuperadmin = false, IsAdmin = false });
+                    if (addRoleSuccess) { }
+                    else { }
                 }
+
+
+                if (!roles.Where(x => x.Name == "Lab Superadmin").Any())
+                {
+                    role = new IdentityRole("Lab Superadmin");
+                    await RoleManager.CreateAsync(role);
+                    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab Superadmin", IsActive = true, IsSuperadmin = false, IsAdmin = true });
+                    if (addRoleSuccess) { }
+                    else { }
+                }
+
+
+                if (!roles.Where(x => x.Name == "Superadmin").Any())
+                {
+                    role = new IdentityRole("Superadmin");
+                    var test = await RoleManager.CreateAsync(role);
+                    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Superadmin", IsActive = true, IsSuperadmin = true, IsAdmin = false });
+                    if (addRoleSuccess) { }
+                    else { }
+                }
+
+                roles = GetService<RoleManager<IdentityRole>>().Roles.ToList();
+
+                var user = await GetService<UserManager<IdentityUser>>().FindByNameAsync("superadmin");
+
+                if (user == null)
+                {
+                    UserModel adminAccount = new UserModel()
+                    {
+                        Title = "Dr.",
+                        //FirstName = "Lee",
+                        StaffName = "Dr. Lee Eunji",
+                        FullName = "Lee Eunji",
+                        EmployeeID = "456783",
+                        RegistrationNo = "456783",
+                        Gender = "M",
+                        DateOfBirth = "1991-03-15",
+                        RoleID = roles.FirstOrDefault(x => x.Name == "Superadmin").Id,
+                        EmailAddress = "superadmin@superadmin.com",
+                        StatusID = 1,
+                        CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                        CreatedBy = "System"
+                    };
+
+                    user = Activator.CreateInstance<IdentityUser>();
+
+                    var emailStore = (IUserEmailStore<IdentityUser>)GetService<IUserStore<IdentityUser>>();
+
+                    await UserStore.SetUserNameAsync(user, "superadmin", CancellationToken.None);
+                    await emailStore.SetEmailAsync(user, "superadmin@superadmin.com", CancellationToken.None);
+                    var result = await GetService<UserManager<IdentityUser>>().CreateAsync(user, "Abcd@1234");
+
+                    if (result.Succeeded)
+                    {
+                        adminAccount.UserId = user.Id;
+
+                        if (usersContext.InsertUser(adminAccount)) { var roleResult = await GetService<UserManager<IdentityUser>>().AddToRoleAsync(user, "superadmin"); }
+
+                    }
+                }
+
+                _host.Start();
             }
-
-            
-
+            catch (Exception ex)
+            {
+                log.Error("Startup Error >>> ", ex);
+            }        
         }
-
         /// <summary>
         /// Occurs when the application is closing.
         /// </summary>
         private async void OnExit(object sender, ExitEventArgs e)
         {
-            await _host.StopAsync();
+            try
+            {
+                await _host.StopAsync();
 
-            _host.Dispose();
+                _host.Dispose();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Exit Error >>> ", ex);
+            }
         }
 
         /// <summary>
@@ -251,6 +286,9 @@ namespace VCheckViewer
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             // For more info see https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?view=windowsdesktop-6.0
+            var ex = e.Exception;
+            log.Error("General Error >>> ", ex);
+            e.Handled = true;
         }
 
         public static void GoPreviousPageHandler(EventArgs e, object sender)

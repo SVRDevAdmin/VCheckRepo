@@ -9,6 +9,8 @@ VIEW `vcheckdb`.`userlist` AS
         `vcheckdb`.`mst_user`.`Title` AS `Title`,
         `vcheckdb`.`mst_user`.`FullName` AS `FullName`,
         `vcheckdb`.`mst_user`.`RegistrationNo` AS `RegistrationNo`,
+        `vcheckdb`.`mst_user`.`Status` AS `StatusID`,
+        `vcheckdb`.`mst_user`.`RoleID` AS `RoleID`,
         (SELECT 
                 `vcheckdb`.`mst_mastercodedata`.`CodeName`
             FROM

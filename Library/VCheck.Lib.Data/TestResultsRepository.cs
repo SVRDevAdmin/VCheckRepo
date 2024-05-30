@@ -10,11 +10,15 @@ using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using System.Runtime.CompilerServices;
 using System.CodeDom;
+using log4net;
+using System.Reflection;
 
 namespace VCheck.Lib.Data
 {
     public class TestResultsRepository
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
+
         /// <summary>
         /// Get recent test result 
         /// </summary>
@@ -34,6 +38,7 @@ namespace VCheck.Lib.Data
             }
             catch (Exception ex)
             {
+                log.Error("Error >>> " + ex.ToString());
                 return null;
             }
         }
@@ -56,6 +61,7 @@ namespace VCheck.Lib.Data
             }
             catch (Exception ex)
             {
+                log.Error("Error >>> " + ex.ToString());
                 return null;
             }
         }
@@ -141,7 +147,7 @@ namespace VCheck.Lib.Data
             }
             catch (Exception ex)
             {
-                throw ex;
+                log.Error("Error >>> " + ex.ToString());
             }
 
             return sResult;

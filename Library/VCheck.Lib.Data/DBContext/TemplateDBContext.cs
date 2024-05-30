@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using log4net;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
@@ -12,6 +14,7 @@ namespace VCheck.Lib.Data.DBContext
     public class TemplateDBContext
     {
         private readonly Microsoft.Extensions.Configuration.IConfiguration config;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
 
         public TemplateDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
         {
@@ -31,23 +34,30 @@ namespace VCheck.Lib.Data.DBContext
         {
             TemplateModel sList = new TemplateModel();
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from mst_template where TemplateCode = '" + templateCode + "'", conn);
-
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = this.Connection)
                 {
-                    while (reader.Read())
-                    {
-                        sList.TemplateID = reader.GetInt32("TemplateID");
-                        sList.TemplateType = reader["TemplateType"].ToString();
-                        sList.TemplateCode = reader["TemplateCode"].ToString();
-                        sList.TemplateTitle = reader["TemplateTitle"].ToString();
-                        sList.TemplateContent = reader["TemplateContent"].ToString();
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select * from mst_template where TemplateCode = '" + templateCode + "'", conn);
 
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            sList.TemplateID = reader.GetInt32("TemplateID");
+                            sList.TemplateType = reader["TemplateType"].ToString();
+                            sList.TemplateCode = reader["TemplateCode"].ToString();
+                            sList.TemplateTitle = reader["TemplateTitle"].ToString();
+                            sList.TemplateContent = reader["TemplateContent"].ToString();
+
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
             }
 
             return sList;

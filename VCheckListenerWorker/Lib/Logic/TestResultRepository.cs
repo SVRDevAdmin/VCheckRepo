@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using log4net;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VCheckListenerWorker.Lib.DBContext;
@@ -11,6 +13,8 @@ namespace VCheckListenerWorker.Lib.Logic
 {
     public class TestResultRepository
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
+
         /// <summary>
         /// Insert Test Result Raw Data
         /// </summary>
@@ -84,7 +88,7 @@ namespace VCheckListenerWorker.Lib.Logic
             }
             catch(Exception ex)
             {
-                String abc = ex.ToString();
+                log.Error("VCheckListenerWorker >>> TestResultRepository >>> InsertTestObservationMessag >>> " +ex.ToString());
                 isSuccess = false;
             }
 
@@ -112,7 +116,7 @@ namespace VCheckListenerWorker.Lib.Logic
             }
             catch (Exception ex)
             {
-                String abc = ex.ToString();
+                log.Error("VCheckListenerWorker >>> TestResultRepository >>> createTestResult >>> " + ex.ToString());
                 isSuccess = false;
             }
 
@@ -135,12 +139,17 @@ namespace VCheckListenerWorker.Lib.Logic
             }
             catch (Exception ex)
             {
-                String abc = ex.ToString();
+                log.Error("VCheckListenerWorker >>> TestResultRepository >>> GetNorificationTemplate >>> " + ex.ToString());
             }
 
             return null;
         }
 
+        /// <summary>
+        /// Insert Notification 
+        /// </summary>
+        /// <param name="sNotification"></param>
+        /// <returns></returns>
         public static Boolean insertNotification(txn_notification sNotification)
         {
             Boolean isSuccess = false;
@@ -157,7 +166,7 @@ namespace VCheckListenerWorker.Lib.Logic
             }
             catch (Exception ex)
             {
-                String abc = ex.ToString();
+                log.Error("VCheckListenerWorker >>> TestResultRepository >>> insertNotification >>> " + ex.ToString());
                 isSuccess = false;
             }
 

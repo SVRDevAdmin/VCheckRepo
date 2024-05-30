@@ -322,6 +322,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select duration.
+        /// </summary>
+        public static string General_Label_SelectDuration {
+            get {
+                return ResourceManager.GetString("General_Label_SelectDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send.
         /// </summary>
         public static string General_Label_Send {
@@ -354,6 +363,15 @@ namespace VCheckViewer.Properties {
         public static string General_Label_Yes {
             get {
                 return ResourceManager.GetString("General_Label_Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to process. Please contact administrator..
+        /// </summary>
+        public static string General_Message_Error {
+            get {
+                return ResourceManager.GetString("General_Message_Error", resourceCulture);
             }
         }
         
@@ -583,6 +601,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error occur when creating password. Please contact administrator..
+        /// </summary>
+        public static string Login_Message_CreatePasswordError {
+            get {
+                return ResourceManager.GetString("Login_Message_CreatePasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New and Confirm password are not match..
         /// </summary>
         public static string Login_Message_PasswordNewConfirmMismatch {
@@ -615,6 +642,15 @@ namespace VCheckViewer.Properties {
         public static string Login_Message_PasswordResetted {
             get {
                 return ResourceManager.GetString("Login_Message_PasswordResetted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error occur when removing password. Please contact administrator..
+        /// </summary>
+        public static string Login_Message_RemovePasswordError {
+            get {
+                return ResourceManager.GetString("Login_Message_RemovePasswordError", resourceCulture);
             }
         }
         
@@ -727,7 +763,7 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show All.
+        ///   Looks up a localized string similar to All.
         /// </summary>
         public static string Notification_Label_ShowAll {
             get {
@@ -741,6 +777,15 @@ namespace VCheckViewer.Properties {
         public static string Notification_Label_UpcomingTest {
             get {
                 return ResourceManager.GetString("Notification_Label_UpcomingTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Filter.
+        /// </summary>
+        public static string Notification_Label_UpdateFilter {
+            get {
+                return ResourceManager.GetString("Notification_Label_UpdateFilter", resourceCulture);
             }
         }
         
@@ -1434,6 +1479,15 @@ namespace VCheckViewer.Properties {
         public static string Setting_Label_UserBackButton {
             get {
                 return ResourceManager.GetString("Setting_Label_UserBackButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No user existed.
+        /// </summary>
+        public static string Setting_Message_NoUserData {
+            get {
+                return ResourceManager.GetString("Setting_Message_NoUserData", resourceCulture);
             }
         }
         

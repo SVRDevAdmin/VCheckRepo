@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using VCheckListenerWorker.Lib.Models;
+using System.Reflection;
 
 namespace VCheckListenerWorker.Lib.DBContext
 {

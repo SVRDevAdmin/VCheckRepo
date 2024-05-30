@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using log4net;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
@@ -12,6 +14,7 @@ namespace VCheck.Lib.Data.DBContext
     public class RolesDBContext
     {
         private readonly Microsoft.Extensions.Configuration.IConfiguration config;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
 
         public RolesDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
         {
@@ -31,41 +34,58 @@ namespace VCheck.Lib.Data.DBContext
         {
             List<RolesModel> sList = new List<RolesModel>();
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from Mst_Roles where IsActive = 1", conn);
-
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = this.Connection)
                 {
-                    while (reader.Read())
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select * from Mst_Roles where IsActive = 1", conn);
+
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        sList.Add(new RolesModel()
+                        while (reader.Read())
                         {
-                            RoleID = reader["RoleID"].ToString(),
-                            RoleName = reader["RoleName"].ToString(),
-                            IsSuperadmin = Convert.ToBoolean(reader["IsSuperadmin"]),
-                            IsAdmin = Convert.ToBoolean(reader["IsAdmin"])
-                        });
+                            sList.Add(new RolesModel()
+                            {
+                                RoleID = reader["RoleID"].ToString(),
+                                RoleName = reader["RoleName"].ToString(),
+                                IsSuperadmin = Convert.ToBoolean(reader["IsSuperadmin"]),
+                                IsAdmin = Convert.ToBoolean(reader["IsAdmin"])
+                            });
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
             }
 
             return sList;
         }
 
-        public void InsertRole(RolesModel role)
+        public bool InsertRole(RolesModel role)
         {
-            string insertQuery = "INSERT INTO `vcheckdb`.`mst_roles` (`RoleID`,`RoleName`,`IsActive`,`IsSuperadmin`,`IsAdmin`) ";
+            string insertQuery = "INSERT INTO `mst_roles` (`RoleID`,`RoleName`,`IsActive`,`IsSuperadmin`,`IsAdmin`) ";
 
             insertQuery += "Values ('" + role.RoleID + "','" + role.RoleName + "', " + role.IsActive + ", " + role.IsSuperadmin + ", " + role.IsAdmin + ")";
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+                using (MySqlConnection conn = this.Connection)
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
 
-                cmd.ExecuteReader();
+                    cmd.ExecuteReader();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+                return false;
             }
         }
     }

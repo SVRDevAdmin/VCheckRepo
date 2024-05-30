@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using log4net;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
@@ -14,6 +17,7 @@ namespace VCheck.Lib.Data.DBContext
     public class UserDBContext
     {
         private readonly Microsoft.Extensions.Configuration.IConfiguration config;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
 
         public UserDBContext(Microsoft.Extensions.Configuration.IConfiguration config)
         {
@@ -34,100 +38,145 @@ namespace VCheck.Lib.Data.DBContext
             ObservableCollection<UserModel> sList = new ObservableCollection<UserModel>();
             int index = start + 1;
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from userlist where IsDeleted = 0 order by UserID LIMIT " + start + "," + end, conn);
-
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = this.Connection)
                 {
-                    while (reader.Read())
-                    {
-                        sList.Add(new UserModel()
-                        {
-                            No = index++,
-                            UserId = reader["UserId"].ToString(),
-                            EmployeeID = reader["EmployeeID"].ToString(),
-                            Title = reader["Title"].ToString(),
-                            //FirstName = reader["FirstName"].ToString(),
-                            //LastName = reader["LastName"].ToString(),
-                            StaffName = reader["Title"].ToString() + " " + reader["FullName"].ToString(),
-                            FullName = reader["FullName"].ToString(),
-                            RegistrationNo = reader["RegistrationNo"].ToString(),
-                            Gender = reader["Gender"].ToString(),
-                            DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy"),
-                            EmailAddress = reader["EmailAddress"].ToString(),
-                            Status = reader["Status"].ToString(),
-                            Role = reader["Role"].ToString(),
-                            LoginID = reader["LoginID"].ToString()
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select * from userlist where IsDeleted = 0 order by UserID LIMIT " + start + "," + end, conn);
 
-                        });
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            sList.Add(new UserModel()
+                            {
+                                No = index++,
+                                UserId = reader["UserId"].ToString(),
+                                EmployeeID = reader["EmployeeID"].ToString(),
+                                Title = reader["Title"].ToString(),
+                                //FirstName = reader["FirstName"].ToString(),
+                                //LastName = reader["LastName"].ToString(),
+                                StaffName = reader["Title"].ToString() + " " + reader["FullName"].ToString(),
+                                FullName = reader["FullName"].ToString(),
+                                RegistrationNo = reader["RegistrationNo"].ToString(),
+                                Gender = reader["Gender"].ToString(),
+                                DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy"),
+                                EmailAddress = reader["EmailAddress"].ToString(),
+                                Status = reader["Status"].ToString(),
+                                Role = reader["Role"].ToString(),
+                                LoginID = reader["LoginID"].ToString(),
+
+                            });
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+            }           
 
             return sList;
         }
 
-        public void InsertUser(UserModel user)
+        public bool InsertUser(UserModel user)
         {
-            string insertQuery = "INSERT INTO `vcheckdb`.`mst_user` (`UserID`,`EmployeeID`,`Title`,`FullName`,`RegistrationNo`,`Gender`,`DateofBirth`,`EmailAddress`,`Status`,`RoleID`, `IsDeleted`) ";
+            string insertQuery = "INSERT INTO `mst_user` (`UserID`,`EmployeeID`,`Title`,`FullName`,`RegistrationNo`,`Gender`,`DateofBirth`,`EmailAddress`,`Status`,`RoleID`, `IsDeleted`, `CreatedDate`, `CreatedBy`) ";
 
-            insertQuery += "Values ('"+user.UserId+"','"+user.EmployeeID+"', '"+user.Title+"', '"+user.FullName+"', '"+user.RegistrationNo+"', '"+user.Gender+"', '"+user.DateOfBirth+"', '"+user.EmailAddress+"', "+user.StatusID+", '"+user.RoleID+"', 0)";
+            insertQuery += "Values ('"+user.UserId+"','"+user.EmployeeID+"', '"+user.Title+"', '"+user.FullName+"', '"+user.RegistrationNo+"', '"+user.Gender+"', '"+user.DateOfBirth+"', '"+user.EmailAddress+"', "+user.StatusID+", '"+user.RoleID+"', 0, '"+user.CreatedDate+"', '"+user.CreatedBy+"' )";
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+                using (MySqlConnection conn = this.Connection)
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
 
-                cmd.ExecuteReader();
+                    cmd.ExecuteReader();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+                return false;
             }
         }
 
-        public void UpdateUser(UserModel user)
+        public bool UpdateUser(UserModel user)
         {
-            string insertQuery = "UPDATE `vcheckdb`.`mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+ "',`FullName` = '" + user.FullName+ "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = '"+user.RoleID+"' WHERE `UserID` = '" + user.UserId+"' and IsDeleted = 0;";
+            var lastLoginDatetimeColumn = "";
+            if (user.LastLoginDate != null) { lastLoginDatetimeColumn = ", `LastLoginDateTime` = '" + user.LastLoginDate.ToString("yyyy-MM-dd HH:mm:ss")+"'"; }
 
-            using (MySqlConnection conn = this.Connection)
+            string insertQuery = "UPDATE `mst_user` SET `EmployeeID` = '"+user.EmployeeID+"',`Title` = '"+user.Title+ "',`FullName` = '" + user.FullName+ "',`RegistrationNo` = '"+user.RegistrationNo+"',`Gender` = '"+user.Gender+"',`DateofBirth` = '"+user.DateOfBirth+"',`EmailAddress` = '"+user.EmailAddress+"',`Status` = "+user.StatusID+",`RoleID` = '"+user.RoleID+"'"+lastLoginDatetimeColumn+", `UpdatedDate` = '"+user.UpdatedDate+"', `UpdatedBy` = '"+user.UpdatedBy+"'  WHERE `UserID` = '" + user.UserId+"' and IsDeleted = 0;";
+
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+                using (MySqlConnection conn = this.Connection)
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
 
-                cmd.ExecuteReader();
+                    cmd.ExecuteReader();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+                return false;
             }
         }
 
-        public void DeleteUser(string userID)
+        public bool DeleteUser(string userID)
         {
-            //string insertQuery = "DELETE FROM `vcheckdb`.`mst_user` WHERE UserID = '"+userID+"';";
-            string insertQuery = "Update `vcheckdb`.`mst_user` set IsDeleted = 1 WHERE UserID = '" + userID + "';";
+            //string insertQuery = "DELETE FROM `mst_user` WHERE UserID = '"+userID+"';";
+            string insertQuery = "Update `mst_user` set IsDeleted = 1 WHERE UserID = '" + userID + "';";
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+                using (MySqlConnection conn = this.Connection)
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
 
-                cmd.ExecuteReader();
+                    cmd.ExecuteReader();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+                return false;
             }
         }
 
         public int GetTotalUser()
         {
-            string insertQuery = "SELECT Count(Title) FROM `vcheckdb`.`mst_user` where IsDeleted = 0";
+            string insertQuery = "SELECT Count(Title) FROM `mst_user` where IsDeleted = 0";
             int total = 0;
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
-
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = this.Connection)
                 {
-                    while (reader.Read())
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        total = reader.GetInt32(0);
+                        while (reader.Read())
+                        {
+                            total = reader.GetInt32(0);
+                        }
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
             }
 
             return total;
@@ -137,34 +186,43 @@ namespace VCheck.Lib.Data.DBContext
         {
             UserModel model = new UserModel();
 
-            using (MySqlConnection conn = this.Connection)
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from userlist where UserID = '" + userID + "' and IsDeleted = 0", conn);
-
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = this.Connection)
                 {
-                    while (reader.Read())
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select * from userlist where UserID = '" + userID + "' and IsDeleted = 0", conn);
+
+                    using (var reader = cmd.ExecuteReader())
                     {
+                        while (reader.Read())
+                        {
 
-                        model.UserId = reader["UserId"].ToString();
-                        model.EmployeeID = reader["EmployeeID"].ToString();
-                        model.Title = reader["Title"].ToString();
-                        //model.FirstName = reader["FirstName"].ToString();
-                        //model.LastName = reader["LastName"].ToString();
-                        model.StaffName = reader["Title"].ToString() + " " + reader["FullName"].ToString();
-                        model.FullName = reader["FullName"].ToString();
-                        model.RegistrationNo = reader["RegistrationNo"].ToString();
-                        model.Gender = reader["Gender"].ToString();
-                        model.DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy");
-                        model.EmailAddress = reader["EmailAddress"].ToString();
-                        model.Status = reader["Status"].ToString();
-                        model.Role = reader["Role"].ToString();
-                        model.LoginID = reader["LoginID"].ToString();
+                            model.UserId = reader["UserId"].ToString();
+                            model.EmployeeID = reader["EmployeeID"].ToString();
+                            model.Title = reader["Title"].ToString();
+                            //model.FirstName = reader["FirstName"].ToString();
+                            //model.LastName = reader["LastName"].ToString();
+                            model.StaffName = reader["Title"].ToString() + " " + reader["FullName"].ToString();
+                            model.FullName = reader["FullName"].ToString();
+                            model.RegistrationNo = reader["RegistrationNo"].ToString();
+                            model.Gender = reader["Gender"].ToString();
+                            model.DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy");
+                            model.EmailAddress = reader["EmailAddress"].ToString();
+                            model.Status = reader["Status"].ToString();
+                            model.StatusID = Convert.ToInt32(reader["StatusID"]);
+                            model.Role = reader["Role"].ToString();
+                            model.RoleID = reader["RoleID"].ToString();
+                            model.LoginID = reader["LoginID"].ToString();
 
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+            }            
 
             return model;
 

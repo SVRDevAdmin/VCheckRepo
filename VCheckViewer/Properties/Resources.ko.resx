@@ -184,7 +184,7 @@
     <value>아니요</value>
   </data>
   <data name="General_Label_Number" xml:space="preserve">
-    <value>아니요</value>
+    <value>수</value>
   </data>
   <data name="General_Label_OK" xml:space="preserve">
     <value>좋아요</value>
@@ -204,6 +204,9 @@
   <data name="General_Label_Searchbar" xml:space="preserve">
     <value>찾다</value>
   </data>
+  <data name="General_Label_SelectDuration" xml:space="preserve">
+    <value>지속 시간 선택</value>
+  </data>
   <data name="General_Label_Send" xml:space="preserve">
     <value>보내기</value>
   </data>
@@ -215,6 +218,9 @@
   </data>
   <data name="General_Label_Yes" xml:space="preserve">
     <value>예</value>
+  </data>
+  <data name="General_Message_Error" xml:space="preserve">
+    <value>처리할 수 없습니다. 관리자에게 문의하십시오.</value>
   </data>
   <data name="General_Message_NoChanges" xml:space="preserve">
     <value>변경사항이 감지되지 않았습니다.</value>
@@ -265,7 +271,7 @@
     <value>비밀번호를 잊으셨나요?</value>
   </data>
   <data name="Login_Label_LeftMain" xml:space="preserve">
-    <value>정확한 결과를 신속하게 얻을 수 있습니다.</value>
+    <value>정확한&lt;nextline&gt;결과를 신속하게 얻을 수 있습니다.</value>
   </data>
   <data name="Login_Label_LeftSub" xml:space="preserve">
     <value>계정에 액세스하려면 로그인하십시오.</value>
@@ -291,6 +297,9 @@
   <data name="Login_Label_ResetPassword" xml:space="preserve">
     <value>암호를 재설정</value>
   </data>
+  <data name="Login_Message_CreatePasswordError" xml:space="preserve">
+    <value>암호를 만들 때 오류가 발생했습니다. 관리자에게 문의하십시오.</value>
+  </data>
   <data name="Login_Message_PasswordNewConfirmMismatch" xml:space="preserve">
     <value>신규 비밀번호와 확인 비밀번호가 일치하지 않습니다.</value>
   </data>
@@ -302,6 +311,9 @@
   </data>
   <data name="Login_Message_PasswordResetted" xml:space="preserve">
     <value>비밀번호가 재설정되었습니다.</value>
+  </data>
+  <data name="Login_Message_RemovePasswordError" xml:space="preserve">
+    <value>암호를 제거할 때 오류가 발생합니다. 관리자에게 문의하십시오.</value>
   </data>
   <data name="Login_Message_WrongCurrentPassword" xml:space="preserve">
     <value>현재 암호가 잘못되었습니다.</value>
@@ -340,10 +352,13 @@
     <value>완료된 테스트 결과</value>
   </data>
   <data name="Notification_Label_ShowAll" xml:space="preserve">
-    <value>모두 보기</value>
+    <value>모두</value>
   </data>
   <data name="Notification_Label_UpcomingTest" xml:space="preserve">
     <value>다가오는 테스트</value>
+  </data>
+  <data name="Notification_Label_UpdateFilter" xml:space="preserve">
+    <value>필터 업데이트</value>
   </data>
   <data name="Notification_Label_Updates" xml:space="preserve">
     <value>업데이트</value>
@@ -575,6 +590,9 @@
   </data>
   <data name="Setting_Label_UserBackButton" xml:space="preserve">
     <value>사용자 목록으로 돌아가기</value>
+  </data>
+  <data name="Setting_Message_NoUserData" xml:space="preserve">
+    <value>사용자가 존재하지 않습니다.</value>
   </data>
   <data name="Setting_Title_PageTitle" xml:space="preserve">
     <value>설정</value>
