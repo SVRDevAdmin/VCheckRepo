@@ -265,8 +265,8 @@ namespace VCheckListenerWorker
                                                   observation.OBR.UniversalServiceIdentifier.NameOfCodingSystem.Value;
                 sOBRObj.Priority = observation.OBR.Priority.Value;
                 sOBRObj.RequestedDateTime = observation.OBR.RequestedDateTime.Value;
-                sOBRObj.ObservationDateTime = observation.OBR.ObservationDateTime.Value;
-                sOBRObj.ObservationEndDateTime = observation.OBR.ObservationEndDateTime.Value;
+                sOBRObj.ObservationDateTime = observation.OBR.ObservationDateTime.Value.Trim();
+                sOBRObj.ObservationEndDateTime = observation.OBR.ObservationEndDateTime.Value.Trim();
                 sOBRObj.CollectVolume = observation.OBR.CollectionVolume.Quantity.Value;
                 sOBRObj.CollectorIdentifier = (observation.OBR.GetCollectorIdentifier().Count() > 0) ?
                                                observation.OBR.GetCollectorIdentifier().FirstOrDefault().IDNumber.Value : null;

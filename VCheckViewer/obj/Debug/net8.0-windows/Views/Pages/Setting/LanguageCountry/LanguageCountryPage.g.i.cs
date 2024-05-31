@@ -138,8 +138,8 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/VCheckViewer;V1.0.0.0;component/views/pages/setting/languagecountry/languagecoun" +
-                    "trypage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/VCheckViewer;component/views/pages/setting/languagecountry/languagecountrypage.x" +
+                    "aml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\..\Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
