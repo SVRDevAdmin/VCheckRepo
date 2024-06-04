@@ -5,26 +5,28 @@ using System.Reflection;
 using VCheckListenerWorker;
 using VCheckListenerWorker.Lib.DBContext;
 
-/*
-var builder = Host.CreateApplicationBuilder(args);
+//-------- Version 1 ----------//
+//var builder = Host.CreateApplicationBuilder(args);
+//builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+//builder.Services.AddHostedService<Worker>();
 
-var sHostIP = builder.Configuration.GetSection("Listener:HostIP").Value;
-var Ports = builder.Configuration.GetSection("Listener:Ports").GetChildren();
+//var host = builder.Build();
+//host.Run();
 
-foreach (var p in Ports)
+
+var builder = Host.CreateDefaultBuilder(args);
+builder.ConfigureAppConfiguration((hostContext, config) =>
 {
-    var loggerFac = LoggerFactory.Create(x => x.AddConsole());
-    ILogger<Worker> logger = loggerFac.CreateLogger<Worker>();
+    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+});
 
-    builder.Services.AddHostedService<Worker>(x => new Worker(logger, sHostIP.ToString(), Convert.ToInt32(p.Value))));
-    String abc = p.Value.ToString();
-}
-*/
-
-var builder = Host.CreateApplicationBuilder(args);
-builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-builder.Services.AddHostedService<Worker>();
+builder.ConfigureServices(services =>
+{
+    services.AddHostedService<Worker>();
+})
+.UseWindowsService();
 
 var host = builder.Build();
 host.Run();
+
+
