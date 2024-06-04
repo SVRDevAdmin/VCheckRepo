@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Culture;
+using VCheckViewer.Lib.Util;
 
 namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
 {
@@ -77,7 +78,7 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
                 var uri = new Uri("pack://application:,,,/Content/Images/Icons/" + language.CodeID+".png");
                 var bitmap = new BitmapImage(uri);
 
-                if(language.CodeID == currentLanguage.ConfigurationValue) { radioButton.IsChecked = true; languageSelected = currentLanguage.ConfigurationValue; }
+                if(language.CodeID == currentLanguage?.ConfigurationValue) { radioButton.IsChecked = true; languageSelected = currentLanguage.ConfigurationValue; }
 
                 radioButton.Tag = language.CodeID;
                 radioButton.Checked += new RoutedEventHandler(LanguageSelected_Checked);
@@ -108,7 +109,7 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
                 item.Header = country.CountryName;
                 item.Tag = country.CountryCode;
 
-                if (country.CountryCode == currentCountry.ConfigurationValue) { CountryListView.SelectedItem = item; countrySelected = currentCountry.ConfigurationValue; }
+                if (country.CountryCode == currentCountry?.ConfigurationValue) { CountryListView.SelectedItem = item; countrySelected = currentCountry.ConfigurationValue; }
 
                 item.BorderThickness = new Thickness(0);
                 item.Click += new RoutedEventHandler(CountrySelected_Click);
@@ -178,24 +179,33 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            List<ConfigurationModel> configurationModels = new List<ConfigurationModel>()
+            try
             {
-                new ConfigurationModel() { ConfigurationKey = "SystemSettings_Country" , ConfigurationValue = countrySelected},
-                new ConfigurationModel() { ConfigurationKey = "SystemSettings_Language" , ConfigurationValue = languageSelected}
-            };
+                if (currentCountry?.ConfigurationValue == countrySelected && currentLanguage?.ConfigurationValue == languageSelected) 
+                {
+                    ErrorText.Text = Properties.Resources.General_Message_NoChanges;
+                    ErrorText.Visibility = Visibility.Visible; 
+                }
+                else
+                {
+                    ErrorText.Visibility = Visibility.Hidden;
 
-            if(currentCountry.ConfigurationValue == countrySelected && currentLanguage.ConfigurationValue == languageSelected) { ErrorText.Visibility = Visibility.Visible; }
-            else 
-            { 
-                ErrorText.Visibility = Visibility.Hidden;
+                    //App.MainViewModel.ConfigurationModel = configurationModels;
+                    currentCountry.ConfigurationValueTemp = countrySelected;
+                    currentLanguage.ConfigurationValueTemp = languageSelected;
 
-                //App.MainViewModel.ConfigurationModel = configurationModels;
-                currentCountry.ConfigurationValueTemp = countrySelected;
-                currentLanguage.ConfigurationValueTemp = languageSelected;
+                    App.MainViewModel.Origin = "ChangeLanguageCountry";
 
-                App.MainViewModel.Origin = "ChangeLanguageCountry";
+                    App.PopupHandler(e, sender);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorText.Text = Properties.Resources.General_Message_ErrorOccured;
+                ErrorText.Visibility = Visibility.Visible;
 
-                App.PopupHandler(e, sender);
+                Logger slogger = new Logger();
+                slogger.Error("Backend Error >>> ", ex);
             }
         }
 

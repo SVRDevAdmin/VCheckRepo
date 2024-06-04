@@ -63,27 +63,11 @@ namespace VCheckViewerAPI.Lib.Util
 
                     var command = connection.CreateCommand();
 
-                    command.CommandText = "Insert into apiLog(RequestHeader, RequestBody, ResponseHeader, ResponseBody) values('" + requestHeader.ToString() + "', '" + requestBody?.ToString() + "', '" + responseHeader.ToString() + "', '" + responseBody + "')";
+                    command.CommandText = "Insert into apiLog(Request, Response) values('" + requestBody?.ToString() + "', '" + responseBody + "')";
 
                     //command.ExecuteReader();
 
                     //command.Dispose();
-
-                    //command.CommandText =
-                    //@"
-                    //    SELECT *
-                    //    FROM apilog
-                    //";
-
-                    //using (var reader = command.ExecuteReader())
-                    //{
-                    //    while (reader.Read())
-                    //    {
-                    //        var name = reader.GetString(1);
-
-                    //        Console.WriteLine($"Hello, {name}!");
-                    //    }
-                    //}
                 }
             }
             catch (Exception ex)
@@ -91,6 +75,30 @@ namespace VCheckViewerAPI.Lib.Util
                 Error("Logging Error >>> ", ex);
             }
             
+        }
+
+        public void ApiLog(object request, object response)
+        {
+            try
+            {
+                using (var connection = new SqliteConnection(Host.CreateApplicationBuilder().Configuration.GetValue<string>("ApiLogPath")))
+                {
+                    connection.Open();
+
+                    var command = connection.CreateCommand();
+
+                    command.CommandText = "Insert into apiLog(Request, Response) values('" + request?.ToString() + "', '" + response.ToString() + "')";
+
+                    command.ExecuteReader();
+
+                    command.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Error("Logging Error >>> ", ex);
+            }
+
         }
     }
 }

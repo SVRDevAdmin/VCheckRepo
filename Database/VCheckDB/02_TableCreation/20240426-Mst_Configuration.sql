@@ -5,6 +5,6 @@ CREATE TABLE `mst_configuration` (
   PRIMARY KEY (`ConfigurationID`,`ConfigurationKey`,`ConfigurationValue`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-Insert into vcheckdb.mst_configuration (ConfigurationKey, ConfigurationValue) Values
-("SystemSettings_Country","KR"),
-("SystemSettings_Language","en")
+-- Insert into mst_configuration (ConfigurationKey, ConfigurationValue) Values
+-- ("SystemSettings_Country","KR"),
+-- ("SystemSettings_Language","en")

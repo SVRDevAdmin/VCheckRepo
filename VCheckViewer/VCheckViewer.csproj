@@ -8,6 +8,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Content\Images\Icons\favicon.ico</ApplicationIcon>
     <UseWindowsForms>True</UseWindowsForms>
+	  <InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.Extensions.Configuration.Binder.SourceGeneration</InterceptorsPreviewNamespaces>
   </PropertyGroup>
 
   <ItemGroup>
@@ -87,7 +88,6 @@
     <Folder Include="Content\Scripts\" />
     <Folder Include="Lib\Base\" />
     <Folder Include="EmailTemplate\" />
-    <Folder Include="Log\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "xi/A73yoJ5ASb9vzhVet6gqufY6BryMxB5y/ScZ3aOb597TBx53ev2gd93ANKO7N/9uwKhCgp0gBr3997/S7VQ==",
+  "dgSpecHash": "zgJc9PXeIPU=",
   "success": true,
-  "projectFilePath": "C:\\Dev\\VCheck\\Library\\VCheck.Helper\\VCheck.Helper.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Helper\\VCheck.Helper.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\azwan\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.5\\microsoft.net.illink.tasks.8.0.5.nupkg.sha512",
+    "C:\\Users\\azwan\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.5\\microsoft.netcore.app.runtime.win-x64.8.0.5.nupkg.sha512",
+    "C:\\Users\\azwan\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.5\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.5.nupkg.sha512",
+    "C:\\Users\\azwan\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.5\\microsoft.aspnetcore.app.runtime.win-x64.8.0.5.nupkg.sha512",
+    "C:\\Users\\azwan\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\8.0.5\\microsoft.netcore.app.crossgen2.win-x64.8.0.5.nupkg.sha512"
+  ],
   "logs": []
 }
