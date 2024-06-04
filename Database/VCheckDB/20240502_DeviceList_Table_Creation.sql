@@ -12,5 +12,4 @@ CREATE TABLE `mst_deviceslist` (
 	PRIMARY KEY (`ID`) USING BTREE
 )
 COLLATE='utf8mb4_general_ci'
-ENGINE=InnoDB
-;
+ENGINE=InnoDB;

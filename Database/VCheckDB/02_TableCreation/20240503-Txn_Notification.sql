@@ -1,5 +1,3 @@
-use vcheckdb;
-
 CREATE TABLE `txn_notification` (
   `NotificationID` int NOT NULL AUTO_INCREMENT,
   `NotificationType` varchar(50) NOT NULL,

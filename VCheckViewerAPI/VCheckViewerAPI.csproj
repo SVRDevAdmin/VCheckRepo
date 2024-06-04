@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Message\TestObject\**" />
+    <Content Remove="Message\TestObject\**" />
+    <EmbeddedResource Remove="Message\TestObject\**" />
+    <None Remove="Message\TestObject\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Controllers\WeatherForecastController.cs" />
     <Compile Remove="WeatherForecast.cs" />
   </ItemGroup>
@@ -43,6 +50,10 @@
     <Content Update="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Lib\Responsitory\" />
   </ItemGroup>
 
 </Project>

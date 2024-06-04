@@ -41,4 +41,15 @@ namespace VCheck.Lib.Data.Models
         public Boolean isPrint { get; set; }
     }
 
+    public class PatientDataObject
+    {
+        public String? patientid { get; set; }
+        public String? observationdatetime { get; set; }
+        public String? observationtype { get; set; }
+        public String? observationvalue { get; set; }
+        public String? observationresult { get; set; }
+        public String? observationrules { get; set; }
+        public String? inchargeperson { get; set; }
+        public String? observationby { get; set; }
+    }
 }

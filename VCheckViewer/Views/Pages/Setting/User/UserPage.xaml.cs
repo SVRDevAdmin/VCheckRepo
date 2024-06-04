@@ -43,7 +43,7 @@ namespace VCheckViewer.Views.Pages
         public static event EventHandler? DeleteUser;
         public static event EventHandler? GoToLanguageCountryPage;
         public int pageSize = 10;
-        public int paginationSize = 5;
+        public int paginationSize = 3;
         public int totalUser = 0;
         public int startPagination = 1;
         public int endPagination = 5;
@@ -114,6 +114,11 @@ namespace VCheckViewer.Views.Pages
             }
 
             pagination.LoadPagingNumberWithLimit();
+
+            //pagination.iTotalRecords = sContext.GetTotalUser();
+            //pagination.iPageIndex = currentPage;
+            //pagination.iPageSize = pageSize;
+            //pagination.LoadPagingNumber();
         }
 
         //public ObservableCollection<UserModel> GetUserList(int start, int end)

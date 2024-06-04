@@ -12,14 +12,15 @@ using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
+using VCheckViewerAPI.Lib.Util;
 
 namespace VCheck.Lib.Data
 {
     public class ApiRepository
     {
         private ClientAuthDBContext _AuthContext = new ClientAuthDBContext();
-        private ScheduleDBContext _scheduleTestContext = new ScheduleDBContext(Host.CreateApplicationBuilder().Configuration);
-        private TestResultDBContext _testResultContext = new TestResultDBContext(Host.CreateApplicationBuilder().Configuration);
+        //private ScheduleDBContext _scheduleTestContext = new ScheduleDBContext(Host.CreateApplicationBuilder().Configuration);
+        //private TestResultDBContext _testResultContext = new TestResultDBContext(Host.CreateApplicationBuilder().Configuration);
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
 
@@ -37,15 +38,22 @@ namespace VCheck.Lib.Data
             }
         }
 
-        public void GetTestResults(string patientID, out object? returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        public void GetTestResults(string patientID, out List<PatientDataObject> returnData, out string responseCode, out string responseMessage, out string responseStatus)
         {
             returnData = null;
+
             try
             {
-                var data =  _testResultContext.txn_testResults.Where(x => x.PatientID == patientID).ToList();
-
-                if (data.Count > 0) { responseCode = "VV.0001"; responseMessage = "Success"; returnData = data; }
-                else { responseCode = "VV.0002"; responseMessage = "No Data Found"; }
+                var data = TestResultsRepository.GetTestResultByPatientID(ConfigSettings.GetConfigurationSettings(), patientID);
+                if (data.Count > 0) { 
+                    responseCode = "VV.0001"; 
+                    responseMessage = "Success"; 
+                    returnData = data; 
+                }
+                else { 
+                    responseCode = "VV.0002"; 
+                    responseMessage = "No Data Found"; 
+                }
                 responseStatus = "Success";
             }
             catch (Exception ex)
@@ -58,24 +66,25 @@ namespace VCheck.Lib.Data
             }
         }
 
-        public void UpdateScheduledTest(string scheduledUniqueID ,string scheduledDatetime, string inchargePerson, out object? returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        public void UpdateScheduledTest(string scheduledUniqueID ,string scheduledDatetime, string inchargePerson, out ScheduledTestModel returnData, out string responseCode, out string responseMessage, out string responseStatus)
         {
             returnData = null;
+
             try
             {
-                var data = _scheduleTestContext.Txn_ScheduledTests.Where(x => x.ScheduleUniqueID == scheduledUniqueID).FirstOrDefault();
-
-                if(data == null)
+                var data = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), scheduledUniqueID);
+                if (data == null)
                 {
                     responseCode = "VV.0002";
                     responseMessage = "No Data Found";
                 }
-                else if ((scheduledDatetime != null && data.ScheduledDateTime != DateTime.Parse(scheduledDatetime)) || (inchargePerson != null && data.InchargePerson != inchargePerson))
+                else if ((scheduledDatetime != null && data.ScheduledDateTime != DateTime.ParseExact(scheduledDatetime, "yyyyMMddHHmmss", null)) || (inchargePerson != null && data.InchargePerson != inchargePerson))
                 {
-                    data.ScheduledDateTime = scheduledDatetime != null ? DateTime.Parse(scheduledDatetime) : data.ScheduledDateTime;
+                    data.ScheduledDateTime = scheduledDatetime != null ? DateTime.ParseExact(scheduledDatetime, "yyyyMMddHHmmss", null) : data.ScheduledDateTime;
                     data.InchargePerson = inchargePerson != null ? inchargePerson : data.InchargePerson;
-                    _scheduleTestContext.Txn_ScheduledTests.Update(data);
-                    _scheduleTestContext.SaveChanges();
+
+                    ScheduledTestRepository.UpdateScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), data);
+
                     responseCode = "VV.0001";
                     responseMessage = "Success";
                     returnData = data;

@@ -597,4 +597,7 @@
   <data name="Notification_Label_UpdateFilter" xml:space="preserve">
     <value>更新筛选</value>
   </data>
+  <data name="General_Message_ErrorOccured" xml:space="preserve">
+    <value>发生错误。请联系管理员。</value>
+  </data>
 </root>

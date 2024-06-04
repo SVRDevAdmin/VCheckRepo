@@ -26,6 +26,7 @@ using System.Text.RegularExpressions;
 using VCheck.Lib.Data.Models;
 using Microsoft.Extensions.Logging;
 using NLog;
+using System;
 
 namespace VCheckViewer
 {
@@ -176,14 +177,19 @@ namespace VCheckViewer
                 UserDBContext usersContext = GetService<UserDBContext>();
                 RolesDBContext roleContext = GetService<RolesDBContext>();
 
+                SignInManager = GetService<SignInManager<IdentityUser>>();
+                UserManager = GetService<UserManager<IdentityUser>>();
+                RoleManager = GetService<RoleManager<IdentityRole>>();
+                UserStore = GetService<IUserStore<IdentityUser>>();
+
                 MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
 
                 var language = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault()?.ConfigurationValue;
 
-                CultureInfo sZHCulture = new CultureInfo(language);
+                CultureInfo sZHCulture = new CultureInfo(language != null ? language : "en");
                 CultureResources.ChangeCulture(sZHCulture);
 
-                var roles = GetService<RoleManager<IdentityRole>>().Roles.ToList();
+                var roles = RoleManager.Roles.ToList();
                 IdentityRole role = new IdentityRole();
                 bool addRoleSuccess;
 
@@ -216,9 +222,9 @@ namespace VCheckViewer
                     else { }
                 }
 
-                roles = GetService<RoleManager<IdentityRole>>().Roles.ToList();
+                roles = RoleManager.Roles.ToList();
 
-                var user = await GetService<UserManager<IdentityUser>>().FindByNameAsync("superadmin");
+                var user = await UserManager.FindByNameAsync("superadmin");
 
                 if (user == null)
                 {
@@ -241,11 +247,11 @@ namespace VCheckViewer
 
                     user = Activator.CreateInstance<IdentityUser>();
 
-                    var emailStore = (IUserEmailStore<IdentityUser>)GetService<IUserStore<IdentityUser>>();
+                    var emailStore = (IUserEmailStore<IdentityUser>)UserStore;
 
                     await UserStore.SetUserNameAsync(user, "superadmin", CancellationToken.None);
                     await emailStore.SetEmailAsync(user, "superadmin@superadmin.com", CancellationToken.None);
-                    var result = await GetService<UserManager<IdentityUser>>().CreateAsync(user, "Abcd@1234");
+                    var result = await UserManager.CreateAsync(user, "Abcd@1234");
 
                     if (result.Succeeded)
                     {
@@ -256,12 +262,13 @@ namespace VCheckViewer
                     }
                 }
 
-                _host.Start();
             }
             catch (Exception ex)
             {
                 log.Error("Startup Error >>> ", ex);
-            }        
+            }
+
+            _host.Start();
         }
         /// <summary>
         /// Occurs when the application is closing.

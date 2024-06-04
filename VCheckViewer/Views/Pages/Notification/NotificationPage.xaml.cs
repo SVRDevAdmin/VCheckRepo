@@ -86,6 +86,11 @@ namespace VCheckViewer.Views.Pages.Notification
             }
 
             pagination.LoadPagingNumberWithLimit();
+
+            //pagination.iTotalRecords = sContext.GetTotalNotification(notificationType, startDate, endDate, keyword);
+            //pagination.iPageIndex = currentPage;
+            //pagination.iPageSize = pageSize;
+            //pagination.LoadPagingNumber();
         }
 
         public void createList(List<NotificationModel> notificationList)

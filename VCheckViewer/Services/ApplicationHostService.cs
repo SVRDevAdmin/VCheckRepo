@@ -61,17 +61,17 @@ namespace VCheckViewer.Services
 
             //     //_navigationWindow.Navigate(typeof(DashboardPage));
             // }
-            try
-            {
-                App.SignInManager = _serviceProvider.GetRequiredService<SignInManager<IdentityUser>>();
-                App.UserManager = _serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-                App.RoleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-                App.UserStore = _serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
-            }
-            catch (Exception ex)
-            {
-                App.log.Error("Database Error >>> ", ex);
-            }
+            //try
+            //{
+            //    App.SignInManager = _serviceProvider.GetRequiredService<SignInManager<IdentityUser>>();
+            //    App.UserManager = _serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            //    App.RoleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            //    App.UserStore = _serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
+            //}
+            //catch (Exception ex)
+            //{
+            //    App.log.Error("Database Error >>> ", ex);
+            //}
 
             LoginWindow LoginPage = new LoginWindow();
             LoginPage.Navigate(new LoginPage());
