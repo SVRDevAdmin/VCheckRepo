@@ -222,6 +222,9 @@
   <data name="General_Message_Error" xml:space="preserve">
     <value>처리할 수 없습니다. 관리자에게 문의하십시오.</value>
   </data>
+  <data name="General_Message_ErrorOccured" xml:space="preserve">
+    <value>오류가 발생합니다. 관리자에게 문의하십시오.</value>
+  </data>
   <data name="General_Message_NoChanges" xml:space="preserve">
     <value>변경사항이 감지되지 않았습니다.</value>
   </data>

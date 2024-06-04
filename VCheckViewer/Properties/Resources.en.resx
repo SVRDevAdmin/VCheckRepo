@@ -582,4 +582,7 @@
   <data name="Results_Label_SortBy" xml:space="preserve">
     <value>Sort By :</value>
   </data>
+  <data name="General_Message_ErrorOccured" xml:space="preserve">
+    <value>Error occur. Please contact administrator.</value>
+  </data>
 </root>

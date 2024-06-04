@@ -1,9 +1,11 @@
 using log4net.Config;
 using Microsoft.AspNetCore.Diagnostics;
+using MySqlX.XDevAPI.Common;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System.Net;
 using System.Reflection;
+using System.Text;
 using VCheckViewerAPI.Lib.Util;
 using VCheckViewerAPI.Models;
 using VCheckViewerAPI.Services;
@@ -38,28 +40,44 @@ app.UseAuthorization();
 app.UseExceptionHandler(a => a.Run(async context =>
 {
     var error = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+    string? ClientKey;
+    object? requestJson = null;
 
     Logger sLogger = new Logger();
     sLogger.Error("Internal Error >>> " ,error);
 
-    var response = context.Response;
-    response.ContentType = "application/json";
-    response.Headers.Append("Timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+    //context.Request.EnableBuffering();
 
-    var clientKey = context.Request.Headers.Where(x => x.Key == "ClientKey").FirstOrDefault().Value.ToString();
-    response.Headers.Append("ClientKey", clientKey != "" ? clientKey : "No Key");
+    context.Request.Body.Seek(0, SeekOrigin.Begin);
 
-    context.Request.EnableBuffering();
+    using (StreamReader stream = new StreamReader(context.Request.Body, Encoding.UTF8, true, 1024, true))
+    {
+        string body = await stream.ReadToEndAsync();
+        requestJson = JsonConvert.DeserializeObject(body);
+        ClientKey = JsonConvert.DeserializeObject<HeaderModel>(body)?.ClientKey;
+    }
 
-    var responseData = new APIResponseModel("VV.9999", "Fail", "Internal Error", null);
-    await response.WriteAsJsonAsync(responseData);
+    context.Request.Body.Position = 0;
 
-    var responseBodyJson = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(responseData));
-    sLogger.ApiLog(context, responseBodyJson);
+    var responseHeader = new HeaderModel() { Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), ClientKey = ClientKey };
+    var responseBody = new ResponseBody() { ResponseCode = "VV.9999", ResponseStatus = "Fail", ResponseMessage = "Internal Error", Results = null };
+    var response = new ResponseModel() { Header = responseHeader, Body = responseBody };
+
+    var responseJson = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(response));
+
+    //sLogger.ApiLog(requestJson, responseJson);
+    sLogger.ApiLog(context, responseJson);
 }));
 
 
-app.UseMiddleware<ApiHandlerMiddleware>();
+app.Use(async (context, next) =>
+    {
+        context.Request.EnableBuffering();
+
+        await next();
+    });
+
+//app.UseMiddleware<ApiHandlerMiddleware>();
 
 app.MapControllers();
 

@@ -1,6 +1,4 @@
-use vcheckdb;
-
-CREATE TABLE `vcheckdb`.`mst_userlogin` (
+CREATE TABLE `mst_userlogin` (
   `UserLoginID` INT NOT NULL AUTO_INCREMENT,
   `UserID` VARCHAR(50) NOT NULL,
   `LoginID` VARCHAR(50) NOT NULL,

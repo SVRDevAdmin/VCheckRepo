@@ -3,9 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using MySqlX.XDevAPI.Common;
+using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Ocsp;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
+using VCheckViewerAPI.Lib.Util;
 using VCheckViewerAPI.Models;
 
 namespace VCheckViewerAPI.Controllers
@@ -19,6 +23,7 @@ namespace VCheckViewerAPI.Controllers
         [HttpGet(Name = "GetTestObject")]
         public ActionResult<IEnumerable<VCheckViewerAPI.Models.TestObject>> GetTestClass()
         {
+            throw new NotImplementedException();
             var sTest = new VCheckViewerAPI.Models.TestClass();
             return VCheckViewerAPI.Models.TestClass.GetTestObject();
         }
@@ -39,44 +44,73 @@ namespace VCheckViewerAPI.Controllers
         }
 
         [HttpPost(Name = "GetPatientResult")]
-        public APIResponseModel GetPatientResult(APIRequestModel requestBody)
+        public ResponseModel GetPatientResult(PatientDataRequest request)
         {
-            object? response = null;
+            throw new NotImplementedException();
+            object? result = null;
             string responseCode, responseMessage, responseStatus;
 
-            if (requestBody.PatientID != null)
+            if (request.Header.ClientKey != null && _apiRepository.Authenticate(request.Header.ClientKey) && request.Body.PatientID != null)
             {
-                _apiRepository.GetTestResults(requestBody.PatientID, out response, out responseCode, out responseMessage, out responseStatus);
+                _apiRepository.GetTestResults(request.Body.PatientID, out result, out responseCode, out responseMessage, out responseStatus);
             }
-            else
+            else if (request.Body.PatientID == null)
             {
                 responseCode = "VV.1002";
                 responseStatus = "Fail";
                 responseMessage = "Missing Patient ID";
-            }                              
+            }
+            else
+            {
+                responseCode = "VV.0003";
+                responseStatus = "Fail";
+                responseMessage = "Unauthorized Request";
+            }
 
-            return new APIResponseModel(responseCode, responseStatus, responseMessage, response);
+            var responseHeader = new HeaderModel() { Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), ClientKey = request.Header.ClientKey };
+            var responseBody = new ResponseBody() { ResponseCode = responseCode, ResponseStatus = responseStatus, ResponseMessage = responseMessage, Results = result };
+            var response = new ResponseModel() { Header = responseHeader, Body = responseBody};
+
+            var requestJson = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(request));
+            var responseJson = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(response));
+
+            Logger sLogger = new Logger();
+            sLogger.ApiLog(requestJson, responseJson);
+
+            return response;
         }
 
         [HttpPost(Name = "UpdateScheduledTest")]
-        public APIResponseModel UpdateScheduledTest(APIRequestModel requestBody)
+        public ResponseModel UpdateScheduledTest(ScheduleDataRequest request)
         {
-            object? response = null;
+            object? result = null;
             string responseCode, responseMessage, responseStatus;
 
-            if (requestBody.ScheduledUniqueID != null)
+            if (request.Header.ClientKey != null && _apiRepository.Authenticate(request.Header.ClientKey) && request.Body.ScheduledUniqueID != null)
             {
-                _apiRepository.UpdateScheduledTest(requestBody.ScheduledUniqueID, requestBody.ScheduledDatetime, requestBody.InchargePerson, out response, out responseCode, out responseMessage, out responseStatus);
+                _apiRepository.UpdateScheduledTest(request.Body.ScheduledUniqueID, request.Body.ScheduledDatetime, request.Body.InchargePerson, out result, out responseCode, out responseMessage, out responseStatus);
             }
-            else
+            else if (request.Body.ScheduledUniqueID == null)
             {
                 responseCode = "VV.2002";
                 responseStatus = "Fail";
                 responseMessage = "Missing Scheduled Unique ID";
-
+            }
+            else
+            {
+                responseCode = "VV.0003";
+                responseStatus = "Fail";
+                responseMessage = "Unauthorized Request";
             }
 
-            return new APIResponseModel(responseCode, responseStatus, responseMessage, response);
+            var responseHeader = new HeaderModel() { Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), ClientKey = request.Header.ClientKey };
+            var responseBody = new ResponseBody() { ResponseCode = responseCode, ResponseStatus = responseStatus, ResponseMessage = responseMessage, Results = result };
+            var response = new ResponseModel() { Header = responseHeader, Body = responseBody };
+
+            Logger sLogger = new Logger();
+            sLogger.ApiLog(request, response);
+
+            return response;
         }
 
 

@@ -376,6 +376,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error occur. Please contact administrator..
+        /// </summary>
+        public static string General_Message_ErrorOccured {
+            get {
+                return ResourceManager.GetString("General_Message_ErrorOccured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No changes detected..
         /// </summary>
         public static string General_Message_NoChanges {

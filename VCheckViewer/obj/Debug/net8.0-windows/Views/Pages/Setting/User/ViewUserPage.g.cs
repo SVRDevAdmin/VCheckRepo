@@ -31,13 +31,7 @@ using System.Windows.Media.TextFormatting;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Shell;
-using VCheckViewer.UserControls;
-using VCheckViewer.Views.Pages;
 using VCheckViewer.Views.Pages.Setting.User;
-using Wpf.Ui;
-using Wpf.Ui.Controls;
-using Wpf.Ui.Converters;
-using Wpf.Ui.Markup;
 
 
 namespace VCheckViewer.Views.Pages.Setting.User {

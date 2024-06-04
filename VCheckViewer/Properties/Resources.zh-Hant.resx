@@ -582,4 +582,7 @@
   <data name="Results_Label_SortBy" xml:space="preserve">
     <value>排序 :</value>
   </data>
+  <data name="General_Message_ErrorOccured" xml:space="preserve">
+    <value>發生錯誤。請聯繫管理員。</value>
+  </data>
 </root>

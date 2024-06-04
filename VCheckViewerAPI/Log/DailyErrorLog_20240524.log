@@ -1,6 +1,0 @@
-2024-05-24 16:29:18,930 ERROR VCheck.Lib.Data.ApiRepository.Authenticate [27] - MESSAGE: Test Error 
- System.Exception: Exception of type 'System.Exception' was thrown.
-2024-05-24 16:51:45,112 ERROR VCheckViewerAPI.Lib.Util.Logger.Error [31] - MESSAGE: Internal Error >>> 
- System.NullReferenceException: Object reference not set to an instance of an object.
-   at VCheckViewerAPI.Services.ApiHandlerMiddleware.Invoke(HttpContext context) in C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewerAPI\Services\ApiHandlerMiddleware.cs:line 20
-   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)

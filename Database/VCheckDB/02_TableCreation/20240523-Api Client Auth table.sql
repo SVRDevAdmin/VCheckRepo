@@ -25,8 +25,8 @@ CREATE TABLE `mst_client_auth` (
 
 
 
-Insert Into `mst_client`(Name, Description, Status, CreatedDate, CreatedBy) values 
-("TestClient", "TestClient", 1, "2024-05-23", "Admin");
+-- Insert Into `mst_client`(Name, Description, Status, CreatedDate, CreatedBy) values 
+-- ("TestClient", "TestClient", 1, "2024-05-23", "Admin");
 
-Insert Into `mst_client_auth`(ClientID, ClientKey, StartDate, EndDate, CreatedDate, CreatedBy) values 
-(1, "TestClient", "2024-05-22", "2024-05-24", "2024-05-23", "Admin");
+-- Insert Into `mst_client_auth`(ClientID, ClientKey, StartDate, EndDate, CreatedDate, CreatedBy) values 
+-- (1, "TestClient", "2024-05-22", "2024-05-24", "2024-05-23", "Admin");
