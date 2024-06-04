@@ -790,11 +790,29 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update Filter.
+        /// </summary>
+        public static string Notification_Label_UpdateFilter {
+            get {
+                return ResourceManager.GetString("Notification_Label_UpdateFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Updates.
         /// </summary>
         public static string Notification_Label_Updates {
             get {
                 return ResourceManager.GetString("Notification_Label_Updates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notification.
+        /// </summary>
+        public static string Notification_Title_PageTitle {
+            get {
+                return ResourceManager.GetString("Notification_Title_PageTitle", resourceCulture);
             }
         }
         
@@ -826,6 +844,24 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to add device, please contact system admin..
+        /// </summary>
+        public static string Popup_Message_FailedAddDevice {
+            get {
+                return ResourceManager.GetString("Popup_Message_FailedAddDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to remove device, please contact System Admin..
+        /// </summary>
+        public static string Popup_Message_FailedDeleteDevice {
+            get {
+                return ResourceManager.GetString("Popup_Message_FailedDeleteDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to download Test Results listing..
         /// </summary>
         public static string Popup_Message_FailedDownloadListing {
@@ -840,6 +876,15 @@ namespace VCheckViewer.Properties {
         public static string Popup_Message_FailedOpenPrint {
             get {
                 return ResourceManager.GetString("Popup_Message_FailedOpenPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to update device, please contact System Admin..
+        /// </summary>
+        public static string Popup_Message_FailedUpdateDevice {
+            get {
+                return ResourceManager.GetString("Popup_Message_FailedUpdateDevice", resourceCulture);
             }
         }
         
@@ -1015,7 +1060,7 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Procedural Cont.
+        ///   Looks up a localized string similar to Procedural Control.
         /// </summary>
         public static string Results_Label_ProceduralCont {
             get {

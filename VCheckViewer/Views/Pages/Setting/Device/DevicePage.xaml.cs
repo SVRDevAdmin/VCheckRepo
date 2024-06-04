@@ -45,11 +45,11 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             {
                 DeviceName = txtName.Text,
                 DeviceIPAddress = txtIPAddress.Text,
-                //DeviceImagePath = "C:\\Dev\\VCheck\\VCheckViewer\\Storage\\Device\\Img_F200.png", // Temp Hardcode
-                DeviceImagePath = "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Content\\Images\\VCheck200Image.png", // Temp Hardcode
+                DeviceImagePath = "C:\\Dev\\VCheck\\VCheckViewer\\Storage\\Device\\Img_F200.png", // Temp Hardcode
+                //DeviceImagePath = "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Content\\Images\\VCheck200Image.png", // Temp Hardcode
                 status = (int)DataDictionary.DeviceListStatus.Active,
                 CreatedDate = DateTime.Now,
-                CreatedBy = "Test"
+                CreatedBy = App.MainViewModel.CurrentUsers.FullName
             };
 
             Popup sConfirmPopup = new Popup();
@@ -123,6 +123,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            String sOldDeviceName = "";
+
             if (!String.IsNullOrEmpty(hidID.Text))
             {
                 int iID = 0;
@@ -131,6 +133,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 var sDeviceObj = DeviceRepository.GetDeviceByID(iID, ConfigSettings.GetConfigurationSettings());
                 if (sDeviceObj != null)
                 {
+                    sOldDeviceName = sDeviceObj.DeviceName;
+
                     sDeviceObj.DeviceName = txtName.Text;
                     sDeviceObj.DeviceIPAddress = txtIPAddress.Text;
                     sDeviceObj.UpdatedDate = DateTime.Now;
@@ -142,6 +146,7 @@ namespace VCheckViewer.Views.Pages.Setting.Device
 
                 App.MainViewModel.Origin = "DeviceUpdate";
                 App.MainViewModel.DeviceModel = sDeviceObj;
+                App.MainViewModel.OldDeviceName = sOldDeviceName;
 
                 App.PopupHandler(e, sender);
             }

@@ -133,5 +133,18 @@ namespace VCheckViewer.ViewModels.Windows
                 _deviceModel = value; 
             }
         }
+
+        String _oldDeviceName;
+        public String OldDeviceName
+        {
+            get
+            {
+                return _oldDeviceName;
+            }
+            set
+            {
+                _oldDeviceName = value;
+            }
+        }
     }
 }

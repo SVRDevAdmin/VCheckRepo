@@ -9,11 +9,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using System.Runtime.CompilerServices;
+using System.CodeDom;
+using log4net;
+using System.Reflection;
 
 namespace VCheck.Lib.Data
 {
     public class TestResultsRepository
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
+
         /// <summary>
         /// Get recent test result 
         /// </summary>
@@ -33,6 +38,7 @@ namespace VCheck.Lib.Data
             }
             catch (Exception ex)
             {
+                log.Error("Error >>> " + ex.ToString());
                 return null;
             }
         }
@@ -55,10 +61,23 @@ namespace VCheck.Lib.Data
             }
             catch (Exception ex)
             {
+                log.Error("Error >>> " + ex.ToString());
                 return null;
             }
         }
 
+        /// <summary>
+        /// Get Test results listing by search criteria
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="dStartDate"></param>
+        /// <param name="dEndDate"></param>
+        /// <param name="sKeyword"></param>
+        /// <param name="sSortDirection"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalRecords"></param>
+        /// <returns></returns>
         public static List<TestResultListingObj> GetTestResultListBySearch(IConfiguration config, String dStartDate, String dEndDate, 
                                                                            String sKeyword, String sSortDirection, int pageIndex, int pageSize,
                                                                            out int totalRecords)
@@ -128,7 +147,7 @@ namespace VCheck.Lib.Data
             }
             catch (Exception ex)
             {
-                return null;
+                log.Error("Error >>> " + ex.ToString());
             }
 
             return sResult;

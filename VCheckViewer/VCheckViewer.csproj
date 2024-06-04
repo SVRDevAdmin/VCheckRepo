@@ -83,20 +83,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="bin\Debug\net8.0-windows\cs\" />
-    <Folder Include="bin\Debug\net8.0-windows\de\" />
-    <Folder Include="bin\Debug\net8.0-windows\es\" />
-    <Folder Include="bin\Debug\net8.0-windows\fr\" />
-    <Folder Include="bin\Debug\net8.0-windows\it\" />
-    <Folder Include="bin\Debug\net8.0-windows\ja\" />
-    <Folder Include="bin\Debug\net8.0-windows\ko\" />
-    <Folder Include="bin\Debug\net8.0-windows\pl\" />
-    <Folder Include="bin\Debug\net8.0-windows\pt-BR\" />
-    <Folder Include="bin\Debug\net8.0-windows\runtimes\" />
-    <Folder Include="bin\Debug\net8.0-windows\ru\" />
-    <Folder Include="bin\Debug\net8.0-windows\tr\" />
-    <Folder Include="bin\Debug\net8.0-windows\zh-Hans\" />
-    <Folder Include="bin\Debug\net8.0-windows\zh-Hant\" />
+    <Folder Include="bin\Debug\net8.0-windows\" />
     <Folder Include="Content\Style\" />
     <Folder Include="Content\Scripts\" />
     <Folder Include="Lib\Base\" />

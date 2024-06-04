@@ -48,14 +48,14 @@
                                             <DockPanel Height="70" Grid.Row="0" Grid.Column="1">
                                                 <DockPanel DockPanel.Dock="Top">
                                                     <TextBlock Text="{Binding NotificationTitle}" FontWeight="Bold" DockPanel.Dock="Left"/>
-                                                    <TextBlock Text="{Binding CreatedDate}" FontWeight="Bold" DockPanel.Dock="Right" TextAlignment="Right"/>
+                                                    <TextBlock Text="{Binding CreatedDate}" FontWeight="Normal" DockPanel.Dock="Right" TextAlignment="Right"/>
                                                 </DockPanel>
                                                 <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
                                                     <TextBlock TextWrapping="Wrap" Text="{Binding NotificationContent}" FontSize="11" DockPanel.Dock="Left" Height="auto"/>
                                                 </DockPanel>
                                             </DockPanel>
 
-                                            <Separator Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Bottom"/>
+                                            <Separator Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0.5" VerticalAlignment="Bottom"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

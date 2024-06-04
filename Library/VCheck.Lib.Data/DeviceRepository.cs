@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using log4net;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,14 @@ using VCheck.Lib.Data.Models;
 using MySql.Data.MySqlClient;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace VCheck.Lib.Data
 {
     public class DeviceRepository
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
+
         /// <summary>
         /// Add new Device record
         /// </summary>
@@ -26,14 +30,17 @@ namespace VCheck.Lib.Data
 
             try
             {
-                var ctx = new DeviceDBContext(config);
-                ctx.mst_deviceslist.Add(sDevice);
-                ctx.SaveChanges();
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    ctx.mst_deviceslist.Add(sDevice);
+                    ctx.SaveChanges();
 
-                isSuccess = true;
+                    isSuccess = true;
+                }
             }
             catch (Exception ex)
             {
+                log.Error("Error >>> " + ex.ToString());
                 isSuccess = false;
             }
 
@@ -49,12 +56,14 @@ namespace VCheck.Lib.Data
         {
             try
             {
-                var ctx = new DeviceDBContext(config);
-
-                return ctx.mst_deviceslist.Where(x => x.status == 1).ToList();
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    return ctx.mst_deviceslist.Where(x => x.status == 1).ToList();
+                }
             }
             catch (Exception ex)
             {
+                log.Error("Error >>> " + ex.ToString());
                 return null;
             }
         }
@@ -69,11 +78,14 @@ namespace VCheck.Lib.Data
         {
             try
             {
-                var ctx = new DeviceDBContext(config);
-                return ctx.mst_deviceslist.Where(x => x.id == iID).FirstOrDefault();
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    return ctx.mst_deviceslist.Where(x => x.id == iID).FirstOrDefault();
+                }
             }
             catch (Exception ex)
             {
+                log.Error("Error >>> " + ex.ToString());
                 return null;
             }
         }
@@ -128,6 +140,7 @@ namespace VCheck.Lib.Data
             }
             catch (Exception ex)
             {
+                log.Error("Error >>> " + ex.ToString());
                 isSuccess =  false;
             }
 

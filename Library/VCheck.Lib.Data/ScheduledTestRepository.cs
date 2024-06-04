@@ -6,11 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
 using VCheck.Lib.Data.DBContext;
+using log4net;
+using System.Reflection;
+using log4net;
 
 namespace VCheck.Lib.Data
 {
     public class ScheduledTestRepository
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
+
         /// <summary>
         /// Get upcoming scheduled tests
         /// </summary>
@@ -30,6 +35,7 @@ namespace VCheck.Lib.Data
             }
             catch (Exception ex)
             {
+                log.Error("Error >>> " + ex.ToString());
                 return null;
             }
         }

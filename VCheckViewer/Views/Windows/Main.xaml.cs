@@ -24,6 +24,7 @@ using VCheckViewer.Views.Pages.Schedule;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Windows.Media;
 using VCheckViewer.Views.Pages.Results;
+using Org.BouncyCastle.Utilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic.Logging;
 
@@ -276,6 +277,30 @@ namespace VCheckViewer.Views.Windows
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedOpenPrint;
             }
+            if (App.MainViewModel.Origin == "FailedAddDevice")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_FailedAddDevice;
+            }
+            if (App.MainViewModel.Origin == "FailedDeleteDevice")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_FailedDeleteDevice;
+            }
+            if (App.MainViewModel.Origin == "FailedUpdateDevice")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_FailedUpdateDevice;
+            }
 
             PopupBackground.Background = Brushes.DimGray;
             PopupBackground.Opacity = 0.5;
@@ -326,7 +351,10 @@ namespace VCheckViewer.Views.Windows
                 App.MainViewModel.Origin == "ListingDownloadCompleted" ||
                 App.MainViewModel.Origin == "TestResultDownloadCompleted" ||
                 App.MainViewModel.Origin == "FailedDownloadListing" ||
-                App.MainViewModel.Origin == "FailedToShowPrint")
+                App.MainViewModel.Origin == "FailedToShowPrint" ||
+                App.MainViewModel.Origin == "FailedAddDevice" ||
+                App.MainViewModel.Origin == "FailedDeleteDevice" ||
+                App.MainViewModel.Origin == "FailedUpdateDevice")
             {
                 this.IsEnabled = true;
                 popup.IsOpen = false;
@@ -683,11 +711,36 @@ namespace VCheckViewer.Views.Windows
         {
             if (DeviceRepository.InsertDevice(App.MainViewModel.DeviceModel, ConfigSettings.GetConfigurationSettings()))
             {
+                String sNotificationContent = "";
+
+                var sTemplateObj = TemplateContext.GetTemplateByCode("DS01");
+                if (sTemplateObj != null)
+                {
+                    sNotificationContent = sTemplateObj.TemplateContent;
+                }
+                sNotificationContent = sNotificationContent.Replace("###<analyzer_name>###", App.MainViewModel.DeviceModel.DeviceName)
+                                                           .Replace("###<admin_fullname>###", App.MainViewModel.CurrentUsers.FullName)
+                                                           .Replace("###<admin_id>###", App.MainViewModel.CurrentUsers.EmployeeID);
+
+                NotificationModel sNotificationSend = new NotificationModel()
+                {
+                    NotificationType = "Updates",
+                    NotificationTitle = (sTemplateObj != null) ? sTemplateObj.TemplateTitle : "",
+                    NotificationContent = sNotificationContent,
+                    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreatedBy = App.MainViewModel.CurrentUsers.FullName
+                };
+                NotificationContext.InsertNotification(sNotificationSend);
+
                 frameContent.Content = new DevicePage();
             }
             else
             {
-                //todo : prompt error 
+                System.Windows.Controls.Primitives.Popup sErrorPopup = new System.Windows.Controls.Primitives.Popup();
+                sErrorPopup.IsOpen = true;
+
+                App.MainViewModel.Origin = "FailedAddDevice";
+                App.PopupHandler(e, sender);
             }
         }
 
@@ -695,11 +748,36 @@ namespace VCheckViewer.Views.Windows
         {
             if (DeviceRepository.UpdateDevice(App.MainViewModel.DeviceModel, ConfigSettings.GetConfigurationSettings()))
             {
+                String sNotificationContent = "";
+
+                var sTemplateObj = TemplateContext.GetTemplateByCode("DS03");
+                if (sTemplateObj != null)
+                {
+                    sNotificationContent = sTemplateObj.TemplateContent;
+                }
+                sNotificationContent = sNotificationContent.Replace("###<analyzer_name>###", App.MainViewModel.DeviceModel.DeviceName)
+                                                           .Replace("###<admin_fullname>###", App.MainViewModel.CurrentUsers.FullName)
+                                                           .Replace("###<admin_id>###", App.MainViewModel.CurrentUsers.EmployeeID);
+
+                NotificationModel sNotificationSend = new NotificationModel()
+                {
+                    NotificationType = "Updates",
+                    NotificationTitle = (sTemplateObj != null) ? sTemplateObj.TemplateTitle : "",
+                    NotificationContent = sNotificationContent,
+                    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreatedBy = App.MainViewModel.CurrentUsers.FullName
+                };
+                NotificationContext.InsertNotification(sNotificationSend);
+
                 frameContent.Content = new DevicePage();
             }
             else
             {
-                //todo: prompt error
+                System.Windows.Controls.Primitives.Popup sErrorPopup = new System.Windows.Controls.Primitives.Popup();
+                sErrorPopup.IsOpen = true;
+
+                App.MainViewModel.Origin = "FailedDeleteDevice";
+                App.PopupHandler(e, sender);
             }
         }
 
@@ -707,11 +785,37 @@ namespace VCheckViewer.Views.Windows
         {
             if (DeviceRepository.UpdateDevice(App.MainViewModel.DeviceModel, ConfigSettings.GetConfigurationSettings()))
             {
+                String sNotificationContent = "";
+
+                var sTemplateObj = TemplateContext.GetTemplateByCode("DS02");
+                if (sTemplateObj != null)
+                {
+                    sNotificationContent = sTemplateObj.TemplateContent;
+                }
+                sNotificationContent = sNotificationContent.Replace("###<analyzer_name>###", App.MainViewModel.OldDeviceName)
+                                                           .Replace("###<new_analyzer_name>###", App.MainViewModel.DeviceModel.DeviceName)
+                                                           .Replace("###<admin_fullname>###", App.MainViewModel.CurrentUsers.FullName)
+                                                           .Replace("###<admin_id>###", App.MainViewModel.CurrentUsers.EmployeeID);
+
+                NotificationModel sNotificationSend = new NotificationModel()
+                {
+                    NotificationType = "Updates",
+                    NotificationTitle = (sTemplateObj != null) ? sTemplateObj.TemplateTitle : "",
+                    NotificationContent = sNotificationContent,
+                    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreatedBy = App.MainViewModel.CurrentUsers.FullName
+                };
+                NotificationContext.InsertNotification(sNotificationSend);
+
                 frameContent.Content = new DevicePage();
             }
             else
             {
-                //todo: prompt error
+                System.Windows.Controls.Primitives.Popup sErrorPopup = new System.Windows.Controls.Primitives.Popup();
+                sErrorPopup.IsOpen = true;
+
+                App.MainViewModel.Origin = "FailedUpdateDevice";
+                App.PopupHandler(e, sender);
             }
         }
 
@@ -747,9 +851,29 @@ namespace VCheckViewer.Views.Windows
                     }
                 }
 
+                // --- Add Notification --//
+                String sNotificationContent = "";
+
+                var sTemplateObj = TemplateContext.GetTemplateByCode("CS01");
+                if (sTemplateObj != null)
+                {
+                    sNotificationContent = sTemplateObj.TemplateContent;
+                }
+                sNotificationContent = sNotificationContent.Replace("###<admin_fullname>###", App.MainViewModel.CurrentUsers.FullName)
+                                                           .Replace("###<admin_id>###", App.MainViewModel.CurrentUsers.EmployeeID);
+
+                NotificationModel sNotificationSend = new NotificationModel()
+                {
+                    NotificationType = "Updates",
+                    NotificationTitle = (sTemplateObj != null) ? sTemplateObj.TemplateTitle : "",
+                    NotificationContent = sNotificationContent,
+                    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreatedBy = App.MainViewModel.CurrentUsers.FullName
+                };
+                NotificationContext.InsertNotification(sNotificationSend);
+
                 System.Windows.Controls.Primitives.Popup sMessagePopup = new System.Windows.Controls.Primitives.Popup();
                 sMessagePopup.IsOpen = true;
-
 
                 App.MainViewModel.Origin = "SetingsUpdateCompleted";
                 App.MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
@@ -859,6 +983,11 @@ namespace VCheckViewer.Views.Windows
         private void mnNotifications_Click(object sender, RoutedEventArgs e)
         {
             frameContent.Content = new NotificationPage();
+
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Notification_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+
             PageTitle.Text = Properties.Resources.Main_Label_SideMenuNotification;
 
             ClearMenuItemStyle();

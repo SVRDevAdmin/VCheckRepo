@@ -107,7 +107,8 @@
 
                                     <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" />
                                     <TextBlock IsHitTestVisible="False" Text="{Binding Path=Results_Label_Searchbar, Source={StaticResource Resources}}" 
-                                               VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                                               VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray"
+                                               FontFamily="Noto Sans" FontSize="12">
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -129,7 +130,8 @@
 
                                     <userControls:DateRangePicker x:Name="RangeDate"
                                                     SelectedDateRange="{Binding SelectedDates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                    BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" />
+                                                    BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center"
+                                                    FontFamily="Noto Sans" FontSize="12" />
                                 </Grid>
                             </Border>
                         </Border>
@@ -137,7 +139,7 @@
                             <Border CornerRadius="20" Margin="5, 5, 5, 5" BorderThickness="1" BorderBrush="Black" Background="White">
                                 <Grid>
                                     <Label Content="{Binding Path=Results_Label_SortBy, Source={StaticResource Resources}}" 
-                                           FontFamily="Noto Sanes" Foreground="Black" VerticalContentAlignment="Center" 
+                                           FontFamily="Noto Sans" Foreground="Black" FontSize="12" VerticalContentAlignment="Center" 
                                            Margin="5, 5, 0, 0" />
                                     <ComboBox x:Name="cboSort" Background="Transparent" BorderThickness="0" Margin="60, 0, 5, 0"
                                           ItemsSource="{Binding cbSort}"  SelectedItem="{Binding SelectedcbSort}" />
@@ -177,7 +179,7 @@
                     <DataGridTextColumn Header="{Binding Path=Results_Label_Time, Source={StaticResource Resources}}" Binding="{Binding TestResultDateTime, StringFormat={}{0:yyyy-MM-dd HH:ss}}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_OperatorID, Source={StaticResource Resources}}" Binding="{Binding OperatorID}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_PatientID, Source={StaticResource Resources}}" Binding="{Binding PatientID}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_ProceduralCont, Source={StaticResource Resources}}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_ProceduralCont, Source={StaticResource Resources}}" Binding="{Binding ObservationStatus}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTemplateColumn Header="{Binding Path=Results_Label_Result, Source={StaticResource Resources}}" Width="120" HeaderStyle="{StaticResource columnHeaderStyleCenterAlign}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

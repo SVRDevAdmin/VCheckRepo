@@ -150,9 +150,9 @@ namespace VCheckViewer.UserControls
 
         public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
-#if DEBUG
+            #if DEBUG
             Debug.Print($"RaisePropertyChanged for {propertyName}");
-#endif
+            #endif
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 

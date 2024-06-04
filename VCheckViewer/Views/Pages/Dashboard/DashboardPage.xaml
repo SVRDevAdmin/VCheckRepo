@@ -11,7 +11,7 @@
         <TextBlock TextWrapping="Wrap" Text="{Binding Path=Dashboard_Title_PageTitle, Source={StaticResource Resources}}" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="collapsed"/>
         <DockPanel Visibility="Visible">
             <DockPanel DockPanel.Dock="Top">
-                <Border CornerRadius="20" BorderThickness="1" BorderBrush="White" Background="PeachPuff" Height="200" HorizontalAlignment="Stretch" Margin="10">
+                <Border CornerRadius="20" BorderThickness="1" BorderBrush="White" Background="PeachPuff" Height="200" HorizontalAlignment="Stretch" Margin="10, 0, 10, 10">
                     <DockPanel VerticalAlignment="Stretch">
                         <StackPanel Orientation="Vertical" Margin="40,20,0,20">
                             <TextBlock x:Name="updateMessage" TextWrapping="WrapWithOverflow" FontSize="23" FontWeight="Bold" Width="550" Margin="0,0,0,10" Grid.Row="0" LineHeight="30"/>
@@ -22,7 +22,7 @@
                 </Border>
             </DockPanel>
             <DockPanel DockPanel.Dock="Bottom">
-                <Border CornerRadius="30" BorderThickness="1" Width="auto" MaxWidth="450" BorderBrush="Black" DockPanel.Dock="Left" Margin="10">
+                <Border CornerRadius="30" BorderThickness="0.5" Width="auto" MaxWidth="450" BorderBrush="Black" DockPanel.Dock="Left" Margin="10">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />

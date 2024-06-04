@@ -132,9 +132,6 @@
 
                 <TextBlock Text="{Binding Path=Setting_Message_NoUserData, Source={StaticResource Resources}}" TextAlignment="Center" Margin="0,50,0,0" Visibility="{Binding Items.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=dataGrid}" />
 
-                <!--<StackPanel x:Name="paginationPanel" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                </StackPanel>-->
-
                 <!-- // Pagination Control // -->
                 <userControls:PagingControl x:Name="pagination" Grid.Row="1" HorizontalAlignment="Right">
                 </userControls:PagingControl>

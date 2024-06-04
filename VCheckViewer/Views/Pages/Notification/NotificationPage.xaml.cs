@@ -136,7 +136,7 @@ namespace VCheckViewer.Views.Pages.Notification
                     mainPanel.Children.Add(panel2);
 
                     NotificationViewList.Children.Add(mainPanel);
-                    if (notification != notificationList.LastOrDefault() || notificationList.Count == 1) { NotificationViewList.Children.Add(new Separator() { BorderBrush = Brushes.Black, BorderThickness = new Thickness(1) }); }
+                    if (notification != notificationList.LastOrDefault() || notificationList.Count == 1) { NotificationViewList.Children.Add(new Separator() { BorderBrush = Brushes.Black, BorderThickness = new Thickness(0.5) }); }
                 }
             }
             else

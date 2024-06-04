@@ -139,7 +139,7 @@
     <value>知到</value>
   </data>
   <data name="General_Label_Number" xml:space="preserve">
-    <value>数</value>
+    <value>号码</value>
   </data>
   <data name="General_Label_Previous" xml:space="preserve">
     <value>以前</value>
@@ -157,7 +157,7 @@
     <value>更新</value>
   </data>
   <data name="General_Label_View" xml:space="preserve">
-    <value>视图</value>
+    <value>详细</value>
   </data>
   <data name="General_Label_Yes" xml:space="preserve">
     <value>是的</value>
@@ -253,13 +253,13 @@
     <value>仪表板</value>
   </data>
   <data name="Main_Label_SideMenuNotification" xml:space="preserve">
-    <value>通知</value>
+    <value>告示板</value>
   </data>
   <data name="Main_Label_SideMenuResults" xml:space="preserve">
-    <value>结果</value>
+    <value>测试结果</value>
   </data>
   <data name="Main_Label_SideMenuSchedule" xml:space="preserve">
-    <value>附表</value>
+    <value>日程表</value>
   </data>
   <data name="Main_Label_SideMenuSetting" xml:space="preserve">
     <value>设置</value>
@@ -271,7 +271,7 @@
     <value>完成的测试结果</value>
   </data>
   <data name="Notification_Label_ShowAll" xml:space="preserve">
-    <value>都</value>
+    <value>全部</value>
   </data>
   <data name="Notification_Label_UpcomingTest" xml:space="preserve">
     <value>即将到来的测试</value>
@@ -370,7 +370,7 @@
     <value>员工姓名</value>
   </data>
   <data name="Setting_Label_Status" xml:space="preserve">
-    <value>地位</value>
+    <value>状况</value>
   </data>
   <data name="Setting_Label_Title" xml:space="preserve">
     <value>标题</value>
@@ -460,13 +460,13 @@
     <value>患者</value>
   </data>
   <data name="Schedule_Label_RecentTestResults" xml:space="preserve">
-    <value>最近的测试结果</value>
+    <value>最新测试结果</value>
   </data>
   <data name="Schedule_Label_TestsDone" xml:space="preserve">
     <value>测试完成</value>
   </data>
   <data name="Schedule_Label_UpcomingTest" xml:space="preserve">
-    <value>即将进行的测试</value>
+    <value>即将进行测试</value>
   </data>
   <data name="Schedule_Label_ViewReport" xml:space="preserve">
     <value>查看报告</value>
@@ -532,7 +532,7 @@
     <value>批号</value>
   </data>
   <data name="Results_Label_No" xml:space="preserve">
-    <value>号</value>
+    <value>号码</value>
   </data>
   <data name="Results_Label_OperatorID" xml:space="preserve">
     <value>操作员 ID</value>
@@ -581,6 +581,21 @@
   </data>
   <data name="Results_Label_SortBy" xml:space="preserve">
     <value>排序 :</value>
+  </data>
+  <data name="Notification_Title_PageTitle" xml:space="preserve">
+    <value>告示板</value>
+  </data>
+  <data name="Popup_Message_FailedAddDevice" xml:space="preserve">
+    <value>添加设备失败，请联系系统管理员。</value>
+  </data>
+  <data name="Popup_Message_FailedDeleteDevice" xml:space="preserve">
+    <value>无法删除设备，请联系系统管理员。</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateDevice" xml:space="preserve">
+    <value>无法更新设备，请联系系统管理员。</value>
+  </data>
+  <data name="Notification_Label_UpdateFilter" xml:space="preserve">
+    <value>更新筛选</value>
   </data>
   <data name="General_Message_ErrorOccured" xml:space="preserve">
     <value>发生错误。请联系管理员。</value>
