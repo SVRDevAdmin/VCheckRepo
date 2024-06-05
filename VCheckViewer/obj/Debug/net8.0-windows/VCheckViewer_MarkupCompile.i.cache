@@ -13,8 +13,8 @@ C:\Dev\VCheck\VCheckViewer\App.xaml
 26-1547364447
 6-1379819991
 43-1530652881
-290-2146153724
+290-521956756
 ResourceDictionary.xaml;Template\Templates.xaml;UserControls\DateRangePicker.xaml;UserControls\PagingControl.xaml;Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Dashboard\NotificationList.xaml;Views\Pages\Dashboard\ScheduleTestList.xaml;Views\Pages\Dashboard\TestResultList.xaml;Views\Pages\Login\LoginPage.xaml;Views\Pages\Login\PasswordRecoveryPage.xaml;Views\Pages\Login\ResetCurrentUserPasswordPage.xaml;Views\Pages\Login\ResetPasswordPage.xaml;Views\Pages\Notification\NotificationPage.xaml;Views\Pages\Results\ResultPage.xaml;Views\Pages\Schedule\SchedulePage.xaml;Views\Pages\Setting\Device\DevicePage.xaml;Views\Pages\Setting\Interface\ConfigurationPage.xaml;Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Pages\Setting\User\ViewUserPage.xaml;Views\Pages\Test\LocalizationTestPage.xaml;Views\Windows\LoginWindow.xaml;Views\Windows\Main.xaml;Views\Windows\Main2.xaml;
 
-False
+True
 

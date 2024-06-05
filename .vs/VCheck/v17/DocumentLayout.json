@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Dev\\VCheck\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\views\\pages\\results\\resultpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\results\\resultpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\views\\pages\\results\\resultpage.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\results\\resultpage.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +31,31 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ResultPage.xaml",
+              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Results\\ResultPage.xaml",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Results\\ResultPage.xaml",
+              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Results\\ResultPage.xaml",
+              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Results\\ResultPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-06-05T05:23:35.032Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ResultPage.xaml.cs",
+              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Results\\ResultPage.xaml.cs",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Results\\ResultPage.xaml.cs",
+              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Results\\ResultPage.xaml.cs",
+              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Results\\ResultPage.xaml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-05T05:23:33.472Z",
+              "EditorCaption": ""
             }
           ]
         }
