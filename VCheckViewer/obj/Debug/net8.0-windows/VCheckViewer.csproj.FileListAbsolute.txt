@@ -38,7 +38,6 @@ C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\vi\VCheckViewer.resources.dl
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\zh-Hans\VCheckViewer.resources.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\zh-Hant\VCheckViewer.resources.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\zh\VCheckViewer.resources.dll
-C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\Aspose.Cells.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\BouncyCastle.Cryptography.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\ClosedXML.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\CommunityToolkit.Mvvm.dll
@@ -235,7 +234,6 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\LoginWindow.g.
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main2.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\App.g.cs
-C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer_Content.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer_MarkupCompile.cache
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer_MarkupCompile.lref

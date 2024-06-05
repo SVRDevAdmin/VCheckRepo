@@ -52,7 +52,7 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[8.0.6, )"
             },
             "Microsoft.Extensions.Hosting": {
               "target": "Package",
@@ -64,11 +64,11 @@
             },
             "MySql.Data": {
               "target": "Package",
-              "version": "[8.3.0, )"
+              "version": "[8.4.0, )"
             },
             "MySql.Data.EntityFramework": {
               "target": "Package",
-              "version": "[8.3.0, )"
+              "version": "[8.4.0, )"
             },
             "NHapiTools": {
               "target": "Package",
@@ -103,7 +103,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

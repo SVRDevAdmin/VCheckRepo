@@ -127,11 +127,11 @@
           "lib/netcoreapp2.0/_._": {}
         }
       },
-      "Microsoft.EntityFrameworkCore/8.0.4": {
+      "Microsoft.EntityFrameworkCore/8.0.6": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "8.0.4",
-          "Microsoft.EntityFrameworkCore.Analyzers": "8.0.4",
+          "Microsoft.EntityFrameworkCore.Abstractions": "8.0.6",
+          "Microsoft.EntityFrameworkCore.Analyzers": "8.0.6",
           "Microsoft.Extensions.Caching.Memory": "8.0.0",
           "Microsoft.Extensions.Logging": "8.0.0"
         },
@@ -149,7 +149,7 @@
           "buildTransitive/net8.0/Microsoft.EntityFrameworkCore.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/8.0.4": {
+      "Microsoft.EntityFrameworkCore.Abstractions/8.0.6": {
         "type": "package",
         "compile": {
           "lib/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
@@ -162,7 +162,7 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Analyzers/8.0.4": {
+      "Microsoft.EntityFrameworkCore.Analyzers/8.0.6": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/_._": {}
@@ -898,7 +898,7 @@
           }
         }
       },
-      "MySql.Data/8.3.0": {
+      "MySql.Data/8.4.0": {
         "type": "package",
         "dependencies": {
           "BouncyCastle.Cryptography": "2.2.1",
@@ -948,11 +948,11 @@
           }
         }
       },
-      "MySql.Data.EntityFramework/8.3.0": {
+      "MySql.Data.EntityFramework/8.4.0": {
         "type": "package",
         "dependencies": {
           "EntityFramework": "6.4.4",
-          "MySql.Data": "8.3.0"
+          "MySql.Data": "8.4.0"
         },
         "compile": {
           "lib/netstandard2.1/MySql.Data.EntityFramework.dll": {
@@ -2071,10 +2071,10 @@
         "version.txt"
       ]
     },
-    "Microsoft.EntityFrameworkCore/8.0.4": {
-      "sha512": "/kyu9pXuxQvhg8RO/oN5Q5Og7cDIVvZtrt1z48rX7Yido+zEGkUkp3/Bjd9u45N2uuPPF8mn2pKDlAewCvv3/Q==",
+    "Microsoft.EntityFrameworkCore/8.0.6": {
+      "sha512": "Ms5e5QuBAjVIuQsGumeLvkgMiOpnj6wxPvwBIoe1NfTkseWK4NZYztnhgDlpkCPkrUmJEXLv69kl349Ours30Q==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore/8.0.4",
+      "path": "microsoft.entityframeworkcore/8.0.6",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2083,14 +2083,14 @@
         "buildTransitive/net8.0/Microsoft.EntityFrameworkCore.props",
         "lib/net8.0/Microsoft.EntityFrameworkCore.dll",
         "lib/net8.0/Microsoft.EntityFrameworkCore.xml",
-        "microsoft.entityframeworkcore.8.0.4.nupkg.sha512",
+        "microsoft.entityframeworkcore.8.0.6.nupkg.sha512",
         "microsoft.entityframeworkcore.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/8.0.4": {
-      "sha512": "S50pjtPNOvRktacaO6UAhvGCPMT56wxqEq8fQfcjaSUySPGba6mKWo6ackw6DdeAR1cA6U+U0uj27warA2KtJA==",
+    "Microsoft.EntityFrameworkCore.Abstractions/8.0.6": {
+      "sha512": "X7wSSBNFRuN8j8M9HDYG7rPpEeyhY+PdJZR9rftmgvsZH0eK5+bZ3b3As8iO4rLEpjsBzDnrgSIY6q2F3HQatw==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.abstractions/8.0.4",
+      "path": "microsoft.entityframeworkcore.abstractions/8.0.6",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2098,14 +2098,14 @@
         "PACKAGE.md",
         "lib/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll",
         "lib/net8.0/Microsoft.EntityFrameworkCore.Abstractions.xml",
-        "microsoft.entityframeworkcore.abstractions.8.0.4.nupkg.sha512",
+        "microsoft.entityframeworkcore.abstractions.8.0.6.nupkg.sha512",
         "microsoft.entityframeworkcore.abstractions.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Analyzers/8.0.4": {
-      "sha512": "P8hfMZECdbgle4Us8HGRUKAjqVwgbtr5JqtCxqEoiVORrNQAmcpu3g1NKwTAoUsO9Z0QRgExtYoAmdggR/DkMQ==",
+    "Microsoft.EntityFrameworkCore.Analyzers/8.0.6": {
+      "sha512": "fDNtuQ4lAaPaCOlsrwUck/GvnF4QLeDpMmE1L5QtxZpMSmWfnL2/vk8sDL9OVTWcfprooI9V5MNpIx3/Tq5ehg==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.analyzers/8.0.4",
+      "path": "microsoft.entityframeworkcore.analyzers/8.0.6",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2113,7 +2113,7 @@
         "analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll",
         "docs/PACKAGE.md",
         "lib/netstandard2.0/_._",
-        "microsoft.entityframeworkcore.analyzers.8.0.4.nupkg.sha512",
+        "microsoft.entityframeworkcore.analyzers.8.0.6.nupkg.sha512",
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
@@ -3221,10 +3221,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "MySql.Data/8.3.0": {
-      "sha512": "bAQlkLYvTYt5MtXAgHGURSBSUWynIvyN2FVQFUg51I2grxsOfnJSyGvO7YsDRnU7IvUNfMdxq8rNXiP5P4hMlw==",
+    "MySql.Data/8.4.0": {
+      "sha512": "NA273x7ybutfGwGbF2cd8rLVM5t7AkZCzRHr/+tGms1FeMlfl+LgfjHXcb5qN1QxFpeNQQKZ+vqZw8v/S8gUiA==",
       "type": "package",
-      "path": "mysql.data/8.3.0",
+      "path": "mysql.data/8.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3244,7 +3244,7 @@
         "lib/netstandard2.1/MySql.Data.dll",
         "lib/netstandard2.1/MySql.Data.xml",
         "logo-mysql-170x115.png",
-        "mysql.data.8.3.0.nupkg.sha512",
+        "mysql.data.8.4.0.nupkg.sha512",
         "mysql.data.nuspec",
         "runtimes/win-x64/native/comerr64.dll",
         "runtimes/win-x64/native/gssapi64.dll",
@@ -3253,10 +3253,10 @@
         "runtimes/win-x64/native/krbcc64.dll"
       ]
     },
-    "MySql.Data.EntityFramework/8.3.0": {
-      "sha512": "N9pODdoQ3w91ysX4/Y+pqtq4kW3omWV3NKnUCoanOIldZDKKCy++o8AV13IeRcYp1aJgwgRAZcaaPWWRPXZgKA==",
+    "MySql.Data.EntityFramework/8.4.0": {
+      "sha512": "6mkhDqCtkOSf1WUGXG8a9RSG96DQ3qhx3HkFKj6tbfnb38jAqLuLmXSaa1Zl9KofpvvCqO000gdFU6fUeD6A4w==",
       "type": "package",
-      "path": "mysql.data.entityframework/8.3.0",
+      "path": "mysql.data.entityframework/8.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3272,7 +3272,7 @@
         "lib/netstandard2.1/MySql.Data.EntityFramework.dll",
         "lib/netstandard2.1/MySql.Data.EntityFramework.xml",
         "logo-mysql-170x115.png",
-        "mysql.data.entityframework.8.3.0.nupkg.sha512",
+        "mysql.data.entityframework.8.4.0.nupkg.sha512",
         "mysql.data.entityframework.nuspec"
       ]
     },
@@ -4954,11 +4954,11 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "Microsoft.EntityFrameworkCore >= 8.0.4",
+      "Microsoft.EntityFrameworkCore >= 8.0.6",
       "Microsoft.Extensions.Hosting >= 8.0.0",
       "Microsoft.Extensions.Hosting.WindowsServices >= 8.0.0",
-      "MySql.Data >= 8.3.0",
-      "MySql.Data.EntityFramework >= 8.3.0",
+      "MySql.Data >= 8.4.0",
+      "MySql.Data.EntityFramework >= 8.4.0",
       "NHapiTools >= 2.0.4",
       "Pomelo.EntityFrameworkCore.MySql >= 8.0.2",
       "log4net >= 2.0.17",
@@ -5017,7 +5017,7 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
-            "version": "[8.0.4, )"
+            "version": "[8.0.6, )"
           },
           "Microsoft.Extensions.Hosting": {
             "target": "Package",
@@ -5029,11 +5029,11 @@
           },
           "MySql.Data": {
             "target": "Package",
-            "version": "[8.3.0, )"
+            "version": "[8.4.0, )"
           },
           "MySql.Data.EntityFramework": {
             "target": "Package",
-            "version": "[8.3.0, )"
+            "version": "[8.4.0, )"
           },
           "NHapiTools": {
             "target": "Package",
@@ -5068,7 +5068,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

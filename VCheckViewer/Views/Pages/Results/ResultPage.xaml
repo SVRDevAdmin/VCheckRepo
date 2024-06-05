@@ -91,7 +91,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Border BorderBrush="Black" BorderThickness="0" Grid.Column="0" Grid.Row="0" CornerRadius="30" Background="WhiteSmoke">
+                <Border BorderBrush="Black" BorderThickness="0" Grid.Column="0" Grid.Row="0" CornerRadius="30" Background="WhiteSmoke" d:IsLocked="True">
                     <Grid Margin="5, 2, 5, 2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="4*" />
