@@ -8,6 +8,10 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = VCheckListenerWorker
+<<<<<<< HEAD
+build_property.ProjectDir = C:\Dev\VCheck\VCheckListenerWorker\
+=======
 build_property.ProjectDir = C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\
+>>>>>>> bdfa8202a32c96ee42ff2ab22354199b9c10e0a2
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

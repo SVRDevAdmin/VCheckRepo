@@ -5,6 +5,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-VCheckListenerWorker-eece9956-5c34-4a9f-b29a-222907e5155d</UserSecretsId>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="bin\Debug\net8.0\runtimes\win\lib\net8.0\" />
+    <Folder Include="bin\" />
     <Folder Include="Storage\Output\ACK\" />
     <Folder Include="Storage\Output\HL7\" />
     <Folder Include="Storage\Output\XML\" />

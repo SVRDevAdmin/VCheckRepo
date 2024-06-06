@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
 using VCheckViewerAPI.Lib.Util;
-using VCheckViewerAPI.Models;
+using VCheckViewerAPI.Message.General;
 
 namespace VCheckViewerAPI.Services
 {

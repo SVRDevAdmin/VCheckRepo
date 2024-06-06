@@ -11,6 +11,7 @@
     </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ApiRepository.cs" />
     <Compile Remove="DbContext.cs" />
     <Compile Remove="SampleClass2.cs" />
     <Compile Remove="VCheckData.cs" />

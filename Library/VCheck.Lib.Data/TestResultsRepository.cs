@@ -152,5 +152,49 @@ namespace VCheck.Lib.Data
 
             return sResult;
         }
+
+        /// <summary>
+        /// Get Test Results by PatientID
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="sPatientID"></param>
+        /// <returns></returns>
+        public static List<PatientDataObject> GetTestResultByPatientID(IConfiguration config, String sPatientID)
+        {
+            var sPatientObj = new List<PatientDataObject>();
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    var sResult = ctx.txn_testResults.Where(x => x.PatientID == sPatientID).ToList();
+                    if (sResult.Count > 0)
+                    {
+                        foreach(var x in sResult)
+                        {
+                            sPatientObj.Add(new PatientDataObject
+                            {
+                                patientid = x.PatientID,
+                                observationdatetime = (x.TestResultDateTime != null ) ? x.TestResultDateTime.Value.ToString("yyyyMMddHHmmss") : null,
+                                observationtype = x.TestResultType,
+                                observationvalue = x.TestResultValue.ToString(),
+                                observationresult = x.TestResultStatus,
+                                observationrules = x.TestResultRules,
+                                inchargeperson = x.InchargePerson,
+                                observationby = x.OperatorID
+                            });
+                        }
+
+                    }
+                }
+
+                return sPatientObj;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
     }
 }

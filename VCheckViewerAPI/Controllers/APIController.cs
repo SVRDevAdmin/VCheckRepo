@@ -10,7 +10,9 @@ using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewerAPI.Lib.Util;
-using VCheckViewerAPI.Models;
+using VCheckViewerAPI.Message.General;
+using VCheckViewerAPI.Message.GetPatientResult;
+using VCheckViewerAPI.Message.UpdateScheduledTest;
 
 namespace VCheckViewerAPI.Controllers
 {
@@ -20,37 +22,18 @@ namespace VCheckViewerAPI.Controllers
     {
         private ApiRepository _apiRepository = new ApiRepository();
 
-        [HttpGet(Name = "GetTestObject")]
-        public ActionResult<IEnumerable<VCheckViewerAPI.Models.TestObject>> GetTestClass()
-        {
-            throw new NotImplementedException();
-            var sTest = new VCheckViewerAPI.Models.TestClass();
-            return VCheckViewerAPI.Models.TestClass.GetTestObject();
-        }
-
-        [HttpGet(Name = "GetTest1")]
-        public ActionResult<VCheckViewerAPI.Message.TestObject.MessageResponse> GetTest1(VCheckViewerAPI.Message.TestObject.MessageRequest sRequest)
-        {
-            VCheckViewerAPI.Message.TestObject.MessageResponse sResp = new Message.TestObject.MessageResponse();
-            sResp.Test = VCheckViewerAPI.Models.TestClass.GetTestObject();
-
-            return sResp;
-        }
-
-        [HttpGet(Name = "GetTest2")]
-        public ActionResult GetTest2(string test)
-        {
-            return Ok();
-        }
-
-        [HttpPost(Name = "GetPatientResult")]
+        /// <summary>
+        /// Get Patient Result API
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet(Name = "GetPatientResult")]
         public ResponseModel GetPatientResult(PatientDataRequest request)
         {
-            throw new NotImplementedException();
-            object? result = null;
+            List<PatientDataObject> result = null;
             string responseCode, responseMessage, responseStatus;
 
-            if (request.Header.ClientKey != null && _apiRepository.Authenticate(request.Header.ClientKey) && request.Body.PatientID != null)
+            if (request.Header.clientKey != null && _apiRepository.Authenticate(request.Header.clientKey) && request.Body.PatientID != null)
             {
                 _apiRepository.GetTestResults(request.Body.PatientID, out result, out responseCode, out responseMessage, out responseStatus);
             }
@@ -67,26 +50,31 @@ namespace VCheckViewerAPI.Controllers
                 responseMessage = "Unauthorized Request";
             }
 
-            var responseHeader = new HeaderModel() { Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), ClientKey = request.Header.ClientKey };
+            var responseHeader = new HeaderModel() { timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"), clientKey = request.Header.clientKey };
             var responseBody = new ResponseBody() { ResponseCode = responseCode, ResponseStatus = responseStatus, ResponseMessage = responseMessage, Results = result };
             var response = new ResponseModel() { Header = responseHeader, Body = responseBody};
 
             var requestJson = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(request));
             var responseJson = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(response));
 
-            Logger sLogger = new Logger();
+            APILogging sLogger = new APILogging();
             sLogger.ApiLog(requestJson, responseJson);
 
             return response;
         }
 
+        /// <summary>
+        /// Update Scheduled Test Info API
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost(Name = "UpdateScheduledTest")]
         public ResponseModel UpdateScheduledTest(ScheduleDataRequest request)
         {
-            object? result = null;
+            ScheduledTestModel result = null;
             string responseCode, responseMessage, responseStatus;
 
-            if (request.Header.ClientKey != null && _apiRepository.Authenticate(request.Header.ClientKey) && request.Body.ScheduledUniqueID != null)
+            if (request.Header.clientKey != null && _apiRepository.Authenticate(request.Header.clientKey) && request.Body.ScheduledUniqueID != null)
             {
                 _apiRepository.UpdateScheduledTest(request.Body.ScheduledUniqueID, request.Body.ScheduledDatetime, request.Body.InchargePerson, out result, out responseCode, out responseMessage, out responseStatus);
             }
@@ -103,11 +91,26 @@ namespace VCheckViewerAPI.Controllers
                 responseMessage = "Unauthorized Request";
             }
 
-            var responseHeader = new HeaderModel() { Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), ClientKey = request.Header.ClientKey };
-            var responseBody = new ResponseBody() { ResponseCode = responseCode, ResponseStatus = responseStatus, ResponseMessage = responseMessage, Results = result };
+            var sResult = new List<ScheduleResultObject>();
+            if (result != null)
+            {
+                sResult.Add(new ScheduleResultObject
+                {
+                    scheduleduniqueid = result.ScheduleUniqueID,
+                    scheduleddatetime = (result.ScheduledDateTime != null) ?
+                                            result.ScheduledDateTime.Value.ToString("yyyyMMddHHmmss") : null,
+                    scheduledtesttype = result.ScheduledTestType,
+                    scheduledby = result.ScheduledBy,
+                    inchargeperson = result.InchargePerson,
+                    patientid = result.PatientID
+                });
+            };
+
+            var responseHeader = new HeaderModel() { timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"), clientKey = request.Header.clientKey };
+            var responseBody = new ResponseBody() { ResponseCode = responseCode, ResponseStatus = responseStatus, ResponseMessage = responseMessage, Results = sResult };
             var response = new ResponseModel() { Header = responseHeader, Body = responseBody };
 
-            Logger sLogger = new Logger();
+            APILogging sLogger = new APILogging();
             sLogger.ApiLog(request, response);
 
             return response;

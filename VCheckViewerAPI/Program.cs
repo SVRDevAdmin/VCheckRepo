@@ -7,7 +7,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using VCheckViewerAPI.Lib.Util;
-using VCheckViewerAPI.Models;
+using VCheckViewerAPI.Message.General;
 using VCheckViewerAPI.Services;
 
 
@@ -54,19 +54,20 @@ app.UseExceptionHandler(a => a.Run(async context =>
     {
         string body = await stream.ReadToEndAsync();
         requestJson = JsonConvert.DeserializeObject(body);
-        ClientKey = JsonConvert.DeserializeObject<HeaderModel>(body)?.ClientKey;
+        ClientKey = JsonConvert.DeserializeObject<HeaderModel>(body)?.clientKey;
     }
 
     context.Request.Body.Position = 0;
 
-    var responseHeader = new HeaderModel() { Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), ClientKey = ClientKey };
+    var responseHeader = new HeaderModel() { timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), clientKey = ClientKey };
     var responseBody = new ResponseBody() { ResponseCode = "VV.9999", ResponseStatus = "Fail", ResponseMessage = "Internal Error", Results = null };
     var response = new ResponseModel() { Header = responseHeader, Body = responseBody };
 
     var responseJson = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(response));
 
     //sLogger.ApiLog(requestJson, responseJson);
-    sLogger.ApiLog(context, responseJson);
+    APILogging sAPILogging = new APILogging();
+    sAPILogging.ApiLog(context, responseJson);
 }));
 
 
