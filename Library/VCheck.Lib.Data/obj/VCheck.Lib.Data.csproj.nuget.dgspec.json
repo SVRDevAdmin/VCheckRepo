@@ -1,25 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {}
+    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {}
   },
   "projects": {
-    "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
+    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
+        "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
         "projectName": "VCheck.Lib.Data",
-        "projectPath": "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
-        "packagesPath": "C:\\Users\\SVRke\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\obj\\",
+        "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
+        "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\SVRke\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\azwan\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -58,17 +54,17 @@
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[8.0.6, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[8.0.6, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[8.0.6, )"
             },
             "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
@@ -78,15 +74,9 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
-            "Microsoft.NET.ILLink.Tasks": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.5, )",
-              "autoReferenced": true
-            },
             "MySql.Data": {
               "target": "Package",
-              "version": "[8.3.0, )"
+              "version": "[8.4.0, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
@@ -108,47 +98,29 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[8.0.5, 8.0.5]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
-              "version": "[8.0.5, 8.0.5]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[8.0.5, 8.0.5]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[8.0.5, 8.0.5]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         },
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[8.0.6, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[8.0.6, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[8.0.6, )"
             },
             "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
@@ -158,15 +130,9 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
-            "Microsoft.NET.ILLink.Tasks": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.5, )",
-              "autoReferenced": true
-            },
             "MySql.Data": {
               "target": "Package",
-              "version": "[8.3.0, )"
+              "version": "[8.4.0, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
@@ -188,24 +154,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[8.0.5, 8.0.5]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
-              "version": "[8.0.5, 8.0.5]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[8.0.5, 8.0.5]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[8.0.5, 8.0.5]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -214,12 +162,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
