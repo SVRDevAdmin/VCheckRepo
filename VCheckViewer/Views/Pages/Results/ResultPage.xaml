@@ -129,9 +129,10 @@
                                     <ui:SymbolIcon Symbol="CalendarEdit16" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>
 
                                     <userControls:DateRangePicker x:Name="RangeDate"
-                                                    SelectedDateRange="{Binding SelectedDates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    SelectedDateRange="{Binding SelectedDates, Mode=TwoWay}"
                                                     BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center"
                                                     FontFamily="Noto Sans" FontSize="12" />
+                                    <!-- SelectedDateRange="{Binding SelectedDates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" -->
                                 </Grid>
                             </Border>
                         </Border>

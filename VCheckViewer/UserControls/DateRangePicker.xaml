@@ -26,7 +26,7 @@
                     MinHeight="30"
                     BorderThickness="0"
                     d:Text="14.03.2023 - 20.03.2023"
-                    Text="{Binding ElementName=this, Path=DisplayValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=300}"
+                    Text="{Binding ElementName=this, Path=DisplayValue, Mode=TwoWay, Delay=300}"
                     KeyUp="Handle_Escape_Button" GotMouseCapture="DateRangePicker_TextBox_GotMouseCapture"/>
                     <TextBlock IsHitTestVisible="False" Text="{Binding Path=General_Label_SelectDuration, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                         <TextBlock.Style>
@@ -40,6 +40,8 @@
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
+                    <!-- Text="{Binding ElementName=this, Path=DisplayValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=300}" -->
+                    
                     <!--<ToggleButton
                     x:Name="DateRangePicker_ArrowButton"
                     Grid.Column="1"
