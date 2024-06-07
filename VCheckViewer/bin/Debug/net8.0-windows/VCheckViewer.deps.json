@@ -23,7 +23,6 @@
           "Microsoft.Extensions.Hosting": "8.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
           "MySql.Data": "8.4.0",
-          "NLog": "5.3.2",
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2",
           "QuestPDF": "2024.3.10",
           "VCheck.Helper": "1.0.0",
@@ -1314,14 +1313,6 @@
           "System.Threading.Timer": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XDocument": "4.3.0"
-        }
-      },
-      "NLog/5.3.2": {
-        "runtime": {
-          "lib/netstandard2.0/NLog.dll": {
-            "assemblyVersion": "5.0.0.0",
-            "fileVersion": "5.3.2.2526"
-          }
         }
       },
       "Pomelo.EntityFrameworkCore.MySql/8.0.2": {
@@ -2836,13 +2827,6 @@
       "sha512": "sha512-WcSp3+vP+yHNgS8EV5J7pZ9IRpeDuARBPN28by8zqff1wJQXm26PVU8L3/fYLBJVU7BtDyqNVWq2KlCVvSSR4A==",
       "path": "netstandard.library/1.6.1",
       "hashPath": "netstandard.library.1.6.1.nupkg.sha512"
-    },
-    "NLog/5.3.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-cQRQZuDMjSyMe9EQBnI9v55YAMMz8GAfFd6fFJ6tc/kXnG7Hze8p1I8MgvWSBG6E36wA8vSxRrlm8uSIG+SENg==",
-      "path": "nlog/5.3.2",
-      "hashPath": "nlog.5.3.2.nupkg.sha512"
     },
     "Pomelo.EntityFrameworkCore.MySql/8.0.2": {
       "type": "package",

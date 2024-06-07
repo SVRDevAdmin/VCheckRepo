@@ -91,7 +91,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Border BorderBrush="Black" BorderThickness="0" Grid.Column="0" Grid.Row="0" CornerRadius="30" Background="WhiteSmoke" d:IsLocked="True">
+                <Border BorderBrush="Black" BorderThickness="0" Grid.Column="0" Grid.Row="0" CornerRadius="30" Background="WhiteSmoke">
                     <Grid Margin="5, 2, 5, 2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="4*" />
@@ -129,9 +129,10 @@
                                     <ui:SymbolIcon Symbol="CalendarEdit16" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>
 
                                     <userControls:DateRangePicker x:Name="RangeDate"
-                                                    SelectedDateRange="{Binding SelectedDates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    SelectedDateRange="{Binding SelectedDates, Mode=TwoWay}"
                                                     BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center"
                                                     FontFamily="Noto Sans" FontSize="12" />
+                                    <!-- SelectedDateRange="{Binding SelectedDates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" -->
                                 </Grid>
                             </Border>
                         </Border>

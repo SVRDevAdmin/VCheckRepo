@@ -80,77 +80,7 @@
                     </Border>
                 </Grid>
             </Border>
-            <!--
-            <Border DockPanel.Dock="Top">
-                <Grid>
-                    <StackPanel Background="#2E333A" Width="230" Orientation="Vertical" HorizontalAlignment="Left">
-                        <Menu Height="450" Background="Transparent" Margin="0, 40, 0, 0">
-                            <Grid Height="50" VerticalAlignment="Top" Margin="0, 30, 0,0">
-                                <Border Background="#D61734" Height="25" CornerRadius="3, 0, 0, 3"
-                                        Width="6" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                    
-                                </Border>
-                                <TextBlock Text="Test Menu A" Foreground="#FFFFFF" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            </Grid>
-                            <Menu.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel Orientation="Vertical" />
-                                </ItemsPanelTemplate>
-                            </Menu.ItemsPanel>
-                        </Menu>
-                    </StackPanel>
-                </Grid>
-            </Border>
-            -->
             <Border DockPanel.Dock="Left" Background="#f2f2f2">
-                
-                <!--
-                    <ui:NavigationView
-                    x:Name="RootNavigation"
-                    Padding="5,0,10,0"
-                    FrameMargin="1"
-                    PaneDisplayMode="Left" 
-                    OpenPaneLength="190"
-                    IsBackButtonVisible="Collapsed"
-                    PaneTitle="Collapse" 
-                    Margin="20, 0, 0, 0" 
-                    FontFamily="Noto Sans" Visibility="Collapsed">
-
-                        <ui:NavigationView.Resources>
-                            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Red"/>
-                            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Red" />
-                        </ui:NavigationView.Resources>
-
-                        <ui:NavigationView.MenuItems>
-                            <ui:NavigationViewItem Content="Dashboard" Name="T1" Click="T1_Click" Margin="5,10,0,20" FontFamily="Noto Sans">
-                                <ui:NavigationViewItem.Icon>
-                                    <ui:ImageIcon Source="../../Content/Images/Dashboard Icon.png" Width="20" Height="20"/>
-                                </ui:NavigationViewItem.Icon>
-                            </ui:NavigationViewItem>
-                            <ui:NavigationViewItem Content="Schedule" Name="T2" Click="T2_Click" Margin="5,0,0,20" FontFamily="Noto Sans">
-                                <ui:NavigationViewItem.Icon>
-                                    <ui:ImageIcon Source="../../Content/Images/clock.256x256.png" Width="20" Height="20"/>
-                                </ui:NavigationViewItem.Icon>
-                            </ui:NavigationViewItem>
-                            <ui:NavigationViewItem Content="Results" Name="T3" Click="T3_Click" Margin="5,0,0,20" FontFamily="Noto Sans">
-                                <ui:NavigationViewItem.Icon>
-                                    <ui:ImageIcon Source="../../Content/Images/Report Icon.png"  Width="20" Height="20"/>
-                                </ui:NavigationViewItem.Icon>
-                            </ui:NavigationViewItem>
-                            <ui:NavigationViewItem Content="Notifications" Name="T4" Margin="5,0,0,20" FontFamily="Noto Sans">
-                                <ui:NavigationViewItem.Icon>
-                                    <ui:ImageIcon Source="../../Content/Images/36687-5-bell-transparent-image.png" Width="20" Height="20"/>
-                                </ui:NavigationViewItem.Icon>
-                            </ui:NavigationViewItem>
-                            <ui:NavigationViewItem Content="Settings" Name="T5" Click="T5_Click" Margin="5,0,0,20" FontFamily="Noto Sans">
-                                <ui:NavigationViewItem.Icon>
-                                    <ui:ImageIcon Source="../../Content/Images/Settings Icon.png" Width="20" Height="20"/>
-                                </ui:NavigationViewItem.Icon>
-                            </ui:NavigationViewItem>
-                        </ui:NavigationView.MenuItems>
-                    </ui:NavigationView>
-                -->
-                
                 <Grid>
                     <StackPanel Name="panel1" 
                                 Background="#f2f2f2"

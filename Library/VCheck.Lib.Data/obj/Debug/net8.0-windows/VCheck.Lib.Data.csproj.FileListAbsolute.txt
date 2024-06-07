@@ -1,7 +1,7 @@
-C:\Dev\VCheck\Library\VCheck.Lib.Data\bin\Debug\net8.0-windows\VCheck.Lib.Data.dll
 C:\Dev\VCheck\Library\VCheck.Lib.Data\bin\Debug\net8.0-windows\VCheck.Lib.Data.dll.config
 C:\Dev\VCheck\Library\VCheck.Lib.Data\bin\Debug\net8.0-windows\VCheck.Lib.Data.deps.json
 C:\Dev\VCheck\Library\VCheck.Lib.Data\bin\Debug\net8.0-windows\VCheck.Lib.Data.runtimeconfig.json
+C:\Dev\VCheck\Library\VCheck.Lib.Data\bin\Debug\net8.0-windows\VCheck.Lib.Data.dll
 C:\Dev\VCheck\Library\VCheck.Lib.Data\bin\Debug\net8.0-windows\VCheck.Lib.Data.pdb
 C:\Dev\VCheck\Library\VCheck.Lib.Data\obj\Debug\net8.0-windows\VCheck.Lib.Data.csproj.AssemblyReference.cache
 C:\Dev\VCheck\Library\VCheck.Lib.Data\obj\Debug\net8.0-windows\VCheck.Lib.Data.GeneratedMSBuildEditorConfig.editorconfig

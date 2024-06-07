@@ -69,9 +69,6 @@
     <Compile Update="Views\Pages\Setting\User\ViewUserPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Pages\Test\LocalizationTestPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Views\Windows\LoginWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -164,9 +161,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\Setting\User\ViewUserPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Pages\Test\LocalizationTestPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Windows\LoginWindow.xaml">

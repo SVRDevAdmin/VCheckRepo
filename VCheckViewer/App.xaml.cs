@@ -25,8 +25,8 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using VCheck.Lib.Data.Models;
 using Microsoft.Extensions.Logging;
-using NLog;
 using System;
+using System.Windows.Markup;
 
 namespace VCheckViewer
 {
@@ -57,16 +57,12 @@ namespace VCheckViewer
         public static string newPassword { get; set; }
         public static SMTPModel SMTP { get; set; }
 
-        //App()
-        //{
-        //    System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
-        //}
-
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
         // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
         // https://docs.microsoft.com/dotnet/core/extensions/configuration
         // https://docs.microsoft.com/dotnet/core/extensions/logging
+
         private static readonly IHost _host = Host
             .CreateDefaultBuilder()
             .ConfigureAppConfiguration(c => 
@@ -91,16 +87,6 @@ namespace VCheckViewer
                     services.AddSingleton<ITaskBarService, TaskBarService>();
                     services.AddSingleton<INavigationService, NavigationService>();
 
-                    //services.AddSingleton<INavigationWindow, Main>();
-
-                    //services.AddSingleton<INavigationWindow, Login>();
-
-                    //services.Add(new ServiceDescriptor(typeof(VCheck.Lib.Data.VCheckDBContext), new VCheck.Lib.Data.VCheckDBContext(context.Configuration)));
-
-                    //services.Add(new ServiceDescriptor(
-                    //                typeof(VCheck.Lib.Data.SampleClass), 
-                    //                new VCheck.Lib.Data.SampleClass(context.Configuration)
-                    //));
 
                     services.Add(new ServiceDescriptor(typeof(UserDBContext), new UserDBContext(context.Configuration)));
                     services.Add(new ServiceDescriptor(typeof(MasterCodeDataDBContext), new MasterCodeDataDBContext(context.Configuration)));
@@ -131,7 +117,6 @@ namespace VCheckViewer
                         // Password settings.
                         options.Password.RequireNonAlphanumeric = false;
                         options.Password.RequiredLength = 8;
-
 
                         //Lockedout setting
                         options.SignIn.RequireConfirmedAccount = identitySettings.GetValue<bool>("RequireConfirmedAccount");

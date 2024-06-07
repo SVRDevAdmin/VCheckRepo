@@ -115,7 +115,6 @@ C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\Microsoft.Net.Http.Headers.d
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\Mono.TextTemplating.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\MySql.Data.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\MySqlConnector.dll
-C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\NLog.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\QuestPDF.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\SixLabors.Fonts.dll
@@ -229,7 +228,6 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\Add
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UpdateUserPage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UserPage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\ViewUserPage.g.cs
-C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Test\LocalizationTestPage.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\LoginWindow.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main.g.cs
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main2.g.cs
@@ -259,7 +257,6 @@ C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\Add
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UpdateUserPage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\UserPage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\ViewUserPage.baml
-C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Test\LocalizationTestPage.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\LoginWindow.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main.baml
 C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\Views\Windows\Main2.baml

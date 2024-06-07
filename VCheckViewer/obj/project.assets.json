@@ -1793,19 +1793,6 @@
           "System.Xml.XDocument": "4.3.0"
         }
       },
-      "NLog/5.3.2": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/NLog.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/NLog.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "Pomelo.EntityFrameworkCore.MySql/8.0.2": {
         "type": "package",
         "dependencies": {
@@ -6079,30 +6066,6 @@
         "dotnet_library_license.txt",
         "netstandard.library.1.6.1.nupkg.sha512",
         "netstandard.library.nuspec"
-      ]
-    },
-    "NLog/5.3.2": {
-      "sha512": "cQRQZuDMjSyMe9EQBnI9v55YAMMz8GAfFd6fFJ6tc/kXnG7Hze8p1I8MgvWSBG6E36wA8vSxRrlm8uSIG+SENg==",
-      "type": "package",
-      "path": "nlog/5.3.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "N.png",
-        "lib/net35/NLog.dll",
-        "lib/net35/NLog.xml",
-        "lib/net45/NLog.dll",
-        "lib/net45/NLog.xml",
-        "lib/net46/NLog.dll",
-        "lib/net46/NLog.xml",
-        "lib/netstandard1.3/NLog.dll",
-        "lib/netstandard1.3/NLog.xml",
-        "lib/netstandard1.5/NLog.dll",
-        "lib/netstandard1.5/NLog.xml",
-        "lib/netstandard2.0/NLog.dll",
-        "lib/netstandard2.0/NLog.xml",
-        "nlog.5.3.2.nupkg.sha512",
-        "nlog.nuspec"
       ]
     },
     "Pomelo.EntityFrameworkCore.MySql/8.0.2": {
@@ -10498,7 +10461,6 @@
       "Microsoft.Extensions.Hosting >= 8.0.0",
       "Microsoft.Extensions.Hosting.Abstractions >= 8.0.0",
       "MySql.Data >= 8.4.0",
-      "NLog >= 5.3.2",
       "Pomelo.EntityFrameworkCore.MySql >= 8.0.2",
       "QuestPDF >= 2024.3.10",
       "VCheck.Helper >= 1.0.0",
@@ -10626,10 +10588,6 @@
           "MySql.Data": {
             "target": "Package",
             "version": "[8.4.0, )"
-          },
-          "NLog": {
-            "target": "Package",
-            "version": "[5.3.2, )"
           },
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",

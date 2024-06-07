@@ -99,14 +99,14 @@ namespace VCheckViewer.UserControls
                 {
                     if (value.Count == 1)
                     {
-                        DisplayValue = value.First().ToString("dd/MM/yyyy");
+                        //DisplayValue = value.First().ToString("dd/MM/yyyy");
                         SelectedDateRange = new ObservableCollection<DateTime> { value.First() };
                     }
                     else
                     {
                         var startDate = value.OrderBy(x => x).FirstOrDefault();
                         var endDate = value.OrderBy(x => x).LastOrDefault();
-                        DisplayValue = $"{startDate:dd/MM/yyyy} - {endDate:dd/MM/yyyy}";
+                        //DisplayValue = $"{startDate:dd/MM/yyyy} - {endDate:dd/MM/yyyy}";
                         SelectedDateRange = new ObservableCollection<DateTime> { startDate, endDate };
                     }
                 }
@@ -134,12 +134,22 @@ namespace VCheckViewer.UserControls
         private void DateRangePicker_Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             var calendar = sender as Calendar;
-            if (calendar == null)
+            if (calendar == null || calendar.SelectedDates.Count() == 0)
             {
                 return;
             }
 
             SelectedDates = new ObservableCollection<DateTime>(calendar.SelectedDates);
+            if (SelectedDates.Count() > 1)
+            {
+                var dFirstDate = SelectedDates.First();
+                var dLastDate = SelectedDates.Last();
+                DateRangePicker_TextBox.Text = dFirstDate.ToString("dd/MM/yyyy") + " - " + dLastDate.ToString("dd/MM/yyyy");
+            }
+            else if (SelectedDates.Count() == 1)
+            {
+                DateRangePicker_TextBox.Text = SelectedDates.First().ToString("dd/MM/yyyy");
+            }
         }
 
         #endregion

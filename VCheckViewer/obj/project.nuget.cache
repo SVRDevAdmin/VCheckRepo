@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "g88bwLJjgGs=",
+  "dgSpecHash": "Oj2E2HIMBH8=",
   "success": true,
   "projectFilePath": "C:\\Dev\\VCheck\\VCheckViewer\\VCheckViewer.csproj",
   "expectedPackageFiles": [
@@ -90,7 +90,6 @@
     "C:\\Users\\SVRke\\.nuget\\packages\\mysql.data\\8.4.0\\mysql.data.8.4.0.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\mysqlconnector\\2.3.5\\mysqlconnector.2.3.5.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
-    "C:\\Users\\SVRke\\.nuget\\packages\\nlog\\5.3.2\\nlog.5.3.2.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\8.0.2\\pomelo.entityframeworkcore.mysql.8.0.2.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\questpdf\\2024.3.10\\questpdf.2024.3.10.nupkg.sha512",
     "C:\\Users\\SVRke\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",

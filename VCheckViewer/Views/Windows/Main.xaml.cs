@@ -15,7 +15,6 @@ using VCheckViewer.Views.Pages.Notification;
 using VCheckViewer.Views.Pages.Setting.Device;
 using VCheckViewer.Views.Pages.Setting.LanguageCountry;
 using VCheckViewer.Views.Pages.Setting.User;
-using VCheckViewer.Views.Pages.Test;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 using Brushes = System.Windows.Media.Brushes;
@@ -54,19 +53,9 @@ namespace VCheckViewer.Views.Windows
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public Main
-        (
-        //INavigationService navigationService,
-        //IPageService pageService
-        )
+        public Main()
         {
             InitializeComponent();
-            //SetPageService(pageService);
-
-            //navigationService.SetNavigationControl(RootNavigation);
-
-            //_pageService = pageService;
-            //_navigationService = navigationService;
             DataContext = this;
 
             //page
@@ -83,17 +72,11 @@ namespace VCheckViewer.Views.Windows
 
             //popup
             App.Popup += new EventHandler(Popup);
-
             App.GoPreviousPage += new EventHandler(PreviousPage);
-
-            //PageTitle.Text = "Dashboard";
 
             initializedDropdownSelectionList();
 
-            //App.MainViewModel.CurrentUsers = new UserModel() { Title = "Dr.", FirstName = "Lee", LastName = "Eunji", StaffName = "Dr. Lee Eunji", EmployeeID = "456783", RegistrationNo = "456783", Gender = "Male", DateOfBirth = "15 March 1991", Role = "Superadmin", EmailAddress = "eunji@gmail.com", Status = "Active" };
-
             Username.Header = App.MainViewModel.CurrentUsers.StaffName;
-            //Username.Header = App.MainViewModel.CurrentUsers.Title + App.MainViewModel.CurrentUsers.FullName;
 
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
@@ -102,30 +85,11 @@ namespace VCheckViewer.Views.Windows
 
         #region INavigationWindow methods
 
-        //public INavigationView GetNavigation() => RootNavigation;
-
-        //public bool Navigate(Type pageType) => RootNavigation.Navigate(pageType);
-
-        //public void SetPageService(IPageService pageService) => RootNavigation.SetPageService(pageService);
-
         public void ShowWindow() => Show();
 
         public void CloseWindow() => Close();
 
         #endregion INavigationWindow methods
-
-        //protected override void OnClosed(EventArgs e)
-        //{
-        //    base.OnClosed(e);
-
-        //    // Make sure that closing this window will begin the process of closing the application.
-        //    Application.Current.Shutdown();
-        //}
-
-        //INavigationView INavigationWindow.GetNavigation()
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public void SetServiceProvider(IServiceProvider serviceProvider)
         {
@@ -136,7 +100,6 @@ namespace VCheckViewer.Views.Windows
         {
             App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
 
-            //RootNavigation.GoBack();
             if (frameContent.CanGoBack) { frameContent.GoBack(); }
 
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("Setting_Title_PageTitle");
@@ -153,7 +116,6 @@ namespace VCheckViewer.Views.Windows
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("ResetPassword_Title_PageTitle");
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
-            //PageTitle.Text = "Reset Password";
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -162,58 +124,27 @@ namespace VCheckViewer.Views.Windows
             Popup(sender, e);
         }
 
-        //private void T1_Click(object sender, RoutedEventArgs e)
-        //{
-        //    isActive(sender as NavigationViewItem);
-        //    DashboardPage();
-        //}
-
-        //private void T2_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //Navigate(typeof(Schedulepage));
-
-        //    PageTitle.Text = "Schedule";
-        //}
-
-        //private void T3_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //Navigate(typeof(Page2));
-
-        //    PageTitle.Text = "Results";
-        //}
-
-        //private void T5_Click(object sender, RoutedEventArgs e)
-        //{
-        //    isActive(sender as NavigationViewItem);
-        //    MainUserPage();
-        //}
-
         void GoToAddUserPage(object sender, EventArgs e)
         {
-            //Navigate(typeof(AddUserPage));
             frameContent.Content = new AddUserPage();
         }
 
         void GoToUpdateUserPage(object sender, EventArgs e)
         {
-            //Navigate(typeof(UpdateUserPage));
             frameContent.Content = new UpdateUserPage();
         }
 
         void GoToViewUserPage(object sender, EventArgs e)
         {
-            //Navigate(typeof(ViewUserPage));
             frameContent.Content = new ViewUserPage();
         }
 
         void GoToLanguageCountryPage(object sender, EventArgs e)
         {
-            //Navigate(typeof(ViewUserPage));
             frameContent.Content = new LanguageCountryPage();
         }
         void GoToDevicePage(object sender, EventArgs e)
         {
-            //Navigate(typeof(ViewUserPage));
             frameContent.Content = new DevicePage();
         }
 
@@ -224,7 +155,6 @@ namespace VCheckViewer.Views.Windows
 
         void SettingUserPage(object sender, EventArgs e)
         {
-            //Navigate(typeof(ViewUserPage));
             frameContent.Content = new UserPage();
         }
 
@@ -325,7 +255,6 @@ namespace VCheckViewer.Views.Windows
             {
                 if (!System.Windows.Application.Current.Windows.OfType<LoginWindow>().Any())
                 {
-                    //Login login = new Login(_navigationService, _pageService);
                     LoginWindow login = new LoginWindow();
                     login.LoginFrame.Content = new LoginPage();
                     login.Show();
@@ -377,36 +306,22 @@ namespace VCheckViewer.Views.Windows
             }
             else
             {
-                //RootNavigation.GoBack();
                 frameContent.GoBack();
             }
         }
 
         private void DashboardPage()
         {
-            //Navigate(typeof(DashboardPage));
             frameContent.Content = new DashboardPage();
-
-            //PageTitle.Text = "Dashboard";
         }
 
         private void MainUserPage()
         {
-            //Navigate(typeof(UserPage));
             frameContent.Content = new UserPage();
-
-            //PageTitle.Text = "Setting";
         }
 
         private void isActive(NavigationViewItem navigationItem)
         {
-            //var childItems = (RootNavigation as NavigationView).MenuItems;
-
-            //foreach (NavigationViewItem childItem in childItems)
-            //{
-            //    childItem.IsActive = false;
-            //}
-
             navigationItem.IsActive = true;
         }
 
@@ -829,25 +744,11 @@ namespace VCheckViewer.Views.Windows
                     var sConfigObj = ConfigurationContext.GetConfigurationData(s.ConfigurationKey).FirstOrDefault();
                     if (sConfigObj != null)
                     {
-                        if(ConfigurationContext.UpdateConfiguration(s.ConfigurationKey, s.ConfigurationValue))
-                        {
-
-                        }
-                        else
-                        {
-
-                        }
+                        ConfigurationContext.UpdateConfiguration(s.ConfigurationKey, s.ConfigurationValue);
                     }
                     else
                     {
-                        if(ConfigurationContext.AddConfiguration(s.ConfigurationKey, s.ConfigurationValue))
-                        {
-
-                        }
-                        else
-                        {
-
-                        }
+                        ConfigurationContext.AddConfiguration(s.ConfigurationKey, s.ConfigurationValue);
                     }
                 }
 

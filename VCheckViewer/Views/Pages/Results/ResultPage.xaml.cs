@@ -36,7 +36,7 @@ using Microsoft.Extensions.Logging;
 using VCheckViewer.UserControls;
 using System.Management;
 using System.Globalization;
-
+using DatePicker = System.Windows.Controls.DatePicker;
 
 namespace VCheckViewer.Views.Pages.Results
 {
