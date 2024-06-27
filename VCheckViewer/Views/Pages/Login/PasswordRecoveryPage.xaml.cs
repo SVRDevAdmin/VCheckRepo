@@ -125,7 +125,7 @@ namespace VCheckViewer.Views.Pages.Login
 
                         EmailHelper.SendEmail(sEmail, out sErrorMessage);
 
-                        if(sErrorMessage != null) { throw new Exception(sErrorMessage); }
+                        if(!String.IsNullOrEmpty(sErrorMessage)) { throw new Exception(sErrorMessage); }
 
                         NotificationModel notification = new NotificationModel()
                         {
