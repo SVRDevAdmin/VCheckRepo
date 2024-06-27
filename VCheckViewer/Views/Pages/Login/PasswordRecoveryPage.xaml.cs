@@ -37,6 +37,7 @@ namespace VCheckViewer.Views.Pages.Login
         TemplateDBContext TemplateContext = App.GetService<TemplateDBContext>();
         UserDBContext UserContext = App.GetService<UserDBContext>();
         NotificationDBContext NotificationContext = App.GetService<NotificationDBContext>();
+        ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -50,7 +51,8 @@ namespace VCheckViewer.Views.Pages.Login
             Login_Label_PasswordRecovery.Text = pageTitle[0] + "\r\n" + pageTitle[1];
 
             var Login_Label_LeftMain_array = Properties.Resources.Login_Label_LeftMain.Split("<nextline>");
-            Login_Label_LeftMain.Text = Login_Label_LeftMain_array[0] + "\r\n" + Login_Label_LeftMain_array[1];
+            Login_Label_LeftMain.Text = Login_Label_LeftMain_array[0] + "\r\n" + 
+                                        ((Login_Label_LeftMain_array.Length > 1) ? Login_Label_LeftMain_array[1] : "");
         }
 
         private async void ResetPassword(object sender, RoutedEventArgs e)
@@ -93,7 +95,10 @@ namespace VCheckViewer.Views.Pages.Login
 
                 if (resetPassword.Succeeded)
                 {
-                    var notificationTemplate = TemplateContext.GetTemplateByCode("EN02");
+                    ConfigurationModel sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
+
+                    //var notificationTemplate = TemplateContext.GetTemplateByCode("EN02");
+                    var notificationTemplate = TemplateContext.GetTemplateByCodeLang("EN02", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                     notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###", userModel.FullName).Replace("###<password>###", newPassword);
 
                     string sErrorMessage;
@@ -120,7 +125,7 @@ namespace VCheckViewer.Views.Pages.Login
 
                         EmailHelper.SendEmail(sEmail, out sErrorMessage);
 
-                        if(sErrorMessage != null) { throw new Exception(sErrorMessage); }
+                        if(!String.IsNullOrEmpty(sErrorMessage)) { throw new Exception(sErrorMessage); }
 
                         NotificationModel notification = new NotificationModel()
                         {

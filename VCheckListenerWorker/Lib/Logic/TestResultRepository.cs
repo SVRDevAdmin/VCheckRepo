@@ -146,6 +146,46 @@ namespace VCheckListenerWorker.Lib.Logic
         }
 
         /// <summary>
+        /// Get Notification Template By Code & Locale
+        /// </summary>
+        /// <param name="sTemplateCode"></param>
+        /// <param name="sLangCode"></param>
+        /// <returns></returns>
+        public static NotificationTemplateLang GetNotificationTemplateByLanguage(String sTemplateCode, String sLangCode)
+        {
+            var sTemplateObj = new NotificationTemplateLang();
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                {
+                    var sResult = ctx.mst_template.Where(x => x.TemplateCode == sTemplateCode).FirstOrDefault();
+                    if (sResult != null)
+                    {
+                        var sTemplateContentObj = ctx.mst_template_details.Where(x => x.TemplateID == sResult.TemplateID && x.LangCode == sLangCode).FirstOrDefault();
+                        if (sTemplateContentObj != null)
+                        {
+                            sTemplateObj.TemplateID = sTemplateContentObj.TemplateID;
+                            sTemplateObj.TemplateType = sResult.TemplateType;
+                            sTemplateObj.TemplateCode = sResult.TemplateCode;
+                            sTemplateObj.TemplateTitle = sTemplateContentObj.TemplateTitle;
+                            sTemplateObj.TemplateContent = sTemplateContentObj.TemplateContent;
+                            sTemplateObj.TemplateLangCode = sTemplateContentObj.LangCode;
+                        }
+                    }
+
+                    return sTemplateObj;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("VCheckListenerWorker >>> TestResultRepository >>> GetNotificationTemplateByLanguage >>> " + ex.ToString());
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Insert Notification 
         /// </summary>
         /// <param name="sNotification"></param>
@@ -171,6 +211,27 @@ namespace VCheckListenerWorker.Lib.Logic
             }
 
             return isSuccess;
+        }
+
+        /// <summary>
+        /// Get Configuration Settings By Key
+        /// </summary>
+        /// <param name="sConfigurationkey"></param>
+        /// <returns></returns>
+        public static mst_configuration GetConfigurationByKey(String sConfigurationkey)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                {
+                    return ctx.mst_configuration.Where(x => x.ConfigurationKey == sConfigurationkey).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("VCheckListenerWorker >>> TestResultRepository >>> GetConfigurationByKey >>> " + ex.ToString());
+                return null;
+            }
         }
 
         /// <summary>

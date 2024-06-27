@@ -517,9 +517,11 @@ namespace VCheckListenerWorker
         {
             try
             {
+                var sConfigurationObj = TestResultRepository.GetConfigurationByKey("SystemSettings_Language");
                 String sNotificationContent = "";
 
-                var sTemplateObj = TestResultRepository.GetNotificationTemplate("TR01");
+                //var sTemplateObj = TestResultRepository.GetNotificationTemplate("TR01");
+                var sTemplateObj = TestResultRepository.GetNotificationTemplateByLanguage("TR01", (sConfigurationObj != null) ? sConfigurationObj.ConfigurationValue : "");
                 if (sTemplateObj != null)
                 {
                     sNotificationContent = sTemplateObj.TemplateContent;

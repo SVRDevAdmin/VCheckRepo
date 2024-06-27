@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net8.0": {
+    "net8.0-windows7.0": {
       "BouncyCastle.Cryptography/2.2.1": {
         "type": "package",
         "compile": {
@@ -1394,7 +1394,10 @@
         },
         "runtime": {
           "bin/placeholder/VCheck.Lib.Data.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
       }
     }
   },
@@ -3865,30 +3868,35 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net8.0": [
+    "net8.0-windows7.0": [
       "Microsoft.Extensions.Configuration.Json >= 8.0.0",
       "VCheck.Lib.Data >= 1.0.0",
       "log4net >= 2.0.17"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\azwan\\.nuget\\packages\\": {}
+    "C:\\Users\\SVRke\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj",
+      "projectUniqueName": "C:\\Dev\\VCheck\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj",
       "projectName": "VCheckAutoNotificationTask",
-      "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj",
-      "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckAutoNotificationTask\\obj\\",
+      "projectPath": "C:\\Dev\\VCheck\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj",
+      "packagesPath": "C:\\Users\\SVRke\\.nuget\\packages\\",
+      "outputPath": "C:\\Dev\\VCheck\\VCheckAutoNotificationTask\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\azwan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\SVRke\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net8.0"
+        "net8.0-windows"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -3896,11 +3904,11 @@
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
-              "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
+            "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
+              "projectPath": "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
             }
           }
         }
@@ -3917,8 +3925,8 @@
       }
     },
     "frameworks": {
-      "net8.0": {
-        "targetAlias": "net8.0",
+      "net8.0-windows7.0": {
+        "targetAlias": "net8.0-windows",
         "dependencies": {
           "Microsoft.Extensions.Configuration.Json": {
             "target": "Package",

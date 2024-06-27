@@ -11,6 +11,23 @@ CREATE TABLE `mst_template` (
   PRIMARY KEY (`TemplateID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE `mst_template_details` (
+	`ID` INT(10) NOT NULL AUTO_INCREMENT,
+	`TemplateID` INT(10) NOT NULL,
+	`LangCode` VARCHAR(10) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`TemplateTitle` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`TemplateContent` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`CreatedDate` DATETIME NULL DEFAULT NULL,
+	`CreatedBy` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`UpdatedDate` DATETIME NULL DEFAULT NULL,
+	`UpdatedBy` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	PRIMARY KEY (`ID`) USING BTREE
+)
+COLLATE='utf8mb4_0900_ai_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=212
+;
+
 
 -- INSERT INTO vcheckdb.mst_template (TemplateType, TemplateCode, TemplateTitle, TemplateContent, CreatedDate, Createdby) Values
 -- ("Test Schedule & Completed Test Reminder","TR01","The Test Result is Available for Viewing","The test results for Patient ID: ###<patient_id>### are now accessible. Kindly navigate to the Results section to view or print the detailed report.", now(), "Admin"),

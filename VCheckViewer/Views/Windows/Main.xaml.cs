@@ -417,6 +417,8 @@ namespace VCheckViewer.Views.Windows
                 await emailStore.SetEmailAsync(user, App.MainViewModel.Users.EmailAddress, CancellationToken.None);
                 var result = await App.UserManager.CreateAsync(user, App.newPassword);
 
+                ConfigurationModel sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
+
                 if (result.Succeeded)
                 {
                     App.MainViewModel.Users.UserId = user.Id;
@@ -429,7 +431,8 @@ namespace VCheckViewer.Views.Windows
 
                         if (roleResult.Succeeded)
                         {
-                            var notificationTemplate = TemplateContext.GetTemplateByCode("US05");
+                            //var notificationTemplate = TemplateContext.GetTemplateByCode("US05");
+                            var notificationTemplate = TemplateContext.GetTemplateByCodeLang("US05", (sLangCode != null ? sLangCode.ConfigurationValue : ""));
                             notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("###<staff_id>###", App.MainViewModel.Users.EmployeeID).Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("'", "''");
 
                             NotificationModel notification = new NotificationModel()
@@ -450,7 +453,8 @@ namespace VCheckViewer.Views.Windows
 
                             }
 
-                            notificationTemplate = TemplateContext.GetTemplateByCode("EN01");
+                            //notificationTemplate = TemplateContext.GetTemplateByCode("EN01");
+                            notificationTemplate = TemplateContext.GetTemplateByCodeLang("EN01", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                             notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("###<password>###", App.newPassword).Replace("###<login_id>###", user.UserName);
 
                             string sErrorMessage = "";
@@ -477,7 +481,7 @@ namespace VCheckViewer.Views.Windows
 
                                 EmailHelper.SendEmail(sEmail, out sErrorMessage);
 
-                                if(sErrorMessage != null) { throw new Exception(sErrorMessage); }
+                                if(!String.IsNullOrEmpty(sErrorMessage)) { throw new Exception(sErrorMessage); }
 
                                 notification = new NotificationModel()
                                 {
@@ -528,6 +532,8 @@ namespace VCheckViewer.Views.Windows
             App.MainViewModel.Users.UpdatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             App.MainViewModel.Users.UpdatedBy = App.MainViewModel.CurrentUsers.FullName;
 
+            ConfigurationModel sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
+
             try
             {
                 if (usersContext.UpdateUser(App.MainViewModel.Users))
@@ -552,11 +558,13 @@ namespace VCheckViewer.Views.Windows
                     {
                         if (App.MainViewModel.Users.Status == "Active")
                         {
-                            notificationTemplate = TemplateContext.GetTemplateByCode("US03");
+                            //notificationTemplate = TemplateContext.GetTemplateByCode("US03");
+                            notificationTemplate = TemplateContext.GetTemplateByCodeLang("US03", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                         }
                         else
                         {
-                            notificationTemplate = TemplateContext.GetTemplateByCode("US04");
+                            //notificationTemplate = TemplateContext.GetTemplateByCode("US04");
+                            notificationTemplate = TemplateContext.GetTemplateByCodeLang("US04", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                         }
 
                         notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_id>###", App.MainViewModel.Users.EmployeeID).Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("###<admin_id>###", App.MainViewModel.CurrentUsers.EmployeeID).Replace("###<admin_fullname>###", App.MainViewModel.CurrentUsers.FullName);
@@ -566,12 +574,14 @@ namespace VCheckViewer.Views.Windows
                         App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
                         Username.Header = App.MainViewModel.CurrentUsers.StaffName;
 
-                        notificationTemplate = TemplateContext.GetTemplateByCode("US02");
+                        //notificationTemplate = TemplateContext.GetTemplateByCode("US02");
+                        notificationTemplate = TemplateContext.GetTemplateByCodeLang("US02", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                         notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''");
                     }
                     else
                     {
-                        notificationTemplate = TemplateContext.GetTemplateByCode("US01");
+                        //notificationTemplate = TemplateContext.GetTemplateByCode("US01");
+                        notificationTemplate = TemplateContext.GetTemplateByCodeLang("US01", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                         notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_id>###", App.MainViewModel.Users.EmployeeID).Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("###<admin_id>###", App.MainViewModel.CurrentUsers.EmployeeID).Replace("###<admin_fullname>###", App.MainViewModel.CurrentUsers.FullName);
                     }
 
@@ -626,9 +636,11 @@ namespace VCheckViewer.Views.Windows
         {
             if (DeviceRepository.InsertDevice(App.MainViewModel.DeviceModel, ConfigSettings.GetConfigurationSettings()))
             {
+                ConfigurationModel? sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
                 String sNotificationContent = "";
 
-                var sTemplateObj = TemplateContext.GetTemplateByCode("DS01");
+                //var sTemplateObj = TemplateContext.GetTemplateByCode("DS01");
+                var sTemplateObj = TemplateContext.GetTemplateByCodeLang("DS01", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                 if (sTemplateObj != null)
                 {
                     sNotificationContent = sTemplateObj.TemplateContent;
@@ -663,9 +675,11 @@ namespace VCheckViewer.Views.Windows
         {
             if (DeviceRepository.UpdateDevice(App.MainViewModel.DeviceModel, ConfigSettings.GetConfigurationSettings()))
             {
+                ConfigurationModel? sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
                 String sNotificationContent = "";
 
-                var sTemplateObj = TemplateContext.GetTemplateByCode("DS03");
+                //var sTemplateObj = TemplateContext.GetTemplateByCode("DS03");
+                var sTemplateObj = TemplateContext.GetTemplateByCodeLang("DS03", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                 if (sTemplateObj != null)
                 {
                     sNotificationContent = sTemplateObj.TemplateContent;
@@ -700,9 +714,11 @@ namespace VCheckViewer.Views.Windows
         {
             if (DeviceRepository.UpdateDevice(App.MainViewModel.DeviceModel, ConfigSettings.GetConfigurationSettings()))
             {
+                ConfigurationModel? sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
                 String sNotificationContent = "";
 
-                var sTemplateObj = TemplateContext.GetTemplateByCode("DS02");
+                //var sTemplateObj = TemplateContext.GetTemplateByCode("DS02");
+                var sTemplateObj = TemplateContext.GetTemplateByCodeLang("DS02", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                 if (sTemplateObj != null)
                 {
                     sNotificationContent = sTemplateObj.TemplateContent;
@@ -753,9 +769,11 @@ namespace VCheckViewer.Views.Windows
                 }
 
                 // --- Add Notification --//
+                ConfigurationModel? sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
                 String sNotificationContent = "";
 
-                var sTemplateObj = TemplateContext.GetTemplateByCode("CS01");
+                //var sTemplateObj = TemplateContext.GetTemplateByCode("CS01");
+                var sTemplateObj = TemplateContext.GetTemplateByCodeLang("CS01", sLangCode.ConfigurationValue);
                 if (sTemplateObj != null)
                 {
                     sNotificationContent = sTemplateObj.TemplateContent;
@@ -811,7 +829,8 @@ namespace VCheckViewer.Views.Windows
                     b.Source = System.Windows.Application.Current.TryFindResource("Resources");
                     PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
-                    var notificationTemplate = TemplateContext.GetTemplateByCode("LC01");
+                    //var notificationTemplate = TemplateContext.GetTemplateByCode("LC01");
+                    var notificationTemplate = TemplateContext.GetTemplateByCodeLang("LC01", sZHCulture.Name);
                     notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''");
 
                     NotificationModel notification = new NotificationModel()
