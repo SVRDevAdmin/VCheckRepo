@@ -481,7 +481,7 @@ namespace VCheckViewer.Views.Windows
 
                                 EmailHelper.SendEmail(sEmail, out sErrorMessage);
 
-                                if(sErrorMessage != null) { throw new Exception(sErrorMessage); }
+                                if(!String.IsNullOrEmpty(sErrorMessage)) { throw new Exception(sErrorMessage); }
 
                                 notification = new NotificationModel()
                                 {
