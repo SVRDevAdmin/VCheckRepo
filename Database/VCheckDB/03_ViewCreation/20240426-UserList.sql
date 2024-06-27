@@ -1,7 +1,4 @@
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
 VIEW `userlist` AS
     SELECT 
         `mst_user`.`UserID` AS `UserID`,

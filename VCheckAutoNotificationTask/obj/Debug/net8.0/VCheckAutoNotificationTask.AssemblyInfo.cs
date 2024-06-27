@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VCheckAutoNotificationTask")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7a5fe455486f06e5d3ff8a9ca6894b0b4e9cb92d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02845cf8814ffde6f609d6f1b89c4af992f56e71")]
 [assembly: System.Reflection.AssemblyProductAttribute("VCheckAutoNotificationTask")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VCheckAutoNotificationTask")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

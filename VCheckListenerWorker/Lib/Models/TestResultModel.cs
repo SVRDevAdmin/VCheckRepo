@@ -154,4 +154,36 @@ namespace VCheckListenerWorker.Lib.Models
         public DateTime? UpdatedDate { get; set; }
         public String? UpdatedBy { get; set; }
     }
+
+    public class mst_template_details
+    {
+        [Key]
+        public int ID { get; set; }
+        public int TemplateID { get; set; }
+        public String? LangCode {  get; set; }
+        public String? TemplateTitle { get; set; }
+        public String? TemplateContent {  get;  set; }
+        public DateTime? CreatedDate { get; set; }
+        public String? CreatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public String? UpdatedBy { get; set; }
+    }
+
+    public class NotificationTemplateLang
+    {
+        public int TemplateID { get; set; }
+        public String? TemplateType { get; set; }
+        public String? TemplateCode { get; set; }
+        public String? TemplateTitle { get; set; }
+        public String? TemplateContent { get; set; }
+        public String? TemplateLangCode { get; set; }
+    }
+
+    public class mst_configuration
+    {
+        [Key]
+        public int ConfigurationID { get; set; }
+        public String? ConfigurationKey { get; set; }
+        public String? ConfigurationValue { get; set; }
+    }
 }

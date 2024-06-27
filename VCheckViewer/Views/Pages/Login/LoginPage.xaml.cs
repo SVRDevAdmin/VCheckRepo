@@ -41,7 +41,7 @@ namespace VCheckViewer.Views.Pages.Login
             InitializeComponent();
 
             var Login_Label_LeftMain_array = Properties.Resources.Login_Label_LeftMain.Split("<nextline>");
-            Login_Label_LeftMain.Text = Login_Label_LeftMain_array[0] + "\r\n" + Login_Label_LeftMain_array[1];
+            Login_Label_LeftMain.Text = Login_Label_LeftMain_array[0] + "\r\n" + ((Login_Label_LeftMain_array.Length > 1) ? Login_Label_LeftMain_array[1] : "");
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
