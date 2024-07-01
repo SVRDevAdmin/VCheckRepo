@@ -17,6 +17,7 @@ namespace VCheck.Lib.Data.Models
         public DateTime? TestResultDateTime { get; set; }
         public String? TestResultType { get; set; }
         public String? OperatorID { get; set; }
+        public String? DeviceSerialNo { get; set; }
         public String? PatientID { get; set; }
         public String? InchargePerson { get; set; }
         public String? ObservationStatus { get; set; }

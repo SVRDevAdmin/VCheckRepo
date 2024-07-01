@@ -58,7 +58,8 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new DeviceDBContext(config))
                 {
-                    return ctx.mst_deviceslist.Where(x => x.status == 1).ToList();
+                    //return ctx.mst_deviceslist.Where(x => x.status == 1).ToList();
+                    return ctx.mst_deviceslist.ToList();
                 }
             }
             catch (Exception ex)
