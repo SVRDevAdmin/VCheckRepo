@@ -58,7 +58,27 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new DeviceDBContext(config))
                 {
-                    //return ctx.mst_deviceslist.Where(x => x.status == 1).ToList();
+                    return ctx.mst_deviceslist.Where(x => x.status == 1).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Device List
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static List<DeviceModel> GetAllDeviceList(IConfiguration config)
+        {
+            try
+            {
+                using (var ctx = new DeviceDBContext(config))
+                {
                     return ctx.mst_deviceslist.ToList();
                 }
             }

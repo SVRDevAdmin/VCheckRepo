@@ -94,6 +94,12 @@
                               Margin="0, 0, 0, 0" 
                               Background="White" >
 
+                            <!--<Border Background="#f2f2f2" 
+                                        Height="35" 
+                                        CornerRadius="0, 10, 0, 0"
+                                        Width="230" 
+                                        VerticalAlignment="Center" 
+                                        HorizontalAlignment="Right">--> <!--To make corner less round-->
                             <Border Background="#f2f2f2" 
                                         Height="35" 
                                         CornerRadius="0, 60, 0, 0"
@@ -162,6 +168,7 @@
                             <Image Name="thumbSetting" Source="../../Content/Images/setting.png" Width="20" Height="20" Margin="130, 5, 0, 0" Visibility="Collapsed" />
                         </Grid>
                         <Grid Height="255" Background="White">
+                            <!--<Border Background="#f2f2f2" CornerRadius="0, 0, 10, 0">--> <!--To make corner less round-->
                             <Border Background="#f2f2f2" CornerRadius="0, 0, 60, 0">
                             </Border>
                         </Grid>

@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
+using VCheckViewer.Views.Pages.Setting.Device;
 using Brush = System.Windows.Media.Brush;
 using Brushes = System.Windows.Media.Brushes;
 using Image = System.Windows.Controls.Image;
@@ -21,7 +22,7 @@ namespace VCheckViewer.Views.Pages
     /// </summary>
     public partial class DashboardPage : Page
     {
-        List<DeviceModel> deviceList = DeviceRepository.GetDeviceList(ConfigSettings.GetConfigurationSettings());
+        List<DeviceModel> deviceList = DeviceRepository.GetAllDeviceList(ConfigSettings.GetConfigurationSettings());
 
         List<TestResultModel> resultList = TestResultsRepository.GetTodayTestResultList(ConfigSettings.GetConfigurationSettings());
 
@@ -94,27 +95,36 @@ namespace VCheckViewer.Views.Pages
         {
             responsiveView.Children.Clear();
 
-            int totalElement = 3;
+            Random rnd = new Random();
+            int totalElement = rnd.Next(1, 10);
             //int totalElement = deviceList.Count;
-            int imageHeight = 170;
-            int borderHeight = 300;
-            int margin = 10;
-            int totalRow = 0;
+            int imageHeight = 250;
+            int borderHeight = 400;
+            int borderWidth = 420;
+            int margin = 15;
+            int totalRow = 1;
             int totalElementPerRow = 3;
             bool excess = false;
             int remainder = 0;
 
-            if (totalElement < 4)
+            if (totalElement > 0 && totalElement < 3)
             {
-                totalRow = 1;
                 totalElementPerRow = totalElement;
+            }
+            else if (totalElement == 3)
+            {
+                imageHeight = 170;
+                borderHeight = 300;
+                borderWidth = 290;
+                margin = 10;
             }
             else if (totalElement == 4)
             {
                 totalRow = 2;
                 totalElementPerRow = 2;
                 imageHeight = 100;
-                borderHeight = 201;
+                borderHeight = 199;
+                borderWidth = 290;
                 margin = 3;
             }
             else
@@ -126,18 +136,19 @@ namespace VCheckViewer.Views.Pages
                     excess = true;
                 }
                 imageHeight = 100;
-                borderHeight = 201;
+                borderHeight = 199;
+                borderWidth = 290;
                 margin = 3;
             }
 
-            createElement(totalElementPerRow, imageHeight, borderHeight, margin, totalRow, excess, remainder);
+            createElement(totalElementPerRow, imageHeight, borderHeight, borderWidth, margin, totalRow, excess, remainder);
         }
 
-        public void createElement(int totalElementPerRow, int imageHeight, int borderHeight, int margin, int totalRow, bool excess, int remainder)
+        public void createElement(int totalElementPerRow, int imageHeight, int borderHeight, int borderWidth, int margin, int totalRow, bool excess, int remainder)
         {
             for (int i = 0; i < totalRow; i++)
             {
-                StackPanel mainStackPanel = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
+                StackPanel mainStackPanel = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = System.Windows.HorizontalAlignment.Center, Margin = new Thickness(10) };
 
                 if (i == (totalRow - 1) && excess) { totalElementPerRow = remainder; }
 
@@ -145,9 +156,17 @@ namespace VCheckViewer.Views.Pages
                 {
                     Random rnd = new Random();
                     int randomNumberInRange = rnd.Next(1, 3);
-                    string devicePath = randomNumberInRange == 2 ? "VCheck200Image2" : "VCheck2400Image2";
+                    int randomNumberImage = rnd.Next(1, 4);
+                    int randomPositive = rnd.Next(1, 100);
+                    int randomNegative = rnd.Next(1, 100);
+                    string devicePath;
+                    string deviceName;
 
-                    Border parentBorder = new Border() { Height = borderHeight, Width = 290, CornerRadius = new CornerRadius(5), Margin = new Thickness(25, 0, 25, 10), Padding = new Thickness(5) };
+                    if(randomNumberImage == 1) { devicePath = "VCheck2400Image2"; deviceName = "VCheck V2400"; }
+                    else if (randomNumberImage == 2) { devicePath = "VCheck200Image2"; deviceName = "VCheck V200"; }
+                    else { devicePath = "VCheckM10Image"; deviceName = "VCheck M10"; }
+
+                    Border parentBorder = new Border() { Height = borderHeight, Width = borderWidth, CornerRadius = new CornerRadius(5), Margin = new Thickness(25, 0, 25, 0), Padding = new Thickness(5) };
                     StackPanel secondStackPanel = new StackPanel() { Orientation = Orientation.Vertical};
 
                     TextBlock statusTextBlock = new TextBlock() { FontSize = 11, FontWeight = FontWeights.Bold, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
@@ -163,20 +182,21 @@ namespace VCheckViewer.Views.Pages
                     image.Height = imageHeight;
                     image.Margin = new Thickness(margin);
 
-                    TextBlock nameTextBlock = new TextBlock() { Text = "Vcheck V200", TextAlignment = TextAlignment.Center, FontWeight = FontWeights.Bold, Margin = new Thickness(margin) };
+                    TextBlock nameTextBlock = new TextBlock() { Text = deviceName, TextAlignment = TextAlignment.Center, FontWeight = FontWeights.Bold, Margin = new Thickness(margin) };
 
-                    TextBlock resultTextBlock1 = new TextBlock() { Text = "Positive "};
-                    TextBlock resultTextBlock2 = new TextBlock() { Text = "2", FontWeight = FontWeights.Bold, Foreground = Brushes.Green, Margin = new Thickness(0,0,10,0)};
-                    //TextBlock resultTextBlock3 = new TextBlock() { Text = "  |  " };
-                    Rectangle resultTextBlock3 = new Rectangle() { VerticalAlignment = VerticalAlignment.Stretch,Width = 1, Margin = new Thickness(2), Stroke = Brushes.Black};
-                    TextBlock resultTextBlock4 = new TextBlock() { Text = "Negative ", Margin = new Thickness(10, 0, 0, 0) };
-                    TextBlock resultTextBlock5 = new TextBlock() { Text = "4", FontWeight = FontWeights.Bold, Foreground = Brushes.Red };
+                    TextBlock resultTextBlock1 = new TextBlock() { Text = "Positive  "};
+                    TextBlock resultTextBlock2 = new TextBlock() { Text = randomPositive.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Green, TextAlignment = TextAlignment.Center};
+                    Border positiveBorder = new Border() { Width = 20, Child = resultTextBlock2, Margin = new Thickness(0, 0, 20, 0)};
+                    Rectangle resultSeperator = new Rectangle() { VerticalAlignment = VerticalAlignment.Stretch, Width = 1, Height = 20, Margin = new Thickness(2), Stroke = Brushes.Black};
+                    TextBlock resultTextBlock3 = new TextBlock() { Text = "Negative  ", Margin = new Thickness(20, 0, 0, 0) };
+                    TextBlock resultTextBlock4 = new TextBlock() { Text = randomNegative.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Red, TextAlignment = TextAlignment.Center };
+                    Border negativeBorder = new Border() { Width = 20, Child = resultTextBlock4 };
                     StackPanel thirdStackPanel = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
                     thirdStackPanel.Children.Add(resultTextBlock1);
-                    thirdStackPanel.Children.Add(resultTextBlock2);
+                    thirdStackPanel.Children.Add(positiveBorder);
+                    thirdStackPanel.Children.Add(resultSeperator);
                     thirdStackPanel.Children.Add(resultTextBlock3);
-                    thirdStackPanel.Children.Add(resultTextBlock4);
-                    thirdStackPanel.Children.Add(resultTextBlock5);
+                    thirdStackPanel.Children.Add(negativeBorder);
 
                     secondStackPanel.Children.Add(childBorder);
                     secondStackPanel.Children.Add(image);
@@ -195,11 +215,18 @@ namespace VCheckViewer.Views.Pages
             }
         }
 
-        public void createElementByDevice(List<DeviceModel> deviceList, int totalElementPerRow, int imageHeight, int borderHeight, int margin, int totalRow, bool excess, int remainder)
+        public void createElementByDevice(List<DeviceModel> deviceList, int totalElementPerRow, int imageHeight, int borderHeight, int borderWidth, int margin, int totalRow, bool excess, int remainder)
         {
+            Grid testGrid = new Grid();
+            ColumnDefinition columnDefinition = new ColumnDefinition() { Width = (GridLength)new GridLengthConverter().ConvertFromString("*") };
+            testGrid.ColumnDefinitions.Add(columnDefinition);
+            TextBlock testText = new TextBlock();
+            Grid.SetColumn(testText, 0);
+            testGrid.Children.Add(testText);
+
             for (int i = 0; i < totalRow; i++)
             {
-                StackPanel mainStackPanel = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
+                StackPanel mainStackPanel = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = System.Windows.HorizontalAlignment.Center, Margin = new Thickness(10) };
 
                 if (i == (totalRow - 1) && excess) { totalElementPerRow = remainder; }
 
@@ -209,7 +236,7 @@ namespace VCheckViewer.Views.Pages
                     int totalPositive = resultList.Where(x => x.DeviceSerialNo == device.DeviceSerialNo && x.TestResultStatus == "Positive").Count();
                     int totalNegative = resultList.Where(x => x.DeviceSerialNo == device.DeviceSerialNo && x.TestResultStatus == "Negative").Count();
 
-                    Border parentBorder = new Border() { Height = borderHeight, Width = 270, BorderBrush = Brushes.WhiteSmoke, BorderThickness = new Thickness(2), CornerRadius = new CornerRadius(5), Margin = new Thickness(50, 0, 50, 10), Padding = new Thickness(5) };
+                    Border parentBorder = new Border() { Height = borderHeight, Width = borderWidth, CornerRadius = new CornerRadius(5), Margin = new Thickness(25, 0, 25, 0), Padding = new Thickness(5) };
                     StackPanel secondStackPanel = new StackPanel() { Orientation = Orientation.Vertical };
 
                     TextBlock statusTextBlock = new TextBlock() { FontSize = 11, FontWeight = FontWeights.Bold, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
@@ -227,17 +254,19 @@ namespace VCheckViewer.Views.Pages
 
                     TextBlock nameTextBlock = new TextBlock() { Text = device.DeviceName, TextAlignment = TextAlignment.Center, FontWeight = FontWeights.Bold, Margin = new Thickness(margin) };
 
-                    TextBlock resultTextBlock1 = new TextBlock() { Text = "Positive " };
-                    TextBlock resultTextBlock2 = new TextBlock() { Text = totalPositive.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Green };
-                    TextBlock resultTextBlock3 = new TextBlock() { Text = "  |  " };
-                    TextBlock resultTextBlock4 = new TextBlock() { Text = "Negative " };
-                    TextBlock resultTextBlock5 = new TextBlock() { Text = totalNegative.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Red };
+                    TextBlock resultTextBlock1 = new TextBlock() { Text = "Positive  " };
+                    TextBlock resultTextBlock2 = new TextBlock() { Text = totalPositive.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Green, TextAlignment = TextAlignment.Center };
+                    Border positiveBorder = new Border() { Width = 20, Child = resultTextBlock2, Margin = new Thickness(0, 0, 20, 0) };
+                    Rectangle resultSeperator = new Rectangle() { VerticalAlignment = VerticalAlignment.Stretch, Width = 1, Height = 20, Margin = new Thickness(2), Stroke = Brushes.Black };
+                    TextBlock resultTextBlock3 = new TextBlock() { Text = "Negative  ", Margin = new Thickness(20, 0, 0, 0) };
+                    TextBlock resultTextBlock4 = new TextBlock() { Text = totalNegative.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Red, TextAlignment = TextAlignment.Center };
+                    Border negativeBorder = new Border() { Width = 20, Child = resultTextBlock4 };
                     StackPanel thirdStackPanel = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
                     thirdStackPanel.Children.Add(resultTextBlock1);
-                    thirdStackPanel.Children.Add(resultTextBlock2);
+                    thirdStackPanel.Children.Add(positiveBorder);
+                    thirdStackPanel.Children.Add(resultSeperator);
                     thirdStackPanel.Children.Add(resultTextBlock3);
-                    thirdStackPanel.Children.Add(resultTextBlock4);
-                    thirdStackPanel.Children.Add(resultTextBlock5);
+                    thirdStackPanel.Children.Add(negativeBorder);
 
                     secondStackPanel.Children.Add(childBorder);
                     secondStackPanel.Children.Add(image);
@@ -246,7 +275,7 @@ namespace VCheckViewer.Views.Pages
 
                     parentBorder.Child = secondStackPanel;
                     parentBorder.Background = new SolidColorBrush(Colors.White);
-                    DropShadowEffect effect = new DropShadowEffect() { ShadowDepth = 0, Opacity = 0.3 };
+                    DropShadowEffect effect = new DropShadowEffect() { ShadowDepth = 0, Opacity = 0.3, BlurRadius = 15 };
                     parentBorder.Effect = effect;
 
                     mainStackPanel.Children.Add(parentBorder);

@@ -81,6 +81,9 @@ namespace VCheckViewer.Views.Windows
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+
+            mnDashboard.Background = System.Windows.Media.Brushes.White;
+            mnDashboard.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
         }
 
         #region INavigationWindow methods
