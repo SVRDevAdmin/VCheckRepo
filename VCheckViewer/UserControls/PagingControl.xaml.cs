@@ -80,7 +80,7 @@ namespace VCheckViewer.UserControls
             for (int i = 1; i <= iTotalPage; i++)
             {
                 System.Windows.Controls.Button newBtn = new System.Windows.Controls.Button();
-                newBtn.Style = (Style)System.Windows.Application.Current.FindResource("RoundButton");
+                newBtn.Style = (Style)System.Windows.Application.Current.FindResource("PaginationButton");
                 newBtn.Content = String.Format("{0:00}", i);
                 newBtn.Tag = i;
                 newBtn.Width = 40;
@@ -170,7 +170,7 @@ namespace VCheckViewer.UserControls
                 for (int i = iPaginationStart; i <= iPaginationEnd; i++)
                 {
                     System.Windows.Controls.Button newBtn = new System.Windows.Controls.Button();
-                    newBtn.Style = (Style)System.Windows.Application.Current.FindResource("RoundButton");
+                    newBtn.Style = (Style)System.Windows.Application.Current.FindResource("PaginationButton");
                     newBtn.Content = String.Format("{0:00}", i);
                     newBtn.Tag = i;
                     newBtn.Width = 40;

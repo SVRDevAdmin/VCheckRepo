@@ -170,8 +170,11 @@ namespace VCheckListenerWorker
                 String sOperatorID = "";
                 String sPatientID = "";
                 String strObserveValue = "";
+                String sSerialNo = "";
                 Decimal iResultValue = 0;
                 DateTime dAnalysisDateTime = DateTime.MinValue;
+
+                sSerialNo = sRU_R01.MSH.SendingApplication.NamespaceID.Value.Trim();
 
                 // --------------- Message Header --------------//
                 tbltestanalyze_results_messageheader sMSHObj = new tbltestanalyze_results_messageheader
@@ -485,6 +488,7 @@ namespace VCheckListenerWorker
                 sTestResultObj.TestResultRules = sResultRule;
                 sTestResultObj.CreatedDate = DateTime.Now;
                 sTestResultObj.CreatedBy = sSystemName;
+                sTestResultObj.DeviceSerialNo = sSerialNo;
 
                 tbltestanalyze_results sResultObj = new tbltestanalyze_results
                 {

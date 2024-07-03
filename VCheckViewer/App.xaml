@@ -10,14 +10,15 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ui:ThemesDictionary Theme="Dark" />
+                <!--<ui:ThemesDictionary Theme="Dark" />-->
                 <ui:ControlsDictionary />
 
                 <ResourceDictionary Source="Template/Templates.xaml" />
+                <ResourceDictionary Source="Template/Controls.xaml" />
                 <ResourceDictionary Source="ResourceDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style TargetType="{x:Type TextBlock}" x:Key="WrappingStyle">
+            <!--<Style TargetType="{x:Type TextBlock}" x:Key="WrappingStyle">
                 <Setter Property="TextWrapping" Value="Wrap"/>
             </Style>
 
@@ -32,20 +33,20 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <!--// Icon //-->
+                                    --><!--// Icon //--><!--
                                     <ContentPresenter ContentSource="Icon" HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" Grid.Column="0"/>
 
-                                    <!--// Text //-->
+                                    --><!--// Text //--><!--
                                     <ContentPresenter ContentSource="Header" TextBlock.Foreground="Black" TextBlock.FontFamily="Noto Sans" TextBlock.FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Column="1">
                                         <ContentPresenter.Resources>
                                             <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource WrappingStyle}"/>
                                         </ContentPresenter.Resources>
                                     </ContentPresenter>
 
-                                    <!--// Dropdown Icon //-->
+                                    --><!--// Dropdown Icon //--><!--
                                     <Image Source="../../Content/Images/path_3550.png" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2" Margin="10,0,0,0"/>
 
-                                    <!--// Popup //-->
+                                    --><!--// Popup //--><!--
                                     <Popup x:Name="PART_Popup" AllowsTransparency="True" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}">
                                         <Border x:Name="SubMenuBorder" Background="White" BorderBrush="#484546" BorderThickness="1" CornerRadius="10">
                                             <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer,TypeInTargetAssembly={x:Type FrameworkElement}}}">
@@ -69,7 +70,7 @@
                 </Setter>
             </Style>
 
-            <!--// Key: Round Button //-->
+            --><!--// Key: Round Button //--><!--
             <Style x:Key="RoundButton" TargetType="Button">
                 <Setter Property="SnapsToDevicePixels" Value="False" />
                 <Setter Property="OverridesDefaultStyle" Value="False" />
@@ -80,7 +81,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border Name="Border"
-                                    CornerRadius="18"
+                                    CornerRadius="7"
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
@@ -106,7 +107,44 @@
                 </Setter>
             </Style>
 
-            <!--// Key: BackButton //-->
+            --><!-- // Key: Pagination Button //--><!--
+            <Style x:Key="PaginationButton" TargetType="Button">
+                <Setter Property="SnapsToDevicePixels" Value="False" />
+                <Setter Property="OverridesDefaultStyle" Value="False" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="AllowDrop" Value="False" />
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Name="Border"
+                                    CornerRadius="20"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Height="40"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center">
+                                <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="Border" Property="BorderBrush" Value="#D5D8DC" />
+                                    <Setter TargetName="Border" Property="Background" Value="#D5D8DC" />
+                                    <Setter Property="Foreground" Value="#F4F6F7" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            --><!--// Key: BackButton //--><!--
             <Style x:Key="BackButton" TargetType="{x:Type Button}">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -126,7 +164,7 @@
                 </Setter>
             </Style>
 
-            <!--// TextBox //-->
+            --><!--// TextBox //--><!--
             <Style TargetType="{x:Type TextBox}">
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -156,7 +194,7 @@
                 </Setter>
             </Style>
 
-            <!--// DatePicker //-->
+            --><!--// DatePicker //--><!--
             <Style TargetType="{x:Type DatePicker}">
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="OverridesDefaultStyle" Value="False"/>
@@ -166,14 +204,14 @@
                 <Setter Property="Margin" Value="10" />
             </Style>
             
-            <!--// PasswordBox //-->
+            --><!--// PasswordBox //--><!--
             <Style TargetType="{x:Type PasswordBox}">
                 <Setter Property="OverridesDefaultStyle" Value="False" />
                 <Setter Property="SnapsToDevicePixels" Value="True" />
                 <Setter Property="Height" Value="35" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="Padding" Value="10" />
-            </Style>
+            </Style>-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -34,7 +34,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="20" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="90,0,70,0" MaxWidth="500">
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="90,0,70,0" MaxWidth="500">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="100"/>
@@ -72,7 +72,7 @@
             <!--<Button x:Name="btnBackDevice" Style="{StaticResource BackButton}" Margin="0,10,0,0" Click="btnBackDevice_Click" ></Button>-->
         </Border>
         <Border Name="borderEdit" Grid.Column="1" Grid.Row="2">
-            <Border Margin="30, 30, 30, 160" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="20" Background="WhiteSmoke">
+            <Border Margin="30, 30, 30, 100" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="7" Background="WhiteSmoke">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -82,26 +82,38 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
 
                     <TextBox Name="hidID" Visibility="Collapsed" />
+                    <!-- // Device Name //-->
                     <TextBlock Text="{Binding Path=Device_Label_DeviceName, Source={StaticResource Resources}}" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
-                    <Border Name="borderNameEdit" Grid.Row="2" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="20">
+                    <Border Name="borderNameEdit" Grid.Row="2" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
                         <TextBox x:Name="txtName" VerticalAlignment="Center" BorderThickness="0" KeyUp="FieldsVal_KeyUp" />
                     </Border>
-                    <Border Name="borderNameView" Grid.Row="2" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="20" Visibility="Collapsed">
+                    <Border Name="borderNameView" Grid.Row="2" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
                         <TextBlock x:Name="lbName" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13">xxx</TextBlock>
                     </Border>
+                    <!-- // Device IP Address //-->
                     <TextBlock Text="{Binding Path=Device_Label_DeviceIPAddress, Source={StaticResource Resources}}" Grid.Row="3" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
-                    <Border Name="borderIPEdit" Grid.Row="5" Background="White" Padding="4, 12, 0, 0" BorderThickness="1" BorderBrush="Black" CornerRadius="20">
+                    <Border Name="borderIPEdit" Grid.Row="5" Background="White" Padding="4, 12, 0, 0" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
                         <WindowsFormsHost KeyUp="FieldsVal_KeyUp" Margin="10, 0" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Noto Sans" FontSize="12" FontWeight="Light" Background="White">
                             <wf:MaskedTextBox x:Name="txtIPAddress" Mask="000.000.##9.##9" Width="350" Height="40" TextAlign="Left" BorderStyle="None" />
                         </WindowsFormsHost>
                     </Border>
-                    <Border Name="borderIPView" Grid.Row="5" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="20" Visibility="Collapsed">
+                    <Border Name="borderIPView" Grid.Row="5" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
                         <TextBlock x:Name="lbIPAddeess" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13" Text="xxxx" />
                     </Border>
-                    <Border Name="borderButtonAdd" Grid.Row="6" Margin="0, 30">
+                    <!-- // Device Serial No //-->
+                    <TextBlock Text="Device Serial No." Grid.Row="6" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
+                    <Border Name="borderSerialNoEdit" Grid.Row="7" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
+                        <TextBox x:Name="txtSerialNo" VerticalAlignment="Center" BorderThickness="0" MaxLength="50" />
+                    </Border>
+                    <Border Name="borderSerialNoView" Grid.Row="7" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
+                        <TextBlock x:Name="lbSerialNo" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13">yy</TextBlock>
+                    </Border>
+                    <Border Name="borderButtonAdd" Grid.Row="8" Margin="0, 30">
                         <Button x:Name="btnAdd" Content="{Binding Path=Device_Label_Button_Add, Source={StaticResource Resources}}" 
                                 VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="White"
                                 Background="DarkOrange" BorderBrush="White" Margin="0" Height="40" 
@@ -109,7 +121,7 @@
                                 Click="btnAdd_Click" IsEnabled="False">
                         </Button>
                     </Border>
-                    <Border Name="borderButtonView" Grid.Row="6" Margin="0, 30" Visibility="Collapsed">
+                    <Border Name="borderButtonView" Grid.Row="8" Margin="0, 30" Visibility="Collapsed">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -126,7 +138,7 @@
                                     Click="btnEdit_Click" />
                         </Grid>
                     </Border>
-                    <Border Name="borderButtonUpdate" Grid.Row="6" Margin="0, 30" Visibility="Collapsed">
+                    <Border Name="borderButtonUpdate" Grid.Row="8" Margin="0, 10" Visibility="Collapsed">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -149,7 +161,7 @@
         </Border>
         
         <Border Grid.Column="2" Grid.Row="2">
-            <Border Margin="5, 30, 30, 160" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="20" Background="WhiteSmoke">
+            <Border Margin="5, 30, 30, 100" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="7" Background="WhiteSmoke">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />

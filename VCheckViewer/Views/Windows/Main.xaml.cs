@@ -26,6 +26,7 @@ using VCheckViewer.Views.Pages.Results;
 using Org.BouncyCastle.Utilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic.Logging;
+using DocumentFormat.OpenXml.Drawing;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -81,6 +82,10 @@ namespace VCheckViewer.Views.Windows
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+
+            //AppTheme.ChangeTheme(new Uri("Themes/Light.xaml", UriKind.Relative));
+            //btnDarkTheme.Background = System.Windows.Media.Brushes.Transparent;
+            CheckThemesSettings();
         }
 
         #region INavigationWindow methods
@@ -869,7 +874,9 @@ namespace VCheckViewer.Views.Windows
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
             ClearMenuItemStyle();
-            mnDashboard.Background = System.Windows.Media.Brushes.White;
+            String? sColor = System.Windows.Application.Current.Resources["Themes_MenuHighligted"].ToString();
+            //mnDashboard.Background = System.Windows.Media.Brushes.White;
+            mnDashboard.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
             mnDashboard.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
             PageTitle.Text = Properties.Resources.Dashboard_Title_PageTitle;
         }
@@ -883,7 +890,9 @@ namespace VCheckViewer.Views.Windows
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
             ClearMenuItemStyle();
-            mnSchedule.Background = System.Windows.Media.Brushes.White;
+            String? sColor = System.Windows.Application.Current.Resources["Themes_MenuHighligted"].ToString();
+            //mnSchedule.Background = System.Windows.Media.Brushes.White;
+            mnSchedule.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
             mnSchedule.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
         }
 
@@ -896,7 +905,9 @@ namespace VCheckViewer.Views.Windows
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
             ClearMenuItemStyle();
-            mnResults.Background = System.Windows.Media.Brushes.White;
+            String? sColor = System.Windows.Application.Current.Resources["Themes_MenuHighligted"].ToString();
+            //mnResults.Background = System.Windows.Media.Brushes.White;
+            mnResults.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
             mnResults.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
         }
 
@@ -911,7 +922,9 @@ namespace VCheckViewer.Views.Windows
             PageTitle.Text = Properties.Resources.Main_Label_SideMenuNotification;
 
             ClearMenuItemStyle();
-            mnNotifications.Background = System.Windows.Media.Brushes.White;
+            String? sColor = System.Windows.Application.Current.Resources["Themes_MenuHighligted"].ToString();
+            //mnNotifications.Background = System.Windows.Media.Brushes.White;
+            mnNotifications.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
             mnNotifications.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
         }
 
@@ -926,7 +939,9 @@ namespace VCheckViewer.Views.Windows
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
             ClearMenuItemStyle();
-            mnSettings.Background = System.Windows.Media.Brushes.White;
+            String? sColor = System.Windows.Application.Current.Resources["Themes_MenuHighligted"].ToString();
+            //mnSettings.Background = System.Windows.Media.Brushes.White;
+            mnSettings.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
             mnSettings.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
             PageTitle.Text = Properties.Resources.Setting_Title_PageTitle;
         }
@@ -981,6 +996,60 @@ namespace VCheckViewer.Views.Windows
             mnSchedule.Background = System.Windows.Media.Brushes.Transparent;
             mnResults.Background = System.Windows.Media.Brushes.Transparent;
             mnNotifications.Background = System.Windows.Media.Brushes.Transparent;
+        }
+
+        private void btnDarkTheme_Click(object sender, RoutedEventArgs e)
+        {
+            //AppTheme.ChangeTheme(new Uri("Themes/Dark.xaml", UriKind.Relative));
+            //btnLightTheme.Background = System.Windows.Media.Brushes.Transparent;
+
+            //System.Windows.Media.Color sBlue = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#1e76fb");
+            //btnDarkTheme.Background = new SolidColorBrush(sBlue);
+            var sButton = (System.Windows.Controls.Button)sender;
+            ConfigurationContext.UpdateConfiguration("SystemSettings_Themes", (sButton != null) ? sButton.Tag.ToString() : "");
+
+            CheckThemesSettings();
+        }
+
+        private void btnLightTheme_Click(object sender, RoutedEventArgs e)
+        {
+            //AppTheme.ChangeTheme(new Uri("Themes/Light.xaml", UriKind.Relative));
+            //btnDarkTheme.Background = System.Windows.Media.Brushes.Transparent;
+
+            //System.Windows.Media.Color sBlue = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#1e76fb");
+            //btnLightTheme.Background = new SolidColorBrush(sBlue);
+            var sButton = (System.Windows.Controls.Button)sender;
+            ConfigurationContext.UpdateConfiguration("SystemSettings_Themes", (sButton != null) ? sButton.Tag.ToString() : "");
+
+            CheckThemesSettings();
+        }
+
+        private void CheckThemesSettings()
+        {
+            String? sTheme = "Light";
+
+            var sConfigData = ConfigurationContext.GetConfigurationData("SystemSettings_Themes");
+            if (sConfigData != null && sConfigData.Count > 0)
+            {
+                sTheme = sConfigData[0].ConfigurationValue;
+            }
+
+            String sThemeName = sTheme + ".xaml";
+            AppTheme.ChangeTheme(new Uri("Themes/" + sThemeName, UriKind.Relative));
+            if (sTheme.ToLower() == "light")
+            {
+                btnDarkTheme.Background = System.Windows.Media.Brushes.Transparent;
+
+                System.Windows.Media.Color sBlue = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#1e76fb");
+                btnLightTheme.Background = new SolidColorBrush(sBlue);
+            }
+            else if (sTheme.ToLower() == "dark")
+            {
+                btnLightTheme.Background = System.Windows.Media.Brushes.Transparent;
+
+                System.Windows.Media.Color sBlue = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#1e76fb");
+                btnDarkTheme.Background = new SolidColorBrush(sBlue);
+            }
         }
     }
 

@@ -1,7 +1,24 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Dev\\VCheck\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\themes\\dark.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\themes\\dark.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\themes\\light.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\themes\\light.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\views\\pages\\notification\\notificationpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\notification\\notificationpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|c:\\dev\\vcheck\\vcheckviewer\\views\\pages\\results\\resultpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E9418A72-5A19-4348-9BCB-8C6941075E7B}|VCheckViewer\\VCheckViewer.csproj|solutionrelative:vcheckviewer\\views\\pages\\results\\resultpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,6 +43,58 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NotificationPage.xaml",
+              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Notification\\NotificationPage.xaml",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Notification\\NotificationPage.xaml",
+              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Notification\\NotificationPage.xaml",
+              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Notification\\NotificationPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-07-03T08:50:51.926Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ResultPage.xaml",
+              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Results\\ResultPage.xaml",
+              "RelativeDocumentMoniker": "VCheckViewer\\Views\\Pages\\Results\\ResultPage.xaml",
+              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Views\\Pages\\Results\\ResultPage.xaml",
+              "RelativeToolTip": "VCheckViewer\\Views\\Pages\\Results\\ResultPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-07-03T06:33:21.711Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Dark.xaml",
+              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Themes\\Dark.xaml",
+              "RelativeDocumentMoniker": "VCheckViewer\\Themes\\Dark.xaml",
+              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Themes\\Dark.xaml",
+              "RelativeToolTip": "VCheckViewer\\Themes\\Dark.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-07-03T03:09:20.161Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Light.xaml",
+              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckViewer\\Themes\\Light.xaml",
+              "RelativeDocumentMoniker": "VCheckViewer\\Themes\\Light.xaml",
+              "ToolTip": "C:\\Dev\\VCheck\\VCheckViewer\\Themes\\Light.xaml",
+              "RelativeToolTip": "VCheckViewer\\Themes\\Light.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-07-03T03:09:19.45Z",
+              "EditorCaption": ""
             }
           ]
         }

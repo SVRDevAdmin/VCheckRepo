@@ -18,7 +18,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="20" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="90,0,70,0" MaxWidth="500">
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="90,0,70,0" MaxWidth="500">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="100"/>
@@ -50,7 +50,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" Margin="30,30,30,10" BorderThickness="1" BorderBrush="White" CornerRadius="20" Height="40" Background="WhiteSmoke">
+                <Border Grid.Row="0" Margin="30,30,30,10" BorderThickness="1" BorderBrush="White" CornerRadius="7" Height="40" Background="WhiteSmoke">
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -60,7 +60,7 @@
                         <TextBlock x:Name="SelectedLanguage" Text="{Binding Path=Setting_Label_SelectLanguage, Source={StaticResource Resources}}" Grid.Column="1" VerticalAlignment="Center" Foreground="Orange" FontWeight="Bold"/>
                     </Grid>
                 </Border>
-                <Border Grid.Row="1" Margin="30,0,30,30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="20" Background="White">
+                <Border Grid.Row="1" Margin="30,0,30,30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="7" Background="White">
                     <ListView Name="LanguageListView" BorderBrush="White" HorizontalContentAlignment="Stretch" Padding="0,0,20,0">
                     </ListView>
                 </Border>
@@ -72,7 +72,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" Margin="30,30,30,10" BorderThickness="1" BorderBrush="White" CornerRadius="20" Height="40" Background="WhiteSmoke">
+                <Border Grid.Row="0" Margin="30,30,30,10" BorderThickness="1" BorderBrush="White" CornerRadius="7" Height="40" Background="WhiteSmoke">
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -82,14 +82,14 @@
                         <TextBlock x:Name="SelectedCountry" Text="{Binding Path=Setting_Label_SelectCountry, Source={StaticResource Resources}}" Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold" Foreground="Orange"/>
                     </Grid>
                 </Border>
-                <Border Grid.Row="1" Margin="30,0,30,30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="20" Background="WhiteSmoke">
+                <Border Grid.Row="1" Margin="30,0,30,30" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="7" Background="WhiteSmoke">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Margin="10,0,10,0">
-                            <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black">
+                            <Border Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black">
                                 <Grid>
                                      
                                     <ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>

@@ -9,8 +9,9 @@
     <Grid>
         <StackPanel>
             <Border
-            BorderThickness="0"
-            BorderBrush="{Binding ElementName=DateRangePicker_TextBox, Path=BorderBrush}">
+                BorderThickness="0"
+                BorderBrush="{Binding ElementName=DateRangePicker_TextBox, Path=BorderBrush}" 
+                Background="Transparent">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35" />
@@ -72,14 +73,14 @@
                     Focusable="False"
                     PopupAnimation="Slide">
 
-                <Viewbox
-                x:Name="DateRangePicker_DropDown"
-                SnapsToDevicePixels="True"
-                Stretch="Fill">
+                <Viewbox x:Name="DateRangePicker_DropDown"
+                        SnapsToDevicePixels="True"
+                        Stretch="Fill">
                     <Calendar
                     x:Name="DateRangePicker_Calendar"
                     SelectionMode="MultipleRange"
-                    SelectedDatesChanged="DateRangePicker_Calendar_SelectedDatesChanged"/>
+                    SelectedDatesChanged="DateRangePicker_Calendar_SelectedDatesChanged"
+                    />
                 </Viewbox>
             </Popup>
         </StackPanel>

@@ -239,7 +239,7 @@
       }
     },
     "C:\\Dev\\VCheck\\VCheckViewer\\VCheckViewer.csproj": {
-      "version": "1.0.0",
+      "version": "1.0.0.1",
       "restore": {
         "projectUniqueName": "C:\\Dev\\VCheck\\VCheckViewer\\VCheckViewer.csproj",
         "projectName": "VCheckViewer",

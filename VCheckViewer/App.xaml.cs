@@ -177,7 +177,7 @@ namespace VCheckViewer
                 var roles = RoleManager.Roles.ToList();
                 IdentityRole role = new IdentityRole();
                 bool addRoleSuccess;
-
+            
                 if (!roles.Where(x => x.Name == "Lab User").Any())
                 {
                     role = new IdentityRole("Lab User");

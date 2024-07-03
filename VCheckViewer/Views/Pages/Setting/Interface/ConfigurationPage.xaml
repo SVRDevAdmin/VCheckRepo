@@ -21,7 +21,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="20" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="90,0,70,0" MaxWidth="500">
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="90,0,70,0" MaxWidth="500">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="100"/>
@@ -44,7 +44,7 @@
             </Grid>
         </Border>
         <Border Name="borderConfiguration" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Transparent" BorderThickness="0">
-            <Border Margin="180, 65, 210, 160" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="20" Background="WhiteSmoke">
+            <Border Margin="180, 65, 210, 160" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="7" Background="WhiteSmoke">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -56,14 +56,14 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="{Binding Path=Configuration_Label_PMS_LIS_HIS, Source={StaticResource Resources}}" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
-                    <Border Name="borderIP" Grid.Row="2" Background="White" Padding="5, 12, 0, 0" BorderBrush="Black" BorderThickness="1" CornerRadius="20">
+                    <Border Name="borderIP" Grid.Row="2" Background="White" Padding="5, 12, 0, 0" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
                         <WindowsFormsHost KeyUp="FieldsVal_KeyUp" Margin="10, 0" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Noto Sans" FontSize="12" FontWeight="Light" Background="White">
                             <wf:MaskedTextBox x:Name="txtIP" Mask="###.###.###.###" Width="350" Height="30" TextAlign="Left" BorderStyle="None" />
                         </WindowsFormsHost>
                     </Border>
 
                     <TextBlock Text="{Binding Path=Configuration_Label_PMS_LIS_HIS_PortNo, Source={StaticResource Resources}}" Grid.Row="3" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
-                    <Border Name="borderPortNo" Grid.Row="4" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="20">
+                    <Border Name="borderPortNo" Grid.Row="4" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
                         <TextBox x:Name="txtPortNo" VerticalAlignment="Center" BorderThickness="0" PreviewTextInput="NumberValidationOnly" MaxLength="3" KeyUp="FieldsVal_KeyUp" />
                     </Border>
 
