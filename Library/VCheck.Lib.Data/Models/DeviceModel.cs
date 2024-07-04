@@ -13,6 +13,7 @@ namespace VCheck.Lib.Data.Models
         [Key]
         public int id { get; set; }
         public string? DeviceName { get; set; }
+        public string? DeviceSerialNo { get; set; }
         public string? Description { get; set; }
         public string? DeviceIPAddress { get; set;  }
         public string? DeviceImagePath { get; set; }

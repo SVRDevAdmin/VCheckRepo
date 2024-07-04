@@ -106,6 +106,43 @@
                 </Setter>
             </Style>
 
+            <!--// Key: Round Rectangular Button //-->
+            <Style x:Key="RoundRectangularButton" TargetType="Button">
+                <Setter Property="SnapsToDevicePixels" Value="False" />
+                <Setter Property="OverridesDefaultStyle" Value="False" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="AllowDrop" Value="False" />
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Name="Border"
+                        CornerRadius="10"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Height="40"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center">
+                                <ContentPresenter x:Name="contentPresenter" 
+                          ContentTemplate="{TemplateBinding ContentTemplate}" 
+                          Content="{TemplateBinding Content}" 
+                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          Margin="{TemplateBinding Padding}" 
+                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="Border" Property="BorderBrush" Value="#D5D8DC" />
+                                    <Setter TargetName="Border" Property="Background" Value="#D5D8DC" />
+                                    <Setter Property="Foreground" Value="#F4F6F7" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <!--// Key: BackButton //-->
             <Style x:Key="BackButton" TargetType="{x:Type Button}">
                 <Setter Property="Template">

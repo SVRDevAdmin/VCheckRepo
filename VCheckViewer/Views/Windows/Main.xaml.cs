@@ -81,6 +81,9 @@ namespace VCheckViewer.Views.Windows
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+
+            mnDashboard.Background = System.Windows.Media.Brushes.White;
+            mnDashboard.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
         }
 
         #region INavigationWindow methods
@@ -431,8 +434,8 @@ namespace VCheckViewer.Views.Windows
 
                         if (roleResult.Succeeded)
                         {
-                            //var notificationTemplate = TemplateContext.GetTemplateByCode("US05");
-                            var notificationTemplate = TemplateContext.GetTemplateByCodeLang("US05", (sLangCode != null ? sLangCode.ConfigurationValue : ""));
+                            var notificationTemplate = TemplateContext.GetTemplateByCode("US05");
+                            //var notificationTemplate = TemplateContext.GetTemplateByCodeLang("US05", (sLangCode != null ? sLangCode.ConfigurationValue : ""));
                             notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("###<staff_id>###", App.MainViewModel.Users.EmployeeID).Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("'", "''");
 
                             NotificationModel notification = new NotificationModel()
@@ -453,8 +456,8 @@ namespace VCheckViewer.Views.Windows
 
                             }
 
-                            //notificationTemplate = TemplateContext.GetTemplateByCode("EN01");
-                            notificationTemplate = TemplateContext.GetTemplateByCodeLang("EN01", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
+                            notificationTemplate = TemplateContext.GetTemplateByCode("EN01");
+                            //notificationTemplate = TemplateContext.GetTemplateByCodeLang("EN01", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                             notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("###<password>###", App.newPassword).Replace("###<login_id>###", user.UserName);
 
                             string sErrorMessage = "";
