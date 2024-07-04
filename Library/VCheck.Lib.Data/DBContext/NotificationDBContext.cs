@@ -33,7 +33,7 @@ namespace VCheck.Lib.Data.DBContext
             }
         }
 
-        public List<NotificationModel> GetNotificationByPage(int start, int end, string? notificationType, string? startDate, string? endDate, string? keyword)
+        public List<NotificationModel> GetNotificationByPage(int start, int end, string? notificationType, string? startDate, string? endDate, string? keyword, string currentUserCreatedDate)
         {
             List<NotificationModel> sList = new List<NotificationModel>();
             string sqlQueryCondition = "";
@@ -51,7 +51,7 @@ namespace VCheck.Lib.Data.DBContext
                 using (MySqlConnection conn = this.Connection)
                 {
                     conn.Open();
-                    MySqlCommand cmd = new MySqlCommand("Select * from txn_notification " + sqlQueryCondition + " order by CreatedDate DESC LIMIT " + start + "," + end, conn);
+                    MySqlCommand cmd = new MySqlCommand("Select * from txn_notification " + sqlQueryCondition + " AND CreatedDate > '"+ currentUserCreatedDate +"' order by CreatedDate DESC LIMIT " + start + "," + end, conn);
 
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -81,7 +81,7 @@ namespace VCheck.Lib.Data.DBContext
             return sList;
         }
 
-        public int GetTotalNotification(string? notificationType, string? startDate, string? endDate, string? keyword)
+        public int GetTotalNotification(string? notificationType, string? startDate, string? endDate, string? keyword, string currentUserCreatedDate)
         {
             string sqlQueryCondition = "";
 
@@ -100,7 +100,7 @@ namespace VCheck.Lib.Data.DBContext
                 using (MySqlConnection conn = this.Connection)
                 {
                     conn.Open();
-                    MySqlCommand cmd = new MySqlCommand("Select Count(NotificationTitle) from txn_notification " + sqlQueryCondition, conn);
+                    MySqlCommand cmd = new MySqlCommand("Select Count(NotificationTitle) from txn_notification " + sqlQueryCondition +" AND CreatedDate > '"+ currentUserCreatedDate +"'", conn);
 
                     using (var reader = cmd.ExecuteReader())
                     {

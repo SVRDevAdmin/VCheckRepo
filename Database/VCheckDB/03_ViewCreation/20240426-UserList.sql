@@ -1,4 +1,7 @@
 CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
 VIEW `userlist` AS
     SELECT 
         `mst_user`.`UserID` AS `UserID`,
@@ -26,7 +29,8 @@ VIEW `userlist` AS
                     AND (`mst_mastercodedata`.`CodeGroup` = 'UserStatus'))) AS `Status`,
         `mst_roles`.`RoleName` AS `Role`,
         `aspnetusers`.`UserName` AS `LoginID`,
-        `mst_user`.`IsDeleted` AS `IsDeleted`
+        `mst_user`.`IsDeleted` AS `IsDeleted`,
+        `mst_user`.`CreatedDate` AS `CreatedDate`
     FROM
         ((`mst_user`
         LEFT JOIN `mst_roles` ON ((`mst_user`.`RoleID` = `mst_roles`.`RoleID`)))

@@ -434,8 +434,8 @@ namespace VCheckViewer.Views.Windows
 
                         if (roleResult.Succeeded)
                         {
-                            var notificationTemplate = TemplateContext.GetTemplateByCode("US05");
-                            //var notificationTemplate = TemplateContext.GetTemplateByCodeLang("US05", (sLangCode != null ? sLangCode.ConfigurationValue : ""));
+                            //var notificationTemplate = TemplateContext.GetTemplateByCode("US05");
+                            var notificationTemplate = TemplateContext.GetTemplateByCodeLang("US05", (sLangCode != null ? sLangCode.ConfigurationValue : ""));
                             notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("###<staff_id>###", App.MainViewModel.Users.EmployeeID).Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("'", "''");
 
                             NotificationModel notification = new NotificationModel()
@@ -456,8 +456,8 @@ namespace VCheckViewer.Views.Windows
 
                             }
 
-                            notificationTemplate = TemplateContext.GetTemplateByCode("EN01");
-                            //notificationTemplate = TemplateContext.GetTemplateByCodeLang("EN01", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
+                            //notificationTemplate = TemplateContext.GetTemplateByCode("EN01");
+                            notificationTemplate = TemplateContext.GetTemplateByCodeLang("EN01", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                             notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###", App.MainViewModel.Users.FullName).Replace("###<password>###", App.newPassword).Replace("###<login_id>###", user.UserName);
 
                             string sErrorMessage = "";

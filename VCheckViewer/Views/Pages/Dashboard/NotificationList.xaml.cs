@@ -34,7 +34,8 @@ namespace VCheckViewer.Views.Pages.Dashboard
 
         public void initializeData()
         {
-            var notificationList = sContext.GetNotificationByPage(0, 5, null, null, null, null);
+            var currentUserCreatedDate = App.MainViewModel.CurrentUsers.CreatedDate;
+            var notificationList = sContext.GetNotificationByPage(0, 5, null, null, null, null, currentUserCreatedDate);
 
             if (notificationList != null && notificationList.Count > 0)
             {
