@@ -85,7 +85,7 @@
                     <!--<ui:SymbolIcon Symbol="CalendarEdit16" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->
                     <TextBlock Text="Show :" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
 
-                    <ComboBox Name="NotificationType" Background="White" BorderThickness="0" VerticalAlignment="Center" Margin="50,0,0,0" TextBlock.FontWeight="Bold" GotFocus="ChangeNotificationType">
+                    <ComboBox Name="NotificationType" Background="White" BorderThickness="0" VerticalAlignment="Center" Margin="50,0,0,0" Foreground="Black" TextBlock.FontWeight="Bold" GotFocus="ChangeNotificationType">
                         <ComboBoxItem Content="{Binding Path=Notification_Label_ShowAll, Source={StaticResource Resources}}" TextBlock.FontWeight="Normal" Selector.IsSelected="True"/>
                         <ComboBoxItem Content="{Binding Path=Notification_Label_UpcomingTest, Source={StaticResource Resources}}" Tag="Upcoming Test" TextBlock.FontWeight="Normal"/>
                         <ComboBoxItem Content="{Binding Path=Notification_Label_CompletedTest, Source={StaticResource Resources}}" Tag="Completed Test Results" TextBlock.FontWeight="Normal"/>

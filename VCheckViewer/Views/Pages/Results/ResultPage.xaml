@@ -17,6 +17,7 @@
             <Setter Property="FontFamily" Value="Noto Sans" />
             <Setter Property="FontSize" Value="12" />
             <Setter Property="Margin" Value="2" />
+            <Setter Property="Foreground" Value="Black" />
         </Style>
         <Style x:Key="DataGridVerticalTextCenterAligned" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />

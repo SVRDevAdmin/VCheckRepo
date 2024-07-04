@@ -14,7 +14,8 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="FontFamily" Value="Noto Sans" />
-            
+            <Setter Property="Foreground" Value="Black"/>
+
         </Style>
         <Style TargetType="{x:Type Hyperlink}">
             <Setter Property="TextDecorations" Value="None" />

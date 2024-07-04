@@ -89,7 +89,7 @@ namespace VCheck.Lib.Data.DBContext
             else { sqlQueryCondition += "WHERE NotificationType <> 'Email'"; }
 
             if (startDate != null && endDate != null) { if (sqlQueryCondition != "") { sqlQueryCondition += " AND "; } else { sqlQueryCondition += "WHERE "; } sqlQueryCondition += "CreatedDate between '" + startDate + "' and '" + endDate + "'"; }
-            else if (startDate != null && endDate == null) { if (sqlQueryCondition != "") { sqlQueryCondition += " AND "; } else { sqlQueryCondition += "WHERE "; } sqlQueryCondition += "CreatedDate = '" + startDate + "'"; }
+            else if (startDate != null && endDate == null) { if  (sqlQueryCondition != "") { sqlQueryCondition += " AND "; } else { sqlQueryCondition += "WHERE "; } sqlQueryCondition += "CreatedDate = '" + startDate + "'"; }
 
             if (keyword != null) { if (sqlQueryCondition != "") { sqlQueryCondition += " AND "; } else { sqlQueryCondition += "WHERE "; } sqlQueryCondition += "(NotificationTitle like '%" + keyword + "%' OR NotificationContent like '%" + keyword + "%')"; }
 
