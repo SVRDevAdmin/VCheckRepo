@@ -23,7 +23,7 @@ namespace VCheckViewer.Views.Pages
     /// </summary>
     public partial class DashboardPage : Page
     {
-        List<DeviceModel> deviceList = DeviceRepository.GetAllDeviceList(ConfigSettings.GetConfigurationSettings());
+        List<DeviceModel> deviceList = DeviceRepository.GetDeviceList(ConfigSettings.GetConfigurationSettings());
 
         List<TestResultModel> resultList = TestResultsRepository.GetAllTestResultList(ConfigSettings.GetConfigurationSettings());
 
