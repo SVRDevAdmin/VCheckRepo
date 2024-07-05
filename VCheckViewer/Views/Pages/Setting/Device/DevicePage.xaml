@@ -14,7 +14,7 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="FontFamily" Value="Noto Sans" />
-            
+            <Setter Property="Foreground" Value="{DynamicResource Themes_FontColor}" />
         </Style>
         <Style TargetType="{x:Type Hyperlink}">
             <Setter Property="TextDecorations" Value="None" />
@@ -52,7 +52,7 @@
                     <Button Name="btnSettings" Content="PMS/LIS/HIS" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnSettings_Click"></Button>
                 </Border>
                 <Border Grid.Column="3" Margin="2">
-                    <Button Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
+                    <Button Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" Background="{DynamicResource Themes_ButtonColor}" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
                 </Border>
             </Grid>
         </Border>
@@ -63,16 +63,17 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button Name="imgBack" Click="imgBack_Click" Grid.Column="0" Background="Transparent" BorderThickness="0" Visibility="Collapsed">
-                    <Image Source="../../../../Content/Images/BackArrow.png" VerticalAlignment="Center"/>
+                    <!--<Image Source="../../../../Content/Images/BackArrow.png" VerticalAlignment="Center"/>-->
+                    <Image Source="{DynamicResource Themes_BackButton}" VerticalAlignment="Center"/>
                 </Button>
                 <Button Name="btnBack" Width="250" BorderThickness="0" Background="Transparent" Grid.Column="1" Margin="-5, 0, 0, 0" 
-                        HorizontalContentAlignment="Left" Foreground="Black" 
+                        HorizontalContentAlignment="Left" Foreground="{DynamicResource Themes_FontColor}" 
                         Click="btnBack_Click" Visibility="Collapsed"></Button>
             </Grid>
             <!--<Button x:Name="btnBackDevice" Style="{StaticResource BackButton}" Margin="0,10,0,0" Click="btnBackDevice_Click" ></Button>-->
         </Border>
         <Border Name="borderEdit" Grid.Column="1" Grid.Row="2">
-            <Border Margin="30, 30, 30, 100" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="7" Background="WhiteSmoke">
+            <Border Margin="30, 30, 30, 100" BorderThickness="1" BorderBrush="{DynamicResource Themes_DevicesFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_DevicesFrameBackground}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -88,35 +89,35 @@
 
                     <TextBox Name="hidID" Visibility="Collapsed" />
                     <!-- // Device Name //-->
-                    <TextBlock Text="{Binding Path=Device_Label_DeviceName, Source={StaticResource Resources}}" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
+                    <TextBlock Text="{Binding Path=Device_Label_DeviceName, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
                     <Border Name="borderNameEdit" Grid.Row="2" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
                         <TextBox x:Name="txtName" VerticalAlignment="Center" BorderThickness="0" KeyUp="FieldsVal_KeyUp" />
                     </Border>
                     <Border Name="borderNameView" Grid.Row="2" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
-                        <TextBlock x:Name="lbName" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13">xxx</TextBlock>
+                        <TextBlock x:Name="lbName" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13" Foreground="{DynamicResource Themes_FontColor}">xxx</TextBlock>
                     </Border>
                     <!-- // Device IP Address //-->
-                    <TextBlock Text="{Binding Path=Device_Label_DeviceIPAddress, Source={StaticResource Resources}}" Grid.Row="3" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
+                    <TextBlock Text="{Binding Path=Device_Label_DeviceIPAddress, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="3" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
                     <Border Name="borderIPEdit" Grid.Row="5" Background="White" Padding="4, 12, 0, 0" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
                         <WindowsFormsHost KeyUp="FieldsVal_KeyUp" Margin="10, 0" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Noto Sans" FontSize="12" FontWeight="Light" Background="White">
                             <wf:MaskedTextBox x:Name="txtIPAddress" Mask="000.000.##9.##9" Width="350" Height="40" TextAlign="Left" BorderStyle="None" />
                         </WindowsFormsHost>
                     </Border>
                     <Border Name="borderIPView" Grid.Row="5" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
-                        <TextBlock x:Name="lbIPAddeess" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13" Text="xxxx" />
+                        <TextBlock x:Name="lbIPAddeess" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13" Text="xxxx" Foreground="{DynamicResource Themes_FontColor}" />
                     </Border>
                     <!-- // Device Serial No //-->
-                    <TextBlock Text="Device Serial No." Grid.Row="6" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
+                    <TextBlock Text="Device Serial No." Grid.Row="6" VerticalAlignment="Bottom" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
                     <Border Name="borderSerialNoEdit" Grid.Row="7" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
                         <TextBox x:Name="txtSerialNo" VerticalAlignment="Center" BorderThickness="0" MaxLength="50" />
                     </Border>
                     <Border Name="borderSerialNoView" Grid.Row="7" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
-                        <TextBlock x:Name="lbSerialNo" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13">yy</TextBlock>
+                        <TextBlock x:Name="lbSerialNo" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13" Foreground="{DynamicResource Themes_FontColor}">yy</TextBlock>
                     </Border>
                     <Border Name="borderButtonAdd" Grid.Row="8" Margin="0, 30">
                         <Button x:Name="btnAdd" Content="{Binding Path=Device_Label_Button_Add, Source={StaticResource Resources}}" 
-                                VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="White"
-                                Background="DarkOrange" BorderBrush="White" Margin="0" Height="40" 
+                                VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource Themes_ButtonFontColor}"
+                                Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Margin="0" Height="40" 
                                 Style="{DynamicResource RoundButton}" 
                                 Click="btnAdd_Click" IsEnabled="False">
                         </Button>
@@ -129,12 +130,12 @@
                             </Grid.ColumnDefinitions>
 
                             <Button Grid.Column="0" x:Name="btnDelete" Content="{Binding Path=Device_Label_Button_Delete, Source={StaticResource Resources}}" VerticalAlignment="Center" 
-                                    HorizontalAlignment="Stretch" Foreground="Black" Background="Transparent" 
-                                    BorderBrush="Black" Margin="0" Height="40" Style="{DynamicResource RoundButton}" 
+                                    HorizontalAlignment="Stretch" Foreground="{DynamicResource Themes_DevicesFontCancelDeleteButton}" Background="{DynamicResource Themes_DevicesCancelDeleteButton}" 
+                                    BorderBrush="{DynamicResource Themes_DevicesBorderCancelDeleteButton}" Margin="0" Height="40" Style="{DynamicResource RoundButton}" 
                                     Click="btnDelete_Click"/>
                             <Button Grid.Column="1" x:Name="btnEdit" Content="{Binding Path=Device_Label_Button_Edit, Source={StaticResource Resources}}" VerticalAlignment="Center" 
-                                    HorizontalAlignment="Stretch" Foreground="White" Background="DarkOrange" 
-                                    BorderBrush="White" Margin="0" Height="40" Style="{DynamicResource RoundButton}" 
+                                    HorizontalAlignment="Stretch" Foreground="{DynamicResource Themes_ButtonFontColor}" Background="{DynamicResource Themes_ButtonColor}" 
+                                    BorderBrush="{DynamicResource Themes_ButtonColor}" Margin="0" Height="40" Style="{DynamicResource RoundButton}" 
                                     Click="btnEdit_Click" />
                         </Grid>
                     </Border>
@@ -145,13 +146,14 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Button Grid.Column="0" x:Name="btnCancel" Content="{Binding Path=Device_Label_Button_Cancel, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="Black"
-                                    Background="Transparent" BorderBrush="Black" Margin="0" Height="40" Style="{DynamicResource RoundButton}"
+                            <Button Grid.Column="0" x:Name="btnCancel" Content="{Binding Path=Device_Label_Button_Cancel, Source={StaticResource Resources}}" 
+                                    VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource Themes_DevicesFontCancelDeleteButton}"
+                                    Background="{DynamicResource Themes_DevicesCancelDeleteButton}" BorderBrush="{DynamicResource Themes_DevicesBorderCancelDeleteButton}" Margin="0" Height="40" Style="{DynamicResource RoundButton}"
                                     Click="btnCancel_Click">
                             </Button>
                             <Button Grid.Column="1" x:Name="btnUpdate" Content="{Binding Path=Device_Label_Button_Update, Source={StaticResource Resources}}"  VerticalAlignment="Center" 
-                                    HorizontalAlignment="Stretch" Foreground="White" Background="DarkOrange" 
-                                    BorderBrush="White" Margin="0" Height="40" Style="{DynamicResource RoundButton}"
+                                    HorizontalAlignment="Stretch" Foreground="{DynamicResource Themes_ButtonFontColor}" Background="{DynamicResource Themes_ButtonColor}" 
+                                    BorderBrush="{DynamicResource Themes_ButtonColor}" Margin="0" Height="40" Style="{DynamicResource RoundButton}"
                                     Click="btnUpdate_Click">
                             </Button>
                         </Grid>
@@ -161,7 +163,7 @@
         </Border>
         
         <Border Grid.Column="2" Grid.Row="2">
-            <Border Margin="5, 30, 30, 100" BorderThickness="1" BorderBrush="White" Padding="10" CornerRadius="7" Background="WhiteSmoke">
+            <Border Margin="5, 30, 30, 100" BorderThickness="1" BorderBrush="{DynamicResource Themes_DevicesFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_DevicesFrameBackground}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
@@ -169,12 +171,16 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="{Binding Path=Device_Label_AddedDevices, Source={StaticResource Resources}}" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
+                    <TextBlock Text="{Binding Path=Device_Label_AddedDevices, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
                     <Border Grid.Row="2" Margin="10, 5" Height="250" BorderBrush="Black" BorderThickness="0">
-                        <DataGrid SelectionChanged="dgDevice_SelectionChanged" Name="dgDevice" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="None" GridLinesVisibility="Horizontal" Background="Transparent" BorderThickness="0" BorderBrush="Transparent">
+                        <DataGrid SelectionChanged="dgDevice_SelectionChanged" Name="dgDevice" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="None" 
+                                  GridLinesVisibility="Horizontal" Foreground="{DynamicResource Themes_FontColor}" 
+                                  HorizontalGridLinesBrush="{DynamicResource Themes_GridDevicesRowLinesColor}"
+                                  Background="Transparent" BorderThickness="0" BorderBrush="Transparent">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="" Width="200" Binding="{Binding DeviceName}" 
-                                                    ElementStyle="{StaticResource CellVerticalText}">
+                                                    ElementStyle="{StaticResource CellVerticalText}"
+                                                    Foreground="{DynamicResource Themes_FontColor}">
                                 </DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>

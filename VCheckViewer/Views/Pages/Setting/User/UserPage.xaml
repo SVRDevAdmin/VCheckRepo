@@ -18,6 +18,7 @@
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="FontFamily" Value="Noto Sans" />
             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="{DynamicResource Themes_GridUserFontColor}" />
             <Setter Property="Margin" Value="5"/>
         </Style>
         <Style x:Key="DataGridVerticalTextCenterAligned" TargetType="TextBlock">
@@ -25,6 +26,7 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="FontFamily" Value="Noto Sans" />
             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="{DynamicResource Themes_GridUserFontColor}" />
             <Setter Property="Margin" Value="5"/>
         </Style>
 
@@ -38,12 +40,14 @@
 
                     <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
 
-                        <Border BorderBrush="White"
-                            Background="White"
+                        <Border BorderBrush="Transparent"
+                            Background="Transparent"
                             BorderThickness="5">
 
                             <TextBlock Text="{TemplateBinding Content}"
-                                   Foreground="SlateGray" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                       Foreground="{DynamicResource Themes_GridUserHeaderFontColor}" 
+                                       HorizontalAlignment="Center" 
+                                       TextWrapping="Wrap"/>
 
                         </Border>
 
@@ -77,7 +81,7 @@
                     <ColumnDefinition Width="auto" MinWidth="100"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="2">
-                    <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
+                    <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" Background="{DynamicResource Themes_ButtonColor}" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
                 </Border>
                 <Border Grid.Column="1" Margin="2">
                     <Button Content="{Binding Path=Setting_Label_LanguageCountry, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="LanguageCountry"></Button>
@@ -91,14 +95,17 @@
             </Grid>
         </Border>
 
-        <Button Content="{Binding Path=Setting_Label_CreateUser, Source={StaticResource Resources}}" VerticalAlignment="Top" Click="AddUserList_Click" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" Height="45" Background="PeachPuff" Style="{DynamicResource RoundButton}" Margin="5,0,20,0" BorderBrush="White"></Button>
+        <Button Content="{Binding Path=Setting_Label_CreateUser, Source={StaticResource Resources}}" VerticalAlignment="Top" Click="AddUserList_Click" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" Height="45" Background="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" Margin="5,0,20,0" BorderBrush="{DynamicResource Themes_ButtonColor}" Foreground="{DynamicResource Themes_ButtonFontColor}"></Button>
         <Border Grid.Row="1" Grid.ColumnSpan="4" Margin="0,20,0,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <DataGrid Name = "dataGrid" IsReadOnly="True" BorderBrush="Black" AutoGenerateColumns = "False" Margin="10" Grid.Row="0"  GridLinesVisibility="Horizontal" BorderThickness="0"  RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}" AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}">
+                <DataGrid Name = "dataGrid" IsReadOnly="True" Background="Transparent" BorderBrush="Black" AutoGenerateColumns="False" Margin="10" Grid.Row="0" 
+                          GridLinesVisibility="Horizontal" BorderThickness="0"  RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}" 
+                          HorizontalGridLinesBrush="{DynamicResource Themes_GridUserRowLinesColor}"
+                          AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}">
                     <DataGrid.Columns>
                         <!--<DataGridTextColumn Header = "{Binding Path=General_Label_Number, Source={StaticResource Resources}}" Binding = "{Binding No}" Width="auto" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>-->
                         <DataGridTextColumn Header = "{Binding Path=General_Label_Number, Source={StaticResource Resources}}" Binding="{Binding AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource IndexedConverter}}" Width="auto" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
@@ -116,7 +123,8 @@
                                         <Menu>
                                             <MenuItem>
                                                 <MenuItem.Icon>
-                                                    <ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />
+                                                    <!--<ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />-->
+                                                    <Image Source="{DynamicResource Themes_GirdUserMoreIcon}" Width="12" />
                                                 </MenuItem.Icon>
                                                 <MenuItem Header="{Binding Path=General_Label_View, Source={StaticResource Resources}}" Click="ViewUserButton_Click"/>
                                                 <MenuItem Header="{Binding Path=General_Label_Update, Source={StaticResource Resources}}" Click="UpdateUserButton_Click"/>

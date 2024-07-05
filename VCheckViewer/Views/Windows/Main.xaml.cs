@@ -83,8 +83,6 @@ namespace VCheckViewer.Views.Windows
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
-            //AppTheme.ChangeTheme(new Uri("Themes/Light.xaml", UriKind.Relative));
-            //btnDarkTheme.Background = System.Windows.Media.Brushes.Transparent;
             CheckThemesSettings();
         }
 

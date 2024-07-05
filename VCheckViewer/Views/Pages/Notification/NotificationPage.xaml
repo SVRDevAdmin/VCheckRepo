@@ -11,6 +11,14 @@
         <Style x:Key="test" TargetType="DockPanel">
             <Setter Property="Height" Value="80"/>
         </Style>
+
+        <!--// TextBox //-->
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="{DynamicResource Themes_SearchFieldBackground}" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource Themes_SearchFieldFontColor}" />
+            <Setter Property="Padding" Value="5, 2, 0, 0" />
+        </Style>
     </Page.Resources>
 
     <Grid Margin="0,10,0,10" MouseLeftButtonUp="CloseCalenderPopup">
@@ -27,13 +35,14 @@
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Grid.ColumnSpan="4" Background="Transparent" CornerRadius="7" Margin="10,5,10,5"></Border>
         <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="0" Margin="20,0,10,0">
-            <Border Background="{DynamicResource Themes_NotifSearchfieldBackground}" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black" MouseLeftButtonUp="CloseCalenderPopup">
+            <Border Background="{DynamicResource Themes_NotifSearchfieldBackground}" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="{DynamicResource Themes_NotifSearchfieldBackground}" MouseLeftButtonUp="CloseCalenderPopup">
                 <Grid>
                     <!-- Search Icon -->
-                    <ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>
+                    <!--<ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->
+                    <Image Source="{DynamicResource Themes_SearchIcon}" Width="24" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
 
                     <!-- TextBox for search input -->
-                    <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" KeyUp="NotificationKeywordSearch"/>
+                    <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" KeyUp="NotificationKeywordSearch" Style="{StaticResource TextBoxStyle}"/>
                     <TextBlock IsHitTestVisible="False" Text="{Binding Path=Results_Label_Searchbar, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
@@ -50,16 +59,17 @@
             </Border>
         </Border>
         <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,0,0">
-            <Border Background="{DynamicResource Themes_NotifSearchfieldBackground}" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black">
-                <Grid>                    
-                    <ui:SymbolIcon Symbol="CalendarLtr32" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>                    
+            <Border Background="{DynamicResource Themes_NotifSearchfieldBackground}" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="{DynamicResource Themes_NotifSearchfieldBackground}">
+                <Grid>
+                    <Image Source="{DynamicResource Themes_CalendarIcon}" Width="24" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
+                    <!--<ui:SymbolIcon Symbol="CalendarLtr32" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->                    
                     <!--<DatePicker  BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center"/>-->
 
                     <userControls:DateRangePicker x:Name="RangeDate" SelectedDateRange="{Binding SelectedDates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
         </Border>
-        <Border Grid.Column="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="10,0,0,0">
+        <Border Grid.Column="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="{DynamicResource Themes_NotifSearchfieldBackground}"  Background="{DynamicResource Themes_NotifSearchfieldBackground}" Margin="10,0,0,0">
             <!--<Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="100"/>
@@ -80,7 +90,7 @@
                     <Button Content="{Binding Path=Notification_Label_Updates, Source={StaticResource Resources}}" Foreground="White" Tag="Updates" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
                 </Border>
             </Grid>-->
-            <Border Background="{DynamicResource Themes_NotifSearchfieldBackground}" CornerRadius="7" Padding="5,0,5,0">
+            <Border Background="{DynamicResource Themes_NotifSearchfieldBackground}" BorderThickness="0" CornerRadius="7" Padding="5,0,5,0">
                 <Grid>
                     <!--<ui:SymbolIcon Symbol="CalendarEdit16" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->
                     <TextBlock Text="Show :" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="{DynamicResource Themes_NotifSearchFieldFontColor}"/>
@@ -97,7 +107,7 @@
         <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="3" Margin="10,0,20,0">
             <Button Content="{Binding Path=Notification_Label_UpdateFilter, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" Background="{DynamicResource Themes_ButtonColor}" BorderThickness="0" Style="{DynamicResource RoundButton}" Click="UpdateFilter"/>
         </Border>
-        <Border Grid.ColumnSpan="4" Grid.Row="1" Background="WhiteSmoke" CornerRadius="7" Margin="10" Padding="70,20,70,30">
+        <Border Grid.ColumnSpan="4" Grid.Row="1" Background="{DynamicResource Themes_NotifSearchfieldBackground}" CornerRadius="7" Margin="20 10, 20, 10" Padding="70,20,70,30">
                 <StackPanel x:Name="NotificationViewList" Background="Transparent">
                 <!--<TextBlock Text="No data available" TextAlignment="Center"/>-->
                 <!--<DockPanel Margin="0,10,0,10" Style="{StaticResource test}">

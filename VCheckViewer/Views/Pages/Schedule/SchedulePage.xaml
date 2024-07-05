@@ -200,7 +200,7 @@
 
                             </Border>
                             <Border Name="borderNoScheduledTest" Grid.Row="0" Margin="25, 35, 25, 50" Padding="30" Panel.ZIndex="23" Visibility="Collapsed">
-                                <TextBlock Text="{Binding Path=Schedule_Label_NoScheduleTestAvailable, Source={StaticResource Resources}}" Margin="50, 0, 20, 0" FontFamily="Noto Sans" FontSize="12"></TextBlock>
+                                <TextBlock Text="{Binding Path=Schedule_Label_NoScheduleTestAvailable, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Margin="50, 0, 20, 0" FontFamily="Noto Sans" FontSize="12"></TextBlock>
                             </Border>
                         </Grid>
                     </Border>
@@ -305,7 +305,7 @@
                                 
                             </Border>
                             <Border Name="borderNoTestsCompleted" Grid.Row="0" Margin="25, 35, 25, 50" Padding="30" Panel.ZIndex="23" Visibility="Collapsed">
-                                <TextBlock Text="{Binding Path=Schedule_Label_NoTestResultAvailable, Source={StaticResource Resources}}" Margin="50, 0, 20, 0" FontFamily="Noto Sans" FontSize="12"></TextBlock>
+                                <TextBlock Text="{Binding Path=Schedule_Label_NoTestResultAvailable, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Margin="50, 0, 20, 0" FontFamily="Noto Sans" FontSize="12"></TextBlock>
                             </Border>
                         </Grid>
                     </Border>

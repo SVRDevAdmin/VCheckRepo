@@ -72,6 +72,9 @@ namespace VCheckViewer.UserControls
 
         public void LoadPagingNumber()
         {
+            String? sColor = System.Windows.Application.Current.Resources["Themes_PaginationButtonColor"].ToString();
+            String? sSelectedColor = System.Windows.Application.Current.Resources["Themes_PaginationNumSelectedColor"].ToString();
+
             iTotalPage = GetPageCountByRecordCount(iTotalRecords, iPageSize);
 
             numberingSection.Children.Clear();
@@ -90,15 +93,21 @@ namespace VCheckViewer.UserControls
 
                 if (i == iPageIndex)
                 {
-                    newBtn.BorderBrush = System.Windows.Media.Brushes.DarkOrange;
-                    newBtn.Background = System.Windows.Media.Brushes.DarkOrange;
-                    newBtn.Foreground = System.Windows.Media.Brushes.White;
+                    //newBtn.BorderBrush = System.Windows.Media.Brushes.DarkOrange;
+                    //newBtn.Background = System.Windows.Media.Brushes.DarkOrange;
+                    //newBtn.Foreground = System.Windows.Media.Brushes.White;
+                    newBtn.BorderBrush = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+                    newBtn.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+                    newBtn.Foreground = new BrushConverter().ConvertFrom(sSelectedColor) as SolidColorBrush;
                 }
                 else
                 {
-                    newBtn.BorderBrush = System.Windows.Media.Brushes.DarkOrange;
+                    //newBtn.BorderBrush = System.Windows.Media.Brushes.DarkOrange;
+                    //newBtn.Background = System.Windows.Media.Brushes.Transparent;
+                    //newBtn.Foreground = System.Windows.Media.Brushes.DarkOrange;
+                    newBtn.BorderBrush = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                     newBtn.Background = System.Windows.Media.Brushes.Transparent;
-                    newBtn.Foreground = System.Windows.Media.Brushes.DarkOrange;
+                    newBtn.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                 }
 
                 numberingSection.Children.Add(newBtn);
@@ -135,6 +144,9 @@ namespace VCheckViewer.UserControls
         //Below are new method to implement limit to the total pagination showed
         public void LoadPagingNumberWithLimit()
         {
+            String? sColor = System.Windows.Application.Current.Resources["Themes_PaginationButtonColor"].ToString();
+            String? sSelectedColor = System.Windows.Application.Current.Resources["Themes_PaginationNumSelectedColor"].ToString();
+
             numberingSection.Children.Clear();
             bool recordExist = true;
 
@@ -180,15 +192,21 @@ namespace VCheckViewer.UserControls
 
                     if (i == iPageIndex)
                     {
-                        newBtn.BorderBrush = System.Windows.Media.Brushes.DarkOrange;
-                        newBtn.Background = System.Windows.Media.Brushes.DarkOrange;
-                        newBtn.Foreground = System.Windows.Media.Brushes.White;
+                        //newBtn.BorderBrush = System.Windows.Media.Brushes.DarkOrange;
+                        //newBtn.Background = System.Windows.Media.Brushes.DarkOrange;
+                        //newBtn.Foreground = System.Windows.Media.Brushes.White;
+                        newBtn.BorderBrush = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+                        newBtn.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+                        newBtn.Foreground = new BrushConverter().ConvertFrom(sSelectedColor) as SolidColorBrush;
                     }
                     else
                     {
-                        newBtn.BorderBrush = System.Windows.Media.Brushes.DarkOrange;
+                        //newBtn.BorderBrush = System.Windows.Media.Brushes.DarkOrange;
+                        //newBtn.Background = System.Windows.Media.Brushes.Transparent;
+                        //newBtn.Foreground = System.Windows.Media.Brushes.DarkOrange;
+                        newBtn.BorderBrush =  new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                         newBtn.Background = System.Windows.Media.Brushes.Transparent;
-                        newBtn.Foreground = System.Windows.Media.Brushes.DarkOrange;
+                        newBtn.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                     }
 
                     numberingSection.Children.Add(newBtn);

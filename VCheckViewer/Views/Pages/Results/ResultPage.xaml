@@ -25,7 +25,15 @@
             <Setter Property="FontFamily" Value="Noto Sans" />
             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
         </Style>
-
+        
+        <!--// TextBox //-->
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="{DynamicResource Themes_SearchFieldBackground}" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource Themes_SearchFieldFontColor}" />
+            <Setter Property="Padding" Value="5, 2, 0, 0" />
+        </Style>
+        
         <!-- DataGridColumnHeader style -->
         <Style x:Key="ColumnHeaderStyle1"
                TargetType="DataGridColumnHeader">
@@ -104,9 +112,10 @@
                         <Border BorderBrush="Black" BorderThickness="0" Grid.Column="0">
                             <Border BorderBrush="{DynamicResource Themes_SearchFieldBackground}" BorderThickness="1" Background="{DynamicResource Themes_SearchFieldBackground}" CornerRadius="7" Margin="10, 5, 5, 5">
                                 <Grid>
-                                    <ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
+                                    <!--<ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />-->
+                                    <Image Source="{DynamicResource Themes_SearchIcon}" Width="24" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
 
-                                    <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" />
+                                    <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Style="{StaticResource TextBoxStyle}" />
                                     <TextBlock IsHitTestVisible="False" Text="{Binding Path=Results_Label_Searchbar, Source={StaticResource Resources}}" 
                                                VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="{DynamicResource Themes_SearchFieldFontColor}"
                                                FontFamily="Noto Sans" FontSize="12" Background="{DynamicResource Themes_SearchFieldBackground}">
@@ -127,7 +136,8 @@
                         <Border BorderBrush="Black" BorderThickness="0" Grid.Column="1" Background="Transparent">
                             <Border Background="{DynamicResource Themes_SearchFieldBackground}" CornerRadius="7" Margin="5, 5, 5, 5" BorderThickness="1" BorderBrush="{DynamicResource Themes_SearchFieldBackground}">
                                 <Grid>
-                                    <ui:SymbolIcon Symbol="CalendarEdit16" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>
+                                    <!--<ui:SymbolIcon Symbol="CalendarEdit16" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->
+                                    <Image Source="{DynamicResource Themes_CalendarIcon}" Width="24" HorizontalAlignment="Left" Margin="5,2,0,0" />
 
                                     <userControls:DateRangePicker x:Name="RangeDate"
                                                     SelectedDateRange="{Binding SelectedDates, Mode=TwoWay}"
@@ -177,7 +187,7 @@
         </Border>
         <TextBlock Name="txtTotalCount" Text="0" Visibility="Collapsed" />
         <Border BorderBrush="Black" BorderThickness="0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Margin="15, 10, 10, 5">
-            <DataGrid Name="dgResult" BorderThickness="0" AutoGenerateColumns="False" GridLinesVisibility="Horizontal"
+            <DataGrid Name="dgResult" BorderThickness="0" AutoGenerateColumns="False" GridLinesVisibility="Horizontal" Background="Transparent"
                 RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}" HorizontalGridLinesBrush="{DynamicResource Themes_GridRowLinesColor}" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{Binding Path=Results_Label_No, Source={StaticResource Resources}}" Binding="{Binding RowNo}" Width="35" ElementStyle="{StaticResource DataGridVerticalText}" />

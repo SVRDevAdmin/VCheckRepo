@@ -95,6 +95,10 @@ namespace VCheckViewer.Views.Pages.Notification
 
         public void createList(List<NotificationModel> notificationList)
         {
+            String? sColor = System.Windows.Application.Current.Resources["Themes_FontColor"].ToString();
+            String? sSeparatorColor = System.Windows.Application.Current.Resources["Themes_GridNotifRowLinesColor"].ToString();
+            SolidColorBrush sBrushSeparator = new BrushConverter().ConvertFrom(sSeparatorColor) as SolidColorBrush;
+
             NotificationViewList.Children.Clear();
 
             if(notificationList.Count > 0)
@@ -111,11 +115,14 @@ namespace VCheckViewer.Views.Pages.Notification
                     title.Text = notification.NotificationTitle;
                     title.TextAlignment = System.Windows.TextAlignment.Left;
                     title.FontWeight = FontWeights.Bold;
+                    title.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                     date.Text = notification.CreatedDate;
                     date.TextAlignment = System.Windows.TextAlignment.Right;
                     date.FontWeight = FontWeights.Bold;
+                    date.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                     content.Text = notification.NotificationContent;
                     content.TextWrapping = TextWrapping.Wrap;
+                    content.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
 
                     DockPanel.SetDock(panel1, Dock.Top);
                     DockPanel.SetDock(title, Dock.Left);
@@ -136,7 +143,8 @@ namespace VCheckViewer.Views.Pages.Notification
                     mainPanel.Children.Add(panel2);
 
                     NotificationViewList.Children.Add(mainPanel);
-                    if (notification != notificationList.LastOrDefault() || notificationList.Count == 1) { NotificationViewList.Children.Add(new Separator() { BorderBrush = Brushes.Black, BorderThickness = new Thickness(0.5) }); }
+                    if (notification != notificationList.LastOrDefault() || notificationList.Count == 1) { NotificationViewList.Children.Add(new Separator() { BorderBrush = sBrushSeparator, BorderThickness = new Thickness(0.5) }); }
+                    //if (notification != notificationList.LastOrDefault() || notificationList.Count == 1) { NotificationViewList.Children.Add(new Separator() { BorderBrush = Brushes.Black, BorderThickness = new Thickness(0.5) }); }
                 }
             }
             else

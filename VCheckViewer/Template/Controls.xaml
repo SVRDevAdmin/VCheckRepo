@@ -139,7 +139,8 @@
                                 <ColumnDefinition Width="20"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="../../../../Content/Images/BackArrow.png" Grid.Column="0" VerticalAlignment="Center"/>
+                            <!--<Image Source="../../../../Content/Images/BackArrow.png" Grid.Column="0" VerticalAlignment="Center"/>-->
+                            <Image Source="{DynamicResource Themes_BackButton}" Grid.Column="0" VerticalAlignment="Center"/>
                             <TextBlock x:Name="lbBack" Text="{Binding Path=BackButtonText}" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
