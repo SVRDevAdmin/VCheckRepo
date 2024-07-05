@@ -1216,79 +1216,79 @@ NOW(), 'SYSTEM');
 ---------- Reminder for Software Update -------------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
-'en', 'Reminder for Software Update', 'Kindly remember to update your analyzer''s software/firmware for optimal performance. Visit https://www.bionote.com/software-updates to verify available updates.',
+'en', 'Reminder for Software Update', 'Kindly remember to update your analyzer''s software/firmware for optimal performance. Visit ###<link>### to verify available updates.',
 NOW(), 'SYSTEM');
 
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
 'zh-Hans', '软件更新提醒', 
-'请记住更新分析仪的软件/固件以获得最佳性能。请访问 https://www.bionote.com/software-updates 以验证可用的更新。',
+'请记住更新分析仪的软件/固件以获得最佳性能。请访问 ###<link>### 以验证可用的更新。',
 NOW(), 'SYSTEM');
 
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
 'zh-Hant', '軟體更新提醒', 
-'請記住更新分析儀的軟體/韌體以獲得最佳效能。造訪 https://www.bionote.com/software-updates 以驗證可用更新。',
+'請記住更新分析儀的軟體/韌體以獲得最佳效能。造訪 ###<link>### 以驗證可用更新。',
 NOW(), 'SYSTEM');
 
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
 'es', 'Recordatorio de actualización de software', 
-'Recuerde actualizar el software/firmware de su analizador para obtener un rendimiento óptimo. Visite https://www.bionote.com/software-updates para verificar las actualizaciones disponibles.',
+'Recuerde actualizar el software/firmware de su analizador para obtener un rendimiento óptimo. Visite ###<link>### para verificar las actualizaciones disponibles.',
 NOW(), 'SYSTEM');
 
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
 'vi', 'Lời nhắc cập nhật phần mềm', 
-'Vui lòng nhớ cập nhật phần mềm/chương trình cơ sở của máy phân tích để có hiệu suất tối ưu. Truy cập https://www.bionote.com/software-updates để xác minh các bản cập nhật có sẵn.',
+'Vui lòng nhớ cập nhật phần mềm/chương trình cơ sở của máy phân tích để có hiệu suất tối ưu. Truy cập ###<link>### để xác minh các bản cập nhật có sẵn.',
 NOW(), 'SYSTEM');
 
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
 'hi', 'सॉफ़्टवेयर अद्यतन के लिए अनुस्मारक', 
-'कृपया अपने एनालाइजर के सॉफ्टवेयर/फर्मवेयर को बेहतर प्रदर्शन के लिए अपडेट करना न भूलें। उपलब्ध अपडेट की पुष्टि के लिए https://www.bionote.com/software-updates पर जाएं।',
+'कृपया अपने एनालाइजर के सॉफ्टवेयर/फर्मवेयर को बेहतर प्रदर्शन के लिए अपडेट करना न भूलें। उपलब्ध अपडेट की पुष्टि के लिए ###<link>### पर जाएं।',
 NOW(), 'SYSTEM');
 
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
 'pt', 'Lembrete para atualização de software', 
-'Lembre-se de atualizar o software/firmware do seu analisador para obter o desempenho ideal. Visite https://www.bionote.com/software-updates para verificar as atualizações disponíveis.',
+'Lembre-se de atualizar o software/firmware do seu analisador para obter o desempenho ideal. Visite ###<link>### para verificar as atualizações disponíveis.',
 NOW(), 'SYSTEM');
 
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
 'ru', 'Напоминание об обновлении программного обеспечения', 
-'Не забудьте обновить программное обеспечение/прошивку вашего анализатора для обеспечения оптимальной производительности. Посетите https://www.bionote.com/software-updates, чтобы проверить доступные обновления.',
+'Не забудьте обновить программное обеспечение/прошивку вашего анализатора для обеспечения оптимальной производительности. Посетите ###<link>###, чтобы проверить доступные обновления.',
 NOW(), 'SYSTEM');
 
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
 'ja', 'ソフトウェアアップデートのリマインダー', 
-'最適なパフォーマンスを得るには、アナライザーのソフトウェア/ファームウェアを必ず更新してください。利用可能なアップデートを確認するには、https://www.bionote.com/software-updates にアクセスしてください。',
+'最適なパフォーマンスを得るには、アナライザーのソフトウェア/ファームウェアを必ず更新してください。利用可能なアップデートを確認するには、###<link>### にアクセスしてください。',
 NOW(), 'SYSTEM');
 
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
 'de', 'Erinnerung zum Software-Update', 
-'Denken Sie daran, die Software/Firmware Ihres Analysators zu aktualisieren, um eine optimale Leistung zu erzielen. Besuchen Sie https://www.bionote.com/software-updates, um zu prüfen, ob Updates verfügbar sind.',
+'Denken Sie daran, die Software/Firmware Ihres Analysators zu aktualisieren, um eine optimale Leistung zu erzielen. Besuchen Sie ###<link>###, um zu prüfen, ob Updates verfügbar sind.',
 NOW(), 'SYSTEM');
 
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
 'id', 'Pengingat untuk Pembaruan Perangkat Lunak', 
-'Mohon diingat untuk memperbarui perangkat lunak/firmware penganalisis Anda untuk kinerja optimal. Kunjungi https://www.bionote.com/software-updates untuk memverifikasi pembaruan yang tersedia.',
+'Mohon diingat untuk memperbarui perangkat lunak/firmware penganalisis Anda untuk kinerja optimal. Kunjungi ###<link>### untuk memverifikasi pembaruan yang tersedia.',
 NOW(), 'SYSTEM');
 
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
 'ko', '소프트웨어 업데이트 알림', 
-'최적의 성능을 위해 분석기의 소프트웨어/펌웨어를 업데이트하는 것을 잊지 마십시오. 사용 가능한 업데이트를 확인하려면 https://www.bionote.com/software-updates를 방문하세요.',
+'최적의 성능을 위해 분석기의 소프트웨어/펌웨어를 업데이트하는 것을 잊지 마십시오. 사용 가능한 업데이트를 확인하려면 ###<link>###를 방문하세요.',
 NOW(), 'SYSTEM');
 
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
 'fr', 'Rappel pour la mise à jour du logiciel', 
-'N''oubliez pas de mettre à jour le logiciel/micrologiciel de votre analyseur pour des performances optimales. Visitez https://www.bionote.com/software-updates pour vérifier les mises à jour disponibles.',
+'N''oubliez pas de mettre à jour le logiciel/micrologiciel de votre analyseur pour des performances optimales. Visitez ###<link>### pour vérifier les mises à jour disponibles.',
 NOW(), 'SYSTEM');
 
 ----------- The Test Result is Available for Viewing -----------------

@@ -100,8 +100,8 @@ namespace VCheckViewer.Views.Pages
 
             //Random rnd = new Random();
             //int totalElement = rnd.Next(0, 10);
-            int totalElement = 8;
-            //int totalElement = deviceList.Count;
+            //int totalElement = 8;
+            int totalElement = deviceList.Count;
             int imageHeight = 250;
             int borderHeight = 400;
             int borderWidth = 420;
@@ -150,8 +150,8 @@ namespace VCheckViewer.Views.Pages
             }
 
             //createElement(totalElementPerRow, imageHeight, borderHeight, borderWidth, margin, totalRow, excess, remainder);
-            createElementUsingGrid(totalElementPerRow, imageHeight, borderHeight, borderWidth, margin, totalRow, excess, remainder);
-            //createElementUsingGridByDevice(totalElementPerRow, imageHeight, borderHeight, borderWidth, margin, totalRow, excess, remainder);
+            //createElementUsingGrid(totalElementPerRow, imageHeight, borderHeight, borderWidth, margin, totalRow, excess, remainder);
+            createElementUsingGridByDevice(totalElementPerRow, imageHeight, borderHeight, borderWidth, margin, totalRow, excess, remainder);
         }
 
         public void createElement(int totalElementPerRow, int imageHeight, int borderHeight, int borderWidth, int margin, int totalRow, bool excess, int remainder)
