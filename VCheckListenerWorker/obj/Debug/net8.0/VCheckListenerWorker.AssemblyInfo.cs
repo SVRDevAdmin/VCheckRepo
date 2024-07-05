@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VCheckListenerWorker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+210f6d8dd1cfaae1557bc3325871b24589ecc63c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dddc0b0fbf859c46436342bdd33ea541f595f177")]
 [assembly: System.Reflection.AssemblyProductAttribute("VCheckListenerWorker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VCheckListenerWorker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
