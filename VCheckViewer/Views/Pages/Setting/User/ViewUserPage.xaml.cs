@@ -46,7 +46,7 @@ namespace VCheckViewer.Views.Pages.Setting.User
             Status.Text = userInfoViewPage.Status;
             LoginID.Text = userInfoViewPage.LoginID;
 
-            if (App.MainViewModel.CurrentUsers.UserId == userInfoViewPage.UserId) { Edit.Visibility = Visibility.Visible; }
+            //if (App.MainViewModel.CurrentUsers.UserId == userInfoViewPage.UserId) { Edit.Visibility = Visibility.Visible; }
 
 
             if (App.MainViewModel.CurrentUsers.Role == "Lab User")

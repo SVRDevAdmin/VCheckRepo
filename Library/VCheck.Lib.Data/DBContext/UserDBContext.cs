@@ -214,6 +214,7 @@ namespace VCheck.Lib.Data.DBContext
                             model.Role = reader["Role"].ToString();
                             model.RoleID = reader["RoleID"].ToString();
                             model.LoginID = reader["LoginID"].ToString();
+                            model.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]).ToString("yyyy-MM-dd HH:mm:ss");
 
                         }
                     }

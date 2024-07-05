@@ -73,12 +73,13 @@ namespace VCheckViewer.Views.Pages.Notification
 
         public void reloadData(int start, int end, string? notificationType, string? startDate, string? endDate, string? keyword, bool reset)
         {
-            List<NotificationModel> notificationList = sContext.GetNotificationByPage(start, end, notificationType, startDate, endDate, keyword);
+            var currentUserCreatedDate = App.MainViewModel.CurrentUsers.CreatedDate;
+            List<NotificationModel> notificationList = sContext.GetNotificationByPage(start, end, notificationType, startDate, endDate, keyword, currentUserCreatedDate);
             createList(notificationList);
 
             if (reset)
             {
-                pagination.iTotalRecords = sContext.GetTotalNotification(notificationType, startDate, endDate, keyword);
+                pagination.iTotalRecords = sContext.GetTotalNotification(notificationType, startDate, endDate, keyword, currentUserCreatedDate);
                 pagination.iPaginationLimit = paginationSize;
                 pagination.iPageSize = pageSize;
                 currentPage = 1;
