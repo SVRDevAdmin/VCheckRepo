@@ -29,7 +29,7 @@ namespace VCheckViewer.Views.Pages.Dashboard
         public NotificationList()
         {
             InitializeComponent();
-            initializeData();
+            //initializeData();
         }
 
         public void initializeData()
