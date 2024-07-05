@@ -56,6 +56,7 @@ namespace VCheckViewer
 
         public static string newPassword { get; set; }
         public static SMTPModel SMTP { get; set; }
+        public static string UpdateLink {  get; set; }
 
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
@@ -129,6 +130,8 @@ namespace VCheckViewer
                     services.AddScoped<SignInManager<IdentityUser>>();
                     services.AddHttpContextAccessor();
                     services.AddAuthentication();
+
+                    UpdateLink = context.Configuration.GetValue<string>("UpdateLink");
                 }
                 catch(Exception ex)
                 {

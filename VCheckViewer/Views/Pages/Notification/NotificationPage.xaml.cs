@@ -131,9 +131,9 @@ namespace VCheckViewer.Views.Pages.Notification
                         content.Inlines.Add(contentArray[0]);
                         Hyperlink hyperLink = new Hyperlink()
                         {
-                            NavigateUri = new Uri("https://www.bionote.com/software-updates")
+                            NavigateUri = new Uri(App.UpdateLink)
                         };
-                        hyperLink.Inlines.Add("https://www.bionote.com/software-updates");
+                        hyperLink.Inlines.Add(App.UpdateLink);
                         hyperLink.RequestNavigate += new RequestNavigateEventHandler(delegate (object sender, RequestNavigateEventArgs e)
                         {
                             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
