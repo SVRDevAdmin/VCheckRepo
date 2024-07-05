@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,9 @@ using VCheck.Lib.Data.Models;
 using Wpf.Ui.Controls;
 using Brushes = System.Windows.Media.Brushes;
 using Button = System.Windows.Controls.Button;
+using Hyperlink = System.Windows.Documents.Hyperlink;
+using Label = System.Windows.Controls.Label;
+using Run = System.Windows.Documents.Run;
 using TextBlock = System.Windows.Controls.TextBlock;
 
 namespace VCheckViewer.Views.Pages.Notification
@@ -108,6 +112,7 @@ namespace VCheckViewer.Views.Pages.Notification
                     TextBlock title = new TextBlock();
                     TextBlock date = new TextBlock();
                     TextBlock content = new TextBlock();
+                    
 
                     title.Text = notification.NotificationTitle;
                     title.TextAlignment = System.Windows.TextAlignment.Left;
@@ -117,6 +122,27 @@ namespace VCheckViewer.Views.Pages.Notification
                     date.FontWeight = FontWeights.Bold;
                     content.Text = notification.NotificationContent;
                     content.TextWrapping = TextWrapping.Wrap;
+
+                    if (notification.NotificationTitle == "Reminder for Software Update")
+                    {
+                        var contentArray = notification.NotificationContent.Split("###<link>###");
+
+                        content.Inlines.Clear();
+                        content.Inlines.Add(contentArray[0]);
+                        Hyperlink hyperLink = new Hyperlink()
+                        {
+                            NavigateUri = new Uri("https://www.bionote.com/software-updates")
+                        };
+                        hyperLink.Inlines.Add("https://www.bionote.com/software-updates");
+                        hyperLink.RequestNavigate += new RequestNavigateEventHandler(delegate (object sender, RequestNavigateEventArgs e)
+                        {
+                            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+                            e.Handled = true;
+                        });
+                        content.Inlines.Add(hyperLink);
+                        content.Inlines.Add(contentArray[1]);
+                    }
+
 
                     DockPanel.SetDock(panel1, Dock.Top);
                     DockPanel.SetDock(title, Dock.Left);
