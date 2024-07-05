@@ -498,7 +498,7 @@ namespace VCheckViewer.Views.Pages
         
         void DownloadButton_Clicked(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://www.bionote.com/software-updates") { UseShellExecute = true });
+            Process.Start(new ProcessStartInfo(App.UpdateLink) { UseShellExecute = true });
         }
 
         private void testEmail()
