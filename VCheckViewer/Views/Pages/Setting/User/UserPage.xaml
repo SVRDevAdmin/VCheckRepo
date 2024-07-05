@@ -19,6 +19,7 @@
             <Setter Property="FontFamily" Value="Noto Sans" />
             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
             <Setter Property="Margin" Value="5"/>
+            <Setter Property="Foreground" Value="Black"/>
         </Style>
         <Style x:Key="DataGridVerticalTextCenterAligned" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -26,6 +27,7 @@
             <Setter Property="FontFamily" Value="Noto Sans" />
             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
             <Setter Property="Margin" Value="5"/>
+            <Setter Property="Foreground" Value="Black"/>
         </Style>
 
         <!-- DataGridColumnHeader style -->
@@ -116,7 +118,7 @@
                                         <Menu>
                                             <MenuItem>
                                                 <MenuItem.Icon>
-                                                    <ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />
+                                                    <ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" Foreground="Black"/>
                                                 </MenuItem.Icon>
                                                 <MenuItem Header="{Binding Path=General_Label_View, Source={StaticResource Resources}}" Click="ViewUserButton_Click"/>
                                                 <MenuItem Header="{Binding Path=General_Label_Update, Source={StaticResource Resources}}" Click="UpdateUserButton_Click"/>
