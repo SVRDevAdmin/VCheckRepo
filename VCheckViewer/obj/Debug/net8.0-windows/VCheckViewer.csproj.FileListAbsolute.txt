@@ -158,6 +158,7 @@ C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\System.Composition.Runtime.d
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\System.Composition.TypedParts.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\System.IO.Pipelines.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\System.Management.dll
+C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\System.Runtime.Caching.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\Wpf.Ui.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\WPFLocalizeExtension.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\XAMLMarkupExtensions.dll
@@ -233,6 +234,7 @@ C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\runtimes\tizen-x86\native\li
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\runtimes\win-x64\native\libSkiaSharp.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\runtimes\win-x86\native\libSkiaSharp.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\runtimes\win\lib\net7.0\System.Management.dll
+C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.Runtime.Caching.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\VCheck.Helper.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\VCheck.Lib.Data.dll
 C:\Dev\VCheck\VCheckViewer\bin\Debug\net8.0-windows\VCheck.Helper.pdb

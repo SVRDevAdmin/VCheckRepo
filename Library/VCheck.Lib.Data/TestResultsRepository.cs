@@ -67,6 +67,50 @@ namespace VCheck.Lib.Data
         }
 
         /// <summary>
+        /// Get today's completed tests
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static List<TestResultModel> GetAllTestResultList(IConfiguration config)
+        {
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.txn_testResults.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Test Result by Test Date
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="sResultDate"></param>
+        /// <returns></returns>
+        public static List<TestResultModel> GetTestResultByDates(IConfiguration config, DateTime sResultDate)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.txn_testResults.Where(x => x.TestResultDateTime.Value.Date == sResultDate.Date).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("TestResultRepository >>> GetTestResultByDates >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Get Test results listing by search criteria
         /// </summary>
         /// <param name="config"></param>

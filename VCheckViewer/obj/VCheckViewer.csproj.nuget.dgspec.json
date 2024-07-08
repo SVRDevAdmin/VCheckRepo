@@ -361,6 +361,10 @@
               "target": "Package",
               "version": "[2024.3.10, )"
             },
+            "System.Runtime.Caching": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "WPF-UI": {
               "target": "Package",
               "version": "[3.0.4, )"

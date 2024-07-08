@@ -275,13 +275,15 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 borderIPEdit.ToolTip = null;
             }
 
+            String? sColor = System.Windows.Application.Current.Resources["Themes_ButtonColor"].ToString();
 
             if (IsFieldEmpty)
             {
                 if (borderButtonAdd.Visibility != Visibility.Collapsed)
                 {
                     btnAdd.IsEnabled = false;
-                    btnAdd.Background = System.Windows.Media.Brushes.Orange;
+                    btnAdd.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+                    //btnAdd.Background = System.Windows.Media.Brushes.Orange;
                 }
                 if (borderButtonUpdate.Visibility != Visibility.Collapsed)
                 {

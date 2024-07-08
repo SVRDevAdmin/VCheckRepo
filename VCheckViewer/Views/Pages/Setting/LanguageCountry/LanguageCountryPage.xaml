@@ -7,6 +7,16 @@
       mc:Ignorable="d" 
       Title="LanguageCountryPage">
 
+    <Page.Resources>
+        <!--// TextBox //-->
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="{DynamicResource Themes_SearchFieldBackground}" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource Themes_SearchFieldFontColor}" />
+            <Setter Property="Padding" Value="5, 2, 0, 0" />
+        </Style>
+    </Page.Resources>
+    
     <Grid Margin="0,10,0,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -91,11 +101,10 @@
                         <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Margin="10,0,10,0">
                             <Border Background="{DynamicResource Themes_CountryLangSearchBackground}" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangSearchBackground}">
                                 <Grid>
-                                     
-                                    <ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>
+                                    <!--<ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->
+                                    <Image Source="{DynamicResource Themes_SearchIcon}" Width="24" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
 
-                                     
-                                    <TextBox x:Name="CountrySearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" KeyUp="CountrySearchBar_KeyUp"/>
+                                    <TextBox x:Name="CountrySearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" KeyUp="CountrySearchBar_KeyUp" Style="{StaticResource TextBoxStyle}"/>
                                     <TextBlock IsHitTestVisible="False" Text="{Binding Path=General_Label_Searchbar, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">

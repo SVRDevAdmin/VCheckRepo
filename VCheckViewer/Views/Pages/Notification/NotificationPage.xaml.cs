@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,6 +21,8 @@ using Wpf.Ui.Controls;
 using Brushes = System.Windows.Media.Brushes;
 using Button = System.Windows.Controls.Button;
 using TextBlock = System.Windows.Controls.TextBlock;
+using System.Runtime.Caching;
+using System.IO;
 
 namespace VCheckViewer.Views.Pages.Notification
 {
@@ -91,6 +94,26 @@ namespace VCheckViewer.Views.Pages.Notification
             //pagination.iPageIndex = currentPage;
             //pagination.iPageSize = pageSize;
             //pagination.LoadPagingNumber();
+
+            NotificationSearch sSearchModel = new NotificationSearch();
+            sSearchModel.SearchStart = start;
+            sSearchModel.SearchEnd = end;
+            if (notificationType == null)
+            {
+                sSearchModel.SearchType = "All";
+            }
+            else
+            {
+                sSearchModel.SearchType = notificationType;
+            }
+            
+            sSearchModel.SearchStartDate = startDate;
+            sSearchModel.SearchEndDate = endDate;
+            sSearchModel.SearchKeyword = keyword;
+            sSearchModel.SearchReset = reset;
+            sSearchModel.SearchSelectedDates = RangeDate.SelectedDates;
+
+            App.MainViewModel.SearchModel = sSearchModel;
         }
 
         public void createList(List<NotificationModel> notificationList)
@@ -152,6 +175,7 @@ namespace VCheckViewer.Views.Pages.Notification
                 TextBlock textBlock = new TextBlock();
                 //textBlock.Text = "No data available";
                 textBlock.Text = Properties.Resources.General_Message_NoData;
+                textBlock.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                 textBlock.FontWeight = FontWeights.Bold;
                 textBlock.TextAlignment = System.Windows.TextAlignment.Center;
                 NotificationViewList.Children.Add(textBlock);

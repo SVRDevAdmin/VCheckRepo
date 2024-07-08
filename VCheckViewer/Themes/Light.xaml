@@ -75,6 +75,10 @@
     <SolidColorBrush Color="Black" x:Key="Themes_DevicesFontCancelDeleteButton"></SolidColorBrush>
     <SolidColorBrush Color="Black" x:Key="Themes_GridDevicesRowLinesColor"></SolidColorBrush>
 
+    <!-- Dashboard -->
+    <SolidColorBrush Color="#f7f7f7" x:Key="Themes_DashboardFrameBackground"></SolidColorBrush>
+    <SolidColorBrush Color="white" x:Key="Themes_DashboardAnalyzerFrameBackground"></SolidColorBrush>
+
     <!-- Reset Password -->
     <SolidColorBrush Color="#f7f7f7" x:Key="Themes_ResetPasswordFrameBackground"></SolidColorBrush>
 

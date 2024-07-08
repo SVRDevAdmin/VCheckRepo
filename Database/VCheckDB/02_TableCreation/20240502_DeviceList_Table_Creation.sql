@@ -1,6 +1,7 @@
 CREATE TABLE `mst_deviceslist` (
 	`ID` INT(10) NOT NULL AUTO_INCREMENT,
-	`DeviceName` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`DeviceName` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',    
+    `DeviceSerialNo` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`Description` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`DeviceIPAddress` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`DeviceImagePath` VARCHAR(500) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',

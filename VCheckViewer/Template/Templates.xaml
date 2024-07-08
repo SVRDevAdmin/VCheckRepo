@@ -144,8 +144,15 @@
                 BorderThickness="0"
                 Height="50"
                 Width="230"
-                CornerRadius="7"
-                >
+                CornerRadius="7">
+        <!--<Border x:Name="border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="0"
+                Height="50"
+                Width="230"
+                CornerRadius="10"
+                Margin="10,0,0,0">--> <!--To make the sidebar selected menu rectangular-->
 
             <Grid>
                 <Grid.ColumnDefinitions>

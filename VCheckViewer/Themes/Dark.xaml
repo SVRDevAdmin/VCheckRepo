@@ -63,7 +63,7 @@
     
     <!-- Language Settings -->
     <SolidColorBrush Color="#1f2e45" x:Key="Themes_CountryLangFrameBackground"></SolidColorBrush>
-    <SolidColorBrush Color="#172232" x:Key="Themes_CountryLangSearchBackground"></SolidColorBrush>
+    <SolidColorBrush Color="#1f2e45" x:Key="Themes_CountryLangSearchBackground"></SolidColorBrush>
     
     <!-- Interface Settings -->
     <SolidColorBrush Color="#1f2e45" x:Key="Themes_InterfaceFrameBackground"></SolidColorBrush>
@@ -74,6 +74,10 @@
     <SolidColorBrush Color="#1f2e45" x:Key="Themes_DevicesFrameBackground"></SolidColorBrush>
     <SolidColorBrush Color="white" x:Key="Themes_DevicesFontCancelDeleteButton"></SolidColorBrush>
     <SolidColorBrush Color="White" x:Key="Themes_GridDevicesRowLinesColor"></SolidColorBrush>
+    
+    <!-- Dashboard -->
+    <SolidColorBrush Color="#1f2e45" x:Key="Themes_DashboardFrameBackground"></SolidColorBrush>
+    <SolidColorBrush Color="#1f2e45" x:Key="Themes_DashboardAnalyzerFrameBackground"></SolidColorBrush>
     
     <!-- Reset Password -->
     <SolidColorBrush Color="#1f2e45" x:Key="Themes_ResetPasswordFrameBackground"></SolidColorBrush>

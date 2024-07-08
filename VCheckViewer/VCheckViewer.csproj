@@ -94,7 +94,10 @@
     <None Remove="Content\Fonts\Roboto-Light.ttf" />
     <None Remove="Content\Images\setting_white.png" />
     <None Remove="Content\Images\VCheck200Image.png" />
+    <None Remove="Content\Images\VCheck200Image2.png" />
     <None Remove="Content\Images\VCheck2400Image.png" />
+    <None Remove="Content\Images\VCheck2400Image2.png" />
+    <None Remove="Content\Images\VCheckM10Image.png" />
     <None Remove="Storage\Device\Img_F200.png" />
   </ItemGroup>
 
@@ -138,6 +141,7 @@
     <PackageReference Include="MySql.Data" Version="8.4.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
     <PackageReference Include="QuestPDF" Version="2024.3.10" />
+    <PackageReference Include="System.Runtime.Caching" Version="8.0.0" />
     <PackageReference Include="WPF-UI" Version="3.0.4" />
     <PackageReference Include="WPFLocalizeExtension" Version="3.10.0" />
   </ItemGroup>
@@ -149,12 +153,12 @@
     <Resource Include="Content\Images\BackArrowRound.png" />
     <Resource Include="Content\Images\BackArrowRound_white.png" />
     <Resource Include="Content\Images\BackArrow_White.png" />
-    <Resource Include="Content\Images\bell.png" />
     <ProjectReference Include="..\Library\VCheck.Helper\VCheck.Helper.csproj" />
     <ProjectReference Include="..\Library\VCheck.Lib.Data\VCheck.Lib.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Content\Images\bell.png" />
     <Resource Include="Content\Images\bell_white.png" />
     <Resource Include="Content\Images\bio_logo.png" />
     <Resource Include="Content\Images\bio_logo_dark.png" />
@@ -226,7 +230,10 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Content\Images\VCheck200Image.png" />
+    <Resource Include="Content\Images\VCheck200Image2.png" />
     <Resource Include="Content\Images\VCheck2400Image.png" />
+    <Resource Include="Content\Images\VCheck2400Image2.png" />
+    <Resource Include="Content\Images\VCheckM10Image.png" />
     <Resource Include="Storage\Device\Img_F200.png" />
   </ItemGroup>
 
