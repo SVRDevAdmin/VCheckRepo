@@ -208,7 +208,9 @@
                 </Grid>
             </Border>
             <Border DockPanel.Dock="Left">
-                <Frame Name="frameContent"></Frame>
+                <ScrollViewer>
+                    <Frame Name="frameContent"></Frame>
+                </ScrollViewer>
             </Border>
 
         <!-- Define the Popup -->

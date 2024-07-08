@@ -151,7 +151,7 @@ namespace VCheckViewer.Views.Pages
                 Gender = ((ComboBoxItem)Gender.SelectedItem).Tag.ToString(),
                 DateOfBirth = Convert.ToDateTime(DateOfBirth.Text).ToString("yyyy-MM-dd"),
                 EmailAddress = EmailAddress.Text,
-                StatusID = Convert.ToInt32(((ComboBoxItem)Status.SelectedItem).Tag.ToString()),
+                //StatusID = Convert.ToInt32(((ComboBoxItem)Status.SelectedItem).Tag.ToString()),
                 RoleID = ((ComboBoxItem)Role.SelectedItem).Tag.ToString(),
                 Role = Role.Text,
                 LoginID = LoginID.Text

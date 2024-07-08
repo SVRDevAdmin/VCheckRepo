@@ -3,6 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,9 @@ using VCheck.Lib.Data.Models;
 using Wpf.Ui.Controls;
 using Brushes = System.Windows.Media.Brushes;
 using Button = System.Windows.Controls.Button;
+using Hyperlink = System.Windows.Documents.Hyperlink;
+using Label = System.Windows.Controls.Label;
+using Run = System.Windows.Documents.Run;
 using TextBlock = System.Windows.Controls.TextBlock;
 using System.Runtime.Caching;
 using System.IO;
@@ -76,12 +80,13 @@ namespace VCheckViewer.Views.Pages.Notification
 
         public void reloadData(int start, int end, string? notificationType, string? startDate, string? endDate, string? keyword, bool reset)
         {
-            List<NotificationModel> notificationList = sContext.GetNotificationByPage(start, end, notificationType, startDate, endDate, keyword);
+            var currentUserCreatedDate = App.MainViewModel.CurrentUsers.CreatedDate;
+            List<NotificationModel> notificationList = sContext.GetNotificationByPage(start, end, notificationType, startDate, endDate, keyword, currentUserCreatedDate);
             createList(notificationList);
 
             if (reset)
             {
-                pagination.iTotalRecords = sContext.GetTotalNotification(notificationType, startDate, endDate, keyword);
+                pagination.iTotalRecords = sContext.GetTotalNotification(notificationType, startDate, endDate, keyword, currentUserCreatedDate);
                 pagination.iPaginationLimit = paginationSize;
                 pagination.iPageSize = pageSize;
                 currentPage = 1;
@@ -134,6 +139,7 @@ namespace VCheckViewer.Views.Pages.Notification
                     TextBlock title = new TextBlock();
                     TextBlock date = new TextBlock();
                     TextBlock content = new TextBlock();
+                    
 
                     title.Text = notification.NotificationTitle;
                     title.TextAlignment = System.Windows.TextAlignment.Left;
@@ -146,6 +152,27 @@ namespace VCheckViewer.Views.Pages.Notification
                     content.Text = notification.NotificationContent;
                     content.TextWrapping = TextWrapping.Wrap;
                     content.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+
+                    if (notification.NotificationTitle == "Reminder for Software Update")
+                    {
+                        var contentArray = notification.NotificationContent.Split("###<link>###");
+
+                        content.Inlines.Clear();
+                        content.Inlines.Add(contentArray[0]);
+                        Hyperlink hyperLink = new Hyperlink()
+                        {
+                            NavigateUri = new Uri(App.UpdateLink)
+                        };
+                        hyperLink.Inlines.Add(App.UpdateLink);
+                        hyperLink.RequestNavigate += new RequestNavigateEventHandler(delegate (object sender, RequestNavigateEventArgs e)
+                        {
+                            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+                            e.Handled = true;
+                        });
+                        content.Inlines.Add(hyperLink);
+                        content.Inlines.Add(contentArray[1]);
+                    }
+
 
                     DockPanel.SetDock(panel1, Dock.Top);
                     DockPanel.SetDock(title, Dock.Left);

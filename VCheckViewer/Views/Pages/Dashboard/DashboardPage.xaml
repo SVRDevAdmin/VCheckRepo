@@ -214,7 +214,7 @@
                         </Border>
                     </Grid>
                 </Border>-->
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,-10,0">
+                <!--<ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,-10,0">-->
                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,10,0">
                         <StackPanel x:Name="responsiveView" Orientation="Vertical">
                             <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -381,7 +381,7 @@
                             </StackPanel>--> <!--for more than 3-->
                         </StackPanel>
                     </Grid>
-                </ScrollViewer>
+                <!--</ScrollViewer>-->
             </DockPanel>
         </DockPanel>
     </Grid>

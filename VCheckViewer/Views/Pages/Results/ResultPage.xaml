@@ -18,6 +18,7 @@
             <Setter Property="FontSize" Value="12" />
             <Setter Property="Foreground" Value="{DynamicResource Themes_GridResultFontColor}" />
             <Setter Property="Margin" Value="2" />
+            <Setter Property="Foreground" Value="Black" />
         </Style>
         <Style x:Key="DataGridVerticalTextCenterAligned" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -153,6 +154,7 @@
                                     <Label Content="{Binding Path=Results_Label_SortBy, Source={StaticResource Resources}}" 
                                            FontFamily="Noto Sans" Foreground="{DynamicResource Themes_SearchFieldFontColor}" FontSize="12" VerticalContentAlignment="Center" 
                                            Margin="5, 5, 0, 0" />
+
                                     <ComboBox x:Name="cboSort" Background="Transparent" BorderThickness="0" Margin="60, 0, 5, 0"
                                           ItemsSource="{Binding cbSort}" SelectedItem="{Binding SelectedcbSort}" Foreground="{DynamicResource Themes_SearchFieldFontColor}"/>
                                 </Grid>

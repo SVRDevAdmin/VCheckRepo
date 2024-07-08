@@ -56,6 +56,7 @@ namespace VCheckViewer
 
         public static string newPassword { get; set; }
         public static SMTPModel SMTP { get; set; }
+        public static string UpdateLink {  get; set; }
 
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
@@ -129,6 +130,8 @@ namespace VCheckViewer
                     services.AddScoped<SignInManager<IdentityUser>>();
                     services.AddHttpContextAccessor();
                     services.AddAuthentication();
+
+                    UpdateLink = context.Configuration.GetValue<string>("UpdateLink");
                 }
                 catch(Exception ex)
                 {
@@ -187,65 +190,77 @@ namespace VCheckViewer
                     else { }
                 }
 
+                //var roles = RoleManager.Roles.ToList();
+                //IdentityRole role = new IdentityRole();
+                //bool addRoleSuccess;
 
-                if (!roles.Where(x => x.Name == "Lab Superadmin").Any())
-                {
-                    role = new IdentityRole("Lab Superadmin");
-                    await RoleManager.CreateAsync(role);
-                    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab Superadmin", IsActive = true, IsSuperadmin = false, IsAdmin = true });
-                    if (addRoleSuccess) { }
-                    else { }
-                }
+                //if (!roles.Where(x => x.Name == "Lab User").Any())
+                //{
+                //    role = new IdentityRole("Lab User");
+                //    await RoleManager.CreateAsync(role);
+                //    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab User", IsActive = true, IsSuperadmin = false, IsAdmin = false });
+                //    if (addRoleSuccess) { }
+                //    else { }
+                //}
+
+                //if (!roles.Where(x => x.Name == "Lab Superadmin").Any())
+                //{
+                //    role = new IdentityRole("Lab Superadmin");
+                //    await RoleManager.CreateAsync(role);
+                //    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab Superadmin", IsActive = true, IsSuperadmin = false, IsAdmin = true });
+                //    if (addRoleSuccess) { }
+                //    else { }
+                //}
 
 
-                if (!roles.Where(x => x.Name == "Superadmin").Any())
-                {
-                    role = new IdentityRole("Superadmin");
-                    var test = await RoleManager.CreateAsync(role);
-                    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Superadmin", IsActive = true, IsSuperadmin = true, IsAdmin = false });
-                    if (addRoleSuccess) { }
-                    else { }
-                }
+                //if (!roles.Where(x => x.Name == "Superadmin").Any())
+                //{
+                //    role = new IdentityRole("Superadmin");
+                //    var test = await RoleManager.CreateAsync(role);
+                //    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Superadmin", IsActive = true, IsSuperadmin = true, IsAdmin = false });
+                //    if (addRoleSuccess) { }
+                //    else { }
+                //}
 
-                roles = RoleManager.Roles.ToList();
+                //roles = RoleManager.Roles.ToList();
 
-                var user = await UserManager.FindByNameAsync("superadmin");
+                //var user = await UserManager.FindByNameAsync("superadmin");
 
-                if (user == null)
-                {
-                    UserModel adminAccount = new UserModel()
-                    {
-                        Title = "Dr.",
-                        //FirstName = "Lee",
-                        StaffName = "Dr. Lee Eunji",
-                        FullName = "Lee Eunji",
-                        EmployeeID = "456783",
-                        RegistrationNo = "456783",
-                        Gender = "M",
-                        DateOfBirth = "1991-03-15",
-                        RoleID = roles.FirstOrDefault(x => x.Name == "Superadmin").Id,
-                        EmailAddress = "superadmin@superadmin.com",
-                        StatusID = 1,
-                        CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                        CreatedBy = "System"
-                    };
+                //if (user == null)
+                //{
+                //    UserModel adminAccount = new UserModel()
+                //    {
+                //        Title = "Dr.",
+                //        //FirstName = "Lee",
+                //        StaffName = "Dr. Lee Eunji",
+                //        FullName = "Lee Eunji",
+                //        EmployeeID = "456783",
+                //        RegistrationNo = "456783",
+                //        Gender = "M",
+                //        DateOfBirth = "1991-03-15",
+                //        RoleID = roles.FirstOrDefault(x => x.Name == "Superadmin").Id,
+                //        EmailAddress = "superadmin@superadmin.com",
+                //        StatusID = 1,
+                //        CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                //        CreatedBy = "System"
+                //    };
 
-                    user = Activator.CreateInstance<IdentityUser>();
+                //    user = Activator.CreateInstance<IdentityUser>();
 
-                    var emailStore = (IUserEmailStore<IdentityUser>)UserStore;
+                //    var emailStore = (IUserEmailStore<IdentityUser>)UserStore;
 
-                    await UserStore.SetUserNameAsync(user, "superadmin", CancellationToken.None);
-                    await emailStore.SetEmailAsync(user, "superadmin@superadmin.com", CancellationToken.None);
-                    var result = await UserManager.CreateAsync(user, "Abcd@1234");
+                //    await UserStore.SetUserNameAsync(user, "superadmin", CancellationToken.None);
+                //    await emailStore.SetEmailAsync(user, "superadmin@superadmin.com", CancellationToken.None);
+                //    var result = await UserManager.CreateAsync(user, "Abcd@1234");
 
-                    if (result.Succeeded)
-                    {
-                        adminAccount.UserId = user.Id;
+                //    if (result.Succeeded)
+                //    {
+                //        adminAccount.UserId = user.Id;
 
-                        if (usersContext.InsertUser(adminAccount)) { var roleResult = await GetService<UserManager<IdentityUser>>().AddToRoleAsync(user, "superadmin"); }
+                //        if (usersContext.InsertUser(adminAccount)) { var roleResult = await GetService<UserManager<IdentityUser>>().AddToRoleAsync(user, "superadmin"); }
 
-                    }
-                }
+                //    }
+                //}
 
             }
             catch (Exception ex)

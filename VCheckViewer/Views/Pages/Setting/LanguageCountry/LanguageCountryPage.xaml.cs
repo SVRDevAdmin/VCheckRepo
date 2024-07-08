@@ -16,6 +16,7 @@ using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Culture;
 using VCheckViewer.Lib.Util;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
 {
@@ -75,7 +76,7 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
                 radioButton = new System.Windows.Controls.RadioButton();
                 dockPanel = new DockPanel();
                 image = new System.Windows.Controls.Image();
-                textBlock = new TextBlock();
+                textBlock = new TextBlock() { Foreground = Brushes.Black };
 
                 var uri = new Uri("pack://application:,,,/Content/Images/Icons/" + language.CodeID+".png");
                 var bitmap = new BitmapImage(uri);

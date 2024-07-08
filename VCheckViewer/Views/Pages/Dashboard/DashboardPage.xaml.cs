@@ -102,7 +102,7 @@ namespace VCheckViewer.Views.Pages
 
             //Random rnd = new Random();
             //int totalElement = rnd.Next(0, 10);
-            //int totalElement = 1;
+            //int totalElement = 8;
             int totalElement = deviceList.Count;
             int imageHeight = 250;
             int borderHeight = 400;
@@ -338,8 +338,14 @@ namespace VCheckViewer.Views.Pages
                     {
                         parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
 
-                        if (totalElementPerRow == 2 && excess) { Grid.SetColumnSpan(parentBorder, 2); }
-                        else if (totalElementPerRow == 1 && excess) { Grid.SetColumnSpan(parentBorder, 3); }
+                        //if (totalElementPerRow == 2 && excess) { Grid.SetColumnSpan(parentBorder, 2); }
+                        //else if (totalElementPerRow == 1 && excess) { Grid.SetColumnSpan(parentBorder, 3); }
+
+                        if (excess) 
+                        {
+                            if (j == 0) { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Left; }
+                            else { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Center; }
+                        }
                     }
 
                     StackPanel secondStackPanel = new StackPanel() { Orientation = Orientation.Vertical };
@@ -436,8 +442,14 @@ namespace VCheckViewer.Views.Pages
                     {
                         parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
 
-                        if (totalElementPerRow == 2 && excess) { Grid.SetColumnSpan(parentBorder, 2); }
-                        else if (totalElementPerRow == 1 && excess) { Grid.SetColumnSpan(parentBorder, 3); }
+                        //if (totalElementPerRow == 2 && excess) { Grid.SetColumnSpan(parentBorder, 2); }
+                        //else if (totalElementPerRow == 1 && excess) { Grid.SetColumnSpan(parentBorder, 3); }
+
+                        if (excess)
+                        {
+                            if (j == 0) { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Left; }
+                            else { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Center; }
+                        }
                     }
 
                     StackPanel secondStackPanel = new StackPanel() { Orientation = Orientation.Vertical };
@@ -493,7 +505,7 @@ namespace VCheckViewer.Views.Pages
         
         void DownloadButton_Clicked(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://www.bionote.com/software-updates") { UseShellExecute = true });
+            Process.Start(new ProcessStartInfo(App.UpdateLink) { UseShellExecute = true });
         }
 
         private void testEmail()
