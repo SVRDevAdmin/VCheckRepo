@@ -18,7 +18,6 @@
             <Setter Property="FontSize" Value="12" />
             <Setter Property="Foreground" Value="{DynamicResource Themes_GridResultFontColor}" />
             <Setter Property="Margin" Value="2" />
-            <Setter Property="Foreground" Value="Black" />
         </Style>
         <Style x:Key="DataGridVerticalTextCenterAligned" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -218,7 +217,8 @@
                                     <Menu>
                                         <MenuItem>
                                             <MenuItem.Icon>
-                                                <ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />
+                                                <!--<ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />-->
+                                                <Image Source="{DynamicResource Themes_GirdUserMoreIcon}" Width="12" />
                                             </MenuItem.Icon>
                                             <MenuItem Name="menuDownload" Header="{Binding Path=Results_Label_Download, Source={StaticResource Resources}}" Click="menuDownload_Click" />
                                             <MenuItem Name="menuPrint" Header="{Binding Path=Results_Label_Print, Source={StaticResource Resources}}" Click="menuPrint_Click" />

@@ -20,7 +20,6 @@
             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
             <Setter Property="Foreground" Value="{DynamicResource Themes_GridUserFontColor}" />
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="Foreground" Value="Black"/>
         </Style>
         <Style x:Key="DataGridVerticalTextCenterAligned" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -29,7 +28,6 @@
             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
             <Setter Property="Foreground" Value="{DynamicResource Themes_GridUserFontColor}" />
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="Foreground" Value="Black"/>
         </Style>
 
         <!-- DataGridColumnHeader style -->
