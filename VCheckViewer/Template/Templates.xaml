@@ -179,7 +179,7 @@
 
                 <ContentPresenter ContentSource="Header"
                                   Grid.Column="2"
-                                  TextBlock.Foreground="{DynamicResource MasterPageFontColor}"
+                                  TextBlock.Foreground="{DynamicResource Themes_MasterPageFontColor}"
                                   TextBlock.FontFamily="Noto Sans"
                                   TextBlock.FontSize="20"
                                   TextBlock.FontWeight="SemiBold"

@@ -263,7 +263,7 @@ namespace VCheckViewer.Views.Pages.Setting.Device {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/VCheckViewer;component/views/pages/setting/device/devicepage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/VCheckViewer;V1.0.0.1;component/views/pages/setting/device/devicepage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\..\Views\Pages\Setting\Device\DevicePage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

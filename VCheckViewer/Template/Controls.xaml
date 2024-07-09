@@ -20,7 +20,7 @@
                             <ContentPresenter ContentSource="Icon" HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" Grid.Column="0"/>
 
                             <!--// Text //-->
-                            <ContentPresenter ContentSource="Header" TextBlock.Foreground="{DynamicResource MasterPageFontColor}" TextBlock.FontFamily="Noto Sans" TextBlock.FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Column="1">
+                            <ContentPresenter ContentSource="Header" TextBlock.Foreground="{DynamicResource Themes_MasterPageFontColor}" TextBlock.FontFamily="Noto Sans" TextBlock.FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Column="1">
                                 <ContentPresenter.Resources>
                                     <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource WrappingStyle}"/>
                                 </ContentPresenter.Resources>

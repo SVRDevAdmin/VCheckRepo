@@ -131,7 +131,7 @@ namespace VCheckViewer.Views.Pages.Results {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/VCheckViewer;component/views/pages/results/resultpage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/VCheckViewer;V1.0.0.1;component/views/pages/results/resultpage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\Views\Pages\Results\ResultPage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:VCheckViewer.Views.Pages.Login"
       mc:Ignorable="d" 
       Title="LoginPage" 
-      Background="{DynamicResource PageBackground}">
+      Background="{DynamicResource Themes_PageBackground}">
 
     <!--
     <Page.Resources>
@@ -30,10 +30,10 @@
         </Grid.ColumnDefinitions>
         <Border Grid.Row="0" Grid.Column="0" Padding="10,20,0,10">
             <!--<Image Source="../../../Content/Images/bio_logo.png" Width="150" HorizontalAlignment="Left"/>-->
-            <Image Source="{DynamicResource BioLogo}" Width="150" HorizontalAlignment="Left"/>
+            <Image Source="{DynamicResource Themes_BioLogo}" Width="150" HorizontalAlignment="Left"/>
         </Border>
         <Border Grid.Row="0" Grid.Column="1" Padding="0" VerticalAlignment="Stretch">
-            <Border Width="75" Height="42" Background="{DynamicResource FrameBackground}" CornerRadius="7" HorizontalAlignment="Right" BorderThickness="0">
+            <Border Width="75" Height="42" Background="{DynamicResource Themes_FrameBackground}" CornerRadius="7" HorizontalAlignment="Right" BorderThickness="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -69,7 +69,7 @@
 
                 <Border Grid.Row="0" Panel.ZIndex="8" Margin="220, 0, 0, 40" BorderBrush="Black" BorderThickness="0">
                     <!--<Image Source="../../../Content/Images/paw_light.png" Width="300" />-->
-                    <Image Source="{DynamicResource PawImage}" Width="300" />
+                    <Image Source="{DynamicResource Themes_PawImage}" Width="300" />
                 </Border>
                 <Border Grid.Row="0" Panel.ZIndex="9" Margin="200, 20, 0, 50" BorderBrush="Black" BorderThickness="0">
                     <Image Source="../../../Content/Images/LoginLogo_Light.png" Width="300" />
@@ -77,8 +77,8 @@
                 <Border Grid.Row="0" Panel.ZIndex="11">
                     <Image Source="../../../Content/Images/LoginDevice.png" Width="500" VerticalAlignment="Bottom" />
                 </Border>
-                <TextBlock Name="Login_Label_LeftMain" Grid.Row="1" TextAlignment="Center" FontWeight="Medium" FontSize="40" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{DynamicResource LoginPageFontColor}"/>
-                <TextBlock Text="{Binding Path=Login_Label_LeftSub, Source={StaticResource Resources}}" Grid.Row="2" TextAlignment="Center" FontWeight="Medium" FontSize="25" TextWrapping="Wrap" Foreground="{DynamicResource LoginPageFontColor}"/>
+                <TextBlock Name="Login_Label_LeftMain" Grid.Row="1" TextAlignment="Center" FontWeight="Medium" FontSize="40" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{DynamicResource Themes_LoginPageFontColor}"/>
+                <TextBlock Text="{Binding Path=Login_Label_LeftSub, Source={StaticResource Resources}}" Grid.Row="2" TextAlignment="Center" FontWeight="Medium" FontSize="25" TextWrapping="Wrap" Foreground="{DynamicResource Themes_LoginPageFontColor}"/>
             </Grid>
         </Border>
         <Border Grid.Row="1" Padding="50,0,50,20" Grid.Column="1">
@@ -88,9 +88,9 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <!-- Background="PeachPuff" -->
-                <Border BorderThickness="0" BorderBrush="White" Background="{DynamicResource FrameBackground}" CornerRadius="7" Grid.Row="1" Padding="0,60,0,0">
+                <Border BorderThickness="0" BorderBrush="White" Background="{DynamicResource Themes_FrameBackground}" CornerRadius="7" Grid.Row="1" Padding="0,60,0,0">
                     <StackPanel HorizontalAlignment="Center" Width="350">
-                        <TextBlock Text="{Binding Path=Login_Title_PageTitle, Source={StaticResource Resources}}" TextAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,0,0,30" Foreground="{DynamicResource LoginPageFontColor}"/>
+                        <TextBlock Text="{Binding Path=Login_Title_PageTitle, Source={StaticResource Resources}}" TextAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,0,0,30" Foreground="{DynamicResource Themes_LoginPageFontColor}"/>
                         <TextBlock x:Name="ErrorText" Foreground="Red" Text="Wrong Password" TextAlignment="Center" Visibility="Hidden" TextWrapping="Wrap"/>
                         <Border Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black" Margin="0,30,0,10">
                             <Grid>
@@ -130,7 +130,7 @@
                             </Grid>
                         </Border>
                         <Button Content="{Binding Path=Login_Label_LoginButton, Source={StaticResource Resources}}" Style="{DynamicResource RoundButton}" Background="{DynamicResource Themes_ButtonColor}" Foreground="White" HorizontalAlignment="Stretch" Height="40" BorderThickness="0" Margin="0,20,0,15" Click="LoginButton_Click"/>
-                        <Button Content="{Binding Path=Login_Label_ForgetPassword, Source={StaticResource Resources}}" Foreground="{DynamicResource LoginPageFontColor}" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Click="ResetPassword"/>
+                        <Button Content="{Binding Path=Login_Label_ForgetPassword, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_LoginPageFontColor}" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Click="ResetPassword"/>
                     </StackPanel>
                 </Border>
 
