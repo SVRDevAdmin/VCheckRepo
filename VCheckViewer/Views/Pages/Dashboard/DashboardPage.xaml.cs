@@ -357,7 +357,8 @@ namespace VCheckViewer.Views.Pages
                     childBorder.Background = randomNumberInRange == 2 ? (Brush)new BrushConverter().ConvertFromString("#ffeed1") : (Brush)new BrushConverter().ConvertFromString("#e0ffe5");
 
                     Image image = new Image();
-                    var uri = new Uri(@"pack://application:,,,/VCheckViewer;component/Content/Images/" + devicePath + ".png");
+                    //var uri = new Uri(@"pack://application:,,,/VCheckViewer;component/Content/Images/" + devicePath + ".png");
+                    var uri = new Uri(@"pack://application:,,,/VCheckViewer;component\Storage\Device\Img_F200.png");
                     var bitmap = new BitmapImage(uri);
                     image.Source = bitmap;
                     image.Height = imageHeight;
@@ -411,7 +412,7 @@ namespace VCheckViewer.Views.Pages
             {
                 Grid testGrid = new Grid() { Margin = new Thickness(0, 10, 0, 10) };
 
-                if (totalElementPerRow == 0) { TextBlock textBlock = new TextBlock() { Text = Properties.Resources.General_Message_NoDevice, FontSize = 50, TextAlignment = TextAlignment.Center }; testGrid.Children.Add(textBlock); }
+                if (totalElementPerRow == 0) { TextBlock textBlock = new TextBlock() { Text = Properties.Resources.General_Message_NoDevice, FontSize = 50, TextAlignment = TextAlignment.Center, Foreground = sBrushFontColor }; testGrid.Children.Add(textBlock); }
 
                 for (int column = 0; column < totalElementPerRow; column++)
                 {

@@ -30,6 +30,7 @@
     <None Remove="Content\Images\bio_logo.png" />
     <None Remove="Content\Images\bio_logo_dark.png" />
     <None Remove="Content\Images\bio_logo_light.png" />
+    <None Remove="Content\Images\bio_logo_report.png" />
     <None Remove="Content\Images\BrightnessWhite.png" />
     <None Remove="Content\Images\Calendar_Dark.png" />
     <None Remove="Content\Images\Calendar_White.png" />
@@ -112,6 +113,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Content\Images\bio_logo_report.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="bin\Debug\" />
     <Folder Include="bin\Release\" />
     <Folder Include="Content\Style\" />
@@ -162,8 +169,12 @@
     <Resource Include="Content\Images\bell.png" />
     <Resource Include="Content\Images\bell_white.png" />
     <Resource Include="Content\Images\bio_logo.png" />
-    <Resource Include="Content\Images\bio_logo_dark.png" />
-    <Resource Include="Content\Images\bio_logo_light.png" />
+    <Resource Include="Content\Images\bio_logo_dark.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Content\Images\bio_logo_light.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Content\Images\BrightnessWhite.png" />
     <Resource Include="Content\Images\Calendar_Dark.png" />
     <Resource Include="Content\Images\Calendar_White.png" />

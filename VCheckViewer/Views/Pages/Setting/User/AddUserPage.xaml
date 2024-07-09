@@ -61,7 +61,7 @@
 
                     <TextBlock Text="{Binding Path=Setting_Label_Title, Source={StaticResource Resources}}" Grid.Row="0" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}"/>
                     <Border Grid.Row="1" Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black">
-                            <ComboBox x:Name="Title" Grid.Row="1" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbTitle}" SelectedItem="{Binding SelectedcbTitle}" LostFocus="CheckValueExist"/>
+                            <ComboBox x:Name="Title" Grid.Row="1" Background="White" BorderThickness="0" Margin="10,0,10,0" Foreground="Black" VerticalAlignment="Center" ItemsSource="{Binding cbTitle}" SelectedItem="{Binding SelectedcbTitle}" LostFocus="CheckValueExist"/>
                         </Border>
                     <TextBlock Text="{Binding Path=Setting_Label_FullName, Source={StaticResource Resources}}" Grid.Row="2" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}" />
                     <Border Grid.Row="3" Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black">
@@ -100,7 +100,7 @@
 
                     <TextBlock Text="{Binding Path=Setting_Label_Gender, Source={StaticResource Resources}}" Grid.Row="0" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}"/>
                     <Border Grid.Row="1" Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black">
-                            <ComboBox x:Name="Gender" Grid.Row="1" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbGender}" SelectedItem="{Binding SelectedcbGender}" LostFocus="CheckValueExist"/>
+                        <ComboBox x:Name="Gender" Grid.Row="1" Background="White" BorderThickness="0" Margin="10,0,10,0" Foreground="Black" VerticalAlignment="Center" ItemsSource="{Binding cbGender}" SelectedItem="{Binding SelectedcbGender}" LostFocus="CheckValueExist"/>
                         </Border>
                     <TextBlock Text="{Binding Path=Setting_Label_DateOfBirth, Source={StaticResource Resources}}" Grid.Row="2" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}"/>
                     <Border Grid.Row="3" Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black">
@@ -109,14 +109,14 @@
 
                     <TextBlock Text="{Binding Path=Setting_Label_Role, Source={StaticResource Resources}}" Grid.Row="4" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}" />
                     <Border Grid.Row="5" Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black">
-                            <ComboBox x:Name="Role" Grid.Row="5" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbRoles}" SelectedItem="{Binding SelectedcbRoles}" LostFocus="CheckValueExist"/>
+                        <ComboBox x:Name="Role" Grid.Row="5" Background="White" BorderThickness="0" Margin="10,0,10,0" Foreground="Black" VerticalAlignment="Center" ItemsSource="{Binding cbRoles}" SelectedItem="{Binding SelectedcbRoles}" LostFocus="CheckValueExist"/>
                         </Border>
                     <TextBlock Text="{Binding Path=Setting_Label_Email, Source={StaticResource Resources}}" Grid.Row="6" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}" />
                     <Border Grid.Row="7" Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black">
                         <TextBox x:Name="EmailAddress" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" LostFocus="CheckValueExist" KeyUp="CheckValue_KeyUp"/>
                     </Border>
-                    <TextBlock Text="{Binding Path=Setting_Label_Status, Source={StaticResource Resources}}" Grid.Row="8" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}"  />
-                    <Border Grid.Row="9" Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black">
+                    <TextBlock Text="{Binding Path=Setting_Label_Status, Source={StaticResource Resources}}" Grid.Row="8" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}"  Visibility="Hidden"/>
+                    <Border Grid.Row="9" Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black"  Visibility="Hidden">
                         <!--<ComboBox x:Name="Status" Grid.Row="9" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbStatus}" SelectedItem="{Binding SelectedcbStatus}" LostFocus="CheckValueExist"/>-->
                         <ComboBox x:Name="Status" Grid.Row="9" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbStatus}" SelectedItem="{Binding SelectedcbStatus}" IsEnabled="False"/>
                     </Border>

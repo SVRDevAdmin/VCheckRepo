@@ -137,6 +137,7 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
 
         private void CountrySearchBar_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            String? sColor = System.Windows.Application.Current.Resources["Themes_FontColor"].ToString();
             string partialName = CountrySearchBar.Text;
             List<CountryModel> countryList = null;
 
@@ -158,6 +159,7 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
                 MenuItem item = new MenuItem();
                 item.Header = country.CountryName;
                 item.Tag = country.CountryCode;
+                item.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
 
                 if (country.CountryCode == countrySelected) { CountryListView.SelectedItem = item; }
 
