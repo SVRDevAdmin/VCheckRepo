@@ -11,6 +11,7 @@ using MySql.Data.MySqlClient;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Org.BouncyCastle.Asn1.Mozilla;
 
 namespace VCheck.Lib.Data
 {
@@ -154,6 +155,18 @@ namespace VCheck.Lib.Data
                         isUpdate = true;
                     }
 
+                    if (sDevice.DeviceImagePath != sDeviceObj.DeviceImagePath)
+                    {
+                        sDevice.DeviceImagePath = sDeviceObj.DeviceImagePath;
+                        isUpdate = true;
+                    }
+
+                    if (sDevice.DeviceTypeID != sDeviceObj.DeviceTypeID)
+                    {
+                        sDevice.DeviceTypeID = sDeviceObj.DeviceTypeID;
+                        isUpdate = true;
+                    }
+
                     if (isUpdate)
                     {
                         sDevice.UpdatedDate = sDeviceObj.UpdatedDate;
@@ -172,6 +185,49 @@ namespace VCheck.Lib.Data
             }
 
             return isSuccess;
+        }
+
+        /// <summary>
+        /// Get Device Type List
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static List<DeviceTypeModel> GetDeviceTypeList(IConfiguration config)
+        {
+            try
+            {
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    return ctx.mst_devicetype.Where(x => x.Status == 1).OrderBy(x => x.SeqNo).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("DeviceRepository >>> GetDeviceTypeList >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Device Type By Id
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="iID"></param>
+        /// <returns></returns>
+        public static DeviceTypeModel GetDeviceTypeByID(IConfiguration config, int iID)
+        {
+            try
+            {
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    return ctx.mst_devicetype.Where(x => x.id == iID).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("DeviceRepository >>> GetDeviceTypeByID >>> " + ex.ToString());
+                return null;
+            }
         }
     }
 }

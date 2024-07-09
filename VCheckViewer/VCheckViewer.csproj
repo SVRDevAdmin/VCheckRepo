@@ -108,6 +108,7 @@
     <None Remove="Content\Images\stroke_1_ek4.png" />
     <None Remove="Content\Images\stroke_4.png" />
     <None Remove="Content\Images\Username icon.png" />
+    <None Remove="Storage\Device\Img_M10.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -235,6 +236,7 @@
     <Resource Include="Content\Images\VCheck2400Image2.png" />
     <Resource Include="Content\Images\VCheckM10Image.png" />
     <Resource Include="Storage\Device\Img_F200.png" />
+    <Resource Include="Storage\Device\Img_M10.png" />
   </ItemGroup>
 
   <ItemGroup>
