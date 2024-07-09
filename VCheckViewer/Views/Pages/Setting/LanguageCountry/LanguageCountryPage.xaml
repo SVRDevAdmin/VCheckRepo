@@ -96,7 +96,7 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="460"/>
                         </Grid.RowDefinitions>
                         <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Margin="10,0,10,0">
                             <Border Background="{DynamicResource Themes_CountryLangSearchBackground}" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangSearchBackground}">

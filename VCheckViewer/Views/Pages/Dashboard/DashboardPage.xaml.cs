@@ -357,7 +357,8 @@ namespace VCheckViewer.Views.Pages
                     childBorder.Background = randomNumberInRange == 2 ? (Brush)new BrushConverter().ConvertFromString("#ffeed1") : (Brush)new BrushConverter().ConvertFromString("#e0ffe5");
 
                     Image image = new Image();
-                    var uri = new Uri(@"pack://application:,,,/VCheckViewer;component/Content/Images/" + devicePath + ".png");
+                    //var uri = new Uri(@"pack://application:,,,/VCheckViewer;component/Content/Images/" + devicePath + ".png");
+                    var uri = new Uri(@"pack://application:,,,/VCheckViewer;component\Storage\Device\Img_F200.png");
                     var bitmap = new BitmapImage(uri);
                     image.Source = bitmap;
                     image.Height = imageHeight;
@@ -462,6 +463,7 @@ namespace VCheckViewer.Views.Pages
 
                     Image image = new Image();
                     var uri = new Uri(device.DeviceImagePath);
+                    //var uri = new Uri(@"pack://application:,,,/VCheckViewer;component"+ device.DeviceImagePath);
                     var bitmap = new BitmapImage(uri);
                     image.Source = bitmap;
                     image.Height = imageHeight;

@@ -859,7 +859,7 @@ namespace VCheckViewer.Views.Windows
 
                     }
 
-                    PreviousPage(sender, e);
+                    //PreviousPage(sender, e);
                 }
             }
             catch(Exception ex)
