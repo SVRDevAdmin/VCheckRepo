@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VCheckViewer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.1")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0.1+f11db8bda481ed34fb04be60b9d38072096cc429")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0.1+f5c136d6054a764dc54e20a7d1005e8f40dce39d")]
 [assembly: System.Reflection.AssemblyProductAttribute("VCheckViewer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VCheckViewer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.1")]
