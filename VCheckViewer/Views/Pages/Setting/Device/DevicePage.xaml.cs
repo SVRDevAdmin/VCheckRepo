@@ -45,11 +45,11 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             {
                 DeviceName = txtName.Text,
                 DeviceIPAddress = txtIPAddress.Text,
-                DeviceImagePath = "C:\\Dev\\VCheck\\VCheckViewer\\Storage\\Device\\Img_F200.png", // Temp Hardcode
-                //DeviceImagePath = "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\Content\\Images\\VCheck200Image.png", // Temp Hardcode
+                DeviceImagePath = "\\Storage\\Device\\Img_F200.png", // Temp Hardcode
                 status = (int)DataDictionary.DeviceListStatus.Active,
                 CreatedDate = DateTime.Now,
-                CreatedBy = App.MainViewModel.CurrentUsers.FullName
+                CreatedBy = App.MainViewModel.CurrentUsers.FullName,
+                DeviceSerialNo = txtSerialNo.Text
             };
 
             Popup sConfirmPopup = new Popup();
@@ -70,6 +70,7 @@ namespace VCheckViewer.Views.Pages.Setting.Device
 
                 lbName.Text = sRowData.DeviceName;
                 lbIPAddeess.Text = sRowData.DeviceIPAddress;
+                lbSerialNo.Text = sRowData.DeviceSerialNo;
                 hidID.Text = sRowData.id.ToString();
             }
         }
@@ -87,6 +88,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 lbName.Text = sDeviceObj.DeviceName;
                 txtIPAddress.Text = sDeviceObj.DeviceIPAddress;
                 lbIPAddeess.Text = sDeviceObj.DeviceIPAddress;
+                txtSerialNo.Text = sDeviceObj.DeviceSerialNo;
+                lbSerialNo.Text = sDeviceObj.DeviceSerialNo;
                 hidID.Text = sDeviceObj.id.ToString();
             }
         }
@@ -103,7 +106,7 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 {
                     sDeviceObj.status = 2;
                     sDeviceObj.UpdatedDate = DateTime.Now;
-                    sDeviceObj.UpdatedBy = "YY";
+                    sDeviceObj.UpdatedBy = App.MainViewModel.CurrentUsers.FullName;
                 }
                 
                 Popup sConfirmPopup = new Popup();
@@ -138,7 +141,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                     sDeviceObj.DeviceName = txtName.Text;
                     sDeviceObj.DeviceIPAddress = txtIPAddress.Text;
                     sDeviceObj.UpdatedDate = DateTime.Now;
-                    sDeviceObj.UpdatedBy = "YY";
+                    sDeviceObj.UpdatedBy = App.MainViewModel.CurrentUsers.FullName;
+                    sDeviceObj.DeviceSerialNo = txtSerialNo.Text;
                 }
 
                 Popup sConfirmPopup = new Popup();
@@ -162,6 +166,9 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 borderIPEdit.Visibility = Visibility.Collapsed;
                 borderIPView.Visibility = Visibility.Visible;
 
+                borderSerialNoEdit.Visibility = Visibility.Collapsed;
+                borderSerialNoView.Visibility = Visibility.Visible;
+
                 borderButtonAdd.Visibility = Visibility.Collapsed;
                 borderButtonView.Visibility = Visibility.Visible;
                 borderButtonUpdate.Visibility = Visibility.Collapsed;
@@ -178,6 +185,9 @@ namespace VCheckViewer.Views.Pages.Setting.Device
 
                 borderIPEdit.Visibility = Visibility.Visible;
                 borderIPView.Visibility = Visibility.Collapsed;
+
+                borderSerialNoEdit.Visibility = Visibility.Visible;
+                borderSerialNoView.Visibility = Visibility.Collapsed;
 
                 borderButtonAdd.Visibility = Visibility.Collapsed;
                 borderButtonView.Visibility = Visibility.Collapsed;
@@ -196,6 +206,10 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 borderIPEdit.Visibility = Visibility.Visible;
                 borderIPView.Visibility = Visibility.Collapsed;
                 txtIPAddress.Text = String.Empty;
+
+                borderSerialNoEdit.Visibility = Visibility.Visible;
+                borderSerialNoView.Visibility = Visibility.Collapsed;
+                txtSerialNo.Text = String.Empty;
 
                 borderButtonAdd.Visibility = Visibility.Visible;
                 borderButtonView.Visibility = Visibility.Collapsed;
@@ -261,13 +275,15 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 borderIPEdit.ToolTip = null;
             }
 
+            String? sColor = System.Windows.Application.Current.Resources["Themes_ButtonColor"].ToString();
 
             if (IsFieldEmpty)
             {
                 if (borderButtonAdd.Visibility != Visibility.Collapsed)
                 {
                     btnAdd.IsEnabled = false;
-                    btnAdd.Background = System.Windows.Media.Brushes.Orange;
+                    btnAdd.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+                    //btnAdd.Background = System.Windows.Media.Brushes.Orange;
                 }
                 if (borderButtonUpdate.Visibility != Visibility.Collapsed)
                 {

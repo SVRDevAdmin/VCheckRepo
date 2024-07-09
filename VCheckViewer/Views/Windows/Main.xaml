@@ -6,7 +6,8 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:VCheckViewer.Views.Windows" xmlns:local1="clr-namespace:VCheckViewer.ViewModels.Windows"
         mc:Ignorable="d"
-        Title="Main" WindowState="Maximized" MinWidth="1290">
+        Title="Main" WindowState="Maximized" MinWidth="1290"
+        Background="{DynamicResource Themes_PageBackground}">
 
     <Window.Resources>
         <Storyboard x:Key="showmenu">
@@ -35,12 +36,14 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="1.2*" />
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <Border x:Name="MainLogoBorder" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 20 10 10" Grid.Column="0">
-                        <ui:Image Source="../../Content/Images/bio_logo.png"/>
+                    <Border x:Name="MainLogoBorder" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15 20 10 10" Grid.Column="0">
+                        <ui:Image Source="{DynamicResource Themes_TemplateBioLogo}" Width="150"/>
+                        <!--<ui:Image Source="../../Content/Images/bio_logo.png"/>-->
                     </Border>
                     <Border VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" Margin="50,0,50,0">
-                        <TextBlock x:Name="PageTitle" FontWeight="Bold" FontFamily="Noto Sans" FontSize="25"  Padding="0, 17, 0, 0"/>
+                        <TextBlock x:Name="PageTitle" Foreground="{DynamicResource Themes_MasterPageFontColor}" FontWeight="Bold" FontFamily="Noto Sans" FontSize="25"  Padding="0, 17, 0, 0"/>
                     </Border>
                     <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="2" Margin="50,0,0,0">
                         <Border Background="White" CornerRadius="20" Padding="5" BorderThickness="1" BorderBrush="Black" Visibility="Collapsed">
@@ -69,7 +72,8 @@
                         <Menu>
                             <MenuItem Name="Username" Style="{StaticResource Services_MenuItem_With_Dropdown}">
                                 <MenuItem.Icon>
-                                    <Image Source="../../Content/Images/Avatar_Orange.png"/>
+                                    <!--<Image Source="../../Content/Images/Avatar_Orange.png"/>-->
+                                    <Image Source="../../Content/Images/Avatar.png" Width="20" Height="20"/>
                                 </MenuItem.Icon>
                                 <MenuItem Header="{Binding Path=Main_Label_ViewProfile, Source={StaticResource Resources}}" Click="ViewProfileButton_Click"/>
                                 <MenuItem Header="{Binding Path=Main_Label_ResetPassword, Source={StaticResource Resources}}" Click="ResetPassword"/>
@@ -78,12 +82,38 @@
                             </MenuItem>
                         </Menu>
                     </Border>
+                    <Border Grid.Column="4" Padding="20, 0, 15, 0" VerticalAlignment="Stretch">
+                        <Border Width="75" Height="42" Background="{DynamicResource Themes_FrameBackground}" CornerRadius="7" HorizontalAlignment="Right" BorderThickness="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0" Width="35" Height="40" >
+                                    <Border Width="32" Height="32" CornerRadius="5" BorderThickness="0" VerticalAlignment="Center">
+                                        <Button Name="btnDarkTheme" Width="32" Height="32" Background="#1e76fb" Padding="0" BorderThickness="0" Tag="Dark" Click="btnDarkTheme_Click">
+                                            <Image Source="../../Content/Images/DarkWhite.png" Width="15" Height="15" VerticalAlignment="Stretch" />
+                                        </Button>
+                                    </Border>
+                                </Border>
+                                <Border Grid.Column="1" Width="35" Height="40" Panel.ZIndex="0">
+                                    <Border Width="32" Height="32" CornerRadius="5" VerticalAlignment="Center" BorderThickness="0">
+                                        <Button Name="btnLightTheme" Width="32" Height="32" Background="#1e76fb" Padding="0" BorderThickness="0" Tag="Light" Click="btnLightTheme_Click">
+                                            <Image Source="../../Content/Images/BrightnessWhite.png" Width="20" Height="20" VerticalAlignment="Stretch" />
+                                        </Button>
+
+                                    </Border>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </Border>
                 </Grid>
             </Border>
             <Border DockPanel.Dock="Left" Background="#f2f2f2">
                 <Grid>
                     <StackPanel Name="panel1" 
-                                Background="#f2f2f2"
+                                Background="{DynamicResource Themes_MasterPageFrameBackground}"
                                 Width="230" 
                                 Orientation="Vertical"
                                 VerticalAlignment="Top"
@@ -92,84 +122,86 @@
                         <Grid Height="30"
                               VerticalAlignment="Top" 
                               Margin="0, 0, 0, 0" 
-                              Background="White" >
+                              Background="{DynamicResource Themes_PageBackground}" >
 
-                            <!--<Border Background="#f2f2f2" 
-                                        Height="35" 
-                                        CornerRadius="0, 10, 0, 0"
-                                        Width="230" 
-                                        VerticalAlignment="Center" 
-                                        HorizontalAlignment="Right">--> <!--To make corner less round-->
-                            <Border Background="#f2f2f2" 
-                                        Height="35" 
-                                        CornerRadius="0, 60, 0, 0"
-                                        Width="230" 
-                                        VerticalAlignment="Center" 
-                                        HorizontalAlignment="Right">
+                            <Border Background="{DynamicResource Themes_MasterPageFrameBackground}" 
+                                    Height="35" 
+                                    CornerRadius="0, 15, 0, 0"
+                                    Width="230" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Right">
                             </Border>
                         </Grid>
-                        <Grid Height="30" Margin="0, 0, 0, 0" Background="#f2f2f2">
+                        <Grid Height="30" Margin="0, 0, 0, 0" Background="{DynamicResource Themes_MasterPageFrameBackground}">
                             <Button Name="btnCollapse" Click="btnCollapse_Click" Panel.ZIndex="8" BorderThickness="0" Background="Transparent">
                                 <Image Source="../../Content/Images/Collapse_Arrow.png" Width="20" Height="20"/>
                             </Button>
-                            <Label Padding="65, 0" VerticalAlignment="Center" Foreground="SlateGray" FontWeight="SemiBold"  Content="{Binding Path=Main_Label_SideMenuCollapse, Source={StaticResource Resources}}"/>
+                            <Label Padding="65, 0" VerticalAlignment="Center" Foreground="{DynamicResource Themes_MasterPageFontColor}" FontWeight="SemiBold" 
+                                   Content="{Binding Path=Main_Label_SideMenuCollapse, Source={StaticResource Resources}}"/>
                             <Button Name="btnOpen" Click="btnOpen_Click"  Margin="160, 0, 0, 0" Panel.ZIndex="8" Visibility="Collapsed" BorderThickness="0" Background="Transparent">
                                 <Image Source="../../Content/Images/Collapse_Arrow_Right.png" Width="20" Height="20" />
                             </Button>
                         </Grid>
-                        <Grid Height="60" Margin="0, 10, 0, 0">
-                            <Menu Height="50" Background="#f2f2f2" Margin="0, 10, 0, 0">
+                        <Grid Height="60" Margin="0, 10, 0, 0" Background="Transparent">
+                            <Menu Height="50" Background="{DynamicResource Themes_MasterPageFrameBackground}" Margin="0, 10, 0, 0">
                                 <MenuItem Name="mnDashboard" Header="{Binding Path=Main_Label_SideMenuDashboard, Source={StaticResource Resources}}" Template="{StaticResource Menu_Template}" Click="mnDashboard_Click">
                                     <MenuItem.Icon>
-                                        <Image Name="imgDashboard" Source="../../Content/Images/dashboard.png" Width="20" Height="20"/>
+                                        <!--<Image Name="imgDashboard" Source="../../Content/Images/dashboard.png" Width="20" Height="20"/>-->
+                                        <Image Name="imgDashboard" Source="{DynamicResource Themes_MenuDashboardIcon}" Width="20" Height="20"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </Menu>
-                            <Image Name="thumbDashboard" Source="../../Content/Images/dashboard.png" Width="20" Height="20" Margin="130, 10, 0, 0" Visibility="Collapsed"/>
+                            <Image Name="thumbDashboard" Source="{DynamicResource Themes_MenuDashboardIcon}" Width="20" Height="20" Margin="130, 10, 0, 0" Visibility="Collapsed"/>
                         </Grid>
                         <Grid Height="60" Margin="0, 5, 0, 0">
-                            <Menu Height="50" Background="#f2f2f2" Margin="0, 10, 0, 0">
+                            <Menu Height="50" Background="{DynamicResource Themes_MasterPageFrameBackground}" Margin="0, 10, 0, 0">
                                 <MenuItem Name="mnSchedule" Header="{Binding Path=Main_Label_SideMenuSchedule, Source={StaticResource Resources}}" Template="{StaticResource Menu_Template}" Click="mnSchedule_Click">
                                     <MenuItem.Icon>
-                                        <Image Source="../../Content/Images/clock.png" Width="20" Height="20" />
+                                        <!--<Image Source="../../Content/Images/clock.png" Width="20" Height="20" />-->
+                                        <Image Source="{DynamicResource Themes_MenuClockIcon}" Width="20" Height="20" />
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </Menu>
-                            <Image Name="thumbSchedule" Source="../../Content/Images/clock.png" Width="20" Height="20" Margin="130, 5, 0, 0" Visibility="Collapsed" />
+                            <Image Name="thumbSchedule" Source="{DynamicResource Themes_MenuClockIcon}" Width="20" Height="20" Margin="130, 5, 0, 0" Visibility="Collapsed" />
                         </Grid>
                         <Grid Height="60" Margin="0, 5, 0, 0">
-                            <Menu Height="50" Background="#f2f2f2" Margin="0, 10, 0, 0">
+                            <Menu Height="50" Background="{DynamicResource Themes_MasterPageFrameBackground}" Margin="0, 10, 0, 0">
                                 <MenuItem Name="mnResults" Header="{Binding Path=Main_Label_SideMenuResults, Source={StaticResource Resources}}" Template="{StaticResource Menu_Template}" Click="mnResults_Click">
                                     <MenuItem.Icon>
-                                        <Image Source="../../Content/Images/results.png" Width="20" Height="20" />
+                                        <!--<Image Source="../../Content/Images/results.png" Width="20" Height="20" />-->
+                                        <Image Source="{DynamicResource Themes_MenuResultsIcon}" Width="20" Height="20" />
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </Menu>
-                            <Image Name="thumbResult" Source="../../Content/Images/results.png" Width="20" Height="20" Margin="130, 5, 0, 0" Visibility="Collapsed" />
+                            <Image Name="thumbResult" Source="{DynamicResource Themes_MenuResultsIcon}" Width="20" Height="20" Margin="130, 5, 0, 0" Visibility="Collapsed" />
                         </Grid>
                         <Grid Height="60" Margin="0, 5, 0, 0">
-                            <Menu Height="50" Background="#f2f2f2" Margin="0, 10, 0, 0">
+                            <Menu Height="50" Background="{DynamicResource Themes_MasterPageFrameBackground}" Margin="0, 10, 0, 0">
                                 <MenuItem Name="mnNotifications" Header="{Binding Path=Main_Label_SideMenuNotification, Source={StaticResource Resources}}" Template="{StaticResource Menu_Template}" Click="mnNotifications_Click">
                                     <MenuItem.Icon>
-                                        <Image Source="../../Content/Images/bell.png" Width="20" Height="20" />
+                                        <!--<Image Source="../../Content/Images/bell.png" Width="20" Height="20" />-->
+                                        <Image Source="{DynamicResource Themes_MenuBellIcon}" Width="20" Height="20" />
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </Menu>
-                            <Image Name="thumbNotification" Source="../../Content/Images/bell.png" Width="20" Height="20" Margin="130, 5, 0, 0" Visibility="Collapsed" />
+                            <Image Name="thumbNotification" Source="{DynamicResource Themes_MenuBellIcon}" Width="20" Height="20" Margin="130, 5, 0, 0" Visibility="Collapsed" />
                         </Grid>
                         <Grid Height="60" Margin="0, 5, 0, 0">
-                            <Menu Height="50" Background="#f2f2f2" Margin="0, 10, 0, 0">
+                            <Menu Height="50" Background="{DynamicResource Themes_MasterPageFrameBackground}" Margin="0, 10, 0, 0">
                                 <MenuItem Name="mnSettings" Header="{Binding Path=Main_Label_SideMenuSetting, Source={StaticResource Resources}}" Template="{StaticResource Menu_Template}" Click="mnSettings_Click">
                                     <MenuItem.Icon>
-                                        <Image Source="../../Content/Images/setting.png" Width="20" Height="20" />
+                                        <!--<Image Source="../../Content/Images/setting.png" Width="20" Height="20" />-->
+                                        <Image Source="{DynamicResource Themes_MenuSettingIcon}" Width="20" Height="20" />
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </Menu>
-                            <Image Name="thumbSetting" Source="../../Content/Images/setting.png" Width="20" Height="20" Margin="130, 5, 0, 0" Visibility="Collapsed" />
+                            <Image Name="thumbSetting" Source="{DynamicResource Themes_MenuSettingIcon}" Width="20" Height="20" Margin="130, 5, 0, 0" Visibility="Collapsed" />
                         </Grid>
-                        <Grid Height="255" Background="White">
+                        <Grid Height="255" Background="{DynamicResource Themes_PageBackground}">
+                            <Border Background="{DynamicResource Themes_MasterPageFrameBackground}" CornerRadius="0, 0, 15, 0">
+                                <!--<Grid Height="255" Background="White">-->
                             <!--<Border Background="#f2f2f2" CornerRadius="0, 0, 10, 0">--> <!--To make corner less round-->
-                            <Border Background="#f2f2f2" CornerRadius="0, 0, 60, 0">
+                                <!--<Border Background="#f2f2f2" CornerRadius="0, 0, 60, 0">-->
                             </Border>
                         </Grid>
                     </StackPanel>
@@ -185,20 +217,20 @@
         </DockPanel>
         <Border x:Name="PopupBackground">
             <Popup Name="popup" IsOpen="False" Placement="Center" AllowsTransparency="True">
-                <Border Background="PeachPuff" BorderBrush="DimGray" BorderThickness="0" Width="400" Height="250" CornerRadius="20">
+                <Border Background="{DynamicResource Themes_PopupMessageFrameBackground}" BorderBrush="{DynamicResource  Themes_PopupMessageFrameBackground}" BorderThickness="0" Width="400" Height="250" CornerRadius="7">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="2*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0">
-                            <TextBlock x:Name="PopupContent" TextWrapping="Wrap" TextAlignment="Center" Margin="40,40,40,0" FontSize="24"/>
+                            <TextBlock x:Name="PopupContent" TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource Themes_PopupMessageFontColor}" Margin="40,40,40,0" FontSize="24"/>
                         </Border>
                         <Border Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,40">
                             <StackPanel Orientation="Horizontal">
-                                <Button Name="btnNo" Content="{Binding Path=General_Label_No, Source={StaticResource Resources}}" Click="CancelButton_Click" Margin="0,0,10,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="Transparent" />
-                                <Button Name="btnYes" Content="{Binding Path=General_Label_Yes, Source={StaticResource Resources}}" Click="ContinueButton_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="DarkOrange" Foreground="White" BorderThickness="0" />
-                                <Button Name="btnOk" Content="{Binding Path=General_Label_OK, Source={StaticResource Resources}}" Click="btnOk_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="DarkOrange" Foreground="White" Visibility="Collapsed" BorderThickness="0" />
+                                <Button Name="btnNo" Content="{Binding Path=General_Label_No, Source={StaticResource Resources}}" Click="CancelButton_Click" Margin="0,0,10,0" Style="{DynamicResource RoundButton}" Foreground="{DynamicResource Themes_ButtonFontColor}" Height="40" Width="100" Background="Transparent" />
+                                <Button Name="btnYes" Content="{Binding Path=General_Label_Yes, Source={StaticResource Resources}}" Click="ContinueButton_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="{DynamicResource Themes_ButtonColor}" Foreground="{DynamicResource Themes_ButtonFontColor}" BorderThickness="0" />
+                                <Button Name="btnOk" Content="{Binding Path=General_Label_OK, Source={StaticResource Resources}}" Click="btnOk_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="{DynamicResource Themes_ButtonColor}" Foreground="{DynamicResource Themes_ButtonFontColor}" Visibility="Collapsed" BorderThickness="0" />
                             </StackPanel>
                         </Border>
                     </Grid>

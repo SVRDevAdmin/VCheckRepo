@@ -177,6 +177,19 @@ namespace VCheckViewer
                 CultureInfo sZHCulture = new CultureInfo(language != null ? language : "en");
                 CultureResources.ChangeCulture(sZHCulture);
 
+                var roles = RoleManager.Roles.ToList();
+                IdentityRole role = new IdentityRole();
+                bool addRoleSuccess;
+            
+                if (!roles.Where(x => x.Name == "Lab User").Any())
+                {
+                    role = new IdentityRole("Lab User");
+                    await RoleManager.CreateAsync(role);
+                    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab User", IsActive = true, IsSuperadmin = false, IsAdmin = false });
+                    if (addRoleSuccess) { }
+                    else { }
+                }
+
                 //var roles = RoleManager.Roles.ToList();
                 //IdentityRole role = new IdentityRole();
                 //bool addRoleSuccess;
@@ -189,7 +202,6 @@ namespace VCheckViewer
                 //    if (addRoleSuccess) { }
                 //    else { }
                 //}
-
 
                 //if (!roles.Where(x => x.Name == "Lab Superadmin").Any())
                 //{

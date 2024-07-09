@@ -8,12 +8,12 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <StackPanel x:Name="paginationPanel" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Name="btnPrev" Content="{Binding Path=General_Label_Prev, Source={StaticResource Resources}}" Tag="Prev" BorderThickness="0" FontWeight="Bold" Click="btnPrev_Click">
+            <Button Name="btnPrev" Content="{Binding Path=General_Label_Prev, Source={StaticResource Resources}}" Tag="Prev" BorderThickness="0" FontWeight="Bold" Background="Transparent" Foreground="{DynamicResource Themes_PaginationButtonColor}" Click="btnPrev_Click">
             </Button>
             <StackPanel x:Name="numberingSection" Orientation="Horizontal">
                 
             </StackPanel>
-            <Button Name="btnNext" Content="{Binding Path=General_Label_Next, Source={StaticResource Resources}}" Tag="Next" BorderThickness="0" FontWeight="Bold" Foreground="DarkOrange" Click="btnNext_Click">
+            <Button Name="btnNext" Content="{Binding Path=General_Label_Next, Source={StaticResource Resources}}" Tag="Next" BorderThickness="0" FontWeight="Bold" Background="Transparent" Foreground="{DynamicResource Themes_PaginationButtonColor}" Click="btnNext_Click">
             </Button>
         </StackPanel>
     </Grid>

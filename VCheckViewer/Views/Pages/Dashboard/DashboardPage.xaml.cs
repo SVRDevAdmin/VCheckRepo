@@ -1,4 +1,5 @@
-﻿using System;
+﻿//using DocumentFormat.OpenXml.Spreadsheet;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,7 +26,8 @@ namespace VCheckViewer.Views.Pages
     {
         List<DeviceModel> deviceList = DeviceRepository.GetDeviceList(ConfigSettings.GetConfigurationSettings());
 
-        List<TestResultModel> resultList = TestResultsRepository.GetAllTestResultList(ConfigSettings.GetConfigurationSettings());
+        //List<TestResultModel> resultList = TestResultsRepository.GetAllTestResultList(ConfigSettings.GetConfigurationSettings());
+        List<TestResultModel> resultList = TestResultsRepository.GetTestResultByDates(ConfigSettings.GetConfigurationSettings(), DateTime.Now);
 
         public DashboardPage()
         {
@@ -399,6 +401,10 @@ namespace VCheckViewer.Views.Pages
         
         public void createElementUsingGridByDevice(int totalElementPerRow, int imageHeight, int borderHeight, int borderWidth, int margin, int totalRow, bool excess, int remainder)
         {
+            String? sColor = System.Windows.Application.Current.Resources["Themes_FontColor"].ToString();
+            String? sFrameColor = System.Windows.Application.Current.Resources["Themes_DashboardAnalyzerFrameBackground"].ToString();
+            SolidColorBrush sBrushFontColor = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+            SolidColorBrush sBrushFrameColor = new BrushConverter().ConvertFrom(sFrameColor) as SolidColorBrush;
             int currentDevice = 0;
 
             for (int i = 0; i < totalRow; i++)
@@ -461,13 +467,13 @@ namespace VCheckViewer.Views.Pages
                     image.Height = imageHeight;
                     image.Margin = new Thickness(margin);
 
-                    TextBlock nameTextBlock = new TextBlock() { Text = device.DeviceName, TextAlignment = TextAlignment.Center, FontWeight = FontWeights.Bold, Margin = new Thickness(margin) };
+                    TextBlock nameTextBlock = new TextBlock() { Text = device.DeviceName, TextAlignment = TextAlignment.Center, FontWeight = FontWeights.Bold, Margin = new Thickness(margin), Foreground = sBrushFontColor };
 
-                    TextBlock resultTextBlock1 = new TextBlock() { Text = "Positive  " };
+                    TextBlock resultTextBlock1 = new TextBlock() { Text = "Positive  ", Foreground = sBrushFontColor };
                     TextBlock resultTextBlock2 = new TextBlock() { Text = totalPositive.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Green, TextAlignment = TextAlignment.Center };
                     Border positiveBorder = new Border() { Width = 20, Child = resultTextBlock2, Margin = new Thickness(0, 0, 20, 0) };
                     Rectangle resultSeperator = new Rectangle() { VerticalAlignment = VerticalAlignment.Stretch, Width = 1, Height = 20, Margin = new Thickness(2), Stroke = Brushes.Black };
-                    TextBlock resultTextBlock3 = new TextBlock() { Text = "Negative  ", Margin = new Thickness(20, 0, 0, 0) };
+                    TextBlock resultTextBlock3 = new TextBlock() { Text = "Negative  ", Margin = new Thickness(20, 0, 0, 0), Foreground = sBrushFontColor };
                     TextBlock resultTextBlock4 = new TextBlock() { Text = totalNegative.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Red, TextAlignment = TextAlignment.Center };
                     Border negativeBorder = new Border() { Width = 20, Child = resultTextBlock4 };
                     StackPanel thirdStackPanel = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
@@ -483,7 +489,8 @@ namespace VCheckViewer.Views.Pages
                     secondStackPanel.Children.Add(thirdStackPanel);
 
                     parentBorder.Child = secondStackPanel;
-                    parentBorder.Background = new SolidColorBrush(Colors.White);
+                    //parentBorder.Background = new SolidColorBrush(Colors.White);
+                    parentBorder.Background = sBrushFrameColor;
                     DropShadowEffect effect = new DropShadowEffect() { ShadowDepth = 0, Opacity = 0.3, BlurRadius = 15 };
                     parentBorder.Effect = effect;
 

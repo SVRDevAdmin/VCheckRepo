@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +25,8 @@ using Hyperlink = System.Windows.Documents.Hyperlink;
 using Label = System.Windows.Controls.Label;
 using Run = System.Windows.Documents.Run;
 using TextBlock = System.Windows.Controls.TextBlock;
+using System.Runtime.Caching;
+using System.IO;
 
 namespace VCheckViewer.Views.Pages.Notification
 {
@@ -96,10 +99,34 @@ namespace VCheckViewer.Views.Pages.Notification
             //pagination.iPageIndex = currentPage;
             //pagination.iPageSize = pageSize;
             //pagination.LoadPagingNumber();
+
+            NotificationSearch sSearchModel = new NotificationSearch();
+            sSearchModel.SearchStart = start;
+            sSearchModel.SearchEnd = end;
+            if (notificationType == null)
+            {
+                sSearchModel.SearchType = "All";
+            }
+            else
+            {
+                sSearchModel.SearchType = notificationType;
+            }
+            
+            sSearchModel.SearchStartDate = startDate;
+            sSearchModel.SearchEndDate = endDate;
+            sSearchModel.SearchKeyword = keyword;
+            sSearchModel.SearchReset = reset;
+            sSearchModel.SearchSelectedDates = RangeDate.SelectedDates;
+
+            App.MainViewModel.SearchModel = sSearchModel;
         }
 
         public void createList(List<NotificationModel> notificationList)
         {
+            String? sColor = System.Windows.Application.Current.Resources["Themes_FontColor"].ToString();
+            String? sSeparatorColor = System.Windows.Application.Current.Resources["Themes_GridNotifRowLinesColor"].ToString();
+            SolidColorBrush sBrushSeparator = new BrushConverter().ConvertFrom(sSeparatorColor) as SolidColorBrush;
+
             NotificationViewList.Children.Clear();
 
             if(notificationList.Count > 0)
@@ -117,11 +144,14 @@ namespace VCheckViewer.Views.Pages.Notification
                     title.Text = notification.NotificationTitle;
                     title.TextAlignment = System.Windows.TextAlignment.Left;
                     title.FontWeight = FontWeights.Bold;
+                    title.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                     date.Text = notification.CreatedDate;
                     date.TextAlignment = System.Windows.TextAlignment.Right;
                     date.FontWeight = FontWeights.Bold;
+                    date.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                     content.Text = notification.NotificationContent;
                     content.TextWrapping = TextWrapping.Wrap;
+                    content.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
 
                     if (notification.NotificationTitle == "Reminder for Software Update")
                     {
@@ -163,7 +193,8 @@ namespace VCheckViewer.Views.Pages.Notification
                     mainPanel.Children.Add(panel2);
 
                     NotificationViewList.Children.Add(mainPanel);
-                    if (notification != notificationList.LastOrDefault() || notificationList.Count == 1) { NotificationViewList.Children.Add(new Separator() { BorderBrush = Brushes.Black, BorderThickness = new Thickness(0.5) }); }
+                    if (notification != notificationList.LastOrDefault() || notificationList.Count == 1) { NotificationViewList.Children.Add(new Separator() { BorderBrush = sBrushSeparator, BorderThickness = new Thickness(0.5) }); }
+                    //if (notification != notificationList.LastOrDefault() || notificationList.Count == 1) { NotificationViewList.Children.Add(new Separator() { BorderBrush = Brushes.Black, BorderThickness = new Thickness(0.5) }); }
                 }
             }
             else
@@ -171,6 +202,7 @@ namespace VCheckViewer.Views.Pages.Notification
                 TextBlock textBlock = new TextBlock();
                 //textBlock.Text = "No data available";
                 textBlock.Text = Properties.Resources.General_Message_NoData;
+                textBlock.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                 textBlock.FontWeight = FontWeights.Bold;
                 textBlock.TextAlignment = System.Windows.TextAlignment.Center;
                 NotificationViewList.Children.Add(textBlock);

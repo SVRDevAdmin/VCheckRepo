@@ -57,6 +57,8 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
 
         public void initializedList()
         {
+            String? sColor = System.Windows.Application.Current.Resources["Themes_FontColor"].ToString();
+
             System.Windows.Controls.RadioButton radioButton;
             DockPanel dockPanel;
             System.Windows.Controls.Image image;
@@ -91,6 +93,7 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
                 textBlock.Text = language.CodeName;
                 textBlock.VerticalAlignment = VerticalAlignment.Center;
                 textBlock.Margin = new Thickness(2,0,0,2);
+                textBlock.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
 
                 dockPanel.Children.Add(image);
                 dockPanel.Children.Add(textBlock);
@@ -109,6 +112,7 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
                 MenuItem item = new MenuItem();
                 item.Header = country.CountryName;
                 item.Tag = country.CountryCode;
+                item.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
 
                 if (country.CountryCode == currentCountry?.ConfigurationValue) { CountryListView.SelectedItem = item; countrySelected = currentCountry.ConfigurationValue; }
 

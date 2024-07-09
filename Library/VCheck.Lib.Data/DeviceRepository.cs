@@ -148,6 +148,12 @@ namespace VCheck.Lib.Data
                         isUpdate = true;
                     }
 
+                    if (sDevice.DeviceSerialNo != sDeviceObj.DeviceSerialNo)
+                    {
+                        sDevice.DeviceSerialNo = sDeviceObj.DeviceSerialNo;
+                        isUpdate = true;
+                    }
+
                     if (isUpdate)
                     {
                         sDevice.UpdatedDate = sDeviceObj.UpdatedDate;

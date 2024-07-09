@@ -128,6 +128,7 @@ namespace VCheckListenerWorker.Lib.Models
         public String? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public String? UpdatedBy { get; set; }
+        public String? DeviceSerialNo { get; set; }
     }
 
     public class txn_notification

@@ -144,7 +144,7 @@
                 BorderThickness="0"
                 Height="50"
                 Width="230"
-                CornerRadius="30">
+                CornerRadius="7">
         <!--<Border x:Name="border"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -179,9 +179,10 @@
 
                 <ContentPresenter ContentSource="Header"
                                   Grid.Column="2"
-                                  TextBlock.Foreground="Black"
+                                  TextBlock.Foreground="{DynamicResource Themes_MasterPageFontColor}"
                                   TextBlock.FontFamily="Noto Sans"
                                   TextBlock.FontSize="20"
+                                  TextBlock.FontWeight="SemiBold"
                                   HorizontalAlignment="Left"
                                   RecognizesAccessKey="True"
                                   Margin="3,0,0,0"
@@ -219,9 +220,13 @@
             <Trigger Property="IsHighlighted"
                      Value="True">
 
+                <!--
                 <Setter Property="Background"
                         TargetName="border"
-                        Value="White" />
+                        Value="White" /> -->
+                <Setter Property="Background"
+                        TargetName="border"
+                        Value="{DynamicResource Themes_MenuHighligted}" />
                 <Setter Property="BorderBrush"
                         TargetName="border"
                         Value="#404D5B" />

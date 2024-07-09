@@ -16,8 +16,8 @@
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="FontFamily" Value="Noto Sans" />
             <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="{DynamicResource Themes_GridResultFontColor}" />
             <Setter Property="Margin" Value="2" />
-            <Setter Property="Foreground" Value="Black" />
         </Style>
         <Style x:Key="DataGridVerticalTextCenterAligned" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -25,7 +25,15 @@
             <Setter Property="FontFamily" Value="Noto Sans" />
             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
         </Style>
-
+        
+        <!--// TextBox //-->
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="{DynamicResource Themes_SearchFieldBackground}" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource Themes_SearchFieldFontColor}" />
+            <Setter Property="Padding" Value="5, 2, 0, 0" />
+        </Style>
+        
         <!-- DataGridColumnHeader style -->
         <Style x:Key="ColumnHeaderStyle1"
                TargetType="DataGridColumnHeader">
@@ -34,11 +42,11 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
                         <Border BorderBrush="White"
-                            Background="White"
-                            BorderThickness="1">
+                            Background="Transparent"
+                            BorderThickness="0">
 
                             <TextBlock Text="{TemplateBinding Content}"
-                                       Foreground="#7f7f7f" 
+                                       Foreground="{DynamicResource Themes_GridHeaderFontColor}" 
                                        HorizontalAlignment="Left"
                                        FontWeight="Bold" 
                                        FontSize="13"/>
@@ -53,11 +61,11 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
                         <Border BorderBrush="White"
-                            Background="White"
-                            BorderThickness="1">
+                            Background="Transparent"
+                            BorderThickness="0">
 
                             <TextBlock Text="{TemplateBinding Content}"
-                                       Foreground="#7f7f7f" 
+                                       Foreground="{DynamicResource Themes_GridHeaderFontColor}" 
                                        HorizontalAlignment="Center"
                                        FontWeight="Bold" 
                                        FontSize="13"/>
@@ -92,7 +100,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Border BorderBrush="Black" BorderThickness="0" Grid.Column="0" Grid.Row="0" CornerRadius="30" Background="WhiteSmoke">
+                <Border BorderBrush="Black" BorderThickness="0" Grid.Column="0" Grid.Row="0" CornerRadius="7" Background="Transparent">
                     <Grid Margin="5, 2, 5, 2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="4*" />
@@ -102,14 +110,15 @@
                         </Grid.ColumnDefinitions>
 
                         <Border BorderBrush="Black" BorderThickness="0" Grid.Column="0">
-                            <Border BorderBrush="Black" BorderThickness="1" Background="White" CornerRadius="20" Margin="10, 5, 5, 5">
+                            <Border BorderBrush="{DynamicResource Themes_SearchFieldBackground}" BorderThickness="1" Background="{DynamicResource Themes_SearchFieldBackground}" CornerRadius="7" Margin="10, 5, 5, 5">
                                 <Grid>
-                                    <ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
+                                    <!--<ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />-->
+                                    <Image Source="{DynamicResource Themes_SearchIcon}" Width="24" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
 
-                                    <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" />
+                                    <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Style="{StaticResource TextBoxStyle}" />
                                     <TextBlock IsHitTestVisible="False" Text="{Binding Path=Results_Label_Searchbar, Source={StaticResource Resources}}" 
-                                               VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray"
-                                               FontFamily="Noto Sans" FontSize="12">
+                                               VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="{DynamicResource Themes_SearchFieldFontColor}"
+                                               FontFamily="Noto Sans" FontSize="12" Background="{DynamicResource Themes_SearchFieldBackground}">
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -125,9 +134,10 @@
                             </Border>
                         </Border>
                         <Border BorderBrush="Black" BorderThickness="0" Grid.Column="1" Background="Transparent">
-                            <Border Background="White" CornerRadius="20" Margin="5, 5, 5, 5" BorderThickness="1" BorderBrush="Black">
+                            <Border Background="{DynamicResource Themes_SearchFieldBackground}" CornerRadius="7" Margin="5, 5, 5, 5" BorderThickness="1" BorderBrush="{DynamicResource Themes_SearchFieldBackground}">
                                 <Grid>
-                                    <ui:SymbolIcon Symbol="CalendarEdit16" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>
+                                    <!--<ui:SymbolIcon Symbol="CalendarEdit16" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->
+                                    <Image Source="{DynamicResource Themes_CalendarIcon}" Width="24" HorizontalAlignment="Left" Margin="5,2,0,0" />
 
                                     <userControls:DateRangePicker x:Name="RangeDate"
                                                     SelectedDateRange="{Binding SelectedDates, Mode=TwoWay}"
@@ -138,18 +148,19 @@
                             </Border>
                         </Border>
                         <Border BorderBrush="Black" BorderThickness="0" Grid.Column="2">
-                            <Border CornerRadius="20" Margin="5, 5, 5, 5" BorderThickness="1" BorderBrush="Black" Background="White">
+                            <Border CornerRadius="7" Margin="5, 5, 5, 5" BorderThickness="1" BorderBrush="{DynamicResource Themes_SearchFieldBackground}" Background="{DynamicResource Themes_SearchFieldBackground}">
                                 <Grid>
                                     <Label Content="{Binding Path=Results_Label_SortBy, Source={StaticResource Resources}}" 
-                                           FontFamily="Noto Sans" Foreground="Black" FontSize="12" VerticalContentAlignment="Center" 
+                                           FontFamily="Noto Sans" Foreground="{DynamicResource Themes_SearchFieldFontColor}" FontSize="12" VerticalContentAlignment="Center" 
                                            Margin="5, 5, 0, 0" />
-                                    <ComboBox x:Name="cboSort" Background="Transparent" BorderThickness="0" Margin="60, 0, 5, 0" Foreground="Black"
-                                          ItemsSource="{Binding cbSort}"  SelectedItem="{Binding SelectedcbSort}" />
+
+                                    <ComboBox x:Name="cboSort" Background="Transparent" BorderThickness="0" Margin="60, 0, 5, 0"
+                                          ItemsSource="{Binding cbSort}" SelectedItem="{Binding SelectedcbSort}" Foreground="{DynamicResource Themes_SearchFieldFontColor}"/>
                                 </Grid>
                             </Border>
                         </Border>
                         <Border BorderBrush="Black" BorderThickness="0" Grid.Column="3">
-                            <Border CornerRadius="20" Margin="5" BorderThickness="0" BorderBrush="Black" Background="DarkOrange">
+                            <Border CornerRadius="7" Margin="5" BorderThickness="0" BorderBrush="Black" Background="{DynamicResource Themes_ButtonColor}">
                                 <Button Name="btnFilter" Content="{Binding Path=Results_Label_UpdateFilter, Source={StaticResource Resources}}" 
                                         Width="120" Foreground="White" VerticalAlignment="Stretch" HorizontalAlignment="Center" 
                                         BorderThickness="0" Background="Transparent" 
@@ -162,20 +173,23 @@
                 </Border>
                 <Border BorderBrush="Black" BorderThickness="0" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right">
                     <Button Name="btnDownload" BorderBrush="Black" BorderThickness="0" Background="Transparent" Click="btnDownload_Click">
-                        <Image Source="../../../../Content/Images/Download.png" Width="20" Height="20" />
+                        <!--<Image Source="../../../../Content/Images/Download.png" Width="20" Height="20" />-->
+                        <Image Source="{DynamicResource Themes_GridDownloadIcon}" Width="20" Height="20" />
+                        
                     </Button>
                 </Border>
                 <Border BorderBrush="Black" BorderThickness="0" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center">
                     <Button Name="btnPrint" Margin="1, 0, 5, 0" BorderThickness="0" BorderBrush="Black" Background="Transparent" Click="btnPrint_Click">
-                        <Image Source="../../../../Content/Images/Print.png" Width="20" Height="20" />
+                        <!--<Image Source="../../../../Content/Images/Print.png" Width="20" Height="20" />-->
+                        <Image Source="{DynamicResource Themes_GridPrintIcon}" Width="20" Height="20" />
                     </Button>
                 </Border>
             </Grid>
         </Border>
         <TextBlock Name="txtTotalCount" Text="0" Visibility="Collapsed" />
         <Border BorderBrush="Black" BorderThickness="0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Margin="15, 10, 10, 5">
-            <DataGrid Name="dgResult" BorderThickness="0" AutoGenerateColumns="False" GridLinesVisibility="Horizontal"
-                RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}" CanUserAddRows="False">
+            <DataGrid Name="dgResult" BorderThickness="0" AutoGenerateColumns="False" GridLinesVisibility="Horizontal" Background="Transparent"
+                RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}" HorizontalGridLinesBrush="{DynamicResource Themes_GridRowLinesColor}" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{Binding Path=Results_Label_No, Source={StaticResource Resources}}" Binding="{Binding RowNo}" Width="35" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_Time, Source={StaticResource Resources}}" Binding="{Binding TestResultDateTime, StringFormat={}{0:yyyy-MM-dd HH:ss}}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
@@ -185,7 +199,7 @@
                     <DataGridTemplateColumn Header="{Binding Path=Results_Label_Result, Source={StaticResource Resources}}" Width="120" HeaderStyle="{StaticResource columnHeaderStyleCenterAlign}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Border CornerRadius="4" Margin="15, 5, 15, 5" Background="{Binding statusBackground}">
+                                <Border CornerRadius="4" Margin="15, 5, 15, 5" Background="Transparent">
                                     <TextBlock Text="{Binding TestResultStatus}" FontSize="11" FontWeight="Bold" 
                                                Foreground="{Binding statusFontColor}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Border>
@@ -203,7 +217,8 @@
                                     <Menu>
                                         <MenuItem>
                                             <MenuItem.Icon>
-                                                <ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />
+                                                <!--<ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />-->
+                                                <Image Source="{DynamicResource Themes_GirdUserMoreIcon}" Width="12" />
                                             </MenuItem.Icon>
                                             <MenuItem Name="menuDownload" Header="{Binding Path=Results_Label_Download, Source={StaticResource Resources}}" Click="menuDownload_Click" />
                                             <MenuItem Name="menuPrint" Header="{Binding Path=Results_Label_Print, Source={StaticResource Resources}}" Click="menuPrint_Click" />

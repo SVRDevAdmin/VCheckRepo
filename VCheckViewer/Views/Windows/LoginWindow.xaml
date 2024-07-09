@@ -11,20 +11,20 @@
         <!-- Define the Popup -->
         <Border x:Name="PopupBackground">
             <Popup Name="popup" IsOpen="False" Placement="Center" AllowsTransparency="True">
-                <Border Background="PeachPuff" BorderBrush="DimGray" BorderThickness="0" Width="400" Height="250" CornerRadius="20">
+                <Border Background="{DynamicResource Themes_PopupMessageFrameBackground}" BorderBrush="{DynamicResource Themes_PopupMessageFrameBackground}" BorderThickness="0" Width="400" Height="250" CornerRadius="20">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="2*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0">
-                            <TextBlock x:Name="PopupContent" TextWrapping="Wrap" TextAlignment="Center" Margin="40,40,40,0" FontSize="15"/>
+                            <TextBlock x:Name="PopupContent" TextWrapping="Wrap" TextAlignment="Center" Margin="40,40,40,0" FontSize="15" Foreground="{DynamicResource Themes_PopupMessageFontColor}"/>
                         </Border>
                         <Border Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,40">
                             <StackPanel Orientation="Horizontal">
-                                <Button x:Name="CancelButton" Content="No" Click="CancelButton_Click" Margin="0,0,10,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="Transparent"/>
-                                <Button x:Name="ContinueButton" Content="Yes" Click="ContinueButton_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="DarkOrange" Foreground="White"/>
-                                <Button x:Name="OKButton" Content="OK" Click="CancelButton_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="DarkOrange" Foreground="White" Visibility="Hidden"/>
+                                <Button x:Name="CancelButton" Content="No" Click="CancelButton_Click" Margin="0,0,10,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Foreground="{DynamicResource Themes_PopupMessageFontColor}" BorderBrush="{DynamicResource Themes_PopupMessageFontColor}" Background="Transparent"/>
+                                <Button x:Name="ContinueButton" Content="Yes" Click="ContinueButton_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Foreground="{DynamicResource Themes_PopupMessageFontColor}"/>
+                                <Button x:Name="OKButton" Content="OK" Click="CancelButton_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Foreground="{DynamicResource Themes_PopupMessageFontColor}" Visibility="Hidden"/>
                             </StackPanel>
                         </Border>
                     </Grid>

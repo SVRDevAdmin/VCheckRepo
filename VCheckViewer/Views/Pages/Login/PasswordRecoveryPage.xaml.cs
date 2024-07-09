@@ -44,6 +44,7 @@ namespace VCheckViewer.Views.Pages.Login
         public PasswordRecoveryPage()
         {
             InitializeComponent();
+            CheckThemesSettings();
 
             LoginWindow.ResetPassword += new EventHandler(ProceedResetPassword);
 
@@ -53,6 +54,7 @@ namespace VCheckViewer.Views.Pages.Login
             var Login_Label_LeftMain_array = Properties.Resources.Login_Label_LeftMain.Split("<nextline>");
             Login_Label_LeftMain.Text = Login_Label_LeftMain_array[0] + "\r\n" + 
                                         ((Login_Label_LeftMain_array.Length > 1) ? Login_Label_LeftMain_array[1] : "");
+
         }
 
         private async void ResetPassword(object sender, RoutedEventArgs e)
@@ -226,6 +228,50 @@ namespace VCheckViewer.Views.Pages.Login
             randomstring = string.Join("",chars);
 
             return randomstring;
+        }
+
+        private void CheckThemesSettings()
+        {
+            String? sTheme = "Light";
+
+            var sConfigData = ConfigurationContext.GetConfigurationData("SystemSettings_Themes");
+            if (sConfigData != null && sConfigData.Count > 0)
+            {
+                sTheme = sConfigData[0].ConfigurationValue;
+            }
+
+            String sThemeName = sTheme + ".xaml";
+            AppTheme.ChangeTheme(new Uri("Themes/" + sThemeName, UriKind.Relative));
+            if (sTheme.ToLower() == "light")
+            {
+                btnDarkTheme.Background = System.Windows.Media.Brushes.Transparent;
+
+                System.Windows.Media.Color sBlue = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#1e76fb");
+                btnLightTheme.Background = new SolidColorBrush(sBlue);
+            }
+            else if (sTheme.ToLower() == "dark")
+            {
+                btnLightTheme.Background = System.Windows.Media.Brushes.Transparent;
+
+                System.Windows.Media.Color sBlue = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#1e76fb");
+                btnDarkTheme.Background = new SolidColorBrush(sBlue);
+            }
+        }
+
+        private void btnDarkTheme_Click(object sender, RoutedEventArgs e)
+        {
+            var sButton = (System.Windows.Controls.Button)sender;
+            ConfigurationContext.UpdateConfiguration("SystemSettings_Themes", (sButton != null) ? sButton.Tag.ToString() : "");
+
+            CheckThemesSettings();
+        }
+
+        private void btnLightTheme_Click(object sender, RoutedEventArgs e)
+        {
+            var sButton = (System.Windows.Controls.Button)sender;
+            ConfigurationContext.UpdateConfiguration("SystemSettings_Themes", (sButton != null) ? sButton.Tag.ToString() : "");
+
+            CheckThemesSettings();
         }
     }
 }

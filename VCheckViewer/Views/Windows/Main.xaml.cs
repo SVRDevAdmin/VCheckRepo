@@ -26,6 +26,8 @@ using VCheckViewer.Views.Pages.Results;
 using Org.BouncyCastle.Utilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic.Logging;
+using DocumentFormat.OpenXml.Drawing;
+using System.Runtime.Caching;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -82,8 +84,11 @@ namespace VCheckViewer.Views.Windows
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
-            mnDashboard.Background = System.Windows.Media.Brushes.White;
-            mnDashboard.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
+            CheckThemesSettings();
+
+            refreshMenuItemStyle(mnDashboard);
+            //mnDashboard.Background = System.Windows.Media.Brushes.White;
+            //mnDashboard.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
         }
 
         #region INavigationWindow methods
@@ -871,10 +876,7 @@ namespace VCheckViewer.Views.Windows
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
-            ClearMenuItemStyle();
-            mnDashboard.Background = System.Windows.Media.Brushes.White;
-            mnDashboard.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
-            PageTitle.Text = Properties.Resources.Dashboard_Title_PageTitle;
+            refreshMenuItemStyle(mnDashboard);
         }
 
         private void mnSchedule_Click(object sender, RoutedEventArgs e)
@@ -885,9 +887,7 @@ namespace VCheckViewer.Views.Windows
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
-            ClearMenuItemStyle();
-            mnSchedule.Background = System.Windows.Media.Brushes.White;
-            mnSchedule.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
+            refreshMenuItemStyle(mnSchedule);
         }
 
         private void mnResults_Click(object sender, RoutedEventArgs e)
@@ -898,9 +898,7 @@ namespace VCheckViewer.Views.Windows
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
-            ClearMenuItemStyle();
-            mnResults.Background = System.Windows.Media.Brushes.White;
-            mnResults.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
+            refreshMenuItemStyle(mnResults);
         }
 
         private void mnNotifications_Click(object sender, RoutedEventArgs e)
@@ -913,9 +911,7 @@ namespace VCheckViewer.Views.Windows
 
             PageTitle.Text = Properties.Resources.Main_Label_SideMenuNotification;
 
-            ClearMenuItemStyle();
-            mnNotifications.Background = System.Windows.Media.Brushes.White;
-            mnNotifications.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
+            refreshMenuItemStyle(mnNotifications);
         }
 
         private void mnSettings_Click(object sender, RoutedEventArgs e)
@@ -928,10 +924,7 @@ namespace VCheckViewer.Views.Windows
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
-            ClearMenuItemStyle();
-            mnSettings.Background = System.Windows.Media.Brushes.White;
-            mnSettings.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
-            PageTitle.Text = Properties.Resources.Setting_Title_PageTitle;
+            refreshMenuItemStyle(mnSettings);
         }
 
         private void btnCollapse_Click(object sender, RoutedEventArgs e)
@@ -984,6 +977,182 @@ namespace VCheckViewer.Views.Windows
             mnSchedule.Background = System.Windows.Media.Brushes.Transparent;
             mnResults.Background = System.Windows.Media.Brushes.Transparent;
             mnNotifications.Background = System.Windows.Media.Brushes.Transparent;
+        }
+
+        private void btnDarkTheme_Click(object sender, RoutedEventArgs e)
+        {
+            var sButton = (System.Windows.Controls.Button)sender;
+            ConfigurationContext.UpdateConfiguration("SystemSettings_Themes", (sButton != null) ? sButton.Tag.ToString() : "");
+
+            CheckThemesSettings();
+            refreshContent();
+        }
+
+        private void btnLightTheme_Click(object sender, RoutedEventArgs e)
+        {
+            var sButton = (System.Windows.Controls.Button)sender;
+            ConfigurationContext.UpdateConfiguration("SystemSettings_Themes", (sButton != null) ? sButton.Tag.ToString() : "");
+            
+            CheckThemesSettings();
+            refreshContent();
+        }
+
+        private void CheckThemesSettings()
+        {
+            String? sTheme = "Light";
+
+            var sConfigData = ConfigurationContext.GetConfigurationData("SystemSettings_Themes");
+            if (sConfigData != null && sConfigData.Count > 0)
+            {
+                sTheme = sConfigData[0].ConfigurationValue;
+            }
+
+            String sThemeName = sTheme + ".xaml";
+            AppTheme.ChangeTheme(new Uri("Themes/" + sThemeName, UriKind.Relative));
+            if (sTheme.ToLower() == "light")
+            {
+                btnDarkTheme.Background = System.Windows.Media.Brushes.Transparent;
+
+                System.Windows.Media.Color sBlue = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#1e76fb");
+                btnLightTheme.Background = new SolidColorBrush(sBlue);
+            }
+            else if (sTheme.ToLower() == "dark")
+            {
+                btnLightTheme.Background = System.Windows.Media.Brushes.Transparent;
+
+                System.Windows.Media.Color sBlue = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#1e76fb");
+                btnDarkTheme.Background = new SolidColorBrush(sBlue);
+            }
+        }
+
+        private void refreshContent()
+        {
+            System.Windows.Controls.MenuItem sMenu = new System.Windows.Controls.MenuItem();
+
+            var sCurrentContent = frameContent.Content;
+            if (sCurrentContent.ToString().Contains("Dashboard")){ 
+                frameContent.Content = new DashboardPage();
+                sMenu = mnDashboard;
+            }
+            if (sCurrentContent.ToString().Contains("LanguageCountryPage")){ 
+                frameContent.Content = new LanguageCountryPage();
+                sMenu = mnSettings;
+            }
+            if (sCurrentContent.ToString().Contains("DevicePage")){ 
+                frameContent.Content = new DevicePage();
+                sMenu = mnSettings;
+            }
+            if (sCurrentContent.ToString().Contains("SchedulePage"))
+            {
+                sMenu = mnSchedule;
+            }
+            if (sCurrentContent.ToString().Contains("ResultPage"))
+            {
+                sMenu = mnResults;
+            }
+            if (sCurrentContent.ToString().Contains("User"))
+            {
+                sMenu = mnSettings;
+            }
+            if (sCurrentContent.ToString().Contains("Configuration"))
+            {
+                sMenu = mnSettings;
+            }
+
+            if (sCurrentContent.ToString().Contains("NotificationPage"))
+            {
+                sMenu = mnNotifications;
+
+                var sSearchModel = App.MainViewModel.SearchModel;
+
+                if (sSearchModel != null)
+                {
+                    var Notification = new NotificationPage();
+                    Notification.reloadData(sSearchModel.SearchStart, sSearchModel.SearchEnd, 
+                                            (sSearchModel.SearchType == "All" ? null : sSearchModel.SearchType), 
+                                            sSearchModel.SearchStartDate, sSearchModel.SearchEndDate, sSearchModel.SearchKeyword, 
+                                            sSearchModel.SearchReset);
+
+                    // Pre-selected search criteria //
+                    Notification.KeywordSearchBar.Text = sSearchModel.SearchKeyword;
+
+                    foreach(var t in Notification.NotificationType.Items)
+                    {
+                        var comboItem = t as ComboBoxItem;
+
+                        if (comboItem.Content.ToString() == sSearchModel.SearchType)
+                        {
+                            comboItem.IsSelected = true;
+                        }
+                        else
+                        {
+                            comboItem.IsSelected = false;
+                        }
+                    }
+
+                    if (sSearchModel.SearchStartDate != null && sSearchModel.SearchEndDate != null)
+                    {
+                        Notification.RangeDate.SelectedDates = GenerateSelectedDateRange(sSearchModel.SearchStartDate, sSearchModel.SearchEndDate);
+
+                        String sStart = Notification.RangeDate.SelectedDates.FirstOrDefault().ToString();
+                        String sEnd = Notification.RangeDate.SelectedDates.LastOrDefault().ToString();
+                        DateTime dtStart = DateTime.ParseExact(sStart, "M/d/yyyy h:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture);
+                        DateTime dtEnd = DateTime.ParseExact(sEnd, "M/d/yyyy h:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture);
+                        Notification.RangeDate.DateRangePicker_TextBox.Text = dtStart.ToString("dd/MM/yyyy") + " - " + dtEnd.ToString("dd/MM/yyyy");
+                    }
+
+
+                    frameContent.Content = Notification;
+                }
+                else
+                {
+                    frameContent.Content = new NotificationPage();
+                }
+
+            }
+
+            refreshMenuItemStyle(sMenu);
+        }
+
+        private void refreshMenuItemStyle(System.Windows.Controls.MenuItem sItem)
+        {
+            ClearMenuItemStyle();
+
+            String? sColor = System.Windows.Application.Current.Resources["Themes_MenuHighligted"].ToString();
+
+            sItem.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+            sItem.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
+        }
+
+        private ObservableCollection<DateTime> GenerateSelectedDateRange(String sStart, String sEnd)
+        {
+            ObservableCollection<DateTime> sDateList = new ObservableCollection<DateTime>();
+
+            if (sStart == null && sEnd == null)
+            {
+                return null;
+            }
+            else if (sStart == sEnd)
+            {
+                DateTime sDate = DateTime.ParseExact(sStart, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+                sDateList.Add(sDate);
+            }
+            else
+            {
+                DateTime sSDate = DateTime.ParseExact(sStart, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+                DateTime sEDate = DateTime.ParseExact(sEnd, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+                
+                sDateList.Add(sSDate);
+
+                while (sSDate < sEDate.AddDays(-1))
+                {
+                    sSDate = sSDate.AddDays(1);
+
+                    sDateList.Add(sSDate);
+                }
+            }
+
+            return sDateList;
         }
     }
 

@@ -6,11 +6,26 @@
              xmlns:local="clr-namespace:VCheckViewer.UserControls"
              mc:Ignorable="d" 
              x:Name="this">
+
+    <UserControl.Resources>
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="{DynamicResource Themes_SearchFieldBackground}" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource Themes_SearchFieldFontColor}" />
+            <Setter Property="Padding" Value="5, 2, 0, 0" />
+        </Style>
+        <!--<Style x:Key="CalendarPopupStyle" TargetType="Calendar">
+            <Setter Property="Background" Value="{DynamicResource Themes_SearchFieldBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource Themes_SearchFieldFontColor}" />
+        </Style>-->
+    </UserControl.Resources>
+    
     <Grid>
         <StackPanel>
             <Border
-            BorderThickness="0"
-            BorderBrush="{Binding ElementName=DateRangePicker_TextBox, Path=BorderBrush}">
+                BorderThickness="0"
+                BorderBrush="{Binding ElementName=DateRangePicker_TextBox, Path=BorderBrush}" 
+                Background="Transparent">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35" />
@@ -27,7 +42,9 @@
                     BorderThickness="0"
                     d:Text="14.03.2023 - 20.03.2023"
                     Text="{Binding ElementName=this, Path=DisplayValue, Mode=TwoWay, Delay=300}"
+                    Style="{StaticResource TextBoxStyle}"
                     KeyUp="Handle_Escape_Button" GotMouseCapture="DateRangePicker_TextBox_GotMouseCapture"/>
+                    
                     <TextBlock IsHitTestVisible="False" Text="{Binding Path=General_Label_SelectDuration, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
@@ -72,14 +89,14 @@
                     Focusable="False"
                     PopupAnimation="Slide">
 
-                <Viewbox
-                x:Name="DateRangePicker_DropDown"
-                SnapsToDevicePixels="True"
-                Stretch="Fill">
+                <Viewbox x:Name="DateRangePicker_DropDown"
+                        SnapsToDevicePixels="True"
+                        Stretch="Fill">
                     <Calendar
                     x:Name="DateRangePicker_Calendar"
                     SelectionMode="MultipleRange"
-                    SelectedDatesChanged="DateRangePicker_Calendar_SelectedDatesChanged"/>
+                    SelectedDatesChanged="DateRangePicker_Calendar_SelectedDatesChanged"
+                    />
                 </Viewbox>
             </Popup>
         </StackPanel>

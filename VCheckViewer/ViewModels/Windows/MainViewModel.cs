@@ -52,6 +52,12 @@ namespace VCheckViewer.ViewModels.Windows
             set { _configurationModel = value; }
         }
 
+        NotificationSearch _searchModel;
+        public NotificationSearch SearchModel
+        {
+            get { return _searchModel; }
+            set { _searchModel = value; }
+        }
 
         ObservableCollection<ComboBoxItem> _cbTitle;
         public ObservableCollection<ComboBoxItem> cbTitle
@@ -146,5 +152,7 @@ namespace VCheckViewer.ViewModels.Windows
                 _oldDeviceName = value;
             }
         }
+
+
     }
 }
