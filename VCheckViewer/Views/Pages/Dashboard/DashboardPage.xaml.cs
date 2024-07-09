@@ -462,8 +462,8 @@ namespace VCheckViewer.Views.Pages
                     childBorder.Background = device.status == 2 ? (Brush)new BrushConverter().ConvertFromString("#ffeed1") : (Brush)new BrushConverter().ConvertFromString("#e0ffe5");
 
                     Image image = new Image();
-                    var uri = new Uri(device.DeviceImagePath);
-                    //var uri = new Uri(@"pack://application:,,,/VCheckViewer;component"+ device.DeviceImagePath);
+                    //var uri = new Uri(device.DeviceImagePath);
+                    var uri = new Uri(@"pack://application:,,,/VCheckViewer;component" + device.DeviceImagePath);
                     var bitmap = new BitmapImage(uri);
                     image.Source = bitmap;
                     image.Height = imageHeight;
