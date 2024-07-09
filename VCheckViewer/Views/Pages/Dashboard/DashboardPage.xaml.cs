@@ -412,7 +412,7 @@ namespace VCheckViewer.Views.Pages
             {
                 Grid testGrid = new Grid() { Margin = new Thickness(0, 10, 0, 10) };
 
-                if (totalElementPerRow == 0) { TextBlock textBlock = new TextBlock() { Text = Properties.Resources.General_Message_NoDevice, FontSize = 50, TextAlignment = TextAlignment.Center }; testGrid.Children.Add(textBlock); }
+                if (totalElementPerRow == 0) { TextBlock textBlock = new TextBlock() { Text = Properties.Resources.General_Message_NoDevice, FontSize = 50, TextAlignment = TextAlignment.Center, Foreground = sBrushFontColor }; testGrid.Children.Add(textBlock); }
 
                 for (int column = 0; column < totalElementPerRow; column++)
                 {
