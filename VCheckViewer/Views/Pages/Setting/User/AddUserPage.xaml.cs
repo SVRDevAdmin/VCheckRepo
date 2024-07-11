@@ -76,7 +76,17 @@ namespace VCheckViewer.Views.Pages
             else if (element.GetType() == typeof(TextBox)) { textBox = element as TextBox; parent = textBox.Parent as Border; }
             else { datePicker = element as DatePicker; parent = datePicker.Parent as Border; }
 
-            if (textBox != null && textBox.Name == "EmailAddress" && !textBox.Text.Contains("@"))
+
+
+            if ((textBox != null && textBox.Text == "") || (comboBox != null && comboBox.Text == "") || (datePicker != null && datePicker.Text == ""))
+            {
+                parent.BorderBrush = Brushes.Red;
+                parent.BorderThickness = new Thickness(1);
+                //parent.ToolTip = "This is a mandatory field.";
+                parent.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
+                CheckAllValueExisted();
+            }
+            else if (textBox != null && textBox.Name == "EmailAddress" && !textBox.Text.Contains("@"))
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
@@ -106,14 +116,6 @@ namespace VCheckViewer.Views.Pages
                 parent.BorderThickness = new Thickness(1);
                 //parent.ToolTip = "Please key in correct date format.";
                 parent.ToolTip = Properties.Resources.Setting_ErrorMessage_DateFormat;
-                CheckAllValueExisted();
-            }
-            else if ((textBox != null && textBox.Text == "") || (comboBox != null && comboBox.Text == "") || (datePicker != null && datePicker.Text == ""))
-            {
-                parent.BorderBrush = Brushes.Red;
-                parent.BorderThickness = new Thickness(1);
-                //parent.ToolTip = "This is a mandatory field.";
-                parent.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
                 CheckAllValueExisted();
             }
             else

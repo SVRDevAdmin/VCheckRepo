@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VCheckViewer.Views.Windows;
 using Brushes = System.Windows.Media.Brushes;
 
 namespace VCheckViewer.Views.Pages.Login
@@ -22,44 +24,81 @@ namespace VCheckViewer.Views.Pages.Login
     /// </summary>
     public partial class ResetCurrentUserPasswordPage : Page
     {
+        IdentityUser user;
         public ResetCurrentUserPasswordPage()
         {
             InitializeComponent();
+
+            assignUser();
+
+            Main.ResetCurrentPassword += new EventHandler(ProceedResetPassword);
+        }
+
+        private async void assignUser()
+        {
+            user = await App.UserManager.FindByIdAsync(App.MainViewModel.CurrentUsers.UserId.ToString());
         }
 
         private async void ResetPassword_Click(object sender, RoutedEventArgs e)
         {
             if(NewPassword.Password == ConfirmPassword.Password)
             {
-                IdentityUser user = await App.UserManager.FindByIdAsync(App.MainViewModel.CurrentUsers.UserId.ToString());
-
                 if(user != null)
                 {
-                    var changePassword = await App.UserManager.ChangePasswordAsync(user, OldPassword.Password, ConfirmPassword.Password);
 
-                    if (changePassword.Succeeded)
+                    var correctCurrentPassword = await App.UserManager.CheckPasswordAsync(user, OldPassword.Password);
+
+                    if (!correctCurrentPassword) 
                     {
-                        ErrorText.Text = Properties.Resources.Login_Message_PasswordResetted;
-                        ErrorText.Foreground = Brushes.Green;
+                        ErrorText.Text = Properties.Resources.Login_Message_WrongCurrentPassword;
+                        ErrorText.Foreground = Brushes.Red;
                     }
                     else
                     {
-                        //string errorText = "";
+                        string errorMessage = "";
 
-                        //var errors = changePassword.Errors.ToList();
+                        if (ConfirmPassword.Password.Length < 8) { errorMessage = errorMessage + "- " + Properties.Resources.Login_ErrorMessage_PasswordLessEightChar; }
+                        if (!Regex.IsMatch(ConfirmPassword.Password, "^(?=.*?[A-Z]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = errorMessage + "- " + Properties.Resources.Login_ErrorMessage_NoUpperCase; }
+                        if (!Regex.IsMatch(ConfirmPassword.Password, "^(?=.*?[a-z]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = errorMessage + "- " + Properties.Resources.Login_ErrorMessage_NoLowerCase; }
+                        if (!Regex.IsMatch(ConfirmPassword.Password, "^(?=.*?[0-9]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = errorMessage + "- " + Properties.Resources.Login_ErrorMessage_NoNumberChar; }
 
-                        //foreach (var error in errors)
+                        if(errorMessage != "") {   ErrorText.Text = errorMessage; ErrorText.Foreground = Brushes.Red; }
+                        else
+                        {
+                            App.MainViewModel.Origin = "ResetPassword";
+
+                            App.PopupHandler(e, sender);
+                        }
+
+                        //var changePassword = await App.UserManager.ChangePasswordAsync(user, OldPassword.Password, ConfirmPassword.Password);
+
+                        //if (changePassword.Succeeded)
                         //{
-                        //    errorText += "- " + error.Description + "\r\n";
+                        //    ErrorText.Text = Properties.Resources.Login_Message_PasswordResetted;
+                        //    ErrorText.Foreground = Brushes.Green;
                         //}
-                        if (changePassword.Errors.Any(x => x.Code.ToString() == "PasswordMismatch")) { ErrorText.Text = Properties.Resources.Login_Message_WrongCurrentPassword; }
-                        else { ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement; }
+                        //else
+                        //{
+                        //    //string errorText = "";
 
-                        //ErrorText.Text = errorText;
-                        //ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement;
-                        ErrorText.Foreground = Brushes.Red;
+                        //    //var errors = changePassword.Errors.ToList();
+
+                        //    //foreach (var error in errors)
+                        //    //{
+                        //    //    errorText += "- " + error.Description + "\r\n";
+                        //    //}
+                        //    //if (changePassword.Errors.Any(x => x.Code.ToString() == "PasswordMismatch")) { ErrorText.Text = Properties.Resources.Login_Message_WrongCurrentPassword; }
+                        //    //else { ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement; }
+
+                        //    ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement;
+
+                        //    //ErrorText.Text = errorText;
+                        //    //ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement;
+                        //    ErrorText.Foreground = Brushes.Red;
+                        //}
                     }
-                }
+
+                    }
                 else
                 {
                     ErrorText.Text = Properties.Resources.General_Message_Error;
@@ -68,14 +107,70 @@ namespace VCheckViewer.Views.Pages.Login
             }
             else
             {
-                ErrorText.Text = Properties.Resources.Login_Message_PasswordNewConfirmMismatch;
+                ErrorText.Text = Properties.Resources.Login_Message_WrongNewPassword;
                 ErrorText.Foreground = Brushes.Red;
             }
             
         }
 
-        private void ValueCheck(object sender, System.Windows.Input.KeyEventArgs e)
+        private async void ProceedResetPassword(object sender, EventArgs e)
         {
+            var changePassword = await App.UserManager.ChangePasswordAsync(user, OldPassword.Password, ConfirmPassword.Password);
+            if (changePassword.Succeeded)
+            {
+                ErrorText.Text = Properties.Resources.Login_Message_PasswordResetted;
+                ErrorText.Foreground = Brushes.Green;
+            }
+            else
+            {
+                ErrorText.Text = Properties.Resources.General_Message_Error;
+                ErrorText.Foreground = Brushes.Red;
+            }
+
+        }
+
+        private async void ValueCheck(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            PasswordBox password = null;
+            Border parentBorder;
+
+
+            password = sender as PasswordBox; 
+            parentBorder = password.Parent as Border;
+
+
+            if ((password != null && password.Password == ""))
+            {
+                parentBorder.BorderBrush = Brushes.Red;
+                parentBorder.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
+            }
+            else if (password != null && (password.Password.Length < 8 || !Regex.IsMatch(password.Password, "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{0,}$")))
+            {
+                string errorMessage = "";
+                parentBorder.BorderBrush = Brushes.Red;
+
+                if (password.Password.Length < 8) { errorMessage = errorMessage + "- " + Properties.Resources.Login_ErrorMessage_PasswordLessEightChar; }
+                if (!Regex.IsMatch(password.Password, "^(?=.*?[A-Z]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = errorMessage + "- " + Properties.Resources.Login_ErrorMessage_NoUpperCase; }
+                if (!Regex.IsMatch(password.Password, "^(?=.*?[a-z]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = errorMessage + "- " + Properties.Resources.Login_ErrorMessage_NoLowerCase; }
+                if (!Regex.IsMatch(password.Password, "^(?=.*?[0-9]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = errorMessage + "- " + Properties.Resources.Login_ErrorMessage_NoNumberChar; }
+                parentBorder.ToolTip = errorMessage;
+            }
+            else if (password != null && password.Name == "OldPassword" && !await App.UserManager.CheckPasswordAsync(user, OldPassword.Password))
+            {
+                parentBorder.BorderBrush = Brushes.Red;
+                parentBorder.ToolTip = Properties.Resources.Login_Message_WrongCurrentPassword;
+            }
+            else if (password != null && password.Name == "ConfirmPassword" && password.Password != NewPassword.Password)
+            {
+                parentBorder.BorderBrush = Brushes.Red;
+                parentBorder.ToolTip = Properties.Resources.Login_Message_WrongNewPassword;
+            }
+            else
+            {
+                parentBorder.BorderBrush = Brushes.Black;
+                parentBorder.ToolTip = "No issue";
+            }
+
             if (OldPassword.Password != "" && NewPassword.Password != "" && ConfirmPassword.Password != "") { ResetPassword.IsEnabled = true; }
             else { ResetPassword.IsEnabled = false; }
         }

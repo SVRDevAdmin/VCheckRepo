@@ -466,6 +466,51 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to At least one lowercase letter..
+        /// </summary>
+        public static string Login_ErrorMessage_NoLowerCase {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_NoLowerCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to At least one number..
+        /// </summary>
+        public static string Login_ErrorMessage_NoNumberChar {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_NoNumberChar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to At least one special character..
+        /// </summary>
+        public static string Login_ErrorMessage_NoSpecialChar {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_NoSpecialChar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to At least one uppercase letter..
+        /// </summary>
+        public static string Login_ErrorMessage_NoUpperCase {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_NoUpperCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field must contain at least 8 characters..
+        /// </summary>
+        public static string Login_ErrorMessage_PasswordLessEightChar {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_PasswordLessEightChar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wrong email linked to the account, please verify it is the correct email and try again..
         /// </summary>
         public static string Login_ErrorMessage_WrongEmail {
@@ -498,6 +543,24 @@ namespace VCheckViewer.Properties {
         public static string Login_ErrorMessage_WrongPassword {
             get {
                 return ResourceManager.GetString("Login_ErrorMessage_WrongPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Login ID and Email Address do not match..
+        /// </summary>
+        public static string Login_ErrorMessage_WrongUsernameEmail {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_WrongUsernameEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incorrect Login ID or Password..
+        /// </summary>
+        public static string Login_ErrorMessage_WrongUsernamePassword {
+            get {
+                return ResourceManager.GetString("Login_ErrorMessage_WrongUsernamePassword", resourceCulture);
             }
         }
         
@@ -669,6 +732,15 @@ namespace VCheckViewer.Properties {
         public static string Login_Message_WrongCurrentPassword {
             get {
                 return ResourceManager.GetString("Login_Message_WrongCurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong new password..
+        /// </summary>
+        public static string Login_Message_WrongNewPassword {
+            get {
+                return ResourceManager.GetString("Login_Message_WrongNewPassword", resourceCulture);
             }
         }
         
@@ -948,6 +1020,15 @@ namespace VCheckViewer.Properties {
         public static string Popup_Message_RemoveAnalyzer {
             get {
                 return ResourceManager.GetString("Popup_Message_RemoveAnalyzer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to reset the password?.
+        /// </summary>
+        public static string Popup_Message_ResetPassword {
+            get {
+                return ResourceManager.GetString("Popup_Message_ResetPassword", resourceCulture);
             }
         }
         

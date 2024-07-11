@@ -600,4 +600,31 @@
   <data name="General_Message_ErrorOccured" xml:space="preserve">
     <value>发生错误。请联系管理员。</value>
   </data>
+  <data name="Login_ErrorMessage_NoLowerCase" xml:space="preserve">
+    <value>At least one lowercase letter.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoNumberChar" xml:space="preserve">
+    <value>At least one number.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoSpecialChar" xml:space="preserve">
+    <value>At least one special character.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoUpperCase" xml:space="preserve">
+    <value>At least one uppercase letter.</value>
+  </data>
+  <data name="Login_ErrorMessage_PasswordLessEightChar" xml:space="preserve">
+    <value>This field must contain at least 8 characters.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongUsernameEmail" xml:space="preserve">
+    <value>The Login ID and Email Address do not match.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongUsernamePassword" xml:space="preserve">
+    <value>Incorrect Login ID or Password.</value>
+  </data>
+  <data name="Popup_Message_ResetPassword" xml:space="preserve">
+    <value>Are you sure you want to reset the password?</value>
+  </data>
+  <data name="Login_Message_WrongNewPassword" xml:space="preserve">
+    <value>Wrong new password.</value>
+  </data>
 </root>

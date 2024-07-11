@@ -128,7 +128,7 @@
                                                 </MenuItem.Icon>
                                                 <MenuItem Header="{Binding Path=General_Label_View, Source={StaticResource Resources}}" Click="ViewUserButton_Click"/>
                                                 <MenuItem Header="{Binding Path=General_Label_Update, Source={StaticResource Resources}}" Click="UpdateUserButton_Click"/>
-                                                <MenuItem Header="{Binding Path=General_Label_Delete, Source={StaticResource Resources}}" Click="DeleteUserButton_Click"/>
+                                                <!--<MenuItem Header="{Binding Path=General_Label_Delete, Source={StaticResource Resources}}" Click="DeleteUserButton_Click"/>-->
                                             </MenuItem>
                                         </Menu>
                                     </Grid>
