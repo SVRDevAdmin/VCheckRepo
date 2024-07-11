@@ -138,14 +138,25 @@ namespace VCheck.Lib.Data
                     {
                         sConn.Open();
 
-                        String sSelectCommand = "SELECT * " +
-                                                "FROM txn_testresults " +
-                                                "WHERE (TestResultDateTime >= '" + dStartDate + "' AND TestResultDateTime <= '" + dEndDate + "')" +
-                                                "AND (OperatorID LIKE '%" + sKeyword + "%' OR " +
+                        //String sSelectCommand = "SELECT * " +
+                        //                        "FROM txn_testresults " +
+                        //                        "WHERE (TestResultDateTime >= '" + dStartDate + "' AND TestResultDateTime <= '" + dEndDate + "')" +
+                        //                        "AND (OperatorID LIKE '%" + sKeyword + "%' OR " +
+                        //                        "InchargePerson LIKE '%" + sKeyword + "%' OR " +
+                        //                        "PatientID LIKE '%" + sKeyword + "%') " +
+                        //                        ((!sSortDirection.Contains("Status")) ? 
+                        //                         "ORDER BY TestResultDateTime " + sSortDirection : 
+                        //                         "ORDER BY TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
+
+                        String sSelectCommand = "SELECT * FROM txn_testresults WHERE ";
+
+                        if(dStartDate != "") { sSelectCommand = sSelectCommand + "(TestResultDateTime >= '" + dStartDate + "' AND TestResultDateTime <= '" + dEndDate + "') AND"; }
+
+                        sSelectCommand = sSelectCommand + "(OperatorID LIKE '%" + sKeyword + "%' OR " +
                                                 "InchargePerson LIKE '%" + sKeyword + "%' OR " +
                                                 "PatientID LIKE '%" + sKeyword + "%') " +
-                                                ((!sSortDirection.Contains("Status")) ? 
-                                                 "ORDER BY TestResultDateTime " + sSortDirection : 
+                                                ((!sSortDirection.Contains("Status")) ?
+                                                 "ORDER BY TestResultDateTime " + sSortDirection :
                                                  "ORDER BY TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
 
                         using (MySqlCommand sCommand = new MySqlCommand(sSelectCommand, sConn))

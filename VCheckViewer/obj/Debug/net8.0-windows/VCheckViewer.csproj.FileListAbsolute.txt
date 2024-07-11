@@ -535,7 +535,6 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windo
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Notification\NotificationPage.g.cs
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Results\ResultPage.g.cs
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Schedule\SchedulePage.g.cs
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Device\DevicePage.g.cs
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Interface\ConfigurationPage.g.cs
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\LanguageCountry\LanguageCountryPage.g.cs
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\AddUserPage.g.cs
@@ -564,7 +563,6 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windo
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Notification\NotificationPage.baml
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Results\ResultPage.baml
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Schedule\SchedulePage.baml
-C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Device\DevicePage.baml
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Interface\ConfigurationPage.baml
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\LanguageCountry\LanguageCountryPage.baml
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\User\AddUserPage.baml
@@ -616,3 +614,5 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windo
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.pdb
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.genruntimeconfig.cache
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\ref\VCheckViewer.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Interface\Device\DevicePage.g.cs
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Interface\Device\DevicePage.baml
