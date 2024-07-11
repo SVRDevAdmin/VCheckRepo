@@ -616,3 +616,5 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windo
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\ref\VCheckViewer.dll
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Interface\Device\DevicePage.g.cs
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Interface\Device\DevicePage.baml
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\bin\Debug\net8.0-windows\Content\Images\bio_logo_report.png
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer_Content.g.cs

@@ -1,4 +1,4 @@
-﻿
+﻿C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\App.xaml;;
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\ResourceDictionary.xaml;;
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\UserControls\DateRangePicker.xaml;;
@@ -15,6 +15,7 @@ FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Notificat
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Results\ResultPage.xaml;;
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Schedule\SchedulePage.xaml;;
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\Interface\ConfigurationPage.xaml;;
+FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\Interface\Device\DevicePage.xaml;;
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml;;
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\User\AddUserPage.xaml;;
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\User\UpdateUserPage.xaml;;
@@ -23,5 +24,4 @@ FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\U
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Windows\LoginWindow.xaml;;
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Windows\Main.xaml;;
 FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Windows\Main2.xaml;;
-FC:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\Views\Pages\Setting\Interface\Device\DevicePage.xaml;;
 
