@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -33,7 +34,8 @@ namespace VCheckViewer.Lib.DocumentTemplate
         public void Compose(IDocumentContainer container)
         {
             var sBuilder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
-            String sIconPath = sBuilder.Configuration.GetSection("PrintTemplate:IconPath").Value;
+            String sIconConfigPath = sBuilder.Configuration.GetSection("PrintTemplate:IconPath").Value;
+            String sIconPath = System.Environment.CurrentDirectory + sIconConfigPath;
             String sDownloadPath = sBuilder.Configuration.GetSection("Configuration:DownloadFolderPath").Value;
 
             try

@@ -20,6 +20,7 @@ using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
 using VCheckViewer.Lib;
 using System.Net;
+using System.Collections.ObjectModel;
 
 namespace VCheckViewer.Views.Pages.Setting.Device
 {
@@ -28,28 +29,78 @@ namespace VCheckViewer.Views.Pages.Setting.Device
     /// </summary>
     public partial class DevicePage : Page
     {
+        public ObservableCollection<ComboBoxItem> deviceComboList = new ObservableCollection<ComboBoxItem>();
+
         public DevicePage()
         {
             InitializeComponent();
+            
+            LoadDeviceTypeList();
             LoadDeviceListing();
+
+            DataContext = this;
+        }
+
+        private void LoadDeviceTypeList()
+        {
+            List<DeviceTypeModel> deviceList = DeviceRepository.GetDeviceTypeList(ConfigSettings.GetConfigurationSettings());
+            if (deviceList != null)
+            {
+                foreach(var d in deviceList)
+                {
+                    deviceComboList.Add(new ComboBoxItem
+                    {
+                        Content = d.TypeName,
+                        Tag = d.id
+                    });
+                }
+            }
+
+            if (deviceComboList.Count > 0)
+            {
+                cboDeviceType.ItemsSource = deviceComboList;
+            }
         }
 
         private void LoadDeviceListing()
-        {
+        {          
             dgDevice.ItemsSource = DeviceRepository.GetDeviceList(ConfigSettings.GetConfigurationSettings());
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            String sDefaultImagePath = "\\Storage\\Device\\Img_F200.png";
+            String sSelectedDeviceType = "";
+            int sSelectedDeviceTypeID = 0;
+
+            if (cboDeviceType.SelectedItem != null)
+            {
+                var sSelectedItem = ((ComboBoxItem)cboDeviceType.SelectedItem);
+                int iID = Convert.ToInt32(sSelectedItem.Tag);
+
+                var sDeviceTypeObj = DeviceRepository.GetDeviceTypeByID(ConfigSettings.GetConfigurationSettings(), iID);
+                if (sDeviceTypeObj != null)
+                {
+                    sSelectedDeviceType = sDeviceTypeObj.ImageSource;
+                    sSelectedDeviceTypeID = sDeviceTypeObj.id;
+                }
+            }
+            else
+            {
+                sSelectedDeviceType = sDefaultImagePath;
+            }
+
             DeviceModel sDeviceObj = new DeviceModel()
             {
                 DeviceName = txtName.Text,
                 DeviceIPAddress = txtIPAddress.Text,
-                DeviceImagePath = "\\Storage\\Device\\Img_F200.png", // Temp Hardcode
+                //DeviceImagePath = "\\Storage\\Device\\Img_F200.png", // Temp Hardcode
+                DeviceImagePath = sSelectedDeviceType,
                 status = (int)DataDictionary.DeviceListStatus.Active,
                 CreatedDate = DateTime.Now,
                 CreatedBy = App.MainViewModel.CurrentUsers.FullName,
-                DeviceSerialNo = txtSerialNo.Text
+                DeviceSerialNo = txtSerialNo.Text,
+                DeviceTypeID = sSelectedDeviceTypeID
             };
 
             Popup sConfirmPopup = new Popup();
@@ -68,9 +119,12 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             {
                 ShowHideBorder("View");
 
+                var sDeviceType = DeviceRepository.GetDeviceTypeByID(ConfigSettings.GetConfigurationSettings(), sRowData.DeviceTypeID.Value);
+
                 lbName.Text = sRowData.DeviceName;
                 lbIPAddeess.Text = sRowData.DeviceIPAddress;
                 lbSerialNo.Text = sRowData.DeviceSerialNo;
+                lbDeviceType.Text = (sDeviceType != null) ? sDeviceType.TypeName : "";
                 hidID.Text = sRowData.id.ToString();
             }
         }
@@ -91,6 +145,20 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 txtSerialNo.Text = sDeviceObj.DeviceSerialNo;
                 lbSerialNo.Text = sDeviceObj.DeviceSerialNo;
                 hidID.Text = sDeviceObj.id.ToString();
+
+                foreach(var itm in cboDeviceType.Items)
+                {
+                    var cb = itm as ComboBoxItem;
+
+                    if (Convert.ToInt32(cb.Tag) == sDeviceObj.DeviceTypeID)
+                    {
+                        cb.IsSelected = true;
+                    }
+                    else
+                    {
+                        cb.IsSelected = false;
+                    }
+                }
             }
         }
 
@@ -126,7 +194,9 @@ namespace VCheckViewer.Views.Pages.Setting.Device
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            String sSelectedDeviceType = "";
             String sOldDeviceName = "";
+            int iTypeID = 0;
 
             if (!String.IsNullOrEmpty(hidID.Text))
             {
@@ -138,11 +208,25 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 {
                     sOldDeviceName = sDeviceObj.DeviceName;
 
+                    if (cboDeviceType.SelectedItem != null)
+                    {
+                        var sSelectedItem = ((ComboBoxItem)cboDeviceType.SelectedItem);
+                        iTypeID = Convert.ToInt32(sSelectedItem.Tag);
+
+                        var sDeviceTypeObj = DeviceRepository.GetDeviceTypeByID(ConfigSettings.GetConfigurationSettings(), iTypeID);
+                        if (sDeviceTypeObj != null)
+                        {
+                            sSelectedDeviceType = sDeviceTypeObj.ImageSource;
+                        }
+                    }
+
                     sDeviceObj.DeviceName = txtName.Text;
                     sDeviceObj.DeviceIPAddress = txtIPAddress.Text;
                     sDeviceObj.UpdatedDate = DateTime.Now;
                     sDeviceObj.UpdatedBy = App.MainViewModel.CurrentUsers.FullName;
                     sDeviceObj.DeviceSerialNo = txtSerialNo.Text;
+                    sDeviceObj.DeviceTypeID = iTypeID;
+                    sDeviceObj.DeviceImagePath = sSelectedDeviceType;
                 }
 
                 Popup sConfirmPopup = new Popup();
@@ -169,6 +253,9 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 borderSerialNoEdit.Visibility = Visibility.Collapsed;
                 borderSerialNoView.Visibility = Visibility.Visible;
 
+                borderDeviceTypeEdit.Visibility = Visibility.Collapsed;
+                borderDeviceTypeView.Visibility = Visibility.Visible;
+
                 borderButtonAdd.Visibility = Visibility.Collapsed;
                 borderButtonView.Visibility = Visibility.Visible;
                 borderButtonUpdate.Visibility = Visibility.Collapsed;
@@ -188,6 +275,9 @@ namespace VCheckViewer.Views.Pages.Setting.Device
 
                 borderSerialNoEdit.Visibility = Visibility.Visible;
                 borderSerialNoView.Visibility = Visibility.Collapsed;
+
+                borderDeviceTypeEdit.Visibility = Visibility.Visible;
+                borderDeviceTypeView.Visibility = Visibility.Collapsed;
 
                 borderButtonAdd.Visibility = Visibility.Collapsed;
                 borderButtonView.Visibility = Visibility.Collapsed;
@@ -211,6 +301,9 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 borderSerialNoView.Visibility = Visibility.Collapsed;
                 txtSerialNo.Text = String.Empty;
 
+                borderDeviceTypeEdit.Visibility = Visibility.Visible;
+                borderDeviceTypeView.Visibility = Visibility.Collapsed;
+
                 borderButtonAdd.Visibility = Visibility.Visible;
                 borderButtonView.Visibility = Visibility.Collapsed;
                 borderButtonUpdate.Visibility = Visibility.Collapsed;
@@ -222,7 +315,18 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             }
         }
 
+
+        private void cboDeviceType_LostFocus(object sender, RoutedEventArgs e)
+        {
+            MandatoryFieldValiation(sender);
+        }
+
         private void FieldsVal_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            MandatoryFieldValiation(sender);
+        }
+
+        private void MandatoryFieldValiation(object sender)
         {
             System.Windows.Controls.TextBox sTxtField = sender as System.Windows.Controls.TextBox;
             Boolean IsFieldEmpty = false;
@@ -275,6 +379,36 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 borderIPEdit.ToolTip = null;
             }
 
+            if (String.IsNullOrEmpty(txtSerialNo.Text))
+            {
+                borderSerialNoEdit.BorderBrush = System.Windows.Media.Brushes.Red;
+                borderSerialNoEdit.BorderThickness = new Thickness(1);
+                borderSerialNoEdit.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
+                //borderSerialNoEdit.ToolTip = "This is mandatory fields.";
+
+                IsFieldEmpty = true;
+            }
+            else
+            {
+                borderSerialNoEdit.BorderBrush = System.Windows.Media.Brushes.Black;
+                borderSerialNoEdit.ToolTip = null;
+            }
+
+            if (cboDeviceType.SelectedItem == null)
+            {
+                borderDeviceTypeEdit.BorderBrush = System.Windows.Media.Brushes.Red;
+                borderDeviceTypeEdit.BorderThickness = new Thickness(1);
+                borderDeviceTypeEdit.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
+                //borderDeviceTypeEdit.ToolTip = "This is mandary fields.";
+
+                IsFieldEmpty = true;
+            }
+            else
+            {
+                borderDeviceTypeEdit.BorderBrush = System.Windows.Media.Brushes.Black;
+                borderDeviceTypeEdit.ToolTip = "";
+            }
+
             String? sColor = System.Windows.Application.Current.Resources["Themes_ButtonColor"].ToString();
 
             if (IsFieldEmpty)
@@ -300,9 +434,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 {
                     btnUpdate.IsEnabled = true;
                 }
-            }
+            };
         }
-
         //private void btnBackDevice_Click(object sender, RoutedEventArgs e)
         //{
         //    if (borderNameEdit.Visibility == Visibility.Visible && borderButtonUpdate.Visibility == Visibility.Visible)

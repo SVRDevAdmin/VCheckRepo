@@ -4664,19 +4664,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\azwan\\.nuget\\packages\\": {}
+    "C:\\Users\\SVRke\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
+      "projectUniqueName": "C:\\Dev\\VCheck\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
       "projectName": "VCheckViewerAPI",
-      "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
-      "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\obj\\",
+      "projectPath": "C:\\Dev\\VCheck\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
+      "packagesPath": "C:\\Users\\SVRke\\.nuget\\packages\\",
+      "outputPath": "C:\\Dev\\VCheck\\VCheckViewerAPI\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\azwan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\SVRke\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4691,8 +4696,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
-              "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
+            "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
+              "projectPath": "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
             }
           }
         }

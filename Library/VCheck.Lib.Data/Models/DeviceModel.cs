@@ -22,5 +22,18 @@ namespace VCheck.Lib.Data.Models
         public string? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public string? UpdatedBy { get; set; }
+        public int? DeviceTypeID { get; set; }
     }
+
+    public class DeviceTypeModel
+    {
+        [Key]
+        public int id { get; set; }
+        public String? TypeName { get; set; }
+        public int? Status { get; set; }
+        public int? SeqNo { get; set; }
+        public String? ImageSource { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public String? CreatedBy { get; set; }
+     }
 }

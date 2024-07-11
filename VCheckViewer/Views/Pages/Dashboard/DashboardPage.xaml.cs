@@ -463,7 +463,7 @@ namespace VCheckViewer.Views.Pages
 
                     Image image = new Image();
                     //var uri = new Uri(device.DeviceImagePath);
-                    var uri = new Uri(@"pack://application:,,,/VCheckViewer;component" + device.DeviceImagePath);
+                    var uri = new Uri(@"pack://application:,,,/VCheckViewer;component/" + device.DeviceImagePath);
                     var bitmap = new BitmapImage(uri);
                     image.Source = bitmap;
                     image.Height = imageHeight;

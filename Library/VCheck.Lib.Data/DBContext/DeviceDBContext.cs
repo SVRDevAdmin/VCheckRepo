@@ -17,6 +17,7 @@ namespace VCheck.Lib.Data.DBContext
         private readonly IConfiguration config;
 
         public DbSet<DeviceModel> mst_deviceslist { get; set; }
+        public DbSet<DeviceTypeModel> mst_devicetype { get; set; }
 
         public DeviceDBContext(IConfiguration config)
         {
