@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +21,8 @@ using VCheck.Helper;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Views.Windows;
+using Brushes = System.Windows.Media.Brushes;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace VCheckViewer.Views.Pages.Login
 {
@@ -77,14 +80,49 @@ namespace VCheckViewer.Views.Pages.Login
                 {
                     ErrorText.Visibility = Visibility.Visible;
                     //ErrorText.Text = "Wrong email linked to the account, please verify it is the correct email and try again.";
-                    ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongEmail;
+                    //ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongEmail;
+                    ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongUsernameEmail;
                 }
             }
             else
             {
                 ErrorText.Visibility = Visibility.Visible;
                 //ErrorText.Text = "Cannot find user according to Login ID, please verify it is the correct login ID and try again.";
-                ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongLoginIDRecovery;
+                //ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongLoginIDRecovery;
+                ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongUsernameEmail;
+            }
+        }
+
+        private void CheckValue(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            TextBox textBox = null;
+            Border parentBorder;
+            Grid parentGrid;
+
+            textBox = sender as TextBox; parentGrid = textBox.Parent as Grid;
+
+            parentBorder = parentGrid.Parent as Border;
+
+
+            if ((textBox != null && textBox.Text == ""))
+            {
+                parentBorder.BorderBrush = Brushes.Red;
+                parentBorder.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
+            }
+            else if (textBox != null && textBox.Name == "Username" && textBox.Text.Length < 5)
+            {
+                parentBorder.BorderBrush = Brushes.Red;
+                parentBorder.ToolTip = Properties.Resources.Setting_ErrorMessage_FiveCharMin;
+            }
+            else if (textBox != null && textBox.Name == "Email" && !textBox.Text.Contains("@"))
+            {
+                parentBorder.BorderBrush = Brushes.Red;
+                parentBorder.ToolTip = Properties.Resources.Setting_ErrorMessage_EmailFormat;
+            }
+            else
+            {
+                parentBorder.BorderBrush = Brushes.Black;
+                parentBorder.ToolTip = "No issue";
             }
         }
 

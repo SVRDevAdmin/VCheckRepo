@@ -1000,11 +1000,11 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='EN02' LIMIT 1),
 	<body>
 		  親愛的###<staff_fullname>###，</br></br>
 
-		  這是您的臨時密碼###<password>###。
+		  這是您的臨時密碼###<password>###。</br></br>
 
-		  請使用此臨時密碼重新造訪您的帳戶。
+		  請使用此臨時密碼重新造訪您的帳戶。</br></br>
 
-		  請不要回覆此電子郵件，因為它是自動產生的。
+		  請不要回覆此電子郵件，因為它是自動產生的。</br></br>
 
 		  謹致問候，</br>
 		  VCheck檢視器團隊</br>
