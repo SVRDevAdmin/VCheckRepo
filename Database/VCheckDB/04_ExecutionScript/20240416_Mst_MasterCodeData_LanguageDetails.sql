@@ -1,4 +1,4 @@
-------- Language & Country Setting Update ---------
+-- Language & Country Setting Update ---------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='LC01' LIMIT 1), 
 'en', 'Language & Country Setting Update', 'You''ve updated the system language and country settings. Please log in again to apply the changes.',
@@ -65,7 +65,7 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='LC01' LIMIT 1),
 NOW(), 'SYSTEM');
 
 
----- PMS/LIS/HIS Setting Update ------
+-- PMS/LIS/HIS Setting Update ------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='CS01' LIMIT 1), 
 'en', 'PMS/LIS/HIS Setting Update', 'The PMS/LIS/HIS setting has been modified by ###<admin_fullname>### (###<admin_id>###). Please log in again to apply the changes.',
@@ -131,7 +131,7 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='CS01' LIMIT 1),
 'fr', 'Mise à jour des paramètres PMS/LIS/HIS', 'Le paramètre PMS/LIS/HIS a été modifié par ###<admin_fullname>### (###<admin_id>###). Veuillez vous reconnecter pour appliquer les modifications.',
 NOW(), 'SYSTEM');
 
-------- Successful Addition of New Device -------
+-- Successful Addition of New Device -------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='DS01' LIMIT 1), 
 'en', 'Successful Addition of New Device', 'A new analyzer named ###<analyzer_name>### has been added by ###<admin_fullname>### (###<admin_id>###). Please log in again to apply the changes.',
@@ -197,7 +197,7 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='DS01' LIMIT 1),
 'fr', 'Ajout réussi d''un nouvel appareil', 'Un nouvel analyseur nommé ###<analyzer_name>### a été ajouté par ###<admin_fullname>### (###<admin_id>###). Veuillez vous reconnecter pour appliquer les modifications.',
 NOW(), 'SYSTEM');
 
-------- Device Details Change ----------
+-- Device Details Change ----------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='DS02' LIMIT 1), 
 'en', 'Device Details Change', 'The analyzer previously known as ###<analyzer_name>### has been renamed to ###<new_analyzer_name>### by ###<admin_fullname>### (###<admin_id>###).',
@@ -264,7 +264,7 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='DS02' LIMIT 1),
 NOW(), 'SYSTEM');
 
 
-------- Device Removal --------------------
+-- Device Removal --------------------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='DS03' LIMIT 1), 
 'en', 'Device Removal', 'The analyzer named ###<analyzer_name>### has been deleted by ###<admin_fullname>### (###<admin_id>###). Please log in again to apply the changes.',
@@ -330,7 +330,7 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='DS03' LIMIT 1),
 'fr', 'Suppression du périphérique', 'L''analyseur nommé ###<analyzer_name>### a été supprimé par ###<admin_fullname>### (###<admin_id>###). Veuillez vous reconnecter pour appliquer les modifications.',
 NOW(), 'SYSTEM');
 
-------- Profile Update -------------
+-- Profile Update -------------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='US01' LIMIT 1), 
 'en', 'Profile Update', 'The staff details of ###<staff_fullname>### (###<staff_id>###) has been updated by ###<admin_fullname>### (###<admin_id>###).',
@@ -396,7 +396,7 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='US01' LIMIT 1),
 'fr', 'Mise à jour du profil', 'Les détails du personnel de ###<staff_fullname>### (###<staff_id>###) ont été mis à jour par ###<admin_fullname>### (###<admin_id>###).',
 NOW(), 'SYSTEM');
 
-------- Profile Update US02 -------------
+-- Profile Update US02 -------------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='US02' LIMIT 1), 
 'en', 'Profile Update', 'Your staff details has been updated. Please login in again to apply the changes.',
@@ -462,7 +462,7 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='US02' LIMIT 1),
 'fr', 'Mise à jour du profil', 'Les détails de votre personnel ont été mis à jour. Veuillez vous reconnecter pour appliquer les modifications.',
 NOW(), 'SYSTEM');
 
------ Staff Reactivation  --------------
+-- Staff Reactivation  --------------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='US03' LIMIT 1), 
 'en', 'Staff Reactivation', 'The user account of ###<staff_fullname>### (###<staff_id>###) has been reactivated by ###<admin_fullname>### (###<admin_id>###).',
@@ -528,7 +528,7 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='US03' LIMIT 1),
 'fr', 'Réactivation du personnel', 'Le compte utilisateur de ###<staff_fullname>### (###<staff_id>###) a été réactivé par ###<admin_fullname>### (###<admin_id>###).',
 NOW(), 'SYSTEM');
 
------ Staff Deactivation --------------
+-- Staff Deactivation --------------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='US04' LIMIT 1), 
 'en', 'Staff Deactivation', 'The user account of ###<staff_fullname>### (###<staff_id>###) has been deactivated by ###<admin_fullname>### (###<admin_id>###).',
@@ -594,7 +594,7 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='US04' LIMIT 1),
 'fr', 'Désactivation du personnel', 'Le compte utilisateur de ###<staff_fullname>### (###<staff_id>###) a été désactivé par ###<admin_fullname>### (###<admin_id>###).',
 NOW(), 'SYSTEM');
 
---------- Successful Creation of New User -------
+-- Successful Creation of New User -------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='US05' LIMIT 1), 
 'en', 'Successful Creation of New User', 'The successful creation of a new user with Staff ID: ###<staff_id>###, Staff Name: ###<staff_fullname>###.',
@@ -661,7 +661,7 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='US05' LIMIT 1),
 NOW(), 'SYSTEM');
 
 
-------------- New Account Creation ---------------
+-- New Account Creation ---------------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='EN01' LIMIT 1), 
 'en', 'New Account Creation', 
@@ -951,7 +951,7 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='EN01' LIMIT 1),
 NOW(), 'SYSTEM');
 
 
--------- Password Reset & Recovery ----------------
+-- Password Reset & Recovery ----------------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='EN02' LIMIT 1), 
 'en', 'Password Reset & Recovery', 
@@ -1213,7 +1213,7 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='EN02' LIMIT 1),
 </html>',
 NOW(), 'SYSTEM');
 
----------- Reminder for Software Update -------------
+-- Reminder for Software Update -------------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='SF01' LIMIT 1), 
 'en', 'Reminder for Software Update', 'Kindly remember to update your analyzer''s software/firmware for optimal performance. Visit ###<link>### to verify available updates.',
@@ -1357,7 +1357,7 @@ VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='TR01' LIMIT 1),
 'fr', 'Le résultat du test est disponible pour visualisation', 'Les résultats des tests pour l''ID patient : ###<patient_id>### sont désormais accessibles. Veuillez accéder à la section Résultats pour afficher ou imprimer le rapport détaillé.',
 NOW(), 'SYSTEM');
 
----------- Scheduled Test Appointment -----------------
+-- Scheduled Test Appointment -----------------
 INSERT INTO mst_template_details(TemplateID, LangCode, TemplateTitle, TemplateContent, CreatedDate, CreatedBy)
 VALUES((SELECT TemplateID FROM mst_template WHERE TemplateCode='TR02' LIMIT 1), 
 'en', 'Scheduled Test Appointment', 'A scheduled test is upcoming for Patient ID: ###<patient_id>###, Patient Name: ###<patient_name>###, set for ###<time>###. The attending doctor is ###<doctor_name>###.',

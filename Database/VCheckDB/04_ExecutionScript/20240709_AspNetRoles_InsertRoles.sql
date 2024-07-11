@@ -1,4 +1,4 @@
-INSERT INTO `vcheckdb`.`aspnetroles`
+INSERT INTO `aspnetroles`
 (`Id`,
 `Name`,
 `NormalizedName`,

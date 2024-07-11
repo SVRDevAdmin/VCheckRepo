@@ -11,10 +11,10 @@ false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Dev\VCheck\VCheckViewer\App.xaml
 28-1349124439
-1506977808
+2-503596212
 43353560647
 289-1673745943
 ResourceDictionary.xaml;Template\Controls.xaml;Template\Templates.xaml;Themes\Dark.xaml;Themes\Light.xaml;UserControls\DateRangePicker.xaml;UserControls\PagingControl.xaml;Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Dashboard\NotificationList.xaml;Views\Pages\Dashboard\ScheduleTestList.xaml;Views\Pages\Dashboard\TestResultList.xaml;Views\Pages\Login\LoginPage.xaml;Views\Pages\Login\PasswordRecoveryPage.xaml;Views\Pages\Login\ResetCurrentUserPasswordPage.xaml;Views\Pages\Login\ResetPasswordPage.xaml;Views\Pages\Notification\NotificationPage.xaml;Views\Pages\Results\ResultPage.xaml;Views\Pages\Schedule\SchedulePage.xaml;Views\Pages\Setting\Device\DevicePage.xaml;Views\Pages\Setting\Interface\ConfigurationPage.xaml;Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Pages\Setting\User\ViewUserPage.xaml;Views\Windows\LoginWindow.xaml;Views\Windows\Main.xaml;Views\Windows\Main2.xaml;
 
-False
+True
 

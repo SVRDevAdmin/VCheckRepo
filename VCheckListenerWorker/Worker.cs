@@ -44,7 +44,8 @@ namespace VCheckListenerWorker
                     System.Net.Sockets.Socket sClient = sListener.Accept();
                     Console.WriteLine("Connection Accepted.");
 
-                    byte[] bBuffer = new byte[4096];
+                    //byte[] bBuffer = new byte[4096];
+                    byte[] bBuffer = new byte[32768];
 
                     var childSocket = new Thread(() =>
                     {
@@ -171,19 +172,25 @@ namespace VCheckListenerWorker
                 String sPatientID = "";
                 String strObserveValue = "";
                 String sSerialNo = "";
+                String sUniversalIdentifier = "";
+                String sTestResultStatus = "";
+                String strResultObservStatus = "";
                 Decimal iResultValue = 0;
                 DateTime dAnalysisDateTime = DateTime.MinValue;
 
-                sSerialNo = sRU_R01.MSH.SendingApplication.NamespaceID.Value.Trim();
+                if (sRU_R01.MSH.SendingApplication.NamespaceID != null && sRU_R01.MSH.SendingApplication.NamespaceID.Value != null)
+                {
+                    sSerialNo = sRU_R01.MSH.SendingApplication.NamespaceID.Value.Trim();
+                }
 
                 // --------------- Message Header --------------//
                 tbltestanalyze_results_messageheader sMSHObj = new tbltestanalyze_results_messageheader
                 {
                     FieldSeparator = sRU_R01.MSH.FieldSeparator.Value,
                     EncodingCharacters = sRU_R01.MSH.EncodingCharacters.Value,
-                    SendingApplication = sRU_R01.MSH.SendingApplication.NamespaceID.Value.Trim() + "^" +
-                                         sRU_R01.MSH.SendingApplication.UniversalID.Value.Trim() + "^" +
-                                         sRU_R01.MSH.SendingApplication.UniversalIDType.Value.Trim(),
+                    SendingApplication = ((sRU_R01.MSH.SendingApplication.NamespaceID.Value != null) ? sRU_R01.MSH.SendingApplication.NamespaceID.Value.Trim() : "") + "^" +
+                                         ((sRU_R01.MSH.SendingApplication.UniversalID.Value != null) ? sRU_R01.MSH.SendingApplication.UniversalID.Value.Trim() : "") + "^" +
+                                         ((sRU_R01.MSH.SendingApplication.UniversalIDType.Value != null) ? sRU_R01.MSH.SendingApplication.UniversalIDType.Value.Trim() : ""),
                     SendingFacility = sRU_R01.MSH.SendingFacility.NamespaceID.Value,
                     ReceivingApplication = sRU_R01.MSH.ReceivingApplication.NamespaceID.Value,
                     ReceivingFacility = sRU_R01.MSH.ReceivingFacility.NamespaceID.Value,
@@ -219,7 +226,10 @@ namespace VCheckListenerWorker
                     sPID.AlternatePatientID = (sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetAlternatePatientIDPID().Length > 0) ?
                                                sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetAlternatePatientIDPID().FirstOrDefault().IDNumber.ToString() : null;
 
-                    sOperatorID = sPID.PatientID;
+                    sPID.PatientIdentifierList = (sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetPatientIdentifierList().Length > 0) ?
+                                                 sRU_R01.GetPATIENT_RESULT().PATIENT.PID.GetPatientIdentifierList().FirstOrDefault().IDNumber.ToString() : null;
+
+                    sPatientID = sPID.PatientID;
                 }
 
                 if (sRU_R01.GetPATIENT_RESULT().PATIENT.PID.PatientNameRepetitionsUsed > 0)
@@ -249,12 +259,14 @@ namespace VCheckListenerWorker
                 sPIDObj.Add(sPID);
 
                 //----------------- Observation Request ----------------------//
+                var sTestResultLst = new List<txn_testresults>();
                 var sNTEObj = new List<tbltestanalyze_results_notes>();
                 var sOBXObjList = new List<tbltestanalyze_results_observationresult>();
                 var sOBRObj = new tbltestanalyze_results_observationrequest();
                 foreach (var observation in sRU_R01.PATIENT_RESULTs.FirstOrDefault().ORDER_OBSERVATIONs)
                 {
                     sResultTestType = observation.OBR.UniversalServiceIdentifier.Text.Value;
+                    sUniversalIdentifier = observation.OBR.UniversalServiceIdentifier.Text.Value;
 
                     sOBRObj.SetID = observation.OBR.SetIDOBR.Value;
                     sOBRObj.PlacerOrderNumber = observation.OBR.PlacerOrderNumber.EntityIdentifier.Value + "^" +
@@ -288,6 +300,11 @@ namespace VCheckListenerWorker
                                              observation.NTEs.FirstOrDefault().SourceOfComment.Value : null,
                             Comment = GenerateNTEComments(observation.NTEs.ToList())
                         });
+
+                        if (sUniversalIdentifier.ToLower().Contains("babesia"))
+                        {
+                            sTestResultStatus = GenerateNTEComments(observation.NTEs.ToList());
+                        }
                     }
 
                     // --------------- Observation Results ----------------//
@@ -413,6 +430,10 @@ namespace VCheckListenerWorker
                             {
                                 dAnalysisDateTime = DateTime.ParseExact(observationDetail.OBX.DateTimeOfTheAnalysis.Value, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture);
                             }
+                            else if (observationDetail.OBX.DateTimeOfTheAnalysis.Value.Length == 22)
+                            {
+                                dAnalysisDateTime = DateTime.ParseExact(observationDetail.OBX.DateTimeOfTheAnalysis.Value, "yyyyMMdd HH:mm:ssK", System.Globalization.CultureInfo.InvariantCulture);
+                            }
                             else
                             {
                                 dAnalysisDateTime = DateTime.ParseExact(observationDetail.OBX.DateTimeOfTheAnalysis.Value, "yyyyMMddHHmmss-ffff", System.Globalization.CultureInfo.InvariantCulture);
@@ -473,6 +494,57 @@ namespace VCheckListenerWorker
                             }
                         }
 
+                        if (!sUniversalIdentifier.ToLower().Contains("babesia"))
+                        {
+                            if (iResultValue >= 1)
+                            {
+                                sTestResultStatus = "Positive";
+                            }
+                            else
+                            {
+                                sTestResultStatus = "Negative";
+                            }
+
+                            String strObservationResultStatus = sOBXObjList.Where(x => x.SetID == "1").FirstOrDefault().ObservationResultStatus;
+                            if (strObservationResultStatus == "F")
+                            {
+                                strResultObservStatus = "Valid";
+                            }
+                            if (strObservationResultStatus == "X")
+                            {
+                                strResultObservStatus = "Invalid";
+                            }
+                        }
+                        else
+                        {
+                            sOperatorID = sOBXObjList.Where(x => x.SetID == "1" && x.ValueType == "TX").FirstOrDefault().ResponsibleObserver;
+
+                            String strObservationResultStatus = sOBXObjList.Where(x => x.SetID == "1" && x.ValueType == "TX").FirstOrDefault().ObservationResultStatus;
+                            if (strObservationResultStatus == "F")
+                            {
+                                strResultObservStatus = "Valid";
+                            }
+                            if (strObservationResultStatus == "X")
+                            {
+                                strResultObservStatus = "Invalid";
+                            }
+                        }
+
+                        //sTestResultLst.Add(new txn_testresults
+                        //{
+                        //    TestResultDateTime = dAnalysisDateTime,
+                        //    TestResultType = sResultTestType,
+                        //    OperatorID = sOperatorID,
+                        //    PatientID = sPatientID,
+                        //    InchargePerson = "",
+                        //    ObservationStatus = strObserveValue,
+                        //    TestResultStatus = (iResultValue >= 1 ? "Positive" : "Negative"),
+                        //    TestResultValue = iResultValue,
+                        //    TestResultRules = sResultRule,
+                        //    CreatedDate = DateTime.Now,
+                        //    CreatedBy = sSystemName,
+                        //    DeviceSerialNo = sSerialNo.Trim()
+                        //});
                     }
                 }
 
@@ -482,13 +554,15 @@ namespace VCheckListenerWorker
                 sTestResultObj.OperatorID = sOperatorID;
                 sTestResultObj.PatientID = sPatientID;
                 sTestResultObj.InchargePerson = "";
-                sTestResultObj.ObservationStatus = strObserveValue;
-                sTestResultObj.TestResultStatus = (iResultValue >= 1 ? "Positive" : "Negative");
+                //sTestResultObj.ObservationStatus = strObserveValue;
+                //sTestResultObj.TestResultStatus = (iResultValue >= 1 ? "Positive" : "Negative");
+                sTestResultObj.ObservationStatus = strResultObservStatus;
+                sTestResultObj.TestResultStatus = sTestResultStatus;
                 sTestResultObj.TestResultValue = iResultValue;
                 sTestResultObj.TestResultRules = sResultRule;
                 sTestResultObj.CreatedDate = DateTime.Now;
                 sTestResultObj.CreatedBy = sSystemName;
-                sTestResultObj.DeviceSerialNo = sSerialNo;
+                sTestResultObj.DeviceSerialNo = sSerialNo.Trim();
 
                 tbltestanalyze_results sResultObj = new tbltestanalyze_results
                 {
@@ -503,7 +577,10 @@ namespace VCheckListenerWorker
                 {
                     // Insert into Test Result table & create notification 
                     TestResultRepository.createTestResult(sTestResultObj);
-                    SendNotification(sTestResultObj);
+                    //TestResultRepository.createBulkTestResult(sTestResultLst);
+
+                    //var sRecordObj = sTestResultLst[0];
+                    SendNotification(sTestResultObj.PatientID);
                 }
             }
             catch (Exception ex)
@@ -517,7 +594,7 @@ namespace VCheckListenerWorker
         /// Insert Notification
         /// </summary>
         /// <param name="sResult"></param>
-        public void SendNotification(txn_testresults sResult)
+        public void SendNotification(String sPatientID)
         {
             try
             {
@@ -531,7 +608,7 @@ namespace VCheckListenerWorker
                     sNotificationContent = sTemplateObj.TemplateContent;
                 }
 
-                sNotificationContent = sNotificationContent.Replace("###<patient_id>###", sResult.PatientID);
+                sNotificationContent = sNotificationContent.Replace("###<patient_id>###", sPatientID);
 
                 txn_notification sNotificationSend = new txn_notification()
                 {

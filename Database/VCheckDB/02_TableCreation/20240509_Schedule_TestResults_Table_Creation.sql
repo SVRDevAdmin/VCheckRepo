@@ -25,7 +25,7 @@ CREATE TABLE `txn_testresults` (
     `DeviceSerialNo` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`PatientID` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`InchargePerson` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-	`ObservationStatus` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`ObservationStatus` VARCHAR(300) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`TestResultStatus` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`TestResultValue` DECIMAL(18,4) NULL DEFAULT NULL,
 	`TestResultRules` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',

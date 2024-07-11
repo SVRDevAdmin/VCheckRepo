@@ -123,6 +123,29 @@ namespace VCheckListenerWorker.Lib.Logic
             return isSuccess;
         }
 
+        public static Boolean createBulkTestResult(List<txn_testresults> sTestResult)
+        {
+            Boolean isSuccess = false;
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                {
+                    ctx.txn_Testresults.AddRange(sTestResult);
+                    ctx.SaveChanges();
+
+                    isSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("VCheckListenerWorker >>> TestResultRepository >>> createBulkTestResult >>> " + ex.ToString());
+                isSuccess = false;
+            }
+
+            return isSuccess;
+        }
+
         /// <summary>
         /// Get Notification Template By Code
         /// </summary>

@@ -42,16 +42,16 @@
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
 
-                            <Border Grid.Row="0" Margin="15, 20, 15, 20" Padding="70" CornerRadius="7" Background="{DynamicResource Themes_TestDoneBackground}" BorderThickness="1" BorderBrush="{DynamicResource Themes_TestDoneBackground}">
+                            <Border Grid.Row="0" Margin="15, 8, 15, 20" Padding="70" CornerRadius="7" Background="{DynamicResource Themes_TestDoneBackground}" BorderThickness="1" BorderBrush="{DynamicResource Themes_TestDoneBackground}">
 
                             </Border>
-                            <Border Grid.Row="0" Margin="70, 60" Panel.ZIndex="21">
+                            <Border Grid.Row="0" Margin="70, 52" Panel.ZIndex="21">
                                 <TextBlock Name="lbTotalTest" FontFamily="Noto Sans" FontSize="40" FontWeight="Bold" Foreground="{DynamicResource Themes_SummaryFontColor}">0</TextBlock>
                             </Border>
-                            <Border Grid.Row="0" Margin="75, 110, 140, 30" Panel.ZIndex="22">
+                            <Border Grid.Row="0" Margin="75, 98, 140, 30" Panel.ZIndex="22">
                                 <TextBlock FontFamily="Noto Sans" FontSize="16" Text="{Binding Path=Schedule_Label_TestsDone, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_SummaryFontColor}"></TextBlock>
                             </Border>
-                            <Border Grid.Row="0" Margin="180, 52, 10, 0" Panel.ZIndex="20">
+                            <Border Grid.Row="0" Margin="180, 38, 10, 0" Panel.ZIndex="20">
                                 <Image Source="../../../Content/Images/Img_Doctor.png" Width="100"/>
                             </Border>
                         </Grid>
@@ -65,15 +65,15 @@
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
 
-                            <Border Grid.Row="0" Margin="15, 20, 15, 20" Padding="70" CornerRadius="7" Background="{DynamicResource Themes_TotalPatientBackground}" BorderThickness="1" BorderBrush="{DynamicResource Themes_TotalPatientBackground}">
+                            <Border Grid.Row="0" Margin="15, 8, 15, 20" Padding="70" CornerRadius="7" Background="{DynamicResource Themes_TotalPatientBackground}" BorderThickness="1" BorderBrush="{DynamicResource Themes_TotalPatientBackground}">
                             </Border>
-                            <Border Grid.Row="0" Margin="70, 60" Panel.ZIndex="21">
+                            <Border Grid.Row="0" Margin="70, 52" Panel.ZIndex="21">
                                 <TextBlock Name="lbTotalPatients" FontFamily="Noto Sans" FontSize="40" FontWeight="Bold" Foreground="{DynamicResource Themes_SummaryFontColor}">0</TextBlock>
                             </Border>
-                            <Border Grid.Row="0" Margin="75, 110, 140, 30" Panel.ZIndex="22">
+                            <Border Grid.Row="0" Margin="75, 98, 140, 30" Panel.ZIndex="22">
                                 <TextBlock FontFamily="Noto Sans" FontSize="16" Text="{Binding Path=Schedule_Label_Patients, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_SummaryFontColor}"></TextBlock>
                             </Border>
-                            <Border Grid.Row="0" Margin="180, 65, 10, 0" Panel.ZIndex="20">
+                            <Border Grid.Row="0" Margin="180, 50, 10, 0" Panel.ZIndex="20">
                                 <Image Source="../../../Content/Images/Img_Pets.png" Width="110"/>
                             </Border>
                         </Grid>
@@ -232,9 +232,9 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
-                            <Border Grid.Row="0" Margin="10, 20, 10, 20" Padding="250, 255, 70, 255" Panel.ZIndex="22" CornerRadius="7" BorderThickness="1" BorderBrush="{DynamicResource Themes_RecentTestBackground}" Background="{DynamicResource Themes_RecentTestBackground}">
+                            <Border Grid.Row="0" Margin="10, 8, 10, 20" Padding="250, 255, 70, 255" Panel.ZIndex="22" CornerRadius="7" BorderThickness="1" BorderBrush="{DynamicResource Themes_RecentTestBackground}" Background="{DynamicResource Themes_RecentTestBackground}">
                             </Border>
-                            <Border Name="borderTestsCompleted" Grid.Row="0" Margin="25, 35, 25, 50" Padding="20" Panel.ZIndex="23" BorderThickness="0">
+                            <Border Name="borderTestsCompleted" Grid.Row="0" Margin="25, 24, 25, 50" Padding="20" Panel.ZIndex="23" BorderThickness="0">
 
                                 <ScrollViewer Margin="-25, -30, -25, -25" VerticalScrollBarVisibility="Auto">
                                     <ItemsControl Name="icTestResult" Margin="0" Panel.ZIndex="23" 

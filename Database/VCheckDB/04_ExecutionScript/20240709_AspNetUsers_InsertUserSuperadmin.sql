@@ -1,4 +1,4 @@
-INSERT INTO `vcheckdb`.`aspnetusers`
+INSERT INTO `aspnetusers`
 (`Id`,
 `UserName`,
 `NormalizedUserName`,

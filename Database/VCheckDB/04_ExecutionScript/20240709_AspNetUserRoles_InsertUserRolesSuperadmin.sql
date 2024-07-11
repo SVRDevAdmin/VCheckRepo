@@ -1,4 +1,4 @@
-INSERT INTO `vcheckdb`.`aspnetuserroles`
+INSERT INTO `aspnetuserroles`
 (`UserId`,
 `RoleId`)
 VALUES

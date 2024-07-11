@@ -113,6 +113,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Content\Images\Icons\favicon.ico" />
     <Content Include="Content\Images\bio_logo_report.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
