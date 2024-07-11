@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +18,8 @@ using System.Windows.Shapes;
 using VCheck.Lib.Data.DBContext;
 using VCheckViewer.Views.Windows;
 using Wpf.Ui;
+using Brushes = System.Windows.Media.Brushes;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace VCheckViewer.Views.Pages.Login
 {
@@ -60,7 +63,7 @@ namespace VCheckViewer.Views.Pages.Login
                 if (user != null)
                 {
                     SignInResult loginAttempt = new SignInResult();
-                    if (user != null) { loginAttempt = await App.SignInManager.CheckPasswordSignInAsync(user, Password.Password, lockoutOnFailure: true); }
+                    if (user != null) { loginAttempt = await App.SignInManager.CheckPasswordSignInAsync(user, Password.Password, lockoutOnFailure: false); }
 
                     if (loginAttempt.Succeeded)
                     {
@@ -111,14 +114,16 @@ namespace VCheckViewer.Views.Pages.Login
                         int attemptleft = (maxLoginAttempt - user.AccessFailedCount);
                         ErrorText.Visibility = Visibility.Visible;
                         //ErrorText.Text = "Wrong password. You have " + attemptleft + " attemp[s] left before account are locked.";
-                        ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongPassword.Replace("<attemptcount>", attemptleft.ToString());
+                        //ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongPassword.Replace("<attemptcount>", attemptleft.ToString());
+                        ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongUsernamePassword;
                     }
                 }
                 else
                 {
                     ErrorText.Visibility = Visibility.Visible;
                     //ErrorText.Text = "Wrong login ID.";
-                    ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongLoginID;
+                    //ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongLoginID;
+                    ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongUsernamePassword;
                 }
             }
             catch (Exception ex)
@@ -170,6 +175,47 @@ namespace VCheckViewer.Views.Pages.Login
             //    main.Show();
             //    main.frameContent.Content = new DashboardPage();
             //}
+        }
+
+        private void CheckValue(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            PasswordBox password = null;
+            TextBox username = null;
+            Border parentBorder;
+            Grid parentGrid;
+
+            if (sender.GetType() == typeof(TextBox)) { username = sender as TextBox; parentGrid = username.Parent as Grid; }
+            else { password = sender as PasswordBox; parentGrid = password.Parent as Grid; }
+
+            parentBorder = parentGrid.Parent as Border;
+
+
+            if ((username != null && username.Text == "") || (password != null && password.Password == ""))
+            {
+                parentBorder.BorderBrush = Brushes.Red;
+                parentBorder.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
+            }
+            else if (username != null && username.Text.Length < 5)
+            {
+                parentBorder.BorderBrush = Brushes.Red;
+                parentBorder.ToolTip = Properties.Resources.Setting_ErrorMessage_FiveCharMin;
+            }
+            else if (password != null && (password.Password.Length < 8 || !Regex.IsMatch(password.Password, "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{0,}$")))
+            {
+                string errorMessage = "";
+                parentBorder.BorderBrush = Brushes.Red;
+
+                if (password.Password.Length < 8) { errorMessage = errorMessage + "- " + Properties.Resources.Login_ErrorMessage_PasswordLessEightChar; }
+                if (!Regex.IsMatch(password.Password, "^(?=.*?[A-Z]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = errorMessage + "- " + Properties.Resources.Login_ErrorMessage_NoUpperCase; }
+                if (!Regex.IsMatch(password.Password, "^(?=.*?[a-z]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = errorMessage + "- " + Properties.Resources.Login_ErrorMessage_NoLowerCase; }
+                if (!Regex.IsMatch(password.Password, "^(?=.*?[0-9]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = errorMessage + "- " + Properties.Resources.Login_ErrorMessage_NoNumberChar; }
+                parentBorder.ToolTip = errorMessage;
+            }
+            else
+            {
+                parentBorder.BorderBrush = Brushes.Black;
+                parentBorder.ToolTip = "No issue";
+            }
         }
 
         private void PasswordPlaceholderHandler(object sender, RoutedEventArgs e)

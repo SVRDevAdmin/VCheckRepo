@@ -52,6 +52,7 @@ namespace VCheckViewer.Views.Windows
         NotificationDBContext NotificationContext = App.GetService<NotificationDBContext>();
 
         public static event EventHandler InitializedUserPage;
+        public static event EventHandler ResetCurrentPassword;
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -173,6 +174,7 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "UserUpdateRow") { PopupContent.Text = Properties.Resources.Popup_Message_UpdateUser; }
             if (App.MainViewModel.Origin == "ChangeLanguageCountry") { PopupContent.Text = Properties.Resources.Popup_Message_LanguageCountryChange; }
             if (App.MainViewModel.Origin == "Logout") { PopupContent.Text = Properties.Resources.Popup_Message_Logout; }
+            if (App.MainViewModel.Origin == "ResetPassword") { PopupContent.Text = Properties.Resources.Popup_Message_ResetPassword; }
             if (App.MainViewModel.Origin == "DeviceAdd") { PopupContent.Text = Properties.Resources.Popup_Message_AddAnalyzer;  }
             if (App.MainViewModel.Origin == "DeviceDelete") { PopupContent.Text = Properties.Resources.Popup_Message_RemoveAnalyzer; }
             if (App.MainViewModel.Origin == "DeviceUpdate") { PopupContent.Text = Properties.Resources.Popup_Message_UpdateAnalyzer; }
@@ -270,6 +272,7 @@ namespace VCheckViewer.Views.Windows
 
                 Close();
             }
+            if (App.MainViewModel.Origin == "ResetPassword") { ResetPasswordHandler(e, sender); }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -811,6 +814,14 @@ namespace VCheckViewer.Views.Windows
             {
                 App.log.Error("Update Setting Error >>> ", ex);
                 return;
+            }
+        }
+
+        private static void ResetPasswordHandler(EventArgs e, object sender)
+        {
+            if (ResetCurrentPassword != null)
+            {
+                ResetCurrentPassword(sender, e);
             }
         }
 

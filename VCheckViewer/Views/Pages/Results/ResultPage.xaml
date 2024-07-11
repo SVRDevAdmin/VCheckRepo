@@ -75,9 +75,11 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Page.Resources>
-    
-    <Grid Margin="0, 10, 0, 10">
+
+    <Grid Margin="0, 10, 0, 10" MouseLeftButtonUp="CloseCalenderPopup">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="4*" />
@@ -92,7 +94,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Border BorderBrush="Black" BorderThickness="0" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0">
+        <Border BorderBrush="Black" BorderThickness="0" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" MouseLeftButtonUp="CloseCalenderPopup">
             <Grid Margin="20, 5, 0, 5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="15*" />
@@ -115,7 +117,7 @@
                                     <!--<ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />-->
                                     <Image Source="{DynamicResource Themes_SearchIcon}" Width="24" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
 
-                                    <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Style="{StaticResource TextBoxStyle}" />
+                                    <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Style="{StaticResource TextBoxStyle}" GotFocus="ChangeSortBy"/>
                                     <TextBlock IsHitTestVisible="False" Text="{Binding Path=Results_Label_Searchbar, Source={StaticResource Resources}}" 
                                                VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="{DynamicResource Themes_SearchFieldFontColor}"
                                                FontFamily="Noto Sans" FontSize="12" Background="{DynamicResource Themes_SearchFieldBackground}">
@@ -155,7 +157,7 @@
                                            Margin="5, 5, 0, 0" />
 
                                     <ComboBox x:Name="cboSort" Background="Transparent" BorderThickness="0" Margin="60, 0, 5, 0"
-                                          ItemsSource="{Binding cbSort}" SelectedItem="{Binding SelectedcbSort}" Foreground="{DynamicResource Themes_SearchFieldFontColor}"/>
+                                          ItemsSource="{Binding cbSort}" SelectedItem="{Binding SelectedcbSort}" Foreground="{DynamicResource Themes_SearchFieldFontColor}" GotFocus="ChangeSortBy"/>
                                 </Grid>
                             </Border>
                         </Border>
@@ -187,7 +189,7 @@
             </Grid>
         </Border>
         <TextBlock Name="txtTotalCount" Text="0" Visibility="Collapsed" />
-        <Border BorderBrush="Black" BorderThickness="0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Margin="15, 10, 10, 5">
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Margin="15, 10, 10, 5">
             <DataGrid Name="dgResult" BorderThickness="0" AutoGenerateColumns="False" GridLinesVisibility="Horizontal" Background="Transparent"
                 RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}" HorizontalGridLinesBrush="{DynamicResource Themes_GridRowLinesColor}" CanUserAddRows="False">
                 <DataGrid.Columns>
@@ -230,7 +232,9 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-        </Border>
+            <TextBlock Text="{Binding Path=General_Message_NoData, Source={StaticResource Resources}}" TextAlignment="Center" Margin="0,50,0,0" Visibility="{Binding Items.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=dgResult}" Foreground="{DynamicResource Themes_FontColor}"/>
+        </Grid>
+        
         <!-- // Pagination Control // -->
         <userControls:PagingControl x:Name="pagination" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6">
         </userControls:PagingControl>

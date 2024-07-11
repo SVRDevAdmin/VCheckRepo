@@ -168,14 +168,14 @@ namespace VCheckViewer.Views.Pages.Results
                 sStart = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd HH:mm:ss");
                 sEnd = RangeDate.SelectedDates.FirstOrDefault().AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd HH:mm:ss");
             }
-            else if (RangeDate.SelectedDates.Count == 0)
-            {
-                sStart = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                sEnd = DateTime.Now.AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd HH:mm:ss");
+            //else if (RangeDate.SelectedDates.Count == 0)
+            //{
+            //    sStart = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            //    sEnd = DateTime.Now.AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd HH:mm:ss");
 
-                RangeDate.DisplayValue = (DateTime.ParseExact(sStart, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)).ToString("dd/MM/yyyy") + " - " +
-                                         (DateTime.ParseExact(sEnd, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)).ToString("dd/MM/yyyy");
-            }
+            //    RangeDate.DisplayValue = (DateTime.ParseExact(sStart, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)).ToString("dd/MM/yyyy") + " - " +
+            //                             (DateTime.ParseExact(sEnd, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)).ToString("dd/MM/yyyy");
+            //}
 
             String sKeyword = KeywordSearchBar.Text;
 
@@ -211,11 +211,13 @@ namespace VCheckViewer.Views.Pages.Results
 
         private void btnDownload_Click(object sender, RoutedEventArgs e)
         {
+            CloseCalenderPopup(null, null);
             DownloadSearchResult();
         }
 
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
+            CloseCalenderPopup(null, null);
             DownloadSearchResult(true);
         }
 
@@ -327,6 +329,21 @@ namespace VCheckViewer.Views.Pages.Results
                 App.MainViewModel.Origin = (!isPrint) ? "FailedDownloadListing" : "FailedToShowPrint";
                 App.PopupHandler(null, null);
             }
+        }
+
+        private void ResultKeywordSearch(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            CloseCalenderPopup(null, null);
+        }
+
+        private void ChangeSortBy(object sender, RoutedEventArgs e)
+        {
+            CloseCalenderPopup(null, null);
+        }
+
+        private void CloseCalenderPopup(object? sender, MouseButtonEventArgs? e)
+        {
+            RangeDate.DateRangePicker_Popup.IsOpen = false;
         }
     }
 }
