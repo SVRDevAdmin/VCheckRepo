@@ -110,6 +110,8 @@
     <None Remove="Content\Images\stroke_4.png" />
     <None Remove="Content\Images\Username icon.png" />
     <None Remove="Storage\Device\Img_M10.png" />
+    <None Remove="Storage\Device\VCheck2400Image.png" />
+    <None Remove="Storage\Device\VCheckC10.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -249,6 +251,8 @@
     <Resource Include="Content\Images\VCheckM10Image.png" />
     <Resource Include="Storage\Device\Img_F200.png" />
     <Resource Include="Storage\Device\Img_M10.png" />
+    <Resource Include="Storage\Device\VCheck2400Image.png" />
+    <Resource Include="Storage\Device\VCheckC10.png" />
   </ItemGroup>
 
   <ItemGroup>
