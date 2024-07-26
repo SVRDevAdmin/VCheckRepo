@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VCheckListenerWorker.Lib.DBContext;
 using VCheckListenerWorker.Lib.Models;
+using ZstdSharp.Unsafe;
 
 namespace VCheckListenerWorker.Lib.Logic
 {
@@ -25,12 +26,15 @@ namespace VCheckListenerWorker.Lib.Logic
         /// <param name="sResultOBXs"></param>
         /// <param name="sResultNTEs"></param>
         /// <returns></returns>
-        public static Boolean insertTestObservationMessage(tbltestanalyze_results sResult, 
+        public static Boolean insertTestObservationMessage(tbltestanalyze_results sResult,
                                                            tbltestanalyze_results_messageheader sResultMSH,
-                                                           List<tbltestanalyze_results_patientidentification> sResultPID, 
+                                                           List<tbltestanalyze_results_patientidentification> sResultPID,
                                                            tbltestanalyze_results_observationrequest sResultOBR,
-                                                           List<tbltestanalyze_results_observationresult> sResultOBXs, 
-                                                           List<tbltestanalyze_results_notes> sResultNTEs)
+                                                           List<tbltestanalyze_results_observationresult> sResultOBXs,
+                                                           List<tbltestanalyze_results_notes> sResultNTEs,
+                                                           tbltestanalyze_results_patientvisit sResultPV,
+                                                           tbltestanalyze_results_specimen sResultSpecimen = null, 
+                                                           tbltestanalyze_results_specimencontainer sResultContainer = null)
         {
             Boolean isSuccess = false;
 
@@ -83,6 +87,30 @@ namespace VCheckListenerWorker.Lib.Logic
                         }
                     }
 
+                    if (sResultPV != null)
+                    {
+                        sResultPV.ResultRowID = sResult.ResultRowID;
+
+                        ctx.tbltestanalyze_results_patientvisit.Add(sResultPV);
+                        ctx.SaveChanges();
+                    }
+
+                    if (sResultSpecimen != null)
+                    {
+                        sResultSpecimen.ResultRowID = sResult.ResultRowID;
+
+                        ctx.tbltestanalyze_results_specimen.Add(sResultSpecimen);
+                        ctx.SaveChanges();
+                    }
+
+                    if (sResultContainer != null)
+                    {
+                        sResultContainer.ResultRowID = sResult.ResultRowID;
+
+                        ctx.tbltestanalyze_results_specimencontainer.Add(sResultContainer);
+                        ctx.SaveChanges();
+                    }
+
                     isSuccess = true;
                 }
             }
@@ -123,7 +151,13 @@ namespace VCheckListenerWorker.Lib.Logic
             return isSuccess;
         }
 
-        public static Boolean createBulkTestResult(List<txn_testresults> sTestResult)
+        /// <summary>
+        /// Insert into Test Result table with multiple breakdown details
+        /// </summary>
+        /// <param name="sTestResult"></param>
+        /// <param name="sTestResultDetail"></param>
+        /// <returns></returns>
+        public static Boolean createTestResultsMultipleParam(txn_testresults sTestResult, List<txn_testresults_details> sTestResultDetail)
         {
             Boolean isSuccess = false;
 
@@ -131,20 +165,51 @@ namespace VCheckListenerWorker.Lib.Logic
             {
                 using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
                 {
-                    ctx.txn_Testresults.AddRange(sTestResult);
+                    ctx.txn_Testresults.Add(sTestResult);
                     ctx.SaveChanges();
+
+                    foreach(var d in sTestResultDetail)
+                    {
+                        d.TestResultRowID = sTestResult.ID;
+
+                        ctx.txn_testresults_details.Add(d);
+                        ctx.SaveChanges();
+                    }
 
                     isSuccess = true;
                 }
             }
             catch (Exception ex)
             {
-                log.Error("VCheckListenerWorker >>> TestResultRepository >>> createBulkTestResult >>> " + ex.ToString());
+                log.Error("VCheckListenerWorker >>> TestResultRepository >>> createTestResultsMultipleParam >>> " + ex.ToString());
                 isSuccess = false;
             }
 
             return isSuccess;
         }
+
+        //public static Boolean createBulkTestResult(List<txn_testresults> sTestResult)
+        //{
+        //    Boolean isSuccess = false;
+
+        //    try
+        //    {
+        //        using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+        //        {
+        //            ctx.txn_Testresults.AddRange(sTestResult);
+        //            ctx.SaveChanges();
+
+        //            isSuccess = true;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Error("VCheckListenerWorker >>> TestResultRepository >>> createBulkTestResult >>> " + ex.ToString());
+        //        isSuccess = false;
+        //    }
+
+        //    return isSuccess;
+        //}
 
         /// <summary>
         /// Get Notification Template By Code

@@ -83,7 +83,7 @@ namespace VCheckListenerWorker.Lib.Util
 
                 // ------------- Message Acknowledgement ---------------------//
                 Segment msa = new Segment("MSA");
-                msa.Field(1, NHapi.Base.AcknowledgmentCode.CA.ToString());
+                msa.Field(1, NHapi.Base.AcknowledgmentCode.AA.ToString());
                 msa.Field(2, sRU_R01.MSH.MessageControlID.Value.ToString());
                 response.Add(msa);
 
