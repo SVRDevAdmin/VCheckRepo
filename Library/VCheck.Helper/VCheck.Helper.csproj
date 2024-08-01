@@ -1,19 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="bin\Debug\net8.0-windows\VCheck.Helper.deps.json" />
+    <Content Include="bin\Debug\net8.0\VCheck.Helper.deps.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="bin\Debug\net8.0-windows\VCheck.Helper.dll" />
-    <None Include="bin\Debug\net8.0-windows\VCheck.Helper.pdb" />
+    <None Include="bin\Debug\net8.0\VCheck.Helper.dll" />
+    <None Include="bin\Debug\net8.0\VCheck.Helper.pdb" />
   </ItemGroup>
 
 </Project>
