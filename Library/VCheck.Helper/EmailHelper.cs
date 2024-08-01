@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net.Mail;
-using System.IO;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Net;
 
 namespace VCheck.Helper
 {
@@ -191,7 +189,7 @@ namespace VCheck.Helper
         }
         public int PortNo
         {
-            get; 
+            get;
             set;
         }
         public string HostUsername

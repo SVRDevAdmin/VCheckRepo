@@ -111,6 +111,29 @@ namespace VCheck.Lib.Data
         }
 
         /// <summary>
+        /// Get Test Result by Test Date Range
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="sStartDate"></param>
+        /// <param name="sEndDate"></param>
+        /// <returns></returns>
+        public static List<TestResultModel> GetTestResultByDateRange(IConfiguration config, DateTime sStartDate, DateTime sEndDate)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.txn_testResults.Where(x => x.TestResultDateTime >= sStartDate && x.TestResultDateTime <= sEndDate).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("TestResultRepository >>> GetTestResultByDateRange >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Get Test results listing by search criteria
         /// </summary>
         /// <param name="config"></param>

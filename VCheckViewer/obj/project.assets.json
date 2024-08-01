@@ -3725,10 +3725,7 @@
         },
         "runtime": {
           "bin/placeholder/VCheck.Helper.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App.WPF"
-        ]
+        }
       },
       "VCheck.Lib.Data/1.0.0": {
         "type": "project",

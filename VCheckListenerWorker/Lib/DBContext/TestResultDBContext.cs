@@ -23,7 +23,11 @@ namespace VCheckListenerWorker.Lib.DBContext
         public DbSet<tbltestanalyze_results_observationrequest> tbltestanalyze_results_observationrequest { get; set; }
         public DbSet<tbltestanalyze_results_observationresult> tbltestanalyze_results_observationresult { get; set; }
         public DbSet<tbltestanalyze_results_patientidentification> tbltestanalyze_results_patientidentification { get; set; }
+        public DbSet<tbltestanalyze_results_patientvisit> tbltestanalyze_results_patientvisit { get; set; }
+        public DbSet<tbltestanalyze_results_specimen> tbltestanalyze_results_specimen { get; set; }
+        public DbSet<tbltestanalyze_results_specimencontainer> tbltestanalyze_results_specimencontainer { get; set; }
         public DbSet<txn_testresults> txn_Testresults { get; set; }
+        public DbSet<txn_testresults_details> txn_testresults_details { get; set; }
         public DbSet<mst_template> mst_template { get; set; }
         public DbSet<mst_template_details> mst_template_details { get; set; }
         public DbSet<txn_notification> txn_notification { get; set; }
