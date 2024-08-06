@@ -12,7 +12,6 @@ namespace VCheckViewer.Lib.Function
         public static IConfiguration GetConfigurationSettings()
         {
             var iHost = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
-
             return iHost.Configuration;
         }
 
