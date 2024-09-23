@@ -166,6 +166,7 @@
     <Resource Include="Content\Images\BackArrow_White.png" />
     <ProjectReference Include="..\Library\VCheck.Helper\VCheck.Helper.csproj" />
     <ProjectReference Include="..\Library\VCheck.Lib.Data\VCheck.Lib.Data.csproj" />
+    <ProjectReference Include="..\VCheck.Interface.API\VCheck.Interface.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -27,6 +27,7 @@ namespace VCheck.Interface.API.ezyVet.ResponseMessage
         public String? id { get; set; }
         public String? uid { get; set; }
         public String? active { get; set; }
-        public String? name {  get; set; }
+        public String? name { get; set; }
         public String? default_duration { get; set; }
+    }
 }

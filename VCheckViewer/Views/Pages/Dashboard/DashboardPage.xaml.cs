@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
@@ -10,6 +11,7 @@ using VCheck.Helper;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
+using VCheckViewer.Views.Pages.Schedule;
 using VCheckViewer.Views.Pages.Setting.Device;
 using Brush = System.Windows.Media.Brush;
 using Brushes = System.Windows.Media.Brushes;
@@ -22,7 +24,7 @@ namespace VCheckViewer.Views.Pages
     /// <summary>
     /// Interaction logic for DashboardPage.xaml
     /// </summary>
-    public partial class DashboardPage : Page
+    public partial class DashboardPage : System.Windows.Controls.Page
     {
         List<DeviceModel> deviceList = DeviceRepository.GetDeviceList(ConfigSettings.GetConfigurationSettings());
 
@@ -534,6 +536,51 @@ namespace VCheckViewer.Views.Pages
             sEmail.UseDefaultCredentials = false;
 
             EmailHelper.SendEmail(sEmail, out sErrorMessage);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            String sID = "66:a327e327-7174-11ef-84e8-0d99d20d5b74";
+
+            var sAPI = new VCheck.Interface.API.openvpmsAPI();
+
+            var sResult = sAPI.RetrieveBooking(sID);
+            if (sResult != null)
+            {
+                if (sResult != null)
+                {
+                    String sMessage = "Retrieve Appointment record from API completed.";
+
+                    VCheck.Lib.Data.Models.ScheduledTestModel sTestModel = new ScheduledTestModel();
+
+                    sTestModel.ScheduledDateTime = DateTime.ParseExact(sResult.start, "yyyy-MM-ddTHH:mm:ss.fffzzz", System.Globalization.CultureInfo.InvariantCulture);
+                    sTestModel.ScheduleTestStatus = 0;
+                    sTestModel.CreatedDate = DateTime.Now;
+                    sTestModel.CreatedBy = "SYSTEM";
+                    //sMessage = "Location: " + sResult.location + Environment.NewLine +
+                    //           "Schedule: " + sResult.schedule + Environment.NewLine +
+                    //           "appointmentType : " + sResult.appointmentType + Environment.NewLine +
+                    //           "appointment start time : " + sResult.start + Environment.NewLine +
+                    //           "appointment End time : " + sResult.end + Environment.NewLine +
+                    //           "title : " + sResult.title + Environment.NewLine;
+                    if (ScheduledTestRepository.InsertScheduledTest(ConfigSettings.GetConfigurationSettings(), sTestModel))
+                    {
+                        //System.Windows.Forms.MessageBox.Show(sMessage);
+                        var efg = "abc";
+                    }
+                    else
+                    {
+                        System.Windows.Forms.MessageBox.Show("Get Appointment record from API Failed.");
+                    }
+                    
+                }
+
+
+            }
+            else
+            {
+                String abc = "xxx";
+            }
         }
     }
 }

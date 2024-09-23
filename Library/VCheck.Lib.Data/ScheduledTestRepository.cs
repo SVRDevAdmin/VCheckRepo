@@ -103,5 +103,29 @@ namespace VCheck.Lib.Data
 
             return isSuccess;
         }
+
+        // Temporary //
+        public static Boolean InsertScheduledTest(IConfiguration config, ScheduledTestModel sScheduledTestObj)
+        {
+            Boolean isSuccess = false;
+
+            try
+            {
+                using (var ctx = new ScheduleDBContext(config))
+                {
+                    ctx.Txn_ScheduledTests.Add(sScheduledTestObj);
+                    ctx.SaveChanges();
+
+                    isSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                isSuccess = false;
+            }
+
+            return isSuccess;
+        }
     }
 }
