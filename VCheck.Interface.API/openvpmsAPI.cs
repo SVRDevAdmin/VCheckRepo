@@ -58,5 +58,40 @@ namespace VCheck.Interface.API
                 return null;
             }
         }
+
+        public Boolean SubmitBooking(openvpms.RequestMessage.SubmitBookingRequest sInput)
+        {
+            String? sRequestURL = iConfig.GetSection("OpenVPMS:SubmitBookingURL").Value;
+            Boolean isSuccess = false;
+
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
+
+                    var byteArray = Encoding.ASCII.GetBytes(sUsername + ":" + sPassword);
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+                    HttpResponseMessage resp = client.PostAsJsonAsync(sRequestURL, sInput).Result;
+                    if (resp.IsSuccessStatusCode)
+                    {
+                        String sResult = resp.Content.ReadAsStringAsync().Result;
+                        isSuccess = true;
+                    }
+                    else
+                    {
+                        isSuccess = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                isSuccess = false;
+            }
+
+            return isSuccess;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿//using DocumentFormat.OpenXml.Spreadsheet;
+using Google.Protobuf.WellKnownTypes;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -8,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using VCheck.Helper;
+using VCheck.Interface.API;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
@@ -538,6 +540,7 @@ namespace VCheckViewer.Views.Pages
             EmailHelper.SendEmail(sEmail, out sErrorMessage);
         }
 
+        // ------------ Temporary BEGIN --------------//
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             String sID = "66:a327e327-7174-11ef-84e8-0d99d20d5b74";
@@ -557,30 +560,65 @@ namespace VCheckViewer.Views.Pages
                     sTestModel.ScheduleTestStatus = 0;
                     sTestModel.CreatedDate = DateTime.Now;
                     sTestModel.CreatedBy = "SYSTEM";
-                    //sMessage = "Location: " + sResult.location + Environment.NewLine +
-                    //           "Schedule: " + sResult.schedule + Environment.NewLine +
-                    //           "appointmentType : " + sResult.appointmentType + Environment.NewLine +
-                    //           "appointment start time : " + sResult.start + Environment.NewLine +
-                    //           "appointment End time : " + sResult.end + Environment.NewLine +
-                    //           "title : " + sResult.title + Environment.NewLine;
+
                     if (ScheduledTestRepository.InsertScheduledTest(ConfigSettings.GetConfigurationSettings(), sTestModel))
                     {
                         //System.Windows.Forms.MessageBox.Show(sMessage);
-                        var efg = "abc";
                     }
                     else
                     {
                         System.Windows.Forms.MessageBox.Show("Get Appointment record from API Failed.");
-                    }
-                    
+                    }                
                 }
-
-
             }
             else
             {
                 String abc = "xxx";
             }
         }
+
+        private void btnSubmitAppt_Click(object sender, RoutedEventArgs e)
+        {
+            popupAppt.IsOpen = true;
+        }
+
+        private void btnSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            var sAPI = new VCheck.Interface.API.openvpmsAPI();
+          
+            System.Windows.Controls.ComboBoxItem cbStart = (System.Windows.Controls.ComboBoxItem)cboStart.SelectedValue;
+            System.Windows.Controls.ComboBoxItem cbEnd = (System.Windows.Controls.ComboBoxItem)cboEnd.SelectedValue;
+
+            DateTime dtApptdate = DateTime.ParseExact(dtAppt.Text, "M/d/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+            String sStart = cbStart.Content.ToString();
+            String sEnd = cbEnd.Content.ToString();
+
+            String sReqStart = dtApptdate.ToString("yyyy-MM-ddT") + sStart + ":00.000+08:00";
+            String sReqEnd = dtApptdate.ToString("yyyy-MM-ddT") + sEnd + ":00.000+08:00";
+
+            VCheck.Interface.API.openvpms.RequestMessage.SubmitBookingRequest sReq = new VCheck.Interface.API.openvpms.RequestMessage.SubmitBookingRequest();
+            sReq.location = "17";
+            sReq.schedule = "21";
+            sReq.appointmentType = "7";
+            sReq.start = sReqStart;
+            sReq.end = sReqEnd;
+            sReq.firstName = txtFirstName.Text;
+            sReq.lastName = txtLastName.Text;
+            sReq.patientName = txtPatient.Text;
+            sReq.title = "mr.";
+            sReq.mobile = "01232342434";
+            sReq.user = "89";
+
+            if (sAPI.SubmitBooking(sReq))
+            {
+                System.Windows.Forms.MessageBox.Show("Submit Booking successfully.");
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Submit Booking Failed.");
+            }
+        }
+
+        //-------------- Temporary END ------------------//
     }
 }

@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="bin\Debug\net8.0\" />
-    <Folder Include="Lib\openvpms\RequestMessage\" />
   </ItemGroup>
 
   <ItemGroup>
