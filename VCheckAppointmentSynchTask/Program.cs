@@ -29,8 +29,10 @@ namespace VCheckAppointmentSynchTask
             else
             {
                 var sBuilder = new ConfigurationBuilder();
-                sBuilder.SetBasePath(Directory.GetCurrentDirectory())
+                //sBuilder.SetBasePath(Directory.GetCurrentDirectory())
+                sBuilder.SetBasePath(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location))
                         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                        //.AddEnvironmentVariables();
 
                 IConfiguration config = sBuilder.Build();
 
