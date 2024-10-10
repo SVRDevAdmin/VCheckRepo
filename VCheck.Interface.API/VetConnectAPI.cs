@@ -71,5 +71,46 @@ namespace VCheck.Interface.API
                 return null;
             }
         }
+
+        /// <summary>
+        /// Send Test Results 
+        /// </summary>
+        /// <param name="sInput"></param>
+        /// <returns></returns>
+        public VetConnect.UpdateTestResultsResponse? UpdateTestResults(VetConnect.UpdateTestResultsRequest sInput)
+        {
+            String? sRequestURL = iConfig.GetSection("VetConnect:UpdateTestResult").Value;
+
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    var req = new HttpRequestMessage
+                    {
+                        Method = HttpMethod.Post,
+                        RequestUri = new Uri(sRequestURL),
+                        Content = new StringContent(
+                            Newtonsoft.Json.JsonConvert.SerializeObject(sInput),
+                            Encoding.UTF8, "application/json"
+    )
+                    };
+
+                    HttpResponseMessage resp = client.SendAsync(req).Result;
+                    if (resp.IsSuccessStatusCode)
+                    {
+                        String strResult = resp.Content.ReadAsStringAsync().Result;
+                        return Newtonsoft.Json.JsonConvert.DeserializeObject<VetConnect.UpdateTestResultsResponse>(strResult);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

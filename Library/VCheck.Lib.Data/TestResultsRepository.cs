@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using System.CodeDom;
 using log4net;
 using System.Reflection;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace VCheck.Lib.Data
 {
@@ -271,6 +272,61 @@ namespace VCheck.Lib.Data
             catch (Exception ex)
             {
                 log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        public static List<TestResultAPIObject> GetTestResultDetailsByDateRange(IConfiguration config, DateTime sStart, DateTime sEnd)
+        {
+            List<TestResultAPIObject> sResult = new List<TestResultAPIObject>();
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    MySqlConnection sConn = new MySql.Data.MySqlClient.MySqlConnection(ctx.Database.GetConnectionString());
+                    sConn.Open();
+
+                    String sSelectCommand = "SELECT A.ID, A.TestResultDateTime, A.OperatorID, A.PatientID, A.InchargePerson, A.DeviceSerialNo, " +
+                                            "B.TestParameter, B.ProceduralControl, B.TestResultStatus, B.TestResultValue, B.TestResultUnit, " + 
+                                            "B.ReferenceRange " +
+                                            "FROM txn_testresults AS A " +
+                                            "INNER JOIN txn_testresults_details AS B ON B.TestResultRowID = A.ID " + 
+                                            "WHERE A.TestResultDateTime >= '" + sStart.ToString("yyyy-MM-dd HH:mm:ss") + "' AND A.TestResultDateTime <= '" + sEnd.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                                            "ORDER BY A.TestResultDateTime";
+
+                    using (MySqlCommand sCommand = new MySqlCommand(sSelectCommand, sConn))
+                    {
+                        using (var sReader = sCommand.ExecuteReader())
+                        {
+                            while (sReader.Read())
+                            {
+                                sResult.Add(new TestResultAPIObject
+                                {
+                                    ID  = Convert.ToInt64(sReader["ID"]),
+                                    TestResultDateTime = Convert.ToDateTime(sReader["TestResultDateTime"]),
+                                    TestResultType = sReader["TestParameter"].ToString(),
+                                    OperatorID = sReader["OperatorID"].ToString(),
+                                    DeviceSerialNo = sReader["DeviceSerialNo"].ToString(),
+                                    PatientID = sReader["PatientID"].ToString(),
+                                    InchargePerson = sReader["InchargePerson"].ToString(),
+                                    ObservationStatus = sReader["ProceduralControl"].ToString(),
+                                    TestResultStatus = sReader["TestResultStatus"].ToString(),
+                                    TestResultValue = sReader["TestResultValue"].ToString(),
+                                    TestResultRules = sReader["TestResultUnit"].ToString(),
+                                });
+                            }
+                        }
+                    }
+
+                    sConn.Close();
+
+                    return sResult;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("TestResultRepository >>> GetTestResultDetailsByDateRange >>> " + ex.ToString());
                 return null;
             }
         }

@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAPIServices", "TestAPIS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VCheckAppointmentSynchTask", "VCheckAppointmentSynchTask\VCheckAppointmentSynchTask.csproj", "{B378F3A1-F9F2-4D3D-8437-6BEFEABFE50F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VCheckTestResultDataSynchTask", "VCheckTestResultDataSynchTask\VCheckTestResultDataSynchTask.csproj", "{C1E9CBAE-C7EE-4998-9CF6-DB068C060FD2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{B378F3A1-F9F2-4D3D-8437-6BEFEABFE50F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B378F3A1-F9F2-4D3D-8437-6BEFEABFE50F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B378F3A1-F9F2-4D3D-8437-6BEFEABFE50F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1E9CBAE-C7EE-4998-9CF6-DB068C060FD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E9CBAE-C7EE-4998-9CF6-DB068C060FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1E9CBAE-C7EE-4998-9CF6-DB068C060FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1E9CBAE-C7EE-4998-9CF6-DB068C060FD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +92,7 @@ Global
 		{BB066D5B-2427-460D-AFDB-0D8CE5F1703A} = {7EF5493D-A9EB-4771-AA39-C8B03CA2FF66}
 		{E1FA9E6F-C83C-47D7-91A8-59A90DB41E08} = {1DDFE4EC-D225-4A90-B665-F7DFACE243DD}
 		{B378F3A1-F9F2-4D3D-8437-6BEFEABFE50F} = {7EF5493D-A9EB-4771-AA39-C8B03CA2FF66}
+		{C1E9CBAE-C7EE-4998-9CF6-DB068C060FD2} = {7EF5493D-A9EB-4771-AA39-C8B03CA2FF66}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA9C62A1-D1CD-46B8-B906-8B72118F91FA}
