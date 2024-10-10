@@ -2285,10 +2285,10 @@
           "buildTransitive/netcoreapp3.1/_._": {}
         }
       },
-      "System.Configuration.ConfigurationManager/8.0.0": {
+      "System.Configuration.ConfigurationManager/8.0.1": {
         "type": "package",
         "dependencies": {
-          "System.Diagnostics.EventLog": "8.0.0",
+          "System.Diagnostics.EventLog": "8.0.1",
           "System.Security.Cryptography.ProtectedData": "8.0.0"
         },
         "compile": {
@@ -2349,7 +2349,7 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
-      "System.Diagnostics.EventLog/8.0.0": {
+      "System.Diagnostics.EventLog/8.0.1": {
         "type": "package",
         "compile": {
           "lib/net8.0/System.Diagnostics.EventLog.dll": {
@@ -2943,10 +2943,10 @@
           }
         }
       },
-      "System.Runtime.Caching/8.0.0": {
+      "System.Runtime.Caching/8.0.1": {
         "type": "package",
         "dependencies": {
-          "System.Configuration.ConfigurationManager": "8.0.0"
+          "System.Configuration.ConfigurationManager": "8.0.1"
         },
         "compile": {
           "lib/net8.0/System.Runtime.Caching.dll": {
@@ -6930,10 +6930,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "System.Configuration.ConfigurationManager/8.0.0": {
-      "sha512": "JlYi9XVvIREURRUlGMr1F6vOFLk7YSY4p1vHo4kX3tQ0AGrjqlRWHDi66ImHhy6qwXBG3BJ6Y1QlYQ+Qz6Xgww==",
+    "System.Configuration.ConfigurationManager/8.0.1": {
+      "sha512": "gPYFPDyohW2gXNhdQRSjtmeS6FymL2crg4Sral1wtvEJ7DUqFCDWDVbbLobASbzxfic8U1hQEdC7hmg9LHncMw==",
       "type": "package",
-      "path": "system.configuration.configurationmanager/8.0.0",
+      "path": "system.configuration.configurationmanager/8.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6955,7 +6955,7 @@
         "lib/net8.0/System.Configuration.ConfigurationManager.xml",
         "lib/netstandard2.0/System.Configuration.ConfigurationManager.dll",
         "lib/netstandard2.0/System.Configuration.ConfigurationManager.xml",
-        "system.configuration.configurationmanager.8.0.0.nupkg.sha512",
+        "system.configuration.configurationmanager.8.0.1.nupkg.sha512",
         "system.configuration.configurationmanager.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -7095,10 +7095,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "System.Diagnostics.EventLog/8.0.0": {
-      "sha512": "fdYxcRjQqTTacKId/2IECojlDSFvp7LP5N78+0z/xH7v/Tuw5ZAxu23Y6PTCRinqyu2ePx+Gn1098NC6jM6d+A==",
+    "System.Diagnostics.EventLog/8.0.1": {
+      "sha512": "n1ZP7NM2Gkn/MgD8+eOT5MulMj6wfeQMNS2Pizvq5GHCZfjlFMXV2irQlQmJhwA2VABC57M0auudO89Iu2uRLg==",
       "type": "package",
-      "path": "system.diagnostics.eventlog/8.0.0",
+      "path": "system.diagnostics.eventlog/8.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7129,7 +7129,7 @@
         "runtimes/win/lib/net8.0/System.Diagnostics.EventLog.Messages.dll",
         "runtimes/win/lib/net8.0/System.Diagnostics.EventLog.dll",
         "runtimes/win/lib/net8.0/System.Diagnostics.EventLog.xml",
-        "system.diagnostics.eventlog.8.0.0.nupkg.sha512",
+        "system.diagnostics.eventlog.8.0.1.nupkg.sha512",
         "system.diagnostics.eventlog.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -8768,10 +8768,10 @@
         "system.runtime.nuspec"
       ]
     },
-    "System.Runtime.Caching/8.0.0": {
-      "sha512": "4TmlmvGp4kzZomm7J2HJn6IIx0UUrQyhBDyb5O1XiunZlQImXW+B8b7W/sTPcXhSf9rp5NR5aDtQllwbB5elOQ==",
+    "System.Runtime.Caching/8.0.1": {
+      "sha512": "tdl7Q47P09UpRu0C/OQsGJU6GacBzzk4vfp5My9rodD+BchrxmajORnTthH8RxPUTPrIoVDJmLyvJcGxB267nQ==",
       "type": "package",
-      "path": "system.runtime.caching/8.0.0",
+      "path": "system.runtime.caching/8.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -8802,7 +8802,7 @@
         "runtimes/win/lib/net7.0/System.Runtime.Caching.xml",
         "runtimes/win/lib/net8.0/System.Runtime.Caching.dll",
         "runtimes/win/lib/net8.0/System.Runtime.Caching.xml",
-        "system.runtime.caching.8.0.0.nupkg.sha512",
+        "system.runtime.caching.8.0.1.nupkg.sha512",
         "system.runtime.caching.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -10602,7 +10602,7 @@
       "MySql.Data >= 8.4.0",
       "Pomelo.EntityFrameworkCore.MySql >= 8.0.2",
       "QuestPDF >= 2024.3.10",
-      "System.Runtime.Caching >= 8.0.0",
+      "System.Runtime.Caching >= 8.0.1",
       "VCheck.Helper >= 1.0.0",
       "VCheck.Interface.API >= 1.0.0",
       "VCheck.Lib.Data >= 1.0.0",
@@ -10743,7 +10743,7 @@
           },
           "System.Runtime.Caching": {
             "target": "Package",
-            "version": "[8.0.0, )"
+            "version": "[8.0.1, )"
           },
           "WPF-UI": {
             "target": "Package",
@@ -10780,17 +10780,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1903",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'System.Runtime.Caching' 8.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-qj66-m88j-hmgj",
-      "libraryId": "System.Runtime.Caching",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    }
-  ]
+  }
 }

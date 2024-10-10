@@ -78,7 +78,7 @@ namespace VCheckViewer.Views.Pages.Dashboard {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/VCheckViewer;V1.0.0.1;component/views/pages/dashboard/testresultlist.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/VCheckViewer;component/views/pages/dashboard/testresultlist.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\Views\Pages\Dashboard\TestResultList.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
