@@ -39,3 +39,21 @@ COLLATE='utf8mb4_general_ci'
 ENGINE=InnoDB
 ;
 
+CREATE TABLE `txn_testresults_details` (
+	`ID` BIGINT NOT NULL AUTO_INCREMENT,
+	`TestResultRowID` BIGINT NULL DEFAULT NULL,
+	`TestParameter` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`SubID` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`ProceduralControl` VARCHAR(300) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`TestResultStatus` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`TestResultValue` VARCHAR(300) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`TestResultUnit` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`ReferenceRange` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`Interpretation` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`ID`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
+
+
