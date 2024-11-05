@@ -869,7 +869,10 @@
           "log4net": "2.0.17"
         },
         "runtime": {
-          "VCheck.Lib.Data.dll": {}
+          "VCheck.Lib.Data.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

@@ -71,6 +71,8 @@ namespace VCheckAppointmentSynchTask
                 sHeader.authtoken = sToken;
 
                 sBody.transtype = sTransType;
+
+                String? sConnStr = config.GetSection("ConnectionStrings:DefaultConnection").Value;
                 var sProcessingLog = ProcessingLogRepository.GetProcessingLogByName(processName, config);
                 if (sProcessingLog != null)
                 {

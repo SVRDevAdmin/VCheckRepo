@@ -30,7 +30,7 @@ namespace VCheckViewer.Views.Pages.Dashboard
 
         public void initializeData()
         {
-            List<TestResultModel> sTestResultList = VCheck.Lib.Data.TestResultsRepository.GetLatestTestResultList(ConfigSettings.GetConfigurationSettings());
+            List<TestResultExtendedModel> sTestResultList = VCheck.Lib.Data.TestResultsRepository.GetLatestTestResultList(ConfigSettings.GetConfigurationSettings());
 
             if (sTestResultList != null && sTestResultList.Count > 0)
             {

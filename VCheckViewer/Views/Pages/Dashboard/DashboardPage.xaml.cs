@@ -31,7 +31,7 @@ namespace VCheckViewer.Views.Pages
         List<DeviceModel> deviceList = DeviceRepository.GetDeviceList(ConfigSettings.GetConfigurationSettings());
 
         //List<TestResultModel> resultList = TestResultsRepository.GetAllTestResultList(ConfigSettings.GetConfigurationSettings());
-        List<TestResultModel> resultList = TestResultsRepository.GetTestResultByDates(ConfigSettings.GetConfigurationSettings(), DateTime.Now);
+        List<TestResultExtendedModel> resultList = TestResultsRepository.GetTestResultByDates(ConfigSettings.GetConfigurationSettings(), DateTime.Now);
 
         public DashboardPage()
         {
@@ -541,83 +541,83 @@ namespace VCheckViewer.Views.Pages
         }
 
         // ------------ Temporary BEGIN --------------//
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            String sID = "66:a327e327-7174-11ef-84e8-0d99d20d5b74";
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    String sID = "66:a327e327-7174-11ef-84e8-0d99d20d5b74";
 
-            var sAPI = new VCheck.Interface.API.openvpmsAPI();
+        //    var sAPI = new VCheck.Interface.API.openvpmsAPI();
 
-            var sResult = sAPI.RetrieveBooking(sID);
-            if (sResult != null)
-            {
-                if (sResult != null)
-                {
-                    String sMessage = "Retrieve Appointment record from API completed.";
+        //    var sResult = sAPI.RetrieveBooking(sID);
+        //    if (sResult != null)
+        //    {
+        //        if (sResult != null)
+        //        {
+        //            String sMessage = "Retrieve Appointment record from API completed.";
 
-                    VCheck.Lib.Data.Models.ScheduledTestModel sTestModel = new ScheduledTestModel();
+        //            VCheck.Lib.Data.Models.ScheduledTestModel sTestModel = new ScheduledTestModel();
 
-                    sTestModel.ScheduledDateTime = DateTime.ParseExact(sResult.start, "yyyy-MM-ddTHH:mm:ss.fffzzz", System.Globalization.CultureInfo.InvariantCulture);
-                    sTestModel.ScheduleTestStatus = 0;
-                    sTestModel.CreatedDate = DateTime.Now;
-                    sTestModel.CreatedBy = "SYSTEM";
+        //            sTestModel.ScheduledDateTime = DateTime.ParseExact(sResult.start, "yyyy-MM-ddTHH:mm:ss.fffzzz", System.Globalization.CultureInfo.InvariantCulture);
+        //            sTestModel.ScheduleTestStatus = 0;
+        //            sTestModel.CreatedDate = DateTime.Now;
+        //            sTestModel.CreatedBy = "SYSTEM";
 
-                    if (ScheduledTestRepository.InsertScheduledTest(ConfigSettings.GetConfigurationSettings(), sTestModel))
-                    {
-                        //System.Windows.Forms.MessageBox.Show(sMessage);
-                    }
-                    else
-                    {
-                        System.Windows.Forms.MessageBox.Show("Get Appointment record from API Failed.");
-                    }                
-                }
-            }
-            else
-            {
-                String abc = "xxx";
-            }
-        }
+        //            if (ScheduledTestRepository.InsertScheduledTest(ConfigSettings.GetConfigurationSettings(), sTestModel))
+        //            {
+        //                //System.Windows.Forms.MessageBox.Show(sMessage);
+        //            }
+        //            else
+        //            {
+        //                System.Windows.Forms.MessageBox.Show("Get Appointment record from API Failed.");
+        //            }                
+        //        }
+        //    }
+        //    else
+        //    {
+        //        String abc = "xxx";
+        //    }
+        //}
 
-        private void btnSubmitAppt_Click(object sender, RoutedEventArgs e)
-        {
-            popupAppt.IsOpen = true;
-        }
+        //private void btnSubmitAppt_Click(object sender, RoutedEventArgs e)
+        //{
+        //    popupAppt.IsOpen = true;
+        //}
 
-        private void btnSubmit_Click(object sender, RoutedEventArgs e)
-        {
-            var sAPI = new VCheck.Interface.API.openvpmsAPI();
+        //private void btnSubmit_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var sAPI = new VCheck.Interface.API.openvpmsAPI();
           
-            System.Windows.Controls.ComboBoxItem cbStart = (System.Windows.Controls.ComboBoxItem)cboStart.SelectedValue;
-            System.Windows.Controls.ComboBoxItem cbEnd = (System.Windows.Controls.ComboBoxItem)cboEnd.SelectedValue;
+        //    System.Windows.Controls.ComboBoxItem cbStart = (System.Windows.Controls.ComboBoxItem)cboStart.SelectedValue;
+        //    System.Windows.Controls.ComboBoxItem cbEnd = (System.Windows.Controls.ComboBoxItem)cboEnd.SelectedValue;
 
-            DateTime dtApptdate = DateTime.ParseExact(dtAppt.Text, "M/d/yyyy", System.Globalization.CultureInfo.InvariantCulture);
-            String sStart = cbStart.Content.ToString();
-            String sEnd = cbEnd.Content.ToString();
+        //    DateTime dtApptdate = DateTime.ParseExact(dtAppt.Text, "M/d/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+        //    String sStart = cbStart.Content.ToString();
+        //    String sEnd = cbEnd.Content.ToString();
 
-            String sReqStart = dtApptdate.ToString("yyyy-MM-ddT") + sStart + ":00.000+08:00";
-            String sReqEnd = dtApptdate.ToString("yyyy-MM-ddT") + sEnd + ":00.000+08:00";
+        //    String sReqStart = dtApptdate.ToString("yyyy-MM-ddT") + sStart + ":00.000+08:00";
+        //    String sReqEnd = dtApptdate.ToString("yyyy-MM-ddT") + sEnd + ":00.000+08:00";
 
-            VCheck.Interface.API.openvpms.RequestMessage.SubmitBookingRequest sReq = new VCheck.Interface.API.openvpms.RequestMessage.SubmitBookingRequest();
-            sReq.location = "17";
-            sReq.schedule = "21";
-            sReq.appointmentType = "7";
-            sReq.start = sReqStart;
-            sReq.end = sReqEnd;
-            sReq.firstName = txtFirstName.Text;
-            sReq.lastName = txtLastName.Text;
-            sReq.patientName = txtPatient.Text;
-            sReq.title = "mr.";
-            sReq.mobile = "01232342434";
-            sReq.user = "89";
+        //    VCheck.Interface.API.openvpms.RequestMessage.SubmitBookingRequest sReq = new VCheck.Interface.API.openvpms.RequestMessage.SubmitBookingRequest();
+        //    sReq.location = "17";
+        //    sReq.schedule = "21";
+        //    sReq.appointmentType = "7";
+        //    sReq.start = sReqStart;
+        //    sReq.end = sReqEnd;
+        //    sReq.firstName = txtFirstName.Text;
+        //    sReq.lastName = txtLastName.Text;
+        //    sReq.patientName = txtPatient.Text;
+        //    sReq.title = "mr.";
+        //    sReq.mobile = "01232342434";
+        //    sReq.user = "89";
 
-            if (sAPI.SubmitBooking(sReq))
-            {
-                System.Windows.Forms.MessageBox.Show("Submit Booking successfully.");
-            }
-            else
-            {
-                System.Windows.Forms.MessageBox.Show("Submit Booking Failed.");
-            }
-        }
+        //    if (sAPI.SubmitBooking(sReq))
+        //    {
+        //        System.Windows.Forms.MessageBox.Show("Submit Booking successfully.");
+        //    }
+        //    else
+        //    {
+        //        System.Windows.Forms.MessageBox.Show("Submit Booking Failed.");
+        //    }
+        //}
 
         //-------------- Temporary END ------------------//
     }

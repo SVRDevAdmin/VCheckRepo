@@ -25,16 +25,65 @@ namespace VCheck.Lib.Data
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static List<TestResultModel> GetLatestTestResultList(IConfiguration config)
+        public static List<TestResultExtendedModel> GetLatestTestResultList(IConfiguration config)
         {
+            List<TestResultExtendedModel> sResultList = new List<TestResultExtendedModel>();
+
             try
             {
                 using (var ctx = new TestResultDBContext(config))
                 {
-                    return ctx.txn_testResults.OrderBy(x => x.TestResultDateTime)
-                                              .OrderByDescending(x => x.TestResultDateTime)
-                                              .Take(5)
-                                              .ToList();          
+                    MySqlConnection sConn = new MySqlConnection(ctx.Database.GetConnectionString());
+                    sConn.Open();
+
+                    String sSelectCommand = "SELECT T1.ID, T1.TestResultDateTime, T1.TestResultType, T1.OperatorID, T1.PatientID, " +
+                                            "T1.DeviceSerialNo, T1.InchargePerson,  T2.ProceduralControl, T2.TestResultStatus, " +
+                                            "T2.TestResultValue, T2.TestResultUnit, T1.CreatedDate, T1.CreatedBy, T1.UpdatedDate, " +
+                                            "T1.UpdatedBy " +
+                                            "FROM txn_testresults AS T1 " +
+                                            "INNER JOIN txn_testresults_details AS T2 ON T2.TestResultRowID = T1.ID " +
+                                            "ORDER BY T1.TestResultDateTime DESC ";
+
+                    using (MySqlCommand sCommand = new MySqlCommand(sSelectCommand, sConn))
+                    {
+                        using (var sReader = sCommand.ExecuteReader())
+                        {
+                            while (sReader.Read())
+                            {
+                                TestResultExtendedModel sResult = new TestResultExtendedModel();
+                                sResult.ID = Convert.ToInt64(sReader["ID"]);
+                                sResult.TestResultDateTime = Convert.ToDateTime(sReader["TestResultDateTime"]);
+                                sResult.TestResultType = sReader["TestResultType"].ToString();
+                                sResult.OperatorID = sReader["OperatorID"].ToString();
+                                sResult.PatientID = sReader["PatientID"].ToString();
+                                sResult.DeviceSerialNo = sReader["DeviceSerialNo"].ToString();
+                                sResult.InchargePerson = sReader["InchargePerson"].ToString();
+                                sResult.ObservationStatus = sReader["ProceduralControl"].ToString();
+                                sResult.TestResultStatus = sReader["TestResultStatus"].ToString();
+                                sResult.TestResultValue = sReader["TestResultValue"].ToString();
+                                sResult.TestResultRules = sReader["TestResultUnit"].ToString();
+
+                                if (!String.IsNullOrEmpty(sReader["CreatedDate"].ToString()))
+                                {
+                                    sResult.CreatedDate = Convert.ToDateTime(sReader["CreatedDate"]);
+                                }
+                                sResult.CreatedBy = sReader["CreatedBy"].ToString();
+
+                                if (!String.IsNullOrEmpty(sReader["UpdatedDate"].ToString()))
+                                {
+                                    sResult.UpdatedDate = Convert.ToDateTime(sReader["UpdatedDate"]);
+                                }
+                                sResult.UpdatedBy = sReader["UpdatedDate"].ToString();
+
+
+                                sResultList.Add(sResult);
+                            }
+                        }
+                    }
+
+                    sConn.Close();
+
+                    return sResultList.Take(5).ToList();     
                 }
             }
             catch (Exception ex)
@@ -43,6 +92,24 @@ namespace VCheck.Lib.Data
                 return null;
             }
         }
+        //public static List<TestResultModel> GetLatestTestResultList(IConfiguration config)
+        //{
+        //    try
+        //    {
+        //        using (var ctx = new TestResultDBContext(config))
+        //        {
+        //            return ctx.txn_testResults.OrderBy(x => x.TestResultDateTime)
+        //                                      .OrderByDescending(x => x.TestResultDateTime)
+        //                                      .Take(5)
+        //                                      .ToList();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Error("Error >>> " + ex.ToString());
+        //        return null;
+        //    }
+        //}
 
         /// <summary>
         /// Get today's completed tests
@@ -95,13 +162,65 @@ namespace VCheck.Lib.Data
         /// <param name="config"></param>
         /// <param name="sResultDate"></param>
         /// <returns></returns>
-        public static List<TestResultModel> GetTestResultByDates(IConfiguration config, DateTime sResultDate)
+        public static List<TestResultExtendedModel> GetTestResultByDates(IConfiguration config, DateTime sResultDate)
         {
+            List<TestResultExtendedModel> sResultList = new List<TestResultExtendedModel>();
+
             try
             {
                 using (var ctx = new TestResultDBContext(config))
                 {
-                    return ctx.txn_testResults.Where(x => x.TestResultDateTime.Value.Date == sResultDate.Date).ToList();
+                    MySqlConnection sConn = new MySqlConnection(ctx.Database.GetConnectionString());
+                    sConn.Open();
+
+                    String sSelectCommand = "SELECT T1.ID, T1.TestResultDateTime, T1.TestResultType, T1.OperatorID, T1.PatientID, " +
+                                            "T1.DeviceSerialNo, T1.InchargePerson,  T2.ProceduralControl, T2.TestResultStatus, " + 
+                                            "T2.TestResultValue, T2.TestResultUnit, T1.CreatedDate, T1.CreatedBy, T1.UpdatedDate, " + 
+                                            "T1.UpdatedBy " +
+                                            "FROM txn_testresults AS T1 " +
+                                            "INNER JOIN txn_testresults_details AS T2 ON T2.TestResultRowID = T1.ID " +
+                                            "WHERE DATE(T1.TestResultDateTime) = '" + sResultDate.ToString("yyyy-MM-dd") + "' ";
+
+                    using (MySqlCommand sCommand = new MySqlCommand(sSelectCommand, sConn))
+                    {
+                        using (var sReader = sCommand.ExecuteReader())
+                        {
+                            while (sReader.Read())
+                            {
+                                TestResultExtendedModel sResult = new TestResultExtendedModel();
+                                sResult.ID = Convert.ToInt64(sReader["ID"]);
+                                sResult.TestResultDateTime = Convert.ToDateTime(sReader["TestResultDateTime"]);
+                                sResult.TestResultType = sReader["TestResultType"].ToString();
+                                sResult.OperatorID = sReader["OperatorID"].ToString();
+                                sResult.PatientID = sReader["PatientID"].ToString();
+                                sResult.DeviceSerialNo = sReader["DeviceSerialNo"].ToString();
+                                sResult.InchargePerson = sReader["InchargePerson"].ToString();
+                                sResult.ObservationStatus = sReader["ProceduralControl"].ToString();
+                                sResult.TestResultStatus = sReader["TestResultStatus"].ToString();
+                                sResult.TestResultValue = sReader["TestResultValue"].ToString();
+                                sResult.TestResultRules = sReader["TestResultUnit"].ToString();
+                                
+                                if (!String.IsNullOrEmpty(sReader["CreatedDate"].ToString()))
+                                {
+                                    sResult.CreatedDate = Convert.ToDateTime(sReader["CreatedDate"]);
+                                }
+                                sResult.CreatedBy = sReader["CreatedBy"].ToString();
+
+                                if (!String.IsNullOrEmpty(sReader["UpdatedDate"].ToString()))
+                                {
+                                    sResult.UpdatedDate = Convert.ToDateTime(sReader["UpdatedDate"]);
+                                }
+                                sResult.UpdatedBy = sReader["UpdatedDate"].ToString();
+
+
+                                sResultList.Add(sResult);
+                            }
+                        }
+                    }
+
+                    sConn.Close();
+
+                    return sResultList;
                 }
             }
             catch (Exception ex)
@@ -110,6 +229,22 @@ namespace VCheck.Lib.Data
                 return null;
             }
         }
+        //------- Version 1 -------- //
+        //public static List<TestResultModel> GetTestResultByDates(IConfiguration config, DateTime sResultDate)
+        //{
+        //    try
+        //    {
+        //        using (var ctx = new TestResultDBContext(config))
+        //        {
+        //            return ctx.txn_testResults.Where(x => x.TestResultDateTime.Value.Date == sResultDate.Date).ToList();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Error("TestResultRepository >>> GetTestResultByDates >>> " + ex.ToString());
+        //        return null;
+        //    }
+        //}
 
         /// <summary>
         /// Get Test Result by Test Date Range
@@ -146,11 +281,11 @@ namespace VCheck.Lib.Data
         /// <param name="pageSize"></param>
         /// <param name="totalRecords"></param>
         /// <returns></returns>
-        public static List<TestResultListingObj> GetTestResultListBySearch(IConfiguration config, String dStartDate, String dEndDate, 
+        public static List<TestResultListingExtendedObj> GetTestResultListBySearch(IConfiguration config, String dStartDate, String dEndDate, 
                                                                            String sKeyword, String sSortDirection, int pageIndex, int pageSize,
                                                                            out int totalRecords)
         {
-            List<TestResultListingObj> sResult = new List<TestResultListingObj>();
+            List<TestResultListingExtendedObj> sResult = new List<TestResultListingExtendedObj>();
             totalRecords = 0;
             int iIndex = 1;
 
@@ -171,17 +306,33 @@ namespace VCheck.Lib.Data
                         //                        ((!sSortDirection.Contains("Status")) ? 
                         //                         "ORDER BY TestResultDateTime " + sSortDirection : 
                         //                         "ORDER BY TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
+                        // ----------- Version 1 -------------//
+                        //String sSelectCommand = "SELECT * FROM txn_testresults WHERE ";
 
-                        String sSelectCommand = "SELECT * FROM txn_testresults WHERE ";
+                        //if(dStartDate != "") { sSelectCommand = sSelectCommand + "(TestResultDateTime >= '" + dStartDate + "' AND TestResultDateTime <= '" + dEndDate + "') AND"; }
 
-                        if(dStartDate != "") { sSelectCommand = sSelectCommand + "(TestResultDateTime >= '" + dStartDate + "' AND TestResultDateTime <= '" + dEndDate + "') AND"; }
+                        //sSelectCommand = sSelectCommand + "(OperatorID LIKE '%" + sKeyword + "%' OR " +
+                        //                        "InchargePerson LIKE '%" + sKeyword + "%' OR " +
+                        //                        "PatientID LIKE '%" + sKeyword + "%') " +
+                        //                        ((!sSortDirection.Contains("Status")) ?
+                        //                         "ORDER BY TestResultDateTime " + sSortDirection :
+                        //                         "ORDER BY TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
 
-                        sSelectCommand = sSelectCommand + "(OperatorID LIKE '%" + sKeyword + "%' OR " +
-                                                "InchargePerson LIKE '%" + sKeyword + "%' OR " +
-                                                "PatientID LIKE '%" + sKeyword + "%') " +
+
+                        String sSelectCommand = "SELECT T1.ID, T1.TestResultDateTime, T1.TestResultType, T1.OperatorID, " +
+                                                "T1.PatientID, T1.InchargePerson, T2.ProceduralControl as 'ObservationStatus', " +
+                                                "T2.TestResultStatus, T2.TestResultValue, T2.TestResultUnit as 'TestResultRules', " +
+                                                "T1.CreatedDate, T1.CreatedBy " +
+                                                "FROM txn_testresults as T1 INNER JOIN txn_testresults_details as T2 ON T2.TestResultRowID = T1.ID WHERE ";
+
+                        if (dStartDate != "") { sSelectCommand = sSelectCommand + "(T1.TestResultDateTime >= '" + dStartDate + "' AND T1.TestResultDateTime <= '" + dEndDate + "') AND"; }
+
+                        sSelectCommand = sSelectCommand + "(T1.OperatorID LIKE '%" + sKeyword + "%' OR " +
+                                                "T1.InchargePerson LIKE '%" + sKeyword + "%' OR " +
+                                                "T1.PatientID LIKE '%" + sKeyword + "%') " +
                                                 ((!sSortDirection.Contains("Status")) ?
-                                                 "ORDER BY TestResultDateTime " + sSortDirection :
-                                                 "ORDER BY TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
+                                                 "ORDER BY T1.TestResultDateTime " + sSortDirection :
+                                                 "ORDER BY T1.TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
 
                         using (MySqlCommand sCommand = new MySqlCommand(sSelectCommand, sConn))
                         {
@@ -189,7 +340,7 @@ namespace VCheck.Lib.Data
                             {
                                 while (sReader.Read())
                                 {
-                                    sResult.Add(new TestResultListingObj
+                                    sResult.Add(new TestResultListingExtendedObj
                                     {
                                         RowNo = iIndex,
                                         ID = sReader.GetInt64("ID"),
@@ -201,8 +352,10 @@ namespace VCheck.Lib.Data
                                         InchargePerson = sReader["InchargePerson"].ToString(),
                                         ObservationStatus = sReader["ObservationStatus"].ToString(),
                                         TestResultStatus = sReader["TestResultStatus"].ToString(),
-                                        TestResultValue = Convert.ToDecimal(sReader["TestResultValue"]),
-                                        TestResultValueString = (Convert.ToDecimal(sReader["TestResultValue"])).ToString("n2"),
+                                        //TestResultValue = Convert.ToDecimal(sReader["TestResultValue"]),
+                                        //TestResultValueString = (Convert.ToDecimal(sReader["TestResultValue"])).ToString("n2"),
+                                        TestResultValue = sReader["TestResultValue"].ToString(),
+                                        TestResultValueString = sReader["TestResultValue"].ToString(),
                                         TestResultRules = sReader["TestResultRules"].ToString(),
                                         CreatedDate = Convert.ToDateTime(sReader["CreatedDate"]),
                                         CreatedBy = sReader["CreatedBy"].ToString(),

@@ -80,7 +80,8 @@ namespace VCheckViewer.Views.Pages.Results
 
         private void LoadTestResultData(Boolean isPrint = false)
         {
-            TestResultListingObj sTestResultObj = dgResult.SelectedItem as TestResultListingObj;
+            //TestResultListingObj sTestResultObj = dgResult.SelectedItem as TestResultListingObj;
+            TestResultListingExtendedObj sTestResultObj = dgResult.SelectedItem as TestResultListingExtendedObj;
             sTestResultObj.printedBy = App.MainViewModel.CurrentUsers.FullName;
             sTestResultObj.printedOn = DateTime.Now;
             sTestResultObj.isPrint = isPrint;
@@ -146,7 +147,7 @@ namespace VCheckViewer.Views.Pages.Results
             pagination.LoadPagingNumber();
         }
 
-        public List<TestResultListingObj> GetTestResultBySearch(int pageSize, out int iTotalRecord)
+        public List<TestResultListingExtendedObj> GetTestResultBySearch(int pageSize, out int iTotalRecord)
         {
             String sSortDirection = "DESC";
             if (cboSort.SelectedItem != null)
@@ -243,7 +244,7 @@ namespace VCheckViewer.Views.Pages.Results
 
                 int.TryParse(txtTotalCount.Text, out iPageSize);
 
-                List<TestResultListingObj> sResult = new List<TestResultListingObj>();
+                List<TestResultListingExtendedObj> sResult = new List<TestResultListingExtendedObj>();
                 sResult = GetTestResultBySearch(iPageSize, out iTotalCount);
 
                 DataTable sDatatable = Lib.General.Utils.ToDataTable(sResult);

@@ -2250,7 +2250,10 @@
       },
       "VCheck.Helper/1.0.0": {
         "runtime": {
-          "VCheck.Helper.dll": {}
+          "VCheck.Helper.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "VCheck.Interface.API/1.0.0": {
@@ -2260,7 +2263,10 @@
           "Newtonsoft.Json": "13.0.3"
         },
         "runtime": {
-          "VCheck.Interface.API.dll": {}
+          "VCheck.Interface.API.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "VCheck.Lib.Data/1.0.0": {
@@ -2274,7 +2280,10 @@
           "log4net": "2.0.17"
         },
         "runtime": {
-          "VCheck.Lib.Data.dll": {}
+          "VCheck.Lib.Data.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

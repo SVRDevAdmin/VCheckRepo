@@ -19,7 +19,7 @@
                             <Button Content="{Binding Path=General_Label_Download, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_ButtonFontColor}" HorizontalAlignment="Left" BorderBrush="{DynamicResource Themes_ButtonColor}" Background="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" Grid.Row="1" Width="130" Height="40" Margin="0,10,0,0" Click="DownloadButton_Clicked"/>
                                 
                             <!-- Temporary BEGIN -->
-                            <Button Content="Get Booking API" Foreground="{DynamicResource Themes_ButtonFontColor}" HorizontalAlignment="Left" BorderBrush="{DynamicResource Themes_ButtonColor}" Background="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" Grid.Row="2" Width="130" Height="40" Margin="0, 10, 0,0" Click="Button_Click"/>
+                            <!--<Button Content="Get Booking API" Foreground="{DynamicResource Themes_ButtonFontColor}" HorizontalAlignment="Left" BorderBrush="{DynamicResource Themes_ButtonColor}" Background="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" Grid.Row="2" Width="130" Height="40" Margin="0, 10, 0,0" Click="Button_Click"/>
 
                             <Button x:Name="btnSubmitAppt" Content="Create Appointment" Foreground="{DynamicResource Themes_ButtonFontColor}" HorizontalAlignment="Left" BorderBrush="{DynamicResource Themes_ButtonColor}" Background="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" Grid.Row="3" Width="170" Height="40" Margin="0, 10, 0, 0" 
                                     Click="btnSubmitAppt_Click" />
@@ -97,7 +97,7 @@
                                         </Border>
                                     </Grid>
                                 </Border>
-                            </Popup>
+                            </Popup>-->
                             
                             <!-- Temporary END -->
                         </StackPanel>

@@ -29,7 +29,7 @@ namespace VCheck.Lib.Data
                 using (var ctx = new SystemProcessingLogDBContext(config))
                 {
                     return ctx.System_ProcessingLog.Where(x => x.ProcessingTaskName == sProcessingName)
-                                                   .OrderByDescending(x => x.ProcessingTaskName)
+                                                   .OrderByDescending(x => x.ProcessingStartDate)
                                                    .FirstOrDefault();
                 }
             }
