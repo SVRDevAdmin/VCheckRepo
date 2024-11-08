@@ -370,13 +370,21 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "dependencies": {
+            "ArmDot.Client": {
+              "target": "Package",
+              "version": "[2024.9.0, )"
+            },
+            "ArmDot.Engine.MSBuildTasks": {
+              "target": "Package",
+              "version": "[2024.9.0, )"
+            },
             "ClosedXML": {
               "target": "Package",
-              "version": "[0.102.2, )"
+              "version": "[0.104.1, )"
             },
             "CommunityToolkit.Mvvm": {
               "target": "Package",
-              "version": "[8.2.2, )"
+              "version": "[8.3.2, )"
             },
             "FreeSpire.XLS": {
               "target": "Package",
@@ -384,7 +392,7 @@
             },
             "Microsoft.AspNetCore.Cryptography.KeyDerivation": {
               "target": "Package",
-              "version": "[8.0.6, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.AspNetCore.Http": {
               "target": "Package",
@@ -400,37 +408,37 @@
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.6, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.6, )"
+              "version": "[8.0.10, )"
             },
-            "Microsoft.EntityFrameworkCore.Abstractions": {
+            "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
-              "version": "[8.0.6, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.6, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.1, )"
             },
             "Microsoft.Extensions.Hosting": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.1, )"
             },
             "Microsoft.Extensions.Hosting.Abstractions": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.1, )"
             },
             "MySql.Data": {
               "target": "Package",
-              "version": "[8.4.0, )"
+              "version": "[9.1.0, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
@@ -438,7 +446,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2024.3.10, )"
+              "version": "[2024.10.2, )"
             },
             "System.Runtime.Caching": {
               "target": "Package",
@@ -446,7 +454,7 @@
             },
             "WPF-UI": {
               "target": "Package",
-              "version": "[3.0.4, )"
+              "version": "[3.0.5, )"
             },
             "WPFLocalizeExtension": {
               "target": "Package",
@@ -454,7 +462,7 @@
             },
             "log4net": {
               "target": "Package",
-              "version": "[2.0.17, )"
+              "version": "[3.0.2, )"
             }
           },
           "imports": [
