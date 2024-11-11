@@ -26,14 +26,14 @@
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.1",
           "MySql.Data": "9.1.0",
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2",
-          "QuestPDF": "2024.10.2",
+          "QuestPDF": "2024.10.3",
           "System.Runtime.Caching": "8.0.1",
           "VCheck.Helper": "1.0.0",
           "VCheck.Interface.API": "1.0.0",
           "VCheck.Lib.Data": "1.0.0",
           "WPF-UI": "3.0.5",
           "WPFLocalizeExtension": "3.10.0",
-          "log4net": "3.0.2"
+          "log4net": "3.0.3"
         },
         "runtime": {
           "VCheckViewer.dll": {}
@@ -93,7 +93,7 @@
       },
       "ArmDot.Engine.MSBuildTasks/2024.9.0": {
         "dependencies": {
-          "log4net": "3.0.2"
+          "log4net": "3.0.3"
         }
       },
       "BouncyCastle.Cryptography/2.3.1": {
@@ -228,14 +228,14 @@
           }
         }
       },
-      "log4net/3.0.2": {
+      "log4net/3.0.3": {
         "dependencies": {
           "System.Configuration.ConfigurationManager": "8.0.1"
         },
         "runtime": {
           "lib/netstandard2.0/log4net.dll": {
-            "assemblyVersion": "3.0.2.0",
-            "fileVersion": "3.0.2.0"
+            "assemblyVersion": "3.0.3.0",
+            "fileVersion": "3.0.3.0"
           }
         }
       },
@@ -367,10 +367,10 @@
       "Microsoft.AspNetCore.Http/2.2.2": {
         "dependencies": {
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
-          "Microsoft.AspNetCore.WebUtilities": "8.0.7",
+          "Microsoft.AspNetCore.WebUtilities": "8.0.10",
           "Microsoft.Extensions.ObjectPool": "2.2.0",
           "Microsoft.Extensions.Options": "8.0.2",
-          "Microsoft.Net.Http.Headers": "8.0.7"
+          "Microsoft.Net.Http.Headers": "8.0.10"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Http.dll": {
@@ -395,7 +395,7 @@
         "dependencies": {
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
           "Microsoft.Extensions.FileProviders.Abstractions": "8.0.0",
-          "Microsoft.Net.Http.Headers": "8.0.7",
+          "Microsoft.Net.Http.Headers": "8.0.10",
           "System.Buffers": "4.5.1"
         },
         "runtime": {
@@ -442,15 +442,15 @@
           }
         }
       },
-      "Microsoft.AspNetCore.WebUtilities/8.0.7": {
+      "Microsoft.AspNetCore.WebUtilities/8.0.10": {
         "dependencies": {
-          "Microsoft.Net.Http.Headers": "8.0.7",
+          "Microsoft.Net.Http.Headers": "8.0.10",
           "System.IO.Pipelines": "8.0.0"
         },
         "runtime": {
           "lib/net8.0/Microsoft.AspNetCore.WebUtilities.dll": {
             "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.0.724.31402"
+            "fileVersion": "8.0.1024.46804"
           }
         }
       },
@@ -1178,14 +1178,14 @@
           }
         }
       },
-      "Microsoft.Net.Http.Headers/8.0.7": {
+      "Microsoft.Net.Http.Headers/8.0.10": {
         "dependencies": {
           "Microsoft.Extensions.Primitives": "8.0.0"
         },
         "runtime": {
           "lib/net8.0/Microsoft.Net.Http.Headers.dll": {
             "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.0.724.31402"
+            "fileVersion": "8.0.1024.46804"
           }
         }
       },
@@ -1290,11 +1290,11 @@
           }
         }
       },
-      "QuestPDF/2024.10.2": {
+      "QuestPDF/2024.10.3": {
         "runtime": {
           "lib/net8.0/QuestPDF.dll": {
-            "assemblyVersion": "2024.10.2.0",
-            "fileVersion": "2024.10.2.0"
+            "assemblyVersion": "2024.10.3.0",
+            "fileVersion": "2024.10.3.0"
           }
         },
         "runtimeTargets": {
@@ -1679,7 +1679,7 @@
       },
       "VCheck.Interface.API/1.0.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.WebUtilities": "8.0.7",
+          "Microsoft.AspNetCore.WebUtilities": "8.0.10",
           "Microsoft.Extensions.Hosting": "8.0.1",
           "Newtonsoft.Json": "13.0.3"
         },
@@ -1698,7 +1698,7 @@
           "Microsoft.Extensions.Hosting": "8.0.1",
           "MySql.Data": "9.1.0",
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2",
-          "log4net": "3.0.2"
+          "log4net": "3.0.3"
         },
         "runtime": {
           "VCheck.Lib.Data.dll": {
@@ -1820,12 +1820,12 @@
       "path": "k4os.hash.xxhash/1.0.8",
       "hashPath": "k4os.hash.xxhash.1.0.8.nupkg.sha512"
     },
-    "log4net/3.0.2": {
+    "log4net/3.0.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-4uSGqXB3xICuVS35obHawUpwHoopZ/v4mhYt8ZYaK6B85YXh1vIrlY1UgV/ixb1aMeU7JVCGanlmaUpVcnnbaw==",
-      "path": "log4net/3.0.2",
-      "hashPath": "log4net.3.0.2.nupkg.sha512"
+      "sha512": "sha512-LAZBO0rHo4DM56GIt124NaXKo6LVZcfiuWVgODdUnhPNMzTOlRJWOEIXo8zVNLm426B+coDc4ocfTsTw7R7Zeg==",
+      "path": "log4net/3.0.3",
+      "hashPath": "log4net.3.0.3.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication/2.2.0": {
       "type": "package",
@@ -1939,12 +1939,12 @@
       "path": "microsoft.aspnetcore.identity.entityframeworkcore/8.0.10",
       "hashPath": "microsoft.aspnetcore.identity.entityframeworkcore.8.0.10.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.WebUtilities/8.0.7": {
+    "Microsoft.AspNetCore.WebUtilities/8.0.10": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-p4v+nBlHc8vnZep8T1cvchPYZBG+pKEJv2pt8sNXoOIcLOjYhJP7vOSzvBugio0AYdVsy8fJDmTZtj6wo5vOhQ==",
-      "path": "microsoft.aspnetcore.webutilities/8.0.7",
-      "hashPath": "microsoft.aspnetcore.webutilities.8.0.7.nupkg.sha512"
+      "sha512": "sha512-Gm2SGNB9GYp98A28otvbAQVmhTAl2J7MiTYBFUSvdqy6GwczNehp7sHm1o8BwUvq2EYBh5TmdBPn2zY08T1/xA==",
+      "path": "microsoft.aspnetcore.webutilities/8.0.10",
+      "hashPath": "microsoft.aspnetcore.webutilities.8.0.10.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
       "type": "package",
@@ -2268,12 +2268,12 @@
       "path": "microsoft.extensions.webencoders/2.2.0",
       "hashPath": "microsoft.extensions.webencoders.2.2.0.nupkg.sha512"
     },
-    "Microsoft.Net.Http.Headers/8.0.7": {
+    "Microsoft.Net.Http.Headers/8.0.10": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-etS+BY2/fIMqdnoUFiQ1xXMVwaBHUwdbpTj+cWWKyJwDbuxIy2KmBTgWkeIXJy8wrlg/vfqRZ7CfdSppu1EaWw==",
-      "path": "microsoft.net.http.headers/8.0.7",
-      "hashPath": "microsoft.net.http.headers.8.0.7.nupkg.sha512"
+      "sha512": "sha512-DGW0rxxkWrBNJyR/qykis3Pn9am3s76tedl/3veortjajLaTptIYLz1KhQF9ZvRwbiu/ZufrJ9EvfOS6Nj2LEw==",
+      "path": "microsoft.net.http.headers/8.0.10",
+      "hashPath": "microsoft.net.http.headers.8.0.10.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/2.0.0": {
       "type": "package",
@@ -2338,12 +2338,12 @@
       "path": "pomelo.entityframeworkcore.mysql/8.0.2",
       "hashPath": "pomelo.entityframeworkcore.mysql.8.0.2.nupkg.sha512"
     },
-    "QuestPDF/2024.10.2": {
+    "QuestPDF/2024.10.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-2Dsbm4nu6G9ObRgIHn6pf4wyGpIbpvIP5V5FmoJF5aH9fw4D+liC9fFXky16APx+EWnFbmOkRlAGZ9VkmvOpGA==",
-      "path": "questpdf/2024.10.2",
-      "hashPath": "questpdf.2024.10.2.nupkg.sha512"
+      "sha512": "sha512-pYqotWAm9XncO0c63zGXf2yPKnghP7uTiO6OJFX7jEHZrlApBFzViXSvWPAC5Yjark4MVztiq+4l5nZjYWIIUg==",
+      "path": "questpdf/2024.10.3",
+      "hashPath": "questpdf.2024.10.3.nupkg.sha512"
     },
     "RBush/3.2.0": {
       "type": "package",

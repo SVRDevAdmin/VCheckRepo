@@ -52,19 +52,19 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.6, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.Extensions.Hosting": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.1, )"
             },
             "Microsoft.Extensions.Hosting.Abstractions": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.1, )"
             },
             "Microsoft.Extensions.Hosting.WindowsServices": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.1, )"
             },
             "Microsoft.NETCore.App": {
               "target": "Package",
@@ -72,11 +72,11 @@
             },
             "MySql.Data": {
               "target": "Package",
-              "version": "[8.4.0, )"
+              "version": "[9.1.0, )"
             },
             "MySql.Data.EntityFramework": {
               "target": "Package",
-              "version": "[8.4.0, )"
+              "version": "[9.1.0, )"
             },
             "NHapiTools": {
               "target": "Package",
@@ -94,7 +94,7 @@
             },
             "log4net": {
               "target": "Package",
-              "version": "[2.0.17, )"
+              "version": "[3.0.3, )"
             },
             "nhapi": {
               "target": "Package",
