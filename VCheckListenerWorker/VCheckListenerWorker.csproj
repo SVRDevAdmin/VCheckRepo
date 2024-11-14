@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Lib\Util\ResponseRepo.cs" />
     <Compile Remove="Message.cs" />
     <Compile Remove="Segment.cs" />
     <Compile Remove="Utils.cs" />

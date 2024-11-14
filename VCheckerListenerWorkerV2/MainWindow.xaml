@@ -91,8 +91,8 @@
                         </Grid.ColumnDefinitions>
 
                         <Button x:Name="btnStartListener" Content="Start" Grid.Column="0" Click="btnStartListener_Click" 
-                                Margin="5" Height="25px" FontFamily="Noto Sans" FontSize="12" Background="MediumSpringGreen"  
-                                BorderBrush="MediumSpringGreen" BorderThickness="0" Foreground="White" FontWeight="Bold" />
+                                Margin="5" Height="25px" FontFamily="Noto Sans" FontSize="12" Background="Green"  
+                                BorderBrush="Green" BorderThickness="0" Foreground="White" FontWeight="Bold" />
                         <Button x:Name="btnStopListener" Content="Stop" Grid.Column="1" Click="btnStopListener_Click" IsEnabled="false" 
                                 Margin="5" Height="25px" FontFamily="Noto Sans" FontSize="12"  Background="red" BorderBrush="red" 
                                 BorderThickness="0"  Foreground="White" FontWeight="Bold" />
@@ -101,11 +101,11 @@
             </Grid>
         </Border>
         
-        <Border Grid.Column="0" Grid.Row="2">
-            <TextBlock Name="txtTest" Text="" Foreground="Red" />
+        <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
+            <TextBlock Name="txtTest" Text="" Foreground="Red" ScrollViewer.HorizontalScrollBarVisibility="Visible"  ScrollViewer.VerticalScrollBarVisibility="Visible" />
         </Border>
 
-        <Button Grid.Column="1" Grid.Row="2" Name="btnStart" Content="Start" Click="btnStart_Click" />
-        <Button Grid.Column="2" Grid.Row="2" Name="btnCancel" Content="End" Click="btnCancel_Click" />
+        <Button Grid.Column="1" Grid.Row="2" Name="btnStart" Content="Start" Click="btnStart_Click" Visibility="Hidden" />
+        <Button Grid.Column="2" Grid.Row="2" Name="btnCancel" Content="End" Click="btnCancel_Click" Visibility="Hidden" />
     </Grid>
 </Window>

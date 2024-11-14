@@ -47,7 +47,7 @@ namespace VCheckerListenerWorkerV2
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            System.Net.IPEndPoint sIPEndPoint = System.Net.IPEndPoint.Parse("192.168.0.4:8484");
+            System.Net.IPEndPoint sIPEndPoint = System.Net.IPEndPoint.Parse("192.168.0.219:7070");
             sListener = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork,
                                                         System.Net.Sockets.SocketType.Stream,
                                                         System.Net.Sockets.ProtocolType.Tcp);
