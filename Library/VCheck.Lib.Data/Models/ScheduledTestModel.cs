@@ -17,8 +17,13 @@ namespace VCheck.Lib.Data.Models
         public DateTime? ScheduledDateTime { get; set; }
         public String? ScheduledBy { get; set; }
         public String? PatientID { get; set; }
+        public String? PatientName { get; set; }
+        public String? Gender { get; set; }
+        public String? Species { get; set; }
+        public String? OwnerName { get; set; }
         public String? InchargePerson { get; set; }
-        public int ScheduleTestStatus { get; set; }
+        public int? ScheduleTestStatus { get; set; }
+        public int? TestCompleted { get; set; }
         public String? ScheduleUniqueID { get; set; }
         public DateTime? CreatedDate { get; set; }
         public String? CreatedBy { get; set; }

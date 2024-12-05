@@ -92,24 +92,6 @@ namespace VCheck.Lib.Data
                 return null;
             }
         }
-        //public static List<TestResultModel> GetLatestTestResultList(IConfiguration config)
-        //{
-        //    try
-        //    {
-        //        using (var ctx = new TestResultDBContext(config))
-        //        {
-        //            return ctx.txn_testResults.OrderBy(x => x.TestResultDateTime)
-        //                                      .OrderByDescending(x => x.TestResultDateTime)
-        //                                      .Take(5)
-        //                                      .ToList();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        log.Error("Error >>> " + ex.ToString());
-        //        return null;
-        //    }
-        //}
 
         /// <summary>
         /// Get today's completed tests
@@ -399,25 +381,39 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new TestResultDBContext(config))
                 {
-                    var sResult = ctx.txn_testResults.Where(x => x.PatientID == sPatientID).ToList();
-                    if (sResult.Count > 0)
-                    {
-                        foreach(var x in sResult)
-                        {
-                            sPatientObj.Add(new PatientDataObject
-                            {
-                                patientid = x.PatientID,
-                                observationdatetime = (x.TestResultDateTime != null ) ? x.TestResultDateTime.Value.ToString("yyyyMMddHHmmss") : null,
-                                observationtype = x.TestResultType,
-                                observationvalue = x.TestResultValue.ToString(),
-                                observationresult = x.TestResultStatus,
-                                observationrules = x.TestResultRules,
-                                inchargeperson = x.InchargePerson,
-                                observationby = x.OperatorID
-                            });
-                        }
+                    MySqlConnection sConn = new MySqlConnection(ctx.Database.GetConnectionString());
+                    sConn.Open();
 
+                    String sSelectCommand = "SELECT A.ID, A.TestResultDateTime, A.OperatorID, A.PatientID, A.InchargePerson, " +
+                                            "A.DeviceSerialNo, B.TestParameter, B.ProceduralControl, B.TestResultStatus, " +
+                                            "B.TestResultValue, B.TestResultUnit, B.ReferenceRange " +
+                                            "FROM txn_testresults AS A " +
+                                            "INNER JOIN txn_testresults_details AS B ON B.TestResultRowID = A.ID " +
+                                            "WHERE A.PatientID ='" + sPatientID + "' ";
+
+                    using (MySqlCommand sCommand = new MySqlCommand(sSelectCommand, sConn))
+                    {
+                        using (var sReader = sCommand.ExecuteReader())
+                        {
+                            while (sReader.Read())
+                            {
+                                sPatientObj.Add(new PatientDataObject
+                                {
+                                    patientid = sReader["PatientID"].ToString(),
+                                    observationdatetime = (sReader["TestResultDateTime"] != null) ?
+                                                           Convert.ToDateTime(sReader["TestResultDateTime"]).ToString("yyyyMMddHHmmss") : null,
+                                    observationtype = sReader["TestParameter"].ToString(),
+                                    observationvalue = sReader["TestResultValue"].ToString(),
+                                    observationresult = sReader["TestResultStatus"].ToString(),
+                                    observationrules = sReader["TestResultUnit"].ToString(),
+                                    inchargeperson = sReader["InchargePerson"].ToString(),
+                                    observationby = sReader["OperatorID"].ToString()
+                                });
+                            }
+                        }
                     }
+
+                    sConn.Close();
                 }
 
                 return sPatientObj;
@@ -429,6 +425,13 @@ namespace VCheck.Lib.Data
             }
         }
 
+        /// <summary>
+        /// Get Test Results Details By Date Range
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="sStart"></param>
+        /// <param name="sEnd"></param>
+        /// <returns></returns>
         public static List<TestResultAPIObject> GetTestResultDetailsByDateRange(IConfiguration config, DateTime sStart, DateTime sEnd)
         {
             List<TestResultAPIObject> sResult = new List<TestResultAPIObject>();

@@ -67,7 +67,7 @@ namespace VCheckViewerAPI.Lib.Util
 
                     var command = connection.CreateCommand();
 
-                    command.CommandText = "Insert into apiLog(Request, Response) values('" + request?.ToString() + "', '" + response.ToString() + "')";
+                    command.CommandText = "Insert into ApiLog(Request, Response) values('" + request?.ToString() + "', '" + response.ToString() + "')";
 
                     command.ExecuteReader();
 

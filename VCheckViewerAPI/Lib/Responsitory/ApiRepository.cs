@@ -38,6 +38,39 @@ namespace VCheck.Lib.Data
             }
         }
 
+        public bool ValidateTokenExpiry(String clientkey)
+        {
+            DateOnly sToday = DateOnly.FromDateTime(DateTime.Now);
+
+            try
+            {
+                return _AuthContext.Mst_Client_Auth.Where(x => x.ClientKey == clientkey && (x.StartDate <= sToday && x.EndDate >= sToday)).Any();
+            }
+            catch (Exception ex)
+            {
+                log.Error("ApiRepository >>> ValidateTokenExpiry >>> " + ex.ToString());
+                return false;
+            }
+        }
+
+        public ClientModel GetClientProfileByClientKey(String sClientKey)
+        {
+            try
+            {
+                var sClientAuth = _AuthContext.Mst_Client_Auth.Where(x => x.ClientKey == sClientKey).FirstOrDefault();
+                if (sClientAuth != null)
+                {
+                    return _AuthContext.Mst_Client.Where(x => x.ID == sClientAuth.ClientID).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("ApiRepository >>> GetClientProfileByClientKey >>> " + ex.ToString());
+            }
+
+            return null;
+        }
+
         public void GetTestResults(string patientID, out List<PatientDataObject> returnData, out string responseCode, out string responseMessage, out string responseStatus)
         {
             returnData = null;
@@ -78,10 +111,10 @@ namespace VCheck.Lib.Data
                     responseCode = "VV.0002";
                     responseMessage = "No Data Found";
                 }
-                else if ((scheduledDatetime != null && data.ScheduledDateTime != DateTime.ParseExact(scheduledDatetime, "yyyyMMddHHmmss", null)) || (inchargePerson != null && data.InchargePerson != inchargePerson))
+                else if ((!String.IsNullOrEmpty(scheduledDatetime) && data.ScheduledDateTime != DateTime.ParseExact(scheduledDatetime, "yyyyMMddHHmmss", null)) || (!String.IsNullOrEmpty(inchargePerson) != null && data.InchargePerson != inchargePerson))
                 {
-                    data.ScheduledDateTime = scheduledDatetime != null ? DateTime.ParseExact(scheduledDatetime, "yyyyMMddHHmmss", null) : data.ScheduledDateTime;
-                    data.InchargePerson = inchargePerson != null ? inchargePerson : data.InchargePerson;
+                    data.ScheduledDateTime = (!String.IsNullOrEmpty(scheduledDatetime)) ? DateTime.ParseExact(scheduledDatetime, "yyyyMMddHHmmss", null) : data.ScheduledDateTime;
+                    data.InchargePerson = (!String.IsNullOrEmpty(inchargePerson)) ? inchargePerson : data.InchargePerson;
 
                     ScheduledTestRepository.UpdateScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), data);
 

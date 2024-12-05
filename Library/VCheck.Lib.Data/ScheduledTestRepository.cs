@@ -104,7 +104,12 @@ namespace VCheck.Lib.Data
             return isSuccess;
         }
 
-        // Temporary //
+        /// <summary>
+        /// Insert new Scheduled Test 
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="sScheduledTestObj"></param>
+        /// <returns></returns>
         public static Boolean InsertScheduledTest(IConfiguration config, ScheduledTestModel sScheduledTestObj)
         {
             Boolean isSuccess = false;
