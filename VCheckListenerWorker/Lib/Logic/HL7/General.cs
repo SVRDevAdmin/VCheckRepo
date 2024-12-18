@@ -23,10 +23,12 @@ namespace VCheckListenerWorker.Lib.Logic.HL7
             if (isRangeReference)
             {
                 Decimal dTargetValue = 0;
+                Decimal dMinusOne = Convert.ToDecimal("0.01");
                 if (!String.IsNullOrEmpty(sResultValue))
                 {
                     sResultValue = sResultValue.Replace("<", "").Replace("nan", "");
                     Decimal.TryParse(sResultValue, out dTargetValue);
+                    dTargetValue = dTargetValue - dMinusOne;
                 }
 
                 Decimal dRangeA = 0;
@@ -43,16 +45,16 @@ namespace VCheckListenerWorker.Lib.Logic.HL7
 
                     if (dRangeA < dTargetValue && dTargetValue < dRangeB)
                     {
-                        sRetStatus = "Normal";
+                        sRetStatus = "Positive";
                     }
                     else
                     {
-                        sRetStatus = "Abnormal";
+                        sRetStatus = "Negative";
                     }
                 }
                 else
                 {
-                    sRetStatus = "Abnormal";
+                    sRetStatus = "Negative";
                 }
             }
             else

@@ -25,6 +25,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
             try
             {
                 NHapi.Model.V26.Message.ORU_R01 sRU_R01 = (NHapi.Model.V26.Message.ORU_R01)sIMessage;
+
                 String sResultRule = "";
                 String sResultStatus = "";
                 String sResultTestType = "";
@@ -376,7 +377,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                         }
 
 
-                        if (sResultTestType.ToLower() != "babesia gibsoni/canis")
+                        if (sResultTestType.ToLower() != "babesia gibsoni/canis" && sResultTestType.ToLower() != "canine diarrhea 8 panel")
                         {
                             sTestResultStatus = General.ProcessObservationResultStatusValue(isRangeReference, sObservValue, observationDetail.OBX.ReferencesRange.Value, iResultValue);
 
@@ -397,9 +398,18 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                     }
                 }
 
-                if (sResultTestType.ToLower() == "babesia gibsoni/canis")
+                if (sResultTestType.ToLower() == "babesia gibsoni/canis" || sResultTestType.ToLower() == "canine diarrhea 8 panel")
                 {
                     sTestResultDetails = ProcessBabesiaGibsoniTestResult(sOBXObjList);
+                }
+
+                String sOverallStatus = "Normal";
+                if (sTestResultDetails != null)
+                {
+                    if (sTestResultDetails.Where(x => x.TestResultStatus == "Positive").Count() > 0)
+                    {
+                        sOverallStatus = "Abnormal";
+                    }
                 }
 
                 txn_testresults sTestResultObj = new txn_testresults();
@@ -408,10 +418,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                 sTestResultObj.OperatorID = sOperatorID;
                 sTestResultObj.PatientID = sPatientID;
                 sTestResultObj.InchargePerson = "";
-                //sTestResultObj.ObservationStatus = strResultObservStatus;
-                //sTestResultObj.TestResultStatus = sTestResultStatus;
-                //sTestResultObj.TestResultValue = iResultValue; //
-                //sTestResultObj.TestResultRules = sResultRule; //
+                sTestResultObj.OverallStatus = sOverallStatus;
                 sTestResultObj.CreatedDate = DateTime.Now;
                 sTestResultObj.CreatedBy = sSystemName;
                 sTestResultObj.DeviceSerialNo = sSerialNo.Trim();

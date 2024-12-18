@@ -617,16 +617,22 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                     }
                 }
 
+                String sOverallStatus = "Normal";
+                if (sTestResultDetails != null)
+                {
+                    if (sTestResultDetails.Where(x => x.TestResultStatus == "Positive").Count() > 0)
+                    {
+                        sOverallStatus = "Abnormal";
+                    }
+                }
+
                 txn_testresults sTestResultObj = new txn_testresults();
                 sTestResultObj.TestResultDateTime = dAnalysisDateTime;
                 sTestResultObj.TestResultType = sResultTestType;
                 sTestResultObj.OperatorID = sOperatorID;
                 sTestResultObj.PatientID = sPatientID;
                 sTestResultObj.InchargePerson = sDoctorName;
-                //sTestResultObj.ObservationStatus = strResultObservStatus;
-                //sTestResultObj.TestResultStatus = sTestResultStatus;
-                //sTestResultObj.TestResultValue = iResultValue;
-                //sTestResultObj.TestResultRules = sResultRule;
+                sTestResultObj.OverallStatus = sOverallStatus;
                 sTestResultObj.CreatedDate = DateTime.Now;
                 sTestResultObj.CreatedBy = sSystemName;
                 sTestResultObj.DeviceSerialNo = sSerialNo.Trim();

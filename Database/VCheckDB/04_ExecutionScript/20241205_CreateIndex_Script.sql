@@ -66,3 +66,20 @@ ON mst_template(TemplateID, TemplateCode);
 
 CREATE INDEX IX_TemplateID_LangCode
 ON mst_template_details(TemplateID, LangCode);
+
+/*----------- Notification -----------------*/
+CREATE INDEX IX_NotifType_CreatedDate
+ON txn_notification(NotificationType, CreatedDate);
+
+CREATE INDEX IX_NotifType_CreatedDate_NotifTitle
+ON txn_notification(NotificationType, CreatedDate, NotificationTitle);
+
+CREATE INDEX IX_CreatedDate_DESC
+ON txn_notification(CreatedDate DESC);
+
+
+CREATE INDEX IX_NotifType
+ON txn_notification(NotificationType);
+
+CREATE INDEX IX_NotifType_CreatedDateDESC
+ON txn_notification(NotificationType, CreatedDate DESC);

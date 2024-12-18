@@ -208,10 +208,11 @@ namespace VCheckListenerWorker.Lib.Models
         public string? OperatorID { get; set; }
         public string? PatientID { get; set; }
         public string? InchargePerson { get; set; }
-        public string? ObservationStatus { get; set; }
-        public string? TestResultStatus { get; set; }
-        public Decimal? TestResultValue { get; set; }
-        public string? TestResultRules { get; set; }
+        public string? OverallStatus { get; set; }
+        //public string? ObservationStatus { get; set; }
+        //public string? TestResultStatus { get; set; }
+        //public Decimal? TestResultValue { get; set; }
+        //public string? TestResultRules { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
