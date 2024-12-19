@@ -7,7 +7,7 @@ using System.Reflection;
 using VCheck.Interface.API;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
-using VetConnect = VCheck.Interface.API.VetConnect;
+using VetVitals = VCheck.Interface.API.VetVitals;
 
 namespace VCheckAppointmentSynchTask
 {
@@ -55,11 +55,11 @@ namespace VCheckAppointmentSynchTask
         /// <param name="processName"></param>
         private static void AppointmentUpdateSynch(IConfiguration config, String sTransType, String processName)
         {
-            VetConnect.RequestMessage.GetAppointmentDateRangeRequest sReq = new VetConnect.RequestMessage.GetAppointmentDateRangeRequest();
-            VetConnect.RequestMessage.RequestHeaderObject sHeader = new VetConnect.RequestMessage.RequestHeaderObject();
-            VetConnect.RequestMessage.RequestBodyObject sBody = new VetConnect.RequestMessage.RequestBodyObject();
+            VetVitals.RequestMessage.GetAppointmentDateRangeRequest sReq = new VetVitals.RequestMessage.GetAppointmentDateRangeRequest();
+            VetVitals.RequestMessage.RequestHeaderObject sHeader = new VetVitals.RequestMessage.RequestHeaderObject();
+            VetVitals.RequestMessage.RequestBodyObject sBody = new VetVitals.RequestMessage.RequestBodyObject();
 
-            VetConnectAPI sVPMSAPI = new VetConnectAPI();
+            VetVitalsAPI sVPMSAPI = new VetVitalsAPI();
             DateTime sStart = DateTime.Now.AddMonths(-3);
             DateTime sEnd = DateTime.Now;
 

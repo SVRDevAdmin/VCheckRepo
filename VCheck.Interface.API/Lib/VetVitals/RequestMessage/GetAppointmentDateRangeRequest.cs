@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VCheck.Interface.API.VetConnect.RequestMessage
+namespace VCheck.Interface.API.VetVitals.RequestMessage
 {
     public class GetAppointmentDateRangeRequest
     {
@@ -21,7 +21,7 @@ namespace VCheck.Interface.API.VetConnect.RequestMessage
     public class RequestBodyObject
     {
         public String? transtype { get; set; }
-        public String? startdate { get; set; } 
+        public String? startdate { get; set; }
         public String? enddate { get; set; }
     }
 }

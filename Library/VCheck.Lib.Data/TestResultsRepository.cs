@@ -443,9 +443,9 @@ namespace VCheck.Lib.Data
                     MySqlConnection sConn = new MySql.Data.MySqlClient.MySqlConnection(ctx.Database.GetConnectionString());
                     sConn.Open();
 
-                    String sSelectCommand = "SELECT A.ID, A.TestResultDateTime, A.OperatorID, A.PatientID, A.InchargePerson, A.DeviceSerialNo, " +
-                                            "B.TestParameter, B.ProceduralControl, B.TestResultStatus, B.TestResultValue, B.TestResultUnit, " + 
-                                            "B.ReferenceRange " +
+                    String sSelectCommand = "SELECT A.ID, A.TestResultDateTime, A.TestResultType, A.OperatorID, A.PatientID, A.InchargePerson, " +
+                                            "A.DeviceSerialNo, A.OverallStatus, B.TestParameter, B.ProceduralControl, B.TestResultStatus, " +
+                                            "B.TestResultValue, B.TestResultUnit, B.ReferenceRange " +
                                             "FROM txn_testresults AS A " +
                                             "INNER JOIN txn_testresults_details AS B ON B.TestResultRowID = A.ID " + 
                                             "WHERE A.TestResultDateTime >= '" + sStart.ToString("yyyy-MM-dd HH:mm:ss") + "' AND A.TestResultDateTime <= '" + sEnd.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
@@ -461,15 +461,18 @@ namespace VCheck.Lib.Data
                                 {
                                     ID  = Convert.ToInt64(sReader["ID"]),
                                     TestResultDateTime = Convert.ToDateTime(sReader["TestResultDateTime"]),
-                                    TestResultType = sReader["TestParameter"].ToString(),
+                                    TestResultType = sReader["TestResultType"].ToString(),
                                     OperatorID = sReader["OperatorID"].ToString(),
                                     DeviceSerialNo = sReader["DeviceSerialNo"].ToString(),
                                     PatientID = sReader["PatientID"].ToString(),
                                     InchargePerson = sReader["InchargePerson"].ToString(),
-                                    ObservationStatus = sReader["ProceduralControl"].ToString(),
+                                    OverallStatus = sReader["OverallStatus"].ToString(),
+                                    TestResultParameter = sReader["TestParameter"].ToString(),
+                                    ProceduralControl = sReader["ProceduralControl"].ToString(),
                                     TestResultStatus = sReader["TestResultStatus"].ToString(),
                                     TestResultValue = sReader["TestResultValue"].ToString(),
-                                    TestResultRules = sReader["TestResultUnit"].ToString(),
+                                    TestResultUnit = sReader["TestResultUnit"].ToString(),
+                                    ReferenceRange = sReader["ReferenceRange"].ToString()
                                 });
                             }
                         }

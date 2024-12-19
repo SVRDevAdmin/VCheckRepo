@@ -3,9 +3,10 @@ using Microsoft.Extensions.Configuration;
 using VCheck.Interface.API;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
-using VetConnect = VCheck.Interface.API.VetConnect;
+using VetVitals = VCheck.Interface.API.VetVitals;
 using log4net.Repository;
 using log4net.Config;
+using VCheck.Interface.API.VetVitals.RequestMessage;
 
 namespace VCheckTestResultDataSynchTask
 {
@@ -39,18 +40,18 @@ namespace VCheckTestResultDataSynchTask
 
         private static void UpdateTestResults(IConfiguration config, String sProcessName)
         {
-            List<VetConnect.UpdateTestResultsRequestBodyResultObject> sResultList = new List<VetConnect.UpdateTestResultsRequestBodyResultObject>();
-            VetConnect.UpdateTestResultsRequest sReq = new VetConnect.UpdateTestResultsRequest();
-            VetConnect.UpdateTestResultsRequestHeaderObject sHeader = new VetConnect.UpdateTestResultsRequestHeaderObject();
-            VetConnect.UpdateTestResultsRequestBodyObject sBody = new VetConnect.UpdateTestResultsRequestBodyObject();
+            List<VetVitals.RequestMessage.UpdateTestResultsRequestBodyResultObject> sResultList = new List<VetVitals.RequestMessage.UpdateTestResultsRequestBodyResultObject>();
+            VetVitals.RequestMessage.UpdateTestResultsRequest sReq = new VetVitals.RequestMessage.UpdateTestResultsRequest();
+            VetVitals.RequestMessage.UpdateTestResultsRequestHeaderObject sHeader = new VetVitals.RequestMessage.UpdateTestResultsRequestHeaderObject();
+            VetVitals.RequestMessage.UpdateTestResultsRequestBodyObject sBody = new VetVitals.RequestMessage.UpdateTestResultsRequestBodyObject();
 
-            VetConnectAPI sVPMSAPI = new VetConnectAPI();
+            VetVitalsAPI sVPMSAPI = new VetVitalsAPI();
             DateTime sStart = DateTime.Now.AddMonths(-12);
             DateTime sEnd = DateTime.Now;
 
             try
             {
-                String? sToken = config.GetSection("VetConnect:clientkey").Value;
+                String? sToken = config.GetSection("VetVitals:clientkey").Value;
 
                 var sProcessingLog = ProcessingLogRepository.GetProcessingLogByName(sProcessName, config);
                 if (sProcessingLog != null)
@@ -61,22 +62,40 @@ namespace VCheckTestResultDataSynchTask
                 var sResult = TestResultsRepository.GetTestResultDetailsByDateRange(config, sStart, sEnd);
                 if (sResult != null)
                 {
-                    foreach(var sRow in sResult)
+                    var sResultIDs = sResult.GroupBy(x => x.ID).Select(x => new { x.Key }).ToList();
+                    foreach(var x in sResultIDs)
                     {
-                        sResultList.Add(new VetConnect.UpdateTestResultsRequestBodyResultObject
+                        var sTestResult = sResult.Where(y => y.ID == x.Key).FirstOrDefault();
+                        if (sTestResult != null)
                         {
-                            resulttype = sRow.TestResultType,
-                            resultdatetime = sRow.TestResultDateTime.Value.ToString("yyyyMMddHHmmss"),
-                            operatorid = sRow.OperatorID,
-                            patientid = sRow.PatientID,
-                            ownerid = "",
-                            petid = "",
-                            inchargedoctor = sRow.InchargePerson,
-                            resultstatus  = sRow.TestResultStatus,
-                            resultvalue = sRow.TestResultValue.ToString(),
-                            resultparameter = sRow.TestResultRules,
-                            referencerange = ""
-                        });
+                            List<UpdateTestResultsDetailsObject> sResultDetList = new List<UpdateTestResultsDetailsObject>();
+
+                            var sTestResultDet = sResult.Where(y => y.ID == x.Key).ToList();
+                            foreach(var itm in sTestResultDet)
+                            {
+                                sResultDetList.Add(new UpdateTestResultsDetailsObject
+                                {
+                                    resultparameter = itm.TestResultParameter,
+                                    resultstatus = itm.TestResultStatus,
+                                    resultvalue = itm.TestResultValue,
+                                    resultunit = itm.TestResultUnit,
+                                    referencerange = itm.ReferenceRange
+                                });
+                            }
+
+                            sResultList.Add(new VetVitals.RequestMessage.UpdateTestResultsRequestBodyResultObject
+                            {
+                                resulttype = sTestResult.TestResultType,
+                                resultdatetime = sTestResult.TestResultDateTime.Value.ToString("yyyyMMddHHmmss"),
+                                operatorid = sTestResult.OperatorID,
+                                patientid = sTestResult.PatientID,
+                                petid = sTestResult.PatientID,
+                                inchargeperson = sTestResult.InchargePerson,
+                                overallstatus = sTestResult.OverallStatus,
+                                devicename = sTestResult.DeviceSerialNo,
+                                resultdetails = sResultDetList
+                            });
+                        }
                     }
 
                     sHeader.timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");

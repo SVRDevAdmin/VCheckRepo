@@ -1,26 +1,20 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Configuration;
 using VCheck.Interface.API.General;
 
 namespace VCheck.Interface.API
 {
-    /// <summary>
-    /// interface communicate with VetConnect 
-    /// </summary>
-    public class VetConnectAPI
+    public class VetVitalsAPI
     {
         public static IConfiguration iConfig;
 
-        public VetConnectAPI()
+        public VetVitalsAPI()
         {
             var sBuilder = new ConfigurationBuilder();
             sBuilder.SetBasePath(Directory.GetCurrentDirectory())
@@ -34,9 +28,9 @@ namespace VCheck.Interface.API
         /// </summary>
         /// <param name="sInput"></param>
         /// <returns></returns>
-        public VetConnect.ResponseMessage.GetAppointmentDateRangeResponse? GetAppointmentByDateRange(VetConnect.RequestMessage.GetAppointmentDateRangeRequest sInput)
+        public VetVitals.ResponseMessage.GetAppointmentDateRangeResponse? GetAppointmentByDateRange(VetVitals.RequestMessage.GetAppointmentDateRangeRequest sInput)
         {
-            String? sRequestURL = iConfig.GetSection("VetConnect:GetAppointmentByDateRange").Value;
+            String? sRequestURL = iConfig.GetSection("VetVitals:GetAppointmentByDateRange").Value;
 
             try
             {
@@ -48,8 +42,8 @@ namespace VCheck.Interface.API
                     {
                         Method = HttpMethod.Get,
                         RequestUri = new Uri(sRequestURL),
-                        Content= new StringContent(
-                            Newtonsoft.Json.JsonConvert.SerializeObject(sInput), 
+                        Content = new StringContent(
+                            Newtonsoft.Json.JsonConvert.SerializeObject(sInput),
                             Encoding.UTF8, "application/json"
                         )
                     };
@@ -58,7 +52,7 @@ namespace VCheck.Interface.API
                     if (resp.StatusCode == HttpStatusCode.OK)
                     {
                         String strResult = resp.Content.ReadAsStringAsync().Result;
-                        return Newtonsoft.Json.JsonConvert.DeserializeObject<VetConnect.ResponseMessage.GetAppointmentDateRangeResponse>(strResult);
+                        return Newtonsoft.Json.JsonConvert.DeserializeObject<VetVitals.ResponseMessage.GetAppointmentDateRangeResponse>(strResult);
                     }
                     else
                     {
@@ -77,9 +71,9 @@ namespace VCheck.Interface.API
         /// </summary>
         /// <param name="sInput"></param>
         /// <returns></returns>
-        public VetConnect.UpdateTestResultsResponse? UpdateTestResults(VetConnect.UpdateTestResultsRequest sInput)
+        public VetVitals.ResponseMessage.UpdateTestResultsResponse? UpdateTestResults(VetVitals.RequestMessage.UpdateTestResultsRequest sInput)
         {
-            String? sRequestURL = iConfig.GetSection("VetConnect:UpdateTestResult").Value;
+            String? sRequestURL = iConfig.GetSection("VetVitals:UpdateTestResult").Value;
 
             try
             {
@@ -92,14 +86,14 @@ namespace VCheck.Interface.API
                         Content = new StringContent(
                             Newtonsoft.Json.JsonConvert.SerializeObject(sInput),
                             Encoding.UTF8, "application/json"
-    )
+                        )
                     };
 
                     HttpResponseMessage resp = client.SendAsync(req).Result;
                     if (resp.IsSuccessStatusCode)
                     {
                         String strResult = resp.Content.ReadAsStringAsync().Result;
-                        return Newtonsoft.Json.JsonConvert.DeserializeObject<VetConnect.UpdateTestResultsResponse>(strResult);
+                        return Newtonsoft.Json.JsonConvert.DeserializeObject<VetVitals.ResponseMessage.UpdateTestResultsResponse>(strResult);
                     }
                     else
                     {

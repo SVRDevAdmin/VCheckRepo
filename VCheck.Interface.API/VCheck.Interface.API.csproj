@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Lib\VetConnect\**" />
+    <EmbeddedResource Remove="Lib\VetConnect\**" />
+    <None Remove="Lib\VetConnect\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="VetConnectAPI.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="bin\Debug\net8.0\" />
   </ItemGroup>
 

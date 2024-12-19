@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VCheck.Interface.API.VetConnect
+namespace VCheck.Interface.API.VetVitals.ResponseMessage
 {
     public class UpdateTestResultsResponse
     {
