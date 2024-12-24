@@ -71,11 +71,32 @@ namespace VCheckTestResultTransferTask
                 String sFilePath = System.IO.Path.Combine(sDirectoryPath, "Processing", sFileName);
                 String sFileArchivedPath = System.IO.Path.Combine(sDirectoryPath, "Processing\\Archived");
 
-                var sResult = TestResultsRepository.GetTestResultByDateRange(config, dtStart, dtEnd);
+				List<TestResultOutputFileModel> sResult = TestResultsRepository.GetTestResultByDateRange(config, dtStart, dtEnd);
                 if (sResult != null)
                 {
                     DataTable sResultTable = Lib.General.Utils.ToDataTable(sResult);
-                    Lib.General.Utils.ExportToCSV(sResultTable, sFilePath);
+                    sResultTable.Columns["ID"].SetOrdinal(0);
+                    sResultTable.Columns["TestResultDateTime"].SetOrdinal(1);
+                    sResultTable.Columns["TestResultType"].SetOrdinal(2);
+					sResultTable.Columns["DeviceSerialNo"].SetOrdinal(3);
+					sResultTable.Columns["PatientID"].SetOrdinal(4);
+                    sResultTable.Columns["InchargePerson"].SetOrdinal(5);
+                    sResultTable.Columns["OperatorID"].SetOrdinal(6);
+					sResultTable.Columns["TestParameter"].SetOrdinal(7);
+					sResultTable.Columns["TestResultStatus"].SetOrdinal(8);
+					sResultTable.Columns["TestResultValue"].SetOrdinal(9);
+					sResultTable.Columns["TestResultUnit"].SetOrdinal(10);
+                    sResultTable.Columns["ReferenceRange"].SetOrdinal(11);
+
+                    sResultTable.Columns.Remove("CreatedDate");
+					sResultTable.Columns.Remove("CreatedBy");
+					sResultTable.Columns.Remove("UpdatedDate");
+					sResultTable.Columns.Remove("UpdatedBy");
+					sResultTable.Columns.Remove("ObservationStatus");
+					sResultTable.Columns.Remove("OverallStatus");
+					sResultTable.Columns.Remove("TestResultRules");
+
+					Lib.General.Utils.ExportToCSV(sResultTable, sFilePath);
 
                     // ----- Output to file -------//
                     if (System.IO.File.Exists(sFilePath))

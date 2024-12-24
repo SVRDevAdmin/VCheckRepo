@@ -21,13 +21,24 @@ namespace VCheck.Lib.Data.Models
         public String? PatientID { get; set; }
         public String? InchargePerson { get; set; }
         public String? ObservationStatus { get; set; }
+        public String? OverallStatus { get; set; }
         public String? TestResultStatus { get; set; }
-        public Decimal? TestResultValue { get; set;  }
-        public String? TestResultRules { get; set; }
+        //public Decimal? TestResultValue { get; set;  }
+		public String? TestResultValue { get; set; }
+		public String? TestResultRules { get; set; }
         public DateTime? CreatedDate { get; set; }
         public String? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public String? UpdatedBy { get; set; }
+    }
+
+    public class TestResultOutputFileModel : TestResultModel
+    {
+        public String? TestParameter { get; set; }
+        public String? TestResultStatus { get; set; }
+        //public String? TestResultValue { get; set; }
+        public String? TestResultUnit { get; set; }
+        public String? ReferenceRange { get; set; }
     }
 
     public class TestResultExtendedModel
