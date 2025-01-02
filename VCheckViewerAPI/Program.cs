@@ -67,8 +67,8 @@ app.UseExceptionHandler(a => a.Run(async context =>
     var responseJson = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(response));
 
     //sLogger.ApiLog(requestJson, responseJson);
-    APILogging sAPILogging = new APILogging();
-    sAPILogging.ApiLog(context, responseJson);
+    //APILogging sAPILogging = new APILogging();
+    //sAPILogging.ApiLog(context, responseJson);
 }));
 
 

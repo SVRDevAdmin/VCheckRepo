@@ -36,6 +36,11 @@ namespace VCheckViewerAPI.Message.CreateScheduledTest
                 isValid = false;
             }
 
+            if (String.IsNullOrEmpty(ScheduledUniqueID))
+            {
+                isValid = false;
+            }
+
             if (String.IsNullOrEmpty(PersonIncharges))
             {
                 isValid = false;
