@@ -120,6 +120,8 @@ namespace VCheckViewer.Views.Pages.Results
 
         private void btnFilter_Click(object sender, RoutedEventArgs e)
         {
+            startPagination = 1;
+
             LoadResultDataGrid();
         }
 

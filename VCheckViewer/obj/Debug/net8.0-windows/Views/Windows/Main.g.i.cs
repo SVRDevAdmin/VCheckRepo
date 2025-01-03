@@ -299,7 +299,7 @@ namespace VCheckViewer.Views.Windows {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/VCheckViewer;V1.0.0.1;component/views/windows/main.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/VCheckViewer;component/views/windows/main.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Views\Windows\Main.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

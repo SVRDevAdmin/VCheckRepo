@@ -341,22 +341,36 @@ namespace VCheck.Lib.Data
                         //                         "ORDER BY TestResultDateTime " + sSortDirection :
                         //                         "ORDER BY TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
 
+                        //------------- Version 2 --------------//
+                        //String sSelectCommand = "SELECT T1.ID, T1.TestResultDateTime, T1.TestResultType, T1.OperatorID, " +
+                        //                        "T1.PatientID, T1.InchargePerson, T2.ProceduralControl as 'ObservationStatus', " +
+                        //                        "T2.TestResultStatus, T2.TestResultValue, T2.TestResultUnit as 'TestResultRules', " +
+                        //                        "T1.CreatedDate, T1.CreatedBy " +
+                        //                        "FROM txn_testresults as T1 INNER JOIN txn_testresults_details as T2 ON T2.TestResultRowID = T1.ID WHERE ";
 
-                        String sSelectCommand = "SELECT T1.ID, T1.TestResultDateTime, T1.TestResultType, T1.OperatorID, " +
-                                                "T1.PatientID, T1.InchargePerson, T2.ProceduralControl as 'ObservationStatus', " +
-                                                "T2.TestResultStatus, T2.TestResultValue, T2.TestResultUnit as 'TestResultRules', " +
-                                                "T1.CreatedDate, T1.CreatedBy " +
-                                                "FROM txn_testresults as T1 INNER JOIN txn_testresults_details as T2 ON T2.TestResultRowID = T1.ID WHERE ";
+                        //if (dStartDate != "") { sSelectCommand = sSelectCommand + "(T1.TestResultDateTime >= '" + dStartDate + "' AND T1.TestResultDateTime <= '" + dEndDate + "') AND"; }
 
-                        if (dStartDate != "") { sSelectCommand = sSelectCommand + "(T1.TestResultDateTime >= '" + dStartDate + "' AND T1.TestResultDateTime <= '" + dEndDate + "') AND"; }
+                        //sSelectCommand = sSelectCommand + "(T1.OperatorID LIKE '%" + sKeyword + "%' OR " +
+                        //                        "T1.InchargePerson LIKE '%" + sKeyword + "%' OR " +
+                        //                        "T1.PatientID LIKE '%" + sKeyword + "%') " +
+                        //                        ((!sSortDirection.Contains("Status")) ?
+                        //                         "ORDER BY T1.TestResultDateTime " + sSortDirection :
+                        //                         "ORDER BY T1.TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
 
-                        sSelectCommand = sSelectCommand + "(T1.OperatorID LIKE '%" + sKeyword + "%' OR " +
-                                                "T1.InchargePerson LIKE '%" + sKeyword + "%' OR " +
-                                                "T1.PatientID LIKE '%" + sKeyword + "%') " +
-                                                ((!sSortDirection.Contains("Status")) ?
-                                                 "ORDER BY T1.TestResultDateTime " + sSortDirection :
-                                                 "ORDER BY T1.TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
-                        
+                        String sSelectCommand = "SELECT T1.ID, T1.TestResultDateTime, T1.TestResultType, T1.OperatorID, T1.PatientID, " +
+                                                "T1.InchargePerson, T1.OverallStatus, T1.DeviceSerialNo, T1.CreatedDate, T1.CreatedBy " +
+                                                "FROM txn_testresults AS T1 " +
+                                                "WHERE ";
+
+                        if (dStartDate != "") { sSelectCommand += "(T1.TestResultDateTime >= '" + dStartDate + "' AND T1.TestResultDateTime <= '" + dEndDate + "') AND "; }
+
+                        sSelectCommand += "(T1.OperatorID LIKE '%" + sKeyword + "%' OR " +
+                                          "T1.InchargePerson LIKE '%" + sKeyword + "%' OR " +
+                                          "T1.PatientID LIKE '%" + sKeyword + "%') " +
+                                          ((!sSortDirection.Contains("Status")) ?
+                                          "ORDER BY T1.TestResultDateTime " + sSortDirection :
+                                          "ORDER BY T1.TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
+
                         using (MySqlCommand sCommand = new MySqlCommand(sSelectCommand, sConn))
                         {
                             using (var sReader = sCommand.ExecuteReader())
@@ -373,17 +387,21 @@ namespace VCheck.Lib.Data
                                         OperatorID = sReader["OperatorID"].ToString(),
                                         PatientID = sReader["PatientID"].ToString(),
                                         InchargePerson = sReader["InchargePerson"].ToString(),
-                                        ObservationStatus = sReader["ObservationStatus"].ToString(),
-                                        TestResultStatus = sReader["TestResultStatus"].ToString(),
+                                        //ObservationStatus = sReader["ObservationStatus"].ToString(),
+                                        //TestResultStatus = sReader["TestResultStatus"].ToString(),
+                                        TestResultStatus = sReader["OverallStatus"].ToString(),
                                         //TestResultValue = Convert.ToDecimal(sReader["TestResultValue"]),
                                         //TestResultValueString = (Convert.ToDecimal(sReader["TestResultValue"])).ToString("n2"),
-                                        TestResultValue = sReader["TestResultValue"].ToString(),
-                                        TestResultValueString = sReader["TestResultValue"].ToString(),
-                                        TestResultRules = sReader["TestResultRules"].ToString(),
+                                        //TestResultValue = sReader["TestResultValue"].ToString(),
+                                        //TestResultValueString = sReader["TestResultValue"].ToString(),
+                                        //TestResultRules = sReader["TestResultRules"].ToString(),
                                         CreatedDate = Convert.ToDateTime(sReader["CreatedDate"]),
                                         CreatedBy = sReader["CreatedBy"].ToString(),
-                                        statusBackground = (sReader["TestResultStatus"].ToString() == "Positive") ? "#F5B7B1" : "#D1F2EB ",
-                                        statusFontColor = (sReader["TestResultStatus"].ToString() == "Positive") ? "#ff2c29" : "#57baa5"
+                                        statusBackground = (sReader["OverallStatus"].ToString() == "Normal") ? "#F5B7B1" : "#D1F2EB ",
+                                        statusFontColor = (sReader["OverallStatus"].ToString() == "Normal") ? "#ff2c29" : "#57baa5",
+                                        //statusBackground = (sReader["TestResultStatus"].ToString() == "Positive") ? "#F5B7B1" : "#D1F2EB ",
+                                        //statusFontColor = (sReader["TestResultStatus"].ToString() == "Positive") ? "#ff2c29" : "#57baa5"
+                                        DeviceSerialNo = sReader["DeviceSerialNo"].ToString()
                                     }); ;
 
                                     iIndex++;
