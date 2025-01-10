@@ -8,6 +8,7 @@ namespace VCheck.Interface.API.Greywind.RequestMessage
 {
     public class UpdateResultRequest
     {
+        public String? accessionnumber {  get; set; }
         public String? clinic_id { get; set; }
         public String? reportdate { get; set; }
         public String? providerid { get; set; }

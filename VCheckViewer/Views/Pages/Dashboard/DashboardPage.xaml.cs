@@ -244,8 +244,8 @@ namespace VCheckViewer.Views.Pages
                 for (int j = 0; j < totalElementPerRow; j++)
                 {
                     DeviceModel device = deviceList[j];
-                    int totalPositive = resultList.Where(x => x.DeviceSerialNo == device.DeviceSerialNo && x.TestResultStatus == "Positive").Count();
-                    int totalNegative = resultList.Where(x => x.DeviceSerialNo == device.DeviceSerialNo && x.TestResultStatus == "Negative").Count();
+                    int totalPositive = resultList.Where(x => x.DeviceSerialNo == device.DeviceSerialNo && (x.TestResultStatus == "Positive" || x.TestResultStatus == "Normal")).Count();
+                    int totalNegative = resultList.Where(x => x.DeviceSerialNo == device.DeviceSerialNo && (x.TestResultStatus == "Negative" || x.TestResultStatus == "Abnormal")).Count();
 
                     Border parentBorder = new Border() { Height = borderHeight, Width = borderWidth, CornerRadius = new CornerRadius(5), Margin = new Thickness(25, 0, 25, 0), Padding = new Thickness(5) };
                     StackPanel secondStackPanel = new StackPanel() { Orientation = Orientation.Vertical };
@@ -432,8 +432,8 @@ namespace VCheckViewer.Views.Pages
                 for (int j = 0; j < totalElementPerRow; j++)
                 {
                     DeviceModel device = deviceList[currentDevice++];
-                    int totalPositive = resultList.Where(x => x.DeviceSerialNo == device.DeviceSerialNo && x.TestResultStatus == "Positive").Count();
-                    int totalNegative = resultList.Where(x => x.DeviceSerialNo == device.DeviceSerialNo && x.TestResultStatus == "Negative").Count();
+                    int totalPositive = resultList.Where(x => x.DeviceSerialNo == device.DeviceSerialNo && (x.TestResultStatus == "Positive" || x.TestResultStatus == "Abnormal")).Count();
+                    int totalNegative = resultList.Where(x => x.DeviceSerialNo == device.DeviceSerialNo && (x.TestResultStatus == "Negative" || x.TestResultStatus == "Normal")).Count();
 
                     Border parentBorder = new Border() { Height = borderHeight, Width = borderWidth, CornerRadius = new CornerRadius(7), Margin = new Thickness(10, 0, 10, 0), Padding = new Thickness(5) };
 

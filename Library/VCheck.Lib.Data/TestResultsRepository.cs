@@ -13,6 +13,7 @@ using System.CodeDom;
 using log4net;
 using System.Reflection;
 using static Org.BouncyCastle.Math.EC.ECCurve;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace VCheck.Lib.Data
 {
@@ -267,10 +268,10 @@ namespace VCheck.Lib.Data
                                 sResult.PatientID = sReader["PatientID"].ToString();
                                 sResult.OperatorID = sReader["OperatorID"].ToString();
                                 sResult.DeviceSerialNo = sReader["DeviceSerialNo"].ToString();
-                                sResult.ObservationStatus = sReader["OverallStatus"].ToString();
+                                //sResult.ObservationStatus = sReader["OverallStatus"].ToString();
                                 sResult.TestParameter = sReader["TestParameter"].ToString();
                                 sResult.TestResultStatus = sReader["TestResultStatus"].ToString();
-                                sResult.TestResultValue = sReader["TestResultValue"].ToString();
+                                //sResult.TestResultValue = sReader["TestResultValue"].ToString();
                                 sResult.TestResultUnit = sReader["TestResultUnit"].ToString();
                                 sResult.ReferenceRange = sReader["ReferenceRange"].ToString();
 
@@ -397,8 +398,8 @@ namespace VCheck.Lib.Data
                                         //TestResultRules = sReader["TestResultRules"].ToString(),
                                         CreatedDate = Convert.ToDateTime(sReader["CreatedDate"]),
                                         CreatedBy = sReader["CreatedBy"].ToString(),
-                                        statusBackground = (sReader["OverallStatus"].ToString() == "Normal") ? "#F5B7B1" : "#D1F2EB ",
-                                        statusFontColor = (sReader["OverallStatus"].ToString() == "Normal") ? "#ff2c29" : "#57baa5",
+                                        statusBackground = (sReader["OverallStatus"].ToString() == "Normal") ?  "#D1F2EB" : "#F5B7B1",
+                                        statusFontColor = (sReader["OverallStatus"].ToString() == "Normal") ?  "#57baa5" : "#ff2c29",
                                         //statusBackground = (sReader["TestResultStatus"].ToString() == "Positive") ? "#F5B7B1" : "#D1F2EB ",
                                         //statusFontColor = (sReader["TestResultStatus"].ToString() == "Positive") ? "#ff2c29" : "#57baa5"
                                         DeviceSerialNo = sReader["DeviceSerialNo"].ToString()
@@ -424,6 +425,37 @@ namespace VCheck.Lib.Data
             }
 
             return sResult;
+        }
+
+
+        public static TestResultModel GetTestResultByID(IConfiguration config, long iTestResultID)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.txn_testResults.Where(x => x.ID == iTestResultID).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static List<TestResultDetailsModel> GetResultDetailsByTestResultID(IConfiguration config, long iTestResultID)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.txn_testresults_details.Where(x => x.TestResultRowID == iTestResultID).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>

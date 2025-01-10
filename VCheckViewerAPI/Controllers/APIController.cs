@@ -248,6 +248,7 @@ namespace VCheckViewerAPI.Controllers
                             scheduledObj.OwnerName = request.body.OwnerName;
                             scheduledObj.ScheduleTestStatus = 0;
                             scheduledObj.TestCompleted = 0;
+                            scheduledObj.CreatedDate = DateTime.Now;
 
                             DateTime dtCreated = DateTime.MinValue;
                             if (DateTime.TryParseExact(request.body.ScheduledCreatedDate, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dtCreated))

@@ -224,6 +224,9 @@
                                             </MenuItem.Icon>
                                             <MenuItem Name="menuDownload" Header="{Binding Path=Results_Label_Download, Source={StaticResource Resources}}" Click="menuDownload_Click" />
                                             <MenuItem Name="menuPrint" Header="{Binding Path=Results_Label_Print, Source={StaticResource Resources}}" Click="menuPrint_Click" />
+                                            
+                                            <!-- POC Testing -->
+                                            <MenuItem Name="menuTransfer" Tag="{Binding ID}" Header="Send to PMS" Click="menuTransfer_Click" />
                                         </MenuItem>
                                     </Menu>
                                 </Grid>

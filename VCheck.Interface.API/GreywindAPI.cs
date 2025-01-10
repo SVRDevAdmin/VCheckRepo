@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using VCheck.Interface.API.General;
+using Newtonsoft.Json;
 
 namespace VCheck.Interface.API
 {
@@ -24,8 +25,8 @@ namespace VCheck.Interface.API
 
             iConfig = sBuilder.Build();
 
-            sUsername = iConfig.GetSection("GreyPMSCredentials:username").Value;
-            sPassword = iConfig.GetSection("GreyPMSCredentials:password").Value;
+            sUsername = iConfig.GetSection("GreywindPMSCredentials:username").Value;
+            sPassword = iConfig.GetSection("GreywindPMSCredentials:password").Value;
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace VCheck.Interface.API
         /// <returns></returns>
         public Greywind.ResponseMessage.FetchOrderResponse? FetchOrder(String sOrderID)
         {
-            String? sRequestURL = iConfig.GetSection("GreyPMS:FetchOrderURL").Value;
+            String? sRequestURL = iConfig.GetSection("GreywindPMS:FetchOrderURL").Value;
             sRequestURL = sRequestURL.Replace("{orderid}", sOrderID);
 
             try
@@ -71,10 +72,14 @@ namespace VCheck.Interface.API
         /// </summary>
         /// <param name="sResultRequest"></param>
         /// <returns></returns>
-        public Boolean UpdateResult(Greywind.RequestMessage.UpdateResultRequest sResultRequest)
+        public Boolean UpdateResult(Greywind.RequestMessage.UpdateResultRequest sResultRequest, String sOrderID)
         {
-            String? sRequestURL = iConfig.GetSection("GreyPMS:UpdateResultURL").Value;
+            String? sRequestURL = iConfig.GetSection("GreywindPMS:UpdateResultURL").Value;
+            sRequestURL = sRequestURL.Replace("{orderid}", sOrderID);
+
             Boolean isSuccess = false;
+
+            String strJson = JsonConvert.SerializeObject(sResultRequest);
 
             try
             {
@@ -88,8 +93,9 @@ namespace VCheck.Interface.API
 
                     HttpResponseMessage resp = client.PostAsJsonAsync(sRequestURL, sResultRequest).Result;
                     if (resp.IsSuccessStatusCode)
+                    //if (true)
                     {
-                        String sResult = resp.Content.ReadAsStringAsync().Result;
+                        //String sResult = resp.Content.ReadAsStringAsync().Result;
                         isSuccess = true;
                     }
                     else
