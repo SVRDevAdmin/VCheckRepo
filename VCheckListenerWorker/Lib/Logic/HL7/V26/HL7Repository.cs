@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Protobuf.WellKnownTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -336,19 +337,64 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                                 Comment = sComment
                             });
 
+
                             if (sComment.ToLower().Contains("cut off index"))
                             {
-                                sResultRule = "COI";
-
-                                String sValue = "";
-                                String[] strArryValue = sComment.Split(",");
-                                if (strArryValue.Length > 0)
+                                if (sResultTestType.ToLower() == "cav ab")
                                 {
-                                    sValue = strArryValue[1].Replace("Value=", "").Trim();
-                                }
+                                    var sCWEOBXValue = observationDetail.OBX.GetObservationValue();
+                                    if (sCWEOBXValue.Length > 0)
+                                    {
+                                        NHapi.Model.V26.Datatype.CWE sVNData = (NHapi.Model.V26.Datatype.CWE)sCWEOBXValue[0].Data;
+                                        if (sVNData != null)
+                                        {
+                                            String sCWEValue = sVNData.NameOfCodingSystem.Value;
+                                            if (sCWEValue.ToLower() == "invalid")
+                                            {
+                                                sTestResultStatus = sCWEValue;
 
-                                Decimal.TryParse(sValue, out iResultValue);
-                                sObservValue = sValue;
+                                                String sValue = "";
+                                                String[] strArryValue = sComment.Split(",");
+                                                if (strArryValue.Length > 0)
+                                                {
+                                                    sValue = strArryValue[1].Replace("Value=", "").Trim();
+                                                }
+
+                                                Decimal.TryParse(sValue, out iResultValue);
+                                                sObservValue = sValue;
+                                            }
+                                            else
+                                            {
+                                                String[] arrayCWE = sCWEValue.Split(",");
+                                                if (arrayCWE.Length > 0)
+                                                {
+                                                    sTestResultStatus = arrayCWE[0].Trim();
+
+                                                    String[] arrayValue = arrayCWE[1].Split("VN");
+                                                    if (arrayValue.Length > 0)
+                                                    {
+                                                        sResultRule = "VN";
+                                                        sObservValue = arrayValue[1].Trim();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    sResultRule = "COI";
+
+                                    String sValue = "";
+                                    String[] strArryValue = sComment.Split(",");
+                                    if (strArryValue.Length > 0)
+                                    {
+                                        sValue = strArryValue[1].Replace("Value=", "").Trim();
+                                    }
+
+                                    Decimal.TryParse(sValue, out iResultValue);
+                                    sObservValue = sValue;
+                                }
                             }
 
                             if (sComment.ToLower().Contains("interpretation"))
@@ -357,6 +403,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                                 if (strArryValue.Length > 0)
                                 {
                                     sInterpretation = strArryValue[1].Trim();
+                                    sTestResultStatus = strArryValue[1].Trim();
                                 }
                             }
                         }
@@ -379,16 +426,21 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
 
                         if (sResultTestType.ToLower() != "babesia gibsoni/canis" && sResultTestType.ToLower() != "canine diarrhea 8 panel")
                         {
-                            sTestResultStatus = General.ProcessObservationResultStatusValue(isRangeReference, sObservValue, observationDetail.OBX.ReferencesRange.Value, iResultValue);
-
+                            if (sResultTestType.ToLower() != "cav ab")
+                            {
+                                if (sResultRule == "COI")
+                                {
+                                    sTestResultStatus = General.ProcessObservationResultStatusValue(false, sObservValue, observationDetail.OBX.ReferencesRange.Value, iResultValue);
+                                }
+                                //sTestResultStatus = General.ProcessObservationResultStatusValue(isRangeReference, sObservValue, observationDetail.OBX.ReferencesRange.Value, iResultValue);
+                            }
+                            
                             sTestResultDetails.Add(new txn_testresults_details
                             {
                                 TestParameter = observationDetail.OBX.ObservationIdentifier.Text.Value,
                                 SubID = observationDetail.OBX.ObservationSubID.Value,
-                                //ProceduralControl = strObserveValue,
                                 ProceduralControl = strResultObservStatus,
                                 TestResultStatus = sTestResultStatus,
-                                //TestResultValue = (isRangeReference) ? sObservValue : iResultValue.ToString(),
                                 TestResultValue = sObservValue,
                                 TestResultUnit = (!String.IsNullOrEmpty(observationDetail.OBX.Units.Identifier.Value)) ? observationDetail.OBX.Units.Identifier.Value : sResultRule,
                                 ReferenceRange = observationDetail.OBX.ReferencesRange.Value,
@@ -406,10 +458,26 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                 String sOverallStatus = "Normal";
                 if (sTestResultDetails != null)
                 {
-                    if (sTestResultDetails.Where(x => x.TestResultStatus == "Positive").Count() > 0)
+                    if (sTestResultDetails.Where(x => x.TestParameter.ToLower() == "cav ab").Count() > 0)
                     {
-                        sOverallStatus = "Abnormal";
+                        sOverallStatus = sTestResultDetails[0].TestResultStatus;
                     }
+                    else
+                    {
+                        if (sTestResultDetails.Where(x => x.TestResultStatus == "Positive").Count() > 0) 
+                        {
+                            sOverallStatus = "Abnormal";
+                        }
+                        else if (sTestResultDetails.Where(x => x.TestResultStatus == "Invalid").Count() > 0)
+                        {
+                            sOverallStatus = "Invalid";
+                        }
+                        else
+                        {
+                            sOverallStatus = sTestResultDetails.Where(x => x.TestResultStatus != "").FirstOrDefault().TestResultStatus;
+                        }
+                    }
+
                 }
 
                 txn_testresults sTestResultObj = new txn_testresults();

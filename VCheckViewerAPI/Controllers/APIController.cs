@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Data.Sqlite;
@@ -14,6 +15,7 @@ using VCheckViewerAPI.Lib.Util;
 using VCheckViewerAPI.Message.CreateScheduledTest;
 using VCheckViewerAPI.Message.General;
 using VCheckViewerAPI.Message.GetPatientResult;
+using VCheckViewerAPI.Message.Location;
 using VCheckViewerAPI.Message.UpdateScheduledTest;
 
 namespace VCheckViewerAPI.Controllers
@@ -227,39 +229,46 @@ namespace VCheckViewerAPI.Controllers
                     {
                         if (_apiRepository.ValidateTokenExpiry(request.Header.clientKey))
                         {
-                            ClientModel sAuthProifle = _apiRepository.GetClientProfileByClientKey(request.Header.clientKey);
-
-                            ScheduledTestModel scheduledObj = new ScheduledTestModel();
-                            scheduledObj.ScheduledTestType = request.body.ScheduledTestName;
-
-                            DateTime dtScheduled = DateTime.MinValue;
-                            if (DateTime.TryParseExact(request.body.ScheduledDateTime, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dtScheduled))
+                            if (LocationRepository.IsLocationIdExists(ConfigSettings.GetConfigurationSettings(), Convert.ToInt32(request.body.LocationID)))
                             {
-                                scheduledObj.ScheduledDateTime = dtScheduled;
-                            }
+                                ClientModel sAuthProifle = _apiRepository.GetClientProfileByClientKey(request.Header.clientKey);
 
-                            scheduledObj.ScheduleUniqueID = request.body.ScheduledUniqueID;
-                            scheduledObj.ScheduledBy = request.body.ScheduledBy;
-                            scheduledObj.InchargePerson = request.body.PersonIncharges;
-                            scheduledObj.PatientID = request.body.PatientID;
-                            scheduledObj.PatientName = request.body.PatientName;
-                            scheduledObj.Gender = request.body.Gender;
-                            scheduledObj.Species = request.body.Species;
-                            scheduledObj.OwnerName = request.body.OwnerName;
-                            scheduledObj.ScheduleTestStatus = 0;
-                            scheduledObj.TestCompleted = 0;
-                            scheduledObj.CreatedDate = DateTime.Now;
+                                ScheduledTestModel scheduledObj = new ScheduledTestModel();
+                                scheduledObj.ScheduledTestType = request.body.ScheduledTestName;
 
-                            DateTime dtCreated = DateTime.MinValue;
-                            if (DateTime.TryParseExact(request.body.ScheduledCreatedDate, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dtCreated))
-                            {
-                                scheduledObj.CreatedDate = dtCreated;
-                            }
-                            scheduledObj.CreatedBy = (sAuthProifle != null) ? sAuthProifle.Name : "";
+                                DateTime dtScheduled = DateTime.MinValue;
+                                if (DateTime.TryParseExact(request.body.ScheduledDateTime, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dtScheduled))
+                                {
+                                    scheduledObj.ScheduledDateTime = dtScheduled;
+                                }
 
-                            //if (ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(),
-                            //            request.body.ScheduledUniqueID) == null)
-                            //{
+                                scheduledObj.ScheduleUniqueID = request.body.ScheduledUniqueID;
+                                scheduledObj.ScheduledBy = request.body.ScheduledBy;
+                                scheduledObj.InchargePerson = request.body.PersonIncharges;
+                                scheduledObj.PatientID = request.body.PatientID;
+                                scheduledObj.PatientName = request.body.PatientName;
+                                scheduledObj.Gender = request.body.Gender;
+                                scheduledObj.Species = request.body.Species;
+                                scheduledObj.OwnerName = request.body.OwnerName;
+                                scheduledObj.ScheduleTestStatus = 0;
+                                scheduledObj.TestCompleted = 0;
+                                scheduledObj.CreatedDate = DateTime.Now;
+                                scheduledObj.LocationID = Convert.ToInt32(request.body.LocationID);
+
+                                DateTime dtCreated = DateTime.MinValue;
+                                if (DateTime.TryParseExact(request.body.ScheduledCreatedDate, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dtCreated))
+                                {
+                                    scheduledObj.CreatedDate = dtCreated;
+                                }
+                                else
+                                {
+                                    scheduledObj.CreatedDate = DateTime.Now;
+                                }
+                                scheduledObj.CreatedBy = (sAuthProifle != null) ? sAuthProifle.Name : "";
+
+                                //if (ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(),
+                                //            request.body.ScheduledUniqueID) == null)
+                                //{
                                 if (ScheduledTestRepository.InsertScheduledTest(ConfigSettings.GetConfigurationSettings(), scheduledObj))
                                 {
                                     sRespCode = "VV.0001";
@@ -272,13 +281,21 @@ namespace VCheckViewerAPI.Controllers
                                     sRespStatus = "Fail";
                                     sRespMessage = "Failed to insert Scheduled Test.";
                                 }
-                            //}
-                            //else
-                            //{
-                            //    sRespCode = "VV.2004";
-                            //    sRespStatus = "Fail";
-                            //    sRespMessage = "Duplicate Scheduled Test record found.";
-                            //}
+                                //}
+                                //else
+                                //{
+                                //    sRespCode = "VV.2004";
+                                //    sRespStatus = "Fail";
+                                //    sRespMessage = "Duplicate Scheduled Test record found.";
+                                //}
+                            }
+                            else
+                            {
+                                sRespCode = "VV.1004";
+                                sRespStatus = "Fail";
+                                sRespMessage = "Invalid Location ID";
+                            }
+
                         }
                         else
                         {
@@ -318,11 +335,98 @@ namespace VCheckViewerAPI.Controllers
                 sRespStatus = "Exception";
                 sRespMessage = "Exception Error";
 
-                VCheck.APILogging.CallLogging.InsertErrorLog("UpdateScheduledTest", Guid.NewGuid().ToString(), sRespCode, sRespStatus,
+                VCheck.APILogging.CallLogging.InsertErrorLog("CreateScheduledTest", Guid.NewGuid().ToString(), sRespCode, sRespStatus,
                                                 sRespMessage, ((ex != null) ? ex.ToString() : ""));
             }
 
             return sResp;
+        }
+
+        /// <summary>
+        /// Get Location List
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet(Name = "GetLocationList")]
+        public ResponseModel GetLocationList(LocationDataRequest request)
+        {
+            var response = new ResponseModel();
+            response.Header = new HeaderModel();
+            response.Body = new ResponseBody();
+
+            String responseCode = "";
+            String responseMessage = "";
+            String responseStatus = "";
+
+            List<LocationResultObject> sResultList = new List<LocationResultObject>();
+
+            try
+            {
+                if (request.header.clientKey != null && _apiRepository.Authenticate(request.header.clientKey))
+                {
+                    if (_apiRepository.ValidateTokenExpiry(request.header.clientKey))
+                    {
+                        var sLocationList = LocationRepository.GetLocationList(ConfigSettings.GetConfigurationSettings());
+                        if (sLocationList != null && sLocationList.Count > 0)
+                        {
+                            foreach(var location in sLocationList)
+                            {
+                                sResultList.Add(new LocationResultObject
+                                {
+                                    locationid = location.ID.ToString(),
+                                    name = location.Name,
+                                    status = location.Status.ToString(),
+                                    createddate = (location.CreatedDate != null) ? 
+                                                    location.CreatedDate.Value.ToString("yyyyMMddHHmmss") : null,
+                                    modifieddate = (location.UpdatedDate != null) ? 
+                                                    location.UpdatedDate.Value.ToString("yyyyMMddHHmmss") : null
+                                });
+                            }
+                        }
+
+                        responseCode = "VV.0001";
+                        responseStatus = "Success";
+                        responseMessage = "Success";
+                    }
+                    else
+                    {
+                        responseCode = "VV.0005";
+                        responseStatus = "Fail";
+                        responseMessage = "Expiry Token Key";
+                    }
+                }
+                else
+                {
+                    responseCode = "VV.0003";
+                    responseStatus = "Fail";
+                    responseMessage = "Unauthorized Request";
+                }
+
+                response.Header.timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
+                response.Header.clientKey = request.header.clientKey;
+
+                response.Body.ResponseCode = responseCode;
+                response.Body.ResponseStatus = responseStatus;
+                response.Body.ResponseMessage = responseMessage;
+                response.Body.Results = sResultList;
+
+                //--------- Log Payload -------//
+                VCheck.APILogging.CallLogging.InsertAPiLog("GetLocationList", Guid.NewGuid().ToString(), request.header.timestamp,
+                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                                               responseMessage);
+            }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Exception";
+                responseMessage = "Exception Error";
+
+                VCheck.APILogging.CallLogging.InsertErrorLog("GetLocationList", Guid.NewGuid().ToString(), responseCode, responseStatus,
+                                            responseMessage, ((ex != null) ? ex.ToString() : ""));
+            }
+
+            return response;
         }
 
 

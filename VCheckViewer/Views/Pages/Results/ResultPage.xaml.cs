@@ -88,9 +88,15 @@ namespace VCheckViewer.Views.Pages.Results
             sTestResultObj.printedOn = DateTime.Now;
             sTestResultObj.isPrint = isPrint;
 
+            List<TestResultDetailsModel> sTestResultDetails = new List<TestResultDetailsModel>();
+            if (sTestResultObj != null)
+            {
+                sTestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), sTestResultObj.ID);
+            }
+                
             try
             {
-                TestResultTemplate sTestResultTemplate = new TestResultTemplate(sTestResultObj);
+                TestResultTemplate sTestResultTemplate = new TestResultTemplate(sTestResultObj, sTestResultDetails);
 
                 if (isPrint)
                 {
@@ -261,6 +267,7 @@ namespace VCheckViewer.Views.Pages.Results
                 sDatatable.Columns.Remove("isPrint");
                 sDatatable.Columns.Remove("ID");
                 sDatatable.Columns.Remove("ObservationStatus");
+                sDatatable.Columns.Remove("TestResultValueString");
                 sDatatable.Columns.Remove("TestResultRules");
                 sDatatable.Columns.Remove("CreatedDate");
                 sDatatable.Columns.Remove("CreatedBy");
@@ -272,18 +279,18 @@ namespace VCheckViewer.Views.Pages.Results
                 sDatatable.Columns["RowNo"].ColumnName = "No.";
                 sDatatable.Columns["TestResultDateTimeString"].SetOrdinal(1);
                 sDatatable.Columns["TestResultDateTimeString"].ColumnName = "Observation DateTime";
-                sDatatable.Columns["TestResultType"].SetOrdinal(2);
-                sDatatable.Columns["TestResultType"].ColumnName = "Observation Type";
-                sDatatable.Columns["TestResultStatus"].SetOrdinal(3);
-                sDatatable.Columns["TestResultStatus"].ColumnName = "Result Status";
-                sDatatable.Columns["TestResultValueString"].SetOrdinal(4);
-                sDatatable.Columns["TestResultValueString"].ColumnName = "Results Value";
-                sDatatable.Columns["OperatorID"].SetOrdinal(5);
+                sDatatable.Columns["OperatorID"].SetOrdinal(2);
                 sDatatable.Columns["OperatorID"].ColumnName = "Operator ID";
-                sDatatable.Columns["PatientID"].SetOrdinal(6);
+                sDatatable.Columns["PatientID"].SetOrdinal(3);
                 sDatatable.Columns["PatientID"].ColumnName = "Patient ID";
-                sDatatable.Columns["InchargePerson"].SetOrdinal(7);
+                sDatatable.Columns["InchargePerson"].SetOrdinal(4);
                 sDatatable.Columns["InchargePerson"].ColumnName = "Doctor";
+                sDatatable.Columns["TestResultType"].SetOrdinal(5);
+                sDatatable.Columns["TestResultType"].ColumnName = "Observation Type";
+                sDatatable.Columns["TestResultStatus"].SetOrdinal(6);
+                sDatatable.Columns["TestResultStatus"].ColumnName = "Overall Status";
+                sDatatable.Columns["DeviceSerialNo"].SetOrdinal(7);
+                sDatatable.Columns["DeviceSerialNo"].ColumnName = "Device Serial No";
                 
                                
                 // ----- Generate Excel file ------- //

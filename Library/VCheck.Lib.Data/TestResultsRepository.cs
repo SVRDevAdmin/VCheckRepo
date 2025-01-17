@@ -398,8 +398,8 @@ namespace VCheck.Lib.Data
                                         //TestResultRules = sReader["TestResultRules"].ToString(),
                                         CreatedDate = Convert.ToDateTime(sReader["CreatedDate"]),
                                         CreatedBy = sReader["CreatedBy"].ToString(),
-                                        statusBackground = (sReader["OverallStatus"].ToString() == "Normal") ?  "#D1F2EB" : "#F5B7B1",
-                                        statusFontColor = (sReader["OverallStatus"].ToString() == "Normal") ?  "#57baa5" : "#ff2c29",
+                                        statusBackground = (sReader["OverallStatus"].ToString() == "Normal" || sReader["OverallStatus"].ToString().Contains("titer")) ?  "#D1F2EB" : "#F5B7B1",
+                                        statusFontColor = (sReader["OverallStatus"].ToString() == "Normal" || sReader["OverallStatus"].ToString().Contains("titer")) ?  "#57baa5" : "#ff2c29",
                                         //statusBackground = (sReader["TestResultStatus"].ToString() == "Positive") ? "#F5B7B1" : "#D1F2EB ",
                                         //statusFontColor = (sReader["TestResultStatus"].ToString() == "Positive") ? "#ff2c29" : "#57baa5"
                                         DeviceSerialNo = sReader["DeviceSerialNo"].ToString()
