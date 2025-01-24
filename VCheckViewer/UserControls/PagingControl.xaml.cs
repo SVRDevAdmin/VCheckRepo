@@ -235,5 +235,23 @@ namespace VCheckViewer.UserControls
             iPageIndex = 1;
             iTotalPage = pageCount;
         }
+
+        public void GetPageCountByRecordCountWithLimitRefresh()
+        {
+            int pageCount = 0;
+            int remainder = 0;
+
+            pageCount = Math.DivRem(iTotalRecords, iPageSize, out remainder);
+            if (remainder > 0)
+            {
+                pageCount += 1;
+            }
+
+            iLastPage = pageCount;
+
+            pageCount = pageCount < iPaginationLimit ? pageCount : iPaginationLimit;
+
+            iTotalPage = pageCount;
+        }
     }
 }

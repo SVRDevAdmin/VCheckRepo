@@ -37,9 +37,36 @@ using VCheckViewer.UserControls;
 using System.Management;
 using System.Globalization;
 using DatePicker = System.Windows.Controls.DatePicker;
+using System.Windows.Threading;
 
 namespace VCheckViewer.Views.Pages.Results
 {
+    //For auto refresh
+    class Level2
+    {
+        public event Action<int> CounterUpdated;
+        public int counter;
+        public DispatcherTimer timer;
+
+        public Level2()
+        {
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+        }
+
+        public void timer_Tick(object sender, EventArgs e)
+        {
+            counter++;
+            int remainder = 0;
+
+            Math.DivRem(counter, 5, out remainder);
+
+            if (CounterUpdated != null && remainder == 0)
+                CounterUpdated(counter);
+        }
+    }
+
     /// <summary>
     /// Interaction logic for ResultPage.xaml
     /// </summary>
@@ -52,6 +79,9 @@ namespace VCheckViewer.Views.Pages.Results
         public int paginationSize = 10;
         public int startPagination = 1;
         public int endPagination = 0;
+
+        BackgroundWorker? worker1;
+        Level2 lvl2;
 
         public ResultPage()
         {
@@ -66,7 +96,80 @@ namespace VCheckViewer.Views.Pages.Results
             pagination.ButtonPageControlClick += new EventHandler(PaginationNumButton_Click);
 
             LoadResultDataGrid();
+
+            //For auto refresh using timer
+            //lvl2 = new Level2();
+            //lvl2.CounterUpdated += UpdateCounterText;
+            //lvl2.timer.Start();
+
+            //For auto refresh using socket listener
+            worker1 = new BackgroundWorker();
+            worker1.DoWork += Worker1_DoWork;
+            openSocket();
         }
+
+        private void openSocket()
+        {
+            string strIP = "127.0.0.1";
+            int iPortNo = 8080;
+
+            System.Net.IPEndPoint sIPEndPoint = System.Net.IPEndPoint.Parse(String.Concat(strIP, ":", iPortNo));
+
+            App.sListener = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork,
+                                                                                System.Net.Sockets.SocketType.Stream,
+                                                                                System.Net.Sockets.ProtocolType.Tcp);
+            App.sListener.Bind(sIPEndPoint);
+            App.sListener.Listen(3);
+
+            worker1.RunWorkerAsync();
+        }
+
+        private void Worker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            int count = 0;
+
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Background, (ThreadStart)(async delegate ()
+            {
+                try
+                {
+                    while (true)
+                    {
+                        System.Net.Sockets.Socket sClient = await App.sListener.AcceptAsync();
+
+                        var childSocket = new Thread(() =>
+                        {
+                            count++;
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                KeywordSearchBar.Text = count.ToString();
+                                LoadResultDataGrid();
+                            });
+
+
+                            sClient.Close();
+                        });
+
+                        childSocket.Start();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }));
+
+        }
+
+        private void UpdateCounterText(int newCounterValue)
+        {
+            //For auto refresh
+            KeywordSearchBar.Text = newCounterValue.ToString();
+            LoadResultDataGrid();
+
+        }
+
 
         private void menuDownload_Click(object sender, RoutedEventArgs e)
         {

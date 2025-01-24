@@ -27,9 +27,40 @@ using Run = System.Windows.Documents.Run;
 using TextBlock = System.Windows.Controls.TextBlock;
 using System.Runtime.Caching;
 using System.IO;
+using System.Windows.Threading;
+using System.Windows.Controls.Primitives;
+using System.ComponentModel;
+using VCheckViewer.Lib.General;
+using System.Diagnostics.Metrics;
 
 namespace VCheckViewer.Views.Pages.Notification
 {
+    //For auto refresh
+    class Level2
+    {
+        public event Action<int> CounterUpdated;
+        public int counter;
+        public DispatcherTimer timer;
+
+        public Level2()
+        {
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+        }
+
+        public void timer_Tick(object sender, EventArgs e)
+        {
+            counter++;
+            int remainder = 0;
+
+            Math.DivRem(counter, 5, out remainder);
+
+            if (CounterUpdated != null && remainder == 0)
+                CounterUpdated(counter);
+        }
+    }
+
     /// <summary>
     /// Interaction logic for NotificationPage.xaml
     /// </summary>
@@ -45,6 +76,9 @@ namespace VCheckViewer.Views.Pages.Notification
         public int currentPage = 1;
         public string? currentNotificationType;
         public string? currentStartDate, currentEndDate, currentKeyword;
+
+        BackgroundWorker? worker1;
+        Level2 lvl2;
 
         public NotificationPage()
         {
@@ -76,6 +110,78 @@ namespace VCheckViewer.Views.Pages.Notification
             pagination.ButtonNextControlClick += new EventHandler(PaginationNextButton_Click);
             pagination.ButtonPrevControlClick += new EventHandler(PaginationPrevButton_Click);
             pagination.ButtonPageControlClick += new EventHandler(PaginationNumButton_Click);
+
+
+            //For auto refresh using timer
+            //lvl2 = new Level2();
+            //lvl2.CounterUpdated += UpdateCounterText;
+            //lvl2.timer.Start();
+
+            //For auto refresh using socket listener
+            worker1 = new BackgroundWorker();
+            worker1.DoWork += Worker1_DoWork;
+            openSocket();
+        }
+
+        private void openSocket()
+        {
+            string strIP = "127.0.0.1";
+            int iPortNo = 8080;
+
+            System.Net.IPEndPoint sIPEndPoint = System.Net.IPEndPoint.Parse(String.Concat(strIP, ":", iPortNo));
+
+            App.sListener = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork,
+                                                                                System.Net.Sockets.SocketType.Stream,
+                                                                                System.Net.Sockets.ProtocolType.Tcp);
+            App.sListener.Bind(sIPEndPoint);
+            App.sListener.Listen(3);
+
+            worker1.RunWorkerAsync();
+        }
+
+        private void Worker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            int count = 0;
+
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Background, (ThreadStart)(async delegate ()
+            {
+                try
+                {
+                    while (true)
+                    {
+                        System.Net.Sockets.Socket sClient = await App.sListener.AcceptAsync();                        
+
+                        var childSocket = new Thread(() =>
+                        {
+                            count++;
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                KeywordSearchBar.Text = count.ToString();
+                                refreshData(App.MainViewModel.SearchModel.SearchStart, pageSize, currentNotificationType, currentStartDate, currentEndDate, currentKeyword);
+                            });
+
+                            sClient.Close();
+                        });
+
+                        childSocket.Start();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }));
+
+        }
+
+        private void UpdateCounterText(int newCounterValue)
+        {
+            //For auto refresh
+            KeywordSearchBar.Text = newCounterValue.ToString();
+            refreshData(App.MainViewModel.SearchModel.SearchStart, pageSize, currentNotificationType, currentStartDate, currentEndDate, currentKeyword);
+
         }
 
         public void reloadData(int start, int end, string? notificationType, string? startDate, string? endDate, string? keyword, bool reset)
@@ -119,6 +225,20 @@ namespace VCheckViewer.Views.Pages.Notification
             sSearchModel.SearchSelectedDates = RangeDate.SelectedDates;
 
             App.MainViewModel.SearchModel = sSearchModel;
+        }
+
+        public void refreshData(int start, int end, string? notificationType, string? startDate, string? endDate, string? keyword)
+        {
+            var currentUserCreatedDate = App.MainViewModel.CurrentUsers.CreatedDate;
+            List<NotificationModel> notificationList = sContext.GetNotificationByPage(start, end, notificationType, startDate, endDate, keyword, currentUserCreatedDate);
+            createList(notificationList);
+
+            pagination.iTotalRecords = sContext.GetTotalNotification(notificationType, startDate, endDate, keyword, currentUserCreatedDate);
+            pagination.iPaginationLimit = paginationSize;
+            pagination.iPageSize = pageSize;
+            pagination.GetPageCountByRecordCountWithLimitRefresh();            
+
+            pagination.LoadPagingNumberWithLimit();
         }
 
         public void createList(List<NotificationModel> notificationList)

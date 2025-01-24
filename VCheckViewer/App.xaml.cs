@@ -58,6 +58,8 @@ namespace VCheckViewer
         public static SMTPModel SMTP { get; set; }
         public static string UpdateLink {  get; set; }
 
+        public static System.Net.Sockets.Socket? sListener { get; set; }
+
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
         // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection

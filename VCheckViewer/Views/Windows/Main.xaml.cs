@@ -888,6 +888,12 @@ namespace VCheckViewer.Views.Windows
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
             refreshMenuItemStyle(mnDashboard);
+
+            if(App.sListener != null) 
+            { 
+            App.sListener.Close();
+            App.sListener.Dispose();
+            }
         }
 
         private void mnSchedule_Click(object sender, RoutedEventArgs e)
@@ -995,6 +1001,12 @@ namespace VCheckViewer.Views.Windows
             var sButton = (System.Windows.Controls.Button)sender;
             ConfigurationContext.UpdateConfiguration("SystemSettings_Themes", (sButton != null) ? sButton.Tag.ToString() : "");
 
+            if (App.sListener != null)
+            {
+                App.sListener.Close();
+                App.sListener.Dispose();
+            }
+
             CheckThemesSettings();
             refreshContent();
         }
@@ -1003,7 +1015,13 @@ namespace VCheckViewer.Views.Windows
         {
             var sButton = (System.Windows.Controls.Button)sender;
             ConfigurationContext.UpdateConfiguration("SystemSettings_Themes", (sButton != null) ? sButton.Tag.ToString() : "");
-            
+
+            if (App.sListener != null)
+            {
+                App.sListener.Close();
+                App.sListener.Dispose();
+            }
+
             CheckThemesSettings();
             refreshContent();
         }
