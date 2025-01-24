@@ -34,7 +34,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 msh.Field(6, sRU_R01.MSH.ReceivingFacility.NamespaceID.Value);
                 msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmsszzz"));
                 //msh.Field(9, "ACK^R01^ACK");
-                msh.Field(9, "ACK^OUL_R22^ACK");
+                msh.Field(9, "ACK^R22^ACK");
                 msh.Field(10, Guid.NewGuid().ToString());
                 msh.Field(11, sRU_R01.MSH.ProcessingID.ProcessingID.Value);
                 msh.Field(12, sRU_R01.MSH.VersionID.VersionID.Value);
@@ -42,7 +42,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
 
                 // ------------- Message Acknowledgement ---------------------//
                 Segment msa = new Segment("MSA");
-                msa.Field(1, NHapi.Base.AcknowledgmentCode.AA.ToString());
+                msa.Field(1, NHapi.Base.AcknowledgmentCode.CA.ToString());
                 msa.Field(2, sRU_R01.MSH.MessageControlID.Value.ToString());
                 response.Add(msa);
 

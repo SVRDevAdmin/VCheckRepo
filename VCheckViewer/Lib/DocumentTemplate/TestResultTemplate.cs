@@ -78,13 +78,34 @@ namespace VCheckViewer.Lib.DocumentTemplate
 
                                 c.Item().Background("#f2f2f2")
                                         .PaddingLeft(5)
-                                        .PaddingBottom(5)
                                         .Height(20)
                                         .Text(text =>
                                         {
                                             text.Span("Date & Time : ").SemiBold();
                                             text.Span((sTestResultRow.TestResultDateTime != null) ?
                                                        sTestResultRow.TestResultDateTime.Value.ToString("dd/MM/yyyy HH:mm") : "")
+                                                .SemiBold();
+                                        });
+
+                                c.Item().Background("#f2f2f2")
+                                        .PaddingLeft(5)
+                                        .Height(20)
+                                        .Text(text =>
+                                        {
+                                            text.Span("Printed On : ").SemiBold();
+                                            text.Span((sTestResultRow.printedOn != null) ?
+                                                       sTestResultRow.printedOn.Value.ToString("dd/MM/yyyy HH:mm") : "")
+                                                .SemiBold();
+                                        });
+
+                                c.Item().Background("#f2f2f2")
+                                        .PaddingLeft(5)
+                                        .PaddingBottom(5)
+                                        .Height(20)
+                                        .Text(text =>
+                                        {
+                                            text.Span("Printed By : ").SemiBold();
+                                            text.Span(sTestResultRow.printedBy)
                                                 .SemiBold();
                                         });
 
@@ -97,39 +118,30 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                         c.Item().Background("#f2f2f2")
                                                 .PaddingLeft(5)
                                                 .PaddingBottom(5)
+                                                //.Height(20)
                                                 .Text(text =>
                                                 {
-                                                    text.Span(d.TestParameter).Bold().Underline(true);
+                                                    text.Span(d.TestParameter).Bold().Underline();
                                                     text.EmptyLine();
                                                     text.EmptyLine();
                                                     text.Span("Result Status : ").Bold();
                                                     text.Span(d.TestResultStatus);
-                                                    text.EmptyLine();
-                                                    text.EmptyLine();
+                                                    text.EmptyLine().LineHeight(10);
                                                     text.Span("Result Value : ").Bold();
-                                                    text.Span(d.TestResultValue + " " + d.TestResultUnit);
-                                                    text.EmptyLine();
+
+                                                    if (d.TestResultUnit.ToLower() =="vn")
+                                                    {
+                                                        text.Span(d.TestResultUnit + " " + d.TestResultValue);
+                                                    }
+                                                    else
+                                                    {
+                                                        text.Span(d.TestResultValue + " " + d.TestResultUnit);
+                                                    }
+                                                    
                                                     text.EmptyLine();
                                                 });
                                     }
                                 }
-                                //c.Item().Background("#f2f2f2")
-                                //        .PaddingLeft(5)
-                                //        .PaddingBottom(5)
-                                //        .Text(text =>
-                                //        {
-                                //            text.Span("Test Parameter").Bold().Underline(true);
-                                //            text.EmptyLine();
-                                //            text.EmptyLine();
-                                //            text.Span("Result Status : ").Bold();
-                                //            text.Span("Positive");
-                                //            text.EmptyLine();
-                                //            text.EmptyLine();
-                                //            text.Span("Result Value : ").Bold();
-                                //            text.Span("XXXX");
-                                //            text.EmptyLine();
-                                //            text.EmptyLine();
-                                //        });
 
                                 //c.Item().Row(row =>
                                 //{
