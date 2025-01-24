@@ -1,16 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Dev\\VCheck\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{6F4503D7-2361-4356-93B9-D1FB5BC190C8}|VCheckListenerWorker\\VCheckListenerWorker.csproj|c:\\dev\\vcheck\\vchecklistenerworker\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6F4503D7-2361-4356-93B9-D1FB5BC190C8}|VCheckListenerWorker\\VCheckListenerWorker.csproj|solutionrelative:vchecklistenerworker\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6F4503D7-2361-4356-93B9-D1FB5BC190C8}|VCheckListenerWorker\\VCheckListenerWorker.csproj|c:\\dev\\vcheck\\vchecklistenerworker\\lib\\logic\\hl7\\v251\\ackrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6F4503D7-2361-4356-93B9-D1FB5BC190C8}|VCheckListenerWorker\\VCheckListenerWorker.csproj|solutionrelative:vchecklistenerworker\\lib\\logic\\hl7\\v251\\ackrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 1,
@@ -18,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 262,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -43,32 +34,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Worker.cs",
-              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckListenerWorker\\Worker.cs",
-              "RelativeDocumentMoniker": "VCheckListenerWorker\\Worker.cs",
-              "ToolTip": "C:\\Dev\\VCheck\\VCheckListenerWorker\\Worker.cs",
-              "RelativeToolTip": "VCheckListenerWorker\\Worker.cs",
-              "ViewState": "AgIAAF0AAAAAAAAAAAAAALsAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-22T07:28:21.305Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AckRepository.cs",
-              "DocumentMoniker": "C:\\Dev\\VCheck\\VCheckListenerWorker\\Lib\\Logic\\HL7\\V251\\AckRepository.cs",
-              "RelativeDocumentMoniker": "VCheckListenerWorker\\Lib\\Logic\\HL7\\V251\\AckRepository.cs",
-              "ToolTip": "C:\\Dev\\VCheck\\VCheckListenerWorker\\Lib\\Logic\\HL7\\V251\\AckRepository.cs",
-              "RelativeToolTip": "VCheckListenerWorker\\Lib\\Logic\\HL7\\V251\\AckRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACwAAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-22T07:20:46.551Z",
-              "EditorCaption": ""
             }
           ]
         }
