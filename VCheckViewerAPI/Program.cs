@@ -21,18 +21,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//   app.UseSwaggerUI();
+//}
 
 app.UseHttpsRedirection();
+
 
 app.UseAuthorization();
 
@@ -66,8 +67,8 @@ app.UseExceptionHandler(a => a.Run(async context =>
     var responseJson = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(response));
 
     //sLogger.ApiLog(requestJson, responseJson);
-    APILogging sAPILogging = new APILogging();
-    sAPILogging.ApiLog(context, responseJson);
+    //APILogging sAPILogging = new APILogging();
+    //sAPILogging.ApiLog(context, responseJson);
 }));
 
 
@@ -79,6 +80,12 @@ app.Use(async (context, next) =>
     });
 
 //app.UseMiddleware<ApiHandlerMiddleware>();
+
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapRazorPages();
+//    endpoints.MapControllers();
+//});
 
 app.MapControllers();
 

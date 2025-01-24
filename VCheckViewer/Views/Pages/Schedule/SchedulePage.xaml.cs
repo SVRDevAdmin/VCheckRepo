@@ -75,7 +75,7 @@ namespace VCheckViewer.Views.Pages.Schedule
 
         public void LoadTestResultList()
         {
-            List<TestResultModel> sTestResultList = VCheck.Lib.Data.TestResultsRepository.GetLatestTestResultList(ConfigSettings.GetConfigurationSettings());
+            List<TestResultExtendedModel> sTestResultList = VCheck.Lib.Data.TestResultsRepository.GetLatestTestResultList(ConfigSettings.GetConfigurationSettings());
             if (sTestResultList != null && sTestResultList.Count > 0)
             {
                 List<TestResultModelExtended> sUpdateTestResultList = new List<TestResultModelExtended>();
@@ -133,7 +133,7 @@ namespace VCheckViewer.Views.Pages.Schedule
         public String? PatientIDString { get; set; }
     }
 
-    public class TestResultModelExtended : VCheck.Lib.Data.Models.TestResultModel
+    public class TestResultModelExtended : VCheck.Lib.Data.Models.TestResultExtendedModel
     {
         public String? PatientIDString { get; set; }
     }

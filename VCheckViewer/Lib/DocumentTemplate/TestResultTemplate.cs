@@ -21,9 +21,9 @@ namespace VCheckViewer.Lib.DocumentTemplate
 {
     public class TestResultTemplate : IDocument
     {
-        private TestResultListingObj sTestResultRow { get; set; }
+        private TestResultListingExtendedObj sTestResultRow { get; set; }
 
-        public TestResultTemplate(TestResultListingObj sRow)
+        public TestResultTemplate(TestResultListingExtendedObj sRow)
         {
             this.sTestResultRow = sRow;
         }
@@ -119,7 +119,8 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                                     text.Span("Observation Value").Bold();
                                                     text.EmptyLine();
                                                     text.Span((sTestResultRow.TestResultValue != null) ?
-                                                               sTestResultRow.TestResultValue.Value.ToString("F") : "");
+                                                              sTestResultRow.TestResultValue.ToString() : "");
+                                                              //sTestResultRow.TestResultValue.Value.ToString("F") : "");
                                                     text.EmptyLine();
                                                     text.EmptyLine();
                                                 });

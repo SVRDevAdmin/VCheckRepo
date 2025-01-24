@@ -1,0 +1,81 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Lib\Util\ResponseRepo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\net8.0-windows\VCheckerListenerWorkerV2.deps.json" />
+    <Content Include="bin\Debug\net8.0-windows\VCheckerListenerWorkerV2.runtimeconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net8.0-windows\Microsoft.EntityFrameworkCore.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.EntityFrameworkCore.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Caching.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Caching.Memory.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Binder.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.CommandLine.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Json.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.UserSecrets.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Diagnostics.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Diagnostics.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Physical.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Hosting.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Hosting.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Configuration.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Console.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Debug.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.EventLog.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.EventSource.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Options.ConfigurationExtensions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Options.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Primitives.dll" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.dll" />
+    <None Include="bin\Debug\net8.0-windows\System.Diagnostics.EventLog.dll" />
+    <None Include="bin\Debug\net8.0-windows\VCheckerListenerWorkerV2.dll" />
+    <None Include="bin\Debug\net8.0-windows\VCheckerListenerWorkerV2.exe" />
+    <None Include="bin\Debug\net8.0-windows\VCheckerListenerWorkerV2.pdb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="3.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="MySql.Data" Version="9.1.0" />
+    <PackageReference Include="nhapi" Version="3.2.2" />
+    <PackageReference Include="NHapiTools" Version="2.0.4" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Storage\Output\HL7\" />
+    <Folder Include="Storage\Output\ACK\" />
+    <Folder Include="Storage\Output\XML\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

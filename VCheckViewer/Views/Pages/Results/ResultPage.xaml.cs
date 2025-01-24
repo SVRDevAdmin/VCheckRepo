@@ -37,6 +37,8 @@ using VCheckViewer.UserControls;
 using System.Management;
 using System.Globalization;
 using DatePicker = System.Windows.Controls.DatePicker;
+using VCheck.Interface.API.Greywind.RequestMessage;
+using VCheck.Lib.Data;
 using System.Windows.Threading;
 
 namespace VCheckViewer.Views.Pages.Results
@@ -183,7 +185,8 @@ namespace VCheckViewer.Views.Pages.Results
 
         private void LoadTestResultData(Boolean isPrint = false)
         {
-            TestResultListingObj sTestResultObj = dgResult.SelectedItem as TestResultListingObj;
+            //TestResultListingObj sTestResultObj = dgResult.SelectedItem as TestResultListingObj;
+            TestResultListingExtendedObj sTestResultObj = dgResult.SelectedItem as TestResultListingExtendedObj;
             sTestResultObj.printedBy = App.MainViewModel.CurrentUsers.FullName;
             sTestResultObj.printedOn = DateTime.Now;
             sTestResultObj.isPrint = isPrint;
@@ -222,6 +225,8 @@ namespace VCheckViewer.Views.Pages.Results
 
         private void btnFilter_Click(object sender, RoutedEventArgs e)
         {
+            startPagination = 1;
+
             LoadResultDataGrid();
         }
 
@@ -249,7 +254,7 @@ namespace VCheckViewer.Views.Pages.Results
             pagination.LoadPagingNumber();
         }
 
-        public List<TestResultListingObj> GetTestResultBySearch(int pageSize, out int iTotalRecord)
+        public List<TestResultListingExtendedObj> GetTestResultBySearch(int pageSize, out int iTotalRecord)
         {
             String sSortDirection = "DESC";
             if (cboSort.SelectedItem != null)
@@ -346,7 +351,7 @@ namespace VCheckViewer.Views.Pages.Results
 
                 int.TryParse(txtTotalCount.Text, out iPageSize);
 
-                List<TestResultListingObj> sResult = new List<TestResultListingObj>();
+                List<TestResultListingExtendedObj> sResult = new List<TestResultListingExtendedObj>();
                 sResult = GetTestResultBySearch(iPageSize, out iTotalCount);
 
                 DataTable sDatatable = Lib.General.Utils.ToDataTable(sResult);
@@ -424,8 +429,7 @@ namespace VCheckViewer.Views.Pages.Results
                     App.PopupHandler(null, null);
                 }
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) { 
                 Popup sNotificationPopup = new Popup();
                 sNotificationPopup.IsOpen = true;
 
@@ -447,6 +451,110 @@ namespace VCheckViewer.Views.Pages.Results
         private void CloseCalenderPopup(object? sender, MouseButtonEventArgs? e)
         {
             RangeDate.DateRangePicker_Popup.IsOpen = false;
+        }
+
+        //---------- POC Testing -----------------//
+        private void menuTransfer_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateResultRequest sRequestAPI = new UpdateResultRequest();
+            long iTestResultID = 0;
+
+            var sMenu = sender as System.Windows.Controls.MenuItem;
+            if (!String.IsNullOrEmpty(sMenu.Tag.ToString()))
+            {
+                iTestResultID = Convert.ToInt64(sMenu.Tag);
+
+                var sTestResultObj = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
+                if (sTestResultObj != null)
+                {
+                    List<UpdateResultPanelTestObject> sResultListing = new List<UpdateResultPanelTestObject>();
+                    List<UpdateResultPanelsObject> sPanelListing = new List<UpdateResultPanelsObject>();
+
+                    String sOrderID = "";
+                    var sScheduledTestObj = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), "TBLAM FIA-8");
+                    if (sScheduledTestObj != null)
+                    {
+                        if (sScheduledTestObj.ScheduleUniqueID.Contains("-"))
+                        {
+                            var UniqueIDSplit = sScheduledTestObj.ScheduleUniqueID.Split("-");
+                            if (UniqueIDSplit.Length > 0)
+                            {
+                                sOrderID = UniqueIDSplit[1];
+                            }
+                        }
+                    } 
+
+                    sRequestAPI.accessionnumber = iTestResultID.ToString();
+                    sRequestAPI.clinic_id = "";
+                    sRequestAPI.reportdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
+                    sRequestAPI.providerid = "";
+
+                    UpdateResultPatientObject sPatientObj = new UpdateResultPatientObject();
+                    sPatientObj.patientid = sTestResultObj.PatientID;
+                    sPatientObj.firstname = (sScheduledTestObj != null) ? sScheduledTestObj.PatientName : "";
+                    sPatientObj.lastname = "";
+                    sPatientObj.gender = (sScheduledTestObj != null) ? sScheduledTestObj.Gender : "";
+                    sPatientObj.birthday = "2023-01-01";
+                    sPatientObj.species = (sScheduledTestObj != null) ? sScheduledTestObj.Species : "";
+                    sPatientObj.breed = "";
+
+                    sRequestAPI.patient = sPatientObj;
+
+                    UpdateResultPanelsObject sPanelObj = new UpdateResultPanelsObject();
+                    sPanelObj.code = sTestResultObj.TestResultType;
+                    sPanelObj.name = sTestResultObj.TestResultType;
+                    sPanelObj.status = "F";
+                    sPanelObj.source = "";
+                    sPanelObj.resultdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
+
+                    
+                    var sDetailsObj = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
+                    if (sDetailsObj != null && sDetailsObj.Count > 0)
+                    {
+                        foreach (var d in sDetailsObj) 
+                        {
+                            String[] sRange = new string[0];
+                            if (d.ReferenceRange != null)
+                            {
+                                String sReferenceRange = d.ReferenceRange.Replace("[", "").Replace("]", "");
+                                if (sReferenceRange != "")
+                                {
+                                    sRange = sReferenceRange.Split(";");
+                                }
+                            }
+
+                            sResultListing.Add(new UpdateResultPanelTestObject
+                            {
+                                name = d.TestParameter,
+                                code = d.TestParameter,
+                                result = d.TestResultValue,
+                                referencelow = (sRange.Length > 0) ? sRange[0] : "",
+                                referencehigh = (sRange.Length > 0) ? sRange[1] : "",
+                                unitofmeasure = d.TestResultUnit,
+                                status = "F",
+                                notes = ""
+                            });
+                        }
+
+                        sPanelObj.tests = sResultListing;
+                    }
+                    sPanelListing.Add(sPanelObj);
+
+                    sRequestAPI.panels = sPanelListing;
+
+                    VCheck.Interface.API.GreywindAPI sAPI = new VCheck.Interface.API.GreywindAPI();
+                    var sRespAPI = sAPI.UpdateResult(sRequestAPI, sOrderID);
+                    if (sRespAPI)
+                    {
+                        System.Windows.Forms.MessageBox.Show("Update Result API Successfully.");
+                    }
+                    else
+                    {
+                        System.Windows.Forms.MessageBox.Show("Update Result API Failed.");
+                    }
+                }
+            }
+            
         }
     }
 }

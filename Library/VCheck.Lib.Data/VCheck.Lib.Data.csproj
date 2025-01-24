@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0-windows;net8.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
 	<Nullable>enable</Nullable>
 	<ImplicitUsings>enable</ImplicitUsings>
+	<OutputType>Library</OutputType>
   </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
@@ -19,32 +20,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="bin\Debug\net8.0-windows\VCheck.Lib.Data.deps.json" />
-    <Content Include="bin\Debug\net8.0-windows\VCheck.Lib.Data.runtimeconfig.json" />
-    <Content Include="bin\Release\net8.0-windows\VCheck.Lib.Data.deps.json" />
+    <Content Include="bin\Debug\net8.0\VCheck.Lib.Data.deps.json" />
+    <Content Include="bin\Debug\net8.0\VCheck.Lib.Data.runtimeconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="bin\Debug\net8.0-windows\VCheck.Lib.Data.dll" />
-    <None Include="bin\Debug\net8.0-windows\VCheck.Lib.Data.dll.config" />
-    <None Include="bin\Debug\net8.0-windows\VCheck.Lib.Data.pdb" />
-    <None Include="bin\Release\net8.0-windows\VCheck.Lib.Data.dll" />
-    <None Include="bin\Release\net8.0-windows\VCheck.Lib.Data.dll.config" />
-    <None Include="bin\Release\net8.0-windows\VCheck.Lib.Data.pdb" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.17" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
+    <PackageReference Include="log4net" Version="3.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-    <PackageReference Include="MySql.Data" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="MySql.Data" Version="9.1.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net8.0\VCheck.Lib.Data.dll" />
+    <None Include="bin\Debug\net8.0\VCheck.Lib.Data.dll.config" />
+    <None Include="bin\Debug\net8.0\VCheck.Lib.Data.pdb" />
   </ItemGroup>
 
 </Project>
