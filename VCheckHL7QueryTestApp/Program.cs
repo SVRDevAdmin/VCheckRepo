@@ -8,6 +8,7 @@ using NHapiTools.Model.V25.Group;
 using NHapiTools.Model.V251.Group;
 using NHapiTools.Model.V251.Message;
 using NHapiTools.Model.V251.Segment;
+using System.Buffers;
 using System.Text;
 
 namespace VCheckHL7QueryTestApp
@@ -19,16 +20,18 @@ namespace VCheckHL7QueryTestApp
             Console.WriteLine("Hello, World!");
 
             String sBodyMsg = "";
+            sBodyMsg = GenerateQueryAWOSMessage();
             //sBodyMsg = processQueryAWOS();
             //sBodyMsg = processAWOSBroadcast();
-            sBodyMsg = processAWOSStatusChanges();
+            //sBodyMsg = processAWOSStatusChanges();
 
-            return;
-            NHapiTools.Base.Net.SimpleMLLPClient sSimpleMLLPClient = new NHapiTools.Base.Net.SimpleMLLPClient("", 5067);
+            NHapiTools.Base.Net.SimpleMLLPClient sSimpleMLLPClient = new NHapiTools.Base.Net.SimpleMLLPClient("192.168.0.142", 5067);
 
             try
             {
                 String sResp = sSimpleMLLPClient.SendHL7Message(sBodyMsg);
+
+                OutputMessage("Ack", sResp);
             }
             catch (Exception ex)
             {
@@ -37,6 +40,162 @@ namespace VCheckHL7QueryTestApp
 
             sSimpleMLLPClient.Disconnect();
             sSimpleMLLPClient.Dispose();
+        }
+
+        private static String GenerateQueryAWOSMessage()
+        {
+            try
+            {
+                NHapi.Model.V251.Message.QBP_Q11 sQBP_Q11 = new NHapi.Model.V251.Message.QBP_Q11();
+
+                Message resp = new Message();
+
+                Segment sMSH = new Segment("MSH");
+                sMSH.Field(1, "|");
+                sMSH.Field(2, @"^~\&");
+                sMSH.Field(3, "VCHECK C10"); //sending app
+                sMSH.Field(4, ""); //Send facility
+                sMSH.Field(5, ""); //Receiving app
+                sMSH.Field(6, "LAB"); // receiving facility
+                sMSH.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss")); //Datetime of msg
+                sMSH.Field(8, ""); //security
+                sMSH.Field(9, "QBP^Q11^QBP_Q11"); //message type
+                sMSH.Field(10, "{" + Guid.NewGuid().ToString() + "}"); //message control id
+                sMSH.Field(11, "P"); // processing id
+                sMSH.Field(12, "2.5.1"); // Version id
+                sMSH.Field(13, ""); // sequence message
+                sMSH.Field(14, ""); // 
+                sMSH.Field(15, "NE");
+                sMSH.Field(16, "AL");
+                sMSH.Field(18, "UNICODE UTF-8");
+                sMSH.Field(21, "LAB-27^IHE");
+                resp.Add(sMSH);
+
+                Segment sQPD = new Segment("QPD");
+                sQPD.Field(1, "WOS_ALL^Work Order Step All^IHELAW");
+                sQPD.Field(2, "20230404140913");
+                resp.Add(sQPD);
+
+                Segment sRCP = new Segment("RCP");
+                sRCP.Field(1, "|");
+                sRCP.Field(3, "R^Real Time^HL70394");
+                resp.Add(sRCP);
+
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append((char)0x0b);
+                sb.Append(resp.SerializeMessage());
+                sb.Append((char)0x1c);
+                sb.Append((char)0x0d);
+
+                return sb.ToString();
+            }
+            catch (Exception ex)
+            {
+                return String.Empty;
+            }
+        }
+
+        private static String GenerateAWOSBroadcast()
+        {
+            try
+            {
+                NHapi.Model.V251.Message.OML_O33 sOML_O33 = new NHapi.Model.V251.Message.OML_O33();
+
+                Message resp = new Message();
+
+                Segment sMSH = new Segment("MSH");
+                sMSH.Field(1, "|");
+                sMSH.Field(2, @"^~\&");
+                sMSH.Field(3, "VCHECK C10"); //sending app
+                sMSH.Field(4, ""); //Send facility
+                sMSH.Field(5, ""); //Receiving app
+                sMSH.Field(6, "LAB"); // receiving facility
+                sMSH.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss")); //Datetime of msg
+                //sMSH.Field(8, ); //security
+                sMSH.Field(9, "OML^O33^OML_O33"); //message type
+                sMSH.Field(10, Guid.NewGuid().ToString()); //message control id
+                sMSH.Field(11, "P"); // processing id
+                sMSH.Field(12, "2.5.1"); // Version id
+                //sMSH.Field(13, ) // sequence message
+                //sMSH.Field(14, ) // 
+                sMSH.Field(15, "NE");
+                sMSH.Field(16, "AL");
+                sMSH.Field(18, "UNICODE UTF-8");
+                sMSH.Field(21, "LAB-28^IHE");
+                resp.Add(sMSH);
+
+                Segment sPID = new Segment("PID");
+                sPID.Field(1, "1"); // set ID
+                sPID.Field(2, ""); //Patient Id
+                sPID.Field(3, "PatientID^^^^Hospital"); //patient identifier list
+                sPID.Field(5, "Patient Name^^^^L");
+                sPID.Field(7, "YYYYMMDD");
+                sPID.Field(8, "Male");
+                sPID.Field(21, "Pet Owner");
+                sPID.Field(35, "Canine");
+                sPID.Field(36, "Husky");
+                resp.Add(sPID);
+
+                Segment sPV1 = new Segment("PV1");
+                sPV1.Field(1, "");
+                sPV1.Field(2, "E"); 
+                sPV1.Field(3, "3001");
+                sPV1.Field(7, "Doctor");
+                resp.Add(sPV1);
+
+                Segment sSPM = new Segment("SPM");
+                sSPM.Field(1, "1");
+                sSPM.Field(4, "Serum");
+                sSPM.Field(11, "P^Patient^HL70369");
+                resp.Add(sSPM);
+
+                Segment sSAC = new Segment("SAC");
+                sSAC.Field(3, "g55643");
+
+                Segment sORC = new Segment("ORC");
+                sORC.Field(1, "NW");
+                sORC.Field(2, "12345^SMC_AM^1.3.6.1.4.1.12559.11.1.2.2.4.2^ISO");
+                sORC.Field(4, "12561^IHE_OM_OP^1.3.6.1.4.1.12559.11.1.2.2.4.2^ISO");
+                sORC.Field(5, "IP");
+                sORC.Field(9, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                resp.Add(sORC);
+
+                Segment sOBR = new Segment("OBR");
+                sOBR.Field(2, "fffffbbffffffef5f5f4cfffffffc10ffffffec");
+                sOBR.Field(4, "DC001B^Comprehensive 17^VCHECK");
+                resp.Add(sOBR);
+
+                Segment sOBX = new Segment("OBX");
+                sOBX.Field(1, "1");
+                sOBX.Field(2, "NM");
+                sOBX.Field(3, "Age");
+                sOBX.Field(6, "Months");
+                sOBX.Field(11, "F");
+                sOBX.Field(5, "2");
+                resp.Add(sOBX);
+
+                Segment sOBX2 = new Segment("OBX");
+                sOBX2.Field(1, "2");
+                sOBX2.Field(2, "NM");
+                sOBX2.Field(3, "Weight");
+                sOBX2.Field(6, "kg");
+                sOBX2.Field(11, "F");
+                sOBX2.Field(5, "24");
+                resp.Add(sOBX2);
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append((char)0x0b);
+                sb.Append(resp.SerializeMessage());
+                sb.Append((char)0x1c);
+                sb.Append((char)0x0d);
+
+                return sb.ToString();
+            }
+            catch (Exception ex)
+            {
+                return String.Empty;
+            }
         }
 
         private static String processQueryAWOS()
@@ -73,6 +232,8 @@ namespace VCheckHL7QueryTestApp
             PipeParser parser = new PipeParser();
 
             String sResult = parser.Encode(qMessage);
+
+            OutputMessage("QueryAWOS", sResult);
 
             return sResult;
         }
@@ -183,6 +344,8 @@ namespace VCheckHL7QueryTestApp
             PipeParser parser = new PipeParser();
 
             String sResult = parser.Encode(oMessage);
+
+            OutputMessage("AWOSBroadcast", sResult);
 
             return sResult;
         }
@@ -344,7 +507,35 @@ namespace VCheckHL7QueryTestApp
 
             String sResult = parser.Encode(oMessage);
 
+            OutputMessage("AWOSStatus", sResult);
+
             return sResult;
+        }
+
+        private static void OutputMessage(String sTypeCall, String sHL7Message)
+        {
+            try
+            {
+                String sFileName = sTypeCall + "_requestMessage_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+                String sOutputPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Output/HL7");
+                if (!Directory.Exists(sOutputPath))
+                {
+                    Directory.CreateDirectory(sOutputPath);
+                }
+                File.WriteAllText(sOutputPath + sFileName + ".hl7", sHL7Message, System.Text.Encoding.ASCII);
+
+                //String sXMLOutPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Output/XML");
+                //if (!Directory.Exists(sXMLOutPath))
+                //{
+                //    Directory.CreateDirectory(sXMLOutPath);
+                //}
+                //File.WriteAllText(sOutputPath + sFileName + ".xml", sHL7Message, System.Text.Encoding.ASCII);
+            }
+            catch (Exception ex)
+            {
+                String abc = ex.ToString();
+            }
         }
     }
 }

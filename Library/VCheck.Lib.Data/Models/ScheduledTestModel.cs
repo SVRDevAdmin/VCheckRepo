@@ -29,5 +29,6 @@ namespace VCheck.Lib.Data.Models
         public String? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public String? UpdatedBy { get; set; }
+        public int? LocationID { get; set; }
     }
 }

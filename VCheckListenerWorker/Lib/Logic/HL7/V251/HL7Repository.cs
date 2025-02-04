@@ -620,7 +620,8 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 String sOverallStatus = "Normal";
                 if (sTestResultDetails != null)
                 {
-                    if (sTestResultDetails.Where(x => x.TestResultStatus == "Positive").Count() > 0)
+                    if ((sTestResultDetails.Where(x => x.TestResultStatus == "Positive").Count() > 0) ||
+                        (sTestResultDetails.Where(x => x.TestResultStatus == "Invalid").Count() > 0))
                     {
                         sOverallStatus = "Abnormal";
                     }

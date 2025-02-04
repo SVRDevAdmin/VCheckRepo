@@ -177,7 +177,7 @@
                     <Button Name="btnDownload" BorderBrush="Black" BorderThickness="0" Background="Transparent" Click="btnDownload_Click">
                         <!--<Image Source="../../../../Content/Images/Download.png" Width="20" Height="20" />-->
                         <Image Source="{DynamicResource Themes_GridDownloadIcon}" Width="20" Height="20" />
-                        
+
                     </Button>
                 </Border>
                 <Border BorderBrush="Black" BorderThickness="0" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center">
@@ -195,23 +195,31 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{Binding Path=Results_Label_No, Source={StaticResource Resources}}" Binding="{Binding RowNo}" Width="35" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_Time, Source={StaticResource Resources}}" Binding="{Binding TestResultDateTime, StringFormat={}{0:yyyy-MM-dd HH:ss}}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <!-- Header="{Binding Path=Results_Label_TestResultType, Source={StaticResource Resources}}" -->
+                    <DataGridTextColumn Header="Test Result Type" Binding="{Binding TestResultType}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_OperatorID, Source={StaticResource Resources}}" Binding="{Binding OperatorID}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_PatientID, Source={StaticResource Resources}}" Binding="{Binding PatientID}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_ProceduralCont, Source={StaticResource Resources}}" Binding="{Binding ObservationStatus}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTemplateColumn Header="{Binding Path=Results_Label_Result, Source={StaticResource Resources}}" Width="120" HeaderStyle="{StaticResource columnHeaderStyleCenterAlign}">
+                    <!--<DataGridTextColumn Header="{Binding Path=Results_Label_ProceduralCont, Source={StaticResource Resources}}" Binding="{Binding ObservationStatus}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />-->
+                    <DataGridTemplateColumn Header="{Binding Path=Results_Label_Result, Source={StaticResource Resources}}" Width="140">
+                        <!--HeaderStyle="{StaticResource columnHeaderStyleCenterAlign} -->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Border CornerRadius="4" Margin="15, 5, 15, 5" Background="Transparent">
+                                <Border CornerRadius="4" Margin="0, 5, 15, 5" Background="Transparent">
                                     <TextBlock Text="{Binding TestResultStatus}" FontSize="11" FontWeight="Bold" 
-                                               Foreground="{Binding statusFontColor}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                               Foreground="{Binding statusFontColor}" VerticalAlignment="Center" 
+                                               HorizontalAlignment="Left" TextWrapping="WrapWithOverflow" />
                                 </Border>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+
+                    <!--
                     <DataGridTextColumn Header="{Binding Path=Results_Label_Units, Source={StaticResource Resources}}" Binding="{Binding TestResultValue, StringFormat={}{0:0.##}}" Width="80" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_Lot, Source={StaticResource Resources}}" Width="80" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    -->
                     <!--<DataGridTextColumn Header="{Binding Path=Results_Label_Valid, Source={StaticResource Resources}}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" /> -->
                     <DataGridTextColumn Header="{Binding Path=Results_Label_Doctor, Source={StaticResource Resources}}" Binding="{Binding InchargePerson}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}"/>
+                    <DataGridTextColumn Header="Device Serial No" Binding="{Binding DeviceSerialNo}" Width="130" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTemplateColumn Width="auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -224,7 +232,7 @@
                                             </MenuItem.Icon>
                                             <MenuItem Name="menuDownload" Header="{Binding Path=Results_Label_Download, Source={StaticResource Resources}}" Click="menuDownload_Click" />
                                             <MenuItem Name="menuPrint" Header="{Binding Path=Results_Label_Print, Source={StaticResource Resources}}" Click="menuPrint_Click" />
-                                            
+
                                             <!-- POC Testing -->
                                             <MenuItem Name="menuTransfer" Tag="{Binding ID}" Header="Send to PMS" Click="menuTransfer_Click" />
                                         </MenuItem>
@@ -237,9 +245,10 @@
             </DataGrid>
             <TextBlock Text="{Binding Path=General_Message_NoData, Source={StaticResource Resources}}" TextAlignment="Center" Margin="0,50,0,0" Visibility="{Binding Items.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=dgResult}" Foreground="{DynamicResource Themes_FontColor}"/>
         </Grid>
-        
+
         <!-- // Pagination Control // -->
         <userControls:PagingControl x:Name="pagination" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6">
         </userControls:PagingControl>
     </Grid>
 </Page>
+

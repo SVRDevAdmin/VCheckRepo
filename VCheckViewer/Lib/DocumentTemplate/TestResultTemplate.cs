@@ -22,10 +22,12 @@ namespace VCheckViewer.Lib.DocumentTemplate
     public class TestResultTemplate : IDocument
     {
         private TestResultListingExtendedObj sTestResultRow { get; set; }
+        private List<TestResultDetailsModel> sTestResultDetail { get; set; }
 
-        public TestResultTemplate(TestResultListingExtendedObj sRow)
+        public TestResultTemplate(TestResultListingExtendedObj sRow, List<TestResultDetailsModel> sDetails)
         {
             this.sTestResultRow = sRow;
+            this.sTestResultDetail = sDetails;
         }
 
         private DocumentMetadata GetMetadata() => DocumentMetadata.Default;
@@ -60,7 +62,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
                             {
                                 c.Item().Height(20);
                                 c.Item().Text("Test Results")
-                                        .FontSize(11)
+                                        .FontSize(12)
                                         .Bold();
                                 c.Item().Height(10);
 
@@ -76,7 +78,6 @@ namespace VCheckViewer.Lib.DocumentTemplate
 
                                 c.Item().Background("#f2f2f2")
                                         .PaddingLeft(5)
-                                        .PaddingBottom(5)
                                         .Height(20)
                                         .Text(text =>
                                         {
@@ -86,105 +87,159 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                                 .SemiBold();
                                         });
 
+                                c.Item().Background("#f2f2f2")
+                                        .PaddingLeft(5)
+                                        .Height(20)
+                                        .Text(text =>
+                                        {
+                                            text.Span("Printed On : ").SemiBold();
+                                            text.Span((sTestResultRow.printedOn != null) ?
+                                                       sTestResultRow.printedOn.Value.ToString("dd/MM/yyyy HH:mm") : "")
+                                                .SemiBold();
+                                        });
+
+                                c.Item().Background("#f2f2f2")
+                                        .PaddingLeft(5)
+                                        .PaddingBottom(5)
+                                        .Height(20)
+                                        .Text(text =>
+                                        {
+                                            text.Span("Printed By : ").SemiBold();
+                                            text.Span(sTestResultRow.printedBy)
+                                                .SemiBold();
+                                        });
+
                                 c.Item().Height(25).Background(Colors.White);
 
-                                c.Item().Row(row =>
+                                if (sTestResultDetail.Count > 0)
                                 {
-                                    row.RelativeItem().Column(c1 =>
+                                    foreach(var d in sTestResultDetail)
                                     {
-
-                                        c1.Item().Background("#f2f2f2")
-                                                .BorderLeft(0)
-                                                .BorderRight(25)
-                                                .BorderTop(10)
-                                                .BorderColor(Colors.White)
-                                                .Height(250)
-                                                .Width(150)
-                                                .PaddingTop(35)
-                                                .PaddingLeft(50)
-                                                .AlignTop()
-                                                .AlignLeft()
+                                        c.Item().Background("#f2f2f2")
+                                                .PaddingLeft(5)
+                                                .PaddingBottom(5)
+                                                //.Height(20)
                                                 .Text(text =>
                                                 {
-                                                    text.Span("Observation Type").Bold();
-                                                    text.EmptyLine();
-                                                    text.Span(sTestResultRow.TestResultType);
+                                                    text.Span(d.TestParameter).Bold().Underline();
                                                     text.EmptyLine();
                                                     text.EmptyLine();
-                                                    text.Span("Observation Result").Bold();
-                                                    text.EmptyLine();
-                                                    text.Span(sTestResultRow.TestResultStatus);
-                                                    text.EmptyLine();
-                                                    text.EmptyLine();
-                                                    text.Span("Observation Value").Bold();
-                                                    text.EmptyLine();
-                                                    text.Span((sTestResultRow.TestResultValue != null) ?
-                                                              sTestResultRow.TestResultValue.ToString() : "");
-                                                              //sTestResultRow.TestResultValue.Value.ToString("F") : "");
-                                                    text.EmptyLine();
-                                                    text.EmptyLine();
-                                                });
-                                    });
+                                                    text.Span("Result Status : ").Bold();
+                                                    text.Span(d.TestResultStatus);
+                                                    text.EmptyLine().LineHeight(10);
+                                                    text.Span("Result Value : ").Bold();
 
-                                    row.RelativeItem().Column(c2 =>
-                                    {
-                                        c2.Item().Background("#f2f2f2")
-                                                .BorderLeft(25)
-                                                .BorderRight(25)
-                                                .BorderTop(10)
-                                                .BorderColor(Colors.White)
-                                                .Height(250)
-                                                .Width(170)
-                                                .PaddingTop(35)
-                                                .PaddingLeft(60)
-                                                .AlignTop()
-                                                .AlignLeft()
-                                                .Text(text =>
-                                                {
-                                                    text.Span("Observation DateTime").Bold();
-                                                    text.EmptyLine();
-                                                    text.Span((sTestResultRow.TestResultDateTime != null) ?
-                                                               sTestResultRow.TestResultDateTime.Value.ToString("dd/MM/yyyy HH:mm") : "");
-                                                    text.EmptyLine();
-                                                    text.EmptyLine();
-                                                    text.Span("Operator ID").Bold();
-                                                    text.EmptyLine();
-                                                    text.Span(sTestResultRow.OperatorID);
-                                                    text.EmptyLine();
+                                                    if (d.TestResultUnit.ToLower() =="vn")
+                                                    {
+                                                        text.Span(d.TestResultUnit + " " + d.TestResultValue);
+                                                    }
+                                                    else
+                                                    {
+                                                        text.Span(d.TestResultValue + " " + d.TestResultUnit);
+                                                    }
+                                                    
                                                     text.EmptyLine();
                                                 });
-                                    });
+                                    }
+                                }
 
-                                    row.RelativeItem().Column(c3 =>
-                                    {
-                                        c3.Item().Background("#f2f2f2")
-                                                .BorderLeft(25)
-                                                .BorderRight(0)
-                                                .BorderTop(10)
-                                                .BorderColor(Colors.White)
-                                                .Height(250)
-                                                .Width(150)
-                                                .PaddingTop(35)
-                                                .PaddingLeft(60)
-                                                .PaddingRight(1)
-                                                .AlignTop()
-                                                .AlignLeft()
-                                                .Text(text =>
-                                                {
-                                                    text.Span("Printed On").Bold();
-                                                    text.EmptyLine();
-                                                    text.Span((sTestResultRow.printedOn != null) ?
-                                                               sTestResultRow.printedOn.Value.ToString("dd/MM/yyyy HH:mm") : "");
-                                                    text.EmptyLine();
-                                                    text.EmptyLine();
-                                                    text.Span("Printed By").Bold();
-                                                    text.EmptyLine();
-                                                    text.Span(sTestResultRow.printedBy);
-                                                    text.EmptyLine();
-                                                    text.EmptyLine();
-                                                });
-                                    });
-                                });
+                                //c.Item().Row(row =>
+                                //{
+                                //    row.RelativeItem().Column(c1 =>
+                                //    {
+
+                                //        c1.Item().Background("#f2f2f2")
+                                //                .BorderLeft(0)
+                                //                .BorderRight(25)
+                                //                .BorderTop(10)
+                                //                .BorderColor(Colors.White)
+                                //                .Height(250)
+                                //                .Width(150)
+                                //                .PaddingTop(35)
+                                //                .PaddingLeft(50)
+                                //                .AlignTop()
+                                //                .AlignLeft()
+                                //                .Text(text =>
+                                //                {
+                                //                    text.Span("Observation Type").Bold();
+                                //                    text.EmptyLine();
+                                //                    text.Span(sTestResultRow.TestResultType);
+                                //                    text.EmptyLine();
+                                //                    text.EmptyLine();
+                                //                    text.Span("Observation Result").Bold();
+                                //                    text.EmptyLine();
+                                //                    text.Span(sTestResultRow.TestResultStatus);
+                                //                    text.EmptyLine();
+                                //                    text.EmptyLine();
+                                //                    text.Span("Observation Value").Bold();
+                                //                    text.EmptyLine();
+                                //                    text.Span((sTestResultRow.TestResultValue != null) ?
+                                //                              sTestResultRow.TestResultValue.ToString() : "");
+                                //                              //sTestResultRow.TestResultValue.Value.ToString("F") : "");
+                                //                    text.EmptyLine();
+                                //                    text.EmptyLine();
+                                //                });
+                                //    });
+
+                                //    row.RelativeItem().Column(c2 =>
+                                //    {
+                                //        c2.Item().Background("#f2f2f2")
+                                //                .BorderLeft(25)
+                                //                .BorderRight(25)
+                                //                .BorderTop(10)
+                                //                .BorderColor(Colors.White)
+                                //                .Height(250)
+                                //                .Width(170)
+                                //                .PaddingTop(35)
+                                //                .PaddingLeft(60)
+                                //                .AlignTop()
+                                //                .AlignLeft()
+                                //                .Text(text =>
+                                //                {
+                                //                    text.Span("Observation DateTime").Bold();
+                                //                    text.EmptyLine();
+                                //                    text.Span((sTestResultRow.TestResultDateTime != null) ?
+                                //                               sTestResultRow.TestResultDateTime.Value.ToString("dd/MM/yyyy HH:mm") : "");
+                                //                    text.EmptyLine();
+                                //                    text.EmptyLine();
+                                //                    text.Span("Operator ID").Bold();
+                                //                    text.EmptyLine();
+                                //                    text.Span(sTestResultRow.OperatorID);
+                                //                    text.EmptyLine();
+                                //                    text.EmptyLine();
+                                //                });
+                                //    });
+
+                                //    row.RelativeItem().Column(c3 =>
+                                //    {
+                                //        c3.Item().Background("#f2f2f2")
+                                //                .BorderLeft(25)
+                                //                .BorderRight(0)
+                                //                .BorderTop(10)
+                                //                .BorderColor(Colors.White)
+                                //                .Height(250)
+                                //                .Width(150)
+                                //                .PaddingTop(35)
+                                //                .PaddingLeft(60)
+                                //                .PaddingRight(1)
+                                //                .AlignTop()
+                                //                .AlignLeft()
+                                //                .Text(text =>
+                                //                {
+                                //                    text.Span("Printed On").Bold();
+                                //                    text.EmptyLine();
+                                //                    text.Span((sTestResultRow.printedOn != null) ?
+                                //                               sTestResultRow.printedOn.Value.ToString("dd/MM/yyyy HH:mm") : "");
+                                //                    text.EmptyLine();
+                                //                    text.EmptyLine();
+                                //                    text.Span("Printed By").Bold();
+                                //                    text.EmptyLine();
+                                //                    text.Span(sTestResultRow.printedBy);
+                                //                    text.EmptyLine();
+                                //                    text.EmptyLine();
+                                //                });
+                                //    });
+                                //});
                             })
                             ;
 

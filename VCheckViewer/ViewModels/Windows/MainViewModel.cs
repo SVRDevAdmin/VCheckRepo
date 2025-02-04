@@ -153,6 +153,30 @@ namespace VCheckViewer.ViewModels.Windows
             }
         }
 
+        String _ScheduleUniqueID;
+        public String ScheduleUniqueID
+        {
+            get
+            {
+                return _ScheduleUniqueID;
+            }
+            set
+            {
+                _ScheduleUniqueID = value;
+            }
+        }
 
+        String _TestResultID;
+        public String TestResultID
+        {
+            get
+            {
+                return _TestResultID;
+            }
+            set
+            {
+                _TestResultID = value;
+            }
+        }
     }
 }

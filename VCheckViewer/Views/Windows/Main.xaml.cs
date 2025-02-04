@@ -183,6 +183,7 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Hidden;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_SavePMSLISHIS; 
             }
@@ -190,6 +191,7 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Hidden;
 
                 PopupContent.Text = Properties.Resources.Results_Message_DownloadComplete; 
             }
@@ -198,6 +200,7 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Hidden;
 
                 PopupContent.Text = Properties.Resources.Results_Message_TestResultDownloadCompleted;
             }
@@ -206,6 +209,7 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Hidden;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedDownloadListing;
             }
@@ -214,6 +218,7 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Hidden;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedOpenPrint;
             }
@@ -222,6 +227,7 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Hidden;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedAddDevice;
             }
@@ -230,6 +236,7 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Hidden;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedDeleteDevice;
             }
@@ -238,8 +245,19 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Hidden;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedUpdateDevice;
+            }
+            if (App.MainViewModel.Origin == "GreywindSendUniqueID")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Visible;
+                txtInput.Text = "";
+
+                PopupContent.Text = "Please enter Unique ID.";
             }
 
             PopupBackground.Background = Brushes.DimGray;
@@ -304,6 +322,23 @@ namespace VCheckViewer.Views.Windows
                 btnOk.Visibility = Visibility.Collapsed;
                 btnYes.Visibility = Visibility.Visible;
                 btnNo.Visibility = Visibility.Visible;
+            }
+
+            if (App.MainViewModel.Origin == "GreywindSendUniqueID")
+            {
+                this.IsEnabled = true;
+                popup.IsOpen = false;
+
+                PopupBackground.Background = null;
+
+                App.MainViewModel.ScheduleUniqueID = txtInput.Text;
+
+                btnOk.Visibility = Visibility.Collapsed;
+                btnYes.Visibility = Visibility.Visible;
+                btnNo.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Collapsed;
+
+                SendToPMSHandler(e, sender); 
             }
         }
 
@@ -876,6 +911,114 @@ namespace VCheckViewer.Views.Windows
             catch(Exception ex)
             {
                 App.log.Error("Change language Error >>> ", ex);
+            }
+        }
+
+        // ------------- Temporary ------------------- //
+        private void SendToPMSHandler(EventArgs e, object sender)
+        {
+            VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest sRequestAPI = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest();
+            long iTestResultID = 0;
+            //App.MainViewModel.TestResultID
+            //var sMenu = sender as System.Windows.Controls.MenuItem;
+            //if (!String.IsNullOrEmpty(sMenu.Tag.ToString()))
+            String sUniqueID = App.MainViewModel.ScheduleUniqueID;
+
+            if (!String.IsNullOrEmpty(App.MainViewModel.TestResultID))
+            {
+                //iTestResultID = Convert.ToInt64(sMenu.Tag);
+                iTestResultID = Convert.ToInt64(App.MainViewModel.TestResultID);
+
+                var sTestResultObj = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
+                if (sTestResultObj != null)
+                {
+                    List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelTestObject> sResultListing = new List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelTestObject>();
+                    List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject> sPanelListing = new List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject>();
+
+                    String sOrderID = "";
+                    //var sScheduledTestObj = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), "TBLAM FIA-8");
+                    var sScheduledTestObj = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), sUniqueID);
+                    if (sScheduledTestObj != null)
+                    {
+                        if (sScheduledTestObj.ScheduleUniqueID.Contains("-"))
+                        {
+                            var UniqueIDSplit = sScheduledTestObj.ScheduleUniqueID.Split("-");
+                            if (UniqueIDSplit.Length > 0)
+                            {
+                                sOrderID = UniqueIDSplit[1];
+                            }
+                        }
+                    }
+
+                    sRequestAPI.accessionnumber = iTestResultID.ToString();
+                    sRequestAPI.clinic_id = "";
+                    sRequestAPI.reportdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
+                    sRequestAPI.providerid = "";
+
+                    VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject sPatientObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject();
+                    sPatientObj.patientid = sTestResultObj.PatientID;
+                    sPatientObj.firstname = (sScheduledTestObj != null) ? sScheduledTestObj.PatientName : "";
+                    sPatientObj.lastname = "";
+                    sPatientObj.gender = (sScheduledTestObj != null) ? sScheduledTestObj.Gender : "";
+                    sPatientObj.birthday = "2023-01-01";
+                    sPatientObj.species = (sScheduledTestObj != null) ? sScheduledTestObj.Species : "";
+                    sPatientObj.breed = "";
+
+                    sRequestAPI.patient = sPatientObj;
+
+                    VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject sPanelObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject();
+                    sPanelObj.code = sTestResultObj.TestResultType;
+                    sPanelObj.name = sTestResultObj.TestResultType;
+                    sPanelObj.status = "F";
+                    sPanelObj.source = "";
+                    sPanelObj.resultdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
+
+
+                    var sDetailsObj = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
+                    if (sDetailsObj != null && sDetailsObj.Count > 0)
+                    {
+                        foreach (var d in sDetailsObj)
+                        {
+                            String[] sRange = new string[0];
+                            if (d.ReferenceRange != null)
+                            {
+                                String sReferenceRange = d.ReferenceRange.Replace("[", "").Replace("]", "");
+                                if (sReferenceRange != "")
+                                {
+                                    sRange = sReferenceRange.Split(";");
+                                }
+                            }
+
+                            sResultListing.Add(new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelTestObject
+                            {
+                                name = d.TestParameter,
+                                code = d.TestParameter,
+                                result = d.TestResultValue,
+                                referencelow = (sRange.Length > 0) ? sRange[0] : "",
+                                referencehigh = (sRange.Length > 0) ? sRange[1] : "",
+                                unitofmeasure = d.TestResultUnit,
+                                status = "F",
+                                notes = ""
+                            });
+                        }
+
+                        sPanelObj.tests = sResultListing;
+                    }
+                    sPanelListing.Add(sPanelObj);
+
+                    sRequestAPI.panels = sPanelListing;
+
+                    VCheck.Interface.API.GreywindAPI sAPI = new VCheck.Interface.API.GreywindAPI();
+                    var sRespAPI = sAPI.UpdateResult(sRequestAPI, sOrderID);
+                    if (sRespAPI)
+                    {
+                        System.Windows.Forms.MessageBox.Show("Update Result API Successfully.");
+                    }
+                    else
+                    {
+                        System.Windows.Forms.MessageBox.Show("Update Result API Failed.");
+                    }
+                }
             }
         }
 

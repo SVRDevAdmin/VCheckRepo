@@ -95,7 +95,7 @@ namespace VCheck.Interface.API
                     if (resp.IsSuccessStatusCode)
                     //if (true)
                     {
-                        //String sResult = resp.Content.ReadAsStringAsync().Result;
+                        String sResult = resp.Content.ReadAsStringAsync().Result;
                         isSuccess = true;
                     }
                     else

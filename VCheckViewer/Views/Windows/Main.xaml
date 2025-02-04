@@ -217,16 +217,22 @@
         </DockPanel>
         <Border x:Name="PopupBackground">
             <Popup Name="popup" IsOpen="False" Placement="Center" AllowsTransparency="True">
-                <Border Background="{DynamicResource Themes_PopupMessageFrameBackground}" BorderBrush="{DynamicResource  Themes_PopupMessageFrameBackground}" BorderThickness="0" Width="400" Height="250" CornerRadius="7">
+                <Border Background="{DynamicResource Themes_PopupMessageFrameBackground}" BorderBrush="{DynamicResource  Themes_PopupMessageFrameBackground}" BorderThickness="0" Width="400" Height="300" CornerRadius="7"> <!-- Height="250"-->
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="2*"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0">
                             <TextBlock x:Name="PopupContent" TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource Themes_PopupMessageFontColor}" Margin="40,40,40,0" FontSize="24"/>
                         </Border>
-                        <Border Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,40">
+                        <!-- Temporary BEGIN -->
+                        <Border Grid.Row="1">
+                            <TextBox x:Name="txtInput" FontSize="12" Margin="20, 5, 20, 0" Visibility="Collapsed" />
+                        </Border>
+                        <!-- Temporary END -->
+                        <Border Grid.Row="2" HorizontalAlignment="Center" Margin="0,0,0,40">
                             <StackPanel Orientation="Horizontal">
                                 <Button Name="btnNo" Content="{Binding Path=General_Label_No, Source={StaticResource Resources}}" Click="CancelButton_Click" Margin="0,0,10,0" Style="{DynamicResource RoundButton}" Foreground="{DynamicResource Themes_ButtonFontColor}" Height="40" Width="100" Background="Transparent" />
                                 <Button Name="btnYes" Content="{Binding Path=General_Label_Yes, Source={StaticResource Resources}}" Click="ContinueButton_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="{DynamicResource Themes_ButtonColor}" Foreground="{DynamicResource Themes_ButtonFontColor}" BorderThickness="0" />

@@ -10,6 +10,7 @@ namespace VCheckViewerAPI.Message.CreateScheduledTest
 
     public class CreateScheduledDataRequestBody
     {
+        public String? LocationID { get; set; }
         public String? ScheduledTestName { get; set; }
         public String? ScheduledDateTime { get; set; }
         public String? ScheduledUniqueID { get; set; }
@@ -25,6 +26,11 @@ namespace VCheckViewerAPI.Message.CreateScheduledTest
         public Boolean ValidateMandatoryField()
         {
             Boolean isValid = true;
+
+            if (String.IsNullOrEmpty(LocationID))
+            {
+                isValid = false;
+            }
 
             if (String.IsNullOrEmpty(ScheduledTestName))
             {
