@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Dev\VCheck\VCheckViewer\obj\Debug\net8.0-windows\
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\
 VCheckViewer
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\Dev\VCheck\VCheckViewer\App.xaml
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\App.xaml
 28-1905752011
 73-874305820
 43-576159202
-293-377428544
+293-434599883
 ResourceDictionary.xaml;Template\Controls.xaml;Template\Templates.xaml;Themes\Dark.xaml;Themes\Light.xaml;UserControls\DateRangePicker.xaml;UserControls\PagingControl.xaml;Views\Pages\Dashboard\DashboardPage.xaml;Views\Pages\Dashboard\NotificationList.xaml;Views\Pages\Dashboard\ScheduleTestList.xaml;Views\Pages\Dashboard\TestResultList.xaml;Views\Pages\Login\LoginPage.xaml;Views\Pages\Login\PasswordRecoveryPage.xaml;Views\Pages\Login\ResetCurrentUserPasswordPage.xaml;Views\Pages\Login\ResetPasswordPage.xaml;Views\Pages\Notification\NotificationPage.xaml;Views\Pages\Results\ResultPage.xaml;Views\Pages\Schedule\SchedulePage.xaml;Views\Pages\Setting\Interface\ConfigurationPage.xaml;Views\Pages\Setting\Interface\Device\DevicePage.xaml;Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml;Views\Pages\Setting\User\AddUserPage.xaml;Views\Pages\Setting\User\UpdateUserPage.xaml;Views\Pages\Setting\User\UserPage.xaml;Views\Pages\Setting\User\ViewUserPage.xaml;Views\Windows\LoginWindow.xaml;Views\Windows\Main.xaml;Views\Windows\Main2.xaml;
 
-False
+True
 

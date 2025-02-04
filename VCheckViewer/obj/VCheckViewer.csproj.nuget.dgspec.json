@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Dev\\VCheck\\VCheckViewer\\VCheckViewer.csproj": {}
+    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\VCheckViewer.csproj": {}
   },
   "projects": {
-    "C:\\Dev\\VCheck\\Library\\VCheck.Helper\\VCheck.Helper.csproj": {
+    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Helper\\VCheck.Helper.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\VCheck\\Library\\VCheck.Helper\\VCheck.Helper.csproj",
+        "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Helper\\VCheck.Helper.csproj",
         "projectName": "VCheck.Helper",
-        "projectPath": "C:\\Dev\\VCheck\\Library\\VCheck.Helper\\VCheck.Helper.csproj",
-        "packagesPath": "C:\\Users\\SVRke\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\VCheck\\Library\\VCheck.Helper\\obj\\",
+        "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Helper\\VCheck.Helper.csproj",
+        "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Helper\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SVRke\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\azwan\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,7 +43,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -65,25 +65,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
+    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
+        "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
         "projectName": "VCheck.Lib.Data",
-        "projectPath": "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
-        "packagesPath": "C:\\Users\\SVRke\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\obj\\",
+        "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
+        "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SVRke\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\azwan\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -92,7 +92,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -110,7 +109,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -167,24 +167,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Dev\\VCheck\\VCheck.Interface.API\\VCheck.Interface.API.csproj": {
+    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheck.Interface.API\\VCheck.Interface.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\VCheck\\VCheck.Interface.API\\VCheck.Interface.API.csproj",
+        "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheck.Interface.API\\VCheck.Interface.API.csproj",
         "projectName": "VCheck.Interface.API",
-        "projectPath": "C:\\Dev\\VCheck\\VCheck.Interface.API\\VCheck.Interface.API.csproj",
-        "packagesPath": "C:\\Users\\SVRke\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\VCheck\\VCheck.Interface.API\\obj\\",
+        "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheck.Interface.API\\VCheck.Interface.API.csproj",
+        "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheck.Interface.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SVRke\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\azwan\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -193,7 +193,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -211,7 +210,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -246,24 +246,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Dev\\VCheck\\VCheckViewer\\VCheckViewer.csproj": {
+    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\VCheckViewer.csproj": {
       "version": "1.0.0.1",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\VCheck\\VCheckViewer\\VCheckViewer.csproj",
+        "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\VCheckViewer.csproj",
         "projectName": "VCheckViewer",
-        "projectPath": "C:\\Dev\\VCheck\\VCheckViewer\\VCheckViewer.csproj",
-        "packagesPath": "C:\\Users\\SVRke\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\VCheck\\VCheckViewer\\obj\\",
+        "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\VCheckViewer.csproj",
+        "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SVRke\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\azwan\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -272,21 +272,20 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0-windows7.0": {
             "targetAlias": "net8.0-windows",
             "projectReferences": {
-              "C:\\Dev\\VCheck\\Library\\VCheck.Helper\\VCheck.Helper.csproj": {
-                "projectPath": "C:\\Dev\\VCheck\\Library\\VCheck.Helper\\VCheck.Helper.csproj"
+              "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Helper\\VCheck.Helper.csproj": {
+                "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Helper\\VCheck.Helper.csproj"
               },
-              "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
-                "projectPath": "C:\\Dev\\VCheck\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
+              "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
+                "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
               },
-              "C:\\Dev\\VCheck\\VCheck.Interface.API\\VCheck.Interface.API.csproj": {
-                "projectPath": "C:\\Dev\\VCheck\\VCheck.Interface.API\\VCheck.Interface.API.csproj"
+              "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheck.Interface.API\\VCheck.Interface.API.csproj": {
+                "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheck.Interface.API\\VCheck.Interface.API.csproj"
               }
             }
           }
@@ -300,7 +299,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0-windows7.0": {
@@ -420,7 +420,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

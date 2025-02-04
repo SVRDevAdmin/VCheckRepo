@@ -58,6 +58,7 @@ namespace VCheckListenerWorker
 
                         if (!String.IsNullOrEmpty(sData))
                         {
+                            Console.WriteLine("Data Message >> ");
                             Console.WriteLine(sData);
 
                             NHapi.Base.Parser.XMLParser sXMLParser = new NHapi.Base.Parser.DefaultXMLParser();
@@ -72,6 +73,10 @@ namespace VCheckListenerWorker
                                 sAckMessage = SendAckMessage(sIMessage);
                                 var sMessageByte = System.Text.Encoding.UTF8.GetBytes(sAckMessage);
                                 sClient.SendAsync(sMessageByte, System.Net.Sockets.SocketFlags.None);
+
+                                Console.WriteLine("");
+                                Console.WriteLine("Acknowledge Message >> ");
+                                Console.WriteLine(sAckMessage);
 
                                 ProcessIMessage(sIMessage, sSystemName);
 
@@ -200,7 +205,15 @@ namespace VCheckListenerWorker
                     break;
 
                 case "2.5.1":
-                    sMessage = Lib.Logic.HL7.V251.AckRepository.GenerateAcknowlegeMessage(sIMessage);
+                    if (sIMessage.Message.Message.GetType() == typeof(NHapi.Model.V251.Message.QBP_Q11))
+                    {
+                        sMessage = Lib.Logic.HL7.V251.AckRepository.GenerateAcknowlegeMessageQBP(sIMessage);
+                    }
+                    else if(sIMessage.Message.Message.GetType() == typeof(NHapi.Model.V251.Message.OUL_R22))
+                    {
+                        sMessage = Lib.Logic.HL7.V251.AckRepository.GenerateAcknowlegeMessage(sIMessage);
+                    }
+                    
                     break;
 
                 default:
