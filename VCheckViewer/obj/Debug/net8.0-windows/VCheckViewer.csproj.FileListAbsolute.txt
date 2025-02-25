@@ -638,3 +638,5 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windo
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.pdb
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\VCheckViewer.genruntimeconfig.cache
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\ref\VCheckViewer.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Report\ReportPage.g.cs
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckViewer\obj\Debug\net8.0-windows\Views\Pages\Setting\Report\ReportPage.baml

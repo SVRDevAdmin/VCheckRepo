@@ -1132,6 +1132,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Patient Name.
+        /// </summary>
+        public static string Results_Label_PatientName {
+            get {
+                return ResourceManager.GetString("Results_Label_PatientName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Print.
         /// </summary>
         public static string Results_Label_Print {

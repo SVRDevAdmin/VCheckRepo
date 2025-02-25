@@ -14,7 +14,9 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using QuestPDF.Previewer;
+using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
+using VCheckViewer.Lib.Function;
 using Document = QuestPDF.Fluent.Document;
 
 namespace VCheckViewer.Lib.DocumentTemplate
@@ -23,6 +25,8 @@ namespace VCheckViewer.Lib.DocumentTemplate
     {
         private TestResultListingExtendedObj sTestResultRow { get; set; }
         private List<TestResultDetailsModel> sTestResultDetail { get; set; }
+
+        public ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
 
         public TestResultTemplate(TestResultListingExtendedObj sRow, List<TestResultDetailsModel> sDetails)
         {
@@ -35,9 +39,11 @@ namespace VCheckViewer.Lib.DocumentTemplate
 
         public void Compose(IDocumentContainer container)
         {
+            var sReportImagePath = configDBContext.GetConfigurationData("ReportImagePath").FirstOrDefault();
             var sBuilder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
             String sIconConfigPath = sBuilder.Configuration.GetSection("PrintTemplate:IconPath").Value;
             String sIconPath = System.Environment.CurrentDirectory + sIconConfigPath;
+            //String sIconPath = sReportImagePath == null ? sReportImagePath.ConfigurationValue : System.Environment.CurrentDirectory + sIconConfigPath;
             String sDownloadPath = sBuilder.Configuration.GetSection("Configuration:DownloadFolderPath").Value;
 
             try
@@ -66,14 +72,68 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                         .Bold();
                                 c.Item().Height(10);
 
+                                c.Item().Background("#f2f2f2").Row(row =>
+                                {
+                                    row.RelativeItem()
+                                    .Column(leftColumn =>
+                                    {
+                                        leftColumn.Item().Column(col =>
+                                        {
+                                            col.Item().Background("#f2f2f2")
+                                                .PaddingLeft(5)
+                                                .PaddingTop(10)
+                                                .Height(20)
+                                                .Text(text =>
+                                                {
+                                                    text.Span("Clinic Name : ").SemiBold();
+                                                    text.Span("Test Clinic").SemiBold();
+                                                });
+                                        });
+                                    });
+
+                                    row.RelativeItem()
+                                    .Column(rightColumn =>
+                                    {
+                                        rightColumn.Item().Column(col =>
+                                        {
+                                            col.Item().Background("#f2f2f2")
+                                                .PaddingRight(5)
+                                                .PaddingTop(10)
+                                                .Height(20)
+                                                .Text(text =>
+                                                {
+                                                    text.Span("Report Title : ").SemiBold();
+                                                    text.Span("Test Title").SemiBold();
+                                                });
+                                        });
+                                    });
+                                });
+
                                 c.Item().Background("#f2f2f2")
                                         .PaddingLeft(5)
-                                        .PaddingTop(10)
+                                        .Height(20)
+                                        .Text(text =>
+                                        {
+                                            text.Span("Clinic Address : ").SemiBold();
+                                            text.Span("Test Address").SemiBold();
+                                        });
+
+                                c.Item().Background("#f2f2f2")
+                                        .PaddingLeft(5)
                                         .Height(20)
                                         .Text(text =>
                                         {
                                             text.Span("Patient ID : ").SemiBold();
                                             text.Span(sTestResultRow.PatientID).SemiBold();
+                                        });
+
+                                c.Item().Background("#f2f2f2")
+                                        .PaddingLeft(5)
+                                        .Height(20)
+                                        .Text(text =>
+                                        {
+                                            text.Span("Patient Name : ").SemiBold();
+                                            text.Span(sTestResultRow.PatientName).SemiBold();
                                         });
 
                                 c.Item().Background("#f2f2f2")
@@ -129,7 +189,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                                     text.EmptyLine().LineHeight(10);
                                                     text.Span("Result Value : ").Bold();
 
-                                                    if (d.TestResultUnit.ToLower() =="vn")
+                                                    if (d.TestResultUnit != null && d.TestResultUnit.ToLower() =="vn")
                                                     {
                                                         text.Span(d.TestResultUnit + " " + d.TestResultValue);
                                                     }
@@ -240,10 +300,10 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                 //                });
                                 //    });
                                 //});
-                            })
-                            ;
+                            });
 
-                        page.Footer();
+                        page.Footer().AlignRight().Height(1, Unit.Centimetre)
+                            .Image(sIconPath);
                     });
                 });
 

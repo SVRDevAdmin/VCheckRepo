@@ -199,6 +199,7 @@
                     <DataGridTextColumn Header="Test Result Type" Binding="{Binding TestResultType}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_OperatorID, Source={StaticResource Resources}}" Binding="{Binding OperatorID}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_PatientID, Source={StaticResource Resources}}" Binding="{Binding PatientID}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_PatientName, Source={StaticResource Resources}}" Binding="{Binding PatientName}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <!--<DataGridTextColumn Header="{Binding Path=Results_Label_ProceduralCont, Source={StaticResource Resources}}" Binding="{Binding ObservationStatus}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />-->
                     <DataGridTemplateColumn Header="{Binding Path=Results_Label_Result, Source={StaticResource Resources}}" Width="140">
                         <!--HeaderStyle="{StaticResource columnHeaderStyleCenterAlign} -->

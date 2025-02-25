@@ -48,6 +48,7 @@ namespace VCheckViewer
         public static event EventHandler GoToSettingLanguageCountryPage;
         public static event EventHandler GoToSettingDevicePage;
         public static event EventHandler GoToSettingConfigurationPage;
+        public static event EventHandler GoToReportPage;
 
         public static SignInManager<IdentityUser> SignInManager { get; set; }
         public static UserManager<IdentityUser> UserManager { get; set; }
@@ -343,6 +344,14 @@ namespace VCheckViewer
             if (GoToSettingConfigurationPage != null)
             {
                 GoToSettingConfigurationPage(sender, e);
+            }
+        }
+
+        public static void GoToSettingReportPageHandler(EventArgs e, object sender)
+        {
+            if (GoToReportPage != null)
+            {
+                GoToReportPage(sender, e);
             }
         }
     }

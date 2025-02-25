@@ -7,7 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using MySqlX.XDevAPI.Common;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Ocsp;
+using System;
 using System.CodeDom;
+using System.Drawing;
+using System.Security.Cryptography;
+using System.Text;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
@@ -15,6 +19,7 @@ using VCheckViewerAPI.Lib.Util;
 using VCheckViewerAPI.Message.CreateScheduledTest;
 using VCheckViewerAPI.Message.General;
 using VCheckViewerAPI.Message.GetPatientResult;
+using VCheckViewerAPI.Message.GetTestList;
 using VCheckViewerAPI.Message.Location;
 using VCheckViewerAPI.Message.UpdateScheduledTest;
 
@@ -242,7 +247,8 @@ namespace VCheckViewerAPI.Controllers
                                     scheduledObj.ScheduledDateTime = dtScheduled;
                                 }
 
-                                scheduledObj.ScheduleUniqueID = request.body.ScheduledUniqueID;
+                                var uniqueID = request.body.TestUniqueID + "-" + GenerateUniqueKey(8);
+                                scheduledObj.ScheduleUniqueID = uniqueID;
                                 scheduledObj.ScheduledBy = request.body.ScheduledBy;
                                 scheduledObj.InchargePerson = request.body.PersonIncharges;
                                 scheduledObj.PatientID = request.body.PatientID;
@@ -273,7 +279,7 @@ namespace VCheckViewerAPI.Controllers
                                 {
                                     sRespCode = "VV.0001";
                                     sRespStatus = "Success";
-                                    sRespMessage = "Success";
+                                    sRespMessage = "Success. Generated unique ID is " + uniqueID;
                                 }
                                 else
                                 {
@@ -461,6 +467,117 @@ namespace VCheckViewerAPI.Controllers
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Get Location List
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost(Name = "GetTestList")]
+        public ResponseModel GetTestList(TestDataRequest request)
+        {
+            var response = new ResponseModel();
+            response.Header = new HeaderModel();
+            response.Body = new ResponseBody();
+
+            String responseCode = "";
+            String responseMessage = "";
+            String responseStatus = "";
+
+            List<TestDataObject> sResultList = new List<TestDataObject>();
+
+            try
+            {
+                if (request.header.clientKey != null && _apiRepository.Authenticate(request.header.clientKey))
+                {
+                    if (_apiRepository.ValidateTokenExpiry(request.header.clientKey))
+                    {
+                        var sTestList = TestResultsRepository.GetAllTestList(ConfigSettings.GetConfigurationSettings());
+                        if (sTestList != null && sTestList.Count > 0)
+                        {
+                            foreach (var test in sTestList)
+                            {
+                                sResultList.Add(new TestDataObject
+                                {
+                                    testid = test.TestID, 
+                                    testname = test.TestName, 
+                                    testdescription = test.TestDescription
+                                });
+                            }
+                        }
+
+                        responseCode = "VV.0001";
+                        responseStatus = "Success";
+                        responseMessage = "Success";
+                    }
+                    else
+                    {
+                        responseCode = "VV.0005";
+                        responseStatus = "Fail";
+                        responseMessage = "Expiry Token Key";
+                    }
+                }
+                else
+                {
+                    responseCode = "VV.0003";
+                    responseStatus = "Fail";
+                    responseMessage = "Unauthorized Request";
+                }
+
+                response.Header.timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
+                response.Header.clientKey = request.header.clientKey;
+
+                response.Body.ResponseCode = responseCode;
+                response.Body.ResponseStatus = responseStatus;
+                response.Body.ResponseMessage = responseMessage;
+                response.Body.Results = sResultList;
+
+                //--------- Log Payload -------//
+                VCheck.APILogging.CallLogging.InsertAPiLog("GetTestList", Guid.NewGuid().ToString(), request.header.timestamp,
+                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                                               responseMessage);
+            }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Exception";
+                responseMessage = "Exception Error";
+
+                VCheck.APILogging.CallLogging.InsertErrorLog("GetTestList", Guid.NewGuid().ToString(), responseCode, responseStatus,
+                                            responseMessage, ((ex != null) ? ex.ToString() : ""));
+            }
+
+            return response;
+        }
+
+        public static string GenerateUniqueKey(int size)
+        {
+            char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray(); ;
+            byte[] data = new byte[4 * size];
+            using (var crypto = RandomNumberGenerator.Create())
+            {
+                crypto.GetBytes(data);
+            }
+            StringBuilder result = new StringBuilder(size);
+            for (int i = 0; i < size; i++)
+            {
+                var rnd = BitConverter.ToUInt32(data, i * 4);
+                var idx = rnd % chars.Length;
+
+                result.Append(chars[idx]);
+            }
+
+            return result.ToString();
+
+            //return Guid.NewGuid().ToString("n").Substring(0, size);
+
+            //Random random = new Random();
+
+            //const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            //return new string(Enumerable.Repeat(chars, size)
+            //    .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

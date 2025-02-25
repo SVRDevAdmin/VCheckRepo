@@ -6,11 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace VCheck.Lib.Data.DBContext
 {
@@ -61,7 +64,8 @@ namespace VCheck.Lib.Data.DBContext
                                 FullName = reader["FullName"].ToString(),
                                 RegistrationNo = reader["RegistrationNo"].ToString(),
                                 Gender = reader["Gender"].ToString(),
-                                DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy"),
+                                //DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy"),
+                                DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy", CultureInfo.GetCultureInfo("en-US")),
                                 EmailAddress = reader["EmailAddress"].ToString(),
                                 Status = reader["Status"].ToString(),
                                 Role = reader["Role"].ToString(),
@@ -207,7 +211,8 @@ namespace VCheck.Lib.Data.DBContext
                             model.FullName = reader["FullName"].ToString();
                             model.RegistrationNo = reader["RegistrationNo"].ToString();
                             model.Gender = reader["Gender"].ToString();
-                            model.DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy");
+                            //model.DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy");
+                            model.DateOfBirth = Convert.ToDateTime(reader["DateofBirth"]).ToString("dd MMMM yyyy", CultureInfo.GetCultureInfo("en-US"));
                             model.EmailAddress = reader["EmailAddress"].ToString();
                             model.Status = reader["Status"].ToString();
                             model.StatusID = Convert.ToInt32(reader["StatusID"]);

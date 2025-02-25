@@ -358,7 +358,7 @@ namespace VCheck.Lib.Data
                         //                         "ORDER BY T1.TestResultDateTime " + sSortDirection :
                         //                         "ORDER BY T1.TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
 
-                        String sSelectCommand = "SELECT T1.ID, T1.TestResultDateTime, T1.TestResultType, T1.OperatorID, T1.PatientID, " +
+                        String sSelectCommand = "SELECT T1.ID, T1.TestResultDateTime, T1.TestResultType, T1.OperatorID, T1.PatientID, T1.PatientName, " +
                                                 "T1.InchargePerson, T1.OverallStatus, T1.DeviceSerialNo, T1.CreatedDate, T1.CreatedBy " +
                                                 "FROM txn_testresults AS T1 " +
                                                 "WHERE ";
@@ -387,6 +387,7 @@ namespace VCheck.Lib.Data
                                         TestResultType = sReader["TestResultType"].ToString(),
                                         OperatorID = sReader["OperatorID"].ToString(),
                                         PatientID = sReader["PatientID"].ToString(),
+                                        PatientName = sReader["PatientName"].ToString(),
                                         InchargePerson = sReader["InchargePerson"].ToString(),
                                         TestResultStatus = sReader["OverallStatus"].ToString(),
                                         CreatedDate = Convert.ToDateTime(sReader["CreatedDate"]),
@@ -572,6 +573,28 @@ namespace VCheck.Lib.Data
             catch (Exception ex)
             {
                 log.Error("TestResultRepository >>> GetTestResultDetailsByDateRange >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get list of test
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static List<TestListModel> GetAllTestList(IConfiguration config)
+        {
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.mst_testlist.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
                 return null;
             }
         }

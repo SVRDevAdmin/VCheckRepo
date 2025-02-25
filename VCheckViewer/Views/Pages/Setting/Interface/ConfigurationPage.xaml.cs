@@ -74,6 +74,11 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
             App.GoToSettingUserPageHandler(e, sender);
         }
 
+        private void btnReport_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingReportPageHandler(e, sender);
+        }
+
         private void NumberValidationOnly(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");

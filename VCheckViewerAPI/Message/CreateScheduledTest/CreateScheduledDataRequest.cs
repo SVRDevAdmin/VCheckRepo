@@ -1,4 +1,5 @@
-﻿using VCheckViewerAPI.Message.General;
+﻿using System.Xml;
+using VCheckViewerAPI.Message.General;
 
 namespace VCheckViewerAPI.Message.CreateScheduledTest
 {
@@ -13,7 +14,8 @@ namespace VCheckViewerAPI.Message.CreateScheduledTest
         public String? LocationID { get; set; }
         public String? ScheduledTestName { get; set; }
         public String? ScheduledDateTime { get; set; }
-        public String? ScheduledUniqueID { get; set; }
+        //public String? ScheduledUniqueID { get; set; }
+        public String? TestUniqueID { get; set; }
         public String? ScheduledBy { get; set; }
         public String? PersonIncharges { get; set; }
         public String? PatientID { get; set; }
@@ -42,7 +44,12 @@ namespace VCheckViewerAPI.Message.CreateScheduledTest
                 isValid = false;
             }
 
-            if (String.IsNullOrEmpty(ScheduledUniqueID))
+            //if (String.IsNullOrEmpty(ScheduledUniqueID))
+            //{
+            //    isValid = false;
+            //}
+
+            if (String.IsNullOrEmpty(TestUniqueID))
             {
                 isValid = false;
             }

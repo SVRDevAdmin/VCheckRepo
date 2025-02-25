@@ -463,6 +463,11 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             App.GoToSettingConfigurationPageHandler(e, sender);
         }
 
+        private void btnReport_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingReportPageHandler(e, sender);
+        }
+
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigateBackButton();

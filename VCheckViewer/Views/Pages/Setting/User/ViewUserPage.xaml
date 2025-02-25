@@ -22,10 +22,11 @@
         <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" Margin="90,0,70,0" MaxWidth="500">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto" MinWidth="100"/>
-                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="2">
                     <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" Background="{DynamicResource Themes_ButtonColor}" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
@@ -37,7 +38,10 @@
                     <Button Name="btnSettings" Content="PMS/LIS/HIS" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnSettings_Click"></Button>
                 </Border>
                 <Border Grid.Column="3" Margin="2">
-                    <Button x:Name="btnDeviceSetting" Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
+                    <Button Name="btnDeviceSetting" Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
+                </Border>
+                <Border Grid.Column="4" Margin="2">
+                    <Button Content="Report" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
                 </Border>
             </Grid>
         </Border>

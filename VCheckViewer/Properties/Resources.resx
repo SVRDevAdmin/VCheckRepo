@@ -627,4 +627,7 @@
   <data name="Login_Message_WrongNewPassword" xml:space="preserve">
     <value>Wrong new password.</value>
   </data>
+  <data name="Results_Label_PatientName" xml:space="preserve">
+    <value>Patient Name</value>
+  </data>
 </root>

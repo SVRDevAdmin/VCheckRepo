@@ -8,6 +8,8 @@ using log4net.Config;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using NHapi.Model.V23.Segment;
 using Org.BouncyCastle.Asn1;
+using System.Net.Sockets;
+using System.Net;
 
 namespace VCheckListenerWorker
 {
@@ -71,6 +73,7 @@ namespace VCheckListenerWorker
                             if (sIMessage != null)
                             {
                                 sAckMessage = SendAckMessage(sIMessage);
+                                //var trimmedAckMessage = sAckMessage.Trim();
                                 var sMessageByte = System.Text.Encoding.UTF8.GetBytes(sAckMessage);
                                 sClient.SendAsync(sMessageByte, System.Net.Sockets.SocketFlags.None);
 
@@ -78,12 +81,12 @@ namespace VCheckListenerWorker
                                 Console.WriteLine("Acknowledge Message >> ");
                                 Console.WriteLine(sAckMessage);
 
-                                ProcessIMessage(sIMessage, sSystemName);
+                                //ProcessIMessage(sIMessage, sSystemName);
 
-                                sFileName = "TestResult_" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                                sXMLMessage = sXMLParser.Encode(sIMessage);
+                                //sFileName = "TestResult_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                                //sXMLMessage = sXMLParser.Encode(sIMessage);
 
-                                OutputMessage(configBuilder, sFileName, sData, sXMLMessage, sAckMessage);
+                                //OutputMessage(configBuilder, sFileName, sData, sXMLMessage, sAckMessage);
                             }
 
                             Console.WriteLine("---------------------------------------------------------------------------------");
@@ -110,6 +113,7 @@ namespace VCheckListenerWorker
 
                 var builder = Host.CreateApplicationBuilder();
                 String sHostIP = builder.Configuration.GetSection("Listener:HostIP").Value;
+                //String sHostIP = GetLocalIPAddress();
                 int iPortNo = Convert.ToInt32(builder.Configuration.GetSection("Listener:Port").Value);
 
                 System.Net.IPEndPoint sIPEndPoint = System.Net.IPEndPoint.Parse(String.Concat(sHostIP, ":", iPortNo));
@@ -181,6 +185,10 @@ namespace VCheckListenerWorker
                     Lib.Logic.HL7.V251.HL7Repository.ProcessMessage(sIMessage, sSystemName);
                     break;
 
+                case "2.3.1":
+                    Lib.Logic.HL7.V231.HL7Repository.ProcessMessage(sIMessage, sSystemName);
+                    break;
+
                 default:
                     break;
             }
@@ -214,6 +222,13 @@ namespace VCheckListenerWorker
                         sMessage = Lib.Logic.HL7.V251.AckRepository.GenerateAcknowlegeMessage(sIMessage);
                     }
                     
+                    break;
+
+                case "2.3.1":
+                    if (sIMessage.Message.Message.GetType() == typeof(NHapi.Model.V231.Message.ORU_R01))
+                    {
+                        sMessage = Lib.Logic.HL7.V231.AckRepository.GenerateAcknowlegeMessageORU(sIMessage);
+                    }
                     break;
 
                 default:
@@ -275,6 +290,22 @@ namespace VCheckListenerWorker
                 _logger.LogError("Function OutputMessage >>> " + ex.ToString());
             }
 
+        }
+
+        /// <summary>
+        /// Get current IP Address
+        /// </summary>
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
         }
     }
 }

@@ -28,6 +28,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic.Logging;
 using DocumentFormat.OpenXml.Drawing;
 using System.Runtime.Caching;
+using VCheckViewer.Views.Pages.Setting.Report;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -72,6 +73,7 @@ namespace VCheckViewer.Views.Windows
             App.GoToSettingLanguageCountryPage += new EventHandler(GoToLanguageCountryPage);
             App.GoToSettingDevicePage += new EventHandler(GoToDevicePage);
             App.GoToSettingConfigurationPage += new EventHandler(GoToConfigurationPage);
+            App.GoToReportPage += new EventHandler(GoToReportPage);
 
             //popup
             App.Popup += new EventHandler(Popup);
@@ -160,6 +162,11 @@ namespace VCheckViewer.Views.Windows
         void GoToConfigurationPage(object sender, EventArgs e)
         {
             frameContent.Content = new ConfigurationPage();
+        }
+
+        void GoToReportPage(object sender, EventArgs e)
+        {
+            frameContent.Content = new ReportPage();
         }
 
         void SettingUserPage(object sender, EventArgs e)
@@ -946,11 +953,12 @@ namespace VCheckViewer.Views.Windows
                             if (UniqueIDSplit.Length > 0)
                             {
                                 sOrderID = UniqueIDSplit[1];
+                                sRequestAPI.accessionnumber = UniqueIDSplit[2];
                             }
                         }
                     }
 
-                    sRequestAPI.accessionnumber = iTestResultID.ToString();
+                    //sRequestAPI.accessionnumber = iTestResultID.ToString();
                     sRequestAPI.clinic_id = "";
                     sRequestAPI.reportdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
                     sRequestAPI.providerid = "";
@@ -979,13 +987,20 @@ namespace VCheckViewer.Views.Windows
                     {
                         foreach (var d in sDetailsObj)
                         {
-                            String[] sRange = new string[0];
+                            String[] sRange = Array.Empty<string>();
                             if (d.ReferenceRange != null)
                             {
                                 String sReferenceRange = d.ReferenceRange.Replace("[", "").Replace("]", "");
                                 if (sReferenceRange != "")
                                 {
-                                    sRange = sReferenceRange.Split(";");
+                                    if (sReferenceRange.Contains(";"))
+                                    {
+                                        sRange = sReferenceRange.Split(";");
+                                    }
+                                    else if (sReferenceRange.Contains("-"))
+                                    {
+                                        sRange = sReferenceRange.Split("-");
+                                    }
                                 }
                             }
 
@@ -1005,6 +1020,7 @@ namespace VCheckViewer.Views.Windows
                         sPanelObj.tests = sResultListing;
                     }
                     sPanelListing.Add(sPanelObj);
+                    //sPanelListing.Add(sPanelObj);
 
                     sRequestAPI.panels = sPanelListing;
 

@@ -19,6 +19,7 @@ namespace VCheck.Lib.Data.Models
         public String? OperatorID { get; set; }
         public String? DeviceSerialNo { get; set; }
         public String? PatientID { get; set; }
+        public String? PatientName { get; set; } //added to include patient name in report (azwan - 20250214)
         public String? InchargePerson { get; set; }
         //public String? ObservationStatus { get; set; }
         public String? OverallStatus { get; set; }
@@ -66,6 +67,7 @@ namespace VCheck.Lib.Data.Models
         public String? OperatorID { get; set; }
         public String? DeviceSerialNo { get; set; }
         public String? PatientID { get; set; }
+        public String? PatientName { get; set; }
         public String? InchargePerson { get; set; }
         public String? ObservationStatus { get; set; }
         public String? TestResultStatus { get; set; }
@@ -129,5 +131,17 @@ namespace VCheck.Lib.Data.Models
         public String? observationrules { get; set; }
         public String? inchargeperson { get; set; }
         public String? observationby { get; set; }
+    }
+
+    public class TestListModel
+    {
+        [Key]
+        public String? TestID { get; set; }
+        public String? TestName { get; set; }
+        public String? TestDescription { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public String? CreatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public String? UpdatedBy { get; set; }
     }
 }
