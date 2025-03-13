@@ -57,6 +57,7 @@ namespace VCheckViewer.Views.Windows
 
             //popup
             PasswordRecoveryPage.Popup += new EventHandler(OpenPopup);
+            App.Popup += new EventHandler(GoToLoginPage);
 
         }
 
@@ -71,6 +72,11 @@ namespace VCheckViewer.Views.Windows
         {
             //LoginFrame.Content = new ResetPasswordPage();
             LoginFrame.Content = new PasswordRecoveryPage();
+        }
+
+        public void GoToRegisterPage(object sender, EventArgs e)
+        {
+            LoginFrame.Content = new RegisterPage();
         }
 
         public void GoToLoginPage(object sender, EventArgs e)
@@ -102,11 +108,23 @@ namespace VCheckViewer.Views.Windows
             popup.IsOpen = true;
         }
 
-        private void ContinueButton_Click(object sender, RoutedEventArgs e)
+        public void SentTemporaryPassword(object sender, EventArgs e)
         {
-            OKButton.Visibility = Visibility.Visible;
-            ContinueButton.Visibility = Visibility.Collapsed;
-            CancelButton.Visibility = Visibility.Collapsed;
+            if(popup.IsOpen == false)
+            {
+                OKButton.Visibility = Visibility.Visible;
+                ContinueButton.Visibility = Visibility.Collapsed;
+                CancelButton.Visibility = Visibility.Collapsed;
+                PopupBackground.Background = System.Windows.Media.Brushes.DimGray;
+                PopupBackground.Opacity = 0.5;
+                popup.IsOpen = true;
+            }
+            else
+            {
+                OKButton.Visibility = Visibility.Visible;
+                ContinueButton.Visibility = Visibility.Collapsed;
+                CancelButton.Visibility = Visibility.Collapsed;
+            }
 
             Run bold = new Run();
             //bold.Text = "'Reset Password'";
@@ -123,6 +141,11 @@ namespace VCheckViewer.Views.Windows
             PopupContent.Inlines.Add(bold);
             //PopupContent.Inlines.Add(" section");
             PopupContent.Inlines.Add(Properties.Resources.Popup_Message_PasswordRecoveredP3);
+        }
+
+        private void ContinueButton_Click(object sender, RoutedEventArgs e)
+        {
+            SentTemporaryPassword(sender, e);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

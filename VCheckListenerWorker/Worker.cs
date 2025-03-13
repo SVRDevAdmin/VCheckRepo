@@ -35,7 +35,7 @@ namespace VCheckListenerWorker
         {
             XmlConfigurator.Configure(log4net.LogManager.GetRepository(Assembly.GetEntryAssembly()),
                                       new FileInfo("log4Net.config"));
-            sLogger = new VCheckListenerWorker.Lib.Util.Logger();
+            sLogger = new Lib.Util.Logger();
 
             var configBuilder = Host.CreateApplicationBuilder();
 
@@ -81,12 +81,12 @@ namespace VCheckListenerWorker
                                 Console.WriteLine("Acknowledge Message >> ");
                                 Console.WriteLine(sAckMessage);
 
-                                //ProcessIMessage(sIMessage, sSystemName);
+                                ProcessIMessage(sIMessage, sSystemName);
 
-                                //sFileName = "TestResult_" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                                //sXMLMessage = sXMLParser.Encode(sIMessage);
+                                sFileName = "TestResult_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                                sXMLMessage = sXMLParser.Encode(sIMessage);
 
-                                //OutputMessage(configBuilder, sFileName, sData, sXMLMessage, sAckMessage);
+                                OutputMessage(configBuilder, sFileName, sData, sXMLMessage, sAckMessage);
                             }
 
                             Console.WriteLine("---------------------------------------------------------------------------------");

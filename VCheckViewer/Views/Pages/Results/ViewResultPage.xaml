@@ -1,0 +1,85 @@
+﻿<Page x:Class="VCheckViewer.Views.Pages.Results.ViewResultPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VCheckViewer.Views.Pages.Results"
+      xmlns:Converter="clr-namespace:VCheckViewer.Converter"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ViewResultPage">
+
+    <Page.Resources>
+        <Converter:HeightConverter x:Key="HeightConverter"/>
+        
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridColumnHeader">
+                        <Border Background="LightGray" 
+                            BorderThickness="0" 
+                            CornerRadius="5,5,0,0"
+                                Height="25">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+
+        <Style x:Key="ResultDetailsElement" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="BackButton" Content="Back" Grid.Row="0" Grid.Column="0" Style="{StaticResource BackButton}" Foreground="{DynamicResource Themes_FontColor}" Margin="0,10,0,0" Click="BackButton_Click"/>
+        <Image x:Name="ViewReportLogo" Grid.Column="0" Grid.Row="1" Source="../../../Content/Images/Report Logo.png" Margin="10"/>
+        <Grid Grid.Column="1" Grid.Row="1" Margin="10,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="ABC Veterenirary Clinic" VerticalAlignment="Bottom" Grid.Row="0" FontWeight="Bold"/>
+            <TextBlock Text="Diagnostic Test Report" VerticalAlignment="Center" Grid.Row="1" FontWeight="Bold"/>
+            <TextBlock Text="123 Gangnam-daero, Gangnam-gu, Seoul, 06035, South Korea" VerticalAlignment="Top" Grid.Row="2" TextWrapping="Wrap" FontWeight="Bold"/>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="1" Margin="10,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" VerticalAlignment="Center"> <Run FontWeight="Bold">Patient ID:</Run> Patient123</TextBlock>
+            <TextBlock Grid.Row="1" VerticalAlignment="Center"> <Run FontWeight="Bold">Patient Name:</Run> Simba</TextBlock>
+            <TextBlock Grid.Row="2" VerticalAlignment="Center"> <Run FontWeight="Bold">Date &amp; Time:</Run> 14/02/2025 16:33</TextBlock>
+        </Grid>
+
+        <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"  Margin="10, 10, 10, 5" CornerRadius="5" BorderBrush="Black" BorderThickness="1">
+            <DataGrid Name="dgResultDetails" BorderThickness="0" AutoGenerateColumns="False" GridLinesVisibility="Horizontal" Background="Transparent" CanUserAddRows="False" HorizontalAlignment="Stretch" 
+                      VerticalAlignment="Stretch" ColumnHeaderStyle="{StaticResource {x:Type DataGridColumnHeader}}" RowHeaderWidth="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Test" Width="*" Binding="{Binding TestParameter}" ElementStyle="{StaticResource ResultDetailsElement}" />
+                    <DataGridTextColumn Header="Result Status" Width="*" Binding="{Binding TestResultStatus}" ElementStyle="{StaticResource ResultDetailsElement}" />
+                    <DataGridTextColumn Header="Result Value" Width="*" Binding="{Binding TestResultValue}" ElementStyle="{StaticResource ResultDetailsElement}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</Page>

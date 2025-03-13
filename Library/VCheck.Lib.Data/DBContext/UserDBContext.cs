@@ -233,5 +233,33 @@ namespace VCheck.Lib.Data.DBContext
             return model;
 
         }
+
+        public bool FirstUser()
+        {
+            string insertQuery = "SELECT * FROM `mst_user` where IsDeleted = 0 LIMIT 1;";
+
+            try
+            {
+                using (MySqlConnection conn = this.Connection)
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+            }
+
+            return true;
+        }
     }
 }

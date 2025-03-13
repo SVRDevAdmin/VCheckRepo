@@ -9,7 +9,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ReportPage">
 
-    <Grid Margin="0, 10, 0, 10">
+    <Grid Margin="0,10,0,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -47,34 +47,68 @@
                 </Border>
             </Grid>
         </Border>
-        <Border Name="borderConfiguration" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Transparent" BorderThickness="0">
-            <Border Margin="180, 65, 210, 160" BorderThickness="1" BorderBrush="{DynamicResource Themes_InterfaceFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_InterfaceFrameBackground}">
+
+        <Border Grid.ColumnSpan="4" Grid.Row="1">
+            <TextBlock Name="ErrorText" HorizontalAlignment="Center" Foreground="Red" Margin="10" Visibility="Hidden"/>
+        </Border>
+        <Border Margin="30,30,30,10" Grid.Column="1" Grid.Row="1" BorderBrush="{DynamicResource Themes_InterfaceFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_InterfaceFrameBackground}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="3*" />
+                </Grid.RowDefinitions>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-
-                    <TextBlock Text="Logo File Path" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
-                    <Border Name="borderLogo" Grid.Row="2" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
-                        <TextBox x:Name="txtFileName" VerticalAlignment="Center" BorderThickness="0" MouseDoubleClick="txtFileName_MouseDoubleClick" />
-                    </Border>
-
-                    <TextBlock Text="Contact No." Foreground="{DynamicResource Themes_FontColor}" Grid.Row="3" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
-                    <Border Name="borderContactNo" Grid.Row="4" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
-                        <TextBox x:Name="txtContactNo" VerticalAlignment="Center" BorderThickness="0" />
-                    </Border>
-
-                    <Border Name="BorderButton" Grid.Row="5" Margin="0, 30">
-                        <Button x:Name="btnUpdate" Content="Update" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="White"
-                            Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Margin="0" Style="{DynamicResource RoundButton}" Click="btnUpdate_Click" IsEnabled="False" />
-                    </Border>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Name="Logo" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" MouseLeftButtonDown="image_click"/>
+                    <TextBlock Name="LogoPath" Visibility="Hidden"/>
+                    <TextBlock Margin="10,0,0,0" Grid.Column="1" Grid.Row="0" Text="Upload Logo" FontWeight="Bold" Foreground="Blue" VerticalAlignment="Bottom" MouseLeftButtonDown="image_click"/>
+                    <TextBlock Margin="10,0,0,0" Grid.Column="1" Grid.Row="1" Text="Maximum file size is 2MB" Foreground="Gray" VerticalAlignment="Top" FontSize="10"/>
                 </Grid>
-            </Border>
+                <TextBlock Grid.Row="1" Text="Headers for Report" FontWeight="Bold"/>
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Report Title" FontWeight="Bold"/>
+                    <TextBox Grid.Row="1" Name="ReportTitle"/>
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Clinic Name" FontWeight="Bold"/>
+                    <TextBox Name="ClinicName" Grid.Row="1"/>
+                </Grid>
+                <Grid Grid.Row="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Clinic Address" FontWeight="Bold"/>
+                    <TextBox Grid.Row="1" Name="ClinicAddress"/>
+                </Grid>
+            </Grid>
         </Border>
+        <Border Margin="30,30,30,10" Grid.Column="2" Grid.Row="1" BorderBrush="{DynamicResource Themes_InterfaceFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_InterfaceFrameBackground}">
+            <Grid>
+
+            </Grid>
+        </Border>
+        <Button x:Name="UpdateButton" Content="{Binding Path=Configuration_Label_Button_Update, Source={StaticResource Resources}}"
+        VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Margin="30" 
+        Background="{DynamicResource Themes_ButtonColor}" Foreground="{DynamicResource Themes_ButtonFontColor}" 
+        Style="{DynamicResource RoundButton}" BorderBrush="{DynamicResource Themes_ButtonColor}" Click="btnUpdate_Click" />
     </Grid>
 </Page>

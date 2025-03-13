@@ -58,5 +58,27 @@ namespace VCheck.Lib.Data
                 return false;
             }
         }
+
+        /// <summary>
+        /// Validate Is Location ID Valid
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="iID"></param>
+        /// <returns></returns>
+        public static LocationModel GetLocationByID(IConfiguration config, int iID)
+        {
+            try
+            {
+                using (var ctx = new LocationDBContext(config))
+                {
+                    return ctx.mst_location.FirstOrDefault(x => x.ID == iID && x.Status == 1);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("LocationRepository >>> GetLocationById >>> " + ex.ToString());
+                return null;
+            }
+        }
     }
 }

@@ -71,17 +71,28 @@ namespace VCheck.Lib.Data
             return null;
         }
 
-        public void GetTestResults(string patientID, out List<PatientDataObject> returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        public void GetTestResults(string patientID, out List<List<PatientDataObject>> returnData, out string responseCode, out string responseMessage, out string responseStatus)
         {
             returnData = null;
 
             try
             {
                 var data = TestResultsRepository.GetTestResultByPatientID(ConfigSettings.GetConfigurationSettings(), patientID);
+
+                var testDatetime = data.Select(x => x.observationdatetime).Distinct().ToList();
+
+                List<List<PatientDataObject>> testResultHistory = new List<List<PatientDataObject>>();
+
+                foreach (var datetime in testDatetime)
+                {
+                    testResultHistory.Add(data.Where(x => x.observationdatetime == datetime).ToList());
+                }
+
+
                 if (data.Count > 0) { 
                     responseCode = "VV.0001"; 
                     responseMessage = "Success"; 
-                    returnData = data; 
+                    returnData = testResultHistory; 
                 }
                 else { 
                     responseCode = "VV.0002"; 
@@ -99,7 +110,7 @@ namespace VCheck.Lib.Data
             }
         }
 
-        public void UpdateScheduledTest(string scheduledUniqueID ,string scheduledDatetime, string inchargePerson, out ScheduledTestModel returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        public void UpdateScheduledTest(string scheduledUniqueID ,string scheduledDatetime, string inchargePerson, string updatedBy, out ScheduledTestModel returnData, out string responseCode, out string responseMessage, out string responseStatus)
         {
             returnData = null;
 
@@ -115,6 +126,8 @@ namespace VCheck.Lib.Data
                 {
                     data.ScheduledDateTime = (!String.IsNullOrEmpty(scheduledDatetime)) ? DateTime.ParseExact(scheduledDatetime, "yyyyMMddHHmmss", null) : data.ScheduledDateTime;
                     data.InchargePerson = (!String.IsNullOrEmpty(inchargePerson)) ? inchargePerson : data.InchargePerson;
+                    data.UpdatedBy = updatedBy;
+                    data.UpdatedDate = DateTime.Now;
 
                     ScheduledTestRepository.UpdateScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), data);
 

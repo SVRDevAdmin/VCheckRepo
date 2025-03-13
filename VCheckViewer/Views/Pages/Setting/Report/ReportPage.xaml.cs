@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
+using VCheckViewer.Lib.Function;
 
 namespace VCheckViewer.Views.Pages.Setting.Report
 {
@@ -22,9 +25,38 @@ namespace VCheckViewer.Views.Pages.Setting.Report
     /// </summary>
     public partial class ReportPage : Page
     {
+        public ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
+
         public ReportPage()
         {
             InitializeComponent();
+            LoadInformation();
+        }
+
+        private void LoadInformation()
+        {
+            var sReportImagePath = configDBContext.GetConfigurationData("ReportImagePath").FirstOrDefault();
+            var sClinicName = configDBContext.GetConfigurationData("ClinicName").FirstOrDefault();
+            var sReportTitle = configDBContext.GetConfigurationData("ReportTitle").FirstOrDefault();
+            var sClinicAddress = configDBContext.GetConfigurationData("ClinicAddress").FirstOrDefault();
+
+            var bitmap = new BitmapImage();
+
+            try
+            {
+                Uri uri = new Uri(sReportImagePath != null ? sReportImagePath.ConfigurationValue : "pack://application:,,,/Content/Images/Report Logo Default.png");
+                bitmap = new BitmapImage(uri);
+            }
+            catch (Exception ex)
+            {
+                Uri uri = new Uri("pack://application:,,,/Content/Images/Report Logo Default.png");
+                bitmap = new BitmapImage(uri);
+            }
+
+            Logo.Source = bitmap;
+            ClinicName.Text = sClinicName != null ? sClinicName.ConfigurationValue : "";
+            ReportTitle.Text = sReportTitle != null ? sReportTitle.ConfigurationValue : "";
+            ClinicAddress.Text = sClinicAddress != null ? sClinicAddress.ConfigurationValue : "";
         }
 
         private void btnDevice_Click(object sender, RoutedEventArgs e)
@@ -47,7 +79,7 @@ namespace VCheckViewer.Views.Pages.Setting.Report
             App.GoToSettingConfigurationPageHandler(e, sender);
         }
 
-        private void txtFileName_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void image_click(object sender, MouseButtonEventArgs e)
         {
             // Create OpenFileDialog 
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -59,23 +91,22 @@ namespace VCheckViewer.Views.Pages.Setting.Report
             // Display OpenFileDialog by calling ShowDialog method 
             Nullable<bool> result = dlg.ShowDialog();
 
-            // Get the selected file name and display in a TextBox 
             if (result == true)
             {
-                // Open document 
-                string filename = dlg.FileName;
-                txtFileName.Text = filename;
+                LogoPath.Text = dlg.FileName;
+                var uri = new Uri(dlg.FileName);
+                var bitmap = new BitmapImage(uri);
 
-                btnUpdate.IsEnabled = true;
+                Logo.Source = bitmap;
             }
         }
 
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(txtFileName.Text) || String.IsNullOrEmpty(txtContactNo.Text))
+            if (String.IsNullOrEmpty(LogoPath.Text) || String.IsNullOrEmpty(ClinicName.Text) || String.IsNullOrEmpty(ReportTitle.Text) || String.IsNullOrEmpty(ClinicAddress.Text))
             {
-                btnUpdate.IsEnabled = false;
+                UpdateButton.IsEnabled = false;
             }
             else
             {
@@ -84,13 +115,25 @@ namespace VCheckViewer.Views.Pages.Setting.Report
                 sConfigList.Add(new ConfigurationModel
                 {
                     ConfigurationKey = "ReportImagePath",
-                    ConfigurationValue = txtFileName.Text.Replace("\\", "\\\\")
+                    ConfigurationValue = LogoPath.Text.Replace("\\", "\\\\")
                 });
 
                 sConfigList.Add(new ConfigurationModel
                 {
-                    ConfigurationKey = "ContactInfo",
-                    ConfigurationValue = txtContactNo.Text
+                    ConfigurationKey = "ClinicName",
+                    ConfigurationValue = ClinicName.Text
+                });
+
+                sConfigList.Add(new ConfigurationModel
+                {
+                    ConfigurationKey = "ReportTitle",
+                    ConfigurationValue = ReportTitle.Text
+                });
+
+                sConfigList.Add(new ConfigurationModel
+                {
+                    ConfigurationKey = "ClinicAddress",
+                    ConfigurationValue = ClinicAddress.Text
                 });
 
                 Popup sConfirmPopup = new Popup();

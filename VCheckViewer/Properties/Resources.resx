@@ -629,5 +629,102 @@
   </data>
   <data name="Results_Label_PatientName" xml:space="preserve">
     <value>Patient Name</value>
+    <comment>n</comment>
+  </data>
+  <data name="Dashboard_Label_Negative" xml:space="preserve">
+    <value>Negative</value>
+    <comment>n</comment>
+  </data>
+  <data name="Dashboard_Label_Positive" xml:space="preserve">
+    <value>Positive</value>
+    <comment>n</comment>
+  </data>
+  <data name="Login_Label_RegisterButton" xml:space="preserve">
+    <value>Register</value>
+    <comment>n</comment>
+  </data>
+  <data name="Popup_Message_APIUpdateFailed" xml:space="preserve">
+    <value>Update Result API Failed.</value>
+    <comment>n</comment>
+  </data>
+  <data name="Popup_Message_APIUpdateSuccess" xml:space="preserve">
+    <value>Update Result API Successfully.</value>
+    <comment>n</comment>
+  </data>
+  <data name="Popup_Message_CanceledSendToAnalyzer" xml:space="preserve">
+    <value>Took too long sending request to the analyzer.</value>
+    <comment>n</comment>
+  </data>
+  <data name="Popup_Message_EnterUniqueID" xml:space="preserve">
+    <value>Please enter Unique ID.</value>
+    <comment>n</comment>
+  </data>
+  <data name="Popup_Message_FailedToSendToAnalyzer" xml:space="preserve">
+    <value>Failed to send request to the analyzer.</value>
+    <comment>n</comment>
+  </data>
+  <data name="Popup_Message_NoDeviceFound" xml:space="preserve">
+    <value>No device found that can receive request.</value>
+    <comment>n</comment>
+  </data>
+  <data name="Popup_Message_PatientNameUpdated" xml:space="preserve">
+    <value>Patient name have been updated.</value>
+    <comment>n</comment>
+  </data>
+  <data name="Popup_Message_SelectDevice" xml:space="preserve">
+    <value>Please select device to send the request to.</value>
+    <comment>n</comment>
+  </data>
+  <data name="Popup_Message_SentToAnalyzer" xml:space="preserve">
+    <value>Request have been sent to the analyzer</value>
+    <comment>n</comment>
+  </data>
+  <data name="Popup_Message_UpdatePatientName" xml:space="preserve">
+    <value>Input patient name.</value>
+    <comment>n</comment>
+  </data>
+  <data name="Popup_Message_WrongID" xml:space="preserve">
+    <value>Wrong Unique ID.</value>
+    <comment>n</comment>
+  </data>
+  <data name="Results_Label_DeviceSerialNo" xml:space="preserve">
+    <value>Device Serial No.</value>
+    <comment>n</comment>
+  </data>
+  <data name="Results_Label_EditPatientName" xml:space="preserve">
+    <value>Edit Patient Name</value>
+    <comment>n</comment>
+  </data>
+  <data name="Results_Label_SendToPMS" xml:space="preserve">
+    <value>Edit Patient Name</value>
+    <comment>n</comment>
+  </data>
+  <data name="Results_Label_TestResultType" xml:space="preserve">
+    <value>Test Result Type</value>
+    <comment>n</comment>
+  </data>
+  <data name="Results_Label_View" xml:space="preserve">
+    <value>View</value>
+    <comment>n</comment>
+  </data>
+  <data name="Schedule_Label_Abnormal" xml:space="preserve">
+    <value>Abnormal</value>
+    <comment>n</comment>
+  </data>
+  <data name="Schedule_Label_Normal" xml:space="preserve">
+    <value>Normal</value>
+    <comment>n</comment>
+  </data>
+  <data name="Schedule_Label_SendToAnalyzer" xml:space="preserve">
+    <value>Send to analyzer</value>
+    <comment>n</comment>
+  </data>
+  <data name="Schedule_Label_UniqueID" xml:space="preserve">
+    <value>Unique ID:</value>
+    <comment>n</comment>
+  </data>
+  <data name="Setting_Label_DeviceType" xml:space="preserve">
+    <value>Device Type</value>
+    <comment>n</comment>
   </data>
 </root>

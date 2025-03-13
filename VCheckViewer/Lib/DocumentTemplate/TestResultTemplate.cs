@@ -40,10 +40,13 @@ namespace VCheckViewer.Lib.DocumentTemplate
         public void Compose(IDocumentContainer container)
         {
             var sReportImagePath = configDBContext.GetConfigurationData("ReportImagePath").FirstOrDefault();
+            var sClinicName = configDBContext.GetConfigurationData("ClinicName").FirstOrDefault();
+            var sReportTitle = configDBContext.GetConfigurationData("ReportTitle").FirstOrDefault();
+            var sClinicAddress = configDBContext.GetConfigurationData("ClinicAddress").FirstOrDefault();
             var sBuilder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
             String sIconConfigPath = sBuilder.Configuration.GetSection("PrintTemplate:IconPath").Value;
-            String sIconPath = System.Environment.CurrentDirectory + sIconConfigPath;
-            //String sIconPath = sReportImagePath == null ? sReportImagePath.ConfigurationValue : System.Environment.CurrentDirectory + sIconConfigPath;
+            String sFooterLogo = System.Environment.CurrentDirectory + sIconConfigPath;
+            String sIconPath = sReportImagePath != null ? sReportImagePath.ConfigurationValue : sFooterLogo;
             String sDownloadPath = sBuilder.Configuration.GetSection("Configuration:DownloadFolderPath").Value;
 
             try
@@ -59,7 +62,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
                         page.DefaultTextStyle(x => x.FontFamily("Noto Sans"));
 
                         page.Header()
-                            .Height(1, Unit.Centimetre)
+                            .Height(5, Unit.Centimetre)
                             .Image(sIconPath);
 
                         // -- Content -- //
@@ -67,10 +70,10 @@ namespace VCheckViewer.Lib.DocumentTemplate
                             .Column(c =>
                             {
                                 c.Item().Height(20);
-                                c.Item().Text("Test Results")
-                                        .FontSize(12)
-                                        .Bold();
-                                c.Item().Height(10);
+                                //c.Item().Text("Test Results")
+                                //        .FontSize(12)
+                                //        .Bold();
+                                //c.Item().Height(10);
 
                                 c.Item().Background("#f2f2f2").Row(row =>
                                 {
@@ -86,7 +89,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                                 .Text(text =>
                                                 {
                                                     text.Span("Clinic Name : ").SemiBold();
-                                                    text.Span("Test Clinic").SemiBold();
+                                                    text.Span((sClinicName != null) ? sClinicName.ConfigurationValue : "").SemiBold();
                                                 });
                                         });
                                     });
@@ -103,7 +106,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                                 .Text(text =>
                                                 {
                                                     text.Span("Report Title : ").SemiBold();
-                                                    text.Span("Test Title").SemiBold();
+                                                    text.Span((sReportTitle != null) ? sReportTitle.ConfigurationValue : "").SemiBold();
                                                 });
                                         });
                                     });
@@ -115,7 +118,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                         .Text(text =>
                                         {
                                             text.Span("Clinic Address : ").SemiBold();
-                                            text.Span("Test Address").SemiBold();
+                                            text.Span((sClinicAddress != null) ? sClinicAddress.ConfigurationValue : "").SemiBold();
                                         });
 
                                 c.Item().Background("#f2f2f2")
@@ -173,33 +176,168 @@ namespace VCheckViewer.Lib.DocumentTemplate
 
                                 if (sTestResultDetail.Count > 0)
                                 {
-                                    foreach(var d in sTestResultDetail)
+                                    c.Item().Background("#f2f2f2").Row(row =>
                                     {
-                                        c.Item().Background("#f2f2f2")
-                                                .PaddingLeft(5)
-                                                .PaddingBottom(5)
-                                                //.Height(20)
-                                                .Text(text =>
-                                                {
-                                                    text.Span(d.TestParameter).Bold().Underline();
-                                                    text.EmptyLine();
-                                                    text.EmptyLine();
-                                                    text.Span("Result Status : ").Bold();
-                                                    text.Span(d.TestResultStatus);
-                                                    text.EmptyLine().LineHeight(10);
-                                                    text.Span("Result Value : ").Bold();
+                                        row.RelativeItem()
+                                        .Column(leftColumn =>
+                                        {
+                                            leftColumn.Item().Column(col =>
+                                            {
+                                                col.Item().Background("#f2f2f2")
+                                                    .PaddingLeft(5)
+                                                    .PaddingTop(10)
+                                                    .Height(20)
+                                                    .AlignCenter()
+                                                    .Text("Parameter")
+                                                    .Bold();
+                                            });
+                                        });
 
-                                                    if (d.TestResultUnit != null && d.TestResultUnit.ToLower() =="vn")
-                                                    {
-                                                        text.Span(d.TestResultUnit + " " + d.TestResultValue);
-                                                    }
-                                                    else
-                                                    {
-                                                        text.Span(d.TestResultValue + " " + d.TestResultUnit);
-                                                    }
-                                                    
-                                                    text.EmptyLine();
+                                        row.RelativeItem()
+                                        .Column(leftColumn =>
+                                        {
+                                            leftColumn.Item().Column(col =>
+                                            {
+                                                col.Item().Background("#f2f2f2")
+                                                    .PaddingLeft(5)
+                                                    .PaddingTop(10)
+                                                    .Height(20)
+                                                    .AlignCenter()
+                                                    .Text("Result")
+                                                    .Bold();
+                                            });
+                                        });
+
+                                        row.RelativeItem()
+                                        .Column(leftColumn =>
+                                        {
+                                            leftColumn.Item().Column(col =>
+                                            {
+                                                col.Item().Background("#f2f2f2")
+                                                    .PaddingLeft(5)
+                                                    .PaddingTop(10)
+                                                    .Height(20)
+                                                    .AlignCenter()
+                                                    .Text("Reference")
+                                                    .Bold();
+                                            });
+                                        });
+
+                                        row.RelativeItem()
+                                        .Column(leftColumn =>
+                                        {
+                                            leftColumn.Item().Column(col =>
+                                            {
+                                                col.Item().Background("#f2f2f2")
+                                                    .PaddingLeft(5)
+                                                    .PaddingTop(10)
+                                                    .Height(20)
+                                                    .AlignCenter()
+                                                    .Text("Unit")
+                                                    .Bold();
+                                            });
+                                        });
+                                    });
+
+                                    foreach (var d in sTestResultDetail)
+                                    {
+                                        //c.Item().Background("#f2f2f2")
+                                        //        .PaddingLeft(5)
+                                        //        .PaddingBottom(5)
+                                        //        //.Height(20)
+                                        //        .Text(text =>
+                                        //        {
+                                        //            text.Span(d.TestParameter).Bold().Underline();
+                                        //            text.EmptyLine();
+                                        //            text.EmptyLine();
+                                        //            text.Span("Result Status : ").Bold();
+                                        //            text.Span(d.TestResultStatus);
+                                        //            text.EmptyLine().LineHeight(10);
+                                        //            text.Span("Result Value : ").Bold();
+
+                                        //            if (d.TestResultUnit != null && d.TestResultUnit.ToLower() =="vn")
+                                        //            {
+                                        //                text.Span(d.TestResultUnit + " " + d.TestResultValue);
+                                        //            }
+                                        //            else
+                                        //            {
+                                        //                text.Span(d.TestResultValue + " " + d.TestResultUnit);
+                                        //            }
+
+                                        //            text.EmptyLine();
+                                        //        });
+
+                                        if (!App.Parameters.Contains(d.TestParameter))
+                                        {
+                                            continue;
+                                        }
+
+                                        c.Item().Background("#f2f2f2").Row(row =>
+                                        {
+                                            row.RelativeItem()
+                                            .Column(leftColumn =>
+                                            {
+                                                leftColumn.Item().Column(col =>
+                                                {
+                                                    col.Item().Background("#f2f2f2")
+                                                        .PaddingLeft(5)
+                                                        .PaddingTop(10)
+                                                        .Height(20)
+                                                        .AlignCenter()
+                                                        .Text(d.TestParameter);
                                                 });
+                                            });
+
+                                            row.RelativeItem()
+                                            .Column(leftColumn =>
+                                            {
+                                                leftColumn.Item().Column(col =>
+                                                {
+                                                    col.Item().Background("#f2f2f2")
+                                                        .PaddingLeft(5)
+                                                        .PaddingTop(10)
+                                                        .Height(20)
+                                                        .AlignCenter()
+                                                        .Text(d.TestResultValue);
+                                                });
+                                            });
+
+                                            var reference = "-";
+
+                                            if (!string.IsNullOrEmpty(d.ReferenceRange))
+                                            {
+                                                var range = d.ReferenceRange.Replace("[", "").Replace("]", "").Contains(";") ? d.ReferenceRange.Split(";") : d.ReferenceRange.Split("-");
+                                                reference = range[0] + " - " + range[1];
+                                            }
+
+                                            row.RelativeItem()
+                                            .Column(leftColumn =>
+                                            {
+                                                leftColumn.Item().Column(col =>
+                                                {
+                                                    col.Item().Background("#f2f2f2")
+                                                        .PaddingLeft(5)
+                                                        .PaddingTop(10)
+                                                        .Height(20)
+                                                        .AlignCenter()
+                                                        .Text(reference);
+                                                });
+                                            });
+
+                                            row.RelativeItem()
+                                            .Column(leftColumn =>
+                                            {
+                                                leftColumn.Item().Column(col =>
+                                                {
+                                                    col.Item().Background("#f2f2f2")
+                                                        .PaddingLeft(5)
+                                                        .PaddingTop(10)
+                                                        .Height(20)
+                                                        .AlignCenter()
+                                                        .Text(d.TestResultUnit);
+                                                });
+                                            });
+                                        });
                                     }
                                 }
 
@@ -303,7 +441,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
                             });
 
                         page.Footer().AlignRight().Height(1, Unit.Centimetre)
-                            .Image(sIconPath);
+                            .Image(sFooterLogo);
                     });
                 });
 

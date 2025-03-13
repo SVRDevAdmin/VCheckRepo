@@ -627,4 +627,79 @@
   <data name="Login_Message_WrongNewPassword" xml:space="preserve">
     <value>Wrong new password.</value>
   </data>
+  <data name="Dashboard_Label_Negative" xml:space="preserve">
+    <value>消極的</value>
+  </data>
+  <data name="Dashboard_Label_Positive" xml:space="preserve">
+    <value>積極的</value>
+  </data>
+  <data name="Login_Label_RegisterButton" xml:space="preserve">
+    <value>登記</value>
+  </data>
+  <data name="Popup_Message_APIUpdateFailed" xml:space="preserve">
+    <value>更新結果 API 失敗。</value>
+  </data>
+  <data name="Popup_Message_APIUpdateSuccess" xml:space="preserve">
+    <value>更新結果 API 成功。</value>
+  </data>
+  <data name="Popup_Message_CanceledSendToAnalyzer" xml:space="preserve">
+    <value>向分析器發送請求的時間太長。</value>
+  </data>
+  <data name="Popup_Message_EnterUniqueID" xml:space="preserve">
+    <value>請輸入唯一 ID。</value>
+  </data>
+  <data name="Popup_Message_FailedToSendToAnalyzer" xml:space="preserve">
+    <value>無法向分析器發送請求。</value>
+  </data>
+  <data name="Popup_Message_NoDeviceFound" xml:space="preserve">
+    <value>找不到可以接收請求的裝置。</value>
+  </data>
+  <data name="Popup_Message_PatientNameUpdated" xml:space="preserve">
+    <value>患者姓名已更新。</value>
+  </data>
+  <data name="Popup_Message_SelectDevice" xml:space="preserve">
+    <value>請選擇要將請求傳送到的裝置。</value>
+  </data>
+  <data name="Popup_Message_SentToAnalyzer" xml:space="preserve">
+    <value>請求已發送至分析儀</value>
+  </data>
+  <data name="Popup_Message_UpdatePatientName" xml:space="preserve">
+    <value>輸入患者姓名。</value>
+  </data>
+  <data name="Popup_Message_WrongID" xml:space="preserve">
+    <value>唯一 ID 錯誤。</value>
+  </data>
+  <data name="Results_Label_DeviceSerialNo" xml:space="preserve">
+    <value>設備序號</value>
+  </data>
+  <data name="Results_Label_EditPatientName" xml:space="preserve">
+    <value>編輯患者姓名</value>
+  </data>
+  <data name="Results_Label_PatientName" xml:space="preserve">
+    <value>患者姓名</value>
+  </data>
+  <data name="Results_Label_SendToPMS" xml:space="preserve">
+    <value>編輯患者姓名</value>
+  </data>
+  <data name="Results_Label_TestResultType" xml:space="preserve">
+    <value>測試結果類型</value>
+  </data>
+  <data name="Results_Label_View" xml:space="preserve">
+    <value>看法</value>
+  </data>
+  <data name="Schedule_Label_Abnormal" xml:space="preserve">
+    <value>異常</value>
+  </data>
+  <data name="Schedule_Label_Normal" xml:space="preserve">
+    <value>普通的</value>
+  </data>
+  <data name="Schedule_Label_SendToAnalyzer" xml:space="preserve">
+    <value>發送至分析儀</value>
+  </data>
+  <data name="Schedule_Label_UniqueID" xml:space="preserve">
+    <value>唯一ID：</value>
+  </data>
+  <data name="Setting_Label_DeviceType" xml:space="preserve">
+    <value>設備類型</value>
+  </data>
 </root>

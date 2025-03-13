@@ -22,11 +22,11 @@ namespace VCheck.Lib.Data
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
 
         /// <summary>
-        /// Get recent test result 
+        /// Get recent test result details
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static List<TestResultExtendedModel> GetLatestTestResultList(IConfiguration config)
+        public static List<TestResultExtendedModel> GetLatestTestResultDetailsList(IConfiguration config)
         {
             List<TestResultExtendedModel> sResultList = new List<TestResultExtendedModel>();
 
@@ -85,6 +85,22 @@ namespace VCheck.Lib.Data
                     sConn.Close();
 
                     return sResultList.Take(5).ToList();     
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        public static List<TestResultModel> GetLatestTestResultList(IConfiguration config)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.txn_testResults.OrderByDescending(x => x.CreatedDate).Take(5).ToList();
                 }
             }
             catch (Exception ex)
@@ -596,6 +612,28 @@ namespace VCheck.Lib.Data
             {
                 log.Error("Error >>> " + ex.ToString());
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// Update test result info
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static void UpdateTestResult(IConfiguration config, TestResultModel testResult)
+        {
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    ctx.txn_testResults.Update(testResult);
+                    ctx.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
             }
         }
     }

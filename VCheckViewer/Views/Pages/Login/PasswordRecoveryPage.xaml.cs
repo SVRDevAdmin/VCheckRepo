@@ -149,7 +149,7 @@ namespace VCheckViewer.Views.Pages.Login
 
                         sEmail.SenderEmail = App.SMTP.Sender;
 
-                        List<string> sRecipientList = [user.NormalizedEmail, "azwan@svrtech.com.my"];
+                        List<string> sRecipientList = [user.NormalizedEmail];
 
 
                         sEmail.RecipientEmail = sRecipientList;

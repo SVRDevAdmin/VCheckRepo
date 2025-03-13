@@ -36,14 +36,14 @@ namespace VCheckViewerAPI.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet(Name = "GetPatientResult")]
+        [HttpPost(Name = "GetPatientResult")]
         public ResponseModel GetPatientResult(PatientDataRequest request)
         {
             var response = new ResponseModel();
             response.Header = new HeaderModel();
             response.Body = new ResponseBody();
 
-            List<PatientDataObject> result = null;
+           List<List<PatientDataObject>> result = null;
             string responseCode = "";
             String responseMessage = "";
             String responseStatus = "";
@@ -139,7 +139,9 @@ namespace VCheckViewerAPI.Controllers
                     {
                         if (_apiRepository.ValidateTokenExpiry(request.Header.clientKey))
                         {
-                            _apiRepository.UpdateScheduledTest(request.Body.ScheduledUniqueID, request.Body.ScheduledDatetime, request.Body.InchargePerson,
+                            ClientModel sAuthProfile = _apiRepository.GetClientProfileByClientKey(request.Header.clientKey);
+                            var UpdatedBy = (sAuthProfile != null) ? sAuthProfile.Name : "";
+                            _apiRepository.UpdateScheduledTest(request.Body.ScheduledUniqueID, request.Body.ScheduledDatetime, request.Body.InchargePerson, UpdatedBy,
                                                             out result, out responseCode, out responseMessage, out responseStatus);
 
                             if (result != null)
@@ -280,6 +282,12 @@ namespace VCheckViewerAPI.Controllers
                                     sRespCode = "VV.0001";
                                     sRespStatus = "Success";
                                     sRespMessage = "Success. Generated unique ID is " + uniqueID;
+
+                                    //if (request.body.TestUniqueID.Split("-")[0] == "VCHECKC1")
+                                    //{
+                                    //    HL7MessageSender.Main sender = new HL7MessageSender.Main();
+                                    //    sender.SendMessage(request.body);
+                                    //}
                                 }
                                 else
                                 {
@@ -353,7 +361,7 @@ namespace VCheckViewerAPI.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet(Name = "GetLocationList")]
+        [HttpPost(Name = "GetLocationList")]
         public ResponseModel GetLocationList(LocationDataRequest request)
         {
             var response = new ResponseModel();
@@ -435,42 +443,65 @@ namespace VCheckViewerAPI.Controllers
             return response;
         }
 
-
-        [HttpGet(Name = "TestSQLite")]
-        public void TestSQLite()
-        {
-            using (var connection = new SqliteConnection("Data Source=C:\\Users\\azwan\\Downloads\\sqlite-tools-win-x64-3460000\\Databases\\vcheck.db"))
-            {
-                connection.Open();
-
-                var command = connection.CreateCommand();
-
-                //command.CommandText = "Insert into apiLog values('test','test')";
-
-                //command.ExecuteReader();
-
-                //command.Dispose();
-
-                command.CommandText =
-                @"
-                    SELECT *
-                    FROM apiLog
-                ";
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var name = reader.GetString(0);
-
-                        Console.WriteLine($"Hello, {name}!");
-                    }
-                }
-            }
-        }
-
         /// <summary>
         /// Get Location List
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet(Name = "TestConnection")]
+        public ResponseModel TestConnection()
+        {
+            var response = new ResponseModel();
+            response.Header = new HeaderModel();
+            response.Body = new ResponseBody();
+
+            response.Header.timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
+            response.Header.clientKey = "";
+
+            response.Body.ResponseCode = "VV.0001";
+            response.Body.ResponseStatus = "Success";
+            response.Body.ResponseMessage = "Success";
+            response.Body.Results = null;
+
+            return response;
+        }
+
+
+        //[HttpGet(Name = "TestSQLite")]
+        //public void TestSQLite()
+        //{
+        //    using (var connection = new SqliteConnection("Data Source=C:\\Users\\azwan\\Downloads\\sqlite-tools-win-x64-3460000\\Databases\\vcheck.db"))
+        //    {
+        //        connection.Open();
+
+        //        var command = connection.CreateCommand();
+
+        //        //command.CommandText = "Insert into apiLog values('test','test')";
+
+        //        //command.ExecuteReader();
+
+        //        //command.Dispose();
+
+        //        command.CommandText =
+        //        @"
+        //            SELECT *
+        //            FROM apiLog
+        //        ";
+
+        //        using (var reader = command.ExecuteReader())
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                var name = reader.GetString(0);
+
+        //                Console.WriteLine($"Hello, {name}!");
+        //            }
+        //        }
+        //    }
+        //}
+
+        /// <summary>
+        /// Get Test List
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

@@ -27,6 +27,7 @@ using VCheck.Lib.Data.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Windows.Markup;
+using VCheck.Helper;
 
 namespace VCheckViewer
 {
@@ -58,6 +59,12 @@ namespace VCheckViewer
         public static string newPassword { get; set; }
         public static SMTPModel SMTP { get; set; }
         public static string UpdateLink {  get; set; }
+        public static long TestResultID { get; set; }
+        public static ScheduledTestModel ScheduleTestInfo { set; get; }
+        public static int AnalyzerID { set; get; }
+        public static List<string> Parameters { get; set; }
+        public static TestResultModel TestResultInfo { get; set; }
+
 
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
@@ -178,18 +185,18 @@ namespace VCheckViewer
                 CultureInfo sZHCulture = new CultureInfo(language != null ? language : "en");
                 CultureResources.ChangeCulture(sZHCulture);
 
-                var roles = RoleManager.Roles.ToList();
-                IdentityRole role = new IdentityRole();
-                bool addRoleSuccess;
+                //var roles = RoleManager.Roles.ToList();
+                //IdentityRole role = new IdentityRole();
+                //bool addRoleSuccess;
             
-                if (!roles.Where(x => x.Name == "Lab User").Any())
-                {
-                    role = new IdentityRole("Lab User");
-                    await RoleManager.CreateAsync(role);
-                    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab User", IsActive = true, IsSuperadmin = false, IsAdmin = false });
-                    if (addRoleSuccess) { }
-                    else { }
-                }
+                //if (!roles.Where(x => x.Name == "Lab User").Any())
+                //{
+                //    role = new IdentityRole("Lab User");
+                //    await RoleManager.CreateAsync(role);
+                //    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab User", IsActive = true, IsSuperadmin = false, IsAdmin = false });
+                //    if (addRoleSuccess) { }
+                //    else { }
+                //}
 
                 //var roles = RoleManager.Roles.ToList();
                 //IdentityRole role = new IdentityRole();
@@ -352,6 +359,129 @@ namespace VCheckViewer
             if (GoToReportPage != null)
             {
                 GoToReportPage(sender, e);
+            }
+        }
+
+        public async static void CreateUser()
+        {
+            ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
+            MasterCodeDataDBContext sContext = GetService<MasterCodeDataDBContext>();
+            RolesDBContext rolesContext = GetService<RolesDBContext>();
+            UserDBContext usersContext = GetService<UserDBContext>();
+            TemplateDBContext TemplateContext = GetService<TemplateDBContext>();
+            NotificationDBContext NotificationContext = GetService<NotificationDBContext>();
+
+            try
+            {
+                var user = Activator.CreateInstance<IdentityUser>();
+
+                var emailStore = (IUserEmailStore<IdentityUser>)UserStore;
+
+                await UserStore.SetUserNameAsync(user, MainViewModel.Users.LoginID, CancellationToken.None);
+                if(MainViewModel.Users.EmailAddress != "")
+                {
+                    await emailStore.SetEmailAsync(user, MainViewModel.Users.EmailAddress, CancellationToken.None);
+                }
+                var result = await UserManager.CreateAsync(user, newPassword);
+
+                ConfigurationModel sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
+
+                if (result.Succeeded)
+                {
+                    MainViewModel.Users.UserId = user.Id;
+                    MainViewModel.Users.CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    MainViewModel.Users.CreatedBy = (MainViewModel.CurrentUsers != null) ? MainViewModel.CurrentUsers.FullName : MainViewModel.Users.LoginID;
+
+                    if (usersContext.InsertUser(MainViewModel.Users))
+                    {
+                        var roleResult = await UserManager.AddToRoleAsync(user, MainViewModel.Users.Role);
+
+                        if (roleResult.Succeeded)
+                        {
+                            var notificationTemplate = TemplateContext.GetTemplateByCodeLang("US05", (sLangCode != null ? sLangCode.ConfigurationValue : ""));
+                            notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("###<staff_id>###", MainViewModel.Users.EmployeeID).Replace("###<staff_fullname>###", MainViewModel.Users.FullName).Replace("'", "''");
+
+                            NotificationModel notification = new NotificationModel()
+                            {
+                                NotificationType = "Updates",
+                                NotificationTitle = notificationTemplate.TemplateTitle,
+                                NotificationContent = notificationTemplate.TemplateContent,
+                                CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                                CreatedBy = (MainViewModel.CurrentUsers != null) ? MainViewModel.CurrentUsers.FullName : MainViewModel.Users.LoginID
+                            };
+
+                            if (NotificationContext.InsertNotification(notification))
+                            {
+
+                            }
+                            else
+                            {
+
+                            }
+
+                            notificationTemplate = TemplateContext.GetTemplateByCodeLang("EN01", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
+                            notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###", MainViewModel.Users.FullName).Replace("###<password>###", newPassword).Replace("###<login_id>###", user.UserName);
+
+                            string sErrorMessage = "";
+
+                            try
+                            {
+                                EmailObject sEmail = new EmailObject();
+
+                                sEmail.SenderEmail = SMTP.Sender;
+
+                                List<string> sRecipientList = [MainViewModel.Users.EmailAddress];
+
+
+                                sEmail.RecipientEmail = sRecipientList;
+                                sEmail.IsHtml = true;
+                                sEmail.Subject = "[VCheck Viewer] " + notificationTemplate.TemplateTitle;
+                                sEmail.Body = notificationTemplate.TemplateContent;
+                                sEmail.SMTPHost = SMTP.Host;
+                                sEmail.PortNo = SMTP.Port;
+                                sEmail.HostUsername = SMTP.Username;
+                                sEmail.HostPassword = SMTP.Password;
+                                sEmail.EnableSsl = true;
+                                sEmail.UseDefaultCredentials = false;
+
+                                EmailHelper.SendEmail(sEmail, out sErrorMessage);
+
+                                if (!String.IsNullOrEmpty(sErrorMessage)) { throw new Exception(sErrorMessage); }
+
+                                notification = new NotificationModel()
+                                {
+                                    NotificationType = "Email",
+                                    NotificationTitle = notificationTemplate.TemplateTitle,
+                                    NotificationContent = notificationTemplate.TemplateContent,
+                                    Receiver = string.Join(", ", sRecipientList),
+                                    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                                    CreatedBy = (MainViewModel.CurrentUsers != null) ? MainViewModel.CurrentUsers.FullName : MainViewModel.Users.LoginID
+                                };
+
+                                if (NotificationContext.InsertNotification(notification))
+                                {
+
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error("Email Error >>> ", ex);
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.log.Error("Add User Error >>> ", ex);
             }
         }
     }

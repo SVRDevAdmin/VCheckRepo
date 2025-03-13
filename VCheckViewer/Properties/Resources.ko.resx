@@ -126,6 +126,12 @@
   <data name="Configuration_Label_PMS_LIS_HIS_PortNo" xml:space="preserve">
     <value>PMS / LIS / HIS 포트 번호</value>
   </data>
+  <data name="Dashboard_Label_Negative" xml:space="preserve">
+    <value>음성</value>
+  </data>
+  <data name="Dashboard_Label_Positive" xml:space="preserve">
+    <value>양성</value>
+  </data>
   <data name="Dashboard_Message_DownloadLatest" xml:space="preserve">
     <value>분석기 소프트웨어 및 펌웨어를 정기적으로 업데이트하여 최적의 성능을 보장하십시오. &lt;nextline&gt;분석기의 최신 버전을 가져옵니다.</value>
   </data>
@@ -318,6 +324,9 @@
   <data name="Login_Label_PasswordRecovery" xml:space="preserve">
     <value>비밀번호&lt;nextline&gt;복구</value>
   </data>
+  <data name="Login_Label_RegisterButton" xml:space="preserve">
+    <value>등록</value>
+  </data>
   <data name="Login_Label_ResetPassword" xml:space="preserve">
     <value>암호를 재설정</value>
   </data>
@@ -396,11 +405,23 @@
   <data name="Popup_Message_AddAnalyzer" xml:space="preserve">
     <value>이 새 분석기를 추가하시겠습니까?</value>
   </data>
+  <data name="Popup_Message_APIUpdateFailed" xml:space="preserve">
+    <value>결과 API 업데이트가 실패했습니다.</value>
+  </data>
+  <data name="Popup_Message_APIUpdateSuccess" xml:space="preserve">
+    <value>결과 API 업데이트가 성공적으로 완료되었습니다.</value>
+  </data>
+  <data name="Popup_Message_CanceledSendToAnalyzer" xml:space="preserve">
+    <value>분석기로 요청을 보내는 데 너무 오래 걸렸습니다.</value>
+  </data>
   <data name="Popup_Message_CreateUser" xml:space="preserve">
     <value>이 사용자 프로필을 만드시겠습니까?</value>
   </data>
   <data name="Popup_Message_DeleteUser" xml:space="preserve">
     <value>이 사용자 프로필을 삭제하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_EnterUniqueID" xml:space="preserve">
+    <value>고유 ID를 입력하세요.</value>
   </data>
   <data name="Popup_Message_FailedAddDevice" xml:space="preserve">
     <value>장치를 추가하지 못했습니다. 시스템 관리자에게 문의하세요.</value>
@@ -414,6 +435,9 @@
   <data name="Popup_Message_FailedOpenPrint" xml:space="preserve">
     <value>인쇄를 열지 못했습니다.</value>
   </data>
+  <data name="Popup_Message_FailedToSendToAnalyzer" xml:space="preserve">
+    <value>분석기로 요청을 보내는 데 실패했습니다.</value>
+  </data>
   <data name="Popup_Message_FailedUpdateDevice" xml:space="preserve">
     <value>장치를 업데이트하지 못했습니다. 시스템 관리자에게 문의하세요.</value>
   </data>
@@ -423,6 +447,9 @@
   <data name="Popup_Message_Logout" xml:space="preserve">
     <value>정말로 로그아웃하시겠습니까?</value>
   </data>
+  <data name="Popup_Message_NoDeviceFound" xml:space="preserve">
+    <value>요청을 받을 수 있는 기기를 찾을 수 없습니다.</value>
+  </data>
   <data name="Popup_Message_PasswordRecoveredP1" xml:space="preserve">
     <value>이메일로 임시 비밀번호를 보내드렸습니다. 로그인하는 데 사용할 수 있습니다. &lt;다음 줄&gt; 로그인하면 다음에서 원하는 비밀번호로 변경할 수 있습니다.</value>
   </data>
@@ -431,6 +458,9 @@
   </data>
   <data name="Popup_Message_PasswordRecoveredP3" xml:space="preserve">
     <value>절</value>
+  </data>
+  <data name="Popup_Message_PatientNameUpdated" xml:space="preserve">
+    <value>환자 이름이 업데이트되었습니다.</value>
   </data>
   <data name="Popup_Message_RecoverPassword" xml:space="preserve">
     <value>비밀번호를 복구하시겠습니까?</value>
@@ -447,20 +477,38 @@
   <data name="Popup_Message_SaveSettings" xml:space="preserve">
     <value>이 설정을 저장하시겠습니까?</value>
   </data>
+  <data name="Popup_Message_SelectDevice" xml:space="preserve">
+    <value>요청을 보낼 기기를 선택하세요.</value>
+  </data>
+  <data name="Popup_Message_SentToAnalyzer" xml:space="preserve">
+    <value>요청이 분석기로 전송되었습니다.</value>
+  </data>
   <data name="Popup_Message_UpdateAnalyzer" xml:space="preserve">
     <value>이 새 분석기를 업데이트하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_UpdatePatientName" xml:space="preserve">
+    <value>환자 이름을 입력하세요.</value>
   </data>
   <data name="Popup_Message_UpdateUser" xml:space="preserve">
     <value>이 사용자 프로필을 업데이트하시겠습니까?</value>
   </data>
+  <data name="Popup_Message_WrongID" xml:space="preserve">
+    <value>잘못된 고유 ID입니다.</value>
+  </data>
   <data name="ResetPassword_Title_PageTitle" xml:space="preserve">
     <value>암호를 재설정</value>
+  </data>
+  <data name="Results_Label_DeviceSerialNo" xml:space="preserve">
+    <value>기기 일련 번호</value>
   </data>
   <data name="Results_Label_Doctor" xml:space="preserve">
     <value>의사</value>
   </data>
   <data name="Results_Label_Download" xml:space="preserve">
     <value>다운로드</value>
+  </data>
+  <data name="Results_Label_EditPatientName" xml:space="preserve">
+    <value>환자 이름 편집</value>
   </data>
   <data name="Results_Label_Lot" xml:space="preserve">
     <value>로트 번호</value>
@@ -474,6 +522,9 @@
   <data name="Results_Label_PatientID" xml:space="preserve">
     <value>환자번호</value>
   </data>
+  <data name="Results_Label_PatientName" xml:space="preserve">
+    <value>환자 이름</value>
+  </data>
   <data name="Results_Label_Print" xml:space="preserve">
     <value>인쇄</value>
   </data>
@@ -486,8 +537,14 @@
   <data name="Results_Label_Searchbar" xml:space="preserve">
     <value>키워드로 검색</value>
   </data>
+  <data name="Results_Label_SendToPMS" xml:space="preserve">
+    <value>환자 이름 편집</value>
+  </data>
   <data name="Results_Label_SortBy" xml:space="preserve">
     <value>종류</value>
+  </data>
+  <data name="Results_Label_TestResultType" xml:space="preserve">
+    <value>검사 결과 유형</value>
   </data>
   <data name="Results_Label_Time" xml:space="preserve">
     <value>시간</value>
@@ -501,6 +558,9 @@
   <data name="Results_Label_Valid" xml:space="preserve">
     <value>까지 유효하다</value>
   </data>
+  <data name="Results_Label_View" xml:space="preserve">
+    <value>보기</value>
+  </data>
   <data name="Results_Message_DownloadComplete" xml:space="preserve">
     <value>결과 목록 다운로드가 완료되었습니다.</value>
   </data>
@@ -510,8 +570,14 @@
   <data name="Results_Title_PageTitle" xml:space="preserve">
     <value>시험 결과</value>
   </data>
+  <data name="Schedule_Label_Abnormal" xml:space="preserve">
+    <value>비정상</value>
+  </data>
   <data name="Schedule_Label_NewPatients" xml:space="preserve">
     <value>새로운 환자</value>
+  </data>
+  <data name="Schedule_Label_Normal" xml:space="preserve">
+    <value>정상</value>
   </data>
   <data name="Schedule_Label_NoScheduleTestAvailable" xml:space="preserve">
     <value>예약된 테스트가 없습니다.</value>
@@ -528,8 +594,14 @@
   <data name="Schedule_Label_RecentTestResults" xml:space="preserve">
     <value>최근 테스트 결과</value>
   </data>
+  <data name="Schedule_Label_SendToAnalyzer" xml:space="preserve">
+    <value>분석기로 전송</value>
+  </data>
   <data name="Schedule_Label_TestsDone" xml:space="preserve">
     <value>테스트 완료</value>
+  </data>
+  <data name="Schedule_Label_UniqueID" xml:space="preserve">
+    <value>고유 ID:</value>
   </data>
   <data name="Schedule_Label_UpcomingTest" xml:space="preserve">
     <value>다가오는 테스트</value>
@@ -572,6 +644,9 @@
   </data>
   <data name="Setting_Label_Device" xml:space="preserve">
     <value>장치</value>
+  </data>
+  <data name="Setting_Label_DeviceType" xml:space="preserve">
+    <value>기기 유형</value>
   </data>
   <data name="Setting_Label_Email" xml:space="preserve">
     <value>이메일 주소</value>

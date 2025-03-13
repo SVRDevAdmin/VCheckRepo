@@ -32,6 +32,7 @@ namespace VCheck.Lib.Data.Models
         public String? TypeName { get; set; }
         public int? Status { get; set; }
         public int? SeqNo { get; set; }
+        public int? TwoWayCommunication { get; set; }
         public String? ImageSource { get; set; }
         public DateTime? CreatedDate { get; set; }
         public String? CreatedBy { get; set; }

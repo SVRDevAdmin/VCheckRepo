@@ -229,5 +229,29 @@ namespace VCheck.Lib.Data
                 return null;
             }
         }
+
+        /// <summary>
+        /// Get Two-Way Communication Device list
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="iID"></param>
+        /// <returns></returns>
+        public static List<DeviceModel> GetTwoWayCommDevice(IConfiguration config)
+        {
+            try
+            {
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    var deviceTypeIDs = ctx.mst_devicetype.Where(x => x.TwoWayCommunication == 1).Select(y => y.id).ToList();
+
+                    return ctx.mst_deviceslist.Where(x => deviceTypeIDs.Contains(x.DeviceTypeID.Value)).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("DeviceRepository >>> GetTwoWayCommDevice >>> " + ex.ToString());
+                return null;
+            }
+        }
     }
 }

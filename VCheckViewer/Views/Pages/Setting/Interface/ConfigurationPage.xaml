@@ -28,7 +28,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
-                    <ColumnDefinition Width="auto" MinWidth="90"/>
+                    <!--<ColumnDefinition Width="auto" MinWidth="90"/>-->
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="2">
                     <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Name="btnUser" Background="Black" BorderThickness="0" Foreground="White" HorizontalAlignment="Stretch" Style="{DynamicResource RoundButton}" Click="btnUser_Click"></Button>
@@ -42,9 +42,9 @@
                 <Border Grid.Column="3" Margin="2">
                     <Button Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Name="btnDevice" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
                 </Border>
-                <Border Grid.Column="4" Margin="2">
+                <!--<Border Grid.Column="4" Margin="2">
                     <Button Content="Report" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
-                </Border>
+                </Border>-->
             </Grid>
         </Border>
         <Border Name="borderConfiguration" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Transparent" BorderThickness="0">

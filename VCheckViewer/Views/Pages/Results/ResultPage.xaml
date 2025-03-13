@@ -18,6 +18,7 @@
             <Setter Property="FontSize" Value="12" />
             <Setter Property="Foreground" Value="{DynamicResource Themes_GridResultFontColor}" />
             <Setter Property="Margin" Value="2" />
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
         </Style>
         <Style x:Key="DataGridVerticalTextCenterAligned" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -194,14 +195,14 @@
                 RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}" HorizontalGridLinesBrush="{DynamicResource Themes_GridRowLinesColor}" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{Binding Path=Results_Label_No, Source={StaticResource Resources}}" Binding="{Binding RowNo}" Width="35" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_Time, Source={StaticResource Resources}}" Binding="{Binding TestResultDateTime, StringFormat={}{0:yyyy-MM-dd HH:ss}}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_Time, Source={StaticResource Resources}}" Binding="{Binding TestResultDateTime, StringFormat={}{0:yyyy-MM-dd HH:ss}}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <!-- Header="{Binding Path=Results_Label_TestResultType, Source={StaticResource Resources}}" -->
-                    <DataGridTextColumn Header="Test Result Type" Binding="{Binding TestResultType}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_OperatorID, Source={StaticResource Resources}}" Binding="{Binding OperatorID}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_PatientID, Source={StaticResource Resources}}" Binding="{Binding PatientID}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_PatientName, Source={StaticResource Resources}}" Binding="{Binding PatientName}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_TestResultType, Source={StaticResource Resources}}" Binding="{Binding TestResultType}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_OperatorID, Source={StaticResource Resources}}" Binding="{Binding OperatorID}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_PatientID, Source={StaticResource Resources}}" Binding="{Binding PatientID}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_PatientName, Source={StaticResource Resources}}" Binding="{Binding PatientName}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <!--<DataGridTextColumn Header="{Binding Path=Results_Label_ProceduralCont, Source={StaticResource Resources}}" Binding="{Binding ObservationStatus}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />-->
-                    <DataGridTemplateColumn Header="{Binding Path=Results_Label_Result, Source={StaticResource Resources}}" Width="140">
+                    <DataGridTemplateColumn Header="{Binding Path=Results_Label_Result, Source={StaticResource Resources}}" Width="*">
                         <!--HeaderStyle="{StaticResource columnHeaderStyleCenterAlign} -->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -219,9 +220,9 @@
                     <DataGridTextColumn Header="{Binding Path=Results_Label_Lot, Source={StaticResource Resources}}" Width="80" ElementStyle="{StaticResource DataGridVerticalText}" />
                     -->
                     <!--<DataGridTextColumn Header="{Binding Path=Results_Label_Valid, Source={StaticResource Resources}}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" /> -->
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_Doctor, Source={StaticResource Resources}}" Binding="{Binding InchargePerson}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}"/>
-                    <DataGridTextColumn Header="Device Serial No" Binding="{Binding DeviceSerialNo}" Width="130" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTemplateColumn Width="auto">
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_Doctor, Source={StaticResource Resources}}" Binding="{Binding InchargePerson}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_DeviceSerialNo, Source={StaticResource Resources}}" Binding="{Binding DeviceSerialNo}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTemplateColumn Width="0.3*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Right">
@@ -229,13 +230,15 @@
                                         <MenuItem>
                                             <MenuItem.Icon>
                                                 <!--<ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />-->
-                                                <Image Source="{DynamicResource Themes_GirdUserMoreIcon}" Width="12" />
+                                                <Image Source="{DynamicResource Themes_GirdUserMoreIcon}" Width="12"/>
                                             </MenuItem.Icon>
+                                            <MenuItem Name="menuEditPatientName" Tag="{Binding ID}" Header="Edit Patient Name" Click="updateName_Click" Visibility="Collapsed"/>
+                                            <MenuItem Name="menuView" Header="{Binding Path=Results_Label_View, Source={StaticResource Resources}}" Click="menuView_Click" Visibility="Collapsed"/>
                                             <MenuItem Name="menuDownload" Header="{Binding Path=Results_Label_Download, Source={StaticResource Resources}}" Click="menuDownload_Click" />
                                             <MenuItem Name="menuPrint" Header="{Binding Path=Results_Label_Print, Source={StaticResource Resources}}" Click="menuPrint_Click" />
 
                                             <!-- POC Testing -->
-                                            <MenuItem Name="menuTransfer" Tag="{Binding ID}" Header="Send to PMS" Click="menuTransfer_Click" />
+                                            <MenuItem Name="menuTransfer" Tag="{Binding ID}" Header="{Binding Path=Results_Label_SendToPMS, Source={StaticResource Resources}}" Click="menuTransfer_Click" />
                                         </MenuItem>
                                     </Menu>
                                 </Grid>

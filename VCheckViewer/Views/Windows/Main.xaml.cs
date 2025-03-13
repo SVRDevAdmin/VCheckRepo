@@ -29,6 +29,7 @@ using Microsoft.VisualBasic.Logging;
 using DocumentFormat.OpenXml.Drawing;
 using System.Runtime.Caching;
 using VCheckViewer.Views.Pages.Setting.Report;
+using DocumentFormat.OpenXml.EMMA;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -56,6 +57,7 @@ namespace VCheckViewer.Views.Windows
         public static event EventHandler ResetCurrentPassword;
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        public ObservableCollection<ComboBoxItem> deviceComboList = new ObservableCollection<ComboBoxItem>();
 
         public Main()
         {
@@ -68,6 +70,7 @@ namespace VCheckViewer.Views.Windows
             UserPage.GoToViewUserPage += new EventHandler(GoToViewUserPage);
             ViewUserPage.GoToUpdateCurrentUserPage += new EventHandler(GoToUpdateUserPage);
             UserPage.GoToLanguageCountryPage += new EventHandler(GoToLanguageCountryPage);
+            ResultPage.GoToViewResultPage += new EventHandler(GoToViewReportPage);
 
             App.GoToSettingUserPage += new EventHandler(SettingUserPage);
             App.GoToSettingLanguageCountryPage += new EventHandler(GoToLanguageCountryPage);
@@ -169,6 +172,11 @@ namespace VCheckViewer.Views.Windows
             frameContent.Content = new ReportPage();
         }
 
+        void GoToViewReportPage(object sender, EventArgs e)
+        {
+            frameContent.Content = new ViewResultPage();
+        }
+
         void SettingUserPage(object sender, EventArgs e)
         {
             frameContent.Content = new UserPage();
@@ -190,7 +198,9 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
-                txtInput.Visibility = Visibility.Hidden;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_SavePMSLISHIS; 
             }
@@ -198,7 +208,9 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
-                txtInput.Visibility = Visibility.Hidden;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Results_Message_DownloadComplete; 
             }
@@ -207,7 +219,9 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
-                txtInput.Visibility = Visibility.Hidden;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Results_Message_TestResultDownloadCompleted;
             }
@@ -216,7 +230,9 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
-                txtInput.Visibility = Visibility.Hidden;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedDownloadListing;
             }
@@ -225,7 +241,9 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
-                txtInput.Visibility = Visibility.Hidden;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedOpenPrint;
             }
@@ -234,7 +252,9 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
-                txtInput.Visibility = Visibility.Hidden;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedAddDevice;
             }
@@ -243,7 +263,9 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
-                txtInput.Visibility = Visibility.Hidden;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedDeleteDevice;
             }
@@ -252,7 +274,9 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
-                txtInput.Visibility = Visibility.Hidden;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedUpdateDevice;
             }
@@ -261,10 +285,109 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Visible;
                 txtInput.Visibility = Visibility.Visible;
+                deviceList.Visibility = Visibility.Collapsed;
                 txtInput.Text = "";
 
-                PopupContent.Text = "Please enter Unique ID.";
+                PopupContent.Text = Properties.Resources.Popup_Message_EnterUniqueID;
+            }
+            if (App.MainViewModel.Origin == "SendToAnalyzer")
+            {
+                List<DeviceModel> devices = DeviceRepository.GetTwoWayCommDevice(ConfigSettings.GetConfigurationSettings());
+
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+
+                deviceComboList.Clear();
+
+                if (devices.Count() > 0)
+                {
+
+                    if (devices != null)
+                    {
+                        foreach (var d in devices)
+                        {
+                            deviceComboList.Add(new ComboBoxItem
+                            {
+                                Content = d.DeviceName,
+                                Tag = d.id
+                            });
+                        }
+                    }
+
+                    if (deviceComboList.Count > 0)
+                    {
+                        deviceList.ItemsSource = deviceComboList;
+                    }
+
+                    PopupContent.Text = Properties.Resources.Popup_Message_SelectDevice;
+                    deviceList.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    App.MainViewModel.Origin = "NoDeviceFound";
+                    PopupContent.Text = Properties.Resources.Popup_Message_NoDeviceFound;
+                }
+
+            }
+            if (App.MainViewModel.Origin == "SentToAnalyzer")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_SentToAnalyzer;
+            }
+            if (App.MainViewModel.Origin == "FailedToSendToAnalyzer")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_FailedToSendToAnalyzer;
+            }
+            if (App.MainViewModel.Origin == "CanceledSendToAnalyzer")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_CanceledSendToAnalyzer;
+            }
+            if (App.MainViewModel.Origin == "UpdatePatientName")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Visible;
+                txtInput.Text = App.TestResultInfo.PatientName;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_UpdatePatientName;
+            }
+            if (App.MainViewModel.Origin == "PatientNameUpdated")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_PatientNameUpdated;
             }
 
             PopupBackground.Background = Brushes.DimGray;
@@ -319,7 +442,12 @@ namespace VCheckViewer.Views.Windows
                 App.MainViewModel.Origin == "FailedToShowPrint" ||
                 App.MainViewModel.Origin == "FailedAddDevice" ||
                 App.MainViewModel.Origin == "FailedDeleteDevice" ||
-                App.MainViewModel.Origin == "FailedUpdateDevice")
+                App.MainViewModel.Origin == "FailedUpdateDevice" ||
+                App.MainViewModel.Origin == "SentToAnalyzer" ||
+                App.MainViewModel.Origin == "FailedToSendToAnalyzer" ||
+                App.MainViewModel.Origin == "CanceledSendToAnalyzer" ||
+                App.MainViewModel.Origin == "NoDeviceFound" ||
+                App.MainViewModel.Origin == "PatientNameUpdated")
             {
                 this.IsEnabled = true;
                 popup.IsOpen = false;
@@ -329,6 +457,9 @@ namespace VCheckViewer.Views.Windows
                 btnOk.Visibility = Visibility.Collapsed;
                 btnYes.Visibility = Visibility.Visible;
                 btnNo.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
             }
 
             if (App.MainViewModel.Origin == "GreywindSendUniqueID")
@@ -343,9 +474,43 @@ namespace VCheckViewer.Views.Windows
                 btnOk.Visibility = Visibility.Collapsed;
                 btnYes.Visibility = Visibility.Visible;
                 btnNo.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
 
                 SendToPMSHandler(e, sender); 
+            }
+
+            if (App.MainViewModel.Origin == "SendToAnalyzer")
+            {
+                this.IsEnabled = true;
+                popup.IsOpen = false;
+
+                PopupBackground.Background = null;
+
+                var sSelectedItem = ((ComboBoxItem)deviceList.SelectedItem);
+                App.AnalyzerID = Convert.ToInt32(sSelectedItem.Tag);
+
+                SendRequestToAnalyzer(e, sender);
+            }
+
+            if (App.MainViewModel.Origin == "UpdatePatientName")
+            {
+                this.IsEnabled = true;
+                popup.IsOpen = false;
+
+                PopupBackground.Background = null;
+
+                App.TestResultInfo.PatientName = txtInput.Text;
+
+                btnOk.Visibility = Visibility.Collapsed;
+                btnYes.Visibility = Visibility.Visible;
+                btnNo.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+
+                UpdatePatientName(e, sender);
             }
         }
 
@@ -460,6 +625,7 @@ namespace VCheckViewer.Views.Windows
 
         private async void AddUserRowHandler(EventArgs e, object sender)
         {
+
             try
             {
                 var user = Activator.CreateInstance<IdentityUser>();
@@ -518,7 +684,7 @@ namespace VCheckViewer.Views.Windows
 
                                 sEmail.SenderEmail = App.SMTP.Sender;
 
-                                List<string> sRecipientList = [App.MainViewModel.Users.EmailAddress, "azwan@svrtech.com.my"];
+                                List<string> sRecipientList = [App.MainViewModel.Users.EmailAddress];
 
 
                                 sEmail.RecipientEmail = sRecipientList;
@@ -534,7 +700,7 @@ namespace VCheckViewer.Views.Windows
 
                                 EmailHelper.SendEmail(sEmail, out sErrorMessage);
 
-                                if(!String.IsNullOrEmpty(sErrorMessage)) { throw new Exception(sErrorMessage); }
+                                if (!String.IsNullOrEmpty(sErrorMessage)) { throw new Exception(sErrorMessage); }
 
                                 notification = new NotificationModel()
                                 {
@@ -573,7 +739,7 @@ namespace VCheckViewer.Views.Windows
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 App.log.Error("Add User Error >>> ", ex);
             }
@@ -859,6 +1025,22 @@ namespace VCheckViewer.Views.Windows
             }
         }
 
+        private async void SendRequestToAnalyzer(EventArgs e, object sender)
+        {
+            VCheckViewerAPI.HL7MessageSender.Main sendMessage = new VCheckViewerAPI.HL7MessageSender.Main();
+            await sendMessage.SendMessage(App.ScheduleTestInfo);
+
+            App.PopupHandler(e, sender);
+        }
+
+        private async void UpdatePatientName(EventArgs e, object sender)
+        {
+            TestResultsRepository.UpdateTestResult(ConfigSettings.GetConfigurationSettings(), App.TestResultInfo);
+
+            App.MainViewModel.Origin = "PatientNameUpdated";
+            App.PopupHandler(e, sender);
+        }
+
         private static void ResetPasswordHandler(EventArgs e, object sender)
         {
             if (ResetCurrentPassword != null)
@@ -944,7 +1126,7 @@ namespace VCheckViewer.Views.Windows
 
                     String sOrderID = "";
                     //var sScheduledTestObj = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), "TBLAM FIA-8");
-                    var sScheduledTestObj = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), sUniqueID);
+                    var sScheduledTestObj = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), sUniqueID, sTestResultObj.PatientID);
                     if (sScheduledTestObj != null)
                     {
                         if (sScheduledTestObj.ScheduleUniqueID.Contains("-"))
@@ -956,84 +1138,90 @@ namespace VCheckViewer.Views.Windows
                                 sRequestAPI.accessionnumber = UniqueIDSplit[2];
                             }
                         }
-                    }
 
-                    //sRequestAPI.accessionnumber = iTestResultID.ToString();
-                    sRequestAPI.clinic_id = "";
-                    sRequestAPI.reportdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
-                    sRequestAPI.providerid = "";
+                        //sRequestAPI.accessionnumber = iTestResultID.ToString();
+                        sRequestAPI.clinic_id = "";
+                        sRequestAPI.reportdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
+                        sRequestAPI.providerid = "";
 
-                    VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject sPatientObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject();
-                    sPatientObj.patientid = sTestResultObj.PatientID;
-                    sPatientObj.firstname = (sScheduledTestObj != null) ? sScheduledTestObj.PatientName : "";
-                    sPatientObj.lastname = "";
-                    sPatientObj.gender = (sScheduledTestObj != null) ? sScheduledTestObj.Gender : "";
-                    sPatientObj.birthday = "2023-01-01";
-                    sPatientObj.species = (sScheduledTestObj != null) ? sScheduledTestObj.Species : "";
-                    sPatientObj.breed = "";
+                        VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject sPatientObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject();
+                        sPatientObj.patientid = sTestResultObj.PatientID;
+                        sPatientObj.firstname = (sScheduledTestObj != null) ? sScheduledTestObj.PatientName : "";
+                        sPatientObj.lastname = "";
+                        sPatientObj.gender = (sScheduledTestObj != null) ? sScheduledTestObj.Gender : "";
+                        sPatientObj.birthday = "2023-01-01";
+                        sPatientObj.species = (sScheduledTestObj != null) ? sScheduledTestObj.Species : "";
+                        sPatientObj.breed = "";
 
-                    sRequestAPI.patient = sPatientObj;
+                        sRequestAPI.patient = sPatientObj;
 
-                    VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject sPanelObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject();
-                    sPanelObj.code = sTestResultObj.TestResultType;
-                    sPanelObj.name = sTestResultObj.TestResultType;
-                    sPanelObj.status = "F";
-                    sPanelObj.source = "";
-                    sPanelObj.resultdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
+                        VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject sPanelObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject();
+                        sPanelObj.code = sTestResultObj.TestResultType;
+                        sPanelObj.name = sTestResultObj.TestResultType;
+                        sPanelObj.status = "F";
+                        sPanelObj.source = "";
+                        sPanelObj.resultdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
 
 
-                    var sDetailsObj = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
-                    if (sDetailsObj != null && sDetailsObj.Count > 0)
-                    {
-                        foreach (var d in sDetailsObj)
+                        var sDetailsObj = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
+                        if (sDetailsObj != null && sDetailsObj.Count > 0)
                         {
-                            String[] sRange = Array.Empty<string>();
-                            if (d.ReferenceRange != null)
+                            foreach (var d in sDetailsObj)
                             {
-                                String sReferenceRange = d.ReferenceRange.Replace("[", "").Replace("]", "");
-                                if (sReferenceRange != "")
+                                String[] sRange = Array.Empty<string>();
+                                if (d.ReferenceRange != null)
                                 {
-                                    if (sReferenceRange.Contains(";"))
+                                    String sReferenceRange = d.ReferenceRange.Replace("[", "").Replace("]", "");
+                                    if (sReferenceRange != "")
                                     {
-                                        sRange = sReferenceRange.Split(";");
-                                    }
-                                    else if (sReferenceRange.Contains("-"))
-                                    {
-                                        sRange = sReferenceRange.Split("-");
+                                        if (sReferenceRange.Contains(";"))
+                                        {
+                                            sRange = sReferenceRange.Split(";");
+                                        }
+                                        else if (sReferenceRange.Contains("-"))
+                                        {
+                                            sRange = sReferenceRange.Split("-");
+                                        }
                                     }
                                 }
+
+                                sResultListing.Add(new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelTestObject
+                                {
+                                    name = d.TestParameter,
+                                    code = d.TestParameter,
+                                    result = d.TestResultValue,
+                                    referencelow = (sRange.Length > 0) ? sRange[0] : "",
+                                    referencehigh = (sRange.Length > 0) ? sRange[1] : "",
+                                    unitofmeasure = d.TestResultUnit,
+                                    status = "F",
+                                    notes = ""
+                                });
                             }
 
-                            sResultListing.Add(new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelTestObject
-                            {
-                                name = d.TestParameter,
-                                code = d.TestParameter,
-                                result = d.TestResultValue,
-                                referencelow = (sRange.Length > 0) ? sRange[0] : "",
-                                referencehigh = (sRange.Length > 0) ? sRange[1] : "",
-                                unitofmeasure = d.TestResultUnit,
-                                status = "F",
-                                notes = ""
-                            });
+                            sPanelObj.tests = sResultListing;
                         }
+                        sPanelListing.Add(sPanelObj);
+                        //sPanelListing.Add(sPanelObj);
 
-                        sPanelObj.tests = sResultListing;
-                    }
-                    sPanelListing.Add(sPanelObj);
-                    //sPanelListing.Add(sPanelObj);
+                        sRequestAPI.panels = sPanelListing;
 
-                    sRequestAPI.panels = sPanelListing;
-
-                    VCheck.Interface.API.GreywindAPI sAPI = new VCheck.Interface.API.GreywindAPI();
-                    var sRespAPI = sAPI.UpdateResult(sRequestAPI, sOrderID);
-                    if (sRespAPI)
-                    {
-                        System.Windows.Forms.MessageBox.Show("Update Result API Successfully.");
+                        VCheck.Interface.API.GreywindAPI sAPI = new VCheck.Interface.API.GreywindAPI();
+                        var sRespAPI = sAPI.UpdateResult(sRequestAPI, sOrderID);
+                        if (sRespAPI)
+                        {
+                            System.Windows.Forms.MessageBox.Show(Properties.Resources.Popup_Message_APIUpdateSuccess);
+                        }
+                        else
+                        {
+                            System.Windows.Forms.MessageBox.Show(Properties.Resources.Popup_Message_APIUpdateFailed);
+                        }
                     }
                     else
                     {
-                        System.Windows.Forms.MessageBox.Show("Update Result API Failed.");
+                        System.Windows.Forms.MessageBox.Show(Properties.Resources.Popup_Message_WrongID);
                     }
+
+                    
                 }
             }
         }

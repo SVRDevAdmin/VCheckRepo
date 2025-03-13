@@ -15,12 +15,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using VCheckViewer.Views.Pages.Login;
 using Microsoft.VisualBasic.Logging;
+using VCheck.Lib.Data.DBContext;
 
 namespace VCheckViewer.Services
 {
     public class ApplicationHostService : IHostedService
     {
         private readonly IServiceProvider _serviceProvider;
+
+        private readonly static UserDBContext usersContext = App.GetService<UserDBContext>();
 
         //private INavigationWindow _navigationWindow;
 
@@ -73,9 +76,25 @@ namespace VCheckViewer.Services
             //    App.log.Error("Database Error >>> ", ex);
             //}
 
-            LoginWindow LoginPage = new LoginWindow();
-            LoginPage.Navigate(new LoginPage());
-            LoginPage.Show();
+            //LoginWindow LoginPage = new LoginWindow();
+            //LoginPage.Navigate(new LoginPage());
+            //LoginPage.Show();
+
+            var firstUser = usersContext.FirstUser();
+
+            if (firstUser)
+            {
+                LoginWindow LoginPage = new LoginWindow();
+                LoginPage.Navigate(new RegisterPage());
+                LoginPage.Show();
+            }
+            else
+            {
+                LoginWindow LoginPage = new LoginWindow();
+                LoginPage.Navigate(new LoginPage());
+                LoginPage.Show();
+            }
+
 
             await Task.CompletedTask;
         }

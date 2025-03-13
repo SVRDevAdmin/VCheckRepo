@@ -57,6 +57,8 @@ namespace VCheckViewer.Views.Pages.Results
         public int startPagination = 1;
         public int endPagination = 0;
 
+        public static event EventHandler? GoToViewResultPage;
+
         public ResultPage()
         {
             InitializeComponent();
@@ -70,6 +72,13 @@ namespace VCheckViewer.Views.Pages.Results
             pagination.ButtonPageControlClick += new EventHandler(PaginationNumButton_Click);
 
             LoadResultDataGrid();
+        }
+
+        private void menuView_Click(object sender, RoutedEventArgs e)
+        {
+            TestResultListingExtendedObj sTestResultObj = dgResult.SelectedItem as TestResultListingExtendedObj;
+            App.TestResultID = sTestResultObj.ID;
+            GoToViewResultPageHandler(e, sender);
         }
 
         private void menuDownload_Click(object sender, RoutedEventArgs e)
@@ -95,7 +104,10 @@ namespace VCheckViewer.Views.Pages.Results
             {
                 sTestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), sTestResultObj.ID);
             }
-                
+
+            List<string> parameters = sTestResultDetails.Select(x => x.TestParameter).ToList();
+            App.Parameters = parameters;
+
             try
             {
                 TestResultTemplate sTestResultTemplate = new TestResultTemplate(sTestResultObj, sTestResultDetails);
@@ -422,7 +434,7 @@ namespace VCheckViewer.Views.Pages.Results
             //        sPanelObj.source = "";
             //        sPanelObj.resultdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
 
-                    
+
             //        var sDetailsObj = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
             //        if (sDetailsObj != null && sDetailsObj.Count > 0)
             //        {
@@ -469,7 +481,30 @@ namespace VCheckViewer.Views.Pages.Results
             //        }
             //    }
             //}
-            
+
+        }
+
+        private void updateName_Click(object sender, RoutedEventArgs e)
+        {
+            var sMenu = sender as System.Windows.Controls.MenuItem;
+
+            Popup sInputID = new Popup();
+            sInputID.IsOpen = true;
+
+            App.MainViewModel.Origin = "UpdatePatientName";
+            App.MainViewModel.TestResultID = sMenu.Tag.ToString();
+
+            App.TestResultInfo = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), Convert.ToInt64(App.MainViewModel.TestResultID));
+
+            App.PopupHandler(e, sender);
+        }
+
+        private static void GoToViewResultPageHandler(EventArgs e, object sender)
+        {
+            if (GoToViewResultPage != null)
+            {
+                GoToViewResultPage(sender, e);
+            }
         }
     }
 }
