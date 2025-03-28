@@ -85,6 +85,7 @@ namespace VCheckViewer
         public static bool ResultPageNotInitialized { get; set; } = true;
         public static bool SchedulePageNotInitialized { get; set; } = true;
         public static bool LoginWindowNotInitialized { get; set; } = true;
+        public static bool RestartListener { get; set; }
 
         public static IConfiguration iConfig { get; set; }
 

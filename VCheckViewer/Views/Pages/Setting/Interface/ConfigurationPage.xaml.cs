@@ -1,6 +1,7 @@
 ﻿using Org.BouncyCastle.Utilities.Net;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -173,6 +174,8 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                     App.MainViewModel.ConfigurationModel = sConfigList;
 
                     App.PopupHandler(e, sender);
+
+                    App.RestartListener = true;
                 }
                 else
                 {
@@ -185,9 +188,10 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 App.MainViewModel.Origin = "FailedUpdateLIS";
                 App.PopupHandler(e, sender);
             }
+
         }
 
-        public static bool IsIPAddressAvailable(string ipAddress, int port)
+        private static bool IsIPAddressAvailable(string ipAddress, int port)
         {
             try
             {

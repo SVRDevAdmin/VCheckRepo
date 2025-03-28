@@ -37,6 +37,9 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using static Org.BouncyCastle.Math.EC.ECCurve;
 using System.IO;
+using System.Diagnostics;
+using System.Text.Json;
+using System.Text;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -1289,6 +1292,11 @@ namespace VCheckViewer.Views.Windows
                 App.MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
 
                 App.PopupHandler(e, sender);
+
+                if (App.RestartListener)
+                {
+                    RunListener();
+                }
             }
             catch (Exception ex)
             {
@@ -1881,6 +1889,45 @@ namespace VCheckViewer.Views.Windows
                 App.isLanguagePage = false;
             }
 
+        }
+
+        private void RunListener()
+        {
+            var sBuilder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
+            String sListenerPath = sBuilder.Configuration.GetSection("Configuration:ListenerPath").Value;
+
+            foreach (var processKill in Process.GetProcessesByName("VCheckListenerWorker"))
+            {
+                processKill.Kill();
+            }
+
+            string exePath = sListenerPath;
+
+            Process process = new Process();
+            process.StartInfo.FileName = exePath;
+
+            try
+            {
+                process.Start();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            //OverwriteSetting("ConnectionStrings", "");
+        }
+
+        private void OverwriteSetting(string key, string value)
+        {
+            Dictionary<string, string> newValue = new Dictionary<string, string>();
+            newValue.Add("DefaultConnection", "Server=localhost;Database=vcheckdb;User=root;Password=password;POOLING=FALSE;");
+
+            var configJson = File.ReadAllText("appsettings.json");
+            var config = JsonSerializer.Deserialize<Dictionary<string, object>>(configJson);
+            config[key] = newValue;
+            var updatedConfigJson = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText("appsettings.json", updatedConfigJson);
         }
     }
 
