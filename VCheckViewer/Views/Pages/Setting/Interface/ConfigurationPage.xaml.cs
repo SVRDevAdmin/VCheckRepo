@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Org.BouncyCastle.Utilities.Net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -46,8 +48,8 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
             if (sInterfaceIP != null)
             {
 
-                IPAddress sIP;
-                IPAddress.TryParse(sInterfaceIP.ConfigurationValue.ToString(), out sIP);
+                System.Net.IPAddress sIP;
+                System.Net.IPAddress.TryParse(sInterfaceIP.ConfigurationValue.ToString(), out sIP);
 
                 txtIP.Text = sInterfaceIP.ConfigurationValue.ToString();
             }
@@ -104,8 +106,8 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 borderIP.ToolTip = null;
             }
 
-            IPAddress iIP;
-            if (!IPAddress.TryParse(txtIP.Text.Replace(" ", ""), out iIP))
+            System.Net.IPAddress iIP;
+            if (!System.Net.IPAddress.TryParse(txtIP.Text.Replace(" ", ""), out iIP))
             {
                 borderIP.BorderBrush = System.Windows.Media.Brushes.Red;
                 borderIP.BorderThickness = new Thickness(1);
@@ -145,27 +147,63 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            List<ConfigurationModel> sConfigList = new List<ConfigurationModel>();
-
-            sConfigList.Add(new ConfigurationModel {
-                ConfigurationKey = sIPConfigKey,
-                ConfigurationValue = txtIP.Text
-            });
-
-            sConfigList.Add(new ConfigurationModel
+            try
             {
-                ConfigurationKey = sPortNoConfigKey,
-                ConfigurationValue = txtPortNo.Text
-            });
+                if (IsIPAddressAvailable(txtIP.Text.Replace(" ",""), int.Parse(txtPortNo.Text)))
+                {
+                    List<ConfigurationModel> sConfigList = new List<ConfigurationModel>();
+
+                    sConfigList.Add(new ConfigurationModel
+                    {
+                        ConfigurationKey = sIPConfigKey,
+                        ConfigurationValue = txtIP.Text
+                    });
+
+                    sConfigList.Add(new ConfigurationModel
+                    {
+                        ConfigurationKey = sPortNoConfigKey,
+                        ConfigurationValue = txtPortNo.Text
+                    });
 
 
-            Popup sConfirmPopup = new Popup();
-            sConfirmPopup.IsOpen = true;
+                    Popup sConfirmPopup = new Popup();
+                    sConfirmPopup.IsOpen = true;
 
-            App.MainViewModel.Origin = "SettingsUpdate";
-            App.MainViewModel.ConfigurationModel = sConfigList;
+                    App.MainViewModel.Origin = "SettingsUpdate";
+                    App.MainViewModel.ConfigurationModel = sConfigList;
 
-            App.PopupHandler(e, sender);
+                    App.PopupHandler(e, sender);
+                }
+                else
+                {
+                    App.MainViewModel.Origin = "IpPortUnavailable";
+                    App.PopupHandler(e, sender);
+                }
+            }
+            catch(Exception ex)
+            {
+                App.MainViewModel.Origin = "FailedUpdateLIS";
+                App.PopupHandler(e, sender);
+            }
+        }
+
+        public static bool IsIPAddressAvailable(string ipAddress, int port)
+        {
+            try
+            {
+                System.Net.IPAddress ip = System.Net.IPAddress.Parse(ipAddress.Trim());
+                IPEndPoint endPoint = new IPEndPoint(ip, port);
+
+                using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+                {
+                    socket.Bind(endPoint);
+                    return true;
+                }
+            }
+            catch (SocketException)
+            {
+                return false;
+            }
         }
     }
 }

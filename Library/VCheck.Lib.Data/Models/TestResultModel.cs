@@ -119,6 +119,7 @@ namespace VCheck.Lib.Data.Models
         public String? printedBy { get; set; }
         public DateTime? printedOn { get; set; }
         public Boolean isPrint { get; set; }
+        public string PMSFunction { get; set; }
     }
 
     public class PatientDataObject
@@ -143,5 +144,29 @@ namespace VCheck.Lib.Data.Models
         public String? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public String? UpdatedBy { get; set; }
+    }
+
+    public class ParametersModel
+    {
+        [Key]
+        public int ID { get; set; }
+        public String? Analyzer { get; set; }
+        public String? Category { get; set; }
+        public String? Parameter { get; set; }
+        public int Order { get; set; }
+    }
+
+    public class DownloadPrintResultModel
+    {
+        public TestResultModel TestResult { get; set; }
+        public List<TestResultDetailsModel> TestResultDetails { get; set; }
+        public TestResultModel PreviousTestResult { get; set; }
+        public List<TestResultDetailsModel> PreviousTestResultDetails { get; set; }
+    }
+
+    public class TestDeviceName
+    {
+        public long TestID { get; set; }
+        public string DeviceName { get; set; }
     }
 }

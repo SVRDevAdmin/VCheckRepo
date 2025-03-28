@@ -30,6 +30,13 @@ using DocumentFormat.OpenXml.Drawing;
 using System.Runtime.Caching;
 using VCheckViewer.Views.Pages.Setting.Report;
 using DocumentFormat.OpenXml.EMMA;
+using System.Windows.Diagnostics;
+using CheckBox = System.Windows.Controls.CheckBox;
+using System.ComponentModel;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
+using static Org.BouncyCastle.Math.EC.ECCurve;
+using System.IO;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -58,6 +65,13 @@ namespace VCheckViewer.Views.Windows
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public ObservableCollection<ComboBoxItem> deviceComboList = new ObservableCollection<ComboBoxItem>();
+        public ObservableCollection<CheckedListItem> ParameterList = new ObservableCollection<CheckedListItem>();
+
+        public class CheckedListItem
+        {
+            public string Name { get; set; }
+            public bool isChecked { get; set; }
+        }
 
         public Main()
         {
@@ -70,7 +84,7 @@ namespace VCheckViewer.Views.Windows
             UserPage.GoToViewUserPage += new EventHandler(GoToViewUserPage);
             ViewUserPage.GoToUpdateCurrentUserPage += new EventHandler(GoToUpdateUserPage);
             UserPage.GoToLanguageCountryPage += new EventHandler(GoToLanguageCountryPage);
-            ResultPage.GoToViewResultPage += new EventHandler(GoToViewReportPage);
+            App.GoToViewResultPage += new EventHandler(GoToViewReportPage);
 
             App.GoToSettingUserPage += new EventHandler(SettingUserPage);
             App.GoToSettingLanguageCountryPage += new EventHandler(GoToLanguageCountryPage);
@@ -81,6 +95,8 @@ namespace VCheckViewer.Views.Windows
             //popup
             App.Popup += new EventHandler(Popup);
             App.GoPreviousPage += new EventHandler(PreviousPage);
+
+            this.SizeChanged += MainWindow_SizeChanged;
 
             initializedDropdownSelectionList();
 
@@ -95,6 +111,12 @@ namespace VCheckViewer.Views.Windows
             refreshMenuItemStyle(mnDashboard);
             //mnDashboard.Background = System.Windows.Media.Brushes.White;
             //mnDashboard.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
+
+            var sBuilder = new ConfigurationBuilder();
+            sBuilder.SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            App.iConfig = sBuilder.Build();
         }
 
         #region INavigationWindow methods
@@ -125,6 +147,8 @@ namespace VCheckViewer.Views.Windows
 
         private void ResetPassword(object sender, RoutedEventArgs e)
         {
+            checklanguage();
+
             frameContent.Content = new ResetCurrentUserPasswordPage();
 
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("ResetPassword_Title_PageTitle");
@@ -150,6 +174,8 @@ namespace VCheckViewer.Views.Windows
 
         void GoToViewUserPage(object sender, EventArgs e)
         {
+            checklanguage();
+
             frameContent.Content = new ViewUserPage();
         }
 
@@ -159,16 +185,22 @@ namespace VCheckViewer.Views.Windows
         }
         void GoToDevicePage(object sender, EventArgs e)
         {
+            checklanguage();
+
             frameContent.Content = new DevicePage();
         }
 
         void GoToConfigurationPage(object sender, EventArgs e)
         {
+            checklanguage();
+
             frameContent.Content = new ConfigurationPage();
         }
 
         void GoToReportPage(object sender, EventArgs e)
         {
+            checklanguage();
+
             frameContent.Content = new ReportPage();
         }
 
@@ -179,7 +211,16 @@ namespace VCheckViewer.Views.Windows
 
         void SettingUserPage(object sender, EventArgs e)
         {
+            checklanguage();
+
             frameContent.Content = new UserPage();
+        }
+
+        public void UpdatePatientName(object sender, EventArgs e)
+        {
+            ResultPage resultPage = frameContent.Content as ResultPage;
+
+            resultPage.LoadResultDataGrid();
         }
 
         void Popup(object sender, EventArgs e)
@@ -193,7 +234,8 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "DeviceAdd") { PopupContent.Text = Properties.Resources.Popup_Message_AddAnalyzer;  }
             if (App.MainViewModel.Origin == "DeviceDelete") { PopupContent.Text = Properties.Resources.Popup_Message_RemoveAnalyzer; }
             if (App.MainViewModel.Origin == "DeviceUpdate") { PopupContent.Text = Properties.Resources.Popup_Message_UpdateAnalyzer; }
-            if (App.MainViewModel.Origin == "SettingsUpdate") { PopupContent.Text = Properties.Resources.Popup_Message_SaveSettings; }
+            if (App.MainViewModel.Origin == "SettingsUpdate" || App.MainViewModel.Origin == "ReportSettingsUpdate") { PopupContent.Text = Properties.Resources.Popup_Message_SaveSettings; }
+            if (App.MainViewModel.Origin == "CancelSchedule") { PopupContent.Text = Properties.Resources.Popup_Message_CancelSchedule; }
             if (App.MainViewModel.Origin == "SetingsUpdateCompleted") {
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
@@ -201,6 +243,7 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_SavePMSLISHIS; 
             }
@@ -211,6 +254,7 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Results_Message_DownloadComplete; 
             }
@@ -222,8 +266,11 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
-                PopupContent.Text = Properties.Resources.Results_Message_TestResultDownloadCompleted;
+                var sBuilder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
+
+                PopupContent.Text = Properties.Resources.Results_Message_TestResultDownloadCompleted + "\r\n "+ Properties.Resources.Popup_Message_TheFileIsAt + " \r\n" + sBuilder.Configuration.GetSection("Configuration:DownloadFolderPath").Value;
             }
             if (App.MainViewModel.Origin == "FailedDownloadListing")
             {
@@ -233,6 +280,7 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedDownloadListing;
             }
@@ -244,6 +292,7 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedOpenPrint;
             }
@@ -255,6 +304,7 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedAddDevice;
             }
@@ -266,6 +316,7 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedDeleteDevice;
             }
@@ -277,6 +328,7 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedUpdateDevice;
             }
@@ -288,6 +340,7 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Visible;
                 txtInput.Visibility = Visibility.Visible;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
                 txtInput.Text = "";
 
                 PopupContent.Text = Properties.Resources.Popup_Message_EnterUniqueID;
@@ -299,9 +352,10 @@ namespace VCheckViewer.Views.Windows
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
                 btnOk.Visibility = Visibility.Visible;
-                btnCancel.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 deviceComboList.Clear();
 
@@ -327,6 +381,7 @@ namespace VCheckViewer.Views.Windows
 
                     PopupContent.Text = Properties.Resources.Popup_Message_SelectDevice;
                     deviceList.Visibility = Visibility.Visible;
+                    btnCancel.Visibility = Visibility.Visible;
                 }
                 else
                 {
@@ -343,6 +398,7 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_SentToAnalyzer;
             }
@@ -354,6 +410,7 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_FailedToSendToAnalyzer;
             }
@@ -365,6 +422,7 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_CanceledSendToAnalyzer;
             }
@@ -376,6 +434,7 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Visible;
                 txtInput.Visibility = Visibility.Visible;
                 txtInput.Text = App.TestResultInfo.PatientName;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_UpdatePatientName;
             }
@@ -386,8 +445,174 @@ namespace VCheckViewer.Views.Windows
                 btnOk.Visibility = Visibility.Visible;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_PatientNameUpdated;
+            }
+            if (App.MainViewModel.Origin == "ReportSetingsUpdateCompleted")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_ReportSettingUpdated;
+            }
+            if (App.MainViewModel.Origin == "FailedToDownload")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_FailedToDownload;
+            }
+            if (App.MainViewModel.Origin == "FailedToPrint")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_FailedToPrint;
+            }
+            if (App.MainViewModel.Origin == "SelectParameters")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Visible;
+
+                parameterList.Items.Clear();
+
+                int currentParameter = 0;
+                int remainder = 0;
+                bool excess = false;
+                int totalRow = Math.DivRem(App.Parameters.Count, 5, out remainder);
+                if (remainder > 0)
+                {
+                    totalRow += 1;
+                    excess = true;
+                }
+
+                for (int i = 0; i < totalRow; i++)
+                {
+                    StackPanel stackPanel = new StackPanel();
+                    stackPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                    stackPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                    int elementPerRow = (i == (totalRow - 1) && excess) ? remainder : 5;
+
+                    for (int j = 0; j < elementPerRow; j++)
+                    {
+                        CheckBox checkBox = new CheckBox();
+                        checkBox.Foreground = Brushes.White;
+                        checkBox.BorderBrush = Brushes.White;
+                        checkBox.Content = App.Parameters[currentParameter];
+                        stackPanel.Children.Add(checkBox);
+                        currentParameter++;
+                    }
+
+                    parameterList.Items.Add(stackPanel);
+                }
+
+                if (App.IsPrint)
+                {
+                    PopupContent.Text = Properties.Resources.Popup_Message_SelectParameterPrint;
+                }
+                else
+                {
+                    PopupContent.Text = Properties.Resources.Popup_Message_SelectParameterDownload;
+                }
+            }
+            if (App.MainViewModel.Origin == "SelectAdditionalTestResult")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Visible;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Visible;
+
+                App.Device.AddRange(TestResultsRepository.GetRelatedTestResultByPatientID(ConfigSettings.GetConfigurationSettings(), App.DowloadPrintObject[0].TestResult.PatientID, App.Device[0].DeviceName));                
+
+                if(App.Device.Count > 1)
+                {
+                    parameterList.Items.Clear();
+
+                    int currentParameter = 1;
+                    int remainder = 0;
+                    bool excess = false;
+                    int totalRow = Math.DivRem(App.Device.Count - 1, 5, out remainder);
+                    if (remainder > 0)
+                    {
+                        totalRow += 1;
+                        excess = true;
+                    }
+
+                    for (int i = 0; i < totalRow; i++)
+                    {
+                        StackPanel stackPanel = new StackPanel();
+                        stackPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                        stackPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                        int elementPerRow = (i == (totalRow - 1) && excess) ? remainder : 5;
+
+                        for (int j = 0; j < elementPerRow; j++)
+                        {
+                            CheckBox checkBox = new CheckBox();
+                            checkBox.Foreground = Brushes.White;
+                            checkBox.BorderBrush = Brushes.White;
+                            checkBox.Content = App.Device[currentParameter].DeviceName;
+                            stackPanel.Children.Add(checkBox);
+                            currentParameter++;
+                        }
+
+                        parameterList.Items.Add(stackPanel);
+                    }
+
+                    PopupContent.Text = Properties.Resources.Popup_Message_SelectAdditionalTestResult;
+                }
+                else
+                {
+                    App.MainViewModel.Origin = "SelectParameters";
+                    App.PopupHandler(e, sender);
+                }
+            }
+            if (App.MainViewModel.Origin == "FailedUpdateLIS")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_FailedUpdateLISInfo;
+            }
+            if (App.MainViewModel.Origin == "IpPortUnavailable")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_IpPortUnavailable;
             }
 
             PopupBackground.Background = Brushes.DimGray;
@@ -408,16 +633,27 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "DeviceDelete") { DeleteDeviceHandler(e, sender); }
             if (App.MainViewModel.Origin == "DeviceUpdate") { UpdateDeviceHandler(e, sender); }
             if (App.MainViewModel.Origin == "ChangeLanguageCountry") { ChangeLanguageCountryHandler(e, sender); }
-            if (App.MainViewModel.Origin == "SettingsUpdate") { UpdateSettingsHandler(e, sender);  }
+            if (App.MainViewModel.Origin == "SettingsUpdate" || App.MainViewModel.Origin == "ReportSettingsUpdate") { UpdateSettingsHandler(e, sender); }
+            if (App.MainViewModel.Origin == "CancelSchedule") { App.CancelScheduleHandler(e, sender); }
             if (App.MainViewModel.Origin == "Logout")
             {
-                if (!System.Windows.Application.Current.Windows.OfType<LoginWindow>().Any())
+                checklanguage();
+
+                //if (!System.Windows.Application.Current.Windows.OfType<LoginWindow>().Any())
+                //{
+                //    LoginWindow login = new LoginWindow();
+                //    login.LoginFrame.Content = new LoginPage();
+                //    login.Show();
+                //}
+
+                foreach (var window in System.Windows.Application.Current.Windows.OfType<LoginWindow>())
                 {
-                    LoginWindow login = new LoginWindow();
-                    login.LoginFrame.Content = new LoginPage();
-                    login.Show();
+                    window.Close();
                 }
 
+                LoginWindow login = new LoginWindow();
+                login.LoginFrame.Content = new LoginPage();
+                login.Show();
                 Close();
             }
             if (App.MainViewModel.Origin == "ResetPassword") { ResetPasswordHandler(e, sender); }
@@ -431,6 +667,14 @@ namespace VCheckViewer.Views.Windows
             popup.IsOpen = false;
 
             PopupBackground.Background = null;
+
+            btnOk.Visibility = Visibility.Collapsed;
+            btnYes.Visibility = Visibility.Visible;
+            btnNo.Visibility = Visibility.Visible;
+            btnCancel.Visibility = Visibility.Collapsed;
+            txtInput.Visibility = Visibility.Collapsed;
+            deviceList.Visibility = Visibility.Collapsed;
+            ParameterView.Visibility = Visibility.Collapsed;
         }
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
@@ -447,22 +691,17 @@ namespace VCheckViewer.Views.Windows
                 App.MainViewModel.Origin == "FailedToSendToAnalyzer" ||
                 App.MainViewModel.Origin == "CanceledSendToAnalyzer" ||
                 App.MainViewModel.Origin == "NoDeviceFound" ||
-                App.MainViewModel.Origin == "PatientNameUpdated")
+                App.MainViewModel.Origin == "PatientNameUpdated" ||
+                App.MainViewModel.Origin == "ReportSetingsUpdateCompleted" ||
+                App.MainViewModel.Origin == "FailedToDownload" ||
+                App.MainViewModel.Origin == "FailedToPrint" ||
+                App.MainViewModel.Origin == "FailedUpdateLIS" ||
+                App.MainViewModel.Origin == "IpPortUnavailable")
             {
-                this.IsEnabled = true;
-                popup.IsOpen = false;
-
-                PopupBackground.Background = null;
-
-                btnOk.Visibility = Visibility.Collapsed;
-                btnYes.Visibility = Visibility.Visible;
-                btnNo.Visibility = Visibility.Visible;
-                btnCancel.Visibility = Visibility.Collapsed;
-                txtInput.Visibility = Visibility.Collapsed;
-                deviceList.Visibility = Visibility.Collapsed;
+                CancelButton_Click(null, null);
             }
 
-            if (App.MainViewModel.Origin == "GreywindSendUniqueID")
+            else if (App.MainViewModel.Origin == "GreywindSendUniqueID")
             {
                 this.IsEnabled = true;
                 popup.IsOpen = false;
@@ -477,11 +716,12 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 SendToPMSHandler(e, sender); 
             }
 
-            if (App.MainViewModel.Origin == "SendToAnalyzer")
+            else if (App.MainViewModel.Origin == "SendToAnalyzer")
             {
                 this.IsEnabled = true;
                 popup.IsOpen = false;
@@ -494,7 +734,7 @@ namespace VCheckViewer.Views.Windows
                 SendRequestToAnalyzer(e, sender);
             }
 
-            if (App.MainViewModel.Origin == "UpdatePatientName")
+            else if (App.MainViewModel.Origin == "UpdatePatientName")
             {
                 this.IsEnabled = true;
                 popup.IsOpen = false;
@@ -509,8 +749,32 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Collapsed;
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
                 UpdatePatientName(e, sender);
+            }
+
+            else if (App.MainViewModel.Origin == "SelectParameters")
+            {
+                this.IsEnabled = true;
+                popup.IsOpen = false;
+
+                PopupBackground.Background = null;
+
+                btnOk.Visibility = Visibility.Collapsed;
+                btnYes.Visibility = Visibility.Visible;
+                btnNo.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
+
+                GetSelectedParameters(e, sender);
+            }
+
+            else if (App.MainViewModel.Origin == "SelectAdditionalTestResult")
+            {
+                GetTestResult(e, sender);
             }
         }
 
@@ -1013,7 +1277,15 @@ namespace VCheckViewer.Views.Windows
                 System.Windows.Controls.Primitives.Popup sMessagePopup = new System.Windows.Controls.Primitives.Popup();
                 sMessagePopup.IsOpen = true;
 
-                App.MainViewModel.Origin = "SetingsUpdateCompleted";
+                if(App.MainViewModel.Origin == "ReportSettingsUpdate")
+                {
+                    App.MainViewModel.Origin = "ReportSetingsUpdateCompleted";
+                }
+                else
+                {
+                    App.MainViewModel.Origin = "SetingsUpdateCompleted";
+                }
+
                 App.MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
 
                 App.PopupHandler(e, sender);
@@ -1033,12 +1305,72 @@ namespace VCheckViewer.Views.Windows
             App.PopupHandler(e, sender);
         }
 
-        private async void UpdatePatientName(EventArgs e, object sender)
+        private void UpdatePatientName(EventArgs e, object sender)
         {
             TestResultsRepository.UpdateTestResult(ConfigSettings.GetConfigurationSettings(), App.TestResultInfo);
+            App.UpdatePatientNameHandler(e, sender);
 
-            App.MainViewModel.Origin = "PatientNameUpdated";
+            if (App.isEmptyName)
+            {
+                App.DowloadPrintObject[0].TestResult.PatientName = App.TestResultInfo.PatientName;
+
+                App.MainViewModel.Origin = "SelectAdditionalTestResult";
+                App.PopupHandler(e, sender);
+            }
+            else
+            {
+                App.MainViewModel.Origin = "PatientNameUpdated";
+                App.PopupHandler(e, sender);
+            }
+
+        }
+
+        private void GetTestResult(EventArgs e, object sender)
+        {
+            var stackPanels = parameterList.Items.OfType<StackPanel>();
+            List<CheckBox> selectedTest = new List<CheckBox>();
+
+            foreach (var stackpanel in stackPanels)
+            {
+                selectedTest.AddRange(stackpanel.Children.OfType<CheckBox>().Where(x => x.IsChecked == true));
+            }
+
+            foreach(var test in selectedTest)
+            {
+                var TestID = App.Device.FirstOrDefault(x => x.DeviceName == test.Content).TestID;
+                var TestResult = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), TestID);
+
+                DownloadPrintResultModel downloadPrintModelTemp = new DownloadPrintResultModel();
+                TestResultModel previousTest = new TestResultModel();
+                downloadPrintModelTemp.TestResult = TestResult;
+                downloadPrintModelTemp.TestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), TestID);
+                downloadPrintModelTemp.PreviousTestResultDetails = TestResultsRepository.GetPreviousTestRecord(ConfigSettings.GetConfigurationSettings(), TestResult, out previousTest);
+                downloadPrintModelTemp.PreviousTestResult = previousTest;
+
+                App.DowloadPrintObject.Add(downloadPrintModelTemp);
+                App.Parameters.AddRange(downloadPrintModelTemp.TestResultDetails.Select(x => x.TestParameter).Where(y => !App.Parameters.Contains(y)));
+            }
+
+            var parameterOrder = TestResultsRepository.GetAllParameters(ConfigSettings.GetConfigurationSettings()).Select(x => x.Parameter).ToList();
+            App.Parameters = App.Parameters.OrderBy(d => parameterOrder.IndexOf(d)).ToList();
+
+            App.MainViewModel.Origin = "SelectParameters";
             App.PopupHandler(e, sender);
+        }
+
+        private void GetSelectedParameters(EventArgs e, object sender)
+        {
+            var stackPanels = parameterList.Items.OfType<StackPanel>();
+            List<CheckBox> selectedParameters = new List<CheckBox>();
+
+            foreach (var stackpanel in stackPanels)
+            {
+                selectedParameters.AddRange(stackpanel.Children.OfType<CheckBox>().Where(x => x.IsChecked == true));
+            }
+
+            App.Parameters = selectedParameters.Select(x => x.Content.ToString()).ToList();
+
+            App.DownloadPrintReportHandler(e, sender);
         }
 
         private static void ResetPasswordHandler(EventArgs e, object sender)
@@ -1228,6 +1560,8 @@ namespace VCheckViewer.Views.Windows
 
         private void mnDashboard_Click(object sender, RoutedEventArgs e)
         {
+            checklanguage();
+
             frameContent.Content = new DashboardPage();
 
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
@@ -1239,6 +1573,8 @@ namespace VCheckViewer.Views.Windows
 
         private void mnSchedule_Click(object sender, RoutedEventArgs e)
         {
+            checklanguage();
+
             frameContent.Content = new SchedulePage();
 
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("Schedule_Title_PageTitle");
@@ -1250,6 +1586,8 @@ namespace VCheckViewer.Views.Windows
 
         private void mnResults_Click(object sender, RoutedEventArgs e)
         {
+            checklanguage();
+
             frameContent.Content = new ResultPage();
 
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("Results_Title_PageTitle");
@@ -1261,6 +1599,8 @@ namespace VCheckViewer.Views.Windows
 
         private void mnNotifications_Click(object sender, RoutedEventArgs e)
         {
+            checklanguage();
+
             frameContent.Content = new NotificationPage();
 
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("Notification_Title_PageTitle");
@@ -1274,7 +1614,9 @@ namespace VCheckViewer.Views.Windows
 
         private void mnSettings_Click(object sender, RoutedEventArgs e)
         {
-            if(App.MainViewModel.CurrentUsers.Role == "Lab User") { frameContent.Content = new LanguageCountryPage(); }
+            checklanguage();
+
+            if (App.MainViewModel.CurrentUsers.Role == "Lab User") { frameContent.Content = new LanguageCountryPage(); }
             else { frameContent.Content = new UserPage();}
             
 
@@ -1511,6 +1853,34 @@ namespace VCheckViewer.Views.Windows
             }
 
             return sDateList;
+        }
+
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var windowHeight = e.NewSize.Height;
+
+            GridElement.Height = windowHeight * 0.04;
+            BorderElement.Height = (windowHeight * 0.04) + 5;
+            CollapseGrid.Height = windowHeight * 0.04;
+            DashboardGrid.Height = windowHeight * 0.08;
+            ScheduleGrid.Height = windowHeight * 0.08;
+            ResultGrid.Height = windowHeight * 0.08;
+            NotificationGrid.Height = windowHeight * 0.08;
+            SettingsGrid.Height = windowHeight * 0.08;
+            BackgroundElement.Height = windowHeight;
+        }
+
+        private void checklanguage()
+        {
+            if (App.isLanguagePage)
+            {
+                System.Globalization.CultureInfo sZHCulture = new(App.MainViewModel.ConfigurationModel.FirstOrDefault(x => x.ConfigurationKey == "SystemSettings_Language").ConfigurationValue);
+
+                CultureResources.ChangeCulture(sZHCulture);
+
+                App.isLanguagePage = false;
+            }
+
         }
     }
 

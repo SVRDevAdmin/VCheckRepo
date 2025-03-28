@@ -18,6 +18,7 @@ using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
 using VCheckViewer.Properties;
+using VCheckViewer.Views.Pages.Results;
 
 namespace VCheckViewer.Views.Pages.Schedule
 {
@@ -26,8 +27,7 @@ namespace VCheckViewer.Views.Pages.Schedule
     /// </summary>
     public partial class SchedulePage : System.Windows.Controls.Page
     {
-        
-        
+
         public SchedulePage()
         {
             InitializeComponent();
@@ -37,6 +37,12 @@ namespace VCheckViewer.Views.Pages.Schedule
             LoadScheduledTestList();
             LoadTestResultList();
             GetSummaryStats();
+
+            if (App.SchedulePageNotInitialized)
+            {
+                App.CancelSchedule += new EventHandler(CancelTestSchedule);
+                App.SchedulePageNotInitialized = false;
+            }
         }
 
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -191,8 +197,8 @@ namespace VCheckViewer.Views.Pages.Schedule
 
         private async void SendToAnalyzer_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            TextBlock scheduleID = sender as TextBlock;
-            App.ScheduleTestInfo = ScheduledTestRepository.GetScheduledTestByID(ConfigSettings.GetConfigurationSettings(), long.Parse(scheduleID.Tag.ToString()));
+            TextBlock schedule = sender as TextBlock;
+            App.ScheduleTestInfo = ScheduledTestRepository.GetScheduledTestByID(ConfigSettings.GetConfigurationSettings(), long.Parse(schedule.Tag.ToString()));
 
             App.MainViewModel.Origin = "SendToAnalyzer";
             App.PopupHandler(null, null);
@@ -223,6 +229,33 @@ namespace VCheckViewer.Views.Pages.Schedule
 
             //    }
             //}            
+        }
+
+        private async void CancelSchedule_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBlock schedule = sender as TextBlock;
+            App.ScheduleTestInfo = ScheduledTestRepository.GetScheduledTestByID(ConfigSettings.GetConfigurationSettings(), long.Parse(schedule.Tag.ToString()));
+
+            App.ScheduleTestInfo.ScheduleTestStatus = 1;
+            App.ScheduleTestInfo.UpdatedBy = App.MainViewModel.CurrentUsers.FullName;
+            App.ScheduleTestInfo.UpdatedDate = DateTime.Now;
+
+            App.MainViewModel.Origin = "CancelSchedule";
+            App.PopupHandler(e, sender);
+
+        }
+
+        public void CancelTestSchedule(object sender, EventArgs e)
+        {
+            LoadScheduledTestList();
+        }
+
+        private async void ViewReport_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBlock report = sender as TextBlock;
+            App.TestResultID = long.Parse(report.Tag.ToString());
+
+            App.GoToViewResultPageHandler(e, sender);
         }
     }
 

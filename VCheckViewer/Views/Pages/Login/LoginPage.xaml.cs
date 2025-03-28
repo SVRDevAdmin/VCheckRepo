@@ -111,8 +111,8 @@ namespace VCheckViewer.Views.Pages.Login
                     }
                     else
                     {
-                        int attemptleft = (maxLoginAttempt - user.AccessFailedCount);
                         ErrorText.Visibility = Visibility.Visible;
+                        //int attemptleft = (maxLoginAttempt - user.AccessFailedCount);
                         //ErrorText.Text = "Wrong password. You have " + attemptleft + " attemp[s] left before account are locked.";
                         //ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongPassword.Replace("<attemptcount>", attemptleft.ToString());
                         ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongUsernamePassword;

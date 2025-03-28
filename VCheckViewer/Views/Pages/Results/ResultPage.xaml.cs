@@ -41,6 +41,14 @@ using VCheck.Interface.API.Greywind.RequestMessage;
 using VCheck.Lib.Data;
 using System.Drawing.Printing;
 using VCheckViewer.Views.Windows;
+using Font = System.Drawing.Font;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.VisualBasic.Devices;
+using log4net;
+using System.Reflection;
+using Microsoft.Extensions.Configuration;
+using static Org.BouncyCastle.Math.EC.ECCurve;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace VCheckViewer.Views.Pages.Results
 {
@@ -49,6 +57,7 @@ namespace VCheckViewer.Views.Pages.Results
     /// </summary>
     public partial class ResultPage : System.Windows.Controls.Page
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
         public ObservableCollection<ComboBoxItem> cbSort { get; set; }
         public ComboBoxItem SelectedcbSort { get; set;  }
 
@@ -57,69 +66,219 @@ namespace VCheckViewer.Views.Pages.Results
         public int startPagination = 1;
         public int endPagination = 0;
 
-        public static event EventHandler? GoToViewResultPage;
+        private PrintDocument printDocument1 = new PrintDocument();
 
         public ResultPage()
         {
             InitializeComponent();
             DataContext = this;
 
-            cbSort = App.MainViewModel.cbSort;
+            cbSort = translateSort(App.MainViewModel.cbSort.ToList());
             SelectedcbSort = cbSort.FirstOrDefault();
 
             pagination.ButtonNextControlClick += new EventHandler(PaginationNextButton_Click);
             pagination.ButtonPrevControlClick += new EventHandler(PaginationPrevButton_Click);
             pagination.ButtonPageControlClick += new EventHandler(PaginationNumButton_Click);
 
+            //printDocument1.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage);
+
             LoadResultDataGrid();
+
+            if (App.ResultPageNotInitialized)
+            {
+                App.UpdatePatientName += new EventHandler(UpdatePatientName);
+                App.DownloadPrintReport += new EventHandler(LoadTestResultData);
+                App.ResultPageNotInitialized = false;
+            }
+        }
+
+        private ObservableCollection<ComboBoxItem> translateSort(List<ComboBoxItem> cbSort)
+        {
+            ObservableCollection<ComboBoxItem> translatedSort = new ObservableCollection<ComboBoxItem>();
+
+            foreach (var sort in cbSort)
+            {
+                if(sort.Content.ToString() == "Latest") { translatedSort.Add(new ComboBoxItem { Content = Properties.Resources.Results_Label_Latest, Tag = sort.Tag }); }
+                else if (sort.Content.ToString() == "Earliest") { translatedSort.Add(new ComboBoxItem { Content = Properties.Resources.Results_Label_Earliest, Tag = sort.Tag }); }
+                else if (sort.Content.ToString() == "Result (Ascending)") { translatedSort.Add(new ComboBoxItem { Content = Properties.Resources.Results_Label_Ascending, Tag = sort.Tag }); }
+                else if (sort.Content.ToString() == "Result (Descending)") { translatedSort.Add(new ComboBoxItem { Content = Properties.Resources.Results_Label_Descending, Tag = sort.Tag }); }
+            }
+
+            return translatedSort;
         }
 
         private void menuView_Click(object sender, RoutedEventArgs e)
         {
             TestResultListingExtendedObj sTestResultObj = dgResult.SelectedItem as TestResultListingExtendedObj;
             App.TestResultID = sTestResultObj.ID;
-            GoToViewResultPageHandler(e, sender);
+
+            App.GoToViewResultPageHandler(e, sender);
         }
 
         private void menuDownload_Click(object sender, RoutedEventArgs e)
         {
-            LoadTestResultData();
+            DownloadPrint(false);
+
+            //LoadTestResultData();
         }
 
         private void menuPrint_Click(object sender, RoutedEventArgs e)
         {
-            LoadTestResultData(true);
+            DownloadPrint(true);
+
+            //LoadTestResultData(true);
+
+            //printDocument1.Print();
         }
 
-        private void LoadTestResultData(Boolean isPrint = false)
+        private void DownloadPrint(bool IsPrint)
         {
-            //TestResultListingObj sTestResultObj = dgResult.SelectedItem as TestResultListingObj;
-            TestResultListingExtendedObj sTestResultObj = dgResult.SelectedItem as TestResultListingExtendedObj;
-            sTestResultObj.printedBy = App.MainViewModel.CurrentUsers.FullName;
-            sTestResultObj.printedOn = DateTime.Now;
-            sTestResultObj.isPrint = isPrint;
+            //App.sTestResultObj = dgResult.SelectedItem as TestResultListingExtendedObj;
+            var parameterOrder = TestResultsRepository.GetAllParameters(ConfigSettings.GetConfigurationSettings()).Select(x => x.Parameter).ToList();
+            App.IsPrint = IsPrint;
+            var selectedResult = dgResult.SelectedItem as TestResultListingExtendedObj;
+            App.TestResultID = selectedResult.ID;
+            App.Parameters = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), selectedResult.ID).Select(x => x.TestParameter).OrderBy(d => parameterOrder.IndexOf(d)).ToList();
 
-            List<TestResultDetailsModel> sTestResultDetails = new List<TestResultDetailsModel>();
-            if (sTestResultObj != null)
+            App.isEmptyName = false;
+
+            if (selectedResult.PatientName == "-")
             {
-                sTestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), sTestResultObj.ID);
+                App.isEmptyName = true;
             }
 
-            List<string> parameters = sTestResultDetails.Select(x => x.TestParameter).ToList();
-            App.Parameters = parameters;
+            DownloadPrintResultModel downloadPrintResultModel = new DownloadPrintResultModel();
+            App.DowloadPrintObject = new List<DownloadPrintResultModel>();
 
+            TestResultModel previousTest = new TestResultModel();
+            var TestResult = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), selectedResult.ID);
+            downloadPrintResultModel.TestResult = TestResult;
+            downloadPrintResultModel.TestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), TestResult.ID);
+            downloadPrintResultModel.PreviousTestResultDetails = TestResultsRepository.GetPreviousTestRecord(ConfigSettings.GetConfigurationSettings(), TestResult, out previousTest);
+            downloadPrintResultModel.PreviousTestResult = previousTest;
+
+            App.DowloadPrintObject.Add(downloadPrintResultModel);
+
+            App.Device = new List<TestDeviceName>();
+            App.Device.Add(new TestDeviceName() { DeviceName = DeviceRepository.GetDeviceNameBySerialNo(ConfigSettings.GetConfigurationSettings(), TestResult.DeviceSerialNo), TestID = TestResult.ID});
+
+            if (App.isEmptyName)
+            {
+                updateName(TestResult.ID.ToString(), null, null);
+            }
+            else
+            {
+                App.MainViewModel.Origin = "SelectAdditionalTestResult";
+                App.PopupHandler(null, null);
+            }
+
+        }
+
+        //private void LoadTestResultData(Boolean isPrint = false)
+        //{
+        //    //TestResultListingObj sTestResultObj = dgResult.SelectedItem as TestResultListingObj;
+        //    TestResultListingExtendedObj sTestResultObj = dgResult.SelectedItem as TestResultListingExtendedObj;
+        //    sTestResultObj.printedBy = App.MainViewModel.CurrentUsers.FullName;
+        //    sTestResultObj.printedOn = DateTime.Now;
+        //    sTestResultObj.isPrint = isPrint;
+
+        //    List<TestResultDetailsModel> sTestResultDetails = new List<TestResultDetailsModel>();
+        //    if (sTestResultObj != null)
+        //    {
+        //        sTestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), sTestResultObj.ID);
+        //    }
+
+        //    try
+        //    {
+        //        TestResultTemplate sTestResultTemplate = new TestResultTemplate(sTestResultObj, sTestResultDetails);
+
+        //        if (isPrint)
+        //        {
+        //            sTestResultTemplate.GeneratePdfAndShow();
+        //        }
+        //        else
+        //        {
+        //            sTestResultTemplate.GeneratePdf();
+        //        }
+        //    }
+        //    catch (QuestPDF.Drawing.Exceptions.DocumentDrawingException drawEx)
+        //    {
+        //        Debug.WriteLine(drawEx.ToString());
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return;
+        //    }
+
+        //    if (!isPrint)
+        //    {
+        //        Popup sConfirmPopup = new Popup();
+        //        sConfirmPopup.IsOpen = true;
+
+        //        if (App.ErrorOccur)
+        //        {
+        //            App.MainViewModel.Origin = "FailedToDownload";
+        //        }
+        //        else
+        //        {
+        //            App.MainViewModel.Origin = "TestResultDownloadCompleted";
+        //        }
+
+        //        App.PopupHandler(null, null);
+        //    }
+        //    else
+        //    {
+        //        //File.Delete(App.FilePath);
+        //        if (App.ErrorOccur)
+        //        {
+        //            App.MainViewModel.Origin = "FailedToPrint";
+        //            App.PopupHandler(null, null);
+        //        }
+        //    }
+        //}
+
+
+
+        public void LoadTestResultData(object sender, EventArgs e)
+        {
             try
             {
-                TestResultTemplate sTestResultTemplate = new TestResultTemplate(sTestResultObj, sTestResultDetails);
+                //var parameterOrder = App.iConfig.GetSection("Configuration:ParameterOrder").Value.Split(",").ToList();
+                var parameterOrder = TestResultsRepository.GetAllParameters(ConfigSettings.GetConfigurationSettings()).Select(x => x.Parameter).ToList();
+                //TestResultListingExtendedObj sTestResultObj = App.sTestResultObj;
+                //sTestResultObj.printedBy = App.MainViewModel.CurrentUsers.FullName;
+                //sTestResultObj.printedOn = DateTime.Now;
+                //sTestResultObj.isPrint = App.IsPrint;
 
-                if (isPrint)
+                //List<TestResultDetailsModel> previousTestDetails = new List<TestResultDetailsModel>();
+                //List<TestResultDetailsModel> sTestResultDetails = new List<TestResultDetailsModel>();
+                //TestResultModel PreviousTestResult = new TestResultModel();
+                //string previousTestDateTime = "-";
+
+                //if (sTestResultObj != null)
+                //{
+                //    sTestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), sTestResultObj.ID).Where(x => App.Parameters.Contains(x.TestParameter)).OrderBy(d => parameterOrder.IndexOf(d.TestParameter)).ToList();
+                //    previousTestDetails = TestResultsRepository.GetPreviousTestRecord(ConfigSettings.GetConfigurationSettings(), sTestResultObj, out previousTestDateTime, out PreviousTestResult);
+                //    previousTestDetails = previousTestDetails != null ? previousTestDetails.Where(x => App.Parameters.Contains(x.TestParameter)).OrderBy(d => parameterOrder.IndexOf(d.TestParameter)).ToList() : new List<TestResultDetailsModel>();
+                //}
+
+                foreach(var test in App.DowloadPrintObject)
+                {
+                    test.TestResultDetails = test.TestResultDetails.Where(x => App.Parameters.Contains(x.TestParameter)).OrderBy(d => parameterOrder.IndexOf(d.TestParameter)).ToList();
+                    test.PreviousTestResultDetails = test.PreviousTestResultDetails != null ? test.PreviousTestResultDetails.Where(x => App.Parameters.Contains(x.TestParameter)).OrderBy(d => parameterOrder.IndexOf(d.TestParameter)).ToList() : null;
+                }
+
+                //TestResultTemplate sTestResultTemplate = new TestResultTemplate(sTestResultObj, sTestResultDetails, previousTestDetails, previousTestDateTime);
+                TestResultTemplate sTestResultTemplate = new TestResultTemplate(App.DowloadPrintObject, App.IsPrint);
+
+                if (App.IsPrint)
                 {
                     sTestResultTemplate.GeneratePdfAndShow();
                 }
                 else
                 {
                     sTestResultTemplate.GeneratePdf();
-                }              
+                }
             }
             catch (QuestPDF.Drawing.Exceptions.DocumentDrawingException drawEx)
             {
@@ -127,17 +286,40 @@ namespace VCheckViewer.Views.Pages.Results
             }
             catch (Exception ex)
             {
-                return;
+                log.Error("Error >>> " + ex.ToString());
+                App.ErrorOccur = true;
             }
 
-            if (!isPrint)
+            if (!App.IsPrint)
             {
                 Popup sConfirmPopup = new Popup();
                 sConfirmPopup.IsOpen = true;
 
-                App.MainViewModel.Origin = "TestResultDownloadCompleted";
+                if (App.ErrorOccur)
+                {
+                    App.MainViewModel.Origin = "FailedToDownload";
+                }
+                else
+                {
+                    App.MainViewModel.Origin = "TestResultDownloadCompleted";
+                }
+
                 App.PopupHandler(null, null);
             }
+            else
+            {
+                //File.Delete(App.FilePath);
+                if (App.ErrorOccur)
+                {
+                    App.MainViewModel.Origin = "FailedToPrint";
+                    App.PopupHandler(null, null);
+                }
+            }
+        }
+
+        public void UpdatePatientName(object sender, EventArgs e)
+        {
+            LoadResultDataGrid();
         }
 
         private void btnFilter_Click(object sender, RoutedEventArgs e)
@@ -207,7 +389,7 @@ namespace VCheckViewer.Views.Pages.Results
             return VCheck.Lib.Data.TestResultsRepository.GetTestResultListBySearch(
                                             ConfigSettings.GetConfigurationSettings(),
                                             sStart, sEnd, sKeyword, sSortDirection,
-                                            startPagination, pageSize, out iTotalRecord);
+                                            startPagination, pageSize, App.PMSFunction, out iTotalRecord);
         }
 
         protected void PaginationNextButton_Click(object sender, EventArgs e)
@@ -484,26 +666,48 @@ namespace VCheckViewer.Views.Pages.Results
 
         }
 
-        private void updateName_Click(object sender, RoutedEventArgs e)
+        private void updateNameButton_Click(object sender, RoutedEventArgs e)
         {
+            App.isEmptyName = false;
             var sMenu = sender as System.Windows.Controls.MenuItem;
 
+            updateName(sMenu.Tag.ToString(), sender, e);
+        }
+
+        private void updateName(string TestResultID, object sender, RoutedEventArgs e)
+        {
             Popup sInputID = new Popup();
             sInputID.IsOpen = true;
 
             App.MainViewModel.Origin = "UpdatePatientName";
-            App.MainViewModel.TestResultID = sMenu.Tag.ToString();
+            App.MainViewModel.TestResultID = TestResultID;
 
             App.TestResultInfo = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), Convert.ToInt64(App.MainViewModel.TestResultID));
 
             App.PopupHandler(e, sender);
         }
 
-        private static void GoToViewResultPageHandler(EventArgs e, object sender)
+        private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
         {
-            if (GoToViewResultPage != null)
+            //string documentContent = "Hello, this is a test print document.";
+            //Font printFont = new Font("Arial", 12);
+            //e.Graphics.DrawString(documentContent, printFont, System.Drawing.Brushes.Black, new PointF(100, 100));
+
+            string pdfPath = @"C:\VCheck\Downloads\TestResult_Comprehensive17_PatientID_27412_20250313145705.pdf";
+
+            try
             {
-                GoToViewResultPage(sender, e);
+                Process process = new Process();
+                process.StartInfo = new ProcessStartInfo()
+                {
+                    FileName = pdfPath,
+                    UseShellExecute = true
+                };
+                process.Start();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
             }
         }
     }

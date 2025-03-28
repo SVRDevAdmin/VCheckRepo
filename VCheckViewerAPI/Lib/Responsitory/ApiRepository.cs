@@ -153,5 +153,44 @@ namespace VCheck.Lib.Data
                 log.Error("Database Error >>> ", ex);
             }
         }
+
+        public void CancelScheduledTest(string scheduledUniqueID, string updatedBy, out string responseCode, out string responseMessage, out string responseStatus)
+        {
+            try
+            {
+                var data = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), scheduledUniqueID);
+                if (data == null)
+                {
+                    responseCode = "VV.0002";
+                    responseMessage = "No Data Found";
+                }
+                else if (data.ScheduleTestStatus == 1)
+                {
+                    responseCode = "VV.0001";
+                    responseMessage = "Scheduled test are already canceled.";
+                }
+                else
+                {
+                    data.ScheduleTestStatus = 1;
+                    data.UpdatedBy = updatedBy;
+                    data.UpdatedDate = DateTime.Now;
+
+                    ScheduledTestRepository.UpdateScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), data);
+
+                    responseCode = "VV.0001";
+                    responseMessage = "Scheduled test successfully canceled.";
+                }
+
+                responseStatus = "Success";
+            }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Fail";
+                responseMessage = "Internal Error";
+
+                log.Error("Database Error >>> ", ex);
+            }
+        }
     }
 }

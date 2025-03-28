@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>Content\Images\Icons\Bionote-favicon.ico</ApplicationIcon>
+    <ApplicationIcon>Content\Images\Icons\Vcheck Viewer Icon.ico</ApplicationIcon>
     <UseWindowsForms>True</UseWindowsForms>
 	<InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.Extensions.Configuration.Binder.SourceGeneration</InterceptorsPreviewNamespaces>
 	<Version>1.0.0.1</Version>
@@ -65,6 +65,7 @@
     <None Remove="Content\Images\Icons\pt.png" />
     <None Remove="Content\Images\Icons\results.png" />
     <None Remove="Content\Images\Icons\ru.png" />
+    <None Remove="Content\Images\Icons\Vcheck Viewer Icon.ico" />
     <None Remove="Content\Images\Icons\vi.png" />
     <None Remove="Content\Images\Icons\zh-Hans.png" />
     <None Remove="Content\Images\Icons\zh-Hant.png" />
@@ -194,6 +195,7 @@
     <Content Include="Content\Images\bio_logo_report.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Images\Icons\Vcheck Viewer Icon.ico" />
   </ItemGroup>
 
   <ItemGroup>

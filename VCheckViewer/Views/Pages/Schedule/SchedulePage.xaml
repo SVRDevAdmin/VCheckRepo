@@ -157,6 +157,7 @@
                                                         <RowDefinition Height="auto" />
                                                         <RowDefinition Height="auto" />
                                                         <RowDefinition Height="auto" />
+                                                        <RowDefinition Height="auto" />
                                                     </Grid.RowDefinitions>
 
                                                     <!-- // Column Left // -->
@@ -167,7 +168,7 @@
                                                             <!--<Image Source="../../../Content/Images/Icons/icon_dog.png" Width="20" Height="20" />-->
                                                         </Border>
                                                     </Border>
-                                                    <Border Grid.Column="0" Grid.Row="3" Grid.RowSpan="4" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1"></Border>
+                                                    <Border Grid.Column="0" Grid.Row="3" Grid.RowSpan="5" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1"></Border>
 
                                                     <!-- // Column Center // -->
                                                     <Border Grid.Column="0" Grid.Row="0" Height="7"></Border>
@@ -196,7 +197,10 @@
                                                     <Border Grid.Column="1" Grid.Row="5" BorderBrush="Black" BorderThickness="0" Height="25">
                                                         <TextBlock Text="{Binding Path=Schedule_Label_SendToAnalyzer, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" MouseDown="SendToAnalyzer_MouseDown" Tag="{Binding ID}"></TextBlock>
                                                     </Border>
-                                                    <Border Grid.Column="1" Grid.Row="6" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1" Height="45">
+                                                    <Border Grid.Column="1" Grid.Row="6" BorderBrush="Black" BorderThickness="0" Height="25">
+                                                        <TextBlock Text="{Binding Path=Schedule_Label_CancelSchedule, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" MouseDown="CancelSchedule_MouseDown" Tag="{Binding ID}"></TextBlock>
+                                                    </Border>
+                                                    <Border Grid.Column="1" Grid.Row="7" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1" Height="45">
                                                         <Border Width="70" Height="30" Background="#C2E2F5" HorizontalAlignment="Left" CornerRadius="4">
                                                             <TextBlock Text="{Binding ScheduledDateTime, StringFormat={}{0:h:mm tt}}" Foreground="#1e76fb" 
                                                                        FontFamily="Noto Sans" FontSize="11" FontWeight="Bold" 
@@ -299,13 +303,13 @@
                                                     </Border>
                                                     <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0" Height="25">
                                                         <TextBlock Text="{Binding Path=Schedule_Label_ViewReport, Source={StaticResource Resources}}" 
-                                                                   Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center"></TextBlock>
+                                                                   Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Tag="{Binding ID}" MouseLeftButtonDown="ViewReport_MouseDown"></TextBlock>
                                                     </Border>
                                                     <Border Grid.Column="1" Grid.Row="4" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1" Height="45">
                                                         <Border Width="70" Height="30" Background="Transparent" HorizontalAlignment="Left" CornerRadius="4">
                                                             <TextBlock Text="{Binding TestResultStatus}" Foreground="#57baa5" 
                                                                        FontFamily="Noto Sans" FontSize="11" FontWeight="Bold" 
-                                                                       VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                                       VerticalAlignment="Center" >
                                                             </TextBlock>
                                                         </Border>
                                                     </Border>

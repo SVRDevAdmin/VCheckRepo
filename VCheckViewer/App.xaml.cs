@@ -28,6 +28,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Windows.Markup;
 using VCheck.Helper;
+using VCheckViewer.Views.Pages.Schedule;
+using VCheckViewer.Views.Pages.Results;
 
 namespace VCheckViewer
 {
@@ -38,7 +40,7 @@ namespace VCheckViewer
     {
         public static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public IConfiguration Configuration { get; }
+        //public IConfiguration Configuration { get; }
 
         public static MainViewModel MainViewModel { get; } = new MainViewModel();
 
@@ -50,6 +52,13 @@ namespace VCheckViewer
         public static event EventHandler GoToSettingDevicePage;
         public static event EventHandler GoToSettingConfigurationPage;
         public static event EventHandler GoToReportPage;
+
+        public static event EventHandler? GoToViewResultPage;
+
+        public static event EventHandler DownloadPrintReport;
+        public static event EventHandler UpdatePatientName;
+
+        public static event EventHandler? CancelSchedule;
 
         public static SignInManager<IdentityUser> SignInManager { get; set; }
         public static UserManager<IdentityUser> UserManager { get; set; }
@@ -63,7 +72,22 @@ namespace VCheckViewer
         public static ScheduledTestModel ScheduleTestInfo { set; get; }
         public static int AnalyzerID { set; get; }
         public static List<string> Parameters { get; set; }
+        public static List<TestDeviceName> Device { get; set; }
         public static TestResultModel TestResultInfo { get; set; }
+        public static string FilePath { get; set; }
+        public static bool ErrorOccur { get; set; }
+        public static bool IsPrint { get; set; }
+        public static string PMSFunction { get; set; }
+        public static bool isLanguagePage { get; set; }
+        public static bool isEmptyName { get; set; }
+        public static TestResultListingExtendedObj sTestResultObj { get; set; }
+        public static List<DownloadPrintResultModel> DowloadPrintObject { get; set; }
+        public static bool ResultPageNotInitialized { get; set; } = true;
+        public static bool SchedulePageNotInitialized { get; set; } = true;
+        public static bool LoginWindowNotInitialized { get; set; } = true;
+
+        public static IConfiguration iConfig { get; set; }
+
 
 
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
@@ -359,6 +383,38 @@ namespace VCheckViewer
             if (GoToReportPage != null)
             {
                 GoToReportPage(sender, e);
+            }
+        }
+
+        public static void DownloadPrintReportHandler(EventArgs e, object sender)
+        {
+            if (DownloadPrintReport != null)
+            {
+                DownloadPrintReport(sender, e);
+            }
+        }
+
+        public static void UpdatePatientNameHandler(EventArgs e, object sender)
+        {
+            if (UpdatePatientName != null)
+            {
+                UpdatePatientName(sender, e);
+            }
+        }
+
+        public static void CancelScheduleHandler(EventArgs e, object sender)
+        {
+            if (CancelSchedule != null)
+            {
+                CancelSchedule(sender, e);
+            }
+        }
+
+        public static void GoToViewResultPageHandler(EventArgs e, object sender)
+        {
+            if (GoToViewResultPage != null)
+            {
+                GoToViewResultPage(sender, e);
             }
         }
 

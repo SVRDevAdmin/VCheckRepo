@@ -31,6 +31,8 @@ namespace VCheckViewer.Views.Pages.Setting.Report
         {
             InitializeComponent();
             LoadInformation();
+
+            this.SizeChanged += MainWindow_SizeChanged;
         }
 
         private void LoadInformation()
@@ -40,20 +42,20 @@ namespace VCheckViewer.Views.Pages.Setting.Report
             var sReportTitle = configDBContext.GetConfigurationData("ReportTitle").FirstOrDefault();
             var sClinicAddress = configDBContext.GetConfigurationData("ClinicAddress").FirstOrDefault();
 
-            var bitmap = new BitmapImage();
-
             try
             {
+                var bitmap = new BitmapImage();
                 Uri uri = new Uri(sReportImagePath != null ? sReportImagePath.ConfigurationValue : "pack://application:,,,/Content/Images/Report Logo Default.png");
                 bitmap = new BitmapImage(uri);
+
+                Logo.Source = bitmap;
+                LogoPath.Text = sReportImagePath != null ? sReportImagePath.ConfigurationValue : "";
             }
             catch (Exception ex)
             {
-                Uri uri = new Uri("pack://application:,,,/Content/Images/Report Logo Default.png");
-                bitmap = new BitmapImage(uri);
+
             }
 
-            Logo.Source = bitmap;
             ClinicName.Text = sClinicName != null ? sClinicName.ConfigurationValue : "";
             ReportTitle.Text = sReportTitle != null ? sReportTitle.ConfigurationValue : "";
             ClinicAddress.Text = sClinicAddress != null ? sClinicAddress.ConfigurationValue : "";
@@ -99,12 +101,14 @@ namespace VCheckViewer.Views.Pages.Setting.Report
 
                 Logo.Source = bitmap;
             }
+
+            UpdateButton.IsEnabled = isSufficient();
         }
 
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(LogoPath.Text) || String.IsNullOrEmpty(ClinicName.Text) || String.IsNullOrEmpty(ReportTitle.Text) || String.IsNullOrEmpty(ClinicAddress.Text))
+            if (!isSufficient())
             {
                 UpdateButton.IsEnabled = false;
             }
@@ -139,11 +143,36 @@ namespace VCheckViewer.Views.Pages.Setting.Report
                 Popup sConfirmPopup = new Popup();
                 sConfirmPopup.IsOpen = true;
 
-                App.MainViewModel.Origin = "SettingsUpdate";
+                App.MainViewModel.Origin = "ReportSettingsUpdate";
                 App.MainViewModel.ConfigurationModel = sConfigList;
 
                 App.PopupHandler(e, sender);
             }
+        }
+
+        private void TextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            UpdateButton.IsEnabled = isSufficient();
+        }
+
+        private bool isSufficient()
+        {
+            if (String.IsNullOrEmpty(LogoPath.Text) || String.IsNullOrEmpty(ClinicName.Text) || String.IsNullOrEmpty(ReportTitle.Text) || String.IsNullOrEmpty(ClinicAddress.Text))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Logo.Height = e.NewSize.Height * 0.109;
+            LogoSample.Height = e.NewSize.Height * 0.078;
+            ReportSampleElement.Height = e.NewSize.Height * 0.844;
+            ClinicAddress.MaxHeight = e.NewSize.Height * 0.156;
         }
     }
 }

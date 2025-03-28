@@ -91,14 +91,14 @@
                 <Border BorderThickness="0" BorderBrush="White" Background="{DynamicResource Themes_FrameBackground}" CornerRadius="7" Grid.Row="1" Padding="0,60,0,0">
                     <StackPanel HorizontalAlignment="Center" Width="350">
                         <TextBlock Text="{Binding Path=Login_Title_PageTitle, Source={StaticResource Resources}}" TextAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,0,0,30" Foreground="{DynamicResource Themes_LoginPageFontColor}"/>
-                        <TextBlock x:Name="ErrorText" Foreground="Red" Text="Wrong Password" TextAlignment="Center" Visibility="Hidden" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="ErrorText" Foreground="Red" TextAlignment="Center" Visibility="Hidden" TextWrapping="Wrap"/>
                         <Border Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black" Margin="0,30,0,10">
                             <Grid>
 
                                 <Image Source="../../../Content/Images/Username Icon.png" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0"/>
 
 
-                                <TextBox x:Name="Username" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" KeyUp="CheckValue"/>
+                                <TextBox x:Name="Username" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black"/>
                                 <TextBlock IsHitTestVisible="False" Text="{Binding Path=Setting_Label_LoginID, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
@@ -119,7 +119,7 @@
                                 <Image Source="../../../Content/Images/Password Icon.png" HorizontalAlignment="Left" Height="30" Margin="5,-5,0,0"/>
 
 
-                                <PasswordBox x:Name="Password" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" PasswordChanged="PasswordPlaceholderHandler" KeyUp="CheckValue" />
+                                <PasswordBox x:Name="Password" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" PasswordChanged="PasswordPlaceholderHandler" />
                                 <TextBlock x:Name="PasswordPlaceholder" IsHitTestVisible="False" Text="{Binding Path=Login_Label_MainPassword, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">

@@ -444,7 +444,84 @@ namespace VCheckViewerAPI.Controllers
         }
 
         /// <summary>
-        /// Get Location List
+        /// Cancel Scheduled Request
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost(Name = "CancelScheduledTest")]
+        public ResponseModel CancelScheduledTest(ScheduleDataRequest request)
+        {
+            var response = new ResponseModel();
+            response.Header = new HeaderModel();
+            response.Body = new ResponseBody();
+
+            String responseCode = "";
+            String responseMessage = "";
+            String responseStatus = "";
+
+            try
+            {
+                if (request.Header.clientKey != null && _apiRepository.Authenticate(request.Header.clientKey))
+                {
+                    if (_apiRepository.ValidateTokenExpiry(request.Header.clientKey))
+                    {
+                        if (!String.IsNullOrEmpty(request.Body.ScheduledUniqueID))
+                        {
+                            ClientModel sAuthProfile = _apiRepository.GetClientProfileByClientKey(request.Header.clientKey);
+                            var UpdatedBy = (sAuthProfile != null) ? sAuthProfile.Name : "";
+
+                            _apiRepository.CancelScheduledTest(request.Body.ScheduledUniqueID, UpdatedBy, out responseCode, out responseMessage, out responseStatus);
+                        }
+                        else
+                        {
+                            responseCode = "VV.2002";
+                            responseStatus = "Fail";
+                            responseMessage = "Missing Scheduled Unique ID";
+                        }
+
+                    }
+                    else
+                    {
+                        responseCode = "VV.0005";
+                        responseStatus = "Fail";
+                        responseMessage = "Expiry Token Key";
+                    }
+                }
+                else
+                {
+                    responseCode = "VV.0003";
+                    responseStatus = "Fail";
+                    responseMessage = "Unauthorized Request";
+                }
+
+                response.Header.timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
+                response.Header.clientKey = request.Header.clientKey;
+
+                response.Body.ResponseCode = responseCode;
+                response.Body.ResponseStatus = responseStatus;
+                response.Body.ResponseMessage = responseMessage;
+
+                //--------- Log Payload -------//
+                VCheck.APILogging.CallLogging.InsertAPiLog("CancelScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,
+                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                                               responseMessage);
+            }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Exception";
+                responseMessage = "Exception Error";
+
+                VCheck.APILogging.CallLogging.InsertErrorLog("CancelScheduledTest", Guid.NewGuid().ToString(), responseCode, responseStatus,
+                                            responseMessage, ((ex != null) ? ex.ToString() : ""));
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Test connection
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

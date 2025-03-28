@@ -253,5 +253,31 @@ namespace VCheck.Lib.Data
                 return null;
             }
         }
+
+        /// <summary>
+        /// Get device name
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="iID"></param>
+        /// <returns></returns>
+        public static string GetDeviceNameBySerialNo(IConfiguration config, string deviceSerialNo)
+        {
+            var deviceName = "General";
+            try
+            {
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    var device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceSerialNo == deviceSerialNo);
+                    if(device != null) { deviceName = ctx.mst_devicetype.FirstOrDefault(x => x.id == device.DeviceTypeID).TypeName; }                    
+
+                    return deviceName;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("DeviceRepository >>> GetTwoWayCommDevice >>> " + ex.ToString());
+                return "General";
+            }
+        }
     }
 }

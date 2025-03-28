@@ -322,7 +322,7 @@ namespace VCheck.Lib.Data
         /// <param name="totalRecords"></param>
         /// <returns></returns>
         public static List<TestResultListingExtendedObj> GetTestResultListBySearch(IConfiguration config, String dStartDate, String dEndDate, 
-                                                                           String sKeyword, String sSortDirection, int pageIndex, int pageSize,
+                                                                           String sKeyword, String sSortDirection, int pageIndex, int pageSize, string isPMSUser,
                                                                            out int totalRecords)
         {
             List<TestResultListingExtendedObj> sResult = new List<TestResultListingExtendedObj>();
@@ -403,7 +403,7 @@ namespace VCheck.Lib.Data
                                         TestResultType = sReader["TestResultType"].ToString(),
                                         OperatorID = sReader["OperatorID"].ToString(),
                                         PatientID = sReader["PatientID"].ToString(),
-                                        PatientName = sReader["PatientName"].ToString(),
+                                        PatientName = string.IsNullOrEmpty(sReader["PatientName"].ToString()) ? "-" : sReader["PatientName"].ToString(),
                                         InchargePerson = sReader["InchargePerson"].ToString(),
                                         TestResultStatus = sReader["OverallStatus"].ToString(),
                                         CreatedDate = Convert.ToDateTime(sReader["CreatedDate"]),
@@ -414,7 +414,8 @@ namespace VCheck.Lib.Data
                                         statusFontColor = (sReader["OverallStatus"].ToString() == "Abnormal" || 
                                                            sReader["OverallStatus"].ToString() == "Invalid") ? 
                                                            "#ff2c29" : "#57baa5",
-                                        DeviceSerialNo = sReader["DeviceSerialNo"].ToString()
+                                        DeviceSerialNo = sReader["DeviceSerialNo"].ToString(),
+                                        PMSFunction = isPMSUser
                                     }); ;
 
                                     iIndex++;
@@ -635,6 +636,99 @@ namespace VCheck.Lib.Data
             {
                 log.Error("Error >>> " + ex.ToString());
             }
+        }
+
+        /// <summary>
+        /// Get parameter list
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static List<ParametersModel> GetAllParameters(IConfiguration config)
+        {
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.mst_parameters.ToList().OrderBy(x => x.Analyzer).ThenBy(x => x.Order).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Get previous test record
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static List<TestResultDetailsModel> GetPreviousTestRecord(IConfiguration config, TestResultModel currenttestInfo, out TestResultModel previousTest)
+        {
+            previousTest = new TestResultModel();
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    var previousTestTemp = ctx.txn_testResults.OrderByDescending(x => x.CreatedDate).FirstOrDefault(y => y.DeviceSerialNo == currenttestInfo.DeviceSerialNo && y.PatientID == currenttestInfo.PatientID && y.CreatedDate < currenttestInfo.CreatedDate);
+                    previousTest = previousTestTemp;
+
+                    if (previousTest != null)
+                    {
+                        return ctx.txn_testresults_details.Where(x => x.TestResultRowID == previousTestTemp.ID).ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Get related test result
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static List<TestDeviceName> GetRelatedTestResultByPatientID(IConfiguration config, string patientID, string excludeDeviceName)
+        {
+            List<string> serialNoList = new List<string>();
+            List<TestResultModel> testList = new List<TestResultModel>();
+            List<TestDeviceName> testDeviceNames = new List<TestDeviceName>();
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    serialNoList = ctx.txn_testResults.Where(x => x.PatientID == patientID).Select(z => z.DeviceSerialNo).Distinct().ToList();
+                    testList = ctx.txn_testResults.Where(x => x.PatientID == patientID).OrderByDescending(z => z.CreatedDate).ToList().DistinctBy(y => y.DeviceSerialNo).ToList();
+                }
+
+                foreach(var test in testList)
+                {
+                    var deviceName = DeviceRepository.GetDeviceNameBySerialNo(config, test.DeviceSerialNo);
+
+                    if(deviceName != excludeDeviceName) 
+                    {
+                        testDeviceNames.Add(new TestDeviceName() { TestID = test.ID, DeviceName = DeviceRepository.GetDeviceNameBySerialNo(config, test.DeviceSerialNo) });
+                    }
+                    
+                }
+
+                return testDeviceNames;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+            }
+
+            return null;
         }
     }
 }

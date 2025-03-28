@@ -103,8 +103,6 @@ namespace VCheckViewer.Views.Pages
 
         public void generateView()
         {
-            responsiveView.Children.Clear();
-
             //Random rnd = new Random();
             //int totalElement = rnd.Next(0, 10);
             //int totalElement = 8;
@@ -519,6 +517,7 @@ namespace VCheckViewer.Views.Pages
                     testGrid.Children.Add(parentBorder);
                 }
 
+                responsiveView.Children.Clear();
                 responsiveView.Children.Add(testGrid);
             }
         }

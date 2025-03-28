@@ -27,7 +27,7 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new ScheduleDBContext(config))
                 {
-                    return ctx.Txn_ScheduledTests.Where(x => x.ScheduledDateTime >= DateTime.Now)
+                    return ctx.Txn_ScheduledTests.Where(x => x.ScheduledDateTime >= DateTime.Now && x.ScheduleTestStatus == 0)
                                                 .OrderBy(x => x.ScheduledDateTime)
                                                 .Take(5)
                                                 .ToList();
@@ -94,6 +94,11 @@ namespace VCheck.Lib.Data
                         if (sData.InchargePerson != sScheduledTestObj.InchargePerson)
                         {
                             sData.InchargePerson = sScheduledTestObj.InchargePerson;
+                        }
+
+                        if (sData.ScheduleTestStatus != sScheduledTestObj.ScheduleTestStatus)
+                        {
+                            sData.ScheduleTestStatus = sScheduledTestObj.ScheduleTestStatus;
                         }
 
                         ctx.SaveChanges();

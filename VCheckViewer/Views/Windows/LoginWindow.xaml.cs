@@ -47,17 +47,22 @@ namespace VCheckViewer.Views.Windows
             SystemThemeWatcher.Watch(this);
             InitializeComponent();
             //_navigationService = navigationService;
-            //_pageService = pageService;
+            //_pageService = pageService;            
 
-            LoginPage.GoToResetPasswordPage += new EventHandler(GoToResetPasswordPage);
-            ResetPasswordPage.GoToLoginPage += new EventHandler(GoToLoginPage);
-            PasswordRecoveryPage.GoToLoginPage += new EventHandler(GoToLoginPage);
+            if (App.LoginWindowNotInitialized)
+            {
+                LoginPage.GoToResetPasswordPage += new EventHandler(GoToResetPasswordPage);
+                ResetPasswordPage.GoToLoginPage += new EventHandler(GoToLoginPage);
+                PasswordRecoveryPage.GoToLoginPage += new EventHandler(GoToLoginPage);
 
-            LoginPage.GoToMainWindow += new EventHandler(GoToMainWindow);
+                LoginPage.GoToMainWindow += new EventHandler(GoToMainWindow);
 
-            //popup
-            PasswordRecoveryPage.Popup += new EventHandler(OpenPopup);
-            App.Popup += new EventHandler(GoToLoginPage);
+                //popup
+                PasswordRecoveryPage.Popup += new EventHandler(OpenPopup);
+                App.Popup += new EventHandler(GoToLoginPage);
+
+                App.LoginWindowNotInitialized = false;
+            }
 
         }
 
@@ -86,10 +91,11 @@ namespace VCheckViewer.Views.Windows
 
         public void GoToMainWindow(object sender, EventArgs e)
         {
-            if (System.Windows.Application.Current.Windows.OfType<Main>().Any())
+            foreach(var window in System.Windows.Application.Current.Windows.OfType<Main>())
             {
-                System.Windows.Application.Current.Windows.OfType<Main>().First().Close();
+                window.Close();
             }
+
             Main main = new Main();
             main.frameContent.Content = new DashboardPage();
             main.Show();

@@ -600,33 +600,6 @@
   <data name="General_Message_ErrorOccured" xml:space="preserve">
     <value>发生错误。请联系管理员。</value>
   </data>
-  <data name="Login_ErrorMessage_NoLowerCase" xml:space="preserve">
-    <value>At least one lowercase letter.</value>
-  </data>
-  <data name="Login_ErrorMessage_NoNumberChar" xml:space="preserve">
-    <value>At least one number.</value>
-  </data>
-  <data name="Login_ErrorMessage_NoSpecialChar" xml:space="preserve">
-    <value>At least one special character.</value>
-  </data>
-  <data name="Login_ErrorMessage_NoUpperCase" xml:space="preserve">
-    <value>At least one uppercase letter.</value>
-  </data>
-  <data name="Login_ErrorMessage_PasswordLessEightChar" xml:space="preserve">
-    <value>This field must contain at least 8 characters.</value>
-  </data>
-  <data name="Login_ErrorMessage_WrongUsernameEmail" xml:space="preserve">
-    <value>The Login ID and Email Address do not match.</value>
-  </data>
-  <data name="Login_ErrorMessage_WrongUsernamePassword" xml:space="preserve">
-    <value>Incorrect Login ID or Password.</value>
-  </data>
-  <data name="Popup_Message_ResetPassword" xml:space="preserve">
-    <value>Are you sure you want to reset the password?</value>
-  </data>
-  <data name="Login_Message_WrongNewPassword" xml:space="preserve">
-    <value>Wrong new password.</value>
-  </data>
   <data name="Dashboard_Label_Negative" xml:space="preserve">
     <value>阴性</value>
   </data>
@@ -679,7 +652,7 @@
     <value>患者姓名</value>
   </data>
   <data name="Results_Label_SendToPMS" xml:space="preserve">
-    <value>编辑患者姓名</value>
+    <value>发送至 PMS</value>
   </data>
   <data name="Results_Label_TestResultType" xml:space="preserve">
     <value>测试结果类型</value>
@@ -701,5 +674,155 @@
   </data>
   <data name="Setting_Label_DeviceType" xml:space="preserve">
     <value>设备类型</value>
+  </data>
+  <data name="Popup_Message_CancelSchedule" xml:space="preserve">
+    <value>您确定要取消此计划吗？</value>
+  </data>
+  <data name="Popup_Message_ReportSettingUpdated" xml:space="preserve">
+    <value>报告设置已成功更新。</value>
+  </data>
+  <data name="Popup_Message_SelectParameterDownload" xml:space="preserve">
+    <value>请选择您要下载的参数。</value>
+  </data>
+  <data name="Popup_Message_SelectParameterPrint" xml:space="preserve">
+    <value>请选择您要打印的参数。</value>
+  </data>
+  <data name="Popup_Message_TheFileIsAt" xml:space="preserve">
+    <value>该文件位于</value>
+  </data>
+  <data name="Report_Label_ClinicAddress" xml:space="preserve">
+    <value>诊所地址</value>
+  </data>
+  <data name="Report_Label_ClinicName" xml:space="preserve">
+    <value>诊所名称</value>
+  </data>
+  <data name="Report_Label_DateTime" xml:space="preserve">
+    <value>日期和时间</value>
+  </data>
+  <data name="Report_Label_High" xml:space="preserve">
+    <value>高</value>
+  </data>
+  <data name="Report_Label_Low" xml:space="preserve">
+    <value>低</value>
+  </data>
+  <data name="Report_Label_MaxSize" xml:space="preserve">
+    <value>最大文件大小为 2MB</value>
+  </data>
+  <data name="Report_Label_Parameter" xml:space="preserve">
+    <value>参数</value>
+  </data>
+  <data name="Report_Label_PoweredBy" xml:space="preserve">
+    <value>技术支持</value>
+  </data>
+  <data name="Report_Label_PrintedBy" xml:space="preserve">
+    <value>打印者</value>
+  </data>
+  <data name="Report_Label_PrintedOn" xml:space="preserve">
+    <value>打印日期</value>
+  </data>
+  <data name="Report_Label_Reference" xml:space="preserve">
+    <value>参考</value>
+  </data>
+  <data name="Report_Label_Report" xml:space="preserve">
+    <value>报告</value>
+  </data>
+  <data name="Report_Label_ReportHeaders" xml:space="preserve">
+    <value>报告标题</value>
+  </data>
+  <data name="Report_Label_ReportSample" xml:space="preserve">
+    <value>报告样本</value>
+  </data>
+  <data name="Report_Label_ReportTitle" xml:space="preserve">
+    <value>报告标题</value>
+  </data>
+  <data name="Report_Label_ResultStatus" xml:space="preserve">
+    <value>结果状态</value>
+  </data>
+  <data name="Report_Label_ResultValue" xml:space="preserve">
+    <value>结果值</value>
+  </data>
+  <data name="Report_Label_Test" xml:space="preserve">
+    <value>测试</value>
+  </data>
+  <data name="Report_Label_UploadLogo" xml:space="preserve">
+    <value>上传徽标</value>
+  </data>
+  <data name="Schedule_Label_CancelSchedule" xml:space="preserve">
+    <value>取消计划</value>
+  </data>
+  <data name="Login_ErrorMessage_NoLowerCase" xml:space="preserve">
+    <value>至少一个小写字母。</value>
+  </data>
+  <data name="Login_ErrorMessage_NoNumberChar" xml:space="preserve">
+    <value>至少一个数字。</value>
+  </data>
+  <data name="Login_ErrorMessage_NoSpecialChar" xml:space="preserve">
+    <value>至少一个特殊字符。</value>
+  </data>
+  <data name="Login_ErrorMessage_NoUpperCase" xml:space="preserve">
+    <value>至少一个大写字母。</value>
+  </data>
+  <data name="Login_ErrorMessage_PasswordLessEightChar" xml:space="preserve">
+    <value>此字段必须至少包含 8 个字符。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongUsernameEmail" xml:space="preserve">
+    <value>登录 ID 和电子邮件地址不匹配。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongUsernamePassword" xml:space="preserve">
+    <value>登录 ID 或密码不正确。</value>
+  </data>
+  <data name="Login_Message_WrongNewPassword" xml:space="preserve">
+    <value>新密码错误。</value>
+  </data>
+  <data name="Notification_Label_Show" xml:space="preserve">
+    <value>显示：</value>
+  </data>
+  <data name="Popup_Message_CheckPassword" xml:space="preserve">
+    <value>请再次检查密码。</value>
+  </data>
+  <data name="Popup_Message_CheckUsername" xml:space="preserve">
+    <value>请再次检查用户名。</value>
+  </data>
+  <data name="Popup_Message_ConfirmPasswordDoNotMatch" xml:space="preserve">
+    <value>密码和确认密码不匹配。</value>
+  </data>
+  <data name="Popup_Message_InputPassword" xml:space="preserve">
+    <value>请输入密码。</value>
+  </data>
+  <data name="Popup_Message_InputUsername" xml:space="preserve">
+    <value>请输入用户名。</value>
+  </data>
+  <data name="Popup_Message_ResetPassword" xml:space="preserve">
+    <value>您确定要重置密码吗？</value>
+  </data>
+  <data name="Results_Label_Ascending" xml:space="preserve">
+    <value>结果（升序）</value>
+  </data>
+  <data name="Results_Label_Descending" xml:space="preserve">
+    <value>结果（降序）</value>
+  </data>
+  <data name="Results_Label_Earliest" xml:space="preserve">
+    <value>最早</value>
+  </data>
+  <data name="Results_Label_Latest" xml:space="preserve">
+    <value>最新</value>
+  </data>
+  <data name="Popup_Message_FailedToDownload" xml:space="preserve">
+    <value>下载失败。</value>
+  </data>
+  <data name="Popup_Message_FailedToPrint" xml:space="preserve">
+    <value>打印失败。</value>
+  </data>
+  <data name="Popup_Message_SelectAdditionalTestResult" xml:space="preserve">
+    <value>选择要包含在报告中的其他测试结果。</value>
+  </data>
+  <data name="Dashboard_Label_Loading" xml:space="preserve">
+    <value>加载中...</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateLISInfo" xml:space="preserve">
+    <value>无法更新 LIS 信息。</value>
+  </data>
+  <data name="Popup_Message_IpPortUnavailable" xml:space="preserve">
+    <value>无法分配 IP 地址和端口号。请键入其他值。</value>
   </data>
 </root>

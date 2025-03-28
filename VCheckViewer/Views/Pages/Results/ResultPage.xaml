@@ -90,7 +90,7 @@
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="0.5*" />
             <RowDefinition Height="7*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -120,7 +120,7 @@
 
                                     <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Style="{StaticResource TextBoxStyle}" GotFocus="ChangeSortBy"/>
                                     <TextBlock IsHitTestVisible="False" Text="{Binding Path=Results_Label_Searchbar, Source={StaticResource Resources}}" 
-                                               VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="{DynamicResource Themes_SearchFieldFontColor}"
+                                               VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray"
                                                FontFamily="Noto Sans" FontSize="12" Background="{DynamicResource Themes_SearchFieldBackground}">
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
@@ -195,13 +195,10 @@
                 RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}" HorizontalGridLinesBrush="{DynamicResource Themes_GridRowLinesColor}" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{Binding Path=Results_Label_No, Source={StaticResource Resources}}" Binding="{Binding RowNo}" Width="35" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_Time, Source={StaticResource Resources}}" Binding="{Binding TestResultDateTime, StringFormat={}{0:yyyy-MM-dd HH:ss}}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <!-- Header="{Binding Path=Results_Label_TestResultType, Source={StaticResource Resources}}" -->
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_TestResultType, Source={StaticResource Resources}}" Binding="{Binding TestResultType}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_PatientName, Source={StaticResource Resources}}" Binding="{Binding PatientName}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_OperatorID, Source={StaticResource Resources}}" Binding="{Binding OperatorID}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_PatientID, Source={StaticResource Resources}}" Binding="{Binding PatientID}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_PatientName, Source={StaticResource Resources}}" Binding="{Binding PatientName}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <!--<DataGridTextColumn Header="{Binding Path=Results_Label_ProceduralCont, Source={StaticResource Resources}}" Binding="{Binding ObservationStatus}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />-->
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_TestResultType, Source={StaticResource Resources}}" Binding="{Binding TestResultType}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTemplateColumn Header="{Binding Path=Results_Label_Result, Source={StaticResource Resources}}" Width="*">
                         <!--HeaderStyle="{StaticResource columnHeaderStyleCenterAlign} -->
                         <DataGridTemplateColumn.CellTemplate>
@@ -214,13 +211,16 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_Time, Source={StaticResource Resources}}" Binding="{Binding TestResultDateTime, StringFormat={}{0:yyyy-MM-dd HH:ss}}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_Doctor, Source={StaticResource Resources}}" Binding="{Binding InchargePerson}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
+                    <!-- Header="{Binding Path=Results_Label_TestResultType, Source={StaticResource Resources}}" -->
+                    <!--<DataGridTextColumn Header="{Binding Path=Results_Label_ProceduralCont, Source={StaticResource Resources}}" Binding="{Binding ObservationStatus}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />-->
 
                     <!--
                     <DataGridTextColumn Header="{Binding Path=Results_Label_Units, Source={StaticResource Resources}}" Binding="{Binding TestResultValue, StringFormat={}{0:0.##}}" Width="80" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_Lot, Source={StaticResource Resources}}" Width="80" ElementStyle="{StaticResource DataGridVerticalText}" />
                     -->
                     <!--<DataGridTextColumn Header="{Binding Path=Results_Label_Valid, Source={StaticResource Resources}}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" /> -->
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_Doctor, Source={StaticResource Resources}}" Binding="{Binding InchargePerson}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}"/>
                     <DataGridTextColumn Header="{Binding Path=Results_Label_DeviceSerialNo, Source={StaticResource Resources}}" Binding="{Binding DeviceSerialNo}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" />
                     <DataGridTemplateColumn Width="0.3*">
                         <DataGridTemplateColumn.CellTemplate>
@@ -232,13 +232,13 @@
                                                 <!--<ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />-->
                                                 <Image Source="{DynamicResource Themes_GirdUserMoreIcon}" Width="12"/>
                                             </MenuItem.Icon>
-                                            <MenuItem Name="menuEditPatientName" Tag="{Binding ID}" Header="Edit Patient Name" Click="updateName_Click" Visibility="Collapsed"/>
-                                            <MenuItem Name="menuView" Header="{Binding Path=Results_Label_View, Source={StaticResource Resources}}" Click="menuView_Click" Visibility="Collapsed"/>
+                                            <MenuItem Name="menuEditPatientName" Tag="{Binding ID}" Header="{Binding Path=Results_Label_EditPatientName, Source={StaticResource Resources}}" Click="updateNameButton_Click"/>
+                                            <MenuItem Name="menuView" Header="{Binding Path=Results_Label_View, Source={StaticResource Resources}}" Click="menuView_Click"/>
                                             <MenuItem Name="menuDownload" Header="{Binding Path=Results_Label_Download, Source={StaticResource Resources}}" Click="menuDownload_Click" />
                                             <MenuItem Name="menuPrint" Header="{Binding Path=Results_Label_Print, Source={StaticResource Resources}}" Click="menuPrint_Click" />
 
                                             <!-- POC Testing -->
-                                            <MenuItem Name="menuTransfer" Tag="{Binding ID}" Header="{Binding Path=Results_Label_SendToPMS, Source={StaticResource Resources}}" Click="menuTransfer_Click" />
+                                            <MenuItem Name="menuTransfer" Tag="{Binding ID}" Header="{Binding Path=Results_Label_SendToPMS, Source={StaticResource Resources}}" Click="menuTransfer_Click" Visibility="{Binding PMSFunction}"/>
                                         </MenuItem>
                                     </Menu>
                                 </Grid>

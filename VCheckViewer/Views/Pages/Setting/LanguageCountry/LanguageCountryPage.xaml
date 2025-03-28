@@ -20,7 +20,7 @@
     <Grid Margin="0,10,0,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -35,7 +35,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
-                    <!--<ColumnDefinition Width="auto" MinWidth="90"/>-->
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="2">
                     <Button Name="btnUserSetting" Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="UserPage"></Button>
@@ -49,22 +49,22 @@
                 <Border Grid.Column="3" Margin="2">
                     <Button Name="btnDeviceSetting" Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
                 </Border>
-                <!--<Border Grid.Column="4" Margin="2">
-                    <Button Content="Report" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
-                </Border>-->
+                <Border Grid.Column="4" Margin="2">
+                    <Button Content="{Binding Path=Report_Label_Report, Source={StaticResource Resources}}" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
+                </Border>
             </Grid>
         </Border>
 
         <Border Grid.ColumnSpan="4" Grid.Row="1">
             <TextBlock Name="ErrorText" HorizontalAlignment="Center" Foreground="Red" Margin="10" Visibility="Hidden"/>
         </Border>
-        <Border Grid.Column="1" Grid.Row="1">
+        <Border x:Name="languageBorder" Grid.Column="1" Grid.Row="1" Height="570">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" Margin="30,30,30,10" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" CornerRadius="7" Height="40" Background="{DynamicResource Themes_CountryLangFrameBackground}">
+                <Border x:Name="languageLabelBorder" Grid.Row="0" Margin="30,30,30,10" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" CornerRadius="7" Height="40" Background="{DynamicResource Themes_CountryLangFrameBackground}">
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -74,19 +74,19 @@
                         <TextBlock x:Name="SelectedLanguage" Text="{Binding Path=Setting_Label_SelectLanguage, Source={StaticResource Resources}}" Grid.Column="1" VerticalAlignment="Center" Foreground="Orange" FontWeight="Bold"/>
                     </Grid>
                 </Border>
-                <Border Grid.Row="1" Margin="30,0,30,30" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_CountryLangFrameBackground}">
+                <Border Grid.Row="1" Margin="30,0,30,0" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_CountryLangFrameBackground}">
                     <ListView Name="LanguageListView" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" HorizontalContentAlignment="Stretch" Padding="0,0,20,0" Background="{DynamicResource Themes_CountryLangFrameBackground}">
                     </ListView>
                 </Border>
             </Grid>
         </Border>
-        <Border Grid.Column="2" Grid.Row="1">
-            <Grid>
+        <Border x:Name="countryBorder" Grid.Column="2" Grid.Row="1" Height="570">
+            <Grid VerticalAlignment="Top">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" Margin="30,30,30,10" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" CornerRadius="7" Height="40" Background="{DynamicResource Themes_CountryLangFrameBackground}">
+                <Border x:Name="countryLabelBorder" Grid.Row="0" Margin="30,30,30,10" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" CornerRadius="7" Height="40" Background="{DynamicResource Themes_CountryLangFrameBackground}">
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -96,13 +96,13 @@
                         <TextBlock x:Name="SelectedCountry" Text="{Binding Path=Setting_Label_SelectCountry, Source={StaticResource Resources}}" Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold" Foreground="Orange"/>
                     </Grid>
                 </Border>
-                <Border Grid.Row="1" Margin="30,0,30,30" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_CountryLangFrameBackground}">
+                <Border x:Name="countryListBorder" Grid.Row="1" Margin="30,0,30,0" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_CountryLangFrameBackground}" >
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
-                            <RowDefinition Height="460"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Margin="10,0,10,0">
+                        <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Margin="10,0,10,0" BorderThickness="1" BorderBrush="{DynamicResource Themes_SearchFieldFontColor}" CornerRadius="7">
                             <Border Background="{DynamicResource Themes_CountryLangSearchBackground}" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangSearchBackground}">
                                 <Grid>
                                     <!--<ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->
@@ -134,7 +134,7 @@
             </Grid>
         </Border>
         <Button x:Name="SaveButton" Content="{Binding Path=General_Label_Save, Source={StaticResource Resources}}" 
-                VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2" Margin="30" 
+                VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2"  Margin="30,0,30,0"
                 Background="{DynamicResource Themes_ButtonColor}" Foreground="{DynamicResource Themes_ButtonFontColor}" 
                 Style="{DynamicResource RoundButton}" BorderBrush="{DynamicResource Themes_ButtonColor}" 
                 Click="SaveButton_Click" />

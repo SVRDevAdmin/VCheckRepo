@@ -85,33 +85,32 @@ namespace VCheckViewer.Views.Pages.Login
         private async void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             var username = (Username.Parent as Grid).Parent as System.Windows.Controls.Border;
+            var password = (Password.Parent as Grid).Parent as System.Windows.Controls.Border;
 
-            string errorMessage = "";
-            if (Password.Password.Length < 8) { errorMessage = errorMessage + Properties.Resources.Login_ErrorMessage_PasswordLessEightChar; }
-            if (!Regex.IsMatch(Password.Password, "^(?=.*?[A-Z]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = errorMessage + Properties.Resources.Login_ErrorMessage_NoUpperCase; }
-            if (!Regex.IsMatch(Password.Password, "^(?=.*?[a-z]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = errorMessage + Properties.Resources.Login_ErrorMessage_NoLowerCase; }
-            if (!Regex.IsMatch(Password.Password, "^(?=.*?[0-9]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = errorMessage + Properties.Resources.Login_ErrorMessage_NoNumberChar; }
-
-
+            if (string.IsNullOrEmpty(Username.Text))
+            {
+                ErrorText.Visibility = Visibility.Visible;
+                ErrorText.Text = Properties.Resources.Popup_Message_InputUsername;
+            }
             if (username.ToolTip.ToString() != "No issue")
             {
                 ErrorText.Visibility = Visibility.Visible;
-                ErrorText.Text = "Please check username again.";
+                ErrorText.Text = Properties.Resources.Popup_Message_CheckUsername;
             }
             else if (string.IsNullOrEmpty(Password.Password))
             {
                 ErrorText.Visibility = Visibility.Visible;
-                ErrorText.Text = "Please input password.";
+                ErrorText.Text = Properties.Resources.Popup_Message_InputPassword;
             }
-            else if (errorMessage != "")
+            else if (password.ToolTip.ToString() != "No issue")
             {
                 ErrorText.Visibility = Visibility.Visible;
-                ErrorText.Text = errorMessage;
+                ErrorText.Text = Properties.Resources.Popup_Message_CheckPassword;
             }
             else if (ConfirmPassword.Password != Password.Password)
             {
                 ErrorText.Visibility = Visibility.Visible;
-                ErrorText.Text = "Password and Confirm Password does not match.";
+                ErrorText.Text = Properties.Resources.Popup_Message_ConfirmPasswordDoNotMatch;
             }
             else
             {
@@ -252,6 +251,39 @@ namespace VCheckViewer.Views.Pages.Login
         {
             PasswordBox password = sender as PasswordBox;
             UpdatePlaceholderVisibility(password.Name);
+
+            PasswordBox passwordBox = null;
+            System.Windows.Controls.Border parentBorder;
+            Grid parentGrid;
+
+            passwordBox = sender as PasswordBox; parentGrid = passwordBox.Parent as Grid;
+
+            parentBorder = parentGrid.Parent as System.Windows.Controls.Border;
+
+            string errorMessage = "";
+            bool hasError = false;
+            if (Password.Password.Length < 8) { errorMessage = "- " + errorMessage + Properties.Resources.Login_ErrorMessage_PasswordLessEightChar; hasError = true; }
+            if (!Regex.IsMatch(Password.Password, "^(?=.*?[A-Z]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = "- " + errorMessage + Properties.Resources.Login_ErrorMessage_NoUpperCase; hasError = true; }
+            if (!Regex.IsMatch(Password.Password, "^(?=.*?[a-z]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = "- " + errorMessage + Properties.Resources.Login_ErrorMessage_NoLowerCase; hasError = true; }
+            if (!Regex.IsMatch(Password.Password, "^(?=.*?[0-9]).{1,}$")) { if (errorMessage != "") { errorMessage = errorMessage + "\r\n"; } errorMessage = "- " + errorMessage + Properties.Resources.Login_ErrorMessage_NoNumberChar; hasError = true; }
+
+
+
+            if ((passwordBox != null && passwordBox.Password == ""))
+            {
+                parentBorder.BorderBrush = Brushes.Red;
+                parentBorder.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
+            }
+            else if (hasError)
+            {
+                parentBorder.BorderBrush = Brushes.Red;
+                parentBorder.ToolTip = errorMessage;
+            }
+            else
+            {
+                parentBorder.BorderBrush = Brushes.Black;
+                parentBorder.ToolTip = "No issue";
+            }
         }
 
         private void PasswordBox_GotFocus(object sender, RoutedEventArgs e)

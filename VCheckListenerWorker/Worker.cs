@@ -107,14 +107,19 @@ namespace VCheckListenerWorker
         /// <returns></returns>
         public override Task StartAsync(CancellationToken cancellationToken)
         {
+            String sHostIP = "";
+            int iPortNo = 0;
+
             try
             {
                 Console.WriteLine("Start Listener connection");
 
                 var builder = Host.CreateApplicationBuilder();
-                String sHostIP = builder.Configuration.GetSection("Listener:HostIP").Value;
+                sHostIP = builder.Configuration.GetSection("Listener:HostIP").Value;                
+                iPortNo = Convert.ToInt32(builder.Configuration.GetSection("Listener:Port").Value);
+
                 //String sHostIP = GetLocalIPAddress();
-                int iPortNo = Convert.ToInt32(builder.Configuration.GetSection("Listener:Port").Value);
+                sHostIP = GetIPAddressFromDatabase(out iPortNo);
 
                 System.Net.IPEndPoint sIPEndPoint = System.Net.IPEndPoint.Parse(String.Concat(sHostIP, ":", iPortNo));
 
@@ -306,6 +311,17 @@ namespace VCheckListenerWorker
                 }
             }
             throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
+
+        /// <summary>
+        /// Get IP Address from database
+        /// </summary>
+        public static string GetIPAddressFromDatabase(out int port)
+        {
+            string ipAddress = TestResultRepository.GetConfigurationByKey("InterfaceSettingsIP").ConfigurationValue.Replace(" ","");
+            port = int.Parse(TestResultRepository.GetConfigurationByKey("InterfaceSettingsPortNo").ConfigurationValue);
+
+            return ipAddress;
         }
     }
 }

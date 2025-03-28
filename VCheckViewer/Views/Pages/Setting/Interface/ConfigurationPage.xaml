@@ -28,7 +28,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
-                    <!--<ColumnDefinition Width="auto" MinWidth="90"/>-->
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="2">
                     <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Name="btnUser" Background="Black" BorderThickness="0" Foreground="White" HorizontalAlignment="Stretch" Style="{DynamicResource RoundButton}" Click="btnUser_Click"></Button>
@@ -42,9 +42,9 @@
                 <Border Grid.Column="3" Margin="2">
                     <Button Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Name="btnDevice" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
                 </Border>
-                <!--<Border Grid.Column="4" Margin="2">
-                    <Button Content="Report" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
-                </Border>-->
+                <Border Grid.Column="4" Margin="2">
+                    <Button Content="{Binding Path=Report_Label_Report, Source={StaticResource Resources}}" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
+                </Border>
             </Grid>
         </Border>
         <Border Name="borderConfiguration" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Transparent" BorderThickness="0">
@@ -68,7 +68,7 @@
 
                     <TextBlock Text="{Binding Path=Configuration_Label_PMS_LIS_HIS_PortNo, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="3" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
                     <Border Name="borderPortNo" Grid.Row="4" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
-                        <TextBox x:Name="txtPortNo" VerticalAlignment="Center" BorderThickness="0" PreviewTextInput="NumberValidationOnly" MaxLength="3" KeyUp="FieldsVal_KeyUp" />
+                        <TextBox x:Name="txtPortNo" VerticalAlignment="Center" BorderThickness="0" PreviewTextInput="NumberValidationOnly" MaxLength="4" KeyUp="FieldsVal_KeyUp" />
                     </Border>
 
                     <Border Name="BorderButton" Grid.Row="5" Margin="0, 30">
