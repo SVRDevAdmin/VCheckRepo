@@ -22,11 +22,11 @@ namespace VCheck.Lib.Data
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
 
         /// <summary>
-        /// Get recent test result 
+        /// Get recent test result details
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static List<TestResultExtendedModel> GetLatestTestResultList(IConfiguration config)
+        public static List<TestResultExtendedModel> GetLatestTestResultDetailsList(IConfiguration config)
         {
             List<TestResultExtendedModel> sResultList = new List<TestResultExtendedModel>();
 
@@ -85,6 +85,22 @@ namespace VCheck.Lib.Data
                     sConn.Close();
 
                     return sResultList.Take(5).ToList();     
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        public static List<TestResultModel> GetLatestTestResultList(IConfiguration config)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.txn_testResults.OrderByDescending(x => x.CreatedDate).Take(5).ToList();
                 }
             }
             catch (Exception ex)
@@ -306,7 +322,7 @@ namespace VCheck.Lib.Data
         /// <param name="totalRecords"></param>
         /// <returns></returns>
         public static List<TestResultListingExtendedObj> GetTestResultListBySearch(IConfiguration config, String dStartDate, String dEndDate, 
-                                                                           String sKeyword, String sSortDirection, int pageIndex, int pageSize,
+                                                                           String sKeyword, String sSortDirection, int pageIndex, int pageSize, string isPMSUser,
                                                                            out int totalRecords)
         {
             List<TestResultListingExtendedObj> sResult = new List<TestResultListingExtendedObj>();
@@ -358,7 +374,7 @@ namespace VCheck.Lib.Data
                         //                         "ORDER BY T1.TestResultDateTime " + sSortDirection :
                         //                         "ORDER BY T1.TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
 
-                        String sSelectCommand = "SELECT T1.ID, T1.TestResultDateTime, T1.TestResultType, T1.OperatorID, T1.PatientID, " +
+                        String sSelectCommand = "SELECT T1.ID, T1.TestResultDateTime, T1.TestResultType, T1.OperatorID, T1.PatientID, T1.PatientName, " +
                                                 "T1.InchargePerson, T1.OverallStatus, T1.DeviceSerialNo, T1.CreatedDate, T1.CreatedBy " +
                                                 "FROM txn_testresults AS T1 " +
                                                 "WHERE ";
@@ -387,6 +403,7 @@ namespace VCheck.Lib.Data
                                         TestResultType = sReader["TestResultType"].ToString(),
                                         OperatorID = sReader["OperatorID"].ToString(),
                                         PatientID = sReader["PatientID"].ToString(),
+                                        PatientName = string.IsNullOrEmpty(sReader["PatientName"].ToString()) ? "-" : sReader["PatientName"].ToString(),
                                         InchargePerson = sReader["InchargePerson"].ToString(),
                                         TestResultStatus = sReader["OverallStatus"].ToString(),
                                         CreatedDate = Convert.ToDateTime(sReader["CreatedDate"]),
@@ -397,7 +414,8 @@ namespace VCheck.Lib.Data
                                         statusFontColor = (sReader["OverallStatus"].ToString() == "Abnormal" || 
                                                            sReader["OverallStatus"].ToString() == "Invalid") ? 
                                                            "#ff2c29" : "#57baa5",
-                                        DeviceSerialNo = sReader["DeviceSerialNo"].ToString()
+                                        DeviceSerialNo = sReader["DeviceSerialNo"].ToString(),
+                                        PMSFunction = isPMSUser
                                     }); ;
 
                                     iIndex++;
@@ -574,6 +592,143 @@ namespace VCheck.Lib.Data
                 log.Error("TestResultRepository >>> GetTestResultDetailsByDateRange >>> " + ex.ToString());
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Get list of test
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static List<TestListModel> GetAllTestList(IConfiguration config)
+        {
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.mst_testlist.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Update test result info
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static void UpdateTestResult(IConfiguration config, TestResultModel testResult)
+        {
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    ctx.txn_testResults.Update(testResult);
+                    ctx.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Get parameter list
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static List<ParametersModel> GetAllParameters(IConfiguration config)
+        {
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.mst_parameters.ToList().OrderBy(x => x.Analyzer).ThenBy(x => x.Order).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Get previous test record
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static List<TestResultDetailsModel> GetPreviousTestRecord(IConfiguration config, TestResultModel currenttestInfo, out TestResultModel previousTest)
+        {
+            previousTest = new TestResultModel();
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    var previousTestTemp = ctx.txn_testResults.OrderByDescending(x => x.CreatedDate).FirstOrDefault(y => y.DeviceSerialNo == currenttestInfo.DeviceSerialNo && y.PatientID == currenttestInfo.PatientID && y.CreatedDate < currenttestInfo.CreatedDate);
+                    previousTest = previousTestTemp;
+
+                    if (previousTest != null)
+                    {
+                        return ctx.txn_testresults_details.Where(x => x.TestResultRowID == previousTestTemp.ID).ToList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Get related test result
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static List<TestDeviceName> GetRelatedTestResultByPatientID(IConfiguration config, string patientID, string excludeDeviceName)
+        {
+            List<string> serialNoList = new List<string>();
+            List<TestResultModel> testList = new List<TestResultModel>();
+            List<TestDeviceName> testDeviceNames = new List<TestDeviceName>();
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    serialNoList = ctx.txn_testResults.Where(x => x.PatientID == patientID).Select(z => z.DeviceSerialNo).Distinct().ToList();
+                    testList = ctx.txn_testResults.Where(x => x.PatientID == patientID).OrderByDescending(z => z.CreatedDate).ToList().DistinctBy(y => y.DeviceSerialNo).ToList();
+                }
+
+                foreach(var test in testList)
+                {
+                    var deviceName = DeviceRepository.GetDeviceNameBySerialNo(config, test.DeviceSerialNo);
+
+                    if(deviceName != excludeDeviceName) 
+                    {
+                        testDeviceNames.Add(new TestDeviceName() { TestID = test.ID, DeviceName = DeviceRepository.GetDeviceNameBySerialNo(config, test.DeviceSerialNo) });
+                    }
+                    
+                }
+
+                return testDeviceNames;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+            }
+
+            return null;
         }
     }
 }

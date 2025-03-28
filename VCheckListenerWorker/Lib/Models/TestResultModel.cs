@@ -207,6 +207,7 @@ namespace VCheckListenerWorker.Lib.Models
         public string? TestResultType { get; set; }
         public string? OperatorID { get; set; }
         public string? PatientID { get; set; }
+        public string? PatientName { get; set; } //added to include patient name in report (azwan - 20250214)
         public string? InchargePerson { get; set; }
         public string? OverallStatus { get; set; }
         //public string? ObservationStatus { get; set; }

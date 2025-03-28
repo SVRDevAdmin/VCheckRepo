@@ -229,5 +229,55 @@ namespace VCheck.Lib.Data
                 return null;
             }
         }
+
+        /// <summary>
+        /// Get Two-Way Communication Device list
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="iID"></param>
+        /// <returns></returns>
+        public static List<DeviceModel> GetTwoWayCommDevice(IConfiguration config)
+        {
+            try
+            {
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    var deviceTypeIDs = ctx.mst_devicetype.Where(x => x.TwoWayCommunication == 1).Select(y => y.id).ToList();
+
+                    return ctx.mst_deviceslist.Where(x => deviceTypeIDs.Contains(x.DeviceTypeID.Value)).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("DeviceRepository >>> GetTwoWayCommDevice >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get device name
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="iID"></param>
+        /// <returns></returns>
+        public static string GetDeviceNameBySerialNo(IConfiguration config, string deviceSerialNo)
+        {
+            var deviceName = "General";
+            try
+            {
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    var device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceSerialNo == deviceSerialNo);
+                    if(device != null) { deviceName = ctx.mst_devicetype.FirstOrDefault(x => x.id == device.DeviceTypeID).TypeName; }                    
+
+                    return deviceName;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("DeviceRepository >>> GetTwoWayCommDevice >>> " + ex.ToString());
+                return "General";
+            }
+        }
     }
 }

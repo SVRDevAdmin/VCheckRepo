@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
@@ -66,7 +67,8 @@ namespace VCheck.Lib.Data.DBContext
 
                                 Receiver = !reader.IsDBNull("Receiver") ? reader.GetString("Receiver") : null,
 
-                                CreatedDate = reader.GetDateTime("CreatedDate").ToString("dd MMMM yyyy HH:mm"),
+                                //CreatedDate = reader.GetDateTime("CreatedDate").ToString("dd MMMM yyyy HH:mm"),
+                                CreatedDate = reader.GetDateTime("CreatedDate").ToString("dd MMMM yyyy HH:mm", CultureInfo.GetCultureInfo("en-US")),
                                 CreatedBy = reader.GetString("CreatedBy")
                             });
                         }

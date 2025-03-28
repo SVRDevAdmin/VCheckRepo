@@ -30,20 +30,20 @@ namespace VCheckViewer.Views.Pages.Dashboard
 
         public void initializeData()
         {
-            List<TestResultExtendedModel> sTestResultList = VCheck.Lib.Data.TestResultsRepository.GetLatestTestResultList(ConfigSettings.GetConfigurationSettings());
+            //List<TestResultExtendedModel> sTestResultList = VCheck.Lib.Data.TestResultsRepository.GetLatestTestResultList(ConfigSettings.GetConfigurationSettings());
 
-            if (sTestResultList != null && sTestResultList.Count > 0)
-            {
-                icTestResult.ItemsSource = sTestResultList.ToList();
+            //if (sTestResultList != null && sTestResultList.Count > 0)
+            //{
+            //    icTestResult.ItemsSource = sTestResultList.ToList();
 
-                borderTestResult.Visibility = Visibility.Visible;
-                borderNoTestResult.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                borderTestResult.Visibility = Visibility.Collapsed;
-                borderNoTestResult.Visibility = Visibility.Visible;
-            }
+            //    borderTestResult.Visibility = Visibility.Visible;
+            //    borderNoTestResult.Visibility = Visibility.Collapsed;
+            //}
+            //else
+            //{
+            //    borderTestResult.Visibility = Visibility.Collapsed;
+            //    borderNoTestResult.Visibility = Visibility.Visible;
+            //}
         }
     }
 }

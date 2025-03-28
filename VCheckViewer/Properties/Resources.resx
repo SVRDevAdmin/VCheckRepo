@@ -627,4 +627,202 @@
   <data name="Login_Message_WrongNewPassword" xml:space="preserve">
     <value>Wrong new password.</value>
   </data>
+  <data name="Results_Label_PatientName" xml:space="preserve">
+    <value>Patient Name</value>
+  </data>
+  <data name="Dashboard_Label_Negative" xml:space="preserve">
+    <value>Negative</value>
+  </data>
+  <data name="Dashboard_Label_Positive" xml:space="preserve">
+    <value>Positive</value>
+  </data>
+  <data name="Login_Label_RegisterButton" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Popup_Message_APIUpdateFailed" xml:space="preserve">
+    <value>Update Result API Failed.</value>
+  </data>
+  <data name="Popup_Message_APIUpdateSuccess" xml:space="preserve">
+    <value>Update Result API Successfully.</value>
+  </data>
+  <data name="Popup_Message_CanceledSendToAnalyzer" xml:space="preserve">
+    <value>Took too long sending request to the analyzer.</value>
+  </data>
+  <data name="Popup_Message_EnterUniqueID" xml:space="preserve">
+    <value>Please enter Unique ID.</value>
+  </data>
+  <data name="Popup_Message_FailedToSendToAnalyzer" xml:space="preserve">
+    <value>Failed to send request to the analyzer.</value>
+  </data>
+  <data name="Popup_Message_NoDeviceFound" xml:space="preserve">
+    <value>No device found that can receive request.</value>
+  </data>
+  <data name="Popup_Message_PatientNameUpdated" xml:space="preserve">
+    <value>Patient name have been updated.</value>
+  </data>
+  <data name="Popup_Message_SelectDevice" xml:space="preserve">
+    <value>Please select device to send the request to.</value>
+  </data>
+  <data name="Popup_Message_SentToAnalyzer" xml:space="preserve">
+    <value>Request have been sent to the analyzer</value>
+  </data>
+  <data name="Popup_Message_UpdatePatientName" xml:space="preserve">
+    <value>Input patient name.</value>
+  </data>
+  <data name="Popup_Message_WrongID" xml:space="preserve">
+    <value>Wrong Unique ID.</value>
+  </data>
+  <data name="Results_Label_DeviceSerialNo" xml:space="preserve">
+    <value>Device Serial No.</value>
+  </data>
+  <data name="Results_Label_EditPatientName" xml:space="preserve">
+    <value>Edit Patient Name</value>
+  </data>
+  <data name="Results_Label_SendToPMS" xml:space="preserve">
+    <value>Send to PMS</value>
+  </data>
+  <data name="Results_Label_TestResultType" xml:space="preserve">
+    <value>Test Result Type</value>
+  </data>
+  <data name="Results_Label_View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Schedule_Label_Abnormal" xml:space="preserve">
+    <value>Abnormal</value>
+  </data>
+  <data name="Schedule_Label_Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Schedule_Label_SendToAnalyzer" xml:space="preserve">
+    <value>Send to analyzer</value>
+  </data>
+  <data name="Schedule_Label_UniqueID" xml:space="preserve">
+    <value>Unique ID:</value>
+  </data>
+  <data name="Setting_Label_DeviceType" xml:space="preserve">
+    <value>Device Type</value>
+  </data>
+  <data name="Popup_Message_SelectParameterDownload" xml:space="preserve">
+    <value>Please select the parameters that you would like to download.</value>
+  </data>
+  <data name="Popup_Message_SelectParameterPrint" xml:space="preserve">
+    <value>Please select the parameters that you would like to print.</value>
+  </data>
+  <data name="Report_Label_ClinicAddress" xml:space="preserve">
+    <value>Clinic Address</value>
+  </data>
+  <data name="Report_Label_ClinicName" xml:space="preserve">
+    <value>Clinic Name</value>
+  </data>
+  <data name="Report_Label_DateTime" xml:space="preserve">
+    <value>Date &amp; Time</value>
+  </data>
+  <data name="Report_Label_MaxSize" xml:space="preserve">
+    <value>Maximum file size is 2MB</value>
+  </data>
+  <data name="Report_Label_Parameter" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="Report_Label_PoweredBy" xml:space="preserve">
+    <value>Powered By</value>
+  </data>
+  <data name="Report_Label_PrintedBy" xml:space="preserve">
+    <value>Printed By</value>
+  </data>
+  <data name="Report_Label_PrintedOn" xml:space="preserve">
+    <value>Printed On</value>
+  </data>
+  <data name="Report_Label_Reference" xml:space="preserve">
+    <value>Reference</value>
+  </data>
+  <data name="Report_Label_Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="Report_Label_ReportHeaders" xml:space="preserve">
+    <value>Headers for Report</value>
+  </data>
+  <data name="Report_Label_ReportSample" xml:space="preserve">
+    <value>Report Sample</value>
+  </data>
+  <data name="Report_Label_ReportTitle" xml:space="preserve">
+    <value>Report Title</value>
+  </data>
+  <data name="Report_Label_UploadLogo" xml:space="preserve">
+    <value>Upload Logo</value>
+  </data>
+  <data name="Schedule_Label_CancelSchedule" xml:space="preserve">
+    <value>Cancel Schedule</value>
+  </data>
+  <data name="Popup_Message_CancelSchedule" xml:space="preserve">
+    <value>Are you sure to cancel this schedule?</value>
+  </data>
+  <data name="Popup_Message_ReportSettingUpdated" xml:space="preserve">
+    <value>Report setting successfully updated.</value>
+  </data>
+  <data name="Popup_Message_TheFileIsAt" xml:space="preserve">
+    <value>The file is at</value>
+  </data>
+  <data name="Report_Label_High" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="Report_Label_Low" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="Report_Label_ResultStatus" xml:space="preserve">
+    <value>Result Status</value>
+  </data>
+  <data name="Report_Label_ResultValue" xml:space="preserve">
+    <value>Result Value</value>
+  </data>
+  <data name="Report_Label_Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="Notification_Label_Show" xml:space="preserve">
+    <value>Show :</value>
+  </data>
+  <data name="Popup_Message_CheckPassword" xml:space="preserve">
+    <value>Please check password again.</value>
+  </data>
+  <data name="Popup_Message_CheckUsername" xml:space="preserve">
+    <value>Please check username again.</value>
+  </data>
+  <data name="Popup_Message_ConfirmPasswordDoNotMatch" xml:space="preserve">
+    <value>Password and Confirm Password does not match.</value>
+  </data>
+  <data name="Popup_Message_InputPassword" xml:space="preserve">
+    <value>Please input password.</value>
+  </data>
+  <data name="Popup_Message_InputUsername" xml:space="preserve">
+    <value>Please input username.</value>
+  </data>
+  <data name="Results_Label_Ascending" xml:space="preserve">
+    <value>Result (Ascending)</value>
+  </data>
+  <data name="Results_Label_Descending" xml:space="preserve">
+    <value>Result (Descending)</value>
+  </data>
+  <data name="Results_Label_Earliest" xml:space="preserve">
+    <value>Earliest</value>
+  </data>
+  <data name="Results_Label_Latest" xml:space="preserve">
+    <value>Latest</value>
+  </data>
+  <data name="Popup_Message_FailedToDownload" xml:space="preserve">
+    <value>Failed to download.</value>
+  </data>
+  <data name="Popup_Message_FailedToPrint" xml:space="preserve">
+    <value>Failed to print.</value>
+  </data>
+  <data name="Popup_Message_SelectAdditionalTestResult" xml:space="preserve">
+    <value>Select additional test result to include in report.</value>
+  </data>
+  <data name="Dashboard_Label_Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateLISInfo" xml:space="preserve">
+    <value>Failed to update LIS info.</value>
+  </data>
+  <data name="Popup_Message_IpPortUnavailable" xml:space="preserve">
+    <value>IP address and port number are unavailable to assign. Please type another value.</value>
+  </data>
 </root>

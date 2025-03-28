@@ -8,6 +8,8 @@ using log4net.Config;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using NHapi.Model.V23.Segment;
 using Org.BouncyCastle.Asn1;
+using System.Net.Sockets;
+using System.Net;
 
 namespace VCheckListenerWorker
 {
@@ -33,7 +35,7 @@ namespace VCheckListenerWorker
         {
             XmlConfigurator.Configure(log4net.LogManager.GetRepository(Assembly.GetEntryAssembly()),
                                       new FileInfo("log4Net.config"));
-            sLogger = new VCheckListenerWorker.Lib.Util.Logger();
+            sLogger = new Lib.Util.Logger();
 
             var configBuilder = Host.CreateApplicationBuilder();
 
@@ -58,6 +60,7 @@ namespace VCheckListenerWorker
 
                         if (!String.IsNullOrEmpty(sData))
                         {
+                            Console.WriteLine("Data Message >> ");
                             Console.WriteLine(sData);
 
                             NHapi.Base.Parser.XMLParser sXMLParser = new NHapi.Base.Parser.DefaultXMLParser();
@@ -70,8 +73,13 @@ namespace VCheckListenerWorker
                             if (sIMessage != null)
                             {
                                 sAckMessage = SendAckMessage(sIMessage);
+                                //var trimmedAckMessage = sAckMessage.Trim();
                                 var sMessageByte = System.Text.Encoding.UTF8.GetBytes(sAckMessage);
                                 sClient.SendAsync(sMessageByte, System.Net.Sockets.SocketFlags.None);
+
+                                Console.WriteLine("");
+                                Console.WriteLine("Acknowledge Message >> ");
+                                Console.WriteLine(sAckMessage);
 
                                 ProcessIMessage(sIMessage, sSystemName);
 
@@ -99,13 +107,19 @@ namespace VCheckListenerWorker
         /// <returns></returns>
         public override Task StartAsync(CancellationToken cancellationToken)
         {
+            String sHostIP = "";
+            int iPortNo = 0;
+
             try
             {
                 Console.WriteLine("Start Listener connection");
 
                 var builder = Host.CreateApplicationBuilder();
-                String sHostIP = builder.Configuration.GetSection("Listener:HostIP").Value;
-                int iPortNo = Convert.ToInt32(builder.Configuration.GetSection("Listener:Port").Value);
+                sHostIP = builder.Configuration.GetSection("Listener:HostIP").Value;                
+                iPortNo = Convert.ToInt32(builder.Configuration.GetSection("Listener:Port").Value);
+
+                //String sHostIP = GetLocalIPAddress();
+                sHostIP = GetIPAddressFromDatabase(out iPortNo);
 
                 System.Net.IPEndPoint sIPEndPoint = System.Net.IPEndPoint.Parse(String.Concat(sHostIP, ":", iPortNo));
 
@@ -176,6 +190,10 @@ namespace VCheckListenerWorker
                     Lib.Logic.HL7.V251.HL7Repository.ProcessMessage(sIMessage, sSystemName);
                     break;
 
+                case "2.3.1":
+                    Lib.Logic.HL7.V231.HL7Repository.ProcessMessage(sIMessage, sSystemName);
+                    break;
+
                 default:
                     break;
             }
@@ -200,7 +218,22 @@ namespace VCheckListenerWorker
                     break;
 
                 case "2.5.1":
-                    sMessage = Lib.Logic.HL7.V251.AckRepository.GenerateAcknowlegeMessage(sIMessage);
+                    if (sIMessage.Message.Message.GetType() == typeof(NHapi.Model.V251.Message.QBP_Q11))
+                    {
+                        sMessage = Lib.Logic.HL7.V251.AckRepository.GenerateAcknowlegeMessageQBP(sIMessage);
+                    }
+                    else if(sIMessage.Message.Message.GetType() == typeof(NHapi.Model.V251.Message.OUL_R22))
+                    {
+                        sMessage = Lib.Logic.HL7.V251.AckRepository.GenerateAcknowlegeMessage(sIMessage);
+                    }
+                    
+                    break;
+
+                case "2.3.1":
+                    if (sIMessage.Message.Message.GetType() == typeof(NHapi.Model.V231.Message.ORU_R01))
+                    {
+                        sMessage = Lib.Logic.HL7.V231.AckRepository.GenerateAcknowlegeMessageORU(sIMessage);
+                    }
                     break;
 
                 default:
@@ -262,6 +295,33 @@ namespace VCheckListenerWorker
                 _logger.LogError("Function OutputMessage >>> " + ex.ToString());
             }
 
+        }
+
+        /// <summary>
+        /// Get current IP Address
+        /// </summary>
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
+
+        /// <summary>
+        /// Get IP Address from database
+        /// </summary>
+        public static string GetIPAddressFromDatabase(out int port)
+        {
+            string ipAddress = TestResultRepository.GetConfigurationByKey("InterfaceSettingsIP").ConfigurationValue.Replace(" ","");
+            port = int.Parse(TestResultRepository.GetConfigurationByKey("InterfaceSettingsPortNo").ConfigurationValue);
+
+            return ipAddress;
         }
     }
 }

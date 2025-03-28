@@ -19,6 +19,7 @@ namespace VCheck.Lib.Data.Models
         public String? OperatorID { get; set; }
         public String? DeviceSerialNo { get; set; }
         public String? PatientID { get; set; }
+        public String? PatientName { get; set; } //added to include patient name in report (azwan - 20250214)
         public String? InchargePerson { get; set; }
         //public String? ObservationStatus { get; set; }
         public String? OverallStatus { get; set; }
@@ -66,6 +67,7 @@ namespace VCheck.Lib.Data.Models
         public String? OperatorID { get; set; }
         public String? DeviceSerialNo { get; set; }
         public String? PatientID { get; set; }
+        public String? PatientName { get; set; }
         public String? InchargePerson { get; set; }
         public String? ObservationStatus { get; set; }
         public String? TestResultStatus { get; set; }
@@ -117,6 +119,7 @@ namespace VCheck.Lib.Data.Models
         public String? printedBy { get; set; }
         public DateTime? printedOn { get; set; }
         public Boolean isPrint { get; set; }
+        public string PMSFunction { get; set; }
     }
 
     public class PatientDataObject
@@ -129,5 +132,41 @@ namespace VCheck.Lib.Data.Models
         public String? observationrules { get; set; }
         public String? inchargeperson { get; set; }
         public String? observationby { get; set; }
+    }
+
+    public class TestListModel
+    {
+        [Key]
+        public String? TestID { get; set; }
+        public String? TestName { get; set; }
+        public String? TestDescription { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public String? CreatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public String? UpdatedBy { get; set; }
+    }
+
+    public class ParametersModel
+    {
+        [Key]
+        public int ID { get; set; }
+        public String? Analyzer { get; set; }
+        public String? Category { get; set; }
+        public String? Parameter { get; set; }
+        public int Order { get; set; }
+    }
+
+    public class DownloadPrintResultModel
+    {
+        public TestResultModel TestResult { get; set; }
+        public List<TestResultDetailsModel> TestResultDetails { get; set; }
+        public TestResultModel PreviousTestResult { get; set; }
+        public List<TestResultDetailsModel> PreviousTestResultDetails { get; set; }
+    }
+
+    public class TestDeviceName
+    {
+        public long TestID { get; set; }
+        public string DeviceName { get; set; }
     }
 }

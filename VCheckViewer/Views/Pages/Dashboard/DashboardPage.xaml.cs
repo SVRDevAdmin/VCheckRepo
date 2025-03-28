@@ -13,6 +13,7 @@ using VCheck.Interface.API;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
+using VCheckViewer.Services;
 using VCheckViewer.Views.Pages.Schedule;
 using VCheckViewer.Views.Pages.Setting.Device;
 using Brush = System.Windows.Media.Brush;
@@ -102,8 +103,6 @@ namespace VCheckViewer.Views.Pages
 
         public void generateView()
         {
-            responsiveView.Children.Clear();
-
             //Random rnd = new Random();
             //int totalElement = rnd.Next(0, 10);
             //int totalElement = 8;
@@ -404,13 +403,15 @@ namespace VCheckViewer.Views.Pages
         }
 
         
-        public void createElementUsingGridByDevice(int totalElementPerRow, int imageHeight, int borderHeight, int borderWidth, int margin, int totalRow, bool excess, int remainder)
+        public async Task createElementUsingGridByDevice(int totalElementPerRow, int imageHeight, int borderHeight, int borderWidth, int margin, int totalRow, bool excess, int remainder)
         {
             String? sColor = System.Windows.Application.Current.Resources["Themes_FontColor"].ToString();
             String? sFrameColor = System.Windows.Application.Current.Resources["Themes_DashboardAnalyzerFrameBackground"].ToString();
             SolidColorBrush sBrushFontColor = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
             SolidColorBrush sBrushFrameColor = new BrushConverter().ConvertFrom(sFrameColor) as SolidColorBrush;
             int currentDevice = 0;
+
+            List<int> twoWayDevices = DeviceRepository.GetTwoWayCommDevice(ConfigSettings.GetConfigurationSettings()).Select(x => x.id).ToList();
 
             for (int i = 0; i < totalRow; i++)
             {
@@ -459,11 +460,22 @@ namespace VCheckViewer.Views.Pages
 
                     StackPanel secondStackPanel = new StackPanel() { Orientation = Orientation.Vertical };
 
+                    bool isReady = false;
+
+                    if (twoWayDevices.Contains(device.id))
+                    {
+                        DeviceChecker deviceChecker = new DeviceChecker();
+                        isReady = await deviceChecker.IsOnline(device.DeviceIPAddress);
+                    }
+                    else
+                    {
+                        isReady = device.status != 2 ? true : false;
+                    }
                     TextBlock statusTextBlock = new TextBlock() { FontSize = 14, FontWeight = FontWeights.DemiBold, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
-                    statusTextBlock.Foreground = device.status == 2 ? (Brush)new BrushConverter().ConvertFromString("#fa8219") : (Brush)new BrushConverter().ConvertFromString("#16c933");
-                    statusTextBlock.Text = device.status == 2 ? Properties.Resources.General_Label_Busy : Properties.Resources.General_Label_Ready;
+                    statusTextBlock.Foreground = isReady ? (Brush)new BrushConverter().ConvertFromString("#16c933") : (Brush)new BrushConverter().ConvertFromString("#fa8219");
+                    statusTextBlock.Text = isReady ? Properties.Resources.General_Label_Ready : Properties.Resources.General_Label_Busy;
                     Border childBorder = new Border() { Height = 30, Width = 70, HorizontalAlignment = System.Windows.HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Top, CornerRadius = new CornerRadius(5), Child = statusTextBlock };
-                    childBorder.Background = device.status == 2 ? (Brush)new BrushConverter().ConvertFromString("#ffeed1") : (Brush)new BrushConverter().ConvertFromString("#e0ffe5");
+                    childBorder.Background = isReady ? (Brush)new BrushConverter().ConvertFromString("#e0ffe5") : (Brush)new BrushConverter().ConvertFromString("#ffeed1");
 
                     Image image = new Image();
                     //var uri = new Uri(device.DeviceImagePath);
@@ -475,11 +487,11 @@ namespace VCheckViewer.Views.Pages
 
                     TextBlock nameTextBlock = new TextBlock() { Text = device.DeviceName, TextAlignment = TextAlignment.Center, FontWeight = FontWeights.Bold, Margin = new Thickness(margin), Foreground = sBrushFontColor };
 
-                    TextBlock resultTextBlock1 = new TextBlock() { Text = "Positive  ", Foreground = sBrushFontColor };
+                    TextBlock resultTextBlock1 = new TextBlock() { Text = Properties.Resources.Dashboard_Label_Positive + "  ", Foreground = sBrushFontColor };
                     TextBlock resultTextBlock2 = new TextBlock() { Text = totalPositive.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Green, TextAlignment = TextAlignment.Center };
                     Border positiveBorder = new Border() { Width = 20, Child = resultTextBlock2, Margin = new Thickness(0, 0, 20, 0) };
                     Rectangle resultSeperator = new Rectangle() { VerticalAlignment = VerticalAlignment.Stretch, Width = 1, Height = 20, Margin = new Thickness(2), Stroke = Brushes.Black };
-                    TextBlock resultTextBlock3 = new TextBlock() { Text = "Negative  ", Margin = new Thickness(20, 0, 0, 0), Foreground = sBrushFontColor };
+                    TextBlock resultTextBlock3 = new TextBlock() { Text = Properties.Resources.Dashboard_Label_Negative + "  ", Margin = new Thickness(20, 0, 0, 0), Foreground = sBrushFontColor };
                     TextBlock resultTextBlock4 = new TextBlock() { Text = totalNegative.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Red, TextAlignment = TextAlignment.Center };
                     Border negativeBorder = new Border() { Width = 20, Child = resultTextBlock4 };
                     StackPanel thirdStackPanel = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
@@ -505,6 +517,7 @@ namespace VCheckViewer.Views.Pages
                     testGrid.Children.Add(parentBorder);
                 }
 
+                responsiveView.Children.Clear();
                 responsiveView.Children.Add(testGrid);
             }
         }

@@ -27,7 +27,7 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
     {
         CountryDBContext sContext = App.GetService<CountryDBContext>();
         MasterCodeDataDBContext MasterCodeDataContext = App.GetService<MasterCodeDataDBContext>();
-        ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
+        //ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
 
         ConfigurationModel currentCountry;
         ConfigurationModel currentLanguage;
@@ -53,6 +53,10 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
                 btnSettings.IsEnabled = true;
                 btnDeviceSetting.IsEnabled = true;
             }
+
+            App.isLanguagePage = true;
+
+            this.SizeChanged += MainWindow_SizeChanged;
         }
 
         public void initializedList()
@@ -130,6 +134,10 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
 
             //var getSelectedLanguage = (TextBlock)VisualTreeHelper.GetChild((DockPanel)radioButton.Content, 1);
             //SelectedLanguage.Text = getSelectedLanguage.Text;   
+
+            System.Globalization.CultureInfo sZHCultureNew = new(languageSelected);
+
+            CultureResources.ChangeCulture(sZHCultureNew);
 
             LanguageListView.SelectedItems.Clear();
 
@@ -229,6 +237,17 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             App.GoToSettingConfigurationPageHandler(e, sender);
+        }
+
+        private void btnReport_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingReportPageHandler(e, sender);
+        }
+
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            languageBorder.Height = e.NewSize.Height * 0.8915;
+            countryBorder.Height = e.NewSize.Height * 0.8915;
         }
     }
 }

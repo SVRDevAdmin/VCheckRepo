@@ -15,12 +15,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using VCheckViewer.Views.Pages.Login;
 using Microsoft.VisualBasic.Logging;
+using VCheck.Lib.Data.DBContext;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace VCheckViewer.Services
 {
     public class ApplicationHostService : IHostedService
     {
         private readonly IServiceProvider _serviceProvider;
+
+        private readonly static UserDBContext usersContext = App.GetService<UserDBContext>();
+        public static IConfiguration iConfig;
 
         //private INavigationWindow _navigationWindow;
 
@@ -73,9 +79,40 @@ namespace VCheckViewer.Services
             //    App.log.Error("Database Error >>> ", ex);
             //}
 
-            LoginWindow LoginPage = new LoginWindow();
-            LoginPage.Navigate(new LoginPage());
-            LoginPage.Show();
+            //LoginWindow LoginPage = new LoginWindow();
+            //LoginPage.Navigate(new LoginPage());
+            //LoginPage.Show();
+
+            var sBuilder = new ConfigurationBuilder();
+            sBuilder.SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            iConfig = sBuilder.Build();
+
+            if (string.IsNullOrEmpty(iConfig.GetSection("GreywindPMS:UpdateResultURL").Value))
+            {
+                App.PMSFunction = "Collapsed";
+            }
+            else
+            {
+                App.PMSFunction = "Visible";
+            }
+
+            var firstUser = usersContext.FirstUser();
+
+            if (firstUser)
+            {
+                LoginWindow LoginPage = new LoginWindow();
+                LoginPage.Navigate(new RegisterPage());
+                LoginPage.Show();
+            }
+            else
+            {
+                LoginWindow LoginPage = new LoginWindow();
+                LoginPage.Navigate(new LoginPage());
+                LoginPage.Show();
+            }
+
 
             await Task.CompletedTask;
         }

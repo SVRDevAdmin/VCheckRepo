@@ -17,6 +17,8 @@ namespace VCheck.Lib.Data.DBContext
 
         public DbSet<TestResultModel> txn_testResults { get; set; }
         public DbSet<TestResultDetailsModel> txn_testresults_details { get; set; }
+        public DbSet<TestListModel> mst_testlist { get; set; }
+        public DbSet<ParametersModel> mst_parameters { get; set; }
 
         public TestResultDBContext(IConfiguration config)
         {

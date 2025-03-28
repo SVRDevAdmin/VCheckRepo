@@ -47,16 +47,22 @@ namespace VCheckViewer.Views.Windows
             SystemThemeWatcher.Watch(this);
             InitializeComponent();
             //_navigationService = navigationService;
-            //_pageService = pageService;
+            //_pageService = pageService;            
 
-            LoginPage.GoToResetPasswordPage += new EventHandler(GoToResetPasswordPage);
-            ResetPasswordPage.GoToLoginPage += new EventHandler(GoToLoginPage);
-            PasswordRecoveryPage.GoToLoginPage += new EventHandler(GoToLoginPage);
+            if (App.LoginWindowNotInitialized)
+            {
+                LoginPage.GoToResetPasswordPage += new EventHandler(GoToResetPasswordPage);
+                ResetPasswordPage.GoToLoginPage += new EventHandler(GoToLoginPage);
+                PasswordRecoveryPage.GoToLoginPage += new EventHandler(GoToLoginPage);
 
-            LoginPage.GoToMainWindow += new EventHandler(GoToMainWindow);
+                LoginPage.GoToMainWindow += new EventHandler(GoToMainWindow);
 
-            //popup
-            PasswordRecoveryPage.Popup += new EventHandler(OpenPopup);
+                //popup
+                PasswordRecoveryPage.Popup += new EventHandler(OpenPopup);
+                App.Popup += new EventHandler(GoToLoginPage);
+
+                App.LoginWindowNotInitialized = false;
+            }
 
         }
 
@@ -73,6 +79,11 @@ namespace VCheckViewer.Views.Windows
             LoginFrame.Content = new PasswordRecoveryPage();
         }
 
+        public void GoToRegisterPage(object sender, EventArgs e)
+        {
+            LoginFrame.Content = new RegisterPage();
+        }
+
         public void GoToLoginPage(object sender, EventArgs e)
         {
             LoginFrame.Content = new LoginPage();
@@ -80,10 +91,11 @@ namespace VCheckViewer.Views.Windows
 
         public void GoToMainWindow(object sender, EventArgs e)
         {
-            if (System.Windows.Application.Current.Windows.OfType<Main>().Any())
+            foreach(var window in System.Windows.Application.Current.Windows.OfType<Main>())
             {
-                System.Windows.Application.Current.Windows.OfType<Main>().First().Close();
+                window.Close();
             }
+
             Main main = new Main();
             main.frameContent.Content = new DashboardPage();
             main.Show();
@@ -102,11 +114,23 @@ namespace VCheckViewer.Views.Windows
             popup.IsOpen = true;
         }
 
-        private void ContinueButton_Click(object sender, RoutedEventArgs e)
+        public void SentTemporaryPassword(object sender, EventArgs e)
         {
-            OKButton.Visibility = Visibility.Visible;
-            ContinueButton.Visibility = Visibility.Collapsed;
-            CancelButton.Visibility = Visibility.Collapsed;
+            if(popup.IsOpen == false)
+            {
+                OKButton.Visibility = Visibility.Visible;
+                ContinueButton.Visibility = Visibility.Collapsed;
+                CancelButton.Visibility = Visibility.Collapsed;
+                PopupBackground.Background = System.Windows.Media.Brushes.DimGray;
+                PopupBackground.Opacity = 0.5;
+                popup.IsOpen = true;
+            }
+            else
+            {
+                OKButton.Visibility = Visibility.Visible;
+                ContinueButton.Visibility = Visibility.Collapsed;
+                CancelButton.Visibility = Visibility.Collapsed;
+            }
 
             Run bold = new Run();
             //bold.Text = "'Reset Password'";
@@ -123,6 +147,11 @@ namespace VCheckViewer.Views.Windows
             PopupContent.Inlines.Add(bold);
             //PopupContent.Inlines.Add(" section");
             PopupContent.Inlines.Add(Properties.Resources.Popup_Message_PasswordRecoveredP3);
+        }
+
+        private void ContinueButton_Click(object sender, RoutedEventArgs e)
+        {
+            SentTemporaryPassword(sender, e);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

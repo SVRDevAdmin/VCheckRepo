@@ -425,5 +425,10 @@ namespace VCheckViewer.Views.Pages
         {
             App.GoToSettingConfigurationPageHandler(e, sender);
         }
+
+        private void btnReport_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToSettingReportPageHandler(e, sender);
+        }
     }
 }

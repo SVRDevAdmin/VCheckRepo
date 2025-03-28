@@ -27,7 +27,7 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new ScheduleDBContext(config))
                 {
-                    return ctx.Txn_ScheduledTests.Where(x => x.ScheduledDateTime >= DateTime.Now)
+                    return ctx.Txn_ScheduledTests.Where(x => x.ScheduledDateTime >= DateTime.Now && x.ScheduleTestStatus == 0)
                                                 .OrderBy(x => x.ScheduledDateTime)
                                                 .Take(5)
                                                 .ToList();
@@ -46,13 +46,20 @@ namespace VCheck.Lib.Data
         /// <param name="config"></param>
         /// <param name="sUniqueID"></param>
         /// <returns></returns>
-        public static ScheduledTestModel GetScheduledTestByUniqueID(IConfiguration config, String sUniqueID)
+        public static ScheduledTestModel GetScheduledTestByUniqueID(IConfiguration config, String sUniqueID, String? sPatientID = "")
         {
             try
             {
                 using (var ctx = new ScheduleDBContext(config))
                 {
-                    return ctx.Txn_ScheduledTests.Where(x => x.ScheduleUniqueID == sUniqueID).FirstOrDefault();
+                    if (string.IsNullOrEmpty(sPatientID))
+                    {
+                        return ctx.Txn_ScheduledTests.Where(x => x.ScheduleUniqueID == sUniqueID).FirstOrDefault();
+                    }
+                    else
+                    {
+                        return ctx.Txn_ScheduledTests.Where(x => x.ScheduleUniqueID.Substring(x.ScheduleUniqueID.Length - 8) == sUniqueID && x.PatientID == sPatientID).OrderByDescending(y => y.CreatedDate).LastOrDefault();
+                    }
                 }
             }
             catch (Exception ex)
@@ -87,6 +94,11 @@ namespace VCheck.Lib.Data
                         if (sData.InchargePerson != sScheduledTestObj.InchargePerson)
                         {
                             sData.InchargePerson = sScheduledTestObj.InchargePerson;
+                        }
+
+                        if (sData.ScheduleTestStatus != sScheduledTestObj.ScheduleTestStatus)
+                        {
+                            sData.ScheduleTestStatus = sScheduledTestObj.ScheduleTestStatus;
                         }
 
                         ctx.SaveChanges();
@@ -131,6 +143,28 @@ namespace VCheck.Lib.Data
             }
 
             return isSuccess;
+        }
+
+        /// <summary>
+        /// Get Scheduled Test  Info by Unique ID
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="sUniqueID"></param>
+        /// <returns></returns>
+        public static ScheduledTestModel GetScheduledTestByID(IConfiguration config, long sID)
+        {
+            try
+            {
+                using (var ctx = new ScheduleDBContext(config))
+                {
+                    return ctx.Txn_ScheduledTests.Where(x => x.ID == sID).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
         }
     }
 }

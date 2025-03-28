@@ -7,7 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using MySqlX.XDevAPI.Common;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Ocsp;
+using System;
 using System.CodeDom;
+using System.Drawing;
+using System.Security.Cryptography;
+using System.Text;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
@@ -15,6 +19,7 @@ using VCheckViewerAPI.Lib.Util;
 using VCheckViewerAPI.Message.CreateScheduledTest;
 using VCheckViewerAPI.Message.General;
 using VCheckViewerAPI.Message.GetPatientResult;
+using VCheckViewerAPI.Message.GetTestList;
 using VCheckViewerAPI.Message.Location;
 using VCheckViewerAPI.Message.UpdateScheduledTest;
 
@@ -31,14 +36,14 @@ namespace VCheckViewerAPI.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet(Name = "GetPatientResult")]
+        [HttpPost(Name = "GetPatientResult")]
         public ResponseModel GetPatientResult(PatientDataRequest request)
         {
             var response = new ResponseModel();
             response.Header = new HeaderModel();
             response.Body = new ResponseBody();
 
-            List<PatientDataObject> result = null;
+           List<List<PatientDataObject>> result = null;
             string responseCode = "";
             String responseMessage = "";
             String responseStatus = "";
@@ -134,7 +139,9 @@ namespace VCheckViewerAPI.Controllers
                     {
                         if (_apiRepository.ValidateTokenExpiry(request.Header.clientKey))
                         {
-                            _apiRepository.UpdateScheduledTest(request.Body.ScheduledUniqueID, request.Body.ScheduledDatetime, request.Body.InchargePerson,
+                            ClientModel sAuthProfile = _apiRepository.GetClientProfileByClientKey(request.Header.clientKey);
+                            var UpdatedBy = (sAuthProfile != null) ? sAuthProfile.Name : "";
+                            _apiRepository.UpdateScheduledTest(request.Body.ScheduledUniqueID, request.Body.ScheduledDatetime, request.Body.InchargePerson, UpdatedBy,
                                                             out result, out responseCode, out responseMessage, out responseStatus);
 
                             if (result != null)
@@ -242,7 +249,8 @@ namespace VCheckViewerAPI.Controllers
                                     scheduledObj.ScheduledDateTime = dtScheduled;
                                 }
 
-                                scheduledObj.ScheduleUniqueID = request.body.ScheduledUniqueID;
+                                var uniqueID = request.body.TestUniqueID + "-" + GenerateUniqueKey(8);
+                                scheduledObj.ScheduleUniqueID = uniqueID;
                                 scheduledObj.ScheduledBy = request.body.ScheduledBy;
                                 scheduledObj.InchargePerson = request.body.PersonIncharges;
                                 scheduledObj.PatientID = request.body.PatientID;
@@ -273,7 +281,13 @@ namespace VCheckViewerAPI.Controllers
                                 {
                                     sRespCode = "VV.0001";
                                     sRespStatus = "Success";
-                                    sRespMessage = "Success";
+                                    sRespMessage = "Success. Generated unique ID is " + uniqueID;
+
+                                    //if (request.body.TestUniqueID.Split("-")[0] == "VCHECKC1")
+                                    //{
+                                    //    HL7MessageSender.Main sender = new HL7MessageSender.Main();
+                                    //    sender.SendMessage(request.body);
+                                    //}
                                 }
                                 else
                                 {
@@ -347,7 +361,7 @@ namespace VCheckViewerAPI.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet(Name = "GetLocationList")]
+        [HttpPost(Name = "GetLocationList")]
         public ResponseModel GetLocationList(LocationDataRequest request)
         {
             var response = new ResponseModel();
@@ -429,38 +443,249 @@ namespace VCheckViewerAPI.Controllers
             return response;
         }
 
-
-        [HttpGet(Name = "TestSQLite")]
-        public void TestSQLite()
+        /// <summary>
+        /// Cancel Scheduled Request
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost(Name = "CancelScheduledTest")]
+        public ResponseModel CancelScheduledTest(ScheduleDataRequest request)
         {
-            using (var connection = new SqliteConnection("Data Source=C:\\Users\\azwan\\Downloads\\sqlite-tools-win-x64-3460000\\Databases\\vcheck.db"))
+            var response = new ResponseModel();
+            response.Header = new HeaderModel();
+            response.Body = new ResponseBody();
+
+            String responseCode = "";
+            String responseMessage = "";
+            String responseStatus = "";
+
+            try
             {
-                connection.Open();
-
-                var command = connection.CreateCommand();
-
-                //command.CommandText = "Insert into apiLog values('test','test')";
-
-                //command.ExecuteReader();
-
-                //command.Dispose();
-
-                command.CommandText =
-                @"
-                    SELECT *
-                    FROM apiLog
-                ";
-
-                using (var reader = command.ExecuteReader())
+                if (request.Header.clientKey != null && _apiRepository.Authenticate(request.Header.clientKey))
                 {
-                    while (reader.Read())
+                    if (_apiRepository.ValidateTokenExpiry(request.Header.clientKey))
                     {
-                        var name = reader.GetString(0);
+                        if (!String.IsNullOrEmpty(request.Body.ScheduledUniqueID))
+                        {
+                            ClientModel sAuthProfile = _apiRepository.GetClientProfileByClientKey(request.Header.clientKey);
+                            var UpdatedBy = (sAuthProfile != null) ? sAuthProfile.Name : "";
 
-                        Console.WriteLine($"Hello, {name}!");
+                            _apiRepository.CancelScheduledTest(request.Body.ScheduledUniqueID, UpdatedBy, out responseCode, out responseMessage, out responseStatus);
+                        }
+                        else
+                        {
+                            responseCode = "VV.2002";
+                            responseStatus = "Fail";
+                            responseMessage = "Missing Scheduled Unique ID";
+                        }
+
+                    }
+                    else
+                    {
+                        responseCode = "VV.0005";
+                        responseStatus = "Fail";
+                        responseMessage = "Expiry Token Key";
                     }
                 }
+                else
+                {
+                    responseCode = "VV.0003";
+                    responseStatus = "Fail";
+                    responseMessage = "Unauthorized Request";
+                }
+
+                response.Header.timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
+                response.Header.clientKey = request.Header.clientKey;
+
+                response.Body.ResponseCode = responseCode;
+                response.Body.ResponseStatus = responseStatus;
+                response.Body.ResponseMessage = responseMessage;
+
+                //--------- Log Payload -------//
+                VCheck.APILogging.CallLogging.InsertAPiLog("CancelScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,
+                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                                               responseMessage);
             }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Exception";
+                responseMessage = "Exception Error";
+
+                VCheck.APILogging.CallLogging.InsertErrorLog("CancelScheduledTest", Guid.NewGuid().ToString(), responseCode, responseStatus,
+                                            responseMessage, ((ex != null) ? ex.ToString() : ""));
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Test connection
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet(Name = "TestConnection")]
+        public ResponseModel TestConnection()
+        {
+            var response = new ResponseModel();
+            response.Header = new HeaderModel();
+            response.Body = new ResponseBody();
+
+            response.Header.timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
+            response.Header.clientKey = "";
+
+            response.Body.ResponseCode = "VV.0001";
+            response.Body.ResponseStatus = "Success";
+            response.Body.ResponseMessage = "Success";
+            response.Body.Results = null;
+
+            return response;
+        }
+
+
+        //[HttpGet(Name = "TestSQLite")]
+        //public void TestSQLite()
+        //{
+        //    using (var connection = new SqliteConnection("Data Source=C:\\Users\\azwan\\Downloads\\sqlite-tools-win-x64-3460000\\Databases\\vcheck.db"))
+        //    {
+        //        connection.Open();
+
+        //        var command = connection.CreateCommand();
+
+        //        //command.CommandText = "Insert into apiLog values('test','test')";
+
+        //        //command.ExecuteReader();
+
+        //        //command.Dispose();
+
+        //        command.CommandText =
+        //        @"
+        //            SELECT *
+        //            FROM apiLog
+        //        ";
+
+        //        using (var reader = command.ExecuteReader())
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                var name = reader.GetString(0);
+
+        //                Console.WriteLine($"Hello, {name}!");
+        //            }
+        //        }
+        //    }
+        //}
+
+        /// <summary>
+        /// Get Test List
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost(Name = "GetTestList")]
+        public ResponseModel GetTestList(TestDataRequest request)
+        {
+            var response = new ResponseModel();
+            response.Header = new HeaderModel();
+            response.Body = new ResponseBody();
+
+            String responseCode = "";
+            String responseMessage = "";
+            String responseStatus = "";
+
+            List<TestDataObject> sResultList = new List<TestDataObject>();
+
+            try
+            {
+                if (request.header.clientKey != null && _apiRepository.Authenticate(request.header.clientKey))
+                {
+                    if (_apiRepository.ValidateTokenExpiry(request.header.clientKey))
+                    {
+                        var sTestList = TestResultsRepository.GetAllTestList(ConfigSettings.GetConfigurationSettings());
+                        if (sTestList != null && sTestList.Count > 0)
+                        {
+                            foreach (var test in sTestList)
+                            {
+                                sResultList.Add(new TestDataObject
+                                {
+                                    testid = test.TestID, 
+                                    testname = test.TestName, 
+                                    testdescription = test.TestDescription
+                                });
+                            }
+                        }
+
+                        responseCode = "VV.0001";
+                        responseStatus = "Success";
+                        responseMessage = "Success";
+                    }
+                    else
+                    {
+                        responseCode = "VV.0005";
+                        responseStatus = "Fail";
+                        responseMessage = "Expiry Token Key";
+                    }
+                }
+                else
+                {
+                    responseCode = "VV.0003";
+                    responseStatus = "Fail";
+                    responseMessage = "Unauthorized Request";
+                }
+
+                response.Header.timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
+                response.Header.clientKey = request.header.clientKey;
+
+                response.Body.ResponseCode = responseCode;
+                response.Body.ResponseStatus = responseStatus;
+                response.Body.ResponseMessage = responseMessage;
+                response.Body.Results = sResultList;
+
+                //--------- Log Payload -------//
+                VCheck.APILogging.CallLogging.InsertAPiLog("GetTestList", Guid.NewGuid().ToString(), request.header.timestamp,
+                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                                               responseMessage);
+            }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Exception";
+                responseMessage = "Exception Error";
+
+                VCheck.APILogging.CallLogging.InsertErrorLog("GetTestList", Guid.NewGuid().ToString(), responseCode, responseStatus,
+                                            responseMessage, ((ex != null) ? ex.ToString() : ""));
+            }
+
+            return response;
+        }
+
+        public static string GenerateUniqueKey(int size)
+        {
+            char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray(); ;
+            byte[] data = new byte[4 * size];
+            using (var crypto = RandomNumberGenerator.Create())
+            {
+                crypto.GetBytes(data);
+            }
+            StringBuilder result = new StringBuilder(size);
+            for (int i = 0; i < size; i++)
+            {
+                var rnd = BitConverter.ToUInt32(data, i * 4);
+                var idx = rnd % chars.Length;
+
+                result.Append(chars[idx]);
+            }
+
+            return result.ToString();
+
+            //return Guid.NewGuid().ToString("n").Substring(0, size);
+
+            //Random random = new Random();
+
+            //const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            //return new string(Enumerable.Repeat(chars, size)
+            //    .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

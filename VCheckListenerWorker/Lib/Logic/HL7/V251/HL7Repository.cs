@@ -377,7 +377,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                         strObserveValue = "";
                         if (observationDetail.OBX.GetObservationValue().Count() > 0)
                         {
-                            if (observationDetail.OBX.GetObservationValue().FirstOrDefault().Data.GetType() == typeof(NHapi.Model.V26.Datatype.NA))
+                            if (observationDetail.OBX.GetObservationValue().FirstOrDefault().Data.GetType() == typeof(NHapi.Model.V251.Datatype.NA))
                             {
                                 var sNAObject = observationDetail.OBX.GetObservationValue().FirstOrDefault().Data;
 
@@ -388,7 +388,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                                 PropertyInfo[] props = sNAObject.GetType().GetProperties();
                                 foreach (PropertyInfo p in props)
                                 {
-                                    if (p.PropertyType == typeof(NHapi.Model.V26.Datatype.NM))
+                                    if (p.PropertyType == typeof(NHapi.Model.V251.Datatype.NM))
                                     {
                                         sVal.Add(p.GetValue(sNAObject, null).ToString());
                                     };
@@ -410,7 +410,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                             }
                             else
                             {
-                                if (observationDetail.OBX.GetObservationValue().FirstOrDefault().Data.GetType() == typeof(NHapi.Model.V26.Datatype.CWE))
+                                if (observationDetail.OBX.GetObservationValue().FirstOrDefault().Data.GetType() == typeof(NHapi.Model.V251.Datatype.CWE))
                                 {
                                     var sCWEObject = observationDetail.OBX.GetObservationValue().FirstOrDefault().Data;
 

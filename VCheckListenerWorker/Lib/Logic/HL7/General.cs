@@ -40,7 +40,16 @@ namespace VCheckListenerWorker.Lib.Logic.HL7
 
                     if (!String.IsNullOrEmpty(sReferenceRange))
                     {
-                        String[] strRange = (sReferenceRange.Replace("[", "").Replace("]", "")).Split(";");
+                        String[] strRange = [];
+                        if (sReferenceRange.Contains(";"))
+                        {
+                            strRange = (sReferenceRange.Replace("[", "").Replace("]", "")).Split(";");
+                        }
+                        else if (sReferenceRange.Contains("-"))
+                        {
+                            strRange = sReferenceRange.Split("-");
+                        }
+
                         if (strRange.Length > 1)
                         {
                             Decimal.TryParse(strRange[0], out dRangeA);
@@ -49,11 +58,11 @@ namespace VCheckListenerWorker.Lib.Logic.HL7
 
                         if (dRangeA < dTargetValue && dTargetValue < dRangeB)
                         {
-                            sRetStatus = "Negative";
+                            sRetStatus = "Positive";
                         }
                         else
                         {
-                            sRetStatus = "Positive";
+                            sRetStatus = "Negative";
                         }
                     }
                     else
