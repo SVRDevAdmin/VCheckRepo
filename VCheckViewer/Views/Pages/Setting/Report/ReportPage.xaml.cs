@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
@@ -38,9 +39,7 @@ namespace VCheckViewer.Views.Pages.Setting.Report
         private void LoadInformation()
         {
             var sReportImagePath = configDBContext.GetConfigurationData("ReportImagePath").FirstOrDefault();
-            var sClinicName = configDBContext.GetConfigurationData("ClinicName").FirstOrDefault();
             var sReportTitle = configDBContext.GetConfigurationData("ReportTitle").FirstOrDefault();
-            var sClinicAddress = configDBContext.GetConfigurationData("ClinicAddress").FirstOrDefault();
 
             try
             {
@@ -56,9 +55,7 @@ namespace VCheckViewer.Views.Pages.Setting.Report
 
             }
 
-            ClinicName.Text = sClinicName != null ? sClinicName.ConfigurationValue : "";
             ReportTitle.Text = sReportTitle != null ? sReportTitle.ConfigurationValue : "";
-            ClinicAddress.Text = sClinicAddress != null ? sClinicAddress.ConfigurationValue : "";
         }
 
         private void btnDevice_Click(object sender, RoutedEventArgs e)
@@ -79,6 +76,11 @@ namespace VCheckViewer.Views.Pages.Setting.Report
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             App.GoToSettingConfigurationPageHandler(e, sender);
+        }
+
+        private void ClinicInfoPage(object sender, RoutedEventArgs e)
+        {
+            App.GoToClinicInfoPageHandler(e, sender);
         }
 
         private void image_click(object sender, MouseButtonEventArgs e)
@@ -124,20 +126,8 @@ namespace VCheckViewer.Views.Pages.Setting.Report
 
                 sConfigList.Add(new ConfigurationModel
                 {
-                    ConfigurationKey = "ClinicName",
-                    ConfigurationValue = ClinicName.Text
-                });
-
-                sConfigList.Add(new ConfigurationModel
-                {
                     ConfigurationKey = "ReportTitle",
                     ConfigurationValue = ReportTitle.Text
-                });
-
-                sConfigList.Add(new ConfigurationModel
-                {
-                    ConfigurationKey = "ClinicAddress",
-                    ConfigurationValue = ClinicAddress.Text
                 });
 
                 Popup sConfirmPopup = new Popup();
@@ -157,14 +147,16 @@ namespace VCheckViewer.Views.Pages.Setting.Report
 
         private bool isSufficient()
         {
-            if (String.IsNullOrEmpty(LogoPath.Text) || String.IsNullOrEmpty(ClinicName.Text) || String.IsNullOrEmpty(ReportTitle.Text) || String.IsNullOrEmpty(ClinicAddress.Text))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            //if (String.IsNullOrEmpty(LogoPath.Text) || String.IsNullOrEmpty(ClinicName.Text) || String.IsNullOrEmpty(ReportTitle.Text) || String.IsNullOrEmpty(ClinicAddress.Text))
+            //{
+            //    return false;
+            //}
+            //else
+            //{
+            //    return true;
+            //}
+
+            return true;
         }
 
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -172,7 +164,7 @@ namespace VCheckViewer.Views.Pages.Setting.Report
             Logo.Height = e.NewSize.Height * 0.109;
             LogoSample.Height = e.NewSize.Height * 0.078;
             ReportSampleElement.Height = e.NewSize.Height * 0.844;
-            ClinicAddress.MaxHeight = e.NewSize.Height * 0.156;
+            ReportElement.Height = e.NewSize.Height * 0.782;
         }
     }
 }

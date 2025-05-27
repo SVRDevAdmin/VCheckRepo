@@ -39,7 +39,7 @@ namespace VCheck.Lib.Data.DBContext
                 using (MySqlConnection conn = this.Connection)
                 {
                     conn.Open();
-                    MySqlCommand cmd = new MySqlCommand("Select * from mst_countrylist where CountryName like '%" + partialName + "%'", conn);
+                    MySqlCommand cmd = new MySqlCommand("Select * from mst_countryphonelist where CountryName like '%" + partialName + "%'", conn);
 
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -59,6 +59,38 @@ namespace VCheck.Lib.Data.DBContext
             {
                 log.Error("Database Error >>> ", ex);
             }            
+
+            return sList;
+        }
+
+        public List<CountryPhoneNumModel> GetCountryPhoneNumData()
+        {
+            List<CountryPhoneNumModel> sList = new List<CountryPhoneNumModel>();
+
+            try
+            {
+                using (MySqlConnection conn = this.Connection)
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select * from mst_countryphonelist order by countryCode", conn);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            sList.Add(new CountryPhoneNumModel()
+                            {
+                                CountryCode = reader["CountryCode"].ToString(),
+                                PhoneNum = reader["CountryPhoneNum"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+            }
 
             return sList;
         }

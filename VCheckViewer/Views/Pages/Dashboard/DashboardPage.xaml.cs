@@ -412,6 +412,7 @@ namespace VCheckViewer.Views.Pages
             int currentDevice = 0;
 
             List<int> twoWayDevices = DeviceRepository.GetTwoWayCommDevice(ConfigSettings.GetConfigurationSettings()).Select(x => x.id).ToList();
+            List<int> posNegRequired = DeviceRepository.GetPosNegRequiredDevice(ConfigSettings.GetConfigurationSettings()).Select(x => x.id).ToList();
 
             for (int i = 0; i < totalRow; i++)
             {
@@ -461,16 +462,24 @@ namespace VCheckViewer.Views.Pages
                     StackPanel secondStackPanel = new StackPanel() { Orientation = Orientation.Vertical };
 
                     bool isReady = false;
+                    bool resultRequired = false;
 
                     if (twoWayDevices.Contains(device.id))
                     {
                         DeviceChecker deviceChecker = new DeviceChecker();
-                        isReady = await deviceChecker.IsOnline(device.DeviceIPAddress);
+                        isReady = await deviceChecker.IsOnline(device.DeviceIPAddress, 5067);
                     }
                     else
                     {
                         isReady = device.status != 2 ? true : false;
                     }
+
+                    if (posNegRequired.Contains(device.id))
+                    {
+                        resultRequired = true;
+                    }
+
+
                     TextBlock statusTextBlock = new TextBlock() { FontSize = 14, FontWeight = FontWeights.DemiBold, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
                     statusTextBlock.Foreground = isReady ? (Brush)new BrushConverter().ConvertFromString("#16c933") : (Brush)new BrushConverter().ConvertFromString("#fa8219");
                     statusTextBlock.Text = isReady ? Properties.Resources.General_Label_Ready : Properties.Resources.General_Label_Busy;
@@ -486,20 +495,25 @@ namespace VCheckViewer.Views.Pages
                     image.Margin = new Thickness(margin);
 
                     TextBlock nameTextBlock = new TextBlock() { Text = device.DeviceName, TextAlignment = TextAlignment.Center, FontWeight = FontWeights.Bold, Margin = new Thickness(margin), Foreground = sBrushFontColor };
+                    StackPanel thirdStackPanel = new StackPanel();
 
-                    TextBlock resultTextBlock1 = new TextBlock() { Text = Properties.Resources.Dashboard_Label_Positive + "  ", Foreground = sBrushFontColor };
-                    TextBlock resultTextBlock2 = new TextBlock() { Text = totalPositive.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Green, TextAlignment = TextAlignment.Center };
-                    Border positiveBorder = new Border() { Width = 20, Child = resultTextBlock2, Margin = new Thickness(0, 0, 20, 0) };
-                    Rectangle resultSeperator = new Rectangle() { VerticalAlignment = VerticalAlignment.Stretch, Width = 1, Height = 20, Margin = new Thickness(2), Stroke = Brushes.Black };
-                    TextBlock resultTextBlock3 = new TextBlock() { Text = Properties.Resources.Dashboard_Label_Negative + "  ", Margin = new Thickness(20, 0, 0, 0), Foreground = sBrushFontColor };
-                    TextBlock resultTextBlock4 = new TextBlock() { Text = totalNegative.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Red, TextAlignment = TextAlignment.Center };
-                    Border negativeBorder = new Border() { Width = 20, Child = resultTextBlock4 };
-                    StackPanel thirdStackPanel = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
-                    thirdStackPanel.Children.Add(resultTextBlock1);
-                    thirdStackPanel.Children.Add(positiveBorder);
-                    thirdStackPanel.Children.Add(resultSeperator);
-                    thirdStackPanel.Children.Add(resultTextBlock3);
-                    thirdStackPanel.Children.Add(negativeBorder);
+                    if (resultRequired)
+                    {
+                        TextBlock resultTextBlock1 = new TextBlock() { Text = Properties.Resources.Dashboard_Label_Positive + "  ", Foreground = sBrushFontColor };
+                        TextBlock resultTextBlock2 = new TextBlock() { Text = totalPositive.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Green, TextAlignment = TextAlignment.Center };
+                        Border positiveBorder = new Border() { Width = 20, Child = resultTextBlock2, Margin = new Thickness(0, 0, 20, 0) };
+                        Rectangle resultSeperator = new Rectangle() { VerticalAlignment = VerticalAlignment.Stretch, Width = 1, Height = 20, Margin = new Thickness(2), Stroke = Brushes.Black };
+                        TextBlock resultTextBlock3 = new TextBlock() { Text = Properties.Resources.Dashboard_Label_Negative + "  ", Margin = new Thickness(20, 0, 0, 0), Foreground = sBrushFontColor };
+                        TextBlock resultTextBlock4 = new TextBlock() { Text = totalNegative.ToString(), FontWeight = FontWeights.Bold, Foreground = Brushes.Red, TextAlignment = TextAlignment.Center };
+                        Border negativeBorder = new Border() { Width = 20, Child = resultTextBlock4 };
+                        thirdStackPanel = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
+                        thirdStackPanel.Children.Add(resultTextBlock1);
+                        thirdStackPanel.Children.Add(positiveBorder);
+                        thirdStackPanel.Children.Add(resultSeperator);
+                        thirdStackPanel.Children.Add(resultTextBlock3);
+                        thirdStackPanel.Children.Add(negativeBorder);
+                    }
+
 
                     secondStackPanel.Children.Add(childBorder);
                     secondStackPanel.Children.Add(image);

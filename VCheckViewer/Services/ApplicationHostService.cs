@@ -83,20 +83,13 @@ namespace VCheckViewer.Services
             //LoginPage.Navigate(new LoginPage());
             //LoginPage.Show();
 
-            var sBuilder = new ConfigurationBuilder();
-            sBuilder.SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            //var sBuilder = new ConfigurationBuilder();
+            //sBuilder.SetBasePath(Directory.GetCurrentDirectory())
+            //        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-            iConfig = sBuilder.Build();
+            //iConfig = sBuilder.Build();
 
-            if (string.IsNullOrEmpty(iConfig.GetSection("GreywindPMS:UpdateResultURL").Value))
-            {
-                App.PMSFunction = "Collapsed";
-            }
-            else
-            {
-                App.PMSFunction = "Visible";
-            }
+            
 
             var firstUser = usersContext.FirstUser();
 

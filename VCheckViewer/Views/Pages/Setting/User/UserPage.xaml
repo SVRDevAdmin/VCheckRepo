@@ -72,11 +72,12 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black"  MaxWidth="500">
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black"  MaxWidth="600">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
@@ -96,6 +97,9 @@
                 <Border Grid.Column="4" Margin="2">
                     <Button Content="{Binding Path=Report_Label_Report, Source={StaticResource Resources}}" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
                 </Border>
+                <Border Grid.Column="5" Margin="2">
+                    <Button Content="{Binding Path=ClinicInfo_Label_ClinicInfo, Source={StaticResource Resources}}" Name="btnClinic" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ClinicInfoPage"></Button>
+                </Border>
             </Grid>
         </Border>
 
@@ -112,9 +116,9 @@
                           AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}">
                     <DataGrid.Columns>
                         <!--<DataGridTextColumn Header = "{Binding Path=General_Label_Number, Source={StaticResource Resources}}" Binding = "{Binding No}" Width="auto" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>-->
-                        <DataGridTextColumn Header = "{Binding Path=General_Label_Number, Source={StaticResource Resources}}" Binding="{Binding AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource IndexedConverter}}" Width="auto" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
+                        <DataGridTextColumn Header = "{Binding Path=General_Label_Number, Source={StaticResource Resources}}" Binding="{Binding AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource IndexedConverter}}" Width="auto" MinWidth="1" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
                         <DataGridTextColumn Header = "{Binding Path=Setting_Label_StaffName, Source={StaticResource Resources}}" Binding = "{Binding StaffName}" Width="1.1*" MinWidth="180" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned }" FontWeight="Bold" />
-                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_StaffID, Source={StaticResource Resources}}" Binding = "{Binding EmployeeID}" Width="0.5*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
+                        <DataGridTextColumn Header = "{Binding Path=Setting_Label_StaffID, Source={StaticResource Resources}}" Binding = "{Binding EmployeeID}" Width="0.5*" MinWidth="100"  ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
                         <DataGridTextColumn Header = "{Binding Path=Setting_Label_RegistrationNo, Source={StaticResource Resources}}" Binding = "{Binding RegistrationNo}" MinWidth="200" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
                         <DataGridTextColumn Header = "{Binding Path=Setting_Label_Gender, Source={StaticResource Resources}}" Binding = "{Binding Gender}" Width="0.5*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}" Visibility="Collapsed"/>
                         <DataGridTextColumn Header = "{Binding Path=Setting_Label_Role, Source={StaticResource Resources}}" Binding = "{Binding Role}" Width="0.6*" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>

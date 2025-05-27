@@ -1,14 +1,18 @@
 ﻿using System.Text;
 using VCheck.Lib.Data;
+using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
 using VCheckViewer.Views.Pages.Schedule;
 using VCheckViewerAPI.Lib.Object;
+using Message = VCheckViewerAPI.Lib.Object.Message;
 
-namespace VCheckViewerAPI.HL7MessageSender
+namespace VCheckViewer.Services.HL7MessageSender
 {
     public class MessageGenerator
     {
+        public static ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
+
         public static String GenerateOMLO33Message(ScheduledTestModel info)
         {
             var message = new HL7MessageModel();
@@ -26,12 +30,14 @@ namespace VCheckViewerAPI.HL7MessageSender
                 MessageProfileIdentifier = "LAB-28^IHE"
             };
 
-            var sLocation = LocationRepository.GetLocationByID(ConfigSettings.GetConfigurationSettings(), info.LocationID.Value);
+            
+            var sLocation = configDBContext.GetConfigurationData("ClinicName").FirstOrDefault();
+            //var sLocation = LocationRepository.GetLocationByID(ConfigSettings.GetConfigurationSettings(), info.LocationID);
 
             message.PID = new PIDModel()
             {
                 PatientID = info.PatientID,
-                Hospital = sLocation.Name,
+                Hospital = sLocation.ConfigurationKey,
                 PetName = info.PatientName,
                 BirthDate = DateTime.Parse("2024-01-01"),
                 Gender = info.Gender,
@@ -96,7 +102,7 @@ namespace VCheckViewerAPI.HL7MessageSender
             frame.Append((char)0x0b);
 
             // ------------- Message Header ------------//
-            Lib.Object.Message response = new Lib.Object.Message();
+            Message response = new Message();
             Segment msh = new Segment("MSH");
             msh.Field(1, "|");
             msh.Field(2, "^~\\&");
@@ -118,7 +124,7 @@ namespace VCheckViewerAPI.HL7MessageSender
             frame.Append((char)0x0d);
 
             // ------------- Patient Identification Segment ------------//
-            response = new Lib.Object.Message();
+            response = new Message();
             Segment pid = new Segment("PID");
             pid.Field(3, message.PID.PatientID + "^^^^^" + message.PID.Hospital);
             pid.Field(5, message.PID.PetName);
@@ -132,7 +138,7 @@ namespace VCheckViewerAPI.HL7MessageSender
             frame.Append((char)0x0d);
 
             // ------------- Patient Visit Segment ------------//
-            response = new Lib.Object.Message();
+            response = new Message();
             Segment pv1 = new Segment("PV1");
             pv1.Field(2, message.PV1.PatientClass); //optional
             pv1.Field(3, message.PV1.Room); //optional
@@ -142,7 +148,7 @@ namespace VCheckViewerAPI.HL7MessageSender
             frame.Append((char)0x0d);
 
             // ------------- Speciment Segment ------------//
-            response = new Lib.Object.Message();
+            response = new Message();
             Segment spm = new Segment("SPM");
             spm.Field(1, message.SPM.SetID);
             //spm.Field(4, "Serum^Respiratory^HL70487");
@@ -153,7 +159,7 @@ namespace VCheckViewerAPI.HL7MessageSender
             frame.Append((char)0x0d);
 
             // ------------- Speciment Container Detail Segment ------------//
-            response = new Lib.Object.Message();
+            response = new Message();
             Segment sac = new Segment("SAC");
             sac.Field(3, message.SAC.ContainerID);
             response.Add(sac);
@@ -161,7 +167,7 @@ namespace VCheckViewerAPI.HL7MessageSender
             frame.Append((char)0x0d);
 
             // ------------- Common Order Segment ------------//
-            response = new Lib.Object.Message();
+            response = new Message();
             Segment orc = new Segment("ORC");
             orc.Field(1, message.ORC.OrderControl);
             orc.Field(2, message.ORC.PlacerOrderNo);
@@ -174,7 +180,7 @@ namespace VCheckViewerAPI.HL7MessageSender
             frame.Append((char)0x0d);
 
             // ------------- Observation Request Segment ------------//
-            response = new Lib.Object.Message();
+            response = new Message();
             Segment obr = new Segment("OBR");
             obr.Field(2, message.OBR.PlacerOrderNo); //optional
             obr.Field(4, message.OBR.UniversalServiceID);
@@ -185,7 +191,7 @@ namespace VCheckViewerAPI.HL7MessageSender
             foreach (var obxValue in message.OBX)
             {
                 // ------------- Observation Result Segment ------------//
-                response = new Lib.Object.Message();
+                response = new Message();
                 Segment obx = new Segment("OBX");
                 obx.Field(1, obxValue.SetID);
                 obx.Field(2, obxValue.ValueType);

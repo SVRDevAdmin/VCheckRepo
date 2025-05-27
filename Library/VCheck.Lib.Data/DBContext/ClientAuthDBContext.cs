@@ -11,6 +11,7 @@ namespace VCheck.Lib.Data.DBContext
 
         public DbSet<ClientAuthModel> Mst_Client_Auth { get; set; }
         public DbSet<ClientModel> Mst_Client { get; set; }
+        public DbSet<ClientURLModel> Mst_URL { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -32,6 +32,8 @@ namespace VCheckListenerWorker.Lib.DBContext
         public DbSet<mst_template_details> mst_template_details { get; set; }
         public DbSet<txn_notification> txn_notification { get; set; }
         public DbSet<mst_configuration> mst_configuration { get; set; }
+        public DbSet<ScheduledTestModel> Txn_ScheduledTests { get; set; }
+        public DbSet<DeviceModel> mst_deviceslist { get; set; }
 
         public TestResultDBContext(IConfiguration config)
         {

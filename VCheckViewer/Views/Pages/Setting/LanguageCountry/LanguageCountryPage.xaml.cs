@@ -244,6 +244,11 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
             App.GoToSettingReportPageHandler(e, sender);
         }
 
+        private void ClinicInfoPage(object sender, RoutedEventArgs e)
+        {
+            App.GoToClinicInfoPageHandler(e, sender);
+        }
+
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             languageBorder.Height = e.NewSize.Height * 0.8915;

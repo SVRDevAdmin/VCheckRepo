@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheckViewer.Views.Windows;
 using Wpf.Ui;
@@ -37,7 +38,6 @@ namespace VCheckViewer.Views.Pages.Login
         static ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
 
         public static event EventHandler GoToResetPasswordPage;
-        public static event EventHandler GoToMainWindow;
 
         public LoginPage()
         {
@@ -87,7 +87,9 @@ namespace VCheckViewer.Views.Pages.Login
 
                             App.MainViewModel.CurrentUsers.Gender = App.MainViewModel.CurrentUsers.Gender == "M" ? "Male" : "Female";
 
-                            GoToMainWindowHandler(e, sender);
+                            CheckPMSUser();
+
+                            LoginWindow.GoToMainWindowHandler(e, sender);
                         }
                         else
                         {
@@ -237,14 +239,6 @@ namespace VCheckViewer.Views.Pages.Login
             }
         }
 
-        private static void GoToMainWindowHandler(EventArgs e, object sender)
-        {
-            if (GoToMainWindow != null)
-            {
-                GoToMainWindow(sender, e);
-            }
-        }
-
         private void btnDarkTheme_Click(object sender, RoutedEventArgs e)
         {
             var sButton = (System.Windows.Controls.Button)sender;
@@ -286,6 +280,56 @@ namespace VCheckViewer.Views.Pages.Login
 
                 System.Windows.Media.Color sBlue = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#1e76fb");
                 btnDarkTheme.Background = new SolidColorBrush(sBlue);
+            }
+        }
+
+        public async Task CheckPMSUser()
+        {
+            var PMSInfo = ConfigurationContext.GetConfigurationData("InterfaceSettingsPMS").FirstOrDefault();
+
+            if (PMSInfo != null)
+            {
+                if (PMSInfo.ConfigurationValue == "Other")
+                {
+                    var PMSIP = ConfigurationContext.GetConfigurationData("InterfaceSettingsIP").FirstOrDefault();
+
+                    if (PMSIP == null)
+                    {
+                        App.PMSFunction = "Collapsed";
+                    }
+                    else
+                    {
+                        App.PMSFunction = "Visible";
+                    }
+                }
+                else
+                {
+                    var ClinicID = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
+                    VCheckAPI VcheckAPI = new VCheckAPI();
+                    var url = await VcheckAPI.GetPMSUrl(2);
+
+                    if (string.IsNullOrEmpty(url))
+                    {
+                        App.PMSFunction = "Collapsed";
+                    }
+                    else
+                    {
+                        if (ClinicID != null && !string.IsNullOrEmpty(ClinicID.ConfigurationValue))
+                        {
+                            App.PMSFunction = "Visible";
+                            App.ClinicID = ClinicID.ConfigurationValue;
+                        }
+                        else
+                        {
+                            App.PMSFunction = "Collapsed";
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                App.PMSFunction = "Collapsed";
             }
         }
     }

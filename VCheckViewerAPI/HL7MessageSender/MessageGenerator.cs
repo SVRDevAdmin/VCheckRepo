@@ -26,7 +26,7 @@ namespace VCheckViewerAPI.HL7MessageSender
                 MessageProfileIdentifier = "LAB-28^IHE"
             };
 
-            var sLocation = LocationRepository.GetLocationByID(ConfigSettings.GetConfigurationSettings(), int.Parse(info.LocationID));
+            var sLocation = LocationRepository.GetLocationByID(ConfigSettings.GetConfigurationSettings(), info.LocationID);
 
             message.PID = new PIDModel()
             {

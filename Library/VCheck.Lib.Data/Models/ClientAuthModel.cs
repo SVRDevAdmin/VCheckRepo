@@ -15,6 +15,7 @@ namespace VCheck.Lib.Data.Models
         public string? ClientKey { get; set; }
         public DateOnly StartDate { get; set; }
         public DateOnly EndDate { get; set; }
+        public int CanViewOthers { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }

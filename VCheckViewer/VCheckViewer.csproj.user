@@ -39,6 +39,9 @@
     <Compile Update="Views\Pages\Login\ResetPasswordPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Pages\Maintenance\MaintenancePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Pages\Notification\NotificationPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -49,6 +52,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Pages\Schedule\SchedulePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Pages\Setting\Clinic\ClinicInfoPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Pages\Setting\LanguageCountry\LanguageCountryPage.xaml.cs">

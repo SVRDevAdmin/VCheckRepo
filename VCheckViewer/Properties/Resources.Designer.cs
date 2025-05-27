@@ -61,11 +61,119 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connect.
+        /// </summary>
+        public static string ClinicInfo_Button_Connect {
+            get {
+                return ResourceManager.GetString("ClinicInfo_Button_Connect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to City.
+        /// </summary>
+        public static string ClinicInfo_Label_City {
+            get {
+                return ResourceManager.GetString("ClinicInfo_Label_City", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clinic Address.
+        /// </summary>
+        public static string ClinicInfo_Label_ClinicAddress {
+            get {
+                return ResourceManager.GetString("ClinicInfo_Label_ClinicAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clinic Info.
+        /// </summary>
+        public static string ClinicInfo_Label_ClinicInfo {
+            get {
+                return ResourceManager.GetString("ClinicInfo_Label_ClinicInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clinic Information.
+        /// </summary>
+        public static string ClinicInfo_Label_ClinicInformation {
+            get {
+                return ResourceManager.GetString("ClinicInfo_Label_ClinicInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clinic Name.
+        /// </summary>
+        public static string ClinicInfo_Label_ClinicName {
+            get {
+                return ResourceManager.GetString("ClinicInfo_Label_ClinicName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clinic Phone Number.
+        /// </summary>
+        public static string ClinicInfo_Label_ClinicPhoneNumber {
+            get {
+                return ResourceManager.GetString("ClinicInfo_Label_ClinicPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country Code.
+        /// </summary>
+        public static string ClinicInfo_Label_CountryCode {
+            get {
+                return ResourceManager.GetString("ClinicInfo_Label_CountryCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone Number.
+        /// </summary>
+        public static string ClinicInfo_Label_PhoneNumber {
+            get {
+                return ResourceManager.GetString("ClinicInfo_Label_PhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Primary Contact Name.
+        /// </summary>
+        public static string ClinicInfo_Label_PrimaryContactName {
+            get {
+                return ResourceManager.GetString("ClinicInfo_Label_PrimaryContactName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        public static string ClinicInfo_Label_State {
+            get {
+                return ResourceManager.GetString("ClinicInfo_Label_State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update.
         /// </summary>
         public static string Configuration_Label_Button_Update {
             get {
                 return ResourceManager.GetString("Configuration_Label_Button_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string Configuration_Label_Other {
+            get {
+                return ResourceManager.GetString("Configuration_Label_Other", resourceCulture);
             }
         }
         
@@ -84,6 +192,24 @@ namespace VCheckViewer.Properties {
         public static string Configuration_Label_PMS_LIS_HIS_PortNo {
             get {
                 return ResourceManager.GetString("Configuration_Label_PMS_LIS_HIS_PortNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username / Client ID.
+        /// </summary>
+        public static string Configuration_Label_UsernameClientID {
+            get {
+                return ResourceManager.GetString("Configuration_Label_UsernameClientID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password / Client Secret.
+        /// </summary>
+        public static string Configuration_Label_UsernameClientSecret {
+            get {
+                return ResourceManager.GetString("Configuration_Label_UsernameClientSecret", resourceCulture);
             }
         }
         
@@ -871,6 +997,78 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Checking...
+        /// </summary>
+        public static string Maintenance_Label_Checking {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_Checking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connected.
+        /// </summary>
+        public static string Maintenance_Label_Connected {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_Connected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Information.
+        /// </summary>
+        public static string Maintenance_Label_Information {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Connected.
+        /// </summary>
+        public static string Maintenance_Label_NotConnected {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_NotConnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not running.
+        /// </summary>
+        public static string Maintenance_Label_NotRunning {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_NotRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string Maintenance_Label_Refresh {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_Refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Running.
+        /// </summary>
+        public static string Maintenance_Label_Running {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_Running", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maintenance.
+        /// </summary>
+        public static string Maintenance_Title_PageTitle {
+            get {
+                return ResourceManager.GetString("Maintenance_Title_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Completed Test Results.
         /// </summary>
         public static string Notification_Label_CompletedTest {
@@ -943,6 +1141,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No schedule found linked to the result..
+        /// </summary>
+        public static string Popup_Message_APINoLinkFound {
+            get {
+                return ResourceManager.GetString("Popup_Message_APINoLinkFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update Result API Failed..
         /// </summary>
         public static string Popup_Message_APIUpdateFailed {
@@ -993,6 +1200,24 @@ namespace VCheckViewer.Properties {
         public static string Popup_Message_CheckUsername {
             get {
                 return ResourceManager.GetString("Popup_Message_CheckUsername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save clinic details?.
+        /// </summary>
+        public static string Popup_Message_ClinicInfoUpdate {
+            get {
+                return ResourceManager.GetString("Popup_Message_ClinicInfoUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully updated clinic details..
+        /// </summary>
+        public static string Popup_Message_ClinicInfoUpdateCompleted {
+            get {
+                return ResourceManager.GetString("Popup_Message_ClinicInfoUpdateCompleted", resourceCulture);
             }
         }
         
@@ -1060,11 +1285,29 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to connect with Greywind..
+        /// </summary>
+        public static string Popup_Message_FailedGreywindConnect {
+            get {
+                return ResourceManager.GetString("Popup_Message_FailedGreywindConnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to Open Print..
         /// </summary>
         public static string Popup_Message_FailedOpenPrint {
             get {
                 return ResourceManager.GetString("Popup_Message_FailedOpenPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to cancel schedule..
+        /// </summary>
+        public static string Popup_Message_FailedToCancelSchedule {
+            get {
+                return ResourceManager.GetString("Popup_Message_FailedToCancelSchedule", resourceCulture);
             }
         }
         
@@ -1110,6 +1353,15 @@ namespace VCheckViewer.Properties {
         public static string Popup_Message_FailedUpdateLISInfo {
             get {
                 return ResourceManager.GetString("Popup_Message_FailedUpdateLISInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully connected to Greywind..
+        /// </summary>
+        public static string Popup_Message_GreywindConnected {
+            get {
+                return ResourceManager.GetString("Popup_Message_GreywindConnected", resourceCulture);
             }
         }
         
@@ -1258,11 +1510,29 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Schedule successfully cancelled.
+        /// </summary>
+        public static string Popup_Message_ScheduleCancel {
+            get {
+                return ResourceManager.GetString("Popup_Message_ScheduleCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select additional test result to include in report..
         /// </summary>
         public static string Popup_Message_SelectAdditionalTestResult {
             get {
                 return ResourceManager.GetString("Popup_Message_SelectAdditionalTestResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select All.
+        /// </summary>
+        public static string Popup_Message_SelectAll {
+            get {
+                return ResourceManager.GetString("Popup_Message_SelectAll", resourceCulture);
             }
         }
         
@@ -1974,6 +2244,15 @@ namespace VCheckViewer.Properties {
         public static string Setting_ErrorMessage_TwoCharMin {
             get {
                 return ResourceManager.GetString("Setting_ErrorMessage_TwoCharMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string Setting_Label_BackButton {
+            get {
+                return ResourceManager.GetString("Setting_Label_BackButton", resourceCulture);
             }
         }
         

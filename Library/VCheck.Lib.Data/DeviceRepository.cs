@@ -244,6 +244,87 @@ namespace VCheck.Lib.Data
                 {
                     var deviceTypeIDs = ctx.mst_devicetype.Where(x => x.TwoWayCommunication == 1).Select(y => y.id).ToList();
 
+                    var twoWayDevices = ctx.mst_deviceslist.Where(x => deviceTypeIDs.Contains(x.DeviceTypeID.Value)).ToList();
+
+                    return twoWayDevices;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("DeviceRepository >>> GetTwoWayCommDevice >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Revert Two-Way Communication Device list
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="iID"></param>
+        /// <returns></returns>
+        public static void RevertTwoWayCommDevice(IConfiguration config, int deviceTypeID)
+        {
+            try
+            {
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    var twoWayDevices = ctx.mst_deviceslist.Where(x => x.DeviceTypeID == deviceTypeID).ToList();
+
+                    foreach (var device in twoWayDevices)
+                    {
+                        device.Next = 0;
+                    }
+
+                    ctx.UpdateRange(twoWayDevices);
+                    ctx.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("DeviceRepository >>> GetTwoWayCommDevice >>> " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Update Next Two-Way Communication Device list
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="iID"></param>
+        /// <returns></returns>
+        public static void NextUpdate(IConfiguration config, int deviceID)
+        {
+            try
+            {
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    var device = ctx.mst_deviceslist.FirstOrDefault(x => x.id == deviceID);
+
+                    device.Next = 1;
+
+                    ctx.Update(device);
+                    ctx.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("DeviceRepository >>> GetTwoWayCommDevice >>> " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Get positive Negative Required Device list
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="iID"></param>
+        /// <returns></returns>
+        public static List<DeviceModel> GetPosNegRequiredDevice(IConfiguration config)
+        {
+            try
+            {
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    var deviceTypeIDs = ctx.mst_devicetype.Where(x => x.PosNegRequired == 1).Select(y => y.id).ToList();
+
                     return ctx.mst_deviceslist.Where(x => deviceTypeIDs.Contains(x.DeviceTypeID.Value)).ToList();
                 }
             }

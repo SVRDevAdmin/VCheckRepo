@@ -116,6 +116,7 @@
                                 </MenuItem.Icon>
                                 <MenuItem Header="{Binding Path=Main_Label_ViewProfile, Source={StaticResource Resources}}" Click="ViewProfileButton_Click"/>
                                 <MenuItem Header="{Binding Path=Main_Label_ResetPassword, Source={StaticResource Resources}}" Click="ResetPassword"/>
+                                <MenuItem Header="{Binding Path=Maintenance_Title_PageTitle, Source={StaticResource Resources}}" Click="MaintenanceButton_Click"/>
                                 <Separator />
                                 <MenuItem Header="{Binding Path=Main_Label_Logout, Source={StaticResource Resources}}" Click="LogoutButton_Click"/>
                             </MenuItem>

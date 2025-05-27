@@ -29,6 +29,7 @@ namespace VCheckViewer.Views.Pages.Setting.Device
     /// </summary>
     public partial class DevicePage : Page
     {
+        private static List<string> twoWayDeviceTypesID;
         public ObservableCollection<ComboBoxItem> deviceComboList = new ObservableCollection<ComboBoxItem>();
 
         public DevicePage()
@@ -37,6 +38,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             
             LoadDeviceTypeList();
             LoadDeviceListing();
+
+            twoWayDeviceTypesID = DeviceRepository.GetDeviceTypeList(ConfigSettings.GetConfigurationSettings()).Where(x => x.TwoWayCommunication == 1).Select(y => y.id.ToString()).ToList();
 
             DataContext = this;
         }
@@ -72,6 +75,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             String sDefaultImagePath = "\\Storage\\Device\\Img_F200.png";
             String sSelectedDeviceType = "";
             int sSelectedDeviceTypeID = 0;
+            string sIPAddress = "";
+            string sSerialNum = "";
 
             if (cboDeviceType.SelectedItem != null)
             {
@@ -84,6 +89,15 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                     sSelectedDeviceType = sDeviceTypeObj.ImageSource;
                     sSelectedDeviceTypeID = sDeviceTypeObj.id;
                 }
+
+                if (twoWayDeviceTypesID.Contains(sSelectedItem.Tag.ToString()))
+                {
+                    sIPAddress = txtIPAddress.Text;
+                }
+                else
+                {
+                    sSerialNum = txtSerialNo.Text;
+                }
             }
             else
             {
@@ -93,13 +107,13 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             DeviceModel sDeviceObj = new DeviceModel()
             {
                 DeviceName = txtName.Text,
-                DeviceIPAddress = txtIPAddress.Text,
+                DeviceIPAddress = sIPAddress,
                 //DeviceImagePath = "\\Storage\\Device\\Img_F200.png", // Temp Hardcode
                 DeviceImagePath = sSelectedDeviceType,
                 status = (int)DataDictionary.DeviceListStatus.Active,
                 CreatedDate = DateTime.Now,
                 CreatedBy = App.MainViewModel.CurrentUsers.FullName,
-                DeviceSerialNo = txtSerialNo.Text,
+                DeviceSerialNo = sSerialNum,
                 DeviceTypeID = sSelectedDeviceTypeID
             };
 
@@ -121,11 +135,49 @@ namespace VCheckViewer.Views.Pages.Setting.Device
 
                 var sDeviceType = DeviceRepository.GetDeviceTypeByID(ConfigSettings.GetConfigurationSettings(), sRowData.DeviceTypeID.Value);
 
+                if (twoWayDeviceTypesID.Contains(sRowData.DeviceTypeID.Value.ToString()))
+                {
+                    labelIPAddress.Visibility = Visibility.Visible;
+                    borderIPView.Visibility = Visibility.Visible;
+                    labelSerialNo.Visibility = Visibility.Collapsed;
+                    borderSerialNoView.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    labelIPAddress.Visibility = Visibility.Collapsed;
+                    borderIPView.Visibility = Visibility.Collapsed;
+                    labelSerialNo.Visibility = Visibility.Visible;
+                    borderSerialNoView.Visibility = Visibility.Visible;
+                }
+
                 lbName.Text = sRowData.DeviceName;
                 lbIPAddeess.Text = sRowData.DeviceIPAddress;
                 lbSerialNo.Text = sRowData.DeviceSerialNo;
                 lbDeviceType.Text = (sDeviceType != null) ? sDeviceType.TypeName : "";
                 hidID.Text = sRowData.id.ToString();
+            }
+        }
+
+        private void dgDeviceType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MandatoryFieldValiation(null);
+
+            var comboBoxSelectedItem = ((ComboBoxItem)((System.Windows.Controls.ComboBox)sender).SelectedItem);
+            var sRowDataID = comboBoxSelectedItem != null ? comboBoxSelectedItem.Tag.ToString() : "0";
+
+            if (twoWayDeviceTypesID.Contains(sRowDataID))
+            {
+                labelIPAddress.Visibility = Visibility.Visible;
+                borderIPEdit.Visibility = Visibility.Visible;
+                labelSerialNo.Visibility = Visibility.Collapsed;
+                borderSerialNoEdit.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                labelIPAddress.Visibility = Visibility.Collapsed;
+                borderIPEdit.Visibility = Visibility.Collapsed;
+                labelSerialNo.Visibility = Visibility.Visible;
+                borderSerialNoEdit.Visibility = Visibility.Visible;
             }
         }
 
@@ -138,6 +190,21 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             var sDeviceObj = DeviceRepository.GetDeviceByID(iID, ConfigSettings.GetConfigurationSettings());
             if (sDeviceObj != null)
             {
+                if (twoWayDeviceTypesID.Contains(sDeviceObj.DeviceTypeID.ToString()))
+                {
+                    labelIPAddress.Visibility = Visibility.Visible;
+                    borderIPEdit.Visibility = Visibility.Visible;
+                    labelSerialNo.Visibility = Visibility.Collapsed;
+                    borderSerialNoEdit.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    labelIPAddress.Visibility = Visibility.Collapsed;
+                    borderIPEdit.Visibility = Visibility.Collapsed;
+                    labelSerialNo.Visibility = Visibility.Visible;
+                    borderSerialNoEdit.Visibility = Visibility.Visible;
+                }
+
                 txtName.Text = sDeviceObj.DeviceName;
                 lbName.Text = sDeviceObj.DeviceName;
                 txtIPAddress.Text = sDeviceObj.DeviceIPAddress;
@@ -146,19 +213,22 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 lbSerialNo.Text = sDeviceObj.DeviceSerialNo;
                 hidID.Text = sDeviceObj.id.ToString();
 
-                foreach(var itm in cboDeviceType.Items)
-                {
-                    var cb = itm as ComboBoxItem;
+                var selectedItem = cboDeviceType.Items.OfType<ComboBoxItem>().FirstOrDefault(x => Convert.ToInt32(x.Tag) == sDeviceObj.DeviceTypeID);
+                cboDeviceType.SelectedItem = selectedItem;
 
-                    if (Convert.ToInt32(cb.Tag) == sDeviceObj.DeviceTypeID)
-                    {
-                        cb.IsSelected = true;
-                    }
-                    else
-                    {
-                        cb.IsSelected = false;
-                    }
-                }
+                //foreach (var itm in cboDeviceType.Items)
+                //{
+                //    var cb = itm as ComboBoxItem;
+
+                //    if (Convert.ToInt32(cb.Tag) == sDeviceObj.DeviceTypeID)
+                //    {
+                //        (itm as ComboBoxItem).IsSelected = true;
+                //    }
+                //    else
+                //    {
+                //        (itm as ComboBoxItem).IsSelected = false;
+                //    }
+                //}
             }
         }
 
@@ -218,13 +288,20 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                         {
                             sSelectedDeviceType = sDeviceTypeObj.ImageSource;
                         }
+
+                        if (twoWayDeviceTypesID.Contains(sSelectedItem.Tag.ToString()))
+                        {
+                            sDeviceObj.DeviceIPAddress = txtIPAddress.Text;
+                        }
+                        else
+                        {
+                            sDeviceObj.DeviceSerialNo = txtSerialNo.Text;
+                        }
                     }
 
                     sDeviceObj.DeviceName = txtName.Text;
-                    sDeviceObj.DeviceIPAddress = txtIPAddress.Text;
                     sDeviceObj.UpdatedDate = DateTime.Now;
                     sDeviceObj.UpdatedBy = App.MainViewModel.CurrentUsers.FullName;
-                    sDeviceObj.DeviceSerialNo = txtSerialNo.Text;
                     sDeviceObj.DeviceTypeID = iTypeID;
                     sDeviceObj.DeviceImagePath = sSelectedDeviceType;
                 }
@@ -242,16 +319,28 @@ namespace VCheckViewer.Views.Pages.Setting.Device
 
         private void ShowHideBorder(string sType)
         {
+            var twoWayDevice = cboDeviceType.SelectedItem != null && twoWayDeviceTypesID.Contains((cboDeviceType.SelectedItem as ComboBoxItem).Tag.ToString());
+
             if (sType.ToLower() == "view")
             {
                 borderNameEdit.Visibility = Visibility.Collapsed;
                 borderNameView.Visibility = Visibility.Visible;
 
-                borderIPEdit.Visibility = Visibility.Collapsed;
-                borderIPView.Visibility = Visibility.Visible;
+                if (twoWayDevice)
+                {
+                    borderIPEdit.Visibility = Visibility.Collapsed;
+                    borderIPView.Visibility = Visibility.Visible;
+                    borderSerialNoEdit.Visibility = Visibility.Collapsed;
+                    borderSerialNoView.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    borderIPEdit.Visibility = Visibility.Collapsed;
+                    borderIPView.Visibility = Visibility.Collapsed;
+                    borderSerialNoEdit.Visibility = Visibility.Collapsed;
+                    borderSerialNoView.Visibility = Visibility.Visible;
 
-                borderSerialNoEdit.Visibility = Visibility.Collapsed;
-                borderSerialNoView.Visibility = Visibility.Visible;
+                }
 
                 borderDeviceTypeEdit.Visibility = Visibility.Collapsed;
                 borderDeviceTypeView.Visibility = Visibility.Visible;
@@ -270,11 +359,21 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 borderNameEdit.Visibility = Visibility.Visible;
                 borderNameView.Visibility = Visibility.Collapsed;
 
-                borderIPEdit.Visibility = Visibility.Visible;
-                borderIPView.Visibility = Visibility.Collapsed;
+                if (twoWayDevice)
+                {
+                    borderIPEdit.Visibility = Visibility.Visible;
+                    borderIPView.Visibility = Visibility.Collapsed;
+                    borderSerialNoEdit.Visibility = Visibility.Collapsed;
+                    borderSerialNoView.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    borderIPEdit.Visibility = Visibility.Collapsed;
+                    borderIPView.Visibility = Visibility.Collapsed;
+                    borderSerialNoEdit.Visibility = Visibility.Visible;
+                    borderSerialNoView.Visibility = Visibility.Collapsed;
 
-                borderSerialNoEdit.Visibility = Visibility.Visible;
-                borderSerialNoView.Visibility = Visibility.Collapsed;
+                }
 
                 borderDeviceTypeEdit.Visibility = Visibility.Visible;
                 borderDeviceTypeView.Visibility = Visibility.Collapsed;
@@ -289,14 +388,18 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             }
             else if (sType.ToLower() == "add")
             {
+                cboDeviceType.SelectedItem = null;
+
                 borderNameEdit.Visibility = Visibility.Visible;
                 borderNameView.Visibility = Visibility.Collapsed;
                 txtName.Text = String.Empty;
 
+                labelIPAddress.Visibility = Visibility.Visible;
                 borderIPEdit.Visibility = Visibility.Visible;
                 borderIPView.Visibility = Visibility.Collapsed;
                 txtIPAddress.Text = String.Empty;
 
+                labelSerialNo.Visibility = Visibility.Visible;
                 borderSerialNoEdit.Visibility = Visibility.Visible;
                 borderSerialNoView.Visibility = Visibility.Collapsed;
                 txtSerialNo.Text = String.Empty;
@@ -328,8 +431,77 @@ namespace VCheckViewer.Views.Pages.Setting.Device
 
         private void MandatoryFieldValiation(object sender)
         {
-            System.Windows.Controls.TextBox sTxtField = sender as System.Windows.Controls.TextBox;
+            //System.Windows.Controls.TextBox sTxtField = sender as System.Windows.Controls.TextBox;
             Boolean IsFieldEmpty = false;
+
+
+            if (cboDeviceType.SelectedItem == null)
+            {
+                borderDeviceTypeEdit.BorderBrush = System.Windows.Media.Brushes.Red;
+                borderDeviceTypeEdit.BorderThickness = new Thickness(1);
+                borderDeviceTypeEdit.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
+                //borderDeviceTypeEdit.ToolTip = "This is mandary fields.";
+
+                IsFieldEmpty = true;
+            }
+            else
+            {
+                borderDeviceTypeEdit.BorderBrush = System.Windows.Media.Brushes.Black;
+                borderDeviceTypeEdit.ToolTip = "";
+            }
+
+            if (cboDeviceType.SelectedItem != null && twoWayDeviceTypesID.Contains((cboDeviceType.SelectedItem as ComboBoxItem).Tag.ToString()))
+            {
+                String sIPAddress = txtIPAddress.Text;
+                if (sIPAddress.Replace(" ", "").Replace(".", "").Trim().Length == 0)
+                {
+                    borderIPEdit.BorderBrush = System.Windows.Media.Brushes.Red;
+                    borderIPEdit.BorderThickness = new Thickness(1);
+                    borderIPEdit.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
+                    //borderIPEdit.ToolTip = "This is a mandatory field";
+
+                    IsFieldEmpty = true;
+                }
+                else
+                {
+                    borderIPEdit.BorderBrush = System.Windows.Media.Brushes.Black;
+                    borderIPEdit.ToolTip = null;
+                }
+
+                IPAddress iIP;
+                if (!IPAddress.TryParse(txtIPAddress.Text.Replace(" ", ""), out iIP) || txtIPAddress.Text.Split(".").Count() != 4)
+                {
+                    borderIPEdit.BorderBrush = System.Windows.Media.Brushes.Red;
+                    borderIPEdit.BorderThickness = new Thickness(1);
+                    borderIPEdit.ToolTip = Properties.Resources.Setting_ErrorMessage_InvalidIP;
+                    //borderIPEdit.ToolTip = "Invalid IP address entered";
+
+                    IsFieldEmpty = true;
+                }
+                else
+                {
+                    borderIPEdit.BorderBrush = System.Windows.Media.Brushes.Black;
+                    borderIPEdit.ToolTip = null;
+                }
+
+            }
+            else
+            {
+                if (String.IsNullOrEmpty(txtSerialNo.Text))
+                {
+                    borderSerialNoEdit.BorderBrush = System.Windows.Media.Brushes.Red;
+                    borderSerialNoEdit.BorderThickness = new Thickness(1);
+                    borderSerialNoEdit.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
+                    //borderSerialNoEdit.ToolTip = "This is mandatory fields.";
+
+                    IsFieldEmpty = true;
+                }
+                else
+                {
+                    borderSerialNoEdit.BorderBrush = System.Windows.Media.Brushes.Black;
+                    borderSerialNoEdit.ToolTip = null;
+                }
+            }
 
             var sTxtNameBorder = txtName.Parent as Border;
             if (String.IsNullOrEmpty(txtName.Text))
@@ -345,68 +517,6 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             {
                 sTxtNameBorder.BorderBrush = System.Windows.Media.Brushes.Black;
                 sTxtNameBorder.ToolTip = null;
-            }
-
-            String sIPAddress = txtIPAddress.Text;
-            if (sIPAddress.Replace(" ", "").Replace(".", "").Trim().Length == 0)
-            {
-                borderIPEdit.BorderBrush = System.Windows.Media.Brushes.Red;
-                borderIPEdit.BorderThickness = new Thickness(1);
-                borderIPEdit.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
-                //borderIPEdit.ToolTip = "This is a mandatory field";
-
-                IsFieldEmpty = true;
-            }
-            else
-            {
-                borderIPEdit.BorderBrush = System.Windows.Media.Brushes.Black;
-                borderIPEdit.ToolTip = null;
-            }
-
-            IPAddress iIP;
-            if (!IPAddress.TryParse(txtIPAddress.Text.Replace(" ", ""), out iIP))
-            {
-                borderIPEdit.BorderBrush = System.Windows.Media.Brushes.Red;
-                borderIPEdit.BorderThickness = new Thickness(1);
-                borderIPEdit.ToolTip = Properties.Resources.Setting_ErrorMessage_InvalidIP;
-                //borderIPEdit.ToolTip = "Invalid IP address entered";
-
-                IsFieldEmpty = true;
-            }
-            else
-            {
-                borderIPEdit.BorderBrush = System.Windows.Media.Brushes.Black;
-                borderIPEdit.ToolTip = null;
-            }
-
-            if (String.IsNullOrEmpty(txtSerialNo.Text))
-            {
-                borderSerialNoEdit.BorderBrush = System.Windows.Media.Brushes.Red;
-                borderSerialNoEdit.BorderThickness = new Thickness(1);
-                borderSerialNoEdit.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
-                //borderSerialNoEdit.ToolTip = "This is mandatory fields.";
-
-                IsFieldEmpty = true;
-            }
-            else
-            {
-                borderSerialNoEdit.BorderBrush = System.Windows.Media.Brushes.Black;
-                borderSerialNoEdit.ToolTip = null;
-            }
-
-            if (cboDeviceType.SelectedItem == null)
-            {
-                borderDeviceTypeEdit.BorderBrush = System.Windows.Media.Brushes.Red;
-                borderDeviceTypeEdit.BorderThickness = new Thickness(1);
-                borderDeviceTypeEdit.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
-                //borderDeviceTypeEdit.ToolTip = "This is mandary fields.";
-
-                IsFieldEmpty = true;
-            }
-            else
-            {
-                borderDeviceTypeEdit.BorderBrush = System.Windows.Media.Brushes.Black;
-                borderDeviceTypeEdit.ToolTip = "";
             }
 
             String? sColor = System.Windows.Application.Current.Resources["Themes_ButtonColor"].ToString();
@@ -468,6 +578,11 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             App.GoToSettingReportPageHandler(e, sender);
         }
 
+        private void ClinicInfoPage(object sender, RoutedEventArgs e)
+        {
+            App.GoToClinicInfoPageHandler(e, sender);
+        }
+
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigateBackButton();
@@ -486,6 +601,7 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             }
             else if (borderNameEdit.Visibility == Visibility.Collapsed && borderButtonView.Visibility == Visibility.Visible)
             {
+                dgDevice.SelectedItem = null;
                 ShowHideBorder("Add");
             }
         }

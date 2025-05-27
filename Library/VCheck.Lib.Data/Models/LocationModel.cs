@@ -11,8 +11,12 @@ namespace VCheck.Lib.Data.Models
     public class LocationModel
     {
         [Key]
-        public int ID { get; set; }
+        public String? ID { get; set; }
         public String? Name { get; set; }
+        public String? Address { get; set; }
+        public String? ContactName { get; set; }
+        public String? PhoneNum { get; set; }
+        public String? Email { get; set; }
         public String? Description { get; set; }
         public int? Status { get; set; }
         public DateTime? CreatedDate { get; set; }

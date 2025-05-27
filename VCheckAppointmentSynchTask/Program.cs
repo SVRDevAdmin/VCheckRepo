@@ -109,7 +109,7 @@ namespace VCheckAppointmentSynchTask
                                 sApptScheduled.CreatedDate = DateTime.Now;
                                 sApptScheduled.CreatedBy = r.createdby;
 
-                                ScheduledTestRepository.InsertScheduledTest(config, sApptScheduled);
+                                ScheduledTestRepository.InsertUpdateScheduledTest(config, sApptScheduled);
                             }
                         }
 

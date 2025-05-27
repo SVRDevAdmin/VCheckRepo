@@ -49,6 +49,7 @@ using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using static Org.BouncyCastle.Math.EC.ECCurve;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using VCheckViewer.Views.Pages.Login;
 
 namespace VCheckViewer.Views.Pages.Results
 {
@@ -65,8 +66,12 @@ namespace VCheckViewer.Views.Pages.Results
         public int paginationSize = 10;
         public int startPagination = 1;
         public int endPagination = 0;
+        public int iTotalCount = 0;
 
         private PrintDocument printDocument1 = new PrintDocument();
+
+        public static event EventHandler? DownloadPrintReport;
+        public static event EventHandler? UpdatePatientNameEvent;
 
         public ResultPage()
         {
@@ -84,12 +89,11 @@ namespace VCheckViewer.Views.Pages.Results
 
             LoadResultDataGrid();
 
-            if (App.ResultPageNotInitialized)
-            {
-                App.UpdatePatientName += new EventHandler(UpdatePatientName);
-                App.DownloadPrintReport += new EventHandler(LoadTestResultData);
-                App.ResultPageNotInitialized = false;
-            }
+            UpdatePatientNameEvent = null;
+            DownloadPrintReport = null;
+
+            UpdatePatientNameEvent += new EventHandler(UpdatePatientName);
+            DownloadPrintReport += new EventHandler(LoadTestResultData);
         }
 
         private ObservableCollection<ComboBoxItem> translateSort(List<ComboBoxItem> cbSort)
@@ -329,12 +333,11 @@ namespace VCheckViewer.Views.Pages.Results
             LoadResultDataGrid();
         }
 
-        public void LoadResultDataGrid()
+        public async Task LoadResultDataGrid()
         {
-            int iTotalRecord = 0;
-            dgResult.ItemsSource = GetTestResultBySearch(paginationSize, out iTotalRecord);
+            dgResult.ItemsSource = await GetTestResultBySearch(paginationSize);
 
-            if (iTotalRecord <= 0)
+            if (iTotalCount <= 0)
             {
                 btnPrint.Visibility = Visibility.Collapsed;
                 btnDownload.Visibility = Visibility.Collapsed;
@@ -345,15 +348,15 @@ namespace VCheckViewer.Views.Pages.Results
                 btnDownload.Visibility = Visibility.Visible;
             }
 
-            txtTotalCount.Text = iTotalRecord.ToString();
+            txtTotalCount.Text = iTotalCount.ToString();
 
-            pagination.iTotalRecords = iTotalRecord;
+            pagination.iTotalRecords = iTotalCount;
             pagination.iPageIndex = startPagination;
             pagination.iPageSize = paginationSize;
             pagination.LoadPagingNumber();
         }
 
-        public List<TestResultListingExtendedObj> GetTestResultBySearch(int pageSize, out int iTotalRecord)
+        public async Task<List<TestResultListingExtendedObj>> GetTestResultBySearch(int pageSize)
         {
             String sSortDirection = "DESC";
             if (cboSort.SelectedItem != null)
@@ -386,10 +389,13 @@ namespace VCheckViewer.Views.Pages.Results
 
             String sKeyword = KeywordSearchBar.Text;
 
+            LoginPage loginPage = new LoginPage();
+            await loginPage.CheckPMSUser();
+
             return VCheck.Lib.Data.TestResultsRepository.GetTestResultListBySearch(
                                             ConfigSettings.GetConfigurationSettings(),
                                             sStart, sEnd, sKeyword, sSortDirection,
-                                            startPagination, pageSize, App.PMSFunction, out iTotalRecord);
+                                            startPagination, pageSize, App.PMSFunction, out iTotalCount);
         }
 
         protected void PaginationNextButton_Click(object sender, EventArgs e)
@@ -428,7 +434,7 @@ namespace VCheckViewer.Views.Pages.Results
             DownloadSearchResult(true);
         }
 
-        private void DownloadSearchResult(Boolean isPrint = false)
+        private async void DownloadSearchResult(Boolean isPrint = false)
         {
             var sBuilder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
             String sDownloadPath = sBuilder.Configuration.GetSection("Configuration:DownloadFolderPath").Value;
@@ -439,7 +445,6 @@ namespace VCheckViewer.Views.Pages.Results
                 System.IO.Directory.CreateDirectory(sProcessingPath);
             }
 
-            int iTotalCount = 0;
             int iPageSize = 0;
 
             try
@@ -451,7 +456,7 @@ namespace VCheckViewer.Views.Pages.Results
                 int.TryParse(txtTotalCount.Text, out iPageSize);
 
                 List<TestResultListingExtendedObj> sResult = new List<TestResultListingExtendedObj>();
-                sResult = GetTestResultBySearch(iPageSize, out iTotalCount);
+                sResult = await GetTestResultBySearch(iPageSize);
 
                 DataTable sDatatable = Lib.General.Utils.ToDataTable(sResult);
                 sDatatable.Columns.Remove("TestResultValue");
@@ -708,6 +713,22 @@ namespace VCheckViewer.Views.Pages.Results
             catch (Exception ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+
+        public static void DownloadPrintReportHandler(EventArgs e, object sender)
+        {
+            if (DownloadPrintReport != null)
+            {
+                DownloadPrintReport(sender, e);
+            }
+        }
+
+        public static void UpdatePatientNameHandler(EventArgs e, object sender)
+        {
+            if (UpdatePatientNameEvent != null)
+            {
+                UpdatePatientNameEvent(sender, e);
             }
         }
     }

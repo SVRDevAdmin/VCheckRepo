@@ -248,3 +248,8 @@ C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\obj\Debug\net8
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\obj\Debug\net8.0\VCheckListenerWorker.pdb
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\obj\Debug\net8.0\VCheckListenerWorker.genruntimeconfig.cache
 C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\obj\Debug\net8.0\ref\VCheckListenerWorker.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\bin\Debug\net8.0\Microsoft.AspNetCore.WebUtilities.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\bin\Debug\net8.0\Microsoft.Net.Http.Headers.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\bin\Debug\net8.0\VCheck.Interface.API.dll
+C:\Users\azwan\Work\Repo\Git Repo\VCheckRepo\VCheckListenerWorker\bin\Debug\net8.0\VCheck.Interface.API.pdb

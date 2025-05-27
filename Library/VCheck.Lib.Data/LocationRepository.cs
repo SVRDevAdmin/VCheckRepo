@@ -9,6 +9,8 @@ using VCheck.Lib.Data.Models;
 using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Configuration;
 using VCheck.Lib.Data.DBContext;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace VCheck.Lib.Data
 {
@@ -43,7 +45,7 @@ namespace VCheck.Lib.Data
         /// <param name="config"></param>
         /// <param name="iID"></param>
         /// <returns></returns>
-        public static Boolean IsLocationIdExists(IConfiguration config, int iID)
+        public static Boolean IsLocationIdExists(IConfiguration config, string iID)
         {
             try
             {
@@ -65,7 +67,7 @@ namespace VCheck.Lib.Data
         /// <param name="config"></param>
         /// <param name="iID"></param>
         /// <returns></returns>
-        public static LocationModel GetLocationByID(IConfiguration config, int iID)
+        public static LocationModel GetLocationByID(IConfiguration config, string iID)
         {
             try
             {
@@ -79,6 +81,70 @@ namespace VCheck.Lib.Data
                 log.Error("LocationRepository >>> GetLocationById >>> " + ex.ToString());
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Validate Is Location ID Valid
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="iID"></param>
+        /// <returns></returns>
+        public static string UpdateLocation(IConfiguration config, LocationModel location)
+        {
+            try
+            {
+                using (var ctx = new LocationDBContext(config))
+                {
+                    var temp = ctx.mst_location.AsNoTracking().FirstOrDefault(x => x.ID == location.ID);
+
+                    if (temp != null)
+                    {
+                        location.UpdatedDate = DateTime.Now.ToUniversalTime();
+                        location.UpdatedBy = location.CreatedBy;
+                        location.CreatedDate = temp.CreatedDate;
+                        location.CreatedBy = temp.CreatedBy;
+
+                        ctx.mst_location.Update(location);
+                    }
+                    else
+                    {
+                        //location.ID = GenerateUniqueKey(20);
+                        location.ID = location.PhoneNum.Replace(" ", "").Replace("-","");
+                        location.CreatedDate = DateTime.Now.ToUniversalTime();
+
+                        ctx.mst_location.Add(location);
+                    }
+
+                    ctx.SaveChanges();
+
+                    return location.ID;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("LocationRepository >>> GetLocationById >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        public static string GenerateUniqueKey(int size)
+        {
+            char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray(); ;
+            byte[] data = new byte[4 * size];
+            using (var crypto = RandomNumberGenerator.Create())
+            {
+                crypto.GetBytes(data);
+            }
+            StringBuilder result = new StringBuilder(size);
+            for (int i = 0; i < size; i++)
+            {
+                var rnd = BitConverter.ToUInt32(data, i * 4);
+                var idx = rnd % chars.Length;
+
+                result.Append(chars[idx]);
+            }
+
+            return result.ToString();
         }
     }
 }

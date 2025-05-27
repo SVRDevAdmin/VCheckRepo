@@ -153,9 +153,8 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="DataGridColumnHeader">
                                         <Border Background="{DynamicResource Themes_InterfaceFrameBackground}"
-                                    BorderThickness="0,1,1,0" 
-                                    BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}"
-                                    CornerRadius="0,5,0,0">
+                                    BorderThickness="0,1,0,0" 
+                                    BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}">
                                             <ContentPresenter HorizontalAlignment="Center" 
                                               VerticalAlignment="Center"/>
                                         </Border>
@@ -168,8 +167,76 @@
                     </DataGridTemplateColumn.HeaderStyle>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}" BorderThickness="0,0,1,0">
+                            <Border BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}" BorderThickness="0">
                                 <TextBlock Text="{Binding TestResultValue}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource Themes_GridUserFontColor}"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Column with border -->
+                <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridColumnHeader">
+                                        <Border Background="{DynamicResource Themes_InterfaceFrameBackground}"
+                                    BorderThickness="0,1,1,0" 
+                                    BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}"
+                                    CornerRadius="0,5,0,0">
+                                            <ContentPresenter HorizontalAlignment="Stretch" 
+                                              VerticalAlignment="Stretch"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                
+                                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="Reference" HorizontalAlignment="Center" FontWeight="Bold"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Text="{Binding Path=Report_Label_Low, Source={StaticResource Resources}}"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Path=Schedule_Label_Normal, Source={StaticResource Resources}}"/>
+                                <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Text="{Binding Path=Report_Label_High, Source={StaticResource Resources}}"/>
+
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}" BorderThickness="0,0,1,0" Padding="4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ProgressBar Grid.ColumnSpan="3" Value="{Binding FirstLayerReference}" Minimum="0" Maximum="100" Height="23" VerticalAlignment="Center" Background="Transparent" Foreground="Black"/>
+                                    <ProgressBar Grid.ColumnSpan="3" Value="{Binding SecondLayerReference}" Minimum="0" Maximum="100" Height="23" VerticalAlignment="Center" Background="Transparent" Foreground="White"/>
+
+                                    <Border Grid.Column="0" BorderThickness="0.5" BorderBrush="Black"></Border>
+                                    <Border Grid.Column="1" BorderThickness="0.5" BorderBrush="Black"></Border>
+                                    <Border Grid.Column="2" BorderThickness="0.5" BorderBrush="Black"></Border>
+
+                                    <Border Grid.ColumnSpan="3" HorizontalAlignment="Stretch" Background="white" Visibility="{Binding BarVisibility}">
+                                        <TextBlock Text="-" TextAlignment="Center"/>
+                                    </Border>
+
+                                </Grid>
                             </Border>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

@@ -25,8 +25,9 @@ namespace VCheck.Lib.Data.Models
         public String? OverallStatus { get; set; }
         //public String? TestResultStatus { get; set; }
         //public Decimal? TestResultValue { get; set;  }
-		//public String? TestResultValue { get; set; }
-		//public String? TestResultRules { get; set; }
+        //public String? TestResultValue { get; set; }
+        //public String? TestResultRules { get; set; }
+        public string PMSFunction { get; set; }
         public DateTime? CreatedDate { get; set; }
         public String? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
@@ -139,7 +140,10 @@ namespace VCheck.Lib.Data.Models
         [Key]
         public String? TestID { get; set; }
         public String? TestName { get; set; }
+        public String? Parameter { get; set; }
         public String? TestDescription { get; set; }
+        public String? Species { get; set; }
+        public String? Gender { get; set; }
         public DateTime? CreatedDate { get; set; }
         public String? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }

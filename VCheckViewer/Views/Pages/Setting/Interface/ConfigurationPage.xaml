@@ -21,11 +21,12 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="500">
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
@@ -45,10 +46,13 @@
                 <Border Grid.Column="4" Margin="2">
                     <Button Content="{Binding Path=Report_Label_Report, Source={StaticResource Resources}}" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
                 </Border>
+                <Border Grid.Column="5" Margin="2">
+                    <Button Content="{Binding Path=ClinicInfo_Label_ClinicInfo, Source={StaticResource Resources}}" Name="btnClinic" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ClinicInfoPage"></Button>
+                </Border>
             </Grid>
         </Border>
-        <Border Name="borderConfiguration" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Transparent" BorderThickness="0">
-            <Border Margin="180, 65, 210, 160" BorderThickness="1" BorderBrush="{DynamicResource Themes_InterfaceFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_InterfaceFrameBackground}">
+        <!--<Border Name="borderConfiguration" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Transparent" BorderThickness="0">
+            <Border Margin="180, 65, 210, 10" BorderThickness="1" BorderBrush="{DynamicResource Themes_InterfaceFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_InterfaceFrameBackground}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -57,27 +61,104 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="{Binding Path=Configuration_Label_PMS_LIS_HIS, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
-                    <Border Name="borderIP" Grid.Row="2" Background="White" Padding="5, 12, 0, 0" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
-                        <WindowsFormsHost KeyUp="FieldsVal_KeyUp" Margin="10, 0" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Noto Sans" FontSize="12" FontWeight="Light" Background="White">
+                    <Border Name="borderIP" Grid.Row="2" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
+                        --><!--<WindowsFormsHost KeyUp="FieldsVal_KeyUp" Margin="10, 0" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Noto Sans" FontSize="12" FontWeight="Light" Background="White">
                             <wf:MaskedTextBox x:Name="txtIP" Mask="###.###.###.###" Width="350" Height="30" TextAlign="Left" BorderStyle="None" />
-                        </WindowsFormsHost>
+                        </WindowsFormsHost>--><!--
+                        <TextBox x:Name="txtIP" KeyUp="FieldsVal_KeyUp" FontFamily="Noto Sans" Background="White"/>
                     </Border>
 
-                    <TextBlock Text="{Binding Path=Configuration_Label_PMS_LIS_HIS_PortNo, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="3" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
+                    <TextBlock Text="{Binding Path=Configuration_Label_PMS_LIS_HIS_PortNo, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="3" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 10"></TextBlock>
                     <Border Name="borderPortNo" Grid.Row="4" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
                         <TextBox x:Name="txtPortNo" VerticalAlignment="Center" BorderThickness="0" PreviewTextInput="NumberValidationOnly" MaxLength="4" KeyUp="FieldsVal_KeyUp" />
                     </Border>
 
-                    <Border Name="BorderButton" Grid.Row="5" Margin="0, 30">
+                    <TextBlock Text="PMS / LIS / HIS Username" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="5" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 10"></TextBlock>
+                    <Border Name="borderUsername" Grid.Row="6" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
+                        <TextBox x:Name="txtUsername" VerticalAlignment="Center" BorderThickness="0" KeyUp="FieldsVal_KeyUp" />
+                    </Border>
+
+                    <TextBlock Text="PMS / LIS / HIS Password" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="7" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 10"></TextBlock>
+                    <Border Name="borderPassword" Grid.Row="8" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
+                        <PasswordBox x:Name="txtPassword" VerticalAlignment="Center" BorderThickness="0"  KeyUp="FieldsVal_KeyUp" />
+                    </Border>
+
+                    <Border Name="BorderButton" Grid.Row="9" Margin="0, 30">
                         <Button x:Name="btnUpdate" Content="{Binding Path=Configuration_Label_Button_Update, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="White"
                                 Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Margin="0" Style="{DynamicResource RoundButton}" 
                                 IsEnabled="False" Click="btnUpdate_Click"/>
                     </Border>
                 </Grid>
             </Border>
+        </Border>-->
+        <Border Name="borderPMSSelection" Grid.Column="1" Grid.Row="2" BorderBrush="Transparent" BorderThickness="0" Margin="30,30,30,0">
+            <Border BorderThickness="1" BorderBrush="{DynamicResource Themes_InterfaceFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_InterfaceFrameBackground}">
+                <Grid x:Name="gridPMSSelection">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <RadioButton Name="Greywind" Grid.Row="0" Foreground="{DynamicResource Themes_FontColor}" Content="Greywind PMS" Margin="10, 30, 0, 10" Checked="RadioButton_Checked"/>
+                    <RadioButton Name="Other" Grid.Row="1" Foreground="{DynamicResource Themes_FontColor}" Content="{Binding Path=Configuration_Label_Other, Source={StaticResource Resources}}" Margin="10, 10, 0, 10" Checked="RadioButton_Checked"/>
+
+                </Grid>
+            </Border>
         </Border>
+        <Border Name="borderConfiguration" Grid.Column="2" Grid.Row="2" BorderBrush="Transparent" BorderThickness="0" Margin="30,30,30,0">
+            <Border BorderThickness="1" BorderBrush="{DynamicResource Themes_InterfaceFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_InterfaceFrameBackground}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <!--<RowDefinition Height="auto" />-->
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{Binding Path=Configuration_Label_PMS_LIS_HIS, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
+                    <Border Name="borderIP" Grid.Row="2" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
+                        <TextBox x:Name="txtIP" KeyUp="FieldsVal_KeyUp" FontFamily="Noto Sans" Background="White"/>
+                    </Border>
+
+                    <TextBlock Text="{Binding Path=Configuration_Label_PMS_LIS_HIS_PortNo, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="3" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 10"></TextBlock>
+                    <Border Name="borderPortNo" Grid.Row="4" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
+                        <TextBox x:Name="txtPortNo" VerticalAlignment="Center" BorderThickness="0" PreviewTextInput="NumberValidationOnly" MaxLength="4" KeyUp="FieldsVal_KeyUp" />
+                    </Border>
+
+                    <TextBlock Name="ClinicPhoneNumLabel" Text="{Binding Path=ClinicInfo_Label_ClinicPhoneNumber, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="5" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 10" Visibility="Collapsed"></TextBlock>
+                    <Border Name="borderClinicPhoneNum" Grid.Row="6" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7" Visibility="Collapsed">
+                        <TextBox x:Name="txtClinicPhoneNum" VerticalAlignment="Center" BorderThickness="0" IsEnabled="False"/>
+                    </Border>
+
+                    <Button x:Name="btnConnect" Grid.Row="7" Content="{Binding Path=ClinicInfo_Button_Connect, Source={StaticResource Resources}}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Background="#0ed145" Margin="0,10,0,0" Visibility="Collapsed" Click="btnConnect_Click" IsEnabled="False"/>
+
+                    <TextBlock Name="UsernameLabel" Text="{Binding Path=Configuration_Label_UsernameClientID, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="5" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 10"></TextBlock>
+                    <Border Name="borderUsername" Grid.Row="6" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
+                        <TextBox x:Name="txtUsername" VerticalAlignment="Center" BorderThickness="0" KeyUp="FieldsVal_KeyUp" />
+                    </Border>
+
+                    <TextBlock Name="PasswordLabel" Text="{Binding Path=Configuration_Label_UsernameClientSecret, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="7" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 10"></TextBlock>
+                    <Border Name="borderPassword" Grid.Row="8" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7">
+                        <PasswordBox x:Name="txtPassword" VerticalAlignment="Center" BorderThickness="0"  KeyUp="FieldsVal_KeyUp" />
+                    </Border>
+                </Grid>
+            </Border>
+        </Border>
+        <Button x:Name="btnUpdate" Grid.Column="3" Grid.Row="2" Content="{Binding Path=Configuration_Label_Button_Update, Source={StaticResource Resources}}" VerticalAlignment="Bottom" Foreground="White"
+            Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Margin="0" Style="{DynamicResource RoundButton}" 
+            IsEnabled="False" Click="btnUpdate_Click"/>
     </Grid>
 </Page>

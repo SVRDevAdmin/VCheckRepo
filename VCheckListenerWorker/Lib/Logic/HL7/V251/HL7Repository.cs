@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using VCheck.Interface.API;
 using VCheckListenerWorker.Lib.Models;
+using VCheckListenerWorker.Lib.PMS;
 
 namespace VCheckListenerWorker.Lib.Logic.HL7.V251
 {
@@ -18,7 +21,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
         /// <param name="sIMessage"></param>
         /// <param name="sSystemName"></param>
         /// <returns></returns>
-        public static Boolean ProcessMessage(NHapi.Base.Model.IMessage sIMessage, String sSystemName)
+        public async static Task<Boolean> ProcessMessage(NHapi.Base.Model.IMessage sIMessage, String sSystemName)
         {
             Boolean isSuccess = false;
 
@@ -636,7 +639,8 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 sTestResultObj.OverallStatus = sOverallStatus;
                 sTestResultObj.CreatedDate = DateTime.Now;
                 sTestResultObj.CreatedBy = sSystemName;
-                sTestResultObj.DeviceSerialNo = sSerialNo.Trim();
+                sTestResultObj.DeviceSerialNo = Worker.MainModel.DeviceSerialNum != null ? Worker.MainModel.DeviceSerialNum : sSerialNo.Trim();
+                sTestResultObj.PMSFunction = "Visible";
 
                 tbltestanalyze_results sResultObj = new tbltestanalyze_results
                 {
@@ -646,11 +650,36 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                     CreatedBy = sSystemName
                 };
 
+                var parameters = sTestResultDetails.Select(x => x.TestParameter).ToList();
+
+                VCheckAPI VcheckAPI = new VCheckAPI();
+
+                ScheduledTestModel sScheduledTestObj = new ScheduledTestModel();
+                var clinic = TestResultRepository.GetConfigurationByKey("ClinicID");
+                if (clinic != null && !string.IsNullOrEmpty(clinic.ConfigurationValue))
+                {
+                    var scheduleString = await VcheckAPI.GetSchedule(clinic.ConfigurationValue, sTestResultObj.PatientID, parameters);
+                    sScheduledTestObj = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
+
+                    if (sScheduledTestObj != null)
+                    {
+                        sTestResultObj.PatientName = sScheduledTestObj.PatientName;
+                    }
+                }
+
                 Boolean bResult = TestResultRepository.insertTestObservationMessage(sResultObj, sMSHObj, sPIDObj, sOBRObj, sOBXObjList, sNTEObj, sPVObj, sSPMObj, sSACObj);
                 if (bResult)
                 {
                     // Insert into Test Result table & create notification 
                     TestResultRepository.createTestResultsMultipleParam(sTestResultObj, sTestResultDetails);
+
+                    if (sScheduledTestObj != null)
+                    {
+                        var success = await VcheckAPI.UpdateScheduleStatus(sScheduledTestObj.LocationID, sScheduledTestObj.PatientID, sScheduledTestObj.ScheduleUniqueID.Split("-")[1], sScheduledTestObj.CreatedBy, 3);
+
+                        PMSHandler pmsHandler = new PMSHandler();
+                        pmsHandler.SendToPMS(sTestResultObj, sTestResultDetails, sScheduledTestObj);
+                    }
 
                     NotificationRepository.SendNotification(sTestResultObj.PatientID, sSystemName);
                 }
