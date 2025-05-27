@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VCheck.APILogging", "Librar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VCheckHL7QueryTestApp", "VCheckHL7QueryTestApp\VCheckHL7QueryTestApp.csproj", "{B300720E-802C-4D1F-A66F-63564E3849FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleAutomation", "ScheduleAutomation\ScheduleAutomation.csproj", "{5DE225DE-049E-4338-BEBC-757ADB1EA382}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{B300720E-802C-4D1F-A66F-63564E3849FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B300720E-802C-4D1F-A66F-63564E3849FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B300720E-802C-4D1F-A66F-63564E3849FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DE225DE-049E-4338-BEBC-757ADB1EA382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DE225DE-049E-4338-BEBC-757ADB1EA382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DE225DE-049E-4338-BEBC-757ADB1EA382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DE225DE-049E-4338-BEBC-757ADB1EA382}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -228,5 +228,10 @@ namespace VCheckViewer.Views.Pages
         {
             App.GoToSettingReportPageHandler(e, sender);
         }
+
+        private void ClinicInfoPage(object sender, RoutedEventArgs e)
+        {
+            App.GoToClinicInfoPageHandler(e, sender);
+        }
     }
 }

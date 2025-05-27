@@ -136,7 +136,7 @@ namespace VCheckListenerWorker.Lib.Logic
             {
                 using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
                 {
-                    ctx.txn_Testresults.Add(sTestResult);
+                    ctx.txn_Testresults.Update(sTestResult);
                     ctx.SaveChanges();
 
                     isSuccess = true;
@@ -318,6 +318,124 @@ namespace VCheckListenerWorker.Lib.Logic
             catch (Exception ex)
             {
                 log.Error("VCheckListenerWorker >>> TestResultRepository >>> GetConfigurationByKey >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Configuration Settings By Key
+        /// </summary>
+        /// <param name="sConfigurationkey"></param>
+        /// <returns></returns>
+        public static List<mst_configuration> GetAllConfiguration()
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                {
+                    return ctx.mst_configuration.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("VCheckListenerWorker >>> TestResultRepository >>> GetConfigurationByKey >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Configuration Settings By Key
+        /// </summary>
+        /// <param name="sConfigurationkey"></param>
+        /// <returns></returns>
+        public static ScheduledTestModel GetScheduleByPatientID(String sPatientID)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                {
+                    return ctx.Txn_ScheduledTests.FirstOrDefault(x => x.PatientID == sPatientID && x.ScheduleTestStatus == 0);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("VCheckListenerWorker >>> TestResultRepository >>> GetScheduleByPatientID >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Update Scheduled Test Information by Order ID
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="sScheduledTestObj"></param>
+        /// <returns></returns>
+        public static Boolean UpdateScheduledTestStatusByOrderID(int sStatus, string sOrderID, string sClientName, string sUpdatedBy)
+        {
+            Boolean isSuccess = false;
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                {
+                    var sData = ctx.Txn_ScheduledTests.Where(x => x.CreatedBy == sClientName).AsEnumerable().Where(y => y.ScheduleUniqueID.Split("-")[1] == sOrderID);
+                    if (sData != null)
+                    {
+                        foreach (var sSchedule in sData)
+                        {
+                            if (sSchedule.ScheduleTestStatus != sStatus)
+                            {
+                                sSchedule.ScheduleTestStatus = sStatus;
+                                sSchedule.UpdatedDate = DateTime.Now;
+                                sSchedule.UpdatedBy = sUpdatedBy;
+                            }
+                        }
+
+                        ctx.UpdateRange(sData);
+
+                        ctx.SaveChanges();
+
+                        isSuccess = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                isSuccess = false;
+            }
+
+            return isSuccess;
+        }
+
+        /// <summary>
+        /// Get Device Settings By IP
+        /// </summary>
+        /// <param name="sConfigurationkey"></param>
+        /// <returns></returns>
+        public static DeviceModel GetDeviceByIPSerialNo(String sIP, String sSerialNo)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                {
+                    DeviceModel device = new DeviceModel();
+
+                    if (string.IsNullOrEmpty(sIP))
+                    {
+                        device =  ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceIPAddress == sIP);
+                    }
+                    else if (string.IsNullOrEmpty(sSerialNo))
+                    {
+                        device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceSerialNo == sSerialNo);
+                    }
+
+                    return device;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("VCheckListenerWorker >>> TestResultRepository >>> GetScheduleByPatientID >>> " + ex.ToString());
                 return null;
             }
         }

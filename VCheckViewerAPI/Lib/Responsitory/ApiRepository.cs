@@ -1,5 +1,6 @@
 ﻿using log4net;
 using Microsoft.Extensions.Hosting;
+using Mysqlx.Crud;
 using Mysqlx.Session;
 using MySqlX.XDevAPI.Common;
 using Org.BouncyCastle.Asn1.Ocsp;
@@ -24,12 +25,16 @@ namespace VCheck.Lib.Data
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
 
-        public bool Authenticate(string clientKey)
+        public bool Authenticate(string clientKey, out int CanViewOther)
         {
+            CanViewOther = 0;
+
             try
             {
-                var ClientAuthIndex = _AuthContext.Mst_Client_Auth.Where(x => x.ClientKey == clientKey).Select(x => x.ClientID).FirstOrDefault();
-                return _AuthContext.Mst_Client.Where(x => x.ID == ClientAuthIndex && x.Status == 1).Any();
+                var ClientAuthIndex = _AuthContext.Mst_Client_Auth.Where(x => x.ClientKey == clientKey).FirstOrDefault();
+                CanViewOther = ClientAuthIndex.CanViewOthers;
+
+                return _AuthContext.Mst_Client.Where(x => x.ID == ClientAuthIndex.ID && x.Status == 1).Any();
             }
             catch (Exception ex)
             {
@@ -154,7 +159,132 @@ namespace VCheck.Lib.Data
             }
         }
 
-        public void CancelScheduledTest(string scheduledUniqueID, string updatedBy, out string responseCode, out string responseMessage, out string responseStatus)
+        public void GetScheduleListByLocation(string locationID, out List<ScheduledTestModel> returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        {
+            returnData = null;
+
+            try
+            {
+                var data = ScheduledTestRepository.GetScheduleListByLocation(ConfigSettings.GetConfigurationSettings(), locationID);
+                if (data == null)
+                {
+                    responseCode = "VV.0002";
+                    responseMessage = "No Data Found";
+                }
+                else
+                {
+                    responseCode = "VV.0001";
+                    responseMessage = "Success";
+                    returnData = data;
+                }
+
+                responseStatus = "Success";
+            }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Fail";
+                responseMessage = "Internal Error";
+
+                log.Error("Database Error >>> ", ex);
+            }
+        }
+
+        public void GetScheduleListByLocationNotSent(string locationID, out List<ScheduledTestModelExtended> returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        {
+            returnData = null;
+
+            try
+            {
+                var data = ScheduledTestRepository.GetScheduleListByLocationNotSent(ConfigSettings.GetConfigurationSettings(), locationID);
+                if (data == null)
+                {
+                    responseCode = "VV.0002";
+                    responseMessage = "No Data Found";
+                }
+                else
+                {
+                    responseCode = "VV.0001";
+                    responseMessage = "Success";
+                    returnData = data;
+                }
+
+                responseStatus = "Success";
+            }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Fail";
+                responseMessage = "Internal Error";
+
+                log.Error("Database Error >>> ", ex);
+            }
+        }
+
+        public void GetScheduleByLocationPatientID(string locationID, string patientID, List<string> parameters, out ScheduledTestModel returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        {
+            returnData = null;
+
+            try
+            {
+                var testTypeList = TestResultsRepository.GetAllTestListByParameters(ConfigSettings.GetConfigurationSettings(), parameters);
+                var data = ScheduledTestRepository.GetScheduleByLocationPatientID(ConfigSettings.GetConfigurationSettings(), locationID, patientID, testTypeList.ToArray());
+                if (data == null)
+                {
+                    responseCode = "VV.0002";
+                    responseMessage = "No Data Found";
+                }
+                else
+                {
+                    responseCode = "VV.0001";
+                    responseMessage = "Success";
+                    returnData = data;
+                }
+
+                responseStatus = "Success";
+            }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Fail";
+                responseMessage = "Internal Error";
+
+                log.Error("Database Error >>> ", ex);
+            }
+        }
+
+        public void GetScheduleByUniqueID(string scheduledUniqueID, out ScheduledTestModel returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        {
+            returnData = null;
+
+            try
+            {
+                var data = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), scheduledUniqueID, "Unique");
+                if (data == null)
+                {
+                    responseCode = "VV.0002";
+                    responseMessage = "No Data Found";
+                }
+                else
+                {
+                    responseCode = "VV.0001";
+                    responseMessage = "Success";
+                    returnData = data;
+                }
+
+                responseStatus = "Success";
+            }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Fail";
+                responseMessage = "Internal Error";
+
+                log.Error("Database Error >>> ", ex);
+            }
+        }
+
+        public void CancelScheduledTestByUniqueID(string scheduledUniqueID, string updatedBy, out string responseCode, out string responseMessage, out string responseStatus)
         {
             try
             {
@@ -173,7 +303,7 @@ namespace VCheck.Lib.Data
                 {
                     data.ScheduleTestStatus = 1;
                     data.UpdatedBy = updatedBy;
-                    data.UpdatedDate = DateTime.Now;
+                    data.UpdatedDate = DateTime.Now.ToUniversalTime();
 
                     ScheduledTestRepository.UpdateScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), data);
 
@@ -192,5 +322,198 @@ namespace VCheck.Lib.Data
                 log.Error("Database Error >>> ", ex);
             }
         }
+
+        public void CancelScheduledTestByOrderID(string orderID, string locationID, string updatedBy, out string responseCode, out string responseMessage, out string responseStatus)
+        {
+            try
+            {
+                var data = ScheduledTestRepository.GetScheduledTestByOrderID(ConfigSettings.GetConfigurationSettings(), orderID, updatedBy, locationID);
+                if (data == null)
+                {
+                    responseCode = "VV.0002";
+                    responseMessage = "No Data Found";
+                }
+                else if (data.ScheduleTestStatus == 2)
+                {
+                    responseCode = "VV.0001";
+                    responseMessage = "Scheduled test are already canceled.";
+                }
+                else
+                {
+                    data.ScheduleTestStatus = 2;
+                    data.UpdatedBy = updatedBy;
+                    data.UpdatedDate = DateTime.Now.ToUniversalTime();
+
+                    ScheduledTestRepository.UpdateScheduledTestStatus(ConfigSettings.GetConfigurationSettings(), data, updatedBy);
+                    //ScheduledTestRepository.UpdateScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), data);
+
+                    responseCode = "VV.0001";
+                    responseMessage = "Scheduled test successfully canceled.";
+                }
+
+                responseStatus = "Success";
+            }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Fail";
+                responseMessage = "Internal Error";
+
+                log.Error("Database Error >>> ", ex);
+            }
+        }
+
+        public void CloseScheduledTestByOrderID(string orderID, string locationID, string updatedBy, out string responseCode, out string responseMessage, out string responseStatus)
+        {
+            try
+            {
+                var data = ScheduledTestRepository.GetScheduledTestByOrderID(ConfigSettings.GetConfigurationSettings(), orderID, updatedBy, locationID);
+                if (data == null)
+                {
+                    responseCode = "VV.0002";
+                    responseMessage = "No Data Found";
+                }
+                else if (data.ScheduleTestStatus == 3)
+                {
+                    responseCode = "VV.0001";
+                    responseMessage = "Scheduled test are already closed.";
+                }
+                else
+                {
+                    data.ScheduleTestStatus = 3;
+                    data.TestCompleted = 1;
+                    data.UpdatedBy = updatedBy;
+                    data.UpdatedDate = DateTime.Now.ToUniversalTime();
+
+                    ScheduledTestRepository.UpdateScheduledTestStatus(ConfigSettings.GetConfigurationSettings(), data, updatedBy);
+
+                    responseCode = "VV.0001";
+                    responseMessage = "Scheduled test successfully canceled.";
+                }
+
+                responseStatus = "Success";
+            }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Fail";
+                responseMessage = "Internal Error";
+
+                log.Error("Database Error >>> ", ex);
+            }
+        }
+
+        public void SentScheduledTestByOrderID(string orderID, string locationID, string updatedBy, out string responseCode, out string responseMessage, out string responseStatus)
+        {
+            try
+            {
+                var data = ScheduledTestRepository.GetScheduledTestByOrderID(ConfigSettings.GetConfigurationSettings(), orderID, updatedBy, locationID);
+                if (data == null)
+                {
+                    responseCode = "VV.0002";
+                    responseMessage = "No Data Found";
+                }
+                else if (data.ScheduleTestStatus == 1)
+                {
+                    responseCode = "VV.0001";
+                    responseMessage = "Scheduled test are already sent.";
+                }
+                else
+                {
+                    data.ScheduleTestStatus = 1;
+                    data.UpdatedBy = updatedBy;
+                    data.UpdatedDate = DateTime.Now.ToUniversalTime();
+
+                    ScheduledTestRepository.UpdateScheduledTestStatus(ConfigSettings.GetConfigurationSettings(), data, updatedBy);
+
+                    responseCode = "VV.0001";
+                    responseMessage = "Scheduled test successfully canceled.";
+                }
+
+                responseStatus = "Success";
+            }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Fail";
+                responseMessage = "Internal Error";
+
+                log.Error("Database Error >>> ", ex);
+            }
+        }
+
+        public bool ValidateTestInfo(string TestUniqueID, string Species, string Gender, out int isMismatchedWrongUniqueIDError)
+        {
+            isMismatchedWrongUniqueIDError = 0;
+            var uniqueKey = TestUniqueID.Split("-");
+            try
+            {
+                var data = TestResultsRepository.GetTestByUniqueID(ConfigSettings.GetConfigurationSettings(), uniqueKey[0]);
+                if (data == null)
+                {
+                    return false;
+                }
+                else if (!data.Species.ToLower().Split(",").Contains(Species.ToLower()) || !data.Gender.ToLower().Split(",").Contains(Gender.ToLower()))
+                {
+                    isMismatchedWrongUniqueIDError = 1;
+                    return false;
+                }
+                else if (uniqueKey.Length == 1)
+                {
+                    isMismatchedWrongUniqueIDError = 3;
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                log.Error("Database Error >>> ", ex);
+
+                isMismatchedWrongUniqueIDError = 2;
+                return false;
+            }
+        }
+
+        public int GetAccessionNo(string clientName, string orderID)
+        {
+            var accessionNo = 0;
+            try
+            {
+                var client = _AuthContext.Mst_Client.FirstOrDefault(x => x.Name == clientName);
+                accessionNo = client.RunningNo;
+                client.RunningNo = accessionNo + 1;
+
+                _AuthContext.Update(client);
+                _AuthContext.SaveChanges();
+
+                return accessionNo;
+            }
+            catch (Exception ex)
+            {
+
+                log.Error("Database Error >>> ", ex);
+                return 0;
+            }
+        }
+
+        public string GetURLByClientID(int clientID)
+        {
+            try
+            {
+                var client = _AuthContext.Mst_URL.FirstOrDefault(x => x.ClientID == clientID);
+                var url = client != null ? client.URL : "";
+                var port = client != null && client.Port != "80" ? ":" + client.Port : "";
+                return client != null ? url + port : "No URL found.";
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
     }
 }

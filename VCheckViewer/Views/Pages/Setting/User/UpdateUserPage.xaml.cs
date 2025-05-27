@@ -262,5 +262,10 @@ namespace VCheckViewer.Views.Pages.Setting.User
         {
             App.GoToSettingReportPageHandler(e, sender);
         }
+
+        private void ClinicInfoPage(object sender, RoutedEventArgs e)
+        {
+            App.GoToClinicInfoPageHandler(e, sender);
+        }
     }
 }

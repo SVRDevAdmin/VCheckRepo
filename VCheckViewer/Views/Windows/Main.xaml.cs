@@ -40,6 +40,15 @@ using System.IO;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Text;
+using VCheckViewer.Views.Pages.Maintenance;
+using VCheck.Interface.API;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using DocumentFormat.OpenXml.Wordprocessing;
+using MySqlX.XDevAPI;
+using Newtonsoft.Json;
+using VCheckViewer.Views.Pages.Setting.Clinic;
+using DocumentFormat.OpenXml.Bibliography;
+using System.Xml.Linq;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -56,6 +65,7 @@ namespace VCheckViewer.Views.Windows
         static RolesDBContext rolesContext = App.GetService<RolesDBContext>();
         static UserDBContext usersContext = App.GetService<UserDBContext>();
         static DeviceDBContext deviceContext = App.GetService<DeviceDBContext>();
+        static CountryDBContext countryContext = App.GetService<CountryDBContext>();
 
         //List<MasterCodeDataModel> masterCodeDataList = sContext.GetMasterCodeData();
         List<RolesModel> roleList = rolesContext.GetRoles();
@@ -69,6 +79,14 @@ namespace VCheckViewer.Views.Windows
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public ObservableCollection<ComboBoxItem> deviceComboList = new ObservableCollection<ComboBoxItem>();
         public ObservableCollection<CheckedListItem> ParameterList = new ObservableCollection<CheckedListItem>();
+
+        public string PMS;
+        public string url;
+        public string port;
+        public string username;
+        public string password;
+        public bool isIP;
+        public System.Net.IPAddress iIP;
 
         public class CheckedListItem
         {
@@ -94,6 +112,7 @@ namespace VCheckViewer.Views.Windows
             App.GoToSettingDevicePage += new EventHandler(GoToDevicePage);
             App.GoToSettingConfigurationPage += new EventHandler(GoToConfigurationPage);
             App.GoToReportPage += new EventHandler(GoToReportPage);
+            App.GoToClinicInfoPage += new EventHandler(GoToClinicInfoPage);
 
             //popup
             App.Popup += new EventHandler(Popup);
@@ -159,6 +178,15 @@ namespace VCheckViewer.Views.Windows
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
         }
 
+        private void MaintenanceButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Maintenance_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+
+            GoToMaintenancePage(sender, e);
+        }
+
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             App.MainViewModel.Origin = "Logout";
@@ -180,6 +208,13 @@ namespace VCheckViewer.Views.Windows
             checklanguage();
 
             frameContent.Content = new ViewUserPage();
+        }
+
+        void GoToMaintenancePage(object sender, EventArgs e)
+        {
+            checklanguage();
+
+            frameContent.Content = new MaintenancePage();
         }
 
         void GoToLanguageCountryPage(object sender, EventArgs e)
@@ -206,6 +241,12 @@ namespace VCheckViewer.Views.Windows
 
             frameContent.Content = new ReportPage();
         }
+        void GoToClinicInfoPage(object sender, EventArgs e)
+        {
+            checklanguage();
+
+            frameContent.Content = new ClinicInfoPage();
+        }
 
         void GoToViewReportPage(object sender, EventArgs e)
         {
@@ -228,6 +269,8 @@ namespace VCheckViewer.Views.Windows
 
         void Popup(object sender, EventArgs e)
         {
+            var ShowPopup = true;
+
             if (App.MainViewModel.Origin == "UserDeleteRow") { PopupContent.Text = Properties.Resources.Popup_Message_DeleteUser; }
             if (App.MainViewModel.Origin == "UserAddRow") { PopupContent.Text = Properties.Resources.Popup_Message_CreateUser; }
             if (App.MainViewModel.Origin == "UserUpdateRow") { PopupContent.Text = Properties.Resources.Popup_Message_UpdateUser; }
@@ -239,6 +282,43 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "DeviceUpdate") { PopupContent.Text = Properties.Resources.Popup_Message_UpdateAnalyzer; }
             if (App.MainViewModel.Origin == "SettingsUpdate" || App.MainViewModel.Origin == "ReportSettingsUpdate") { PopupContent.Text = Properties.Resources.Popup_Message_SaveSettings; }
             if (App.MainViewModel.Origin == "CancelSchedule") { PopupContent.Text = Properties.Resources.Popup_Message_CancelSchedule; }
+            if (App.MainViewModel.Origin == "ClinicInfoUpdate") { PopupContent.Text = Properties.Resources.Popup_Message_ClinicInfoUpdate; }
+            if (App.MainViewModel.Origin == "ScheduleCancelled") 
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_ScheduleCancel;
+            }
+            if (App.MainViewModel.Origin == "FailedToCancelSchedule")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_FailedToCancelSchedule;
+            }
+            if (App.MainViewModel.Origin == "ClinicInfoUpdateCompleted") 
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_ClinicInfoUpdateCompleted;
+            }
             if (App.MainViewModel.Origin == "SetingsUpdateCompleted") {
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
@@ -337,16 +417,18 @@ namespace VCheckViewer.Views.Windows
             }
             if (App.MainViewModel.Origin == "GreywindSendUniqueID")
             {
-                btnYes.Visibility = Visibility.Collapsed;
-                btnNo.Visibility = Visibility.Collapsed;
-                btnOk.Visibility = Visibility.Visible;
-                btnCancel.Visibility = Visibility.Visible;
-                txtInput.Visibility = Visibility.Visible;
-                deviceList.Visibility = Visibility.Collapsed;
-                ParameterView.Visibility = Visibility.Collapsed;
-                txtInput.Text = "";
+                //btnYes.Visibility = Visibility.Collapsed;
+                //btnNo.Visibility = Visibility.Collapsed;
+                //btnOk.Visibility = Visibility.Visible;
+                //btnCancel.Visibility = Visibility.Visible;
+                //txtInput.Visibility = Visibility.Visible;
+                //deviceList.Visibility = Visibility.Collapsed;
+                //ParameterView.Visibility = Visibility.Collapsed;
+                //txtInput.Text = "";
 
-                PopupContent.Text = Properties.Resources.Popup_Message_EnterUniqueID;
+                //PopupContent.Text = Properties.Resources.Popup_Message_EnterUniqueID;
+                ShowPopup = false;
+                SendToPMSHandler(e, sender);
             }
             if (App.MainViewModel.Origin == "SendToAnalyzer")
             {
@@ -402,6 +484,8 @@ namespace VCheckViewer.Views.Windows
                 txtInput.Visibility = Visibility.Collapsed;
                 deviceList.Visibility = Visibility.Collapsed;
                 ParameterView.Visibility = Visibility.Collapsed;
+
+                SchedulePage.ReloadScheduleHandler(e, sender);
 
                 PopupContent.Text = Properties.Resources.Popup_Message_SentToAnalyzer;
             }
@@ -510,16 +594,29 @@ namespace VCheckViewer.Views.Windows
                     excess = true;
                 }
 
+                StackPanel stackPanel = new StackPanel();
+                stackPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                stackPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+
+                CheckBox checkBox = new CheckBox();
+                checkBox.Name = "SelectAll";
+                checkBox.Foreground = Brushes.White;
+                checkBox.BorderBrush = Brushes.White;
+                checkBox.Content = Properties.Resources.Popup_Message_SelectAll; ;
+                stackPanel.Children.Add(checkBox);
+                parameterList.Items.Add(stackPanel);
+                checkBox.Click += SelectAll_Click;
+
                 for (int i = 0; i < totalRow; i++)
                 {
-                    StackPanel stackPanel = new StackPanel();
+                    stackPanel = new StackPanel();
                     stackPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
                     stackPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
                     int elementPerRow = (i == (totalRow - 1) && excess) ? remainder : 5;
 
                     for (int j = 0; j < elementPerRow; j++)
                     {
-                        CheckBox checkBox = new CheckBox();
+                        checkBox = new CheckBox();
                         checkBox.Foreground = Brushes.White;
                         checkBox.BorderBrush = Brushes.White;
                         checkBox.Content = App.Parameters[currentParameter];
@@ -617,13 +714,40 @@ namespace VCheckViewer.Views.Windows
 
                 PopupContent.Text = Properties.Resources.Popup_Message_IpPortUnavailable;
             }
+            if (App.MainViewModel.Origin == "GreywindConnected")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
 
-            PopupBackground.Background = Brushes.DimGray;
-            PopupBackground.Opacity = 0.5;
-            popup.IsOpen = true;
+                PopupContent.Text = Properties.Resources.Popup_Message_GreywindConnected;
+            }
+            if (App.MainViewModel.Origin == "FailedGreywindConnect")
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+                btnNo.Visibility = Visibility.Collapsed;
+                btnOk.Visibility = Visibility.Visible;
+                btnCancel.Visibility = Visibility.Collapsed;
+                txtInput.Visibility = Visibility.Collapsed;
+                deviceList.Visibility = Visibility.Collapsed;
+                ParameterView.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_FailedGreywindConnect;
+            }
+
+            if (ShowPopup)
+            {
+                PopupBackground.Background = Brushes.DimGray;
+                PopupBackground.Opacity = 0.5;
+                popup.IsOpen = true;
+            }
         }
 
-        private void ContinueButton_Click(object sender, RoutedEventArgs e)
+        private async void ContinueButton_Click(object sender, RoutedEventArgs e)
         {
             popup.IsOpen = false;
 
@@ -636,8 +760,42 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "DeviceDelete") { DeleteDeviceHandler(e, sender); }
             if (App.MainViewModel.Origin == "DeviceUpdate") { UpdateDeviceHandler(e, sender); }
             if (App.MainViewModel.Origin == "ChangeLanguageCountry") { ChangeLanguageCountryHandler(e, sender); }
-            if (App.MainViewModel.Origin == "SettingsUpdate" || App.MainViewModel.Origin == "ReportSettingsUpdate") { UpdateSettingsHandler(e, sender); }
-            if (App.MainViewModel.Origin == "CancelSchedule") { App.CancelScheduleHandler(e, sender); }
+            if (App.MainViewModel.Origin == "SettingsUpdate" || App.MainViewModel.Origin == "ReportSettingsUpdate") { UpdateSettingsHandlerAsync(e, sender); }
+            if (App.MainViewModel.Origin == "ClinicInfoUpdate") { UpdateClinicInfoHandlerAsync(e, sender); }
+            if (App.MainViewModel.Origin == "CancelSchedule") {
+
+                var uniqueIDPart = App.ScheduleTestInfo.ScheduleUniqueID.Split("-");
+                var orderID = uniqueIDPart[1];
+                var accessionNum = uniqueIDPart[2];
+                bool success = true;
+                string location = App.ScheduleTestInfo.LocationID;
+
+                if (App.ScheduleTestInfo.CreatedBy == "Greywind")
+                {
+                    GetInterfaceInfo();
+                    VCheck.Interface.API.GreywindAPI sAPI = new VCheck.Interface.API.GreywindAPI();
+                    VCheckAPI VcheckAPI = new VCheckAPI();
+                    url = await VcheckAPI.GetPMSUrl(2);
+                    success = sAPI.UpdateScheduleStatus(orderID, accessionNum, "C", url);
+                }
+
+                if (success)
+                {
+                    VCheckAPI vCheckAPI = new VCheckAPI();
+                    var updateStatusSuccess = await vCheckAPI.UpdateScheduleStatus(App.ScheduleTestInfo.LocationID, App.ScheduleTestInfo.PatientID, orderID, App.ScheduleTestInfo.CreatedBy, 2);
+                    //ScheduledTestRepository.UpdateScheduledTestStatus(ConfigSettings.GetConfigurationSettings(), 2, orderID, App.ScheduleTestInfo.CreatedBy, "VCheck Viewer");
+                    SchedulePage.ReloadScheduleHandler(e, sender);
+
+                    App.MainViewModel.Origin = "ScheduleCancelled";
+                    App.PopupHandler(e, sender);
+                }
+                else
+                {
+                    App.MainViewModel.Origin = "FailedToCancelSchedule";
+                    App.PopupHandler(e, sender);
+                }
+
+            }
             if (App.MainViewModel.Origin == "Logout")
             {
                 checklanguage();
@@ -657,7 +815,11 @@ namespace VCheckViewer.Views.Windows
                 LoginWindow login = new LoginWindow();
                 login.LoginFrame.Content = new LoginPage();
                 login.Show();
-                Close();
+
+                foreach (var window in System.Windows.Application.Current.Windows.OfType<Main>())
+                {
+                    window.Close();
+                }
             }
             if (App.MainViewModel.Origin == "ResetPassword") { ResetPasswordHandler(e, sender); }
         }
@@ -699,7 +861,11 @@ namespace VCheckViewer.Views.Windows
                 App.MainViewModel.Origin == "FailedToDownload" ||
                 App.MainViewModel.Origin == "FailedToPrint" ||
                 App.MainViewModel.Origin == "FailedUpdateLIS" ||
-                App.MainViewModel.Origin == "IpPortUnavailable")
+                App.MainViewModel.Origin == "IpPortUnavailable" ||
+                App.MainViewModel.Origin == "ClinicInfoUpdateCompleted" ||
+                App.MainViewModel.Origin == "GreywindConnected" ||
+                App.MainViewModel.Origin == "FailedGreywindConnect" ||
+                App.MainViewModel.Origin == "ScheduleCancelled")
             {
                 CancelButton_Click(null, null);
             }
@@ -817,12 +983,14 @@ namespace VCheckViewer.Views.Windows
             var rolesList = rolesContext.GetRoles();
             var statusList = sContext.GetMasterCodeData("UserStatus");
             var sortDirectionList = sContext.GetMasterCodeData("SortDirection");
+            var countryPhoneMumList = countryContext.GetCountryPhoneNumData();
 
             App.MainViewModel.cbTitle = new ObservableCollection<ComboBoxItem>();
             App.MainViewModel.cbGender = new ObservableCollection<ComboBoxItem>();
             App.MainViewModel.cbRoles = new ObservableCollection<ComboBoxItem>();
             App.MainViewModel.cbStatus = new ObservableCollection<ComboBoxItem>();
             App.MainViewModel.cbSort = new ObservableCollection<ComboBoxItem>();
+            App.MainViewModel.cbCountryPhoneNum = new ObservableCollection<ComboBoxItem>();
 
 
             var cbDefaultItem = new ComboBoxItem { Content = "" };
@@ -845,10 +1013,21 @@ namespace VCheckViewer.Views.Windows
             App.MainViewModel.cbStatus.Add(cbDefaultItem);
             foreach (var item in statusList) { App.MainViewModel.cbStatus.Add(new ComboBoxItem { Content = item.CodeName, Tag = item.CodeID }); }
 
+            cbDefaultItem = new ComboBoxItem { Content = Properties.Resources.ClinicInfo_Label_CountryCode, Tag = "" };
+            App.MainViewModel.SelectedcbCountryPhoneNum = cbDefaultItem;
+            App.MainViewModel.cbCountryPhoneNum.Add(cbDefaultItem);
+            foreach (var item in countryPhoneMumList) 
+            { 
+                foreach(var childItem in item.PhoneNum.Split(", "))
+                {
+                    App.MainViewModel.cbCountryPhoneNum.Add(new ComboBoxItem { Content = item.CountryCode + " +" + childItem, Tag = childItem });
+                }
+            }
+
             //cbDefaultItem = new ComboBoxItem { Content = "" };
             //App.MainViewModel.SelectedcbStatus = cbDefaultItem;
             //App.MainViewModel.cbSort.Add(cbDefaultItem);
-            foreach(var item in sortDirectionList)
+            foreach (var item in sortDirectionList)
             {
                 App.MainViewModel.cbSort.Add(new ComboBoxItem
                 {
@@ -1236,7 +1415,7 @@ namespace VCheckViewer.Views.Windows
             }
         }
 
-        private void UpdateSettingsHandler(EventArgs e, object sender)
+        private async Task UpdateSettingsHandlerAsync(EventArgs e, object sender)
         {
             try
             {
@@ -1282,6 +1461,25 @@ namespace VCheckViewer.Views.Windows
 
                 if(App.MainViewModel.Origin == "ReportSettingsUpdate")
                 {
+                    //ConfigurationModel? ClinicID = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
+
+                    //VCheckAPI vcheckAPI = new VCheckAPI();
+
+                    //VCheck.Interface.API.Lib.General.LocationModel location = new VCheck.Interface.API.Lib.General.LocationModel()
+                    //{
+                    //    ID = ClinicID == null ? "" : ClinicID.ConfigurationValue,
+                    //    Name = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicName").ConfigurationValue,
+                    //    Address = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicAddress").ConfigurationValue,
+                    //    PhoneNum = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicPhoneNum").ConfigurationValue,
+                    //    Description = "Clinic",
+                    //    Status = 1,
+                    //    CreatedBy = "VCheck Viewer"
+                    //};
+                                            
+                    //var locationID = await vcheckAPI.UpdateLocation(location);
+
+                    //if (ClinicID == null || (ClinicID != null && string.IsNullOrEmpty(ClinicID.ConfigurationValue))) { ConfigurationContext.AddConfiguration("ClinicID", locationID); }
+
                     App.MainViewModel.Origin = "ReportSetingsUpdateCompleted";
                 }
                 else
@@ -1289,14 +1487,94 @@ namespace VCheckViewer.Views.Windows
                     App.MainViewModel.Origin = "SetingsUpdateCompleted";
                 }
 
-                App.MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
+                App.MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("SystemSettings_Language");
 
                 App.PopupHandler(e, sender);
 
-                if (App.RestartListener)
+                //if (App.RestartListener)
+                //{
+                //    RunListener();
+                //}
+            }
+            catch (Exception ex)
+            {
+                App.log.Error("Update Setting Error >>> ", ex);
+                return;
+            }
+        }
+
+        private async Task UpdateClinicInfoHandlerAsync(EventArgs e, object sender)
+        {
+            try
+            {
+                var sSettingsObj = App.MainViewModel.ConfigurationModel;
+                foreach (var s in sSettingsObj)
                 {
-                    RunListener();
+                    var sConfigObj = ConfigurationContext.GetConfigurationData(s.ConfigurationKey).FirstOrDefault();
+                    if (sConfigObj != null)
+                    {
+                        ConfigurationContext.UpdateConfiguration(s.ConfigurationKey, s.ConfigurationValue);
+                    }
+                    else
+                    {
+                        ConfigurationContext.AddConfiguration(s.ConfigurationKey, s.ConfigurationValue);
+                    }
                 }
+
+
+                ConfigurationModel? ClinicID = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
+                ConfigurationModel? PMS = ConfigurationContext.GetConfigurationData("InterfaceSettingsPMS").FirstOrDefault();
+
+                if (ClinicID != null && !string.IsNullOrEmpty(ClinicID.ConfigurationValue))
+                {
+                    VCheckAPI vcheckAPI = new VCheckAPI();
+                    GreywindAPI greywindAPI = new GreywindAPI();
+
+                    var name = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicName").ConfigurationValue;
+                    var address = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicAddress").ConfigurationValue;
+                    var city = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicCity").ConfigurationValue;
+                    var state = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicState").ConfigurationValue;
+                    var phoneNum = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicPhoneNum").ConfigurationValue;
+                    var clinicID = ClinicID.ConfigurationValue;
+
+                    VCheck.Interface.API.Lib.General.LocationModel location = new VCheck.Interface.API.Lib.General.LocationModel()
+                    {
+                        ID = ClinicID.ConfigurationValue,
+                        Name = name,
+                        Address = address,
+                        ContactName = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicContactName").ConfigurationValue,
+                        PhoneNum = phoneNum,
+                        Email = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicEmail").ConfigurationValue,
+                        Description = "Clinic",
+                        Status = 1,
+                        CreatedBy = "VCheck Viewer"
+                    };
+
+                    var locationID = await vcheckAPI.UpdateLocation(location);
+
+                    if(PMS != null && PMS.ConfigurationValue == "Greywind")
+                    {
+                        var PMSURL = await vcheckAPI.GetPMSUrl(2);
+
+                        VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest insertLocation = new VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest()
+                        {
+                            name = name,
+                            address_1 = address,
+                            city = city,
+                            state = state,
+                            phone = phoneNum,
+                            api_access = "1"
+                        };
+
+                        await greywindAPI.InsertClinicInfo(insertLocation, PMSURL, clinicID);
+                    }
+                    
+                }
+
+                App.MainViewModel.Origin = "ClinicInfoUpdateCompleted";
+                App.MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("SystemSettings_Language");
+
+                App.PopupHandler(e, sender);
             }
             catch (Exception ex)
             {
@@ -1307,7 +1585,7 @@ namespace VCheckViewer.Views.Windows
 
         private async void SendRequestToAnalyzer(EventArgs e, object sender)
         {
-            VCheckViewerAPI.HL7MessageSender.Main sendMessage = new VCheckViewerAPI.HL7MessageSender.Main();
+            Services.HL7MessageSender.Main sendMessage = new Services.HL7MessageSender.Main();
             await sendMessage.SendMessage(App.ScheduleTestInfo);
 
             App.PopupHandler(e, sender);
@@ -1316,7 +1594,7 @@ namespace VCheckViewer.Views.Windows
         private void UpdatePatientName(EventArgs e, object sender)
         {
             TestResultsRepository.UpdateTestResult(ConfigSettings.GetConfigurationSettings(), App.TestResultInfo);
-            App.UpdatePatientNameHandler(e, sender);
+            ResultPage.UpdatePatientNameHandler(e, sender);
 
             if (App.isEmptyName)
             {
@@ -1373,12 +1651,12 @@ namespace VCheckViewer.Views.Windows
 
             foreach (var stackpanel in stackPanels)
             {
-                selectedParameters.AddRange(stackpanel.Children.OfType<CheckBox>().Where(x => x.IsChecked == true));
+                selectedParameters.AddRange(stackpanel.Children.OfType<CheckBox>().Where(x => x.IsChecked == true && x.Name != "SelectAll"));
             }
 
             App.Parameters = selectedParameters.Select(x => x.Content.ToString()).ToList();
 
-            App.DownloadPrintReportHandler(e, sender);
+            ResultPage.DownloadPrintReportHandler(e, sender);
         }
 
         private static void ResetPasswordHandler(EventArgs e, object sender)
@@ -1444,7 +1722,7 @@ namespace VCheckViewer.Views.Windows
         }
 
         // ------------- Temporary ------------------- //
-        private void SendToPMSHandler(EventArgs e, object sender)
+        private async void SendToPMSHandler(EventArgs e, object sender)
         {
             VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest sRequestAPI = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest();
             long iTestResultID = 0;
@@ -1466,8 +1744,14 @@ namespace VCheckViewer.Views.Windows
 
                     String sOrderID = "";
                     //var sScheduledTestObj = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), "TBLAM FIA-8");
-                    var sScheduledTestObj = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), sUniqueID, sTestResultObj.PatientID);
-                    if (sScheduledTestObj != null)
+                    //var sScheduledTestObj = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), null, sTestResultObj.PatientID);
+                    var sDetailsObj = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
+                    var parameters = sDetailsObj.Select(x => x.TestParameter).ToList();
+                    VCheckAPI VcheckAPI = new VCheckAPI();
+                    var scheduleString = await VcheckAPI.GetSchedule(App.ClinicID, sTestResultObj.PatientID, parameters);
+                    var sScheduledTestObj = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
+
+                    if (sScheduledTestObj != null && sScheduledTestObj.ID != 0)
                     {
                         if (sScheduledTestObj.ScheduleUniqueID.Contains("-"))
                         {
@@ -1480,7 +1764,7 @@ namespace VCheckViewer.Views.Windows
                         }
 
                         //sRequestAPI.accessionnumber = iTestResultID.ToString();
-                        sRequestAPI.clinic_id = "";
+                        sRequestAPI.clinic_id = sScheduledTestObj.LocationID.ToString();
                         sRequestAPI.reportdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
                         sRequestAPI.providerid = "";
 
@@ -1496,14 +1780,16 @@ namespace VCheckViewer.Views.Windows
                         sRequestAPI.patient = sPatientObj;
 
                         VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject sPanelObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject();
-                        sPanelObj.code = sTestResultObj.TestResultType;
-                        sPanelObj.name = sTestResultObj.TestResultType;
+
+                        var panel = string.IsNullOrEmpty(sTestResultObj.TestResultType) ? "VCheck" : sTestResultObj.TestResultType;
+
+                        sPanelObj.code = panel;
+                        sPanelObj.name = panel;
                         sPanelObj.status = "F";
                         sPanelObj.source = "";
                         sPanelObj.resultdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
 
 
-                        var sDetailsObj = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
                         if (sDetailsObj != null && sDetailsObj.Count > 0)
                         {
                             foreach (var d in sDetailsObj)
@@ -1545,11 +1831,63 @@ namespace VCheckViewer.Views.Windows
 
                         sRequestAPI.panels = sPanelListing;
 
-                        VCheck.Interface.API.GreywindAPI sAPI = new VCheck.Interface.API.GreywindAPI();
-                        var sRespAPI = sAPI.UpdateResult(sRequestAPI, sOrderID);
+                        //var configuration = ConfigurationContext.GetConfigurationData("InterfaceSettingsPMS").FirstOrDefault();
+
+                        //var PMS = configuration != null ? configuration.ConfigurationValue : "";
+
+                        //configuration = ConfigurationContext.GetConfigurationData("InterfaceSettingsIP").FirstOrDefault();
+                        //var url = configuration != null ? configuration.ConfigurationValue : "";
+                        //System.Net.IPAddress iIP;
+                        //var isIP = System.Net.IPAddress.TryParse(url, out iIP);
+                        //configuration = ConfigurationContext.GetConfigurationData("InterfaceSettingsPortNo").FirstOrDefault();
+                        //var port = configuration != null ? configuration.ConfigurationValue : "80";
+
+                        //configuration = ConfigurationContext.GetConfigurationData("InterfaceSettingsUsername").FirstOrDefault();
+                        //var username = configuration != null ? configuration.ConfigurationValue : "";
+                        //configuration = ConfigurationContext.GetConfigurationData("InterfaceSettingsPassword").FirstOrDefault();
+                        //var password = configuration != null ? configuration.ConfigurationValue : "";
+
+                        GetInterfaceInfo();
+
+                        var sRespAPI = false;
+
+                        if (PMS == "Greywind")
+                        {
+                            GreywindAPI sAPI = new GreywindAPI();
+                            url = await VcheckAPI.GetPMSUrl(2);
+                            sRespAPI = sAPI.UpdateResult(sRequestAPI, sOrderID, url);
+                        }
+                        else
+                        {
+                            if (isIP)
+                            {
+                                Services.HL7MessageSender.Main senddata = new Services.HL7MessageSender.Main();
+                                sRespAPI = await senddata.SendData(sRequestAPI, iIP, int.Parse(port));
+                            }
+                            else
+                            {
+                                VCheck.Interface.API.GeneralAPI sAPI = new VCheck.Interface.API.GeneralAPI();
+                                sRespAPI = await sAPI.SendData(url+":"+ port, sRequestAPI, username, password);
+                            }
+                        }
+
                         if (sRespAPI)
                         {
                             System.Windows.Forms.MessageBox.Show(Properties.Resources.Popup_Message_APIUpdateSuccess);
+
+                            //sScheduledTestObj.ScheduleTestStatus = 3;
+                            //sScheduledTestObj.UpdatedBy = App.MainViewModel.CurrentUsers.FullName;
+                            //sScheduledTestObj.UpdatedDate = DateTime.Now;
+
+                            //ScheduledTestRepository.UpdateScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), sScheduledTestObj);
+
+                            var orderID = sScheduledTestObj.ScheduleUniqueID.Split("-")[1];
+
+                            VCheckAPI vCheckAPI = new VCheckAPI();
+                            var success = await vCheckAPI.UpdateScheduleStatus(sScheduledTestObj.LocationID, sScheduledTestObj.PatientID, orderID, sScheduledTestObj.CreatedBy, 3);
+
+                            //ScheduledTestRepository.UpdateScheduledTestStatusByOrderID(ConfigSettings.GetConfigurationSettings(), 3, orderID, sScheduledTestObj.CreatedBy, "VCheck Viewer");
+
                         }
                         else
                         {
@@ -1558,7 +1896,8 @@ namespace VCheckViewer.Views.Windows
                     }
                     else
                     {
-                        System.Windows.Forms.MessageBox.Show(Properties.Resources.Popup_Message_WrongID);
+                        //System.Windows.Forms.MessageBox.Show(Properties.Resources.Popup_Message_WrongID);
+                        System.Windows.Forms.MessageBox.Show(Properties.Resources.Popup_Message_APINoLinkFound);
                     }
 
                     
@@ -1882,7 +2221,7 @@ namespace VCheckViewer.Views.Windows
         {
             if (App.isLanguagePage)
             {
-                System.Globalization.CultureInfo sZHCulture = new(App.MainViewModel.ConfigurationModel.FirstOrDefault(x => x.ConfigurationKey == "SystemSettings_Language").ConfigurationValue);
+                System.Globalization.CultureInfo sZHCulture = new (App.MainViewModel.ConfigurationModel.FirstOrDefault(x => x.ConfigurationKey == "SystemSettings_Language").ConfigurationValue);
 
                 CultureResources.ChangeCulture(sZHCulture);
 
@@ -1918,16 +2257,55 @@ namespace VCheckViewer.Views.Windows
             //OverwriteSetting("ConnectionStrings", "");
         }
 
+        private void SelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkbox = sender as CheckBox;
+
+            // Your logic here
+            if (checkbox.IsChecked == true)
+            {
+                var stackPanels = parameterList.Items.OfType<StackPanel>();
+
+                foreach (var stackpanel in stackPanels)
+                {
+                    var parameterList = stackpanel.Children.OfType<CheckBox>();
+
+                    foreach(var parameter in parameterList)
+                    {
+                        parameter.IsChecked = true;
+                    }
+                }
+            }
+        }
+
         private void OverwriteSetting(string key, string value)
         {
             Dictionary<string, string> newValue = new Dictionary<string, string>();
             newValue.Add("DefaultConnection", "Server=localhost;Database=vcheckdb;User=root;Password=password;POOLING=FALSE;");
 
             var configJson = File.ReadAllText("appsettings.json");
-            var config = JsonSerializer.Deserialize<Dictionary<string, object>>(configJson);
+            var config = JsonConvert.DeserializeObject<Dictionary<string, object>>(configJson);
             config[key] = newValue;
-            var updatedConfigJson = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
+            var updatedConfigJson = System.Text.Json.JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText("appsettings.json", updatedConfigJson);
+        }
+
+        private void GetInterfaceInfo()
+        {
+            var configuration = ConfigurationContext.GetConfigurationData("InterfaceSettingsPMS").FirstOrDefault();
+
+            PMS = configuration != null ? configuration.ConfigurationValue : "";
+
+            configuration = ConfigurationContext.GetConfigurationData("InterfaceSettingsIP").FirstOrDefault();
+            url = configuration != null ? configuration.ConfigurationValue : "";
+            isIP = System.Net.IPAddress.TryParse(url, out iIP);
+            configuration = ConfigurationContext.GetConfigurationData("InterfaceSettingsPortNo").FirstOrDefault();
+            port = configuration != null ? configuration.ConfigurationValue : "80";
+
+            configuration = ConfigurationContext.GetConfigurationData("InterfaceSettingsUsername").FirstOrDefault();
+            username = configuration != null ? configuration.ConfigurationValue : "";
+            configuration = ConfigurationContext.GetConfigurationData("InterfaceSettingsPassword").FirstOrDefault();
+            password = configuration != null ? configuration.ConfigurationValue : "";
         }
     }
 

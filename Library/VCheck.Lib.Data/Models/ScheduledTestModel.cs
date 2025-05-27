@@ -29,6 +29,12 @@ namespace VCheck.Lib.Data.Models
         public String? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public String? UpdatedBy { get; set; }
-        public int? LocationID { get; set; }
+        public String? LocationID { get; set; }
+    }
+
+    public class ScheduledTestModelExtended
+    {
+        public ScheduledTestModel Schedule { get; set; }
+        public string[]? Parameters { get; set; }
     }
 }

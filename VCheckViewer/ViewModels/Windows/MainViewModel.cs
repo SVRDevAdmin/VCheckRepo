@@ -94,6 +94,13 @@ namespace VCheckViewer.ViewModels.Windows
             set { _cbSort = value; }
         }
 
+        ObservableCollection<ComboBoxItem> _cbCountryPhoneNum;
+        public ObservableCollection<ComboBoxItem> cbCountryPhoneNum
+        {
+            get { return _cbCountryPhoneNum; }
+            set { _cbCountryPhoneNum = value; }
+        }
+
         ComboBoxItem _SelectedcbSort;
         public ComboBoxItem SelectedcbSort
         {
@@ -127,6 +134,13 @@ namespace VCheckViewer.ViewModels.Windows
         {
             get { return _SelectedcbStatus; }
             set { _SelectedcbStatus = value; }
+        }
+
+        ComboBoxItem _SelectedcbCountryPhoneNum;
+        public ComboBoxItem SelectedcbCountryPhoneNum
+        {
+            get { return _SelectedcbCountryPhoneNum; }
+            set { _SelectedcbCountryPhoneNum = value; }
         }
 
         DeviceModel _deviceModel;

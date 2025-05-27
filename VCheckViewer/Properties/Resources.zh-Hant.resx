@@ -825,4 +825,40 @@
   <data name="Popup_Message_IpPortUnavailable" xml:space="preserve">
     <value>無法分配IP位址和埠號。請鍵入其他值。</value>
   </data>
+  <data name="Setting_Label_BackButton" xml:space="preserve">
+    <value>後退</value>
+  </data>
+  <data name="Maintenance_Label_Running" xml:space="preserve">
+    <value>跑步</value>
+  </data>
+  <data name="Maintenance_Label_NotRunning" xml:space="preserve">
+    <value>未運行</value>
+  </data>
+  <data name="Configuration_Label_Other" xml:space="preserve">
+    <value>其他</value>
+  </data>
+  <data name="Configuration_Label_UsernameClientID" xml:space="preserve">
+    <value>使用者名稱/客戶端 ID</value>
+  </data>
+  <data name="Configuration_Label_UsernameClientSecret" xml:space="preserve">
+    <value>密碼/客戶秘密</value>
+  </data>
+  <data name="Maintenance_Label_Checking" xml:space="preserve">
+    <value>檢查..</value>
+  </data>
+  <data name="Maintenance_Label_Information" xml:space="preserve">
+    <value>資訊</value>
+  </data>
+  <data name="Maintenance_Label_Refresh" xml:space="preserve">
+    <value>重新整理</value>
+  </data>
+  <data name="Maintenance_Title_PageTitle" xml:space="preserve">
+    <value>維護</value>
+  </data>
+  <data name="Popup_Message_ScheduleCancel" xml:space="preserve">
+    <value>計劃已成功取消</value>
+  </data>
+  <data name="Popup_Message_SelectAll" xml:space="preserve">
+    <value>選擇全部</value>
+  </data>
 </root>

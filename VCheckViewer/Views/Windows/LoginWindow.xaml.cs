@@ -37,6 +37,7 @@ namespace VCheckViewer.Views.Windows
 
 
         public static event EventHandler ResetPassword;
+        public static event EventHandler GoToMainWindow;
 
         public LoginWindow
         (
@@ -55,7 +56,8 @@ namespace VCheckViewer.Views.Windows
                 ResetPasswordPage.GoToLoginPage += new EventHandler(GoToLoginPage);
                 PasswordRecoveryPage.GoToLoginPage += new EventHandler(GoToLoginPage);
 
-                LoginPage.GoToMainWindow += new EventHandler(GoToMainWindow);
+                GoToMainWindow = null;
+                GoToMainWindow += new EventHandler(GoToMainWindowProcess);
 
                 //popup
                 PasswordRecoveryPage.Popup += new EventHandler(OpenPopup);
@@ -89,9 +91,9 @@ namespace VCheckViewer.Views.Windows
             LoginFrame.Content = new LoginPage();
         }
 
-        public void GoToMainWindow(object sender, EventArgs e)
+        public void GoToMainWindowProcess(object sender, EventArgs e)
         {
-            foreach(var window in System.Windows.Application.Current.Windows.OfType<Main>())
+            foreach (var window in System.Windows.Application.Current.Windows.OfType<Main>())
             {
                 window.Close();
             }
@@ -99,7 +101,12 @@ namespace VCheckViewer.Views.Windows
             Main main = new Main();
             main.frameContent.Content = new DashboardPage();
             main.Show();
-            Close();
+
+            foreach (var window in System.Windows.Application.Current.Windows.OfType<LoginWindow>())
+            {
+                window.Close();
+            }
+            //Close();
         }
 
         public void OpenPopup(object sender, EventArgs e)
@@ -180,6 +187,13 @@ namespace VCheckViewer.Views.Windows
             }
         }
 
+        public static void GoToMainWindowHandler(EventArgs e, object sender)
+        {
+            if (GoToMainWindow != null)
+            {
+                GoToMainWindow(sender, e);
+            }
+        }
 
     }
 }

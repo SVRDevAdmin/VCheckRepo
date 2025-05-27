@@ -214,6 +214,7 @@ namespace VCheckListenerWorker.Lib.Models
         //public string? TestResultStatus { get; set; }
         //public Decimal? TestResultValue { get; set; }
         //public string? TestResultRules { get; set; }
+        public string PMSFunction { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
@@ -291,5 +292,45 @@ namespace VCheckListenerWorker.Lib.Models
         public int ConfigurationID { get; set; }
         public string? ConfigurationKey { get; set; }
         public string? ConfigurationValue { get; set; }
+    }
+
+    public class ScheduledTestModel
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? ScheduledTestType { get; set; }
+        public DateTime? ScheduledDateTime { get; set; }
+        public string? ScheduledBy { get; set; }
+        public string? PatientID { get; set; }
+        public string? PatientName { get; set; }
+        public string? Gender { get; set; }
+        public string? Species { get; set; }
+        public string? OwnerName { get; set; }
+        public string? InchargePerson { get; set; }
+        public int? ScheduleTestStatus { get; set; }
+        public int? TestCompleted { get; set; }
+        public string? ScheduleUniqueID { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public string? UpdatedBy { get; set; }
+        public string? LocationID { get; set; }
+    }
+
+    public class DeviceModel
+    {
+        [Key]
+        public int id { get; set; }
+        public string? DeviceName { get; set; }
+        public string? DeviceSerialNo { get; set; }
+        public string? Description { get; set; }
+        public string? DeviceIPAddress { get; set; }
+        public string? DeviceImagePath { get; set; }
+        public int? status { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public string? UpdatedBy { get; set; }
+        public int? DeviceTypeID { get; set; }
     }
 }

@@ -34,11 +34,12 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="500">
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
@@ -57,6 +58,9 @@
                 </Border>
                 <Border Grid.Column="4" Margin="2">
                     <Button Content="{Binding Path=Report_Label_Report, Source={StaticResource Resources}}" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
+                </Border>
+                <Border Grid.Column="5" Margin="2">
+                    <Button Content="{Binding Path=ClinicInfo_Label_ClinicInfo, Source={StaticResource Resources}}" Name="btnClinic" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ClinicInfoPage"></Button>
                 </Border>
             </Grid>
         </Border>
@@ -94,40 +98,41 @@
                     </Grid.RowDefinitions>
 
                     <TextBox Name="hidID" Visibility="Collapsed" />
-                    
+
+                    <!-- // Device Type //-->
+                    <TextBlock Text="{Binding Path=Setting_Label_DeviceType, Source={StaticResource Resources}}" Grid.Row="1" VerticalAlignment="Bottom" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 5"></TextBlock>
+                    <Border Name="borderDeviceTypeEdit" Grid.Row="2" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
+                        <ComboBox x:Name="cboDeviceType" Background="White" BorderThickness="0" VerticalAlignment="Center" Margin="10, 0, 10, 0" SelectionChanged="dgDeviceType_SelectionChanged" />
+                    </Border>
+                    <Border Name="borderDeviceTypeView" Grid.Row="2" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
+                        <TextBlock x:Name="lbDeviceType" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13" Foreground="{DynamicResource Themes_FontColor}">xx</TextBlock>
+                    </Border>
                     <!-- // Device Name //-->
-                    <TextBlock Text="{Binding Path=Device_Label_DeviceName, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 5"></TextBlock>
-                    <Border Name="borderNameEdit" Grid.Row="2" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
+                    <TextBlock Text="{Binding Path=Device_Label_DeviceName, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="3" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 5"></TextBlock>
+                    <Border Name="borderNameEdit" Grid.Row="5" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
                         <TextBox x:Name="txtName" VerticalAlignment="Center" BorderThickness="0" KeyUp="FieldsVal_KeyUp" />
                     </Border>
-                    <Border Name="borderNameView" Grid.Row="2" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
+                    <Border Name="borderNameView" Grid.Row="5" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
                         <TextBlock x:Name="lbName" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13" Foreground="{DynamicResource Themes_FontColor}">xxx</TextBlock>
                     </Border>
                     <!-- // Device IP Address //-->
-                    <TextBlock Text="{Binding Path=Device_Label_DeviceIPAddress, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="3" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 5"></TextBlock>
-                    <Border Name="borderIPEdit" Grid.Row="5" Background="White" Padding="4, 12, 0, 0" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
-                        <WindowsFormsHost KeyUp="FieldsVal_KeyUp" Margin="10, 0" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Noto Sans" FontSize="12" FontWeight="Light" Background="White">
+                    <TextBlock Name="labelIPAddress" Text="{Binding Path=Device_Label_DeviceIPAddress, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="6" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 5"></TextBlock>
+                    <Border Name="borderIPEdit" Grid.Row="7" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
+                        <!--<WindowsFormsHost KeyUp="FieldsVal_KeyUp" Margin="10, 0" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Noto Sans" FontSize="12" FontWeight="Light" Background="White">
                             <wf:MaskedTextBox x:Name="txtIPAddress" Mask="000.000.##9.##9" Width="350" Height="40" TextAlign="Left" BorderStyle="None" />
-                        </WindowsFormsHost>
+                        </WindowsFormsHost>-->
+                        <TextBox x:Name="txtIPAddress" KeyUp="FieldsVal_KeyUp" Background="White"/>
                     </Border>
-                    <Border Name="borderIPView" Grid.Row="5" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
+                    <Border Name="borderIPView" Grid.Row="7" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
                         <TextBlock x:Name="lbIPAddeess" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13" Text="xxxx" Foreground="{DynamicResource Themes_FontColor}" />
                     </Border>
                     <!-- // Device Serial No //-->
-                    <TextBlock Text="{Binding Path=Results_Label_DeviceSerialNo, Source={StaticResource Resources}}" Grid.Row="6" VerticalAlignment="Bottom" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 5"></TextBlock>
-                    <Border Name="borderSerialNoEdit" Grid.Row="7" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
+                    <TextBlock Name="labelSerialNo" Text="{Binding Path=Results_Label_DeviceSerialNo, Source={StaticResource Resources}}" Grid.Row="8" VerticalAlignment="Bottom" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 5"></TextBlock>
+                    <Border Name="borderSerialNoEdit" Grid.Row="9" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
                         <TextBox x:Name="txtSerialNo" VerticalAlignment="Center" BorderThickness="0" MaxLength="50" KeyUp="FieldsVal_KeyUp" />
                     </Border>
-                    <Border Name="borderSerialNoView" Grid.Row="7" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
+                    <Border Name="borderSerialNoView" Grid.Row="9" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
                         <TextBlock x:Name="lbSerialNo" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13" Foreground="{DynamicResource Themes_FontColor}">yy</TextBlock>
-                    </Border>
-                    <!-- // Device Type //-->
-                    <TextBlock Text="{Binding Path=Setting_Label_DeviceType, Source={StaticResource Resources}}" Grid.Row="8" VerticalAlignment="Bottom" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 5"></TextBlock>
-                    <Border Name="borderDeviceTypeEdit" Grid.Row="9" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
-                        <ComboBox x:Name="cboDeviceType" Background="White" BorderThickness="0" VerticalAlignment="Center" Margin="10, 0, 10, 0" LostFocus="cboDeviceType_LostFocus"  />
-                    </Border>
-                    <Border Name="borderDeviceTypeView" Grid.Row="9" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
-                        <TextBlock x:Name="lbDeviceType" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13" Foreground="{DynamicResource Themes_FontColor}">xx</TextBlock>
                     </Border>
                     
                     <!-- Button -->

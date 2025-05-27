@@ -21,6 +21,8 @@ namespace VCheckListenerWorker
 
         public String sSystemName = "VCheckViewer Listener";
 
+        public static MainModel MainModel { get; } = new MainModel();
+
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
@@ -44,7 +46,18 @@ namespace VCheckListenerWorker
                 while (true)
                 {
                     System.Net.Sockets.Socket sClient = sListener.Accept();
-                    Console.WriteLine("Connection Accepted.");
+
+                    // Get the client's IP address
+                    IPEndPoint remoteIpEndPoint = sClient.RemoteEndPoint as IPEndPoint;
+
+                    string clientIpAddress = remoteIpEndPoint.Address.ToString();
+                    string clientIpPort = remoteIpEndPoint.Port.ToString();
+
+                    var device = TestResultRepository.GetDeviceByIPSerialNo(clientIpAddress, null);
+
+                    MainModel.DeviceSerialNum = device != null && device.id != 0 ? device.DeviceName : null;
+
+                    //Console.WriteLine("Connection Accepted. Client IP Address is " + clientIpAddress + ":" + clientIpPort);
 
                     //byte[] bBuffer = new byte[4096];
                     byte[] bBuffer = new byte[32768];
@@ -114,31 +127,41 @@ namespace VCheckListenerWorker
             {
                 Console.WriteLine("Start Listener connection");
 
-                var builder = Host.CreateApplicationBuilder();
-                sHostIP = builder.Configuration.GetSection("Listener:HostIP").Value;                
-                iPortNo = Convert.ToInt32(builder.Configuration.GetSection("Listener:Port").Value);
+                //var builder = Host.CreateApplicationBuilder();
+                //sHostIP = builder.Configuration.GetSection("Listener:HostIP").Value;                
+                //iPortNo = Convert.ToInt32(builder.Configuration.GetSection("Listener:Port").Value);
 
-                //String sHostIP = GetLocalIPAddress();
-                sHostIP = GetIPAddressFromDatabase(out iPortNo);
+                sHostIP = GetAssignedIPAddress(out iPortNo);
+                //sHostIP = GetIPAddressFromDatabase(out iPortNo);
 
-                System.Net.IPEndPoint sIPEndPoint = System.Net.IPEndPoint.Parse(String.Concat(sHostIP, ":", iPortNo));
+                if (string.IsNullOrEmpty(sHostIP))
+                {
+                    Console.WriteLine("No IP Address assigned.");
+                    Environment.Exit(1);
+                    return base.StopAsync(cancellationToken);
+                }
+                else
+                {
+                    System.Net.IPEndPoint sIPEndPoint = System.Net.IPEndPoint.Parse(String.Concat(sHostIP, ":", iPortNo));
 
-                sListener = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork,
-                                                                                    System.Net.Sockets.SocketType.Stream,
-                                                                                    System.Net.Sockets.ProtocolType.Tcp);
-                sListener.Bind(sIPEndPoint);
-                sListener.Listen(3);
+                    sListener = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork,
+                                                                                        System.Net.Sockets.SocketType.Stream,
+                                                                                        System.Net.Sockets.ProtocolType.Tcp);
+                    sListener.Bind(sIPEndPoint);
+                    sListener.Listen(3);
 
-                Console.WriteLine("Listener Start Successful.");
-                Console.WriteLine("IP Address : " + sHostIP);
-                Console.WriteLine("Port No : " + iPortNo);
-                Console.WriteLine("-------------------------------------------------------------------");
+                    Console.WriteLine("Listener Start Successful.");
+                    Console.WriteLine("IP Address : " + sHostIP);
+                    Console.WriteLine("Port No : " + iPortNo);
+                    Console.WriteLine("-------------------------------------------------------------------");
 
-                return base.StartAsync(cancellationToken);
+                    return base.StartAsync(cancellationToken);
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogError("StartAsync >>> " + ex.ToString());
+                Environment.Exit(1);
                 return base.StopAsync(cancellationToken);
             }           
         }
@@ -183,7 +206,7 @@ namespace VCheckListenerWorker
             switch (sIMessage.Version)
             {
                 case "2.6":
-                    Lib.Logic.HL7.V26.HL7Repository.ProcessMessage(sIMessage, sSystemName);
+                    Lib.Logic.HL7.V26.HL7Repository.ProcessMessageAsync(sIMessage, sSystemName);
                     break;
 
                 case "2.5.1":
@@ -191,7 +214,7 @@ namespace VCheckListenerWorker
                     break;
 
                 case "2.3.1":
-                    Lib.Logic.HL7.V231.HL7Repository.ProcessMessage(sIMessage, sSystemName);
+                    Lib.Logic.HL7.V231.HL7Repository.ProcessMessageAsync(sIMessage, sSystemName);
                     break;
 
                 default:
@@ -300,17 +323,20 @@ namespace VCheckListenerWorker
         /// <summary>
         /// Get current IP Address
         /// </summary>
-        public static string GetLocalIPAddress()
+        public static string GetAssignedIPAddress(out int port)
         {
+            port = 8585;
+
             var host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (var ip in host.AddressList)
             {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                if (ip.AddressFamily == AddressFamily.InterNetwork && ip.ToString() != "127.0.0.1")
                 {
                     return ip.ToString();
                 }
             }
-            throw new Exception("No network adapters with an IPv4 address in the system!");
+            //throw new Exception("No network adapters with an IPv4 address in the system!");
+            return "";
         }
 
         /// <summary>
@@ -318,8 +344,19 @@ namespace VCheckListenerWorker
         /// </summary>
         public static string GetIPAddressFromDatabase(out int port)
         {
-            string ipAddress = TestResultRepository.GetConfigurationByKey("InterfaceSettingsIP").ConfigurationValue.Replace(" ","");
-            port = int.Parse(TestResultRepository.GetConfigurationByKey("InterfaceSettingsPortNo").ConfigurationValue);
+            string ipAddress = "";
+            port = 0;
+            bool hasPort = false;
+
+            try
+            {
+                ipAddress = TestResultRepository.GetConfigurationByKey("InterfaceSettingsIP").ConfigurationValue.Replace(" ", "");
+                hasPort = int.TryParse(TestResultRepository.GetConfigurationByKey("InterfaceSettingsPortNo").ConfigurationValue, out port);
+            }
+            catch
+            {
+
+            }
 
             return ipAddress;
         }

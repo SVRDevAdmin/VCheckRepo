@@ -2,12 +2,14 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
+using VCheck.Interface.API;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
 using VCheckViewer;
 using VCheckViewer.Lib.Function;
 
-namespace VCheckViewerAPI.HL7MessageSender
+namespace VCheckViewer.Services.HL7MessageSender
 {
 
     public class Main
@@ -20,6 +22,7 @@ namespace VCheckViewerAPI.HL7MessageSender
         {
             DeviceModel device = DeviceRepository.GetDeviceByID(App.AnalyzerID, ConfigSettings.GetConfigurationSettings());
             String sContent = MessageGenerator.GenerateOMLO33Message(scheduleTest);
+            //String sContent = System.IO.File.ReadAllText("C:\\Users\\azwan\\Work\\HL7 file\\Send Schedule.hl7"); // MLLP
             int timeout = 60000;
 
             //String sContent = "";
@@ -62,6 +65,9 @@ namespace VCheckViewerAPI.HL7MessageSender
 
                         if (success)
                         {
+
+                            VCheckAPI vCheckAPI = new VCheckAPI();
+                            var test = await vCheckAPI.UpdateScheduleStatus(scheduleTest.LocationID, scheduleTest.PatientID, scheduleTest.ScheduleUniqueID.Split("-")[1], scheduleTest.CreatedBy, 1);
                             App.MainViewModel.Origin = "SentToAnalyzer";
                         }
                         else
@@ -108,6 +114,69 @@ namespace VCheckViewerAPI.HL7MessageSender
                 return false;
             }
 
+        }
+
+        public async Task<Boolean> SendData(VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest sResultRequest, System.Net.IPAddress ip, int port)
+        {
+            String sContent = JsonSerializer.Serialize(sResultRequest);
+            int timeout = 5000;
+
+            try
+            {
+                using (var cts = new CancellationTokenSource())
+                {
+                    cts.CancelAfter(timeout);
+
+                    try
+                    {
+
+                        ourTcpClient = new TcpClient();
+                        await ourTcpClient.ConnectAsync(ip, port).WaitAsync(cts.Token);
+
+                        //get the IO stream on this connection to write to
+                        networkStream = ourTcpClient.GetStream();
+                        var sendMessageByteBuffer = Encoding.UTF8.GetBytes(sContent);
+
+                        if (networkStream.CanWrite)
+                        {
+                            networkStream.Write(sendMessageByteBuffer, 0, sendMessageByteBuffer.Length);
+                            byte[] receiveMessageByteBuffer = new byte[ourTcpClient.ReceiveBufferSize];
+                            var bytesReceivedFromServer = await networkStream.ReadAsync(receiveMessageByteBuffer, 0, receiveMessageByteBuffer.Length).WaitAsync(cts.Token);
+
+                            if (bytesReceivedFromServer > 0 && networkStream.CanRead)
+                            {
+                                receivedMessage = Encoding.UTF8.GetString(receiveMessageByteBuffer);
+
+                                var message = receivedMessage.Replace("\0", string.Empty);
+
+                                return true;
+                            }
+                        }
+
+                        return false;
+
+                    }
+                    catch (TaskCanceledException cancelled)
+                    {
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            finally
+            {
+                //close the IO strem and the TCP connection
+                networkStream?.Close();
+                ourTcpClient?.Close();
+            }
         }
     }
 }

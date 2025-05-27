@@ -375,7 +375,7 @@ namespace VCheck.Lib.Data
                         //                         "ORDER BY T1.TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
 
                         String sSelectCommand = "SELECT T1.ID, T1.TestResultDateTime, T1.TestResultType, T1.OperatorID, T1.PatientID, T1.PatientName, " +
-                                                "T1.InchargePerson, T1.OverallStatus, T1.DeviceSerialNo, T1.CreatedDate, T1.CreatedBy " +
+                                                "T1.InchargePerson, T1.OverallStatus, T1.DeviceSerialNo, T1.PMSFunction, T1.CreatedDate, T1.CreatedBy " +
                                                 "FROM txn_testresults AS T1 " +
                                                 "WHERE ";
 
@@ -415,7 +415,7 @@ namespace VCheck.Lib.Data
                                                            sReader["OverallStatus"].ToString() == "Invalid") ? 
                                                            "#ff2c29" : "#57baa5",
                                         DeviceSerialNo = sReader["DeviceSerialNo"].ToString(),
-                                        PMSFunction = isPMSUser
+                                        PMSFunction = isPMSUser == "Visible" ? sReader["PMSFunction"].ToString() : isPMSUser
                                     }); ;
 
                                     iIndex++;
@@ -462,7 +462,7 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new TestResultDBContext(config))
                 {
-                    return ctx.txn_testresults_details.Where(x => x.TestResultRowID == iTestResultID).ToList();
+                    return ctx.txn_testresults_details.Where(x => x.TestResultRowID == iTestResultID && x.TestParameter.ToLower() != "alarm").ToList();
                 }
             }
             catch (Exception ex)
@@ -617,6 +617,72 @@ namespace VCheck.Lib.Data
         }
 
         /// <summary>
+        /// Get list of test
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static string[] GetAllTestParameterByTestName(IConfiguration config, string[] testNames)
+        {
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.mst_testlist.Where(x => testNames.Contains(x.TestName)).Select(y => y.Parameter).ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get list of test
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static List<string> GetAllTestListByParameters(IConfiguration config, List<string> parameters)
+        {
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.mst_testlist.Where(x => parameters.Contains(x.Parameter)).Select(y => y.TestName).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get test by unique ID
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static TestListModel GetTestByUniqueID(IConfiguration config, string uniqueID)
+        {
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.mst_testlist.FirstOrDefault(x => x.TestID == uniqueID);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Update test result info
         /// </summary>
         /// <param name="config"></param>
@@ -651,6 +717,29 @@ namespace VCheck.Lib.Data
                 using (var ctx = new TestResultDBContext(config))
                 {
                     return ctx.mst_parameters.ToList().OrderBy(x => x.Analyzer).ThenBy(x => x.Order).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Get parameter list by analyzer
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static string[] GetAllParametersByAnalyzer(IConfiguration config, string analyzer)
+        {
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.mst_parameters.Where(x => x.Analyzer == analyzer).ToList().Select(y => y.Parameter).ToArray();
                 }
             }
             catch (Exception ex)

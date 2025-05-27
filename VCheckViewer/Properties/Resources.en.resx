@@ -825,4 +825,22 @@
   <data name="Popup_Message_IpPortUnavailable" xml:space="preserve">
     <value>IP address and port number are unavailable to assign. Please type another value.</value>
   </data>
+  <data name="Maintenance_Label_Checking" xml:space="preserve">
+    <value>Checking..</value>
+  </data>
+  <data name="Maintenance_Label_NotRunning" xml:space="preserve">
+    <value>Not running</value>
+  </data>
+  <data name="Maintenance_Label_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Maintenance_Label_Running" xml:space="preserve">
+    <value>Running</value>
+  </data>
+  <data name="Maintenance_Title_PageTitle" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="Setting_Label_BackButton" xml:space="preserve">
+    <value>Back</value>
+  </data>
 </root>

@@ -52,13 +52,14 @@ namespace VCheckViewer
         public static event EventHandler GoToSettingDevicePage;
         public static event EventHandler GoToSettingConfigurationPage;
         public static event EventHandler GoToReportPage;
+        public static event EventHandler GoToClinicInfoPage;
 
         public static event EventHandler? GoToViewResultPage;
 
-        public static event EventHandler DownloadPrintReport;
-        public static event EventHandler UpdatePatientName;
+        //public static event EventHandler? DownloadPrintReport;
+        //public static event EventHandler? UpdatePatientName;
 
-        public static event EventHandler? CancelSchedule;
+        //public static event EventHandler? CancelSchedule;
 
         public static SignInManager<IdentityUser> SignInManager { get; set; }
         public static UserManager<IdentityUser> UserManager { get; set; }
@@ -83,9 +84,9 @@ namespace VCheckViewer
         public static TestResultListingExtendedObj sTestResultObj { get; set; }
         public static List<DownloadPrintResultModel> DowloadPrintObject { get; set; }
         public static bool ResultPageNotInitialized { get; set; } = true;
-        public static bool SchedulePageNotInitialized { get; set; } = true;
         public static bool LoginWindowNotInitialized { get; set; } = true;
         public static bool RestartListener { get; set; }
+        public static string ClinicID { get; set; }
 
         public static IConfiguration iConfig { get; set; }
 
@@ -387,29 +388,37 @@ namespace VCheckViewer
             }
         }
 
-        public static void DownloadPrintReportHandler(EventArgs e, object sender)
+        public static void GoToClinicInfoPageHandler(EventArgs e, object sender)
         {
-            if (DownloadPrintReport != null)
+            if (GoToClinicInfoPage != null)
             {
-                DownloadPrintReport(sender, e);
+                GoToClinicInfoPage(sender, e);
             }
         }
 
-        public static void UpdatePatientNameHandler(EventArgs e, object sender)
-        {
-            if (UpdatePatientName != null)
-            {
-                UpdatePatientName(sender, e);
-            }
-        }
+        //public static void DownloadPrintReportHandler(EventArgs e, object sender)
+        //{
+        //    if (DownloadPrintReport != null)
+        //    {
+        //        DownloadPrintReport(sender, e);
+        //    }
+        //}
 
-        public static void CancelScheduleHandler(EventArgs e, object sender)
-        {
-            if (CancelSchedule != null)
-            {
-                CancelSchedule(sender, e);
-            }
-        }
+        //public static void UpdatePatientNameHandler(EventArgs e, object sender)
+        //{
+        //    if (UpdatePatientName != null)
+        //    {
+        //        UpdatePatientName(sender, e);
+        //    }
+        //}
+
+        //public static void CancelScheduleHandler(EventArgs e, object sender)
+        //{
+        //    if (CancelSchedule != null)
+        //    {
+        //        CancelSchedule(sender, e);
+        //    }
+        //}
 
         public static void GoToViewResultPageHandler(EventArgs e, object sender)
         {

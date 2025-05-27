@@ -35,7 +35,7 @@ namespace VCheckViewer.Views.Pages.Results
             this.SizeChanged += MainWindow_SizeChanged;
 
             BackButton.DataContext = App.MainViewModel;
-            App.MainViewModel.BackButtonText = "Back";
+            App.MainViewModel.BackButtonText = Properties.Resources.Setting_Label_BackButton;
 
             PatientIDLabel.Text = Properties.Resources.Results_Label_PatientID + ":";
             PatientNameLabel.Text = Properties.Resources.Results_Label_PatientName + ":";
@@ -77,13 +77,38 @@ namespace VCheckViewer.Views.Pages.Results
             //var parameterOrder = App.iConfig.GetSection("Configuration:ParameterOrder").Value.Split(",").ToList();
             var parameterOrder = TestResultsRepository.GetAllParameters(ConfigSettings.GetConfigurationSettings()).Select(x => x.Parameter).ToList();
             List<TestResultDetailsModel> sTestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), App.TestResultID).OrderBy(d => parameterOrder.IndexOf(d.TestParameter)).ToList();
+            List<TestResultDetailsExtension> sTestResultDetailsExtension = new List<TestResultDetailsExtension>();
+
 
             foreach (var testDetail in sTestResultDetails)
             {
-                testDetail.TestResultValue = testDetail.TestResultValue + " " + testDetail.TestResultUnit;
+                var firstLayer = 0;
+                var secondLayer = 0;
+                var barVisibility = "Visible";
+
+                if (!string.IsNullOrEmpty(testDetail.ReferenceRange))
+                {
+                    barVisibility = "Collapsed";
+                    var range = testDetail.ReferenceRange.Replace("[", "").Replace("]", "").Contains(";") ? testDetail.ReferenceRange.Split(";") : testDetail.ReferenceRange.Split("-");
+                    firstLayer = CalculateReference(float.Parse(range[0].Replace("[", "")), float.Parse(range[1].Replace("]", "")), float.Parse(testDetail.TestResultValue.Replace("< ", "").Replace("> ", "")));
+                    secondLayer = firstLayer - 1;
+                }
+
+
+                TestResultDetailsExtension testDetailExtension = new TestResultDetailsExtension() { 
+                    ID = testDetail.ID,
+                    TestResultValue = testDetail.TestResultValue + " " + testDetail.TestResultUnit,
+                    TestParameter = testDetail.TestParameter, 
+                    TestResultStatus = testDetail.TestResultStatus, 
+                    FirstLayerReference = firstLayer == 0 ? 1 : firstLayer, 
+                    SecondLayerReference = firstLayer == 0 ? 0 : secondLayer, 
+                    BarVisibility = barVisibility
+                };
+
+                sTestResultDetailsExtension.Add(testDetailExtension);
             }
 
-            dgResultDetails.ItemsSource = sTestResultDetails;
+            dgResultDetails.ItemsSource = sTestResultDetailsExtension;
         }
 
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -96,5 +121,46 @@ namespace VCheckViewer.Views.Pages.Results
         {
             App.GoPreviousPageHandler(e, sender);
         }
+
+        public int CalculateReference(float start, float end, float value)
+        {
+            float range = end - start;
+            float actualStart = start - range;
+            float actualEnd = end + range;
+            float percentage = 0;
+
+            float onceWidth = (float)33.3333;
+            float twiceWidth = (float)66.6666;
+            float fullwidth = 100;
+
+            if (value > start && end > value)
+            {
+                float balance = value - start;
+                percentage = (balance / range) * onceWidth + onceWidth;
+            }
+            else if (value < start && actualStart < value)
+            {
+                float balance = value - actualStart;
+                percentage = (balance / range) * onceWidth;
+            }
+            else if (value > end && actualEnd > value)
+            {
+                float balance = value - end;
+                percentage = (balance / range) * onceWidth + twiceWidth;
+            }
+            else if (value > actualEnd)
+            {
+                percentage = fullwidth;
+            }
+
+            return Convert.ToInt32(percentage);
+        }
+    }
+
+    public class TestResultDetailsExtension : TestResultDetailsModel
+    {
+        public int FirstLayerReference { get; set; }
+        public int SecondLayerReference { get; set; }
+        public string BarVisibility { get; set; }
     }
 }

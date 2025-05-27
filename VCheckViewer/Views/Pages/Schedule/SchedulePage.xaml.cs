@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VCheck.Interface.API;
 using VCheck.Lib.Data;
+using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
 using VCheckViewer.Properties;
 using VCheckViewer.Views.Pages.Results;
+using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 namespace VCheckViewer.Views.Pages.Schedule
 {
@@ -27,6 +31,9 @@ namespace VCheckViewer.Views.Pages.Schedule
     /// </summary>
     public partial class SchedulePage : System.Windows.Controls.Page
     {
+        public static event EventHandler? ReloadSchedule;
+
+        ConfigurationDBContext ConfigurationContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
 
         public SchedulePage()
         {
@@ -38,11 +45,8 @@ namespace VCheckViewer.Views.Pages.Schedule
             LoadTestResultList();
             GetSummaryStats();
 
-            if (App.SchedulePageNotInitialized)
-            {
-                App.CancelSchedule += new EventHandler(CancelTestSchedule);
-                App.SchedulePageNotInitialized = false;
-            }
+            ReloadSchedule = null;
+            ReloadSchedule += ReloadTestSchedule;
         }
 
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -51,30 +55,45 @@ namespace VCheckViewer.Views.Pages.Schedule
             rightScrollViewer.Height = e.NewSize.Height * 0.83;
         }
 
-        public void LoadScheduledTestList()
+        public async Task LoadScheduledTestList()
         {
-            List<ScheduledTestModel> sScheduledList = VCheck.Lib.Data.ScheduledTestRepository.GetCurrentScheduledTestList(ConfigSettings.GetConfigurationSettings());
+            //List<ScheduledTestModel> sScheduledList = VCheck.Lib.Data.ScheduledTestRepository.GetCurrentScheduledTestList(ConfigSettings.GetConfigurationSettings());
+
+            var sConfigObj = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
+            var listString = "";
+
+            if (sConfigObj != null)
+            {
+                VCheckAPI vcheckAPI = new VCheckAPI();
+                listString = await vcheckAPI.GetScheduleList(sConfigObj.ConfigurationValue);
+            }
+
+            List<ScheduledTestModel> sScheduledList = string.IsNullOrEmpty(listString) ? new List<ScheduledTestModel>() : JsonConvert.DeserializeObject<List<ScheduledTestModel>>(listString);
+
             if (sScheduledList != null && sScheduledList.Count > 0)
             {
                 List<ScheduledTestModelExtended> sUpdateScheduledList = new List<ScheduledTestModelExtended>();
                 foreach(var t in sScheduledList)
                 {
+                    var SentFunction = t.ScheduleTestStatus == 1 ? "Collapsed" : "Visible";
+
                     sUpdateScheduledList.Add(new ScheduledTestModelExtended
                     {
                         ID = t.ID,
                         ScheduledTestType = t.ScheduledTestType,
-                        ScheduledDateTime = t.ScheduledDateTime,
+                        ScheduledDateTime = t.ScheduledDateTime.Value.ToLocalTime(),
                         ScheduledBy = t.ScheduledBy,
-                        ScheduleUniqueID = (string.IsNullOrEmpty(t.ScheduleUniqueID)) ? "" : string.Concat(t.ScheduleUniqueID.TakeLast(8)),
+                        ScheduleUniqueID = string.IsNullOrEmpty(t.ScheduleUniqueID) ? "" : string.Concat(t.ScheduleUniqueID.TakeLast(8)),
                         PatientID = t.PatientID,
                         PatientIDString = Properties.Resources.Schedule_Label_PatientID,
                         UniqueIDString = Properties.Resources.Schedule_Label_UniqueID,
                         InchargePerson = t.InchargePerson,
                         ScheduleTestStatus = t.ScheduleTestStatus,
-                        CreatedDate = t.CreatedDate,
+                        CreatedDate = t.CreatedDate.Value.ToLocalTime(),
                         CreatedBy = t.CreatedBy,
-                        UpdatedDate = t.UpdatedDate,
-                        UpdatedBy = t.UpdatedBy
+                        UpdatedDate = t.UpdatedDate != null ? t.UpdatedDate.Value.ToLocalTime() : null,
+                        UpdatedBy = t.UpdatedBy, 
+                        SentFunction = SentFunction
                     });
                 }
 
@@ -156,11 +175,11 @@ namespace VCheckViewer.Views.Pages.Schedule
                     {
                         ID = t.ID,
                         TestResultDateTime = t.TestResultDateTime,
-                        TestResultType = t.TestResultType,
+                        TestResultType = string.IsNullOrEmpty(t.TestResultType) ? "General" : t.TestResultType,
                         OperatorID = t.OperatorID,
                         PatientID = t.PatientID,
                         PatientIDString = Properties.Resources.Schedule_Label_PatientID,
-                        InchargePerson = t.InchargePerson,
+                        InchargePerson = string.IsNullOrEmpty(t.InchargePerson) ? "N/A" : t.InchargePerson,
                         TestResultStatus = status,
                         CreatedDate = t.CreatedDate,
                         CreatedBy = t.CreatedBy,
@@ -236,7 +255,7 @@ namespace VCheckViewer.Views.Pages.Schedule
             TextBlock schedule = sender as TextBlock;
             App.ScheduleTestInfo = ScheduledTestRepository.GetScheduledTestByID(ConfigSettings.GetConfigurationSettings(), long.Parse(schedule.Tag.ToString()));
 
-            App.ScheduleTestInfo.ScheduleTestStatus = 1;
+            App.ScheduleTestInfo.ScheduleTestStatus = 2;
             App.ScheduleTestInfo.UpdatedBy = App.MainViewModel.CurrentUsers.FullName;
             App.ScheduleTestInfo.UpdatedDate = DateTime.Now;
 
@@ -245,7 +264,7 @@ namespace VCheckViewer.Views.Pages.Schedule
 
         }
 
-        public void CancelTestSchedule(object sender, EventArgs e)
+        public void ReloadTestSchedule(object sender, EventArgs e)
         {
             LoadScheduledTestList();
         }
@@ -257,12 +276,63 @@ namespace VCheckViewer.Views.Pages.Schedule
 
             App.GoToViewResultPageHandler(e, sender);
         }
+
+        private async void menuSendAnalyzer_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem schedule = sender as MenuItem;
+            var ClinicIDObject = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
+            var ClinicID = ClinicIDObject != null ? ClinicIDObject.ConfigurationValue : "";
+            VCheckAPI vCheckAPI = new VCheckAPI();
+            var scheduleString = await vCheckAPI.GetSchedule(ClinicID, null, null, schedule.Tag.ToString());
+            App.ScheduleTestInfo = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
+
+            //App.ScheduleTestInfo = ScheduledTestRepository.GetScheduledTestByID(ConfigSettings.GetConfigurationSettings(), long.Parse(schedule.Tag.ToString()));
+
+            App.MainViewModel.Origin = "SendToAnalyzer";
+            App.PopupHandler(null, null);
+        }
+
+        private async void menuCancelSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem schedule = sender as MenuItem;
+            var ClinicIDObject = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
+            var ClinicID = ClinicIDObject != null ? ClinicIDObject.ConfigurationValue : "";
+            VCheckAPI vCheckAPI = new VCheckAPI();
+            var scheduleString = await vCheckAPI.GetSchedule(ClinicID, null, null, schedule.Tag.ToString());
+            App.ScheduleTestInfo = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
+
+            //App.ScheduleTestInfo = ScheduledTestRepository.GetScheduledTestByID(ConfigSettings.GetConfigurationSettings(), long.Parse(schedule.Tag.ToString()));
+
+            //App.ScheduleTestInfo.ScheduleTestStatus = 2;
+            //App.ScheduleTestInfo.UpdatedBy = App.MainViewModel.CurrentUsers.FullName;
+            //App.ScheduleTestInfo.UpdatedDate = DateTime.Now;
+
+            App.MainViewModel.Origin = "CancelSchedule";
+            App.PopupHandler(e, sender);
+        }
+
+        private void menuViewReport_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem report = sender as MenuItem;
+            App.TestResultID = long.Parse(report.Tag.ToString());
+
+            App.GoToViewResultPageHandler(e, sender);
+        }
+
+        public static void ReloadScheduleHandler(EventArgs e, object sender)
+        {
+            if (ReloadSchedule != null)
+            {
+                ReloadSchedule(sender, e);
+            }
+        }
     }
 
     public class ScheduledTestModelExtended : VCheck.Lib.Data.Models.ScheduledTestModel
     {
         public String? PatientIDString { get; set; }
         public String? UniqueIDString { get; set; }
+        public String? SentFunction { get; set; }
     }
 
     public class TestResultModelExtended : VCheck.Lib.Data.Models.TestResultExtendedModel

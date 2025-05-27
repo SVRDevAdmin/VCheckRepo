@@ -9,6 +9,7 @@ using VCheck.Lib.Data.DBContext;
 using log4net;
 using System.Reflection;
 using log4net;
+using System.Xml;
 
 namespace VCheck.Lib.Data
 {
@@ -23,11 +24,13 @@ namespace VCheck.Lib.Data
         /// <returns></returns>
         public static List<ScheduledTestModel> GetCurrentScheduledTestList(IConfiguration config)
         {
+            DateTime MinimumDatetime = DateTime.Now.AddHours(-48);
+
             try
             {
                 using (var ctx = new ScheduleDBContext(config))
                 {
-                    return ctx.Txn_ScheduledTests.Where(x => x.ScheduledDateTime >= DateTime.Now && x.ScheduleTestStatus == 0)
+                    return ctx.Txn_ScheduledTests.Where(x => x.ScheduledDateTime >= MinimumDatetime && x.ScheduleTestStatus == 0)
                                                 .OrderBy(x => x.ScheduledDateTime)
                                                 .Take(5)
                                                 .ToList();
@@ -56,10 +59,51 @@ namespace VCheck.Lib.Data
                     {
                         return ctx.Txn_ScheduledTests.Where(x => x.ScheduleUniqueID == sUniqueID).FirstOrDefault();
                     }
+                    else if (string.IsNullOrEmpty(sUniqueID))
+                    {
+                        return ctx.Txn_ScheduledTests.FirstOrDefault(x => x.PatientID == sPatientID && x.ScheduleTestStatus == 0);
+                    }
+                    else if (sPatientID == "Unique")
+                    {
+                        return ctx.Txn_ScheduledTests.FirstOrDefault(x => x.ScheduleUniqueID.Substring(x.ScheduleUniqueID.Length - 8) == sUniqueID && x.ScheduleTestStatus < 2);
+                    }
                     else
                     {
                         return ctx.Txn_ScheduledTests.Where(x => x.ScheduleUniqueID.Substring(x.ScheduleUniqueID.Length - 8) == sUniqueID && x.PatientID == sPatientID).OrderByDescending(y => y.CreatedDate).LastOrDefault();
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Scheduled Test  Info by Unique ID
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="sUniqueID"></param>
+        /// <returns></returns>
+        public static ScheduledTestModel GetScheduledTestByOrderID(IConfiguration config, String sOrderID, String? sClientName, String? sLocationID)
+        {
+            try
+            {
+                using (var ctx = new ScheduleDBContext(config))
+                {
+                    if (string.IsNullOrEmpty(sLocationID))
+                    {
+                        return ctx.Txn_ScheduledTests.Where(x => x.CreatedBy == sClientName).AsEnumerable().FirstOrDefault(y => y.ScheduleUniqueID.Split("-")[1] == sOrderID);
+                    }
+                    else
+                    {
+                        return ctx.Txn_ScheduledTests.Where(x => x.CreatedBy == sClientName && x.LocationID == sLocationID).AsEnumerable().FirstOrDefault(y => y.ScheduleUniqueID.Split("-")[1] == sOrderID);
+                    }
+
+                        
+
+                    //return ctx.Txn_ScheduledTests.Where(x => x.ScheduleUniqueID.Substring(x.ScheduleUniqueID.IndexOf("-")+1, x.ScheduleUniqueID.Length - 15) == sOrderID).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -117,12 +161,12 @@ namespace VCheck.Lib.Data
         }
 
         /// <summary>
-        /// Insert new Scheduled Test 
+        /// Update Scheduled Test Information by Order ID
         /// </summary>
         /// <param name="config"></param>
         /// <param name="sScheduledTestObj"></param>
         /// <returns></returns>
-        public static Boolean InsertScheduledTest(IConfiguration config, ScheduledTestModel sScheduledTestObj)
+        public static Boolean UpdateScheduledTestStatus(IConfiguration config, ScheduledTestModel scheduledTest, string sUpdatedBy)
         {
             Boolean isSuccess = false;
 
@@ -130,7 +174,57 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new ScheduleDBContext(config))
                 {
-                    ctx.Txn_ScheduledTests.Add(sScheduledTestObj);
+                    //var sData = ctx.Txn_ScheduledTests.Where(x => x.CreatedBy == sClientName && x.LocationID == sLocationID).AsEnumerable().Where(y => y.ScheduleUniqueID.Split("-")[1] == sOrderID);
+                    //if (sData != null)
+                    //{
+                    //    foreach(var sSchedule in sData)
+                    //    {
+                    //        if (sSchedule.ScheduleTestStatus != sStatus)
+                    //        {
+                    //            sSchedule.ScheduleTestStatus = sStatus;
+                    //            sSchedule.UpdatedDate = DateTime.Now;
+                    //            sSchedule.UpdatedBy = sUpdatedBy;
+                    //        }
+                    //    }
+
+                    //    ctx.Update(scheduledTest);
+
+                    //    ctx.SaveChanges();
+
+                    //    isSuccess = true;
+                    //}
+
+                    ctx.Update(scheduledTest);
+
+                    ctx.SaveChanges();
+
+                    isSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                isSuccess = false;
+            }
+
+            return isSuccess;
+        }
+
+        /// <summary>
+        /// Insert new Scheduled Test 
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="sScheduledTestObj"></param>
+        /// <returns></returns>
+        public static Boolean InsertUpdateScheduledTest(IConfiguration config, ScheduledTestModel sScheduledTestObj)
+        {
+            Boolean isSuccess = false;
+
+            try
+            {
+                using (var ctx = new ScheduleDBContext(config))
+                {
+                    ctx.Txn_ScheduledTests.Update(sScheduledTestObj);
                     ctx.SaveChanges();
 
                     isSuccess = true;
@@ -158,6 +252,93 @@ namespace VCheck.Lib.Data
                 using (var ctx = new ScheduleDBContext(config))
                 {
                     return ctx.Txn_ScheduledTests.Where(x => x.ID == sID).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Scheduled Test List Info by Location ID
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="sUniqueID"></param>
+        /// <returns></returns>
+        public static List<ScheduledTestModel> GetScheduleListByLocation(IConfiguration config, string locationID)
+        {
+            DateTime MinimumDatetime = DateTime.Now.ToUniversalTime().AddHours(-48);
+
+            try
+            {
+                using (var ctx = new ScheduleDBContext(config))
+                {
+                    return ctx.Txn_ScheduledTests.Where(x => x.ScheduledDateTime >= MinimumDatetime && x.ScheduleTestStatus < 2 && x.LocationID == locationID && x.TestCompleted == 0)
+                                                .OrderBy(x => x.ScheduledDateTime)
+                                                .Take(5)
+                                                .ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Scheduled Test List Info by Location ID
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="sUniqueID"></param>
+        /// <returns></returns>
+        public static List<ScheduledTestModelExtended> GetScheduleListByLocationNotSent(IConfiguration config, string locationID)
+        {
+            DateTime MinimumDatetime = DateTime.Now.ToUniversalTime().AddHours(-48);
+            List<ScheduledTestModelExtended> scheduledTestModelExtendeds = new List<ScheduledTestModelExtended>();
+
+            try
+            {
+                using (var ctx = new ScheduleDBContext(config))
+                {
+                    var ScheduleList = ctx.Txn_ScheduledTests.Where(x => x.ScheduledDateTime >= MinimumDatetime && x.ScheduleTestStatus == 0 && x.LocationID == locationID && x.TestCompleted == 0).ToList();
+
+                    foreach(var schedule in ScheduleList)
+                    {
+                        var parameters =  TestResultsRepository.GetAllTestParameterByTestName(config, schedule.ScheduledTestType.Split(","));
+                        ScheduledTestModelExtended scheduledExtended = new ScheduledTestModelExtended() { Schedule = schedule, Parameters = parameters };
+
+                        scheduledTestModelExtendeds.Add(scheduledExtended);
+                    }                    
+                }               
+
+                return scheduledTestModelExtendeds;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Scheduled Test List Info by Location ID
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="sUniqueID"></param>
+        /// <returns></returns>
+        public static ScheduledTestModel GetScheduleByLocationPatientID(IConfiguration config, string locationID, string patientID, string[] testType)
+        {
+            try
+            {
+                using (var ctx = new ScheduleDBContext(config))
+                {
+                    var scheduleList = ctx.Txn_ScheduledTests.Where(x => x.PatientID == patientID && x.ScheduleTestStatus < 2 && x.LocationID == locationID && x.TestCompleted == 0);
+                    var schedule = scheduleList.AsEnumerable().FirstOrDefault(x => x.ScheduledTestType.Split(", ").Intersect(testType).ToArray().Length > 0);
+
+                    return schedule;
                 }
             }
             catch (Exception ex)

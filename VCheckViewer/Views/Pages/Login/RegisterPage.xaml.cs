@@ -21,6 +21,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using VCheck.Helper;
+using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.ViewModels.Windows;
@@ -120,6 +121,7 @@ namespace VCheckViewer.Views.Pages.Login
                 {
                     EmployeeID = "NA",
                     Title = "",
+                    //FullName = Username.Text,
                     FullName = "Superadmin",
                     RegistrationNo = "NA",
                     Gender = "M",
@@ -170,7 +172,20 @@ namespace VCheckViewer.Views.Pages.Login
 
                         if (roleResult.Succeeded)
                         {
-                            
+                            //GeneralAPI generalAPI = new GeneralAPI();
+
+                            //VCheck.Interface.API.Lib.General.LocationModel location = new VCheck.Interface.API.Lib.General.LocationModel()
+                            //{
+                            //    Name = "Clinic A",
+                            //    Address = "Test address",
+                            //    PhoneNum = "60123456789",
+                            //    Description = "Clinic A",
+                            //    Status = 1,
+                            //    CreatedDate = DateTime.Now,
+                            //    CreatedBy = "VCheck Viewer"
+                            //};
+
+                            //var locationID = await generalAPI.CreateLocation("qwertyuiop123asdfghjkl456zxcvbnm789", location);
                         }
                     }
                     else

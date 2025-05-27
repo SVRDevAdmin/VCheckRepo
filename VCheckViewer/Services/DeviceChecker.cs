@@ -1,4 +1,6 @@
 ﻿using DocumentFormat.OpenXml.InkML;
+using Microsoft.Extensions.Hosting;
+using MySqlX.XDevAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +18,7 @@ namespace VCheckViewer.Services
         NetworkStream networkStream = null;
         bool isOnline = true;
 
-        public async Task<bool> IsOnline(string ipAddress)
+        public async Task<bool> IsOnline(string ipAddress, int port)
         {
             try
             {
@@ -27,9 +29,9 @@ namespace VCheckViewer.Services
                     try
                     {
                         ipAddress = ipAddress.Replace(" ", "");
-
                         ourTcpClient = new TcpClient();
-                        await ourTcpClient.ConnectAsync(IPAddress.Parse(ipAddress), 5067).WaitAsync(cts.Token);
+
+                        await ourTcpClient.ConnectAsync(IPAddress.Parse(ipAddress), port).WaitAsync(cts.Token);
 
                     }
                     catch (Exception ex)

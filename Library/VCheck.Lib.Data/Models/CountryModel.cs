@@ -13,4 +13,13 @@ namespace VCheck.Lib.Data.Models
         public string CountryName { get; set; }
         public bool IsActive { get; set; }
     }
+
+    public class CountryPhoneNumModel
+    {
+        public int ID { get; set; }
+        public string CountryCode { get; set; }
+        public string CountryName { get; set; }
+        public string PhoneNum { get; set; }
+        public bool IsActive { get; set; }
+    }
 }
