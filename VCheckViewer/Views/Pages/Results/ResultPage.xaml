@@ -115,7 +115,6 @@
                         <Border BorderBrush="Black" BorderThickness="0" Grid.Column="0">
                             <Border BorderBrush="{DynamicResource Themes_SearchFieldBackground}" BorderThickness="1" Background="{DynamicResource Themes_SearchFieldBackground}" CornerRadius="7" Margin="10, 5, 5, 5">
                                 <Grid>
-                                    <!--<ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />-->
                                     <Image Source="{DynamicResource Themes_SearchIcon}" Width="24" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
 
                                     <TextBox x:Name="KeywordSearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Style="{StaticResource TextBoxStyle}" GotFocus="ChangeSortBy"/>
@@ -139,14 +138,12 @@
                         <Border BorderBrush="Black" BorderThickness="0" Grid.Column="1" Background="Transparent">
                             <Border Background="{DynamicResource Themes_SearchFieldBackground}" CornerRadius="7" Margin="5, 5, 5, 5" BorderThickness="1" BorderBrush="{DynamicResource Themes_SearchFieldBackground}">
                                 <Grid>
-                                    <!--<ui:SymbolIcon Symbol="CalendarEdit16" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->
                                     <Image Source="{DynamicResource Themes_CalendarIcon}" Width="24" HorizontalAlignment="Left" Margin="5,2,0,0" />
 
                                     <userControls:DateRangePicker x:Name="RangeDate"
                                                     SelectedDateRange="{Binding SelectedDates, Mode=TwoWay}"
                                                     BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center"
                                                     FontFamily="Noto Sans" FontSize="12" />
-                                    <!-- SelectedDateRange="{Binding SelectedDates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" -->
                                 </Grid>
                             </Border>
                         </Border>
@@ -176,14 +173,12 @@
                 </Border>
                 <Border BorderBrush="Black" BorderThickness="0" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right">
                     <Button Name="btnDownload" BorderBrush="Black" BorderThickness="0" Background="Transparent" Click="btnDownload_Click">
-                        <!--<Image Source="../../../../Content/Images/Download.png" Width="20" Height="20" />-->
                         <Image Source="{DynamicResource Themes_GridDownloadIcon}" Width="20" Height="20" />
 
                     </Button>
                 </Border>
                 <Border BorderBrush="Black" BorderThickness="0" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center">
                     <Button Name="btnPrint" Margin="1, 0, 5, 0" BorderThickness="0" BorderBrush="Black" Background="Transparent" Click="btnPrint_Click">
-                        <!--<Image Source="../../../../Content/Images/Print.png" Width="20" Height="20" />-->
                         <Image Source="{DynamicResource Themes_GridPrintIcon}" Width="20" Height="20" />
                     </Button>
                 </Border>
@@ -200,7 +195,6 @@
                     <DataGridTextColumn Header="{Binding Path=Results_Label_PatientID, Source={StaticResource Resources}}" Binding="{Binding PatientID}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_TestResultType, Source={StaticResource Resources}}" Binding="{Binding TestResultType}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True" />
                     <DataGridTemplateColumn Header="{Binding Path=Results_Label_Result, Source={StaticResource Resources}}" Width="*" IsReadOnly="True">
-                        <!--HeaderStyle="{StaticResource columnHeaderStyleCenterAlign} -->
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Border CornerRadius="4" Margin="0, 5, 15, 5" Background="Transparent">
@@ -213,14 +207,6 @@
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="{Binding Path=Results_Label_Time, Source={StaticResource Resources}}" Binding="{Binding TestResultDateTime, StringFormat={}{0:yyyy-MM-dd HH:ss}}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_Doctor, Source={StaticResource Resources}}" Binding="{Binding InchargePerson}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True"/>
-                    <!-- Header="{Binding Path=Results_Label_TestResultType, Source={StaticResource Resources}}" -->
-                    <!--<DataGridTextColumn Header="{Binding Path=Results_Label_ProceduralCont, Source={StaticResource Resources}}" Binding="{Binding ObservationStatus}" Width="150" ElementStyle="{StaticResource DataGridVerticalText}" />-->
-
-                    <!--
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_Units, Source={StaticResource Resources}}" Binding="{Binding TestResultValue, StringFormat={}{0:0.##}}" Width="80" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_Lot, Source={StaticResource Resources}}" Width="80" ElementStyle="{StaticResource DataGridVerticalText}" />
-                    -->
-                    <!--<DataGridTextColumn Header="{Binding Path=Results_Label_Valid, Source={StaticResource Resources}}" Width="120" ElementStyle="{StaticResource DataGridVerticalText}" /> -->
                     <DataGridTextColumn Header="{Binding Path=Results_Label_DeviceSerialNo, Source={StaticResource Resources}}" Binding="{Binding DeviceSerialNo}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True" />
                     <DataGridTemplateColumn Width="0.3*">
                         <DataGridTemplateColumn.CellTemplate>
@@ -229,7 +215,6 @@
                                     <Menu>
                                         <MenuItem>
                                             <MenuItem.Icon>
-                                                <!--<ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />-->
                                                 <Image Source="{DynamicResource Themes_GirdUserMoreIcon}" Width="12"/>
                                             </MenuItem.Icon>
                                             <MenuItem Name="menuEditPatientName" Tag="{Binding ID}" Header="{Binding Path=Results_Label_EditPatientName, Source={StaticResource Resources}}" Click="updateNameButton_Click"/>

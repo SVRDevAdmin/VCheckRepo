@@ -1,35 +1,19 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VCheck.Interface.API;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
-using VCheckViewer.Properties;
-using VCheckViewer.Views.Pages.Results;
-using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 namespace VCheckViewer.Views.Pages.Schedule
 {
     /// <summary>
     /// Interaction logic for SchedulePage.xaml
     /// </summary>
-    public partial class SchedulePage : System.Windows.Controls.Page
+    public partial class SchedulePage : Page
     {
         public static event EventHandler? ReloadSchedule;
 
@@ -57,8 +41,6 @@ namespace VCheckViewer.Views.Pages.Schedule
 
         public async Task LoadScheduledTestList()
         {
-            //List<ScheduledTestModel> sScheduledList = VCheck.Lib.Data.ScheduledTestRepository.GetCurrentScheduledTestList(ConfigSettings.GetConfigurationSettings());
-
             var sConfigObj = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
             var listString = "";
 
@@ -76,6 +58,17 @@ namespace VCheckViewer.Views.Pages.Schedule
                 foreach(var t in sScheduledList)
                 {
                     var SentFunction = t.ScheduleTestStatus == 1 ? "Collapsed" : "Visible";
+                    var AnalyzerNameFunction = string.IsNullOrEmpty(t.SentToAnalyzer) ? false : true;
+                    var testArray = t.ScheduledTestType.Split(",");
+                    var TestList = "";
+
+                    
+                    for(int i = 0; i < testArray.Length; i++)
+                    {
+                        TestList = TestList + testArray[i];
+
+                        if(i != testArray.Length - 1) { TestList = TestList + "\n"; }
+                    }
 
                     sUpdateScheduledList.Add(new ScheduledTestModelExtended
                     {
@@ -89,11 +82,15 @@ namespace VCheckViewer.Views.Pages.Schedule
                         UniqueIDString = Properties.Resources.Schedule_Label_UniqueID,
                         InchargePerson = t.InchargePerson,
                         ScheduleTestStatus = t.ScheduleTestStatus,
+                        AnalyzerName = AnalyzerNameFunction ? "Sent to " + t.SentToAnalyzer + "" : "Not yet sent to analyzer",
                         CreatedDate = t.CreatedDate.Value.ToLocalTime(),
                         CreatedBy = t.CreatedBy,
                         UpdatedDate = t.UpdatedDate != null ? t.UpdatedDate.Value.ToLocalTime() : null,
                         UpdatedBy = t.UpdatedBy, 
-                        SentFunction = SentFunction
+                        SentFunction = SentFunction, 
+                        TestListStringFirst = "Tests : ", 
+                        TestListStringSecond = "Hover to view",
+                        TestList = TestList
                     });
                 }
 
@@ -111,64 +108,33 @@ namespace VCheckViewer.Views.Pages.Schedule
 
         public void LoadTestResultList()
         {
-            //List<TestResultExtendedModel> sTestResultList = VCheck.Lib.Data.TestResultsRepository.GetLatestTestResultDetailsList(ConfigSettings.GetConfigurationSettings());
-            //if (sTestResultList != null && sTestResultList.Count > 0)
-            //{
-            //    List<TestResultModelExtended> sUpdateTestResultList = new List<TestResultModelExtended>();
-            //    foreach(var t in sTestResultList)
-            //    {
-            //        sUpdateTestResultList.Add(new TestResultModelExtended
-            //        {
-            //            ID = t.ID,
-            //            TestResultDateTime = t.TestResultDateTime,
-            //            TestResultType = t.TestResultType,
-            //            OperatorID = t.OperatorID,
-            //            PatientID = t.PatientID,
-            //            PatientIDString = Properties.Resources.Schedule_Label_PatientID,
-            //            InchargePerson = t.InchargePerson,
-            //            ObservationStatus = t.ObservationStatus,
-            //            TestResultStatus = t.TestResultStatus,
-            //            TestResultValue = t.TestResultValue,
-            //            TestResultRules = t.TestResultRules,
-            //            CreatedDate = t.CreatedDate,
-            //            CreatedBy = t.CreatedBy,
-            //            UpdatedDate = t.UpdatedDate,
-            //            UpdatedBy = t.UpdatedBy
-            //        });
-            //    }
-            //    icTestResult.ItemsSource = sUpdateTestResultList.ToList();
-
-            //    borderTestsCompleted.Visibility = Visibility.Visible;
-            //    borderNoTestsCompleted.Visibility = Visibility.Collapsed;
-            //}
-            //else
-            //{
-            //    borderTestsCompleted.Visibility = Visibility.Collapsed;
-            //    borderNoTestsCompleted.Visibility = Visibility.Visible;
-            //}
-
-            List<TestResultModel> sTestResultList = VCheck.Lib.Data.TestResultsRepository.GetLatestTestResultList(ConfigSettings.GetConfigurationSettings());
+            List<TestResultModel> sTestResultList = TestResultsRepository.GetLatestTestResultList(ConfigSettings.GetConfigurationSettings());
             if (sTestResultList != null && sTestResultList.Count > 0)
             {
                 List<TestResultModelExtended> sUpdateTestResultList = new List<TestResultModelExtended>();
                 foreach (var t in sTestResultList)
                 {
                     var status = "";
+                    var foreground = "";
                     if(t.OverallStatus.ToLower() == "abnormal")
                     {
                         status = Properties.Resources.Schedule_Label_Abnormal;
+                        foreground = "#ff2c29";
                     }
                     if (t.OverallStatus.ToLower() == "normal")
                     {
                         status = Properties.Resources.Schedule_Label_Normal;
+                        foreground = "#57baa5";
                     }
                     if (t.OverallStatus.ToLower() == "positive")
                     {
                         status = Properties.Resources.Dashboard_Label_Positive;
+                        foreground = "#57baa5";
                     }
                     if (t.OverallStatus.ToLower() == "negative")
                     {
                         status = Properties.Resources.Dashboard_Label_Negative;
+                        foreground = "#ff2c29";
                     }
 
                     sUpdateTestResultList.Add(new TestResultModelExtended
@@ -181,6 +147,7 @@ namespace VCheckViewer.Views.Pages.Schedule
                         PatientIDString = Properties.Resources.Schedule_Label_PatientID,
                         InchargePerson = string.IsNullOrEmpty(t.InchargePerson) ? "N/A" : t.InchargePerson,
                         TestResultStatus = status,
+                        StatusForeground = foreground,
                         CreatedDate = t.CreatedDate,
                         CreatedBy = t.CreatedBy,
                         UpdatedDate = t.UpdatedDate,
@@ -201,7 +168,7 @@ namespace VCheckViewer.Views.Pages.Schedule
 
         public void GetSummaryStats()
         {
-            var sTotalTestCompleted = VCheck.Lib.Data.TestResultsRepository.GetTodayTestResultList(ConfigSettings.GetConfigurationSettings());
+            var sTotalTestCompleted = TestResultsRepository.GetTodayTestResultList(ConfigSettings.GetConfigurationSettings());
             if (sTotalTestCompleted != null && sTotalTestCompleted.Count > 0)
             {
                 lbTotalTest.Text = sTotalTestCompleted.Count().ToString();
@@ -220,34 +187,7 @@ namespace VCheckViewer.Views.Pages.Schedule
             App.ScheduleTestInfo = ScheduledTestRepository.GetScheduledTestByID(ConfigSettings.GetConfigurationSettings(), long.Parse(schedule.Tag.ToString()));
 
             App.MainViewModel.Origin = "SendToAnalyzer";
-            App.PopupHandler(null, null);
-
-            //VCheckViewerAPI.HL7MessageSender.Main sendMessage = new VCheckViewerAPI.HL7MessageSender.Main();
-            //bool scheduleSent = await sendMessage.SendMessage(info);
-
-            //if (scheduleSent)
-            //{
-
-            //}
-            //else
-            //{
-
-            //}
-
-            //if (info.ScheduleUniqueID.Split("-")[0] == "VCHECKC1")
-            //{
-            //    VCheckViewerAPI.HL7MessageSender.Main sendMessage = new VCheckViewerAPI.HL7MessageSender.Main();
-            //    bool scheduleSent = await sendMessage.SendMessage(info);
-
-            //    if (scheduleSent)
-            //    {
-
-            //    }
-            //    else
-            //    {
-
-            //    }
-            //}            
+            App.PopupHandler(null, null);      
         }
 
         private async void CancelSchedule_MouseDown(object sender, MouseButtonEventArgs e)
@@ -283,10 +223,10 @@ namespace VCheckViewer.Views.Pages.Schedule
             var ClinicIDObject = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
             var ClinicID = ClinicIDObject != null ? ClinicIDObject.ConfigurationValue : "";
             VCheckAPI vCheckAPI = new VCheckAPI();
-            var scheduleString = await vCheckAPI.GetSchedule(ClinicID, null, null, schedule.Tag.ToString());
-            App.ScheduleTestInfo = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
-
-            //App.ScheduleTestInfo = ScheduledTestRepository.GetScheduledTestByID(ConfigSettings.GetConfigurationSettings(), long.Parse(schedule.Tag.ToString()));
+            //var scheduleString = await vCheckAPI.GetSchedule(ClinicID, null, null, schedule.Tag.ToString());
+            //App.ScheduleTestInfo = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
+            var scheduleString = await vCheckAPI.GetScheduleListNotSent(ClinicID, schedule.Tag.ToString());
+            App.ScheduleTestInfoExtended = JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.ScheduledTestModelExtended>(scheduleString);
 
             App.MainViewModel.Origin = "SendToAnalyzer";
             App.PopupHandler(null, null);
@@ -300,12 +240,6 @@ namespace VCheckViewer.Views.Pages.Schedule
             VCheckAPI vCheckAPI = new VCheckAPI();
             var scheduleString = await vCheckAPI.GetSchedule(ClinicID, null, null, schedule.Tag.ToString());
             App.ScheduleTestInfo = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
-
-            //App.ScheduleTestInfo = ScheduledTestRepository.GetScheduledTestByID(ConfigSettings.GetConfigurationSettings(), long.Parse(schedule.Tag.ToString()));
-
-            //App.ScheduleTestInfo.ScheduleTestStatus = 2;
-            //App.ScheduleTestInfo.UpdatedBy = App.MainViewModel.CurrentUsers.FullName;
-            //App.ScheduleTestInfo.UpdatedDate = DateTime.Now;
 
             App.MainViewModel.Origin = "CancelSchedule";
             App.PopupHandler(e, sender);
@@ -332,11 +266,16 @@ namespace VCheckViewer.Views.Pages.Schedule
     {
         public String? PatientIDString { get; set; }
         public String? UniqueIDString { get; set; }
+        public String? TestListStringFirst { get; set; }
+        public String? TestListStringSecond { get; set; }
+        public String? TestList { get; set; }
         public String? SentFunction { get; set; }
+        public String? AnalyzerName { get; set; }
     }
 
     public class TestResultModelExtended : VCheck.Lib.Data.Models.TestResultExtendedModel
     {
         public String? PatientIDString { get; set; }
+        public String? StatusForeground { get; set; }
     }
 }

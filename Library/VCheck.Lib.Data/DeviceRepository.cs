@@ -231,6 +231,37 @@ namespace VCheck.Lib.Data
         }
 
         /// <summary>
+        /// Get Device Type By Id
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="iID"></param>
+        /// <returns></returns>
+        public static DeviceModel GetDeviceByDeviceTypeIDList(IConfiguration config, int[] iID)
+        {
+            DeviceModel device = null;
+
+            try
+            {
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    device = ctx.mst_deviceslist.FirstOrDefault(x => iID.Contains(x.DeviceTypeID.Value) && x.Next != 1);
+
+                    if (device == null)
+                    {
+                        device = RevertTwoWayCommDevice(config, iID);
+                    }                    
+
+                    return device;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("DeviceRepository >>> GetDeviceTypeByID >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Get Two-Way Communication Device list
         /// </summary>
         /// <param name="config"></param>
@@ -262,26 +293,33 @@ namespace VCheck.Lib.Data
         /// <param name="config"></param>
         /// <param name="iID"></param>
         /// <returns></returns>
-        public static void RevertTwoWayCommDevice(IConfiguration config, int deviceTypeID)
+        public static DeviceModel RevertTwoWayCommDevice(IConfiguration config, int[] deviceTypeID)
         {
             try
             {
                 using (var ctx = new DeviceDBContext(config))
                 {
-                    var twoWayDevices = ctx.mst_deviceslist.Where(x => x.DeviceTypeID == deviceTypeID).ToList();
+                    var twoWayDevices = ctx.mst_deviceslist.Where(x => deviceTypeID.Contains(x.DeviceTypeID.Value)).ToList();
 
-                    foreach (var device in twoWayDevices)
+                    if (twoWayDevices.Any())
                     {
-                        device.Next = 0;
-                    }
+                        foreach (var device in twoWayDevices)
+                        {
+                            device.Next = 0;
+                        }
 
-                    ctx.UpdateRange(twoWayDevices);
-                    ctx.SaveChanges();
+                        ctx.UpdateRange(twoWayDevices);
+                        ctx.SaveChanges();
+                    }                    
+
+                    return twoWayDevices.FirstOrDefault();
                 }
             }
             catch (Exception ex)
             {
                 log.Error("DeviceRepository >>> GetTwoWayCommDevice >>> " + ex.ToString());
+
+                return null;
             }
         }
 

@@ -28,7 +28,7 @@ namespace VCheckListenerWorker.Lib.PMS
         NetworkStream networkStream = null;
         String receivedMessage = "";
 
-        public async void SendToPMS(txn_testresults sTestResults, List<txn_testresults_details> sTestResultDetails, ScheduledTestModel sScheduledTestObj)
+        public async Task<bool> SendToPMS(txn_testresults sTestResults, List<txn_testresults_details> sTestResultDetails, ScheduledTestModel sScheduledTestObj)
         {
             VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest sRequestAPI = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest();
 
@@ -53,7 +53,7 @@ namespace VCheckListenerWorker.Lib.PMS
             sRequestAPI.providerid = "";
 
             VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject sPatientObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject();
-            sPatientObj.patientid = sTestResults.PatientID;
+            sPatientObj.patientid = sScheduledTestObj.PatientID;
             sPatientObj.firstname = (sScheduledTestObj != null) ? sScheduledTestObj.PatientName : "";
             sPatientObj.lastname = "";
             sPatientObj.gender = (sScheduledTestObj != null) ? sScheduledTestObj.Gender : "";
@@ -146,11 +146,11 @@ namespace VCheckListenerWorker.Lib.PMS
                 sTestResults.PMSFunction = "Collapsed";
 
                 TestResultRepository.createTestResult(sTestResults);
+                return true;
             }
-            else
-            {
 
-            }
+            return false;
+
         }
 
         public async Task<Boolean> SendData(VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest sResultRequest, System.Net.IPAddress ip, int port)

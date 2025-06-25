@@ -21,5 +21,7 @@ namespace VCheck.Interface.API.Lib.General
         public string? ClientName { get; set; }
         public int Status { get; set; }
         public List<string> Parameters { get; set; }
+        public string? AnalyzerName { get; set; }
+        public string TestName { get; set; }
     }
 }

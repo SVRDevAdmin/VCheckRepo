@@ -1,35 +1,24 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Configuration;
 using System.IO;
 using System.Data;
 using System.Windows;
 using System.Windows.Threading;
 using System.Reflection;
 using Wpf.Ui;
-using VCheckViewer.Views.Windows;
 using VCheckViewer.ViewModels.Windows;
 using VCheckViewer.Services;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting.Internal;
 using VCheck.Lib.Data.DBContext;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.AspNetCore.Http;
-using VCheckViewer.Lib.Models;
 using VCheckViewer.Lib.Culture;
-//using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using VCheck.Lib.Data.Models;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Windows.Markup;
 using VCheck.Helper;
-using VCheckViewer.Views.Pages.Schedule;
-using VCheckViewer.Views.Pages.Results;
+using System.Diagnostics;
+using VCheck.Interface.API;
+using VCheckViewer.Services.MessageBox;
 
 namespace VCheckViewer
 {
@@ -39,8 +28,6 @@ namespace VCheckViewer
     public partial class App
     {
         public static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        //public IConfiguration Configuration { get; }
 
         public static MainViewModel MainViewModel { get; } = new MainViewModel();
 
@@ -56,11 +43,6 @@ namespace VCheckViewer
 
         public static event EventHandler? GoToViewResultPage;
 
-        //public static event EventHandler? DownloadPrintReport;
-        //public static event EventHandler? UpdatePatientName;
-
-        //public static event EventHandler? CancelSchedule;
-
         public static SignInManager<IdentityUser> SignInManager { get; set; }
         public static UserManager<IdentityUser> UserManager { get; set; }
         public static RoleManager<IdentityRole> RoleManager { get; set; }
@@ -71,6 +53,7 @@ namespace VCheckViewer
         public static string UpdateLink {  get; set; }
         public static long TestResultID { get; set; }
         public static ScheduledTestModel ScheduleTestInfo { set; get; }
+        public static ScheduledTestModelExtended ScheduleTestInfoExtended { set; get; }
         public static int AnalyzerID { set; get; }
         public static List<string> Parameters { get; set; }
         public static List<TestDeviceName> Device { get; set; }
@@ -81,12 +64,11 @@ namespace VCheckViewer
         public static string PMSFunction { get; set; }
         public static bool isLanguagePage { get; set; }
         public static bool isEmptyName { get; set; }
-        public static TestResultListingExtendedObj sTestResultObj { get; set; }
         public static List<DownloadPrintResultModel> DowloadPrintObject { get; set; }
-        public static bool ResultPageNotInitialized { get; set; } = true;
         public static bool LoginWindowNotInitialized { get; set; } = true;
-        public static bool RestartListener { get; set; }
         public static string ClinicID { get; set; }
+        public static bool ShowUpdateNotification { get; set; } = false;
+        public static bool ConnectionStatus { get; set; } = false;
 
         public static IConfiguration iConfig { get; set; }
 
@@ -194,108 +176,83 @@ namespace VCheckViewer
         {
             try
             {
-                QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
-                ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
-                UserDBContext usersContext = GetService<UserDBContext>();
-                RolesDBContext roleContext = GetService<RolesDBContext>();
+                var processes = Process.GetProcessesByName("VcheckViewer");
+                if (processes.Length > 1)
+                {
+                    System.Windows.Forms.MessageBox.Show("An instance of VCheck Viewer is already opened. Please close old instance before can open new one.");
+                    processes[1].Kill(); // Terminate the process
+                    processes[1].WaitForExit(); // Wait for the process to exit
+                }
+                else
+                {
+                    QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+                    ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
+                    UserDBContext usersContext = GetService<UserDBContext>();
+                    RolesDBContext roleContext = GetService<RolesDBContext>();
 
-                SignInManager = GetService<SignInManager<IdentityUser>>();
-                UserManager = GetService<UserManager<IdentityUser>>();
-                RoleManager = GetService<RoleManager<IdentityRole>>();
-                UserStore = GetService<IUserStore<IdentityUser>>();
+                    SignInManager = GetService<SignInManager<IdentityUser>>();
+                    UserManager = GetService<UserManager<IdentityUser>>();
+                    RoleManager = GetService<RoleManager<IdentityRole>>();
+                    UserStore = GetService<IUserStore<IdentityUser>>();
 
-                MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
+                    MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
+                    //(string SelectedButton, bool IsCheckBoxChecked) result = ("", false);
 
-                var language = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault()?.ConfigurationValue;
+                    //var SystemVersionReminder = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "System_VersionReminder").FirstOrDefault()?.ConfigurationValue;
 
-                CultureInfo sZHCulture = new CultureInfo(language != null ? language : "en");
-                CultureResources.ChangeCulture(sZHCulture);
+                    //if (SystemVersionReminder == null || DateTime.Parse(SystemVersionReminder) < DateTime.Now)
+                    //{
+                    //    var SystemVersion = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "System_Version").FirstOrDefault()?.ConfigurationValue;
+                    //    VCheckAPI vcheckAPI = new VCheckAPI();
+                    //    var IsLatestVersion = await vcheckAPI.IsLatestVersion(SystemVersion);
 
-                //var roles = RoleManager.Roles.ToList();
-                //IdentityRole role = new IdentityRole();
-                //bool addRoleSuccess;
-            
-                //if (!roles.Where(x => x.Name == "Lab User").Any())
-                //{
-                //    role = new IdentityRole("Lab User");
-                //    await RoleManager.CreateAsync(role);
-                //    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab User", IsActive = true, IsSuperadmin = false, IsAdmin = false });
-                //    if (addRoleSuccess) { }
-                //    else { }
-                //}
-
-                //var roles = RoleManager.Roles.ToList();
-                //IdentityRole role = new IdentityRole();
-                //bool addRoleSuccess;
-
-                //if (!roles.Where(x => x.Name == "Lab User").Any())
-                //{
-                //    role = new IdentityRole("Lab User");
-                //    await RoleManager.CreateAsync(role);
-                //    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab User", IsActive = true, IsSuperadmin = false, IsAdmin = false });
-                //    if (addRoleSuccess) { }
-                //    else { }
-                //}
-
-                //if (!roles.Where(x => x.Name == "Lab Superadmin").Any())
-                //{
-                //    role = new IdentityRole("Lab Superadmin");
-                //    await RoleManager.CreateAsync(role);
-                //    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Lab Superadmin", IsActive = true, IsSuperadmin = false, IsAdmin = true });
-                //    if (addRoleSuccess) { }
-                //    else { }
-                //}
+                    //    if (!IsLatestVersion)
+                    //    {
+                    //        //ShowUpdateNotification = true;
+                    //        result = CustomMessageBox.Show();
+                    //    }
+                    //    else
+                    //    {
+                    //        var oneDaysDate = DateOnly.FromDateTime(DateTime.Now).AddDays(1).ToString();
+                    //        if (SystemVersionReminder != null)
+                    //        {
+                    //            ConfigurationContext.UpdateConfiguration("System_VersionReminder", oneDaysDate);
+                    //        }
+                    //        else
+                    //        {
+                    //            ConfigurationContext.AddConfiguration("System_VersionReminder", oneDaysDate);
+                    //        }
+                    //    }
+                    //}
 
 
-                //if (!roles.Where(x => x.Name == "Superadmin").Any())
-                //{
-                //    role = new IdentityRole("Superadmin");
-                //    var test = await RoleManager.CreateAsync(role);
-                //    addRoleSuccess = roleContext.InsertRole(new RolesModel() { RoleID = role.Id, RoleName = "Superadmin", IsActive = true, IsSuperadmin = true, IsAdmin = false });
-                //    if (addRoleSuccess) { }
-                //    else { }
-                //}
+                    //if (result.IsCheckBoxChecked)
+                    //{
+                    //    var threeDaysDate = DateOnly.FromDateTime(DateTime.Now).AddDays(3).ToString();
+                    //    if (SystemVersionReminder != null)
+                    //    {
+                    //        ConfigurationContext.UpdateConfiguration("System_VersionReminder", threeDaysDate);
+                    //    }
+                    //    else
+                    //    {
+                    //        ConfigurationContext.AddConfiguration("System_VersionReminder", threeDaysDate);
+                    //    }
+                    //}
 
-                //roles = RoleManager.Roles.ToList();
+                    //if(result.SelectedButton == "Yes")
+                    //{
 
-                //var user = await UserManager.FindByNameAsync("superadmin");
+                    //}
+                    //else
+                    //{
 
-                //if (user == null)
-                //{
-                //    UserModel adminAccount = new UserModel()
-                //    {
-                //        Title = "Dr.",
-                //        //FirstName = "Lee",
-                //        StaffName = "Dr. Lee Eunji",
-                //        FullName = "Lee Eunji",
-                //        EmployeeID = "456783",
-                //        RegistrationNo = "456783",
-                //        Gender = "M",
-                //        DateOfBirth = "1991-03-15",
-                //        RoleID = roles.FirstOrDefault(x => x.Name == "Superadmin").Id,
-                //        EmailAddress = "superadmin@superadmin.com",
-                //        StatusID = 1,
-                //        CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                //        CreatedBy = "System"
-                //    };
+                    //}
 
-                //    user = Activator.CreateInstance<IdentityUser>();
+                    var language = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault()?.ConfigurationValue;
 
-                //    var emailStore = (IUserEmailStore<IdentityUser>)UserStore;
-
-                //    await UserStore.SetUserNameAsync(user, "superadmin", CancellationToken.None);
-                //    await emailStore.SetEmailAsync(user, "superadmin@superadmin.com", CancellationToken.None);
-                //    var result = await UserManager.CreateAsync(user, "Abcd@1234");
-
-                //    if (result.Succeeded)
-                //    {
-                //        adminAccount.UserId = user.Id;
-
-                //        if (usersContext.InsertUser(adminAccount)) { var roleResult = await GetService<UserManager<IdentityUser>>().AddToRoleAsync(user, "superadmin"); }
-
-                //    }
-                //}
-
+                    CultureInfo sZHCulture = new CultureInfo(language != null ? language : "en");
+                    CultureResources.ChangeCulture(sZHCulture);
+                }                
             }
             catch (Exception ex)
             {
@@ -304,6 +261,7 @@ namespace VCheckViewer
 
             _host.Start();
         }
+
         /// <summary>
         /// Occurs when the application is closing.
         /// </summary>
@@ -326,7 +284,6 @@ namespace VCheckViewer
         /// </summary>
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            // For more info see https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?view=windowsdesktop-6.0
             var ex = e.Exception;
             log.Error("General Error >>> ", ex);
             e.Handled = true;
@@ -395,30 +352,6 @@ namespace VCheckViewer
                 GoToClinicInfoPage(sender, e);
             }
         }
-
-        //public static void DownloadPrintReportHandler(EventArgs e, object sender)
-        //{
-        //    if (DownloadPrintReport != null)
-        //    {
-        //        DownloadPrintReport(sender, e);
-        //    }
-        //}
-
-        //public static void UpdatePatientNameHandler(EventArgs e, object sender)
-        //{
-        //    if (UpdatePatientName != null)
-        //    {
-        //        UpdatePatientName(sender, e);
-        //    }
-        //}
-
-        //public static void CancelScheduleHandler(EventArgs e, object sender)
-        //{
-        //    if (CancelSchedule != null)
-        //    {
-        //        CancelSchedule(sender, e);
-        //    }
-        //}
 
         public static void GoToViewResultPageHandler(EventArgs e, object sender)
         {

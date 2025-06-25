@@ -1,24 +1,16 @@
-﻿using MySqlX.XDevAPI;
-using Org.BouncyCastle.Utilities.Net;
-using System;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
@@ -43,16 +35,18 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
 
         public string PMSURL = "";
         public string ClinicID = "";
+        public string CurrentLIS = "";
+
+        public static event EventHandler? ConnectionStatus;
 
         public ConfigurationPage()
         {
             InitializeComponent();
-
-            //txtIP.ValidatingType = typeof(System.Net.IPAddress);
-            //txtIP.ResetOnSpace = false;
-
-            //LoadInterfaceConfiguration();
             GetPMSURLAsync(2);
+
+
+            ConnectionStatus = null;
+            ConnectionStatus += ConnectionStatusReload;
         }
 
         private void CheckPMSSelected()
@@ -60,10 +54,11 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
             var sInterfacePMS = configDBContext.GetConfigurationData(sPMSConfigKey).FirstOrDefault();
             if (sInterfacePMS != null)
             {
-                if(sInterfacePMS.ConfigurationValue.ToString() == "Greywind")
+                CurrentLIS = sInterfacePMS.ConfigurationValue.ToString();
+
+                if (CurrentLIS == "Greywind")
                 {
                     Greywind.IsChecked = true;
-                    CheckGreywindConnection();
                 }
                 else
                 {
@@ -73,59 +68,6 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
             else
             {
                 Other.IsChecked = true;
-            }
-        }
-
-        private void LoadInterfaceConfiguration()
-        {
-            var selected = "";
-
-            var sInterfacePMS = configDBContext.GetConfigurationData(sPMSConfigKey).FirstOrDefault();
-            if (sInterfacePMS != null)
-            {
-                selected = sInterfacePMS.ConfigurationValue.ToString();
-            }
-            else { txtIP.Text = ""; }
-
-            if (selected == "Greywind")
-            {
-                txtIP.Text = "https://bionote.api.test.hl7i.com";
-                txtPortNo.Text = "80";
-                txtIP.IsEnabled = false;
-                txtPortNo.IsEnabled = false;
-            }
-            else
-            {
-                var sInterfaceIP = configDBContext.GetConfigurationData(sIPConfigKey).FirstOrDefault();
-                if (sInterfaceIP != null)
-                {
-                    txtIP.Text = sInterfaceIP.ConfigurationValue.ToString();
-                }
-                else { txtIP.Text = ""; }
-
-                var sInterfacePortNo = configDBContext.GetConfigurationData(sPortNoConfigKey).FirstOrDefault();
-                if (sInterfacePortNo != null)
-                {
-                    txtPortNo.Text = sInterfacePortNo.ConfigurationValue.ToString();
-                }
-                else { txtPortNo.Text = ""; }
-
-                var sInterfaceUsername = configDBContext.GetConfigurationData(sUsernameConfigKey).FirstOrDefault();
-                if (sInterfaceUsername != null)
-                {
-                    txtUsername.Text = sInterfaceUsername.ConfigurationValue.ToString();
-                }
-                else { txtUsername.Text = ""; }
-
-                var sInterfacePassword = configDBContext.GetConfigurationData(sPasswordConfigKey).FirstOrDefault();
-                if (sInterfacePassword != null)
-                {
-                    txtPassword.Password = sInterfacePassword.ConfigurationValue.ToString();
-                }
-                else { txtPassword.Password = ""; }
-
-                txtIP.IsEnabled = true;
-                txtPortNo.IsEnabled = true;
             }
         }
 
@@ -181,21 +123,6 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                     borderIP.ToolTip = null;
                 }
 
-                //System.Net.IPAddress iIP;
-                //if (!System.Net.IPAddress.TryParse(txtIP.Text.Replace(" ", ""), out iIP) || txtIP.Text.Split(".").Count() != 4)
-                //{
-                //    borderIP.BorderBrush = System.Windows.Media.Brushes.Red;
-                //    borderIP.BorderThickness = new Thickness(1);
-                //    borderIP.ToolTip = "Invalid IP address entered.";
-
-                //    isFieldEmpty = true;
-                //}
-                //else
-                //{
-                //    borderIP.BorderBrush = System.Windows.Media.Brushes.Black;
-                //    borderIP.ToolTip = null;
-                //}
-
                 if (String.IsNullOrEmpty(txtPortNo.Text) || int.Parse(txtPortNo.Text) == 0)
                 {
                     borderPortNo.BorderBrush = System.Windows.Media.Brushes.Red;
@@ -237,6 +164,21 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                     borderPassword.BorderBrush = System.Windows.Media.Brushes.Black;
                     borderPassword.ToolTip = null;
                 }
+
+                if(CurrentLIS == "Other")
+                {
+                    btnConnect.Content = Properties.Resources.Maintenance_Label_Connected;
+                    btnConnect.Tag = "Connected";
+                    btnConnect.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFromString("#0ed145");
+
+                    btnUpdate.IsEnabled = false;
+                }
+                else
+                {
+                    btnConnect.Content = Properties.Resources.Maintenance_Label_NotConnected;
+                    btnConnect.Tag = "Not Connected";
+                    btnConnect.Background = System.Windows.Media.Brushes.Gray;
+                }
             }
             else
             {
@@ -258,8 +200,6 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                     borderClinicPhoneNum.ToolTip = null;
                 }
 
-                if (btnConnect.IsEnabled) { isFieldEmpty = true; }
-
                 borderIP.BorderBrush = System.Windows.Media.Brushes.Black;
                 borderIP.ToolTip = null;
                 borderPortNo.BorderBrush = System.Windows.Media.Brushes.Black;
@@ -269,6 +209,8 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 borderPassword.BorderBrush = System.Windows.Media.Brushes.Black;
                 borderPassword.ToolTip = null;
             }
+
+            if (btnConnect.Tag.ToString() == "Connected") { isFieldEmpty = true; }
 
 
             if (isFieldEmpty)
@@ -281,43 +223,76 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
             }
         }
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private async void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            //if ((Greywind.IsChecked.GetValueOrDefault() && await ConnectToPIMS(e, null)) || Other.IsChecked.GetValueOrDefault())
+            //{
+            //    try
+            //    {
+            //        List<ConfigurationModel> sConfigList = new List<ConfigurationModel>();
+
+            //        if (!Greywind.IsChecked.GetValueOrDefault())
+            //        {
+            //            sConfigList.Add(new ConfigurationModel
+            //            {
+            //                ConfigurationKey = sIPConfigKey,
+            //                ConfigurationValue = txtIP.Text
+            //            });
+
+            //            sConfigList.Add(new ConfigurationModel
+            //            {
+            //                ConfigurationKey = sPortNoConfigKey,
+            //                ConfigurationValue = int.Parse(txtPortNo.Text).ToString()
+            //            });
+
+            //            sConfigList.Add(new ConfigurationModel
+            //            {
+            //                ConfigurationKey = sUsernameConfigKey,
+            //                ConfigurationValue = txtUsername.Text
+            //            });
+
+            //            sConfigList.Add(new ConfigurationModel
+            //            {
+            //                ConfigurationKey = sPasswordConfigKey,
+            //                ConfigurationValue = txtPassword.Password
+            //            });
+            //        }
+
+            //        var selectedPMS = gridPMSSelection.Children.OfType<RadioButton>().FirstOrDefault(x => x.IsChecked.GetValueOrDefault()).Name;
+            //        sConfigList.Add(new ConfigurationModel
+            //        {
+            //            ConfigurationKey = sPMSConfigKey,
+            //            ConfigurationValue = selectedPMS
+            //        });
+
+            //        Popup sConfirmPopup = new Popup();
+            //        sConfirmPopup.IsOpen = true;
+
+            //        //App.MainViewModel.Origin = "SettingsUpdate";
+            //        App.MainViewModel.Origin = "LISSettingsUpdate";
+            //        App.MainViewModel.ConfigurationModel = sConfigList;
+
+            //        App.PopupHandler(e, sender);
+
+            //        //btnConnect.Content = Properties.Resources.Maintenance_Label_Connected;
+            //        //btnConnect.Tag = "Connected";
+            //        //btnConnect.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFromString("#0ed145");
+
+            //        btnUpdate.IsEnabled = false;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        App.MainViewModel.Origin = "FailedUpdateLIS";
+            //        App.PopupHandler(e, sender);
+
+            //        btnConnect.Content = Properties.Resources.Maintenance_Label_NotConnected;
+            //        btnConnect.Tag = "Not Connected";
+            //        btnConnect.Background = System.Windows.Media.Brushes.Gray;
+            //    }
+            //}
+
             try
             {
-                //if (IsIPAddressAvailable(txtIP.Text.Replace(" ",""), int.Parse(txtPortNo.Text)))
-                //{
-                //    List<ConfigurationModel> sConfigList = new List<ConfigurationModel>();
-
-                //    sConfigList.Add(new ConfigurationModel
-                //    {
-                //        ConfigurationKey = sIPConfigKey,
-                //        ConfigurationValue = txtIP.Text
-                //    });
-
-                //    sConfigList.Add(new ConfigurationModel
-                //    {
-                //        ConfigurationKey = sPortNoConfigKey,
-                //        ConfigurationValue = txtPortNo.Text
-                //    });
-
-
-                //    Popup sConfirmPopup = new Popup();
-                //    sConfirmPopup.IsOpen = true;
-
-                //    App.MainViewModel.Origin = "SettingsUpdate";
-                //    App.MainViewModel.ConfigurationModel = sConfigList;
-
-                //    App.PopupHandler(e, sender);
-
-                //    App.RestartListener = true;
-                //}
-                //else
-                //{
-                //    App.MainViewModel.Origin = "IpPortUnavailable";
-                //    App.PopupHandler(e, sender);
-                //}
-
                 List<ConfigurationModel> sConfigList = new List<ConfigurationModel>();
 
                 if (!Greywind.IsChecked.GetValueOrDefault())
@@ -357,12 +332,13 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 Popup sConfirmPopup = new Popup();
                 sConfirmPopup.IsOpen = true;
 
-                App.MainViewModel.Origin = "SettingsUpdate";
+                //App.MainViewModel.Origin = "SettingsUpdate";
+                App.MainViewModel.Origin = "LISSettingsUpdate";
                 App.MainViewModel.ConfigurationModel = sConfigList;
 
                 App.PopupHandler(e, sender);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 App.MainViewModel.Origin = "FailedUpdateLIS";
                 App.PopupHandler(e, sender);
@@ -370,39 +346,28 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
 
         }
 
-        private static bool IsIPAddressAvailable(string ipAddress, int port)
-        {
-            try
-            {
-                System.Net.IPAddress ip = System.Net.IPAddress.Parse(ipAddress.Trim());
-                IPEndPoint endPoint = new IPEndPoint(ip, port);
-
-                using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
-                {
-                    socket.Bind(endPoint);
-                    return true;
-                }
-            }
-            catch (SocketException)
-            {
-                return false;
-            }
-        }
-
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        private async void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton selected = sender as RadioButton;
             if(selected.Name == "Greywind")
             {
-                CheckGreywindConnection();
+                if(CurrentLIS == "Greywind")
+                {
+                    await CheckGreywindConnection();
+                }
+                else
+                {
+                    btnConnect.Content = Properties.Resources.Maintenance_Label_NotConnected;
+                    btnConnect.Tag = "Not Connected";
+                    btnConnect.Background = System.Windows.Media.Brushes.Gray;
+                }
+
                 var sClinicPhoneNum = configDBContext.GetConfigurationData(sClinicPhoneNumConfigKey).FirstOrDefault();
                 if (sClinicPhoneNum != null)
                 {
                     txtClinicPhoneNum.Text = "+" + sClinicPhoneNum.ConfigurationValue.ToString();
                 }
                 else { txtClinicPhoneNum.Text = ""; }
-
-                //GetPMSURLAsync(2);
 
                 txtIP.Text = PMSURL;
                 txtPortNo.Text = "80";
@@ -417,7 +382,7 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 borderClinicPhoneNum.Visibility = Visibility.Visible;
                 borderUsername.Visibility = Visibility.Collapsed;
                 borderPassword.Visibility = Visibility.Collapsed;
-                btnConnect.Visibility = Visibility.Visible;
+                //btnConnect.Visibility = Visibility.Visible;
             }
             else
             {
@@ -457,7 +422,7 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 borderClinicPhoneNum.Visibility = Visibility.Collapsed;
                 borderUsername.Visibility = Visibility.Visible;
                 borderPassword.Visibility = Visibility.Visible;
-                btnConnect.Visibility = Visibility.Collapsed;
+                //btnConnect.Visibility = Visibility.Collapsed;
             }            
 
             FieldsVal_KeyUp(null, null);
@@ -475,24 +440,53 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
             CheckPMSSelected();
         }
 
-        private async void btnConnect_Click(object sender, RoutedEventArgs e)
+        //private async void btnConnect_Click(object sender, RoutedEventArgs e)
+        //{
+        //    btnConnect.IsEnabled = false;
+        //    var success = await CreateClinicInfoPMS();
+
+        //    if (success)
+        //    {
+        //        btnConnect.Content = Properties.Resources.Maintenance_Label_Connected; ;
+        //        FieldsVal_KeyUp(new RadioButton() { Name = "Greywind"}, null);
+        //        App.MainViewModel.Origin = "GreywindConnected";
+        //        App.PopupHandler(e, sender);
+        //    }
+        //    else
+        //    {
+        //        btnConnect.IsEnabled = true;
+        //        App.MainViewModel.Origin = "FailedGreywindConnect";
+        //        App.PopupHandler(e, sender);
+        //    }
+        //}
+
+        private async Task<bool> ConnectToPIMS(object sender, RoutedEventArgs? e)
         {
-            btnConnect.IsEnabled = false;
+            //btnConnect.IsEnabled = false;
             var success = await CreateClinicInfoPMS();
 
             if (success)
             {
-                btnConnect.Content = Properties.Resources.Maintenance_Label_Connected; ;
-                FieldsVal_KeyUp(new RadioButton() { Name = "Greywind"}, null);
                 App.MainViewModel.Origin = "GreywindConnected";
                 App.PopupHandler(e, sender);
+
+                btnConnect.Content = Properties.Resources.Maintenance_Label_Connected;
+                btnConnect.Tag = "Connected";
+                btnConnect.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFromString("#0ed145");
+
+                btnUpdate.IsEnabled = false;
             }
             else
             {
-                btnConnect.IsEnabled = true;
                 App.MainViewModel.Origin = "FailedGreywindConnect";
                 App.PopupHandler(e, sender);
+
+                btnConnect.Content = Properties.Resources.Maintenance_Label_NotConnected;
+                btnConnect.Tag = "Not Connected";
+                btnConnect.Background = System.Windows.Media.Brushes.Gray;
             }
+
+            return success;
         }
 
         private async Task CheckGreywindConnection()
@@ -517,17 +511,28 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
 
             if (cannotConnect)
             {
-                btnConnect.IsEnabled = false;
+                //btnConnect.IsEnabled = false;
+                btnConnect.Content = Properties.Resources.Maintenance_Label_NotConnected;
+                btnConnect.Tag = "Not Connected";
+                btnConnect.Background = System.Windows.Media.Brushes.Gray;
             }
             else if (disableConnect)
             {
-                btnConnect.IsEnabled = false;
+                //btnConnect.IsEnabled = false;
                 btnConnect.Content = Properties.Resources.Maintenance_Label_Connected;
+                btnConnect.Tag = "Connected";
+                btnConnect.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFromString("#0ed145");
+
+                btnUpdate.IsEnabled = false;
+
+                //btnConnect.Content = Properties.Resources.Maintenance_Label_NotConnected;
+                //btnConnect.Tag = "Not Connected";
+                //btnConnect.Background = System.Windows.Media.Brushes.Red;
             }
-            else
-            {
-                btnConnect.IsEnabled = true;
-            }
+            //else
+            //{
+            //    btnConnect.IsEnabled = true;
+            //}
         }
 
         private async Task<bool> CheckGreywindClinic()
@@ -541,49 +546,55 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
         {
             var sSettingsObj = configDBContext.GetConfigurationData("");
             var clinic = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicID");
+            var ClinicIDNotExist = true;
+            var success = false;
 
             if (clinic != null)
             {
-                ClinicID = clinic.ConfigurationKey;
+                ClinicID = clinic.ConfigurationValue;
+                ClinicIDNotExist = false;
+                success = true;
             }
             else
             {
-                VCheckAPI vcheckAPI = new VCheckAPI();
-                GreywindAPI greywindAPI = new GreywindAPI();
+                ClinicID = await CreateClinicInfoVcheck(sSettingsObj);
 
-                var name = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicName").ConfigurationValue;
-                var address = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicAddress").ConfigurationValue;
-                var city = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicCity").ConfigurationValue;
-                var state = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicState").ConfigurationValue;
-                var phoneNum = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicPhoneNum").ConfigurationValue;
+                //VCheckAPI vcheckAPI = new VCheckAPI();
+                //GreywindAPI greywindAPI = new GreywindAPI();
 
-                VCheck.Interface.API.Lib.General.LocationModel location = new VCheck.Interface.API.Lib.General.LocationModel()
-                {
-                    ID = "",
-                    Name = name,
-                    Address = address,
-                    ContactName = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicContactName").ConfigurationValue,
-                    PhoneNum = phoneNum,
-                    Email = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicEmail").ConfigurationValue,
-                    Description = "Clinic",
-                    Status = 1,
-                    CreatedBy = "VCheck Viewer"
-                };
+                //var name = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicName").ConfigurationValue;
+                //var address = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicAddress").ConfigurationValue;
+                //var city = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicCity").ConfigurationValue;
+                //var state = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicState").ConfigurationValue;
+                //var phoneNum = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicPhoneNum").ConfigurationValue;
 
-                ClinicID = await vcheckAPI.UpdateLocation(location);
+                //VCheck.Interface.API.Lib.General.LocationModel location = new VCheck.Interface.API.Lib.General.LocationModel()
+                //{
+                //    ID = "",
+                //    Name = name,
+                //    Address = address,
+                //    ContactName = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicContactName").ConfigurationValue,
+                //    PhoneNum = phoneNum,
+                //    Email = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicEmail").ConfigurationValue,
+                //    Description = "Clinic",
+                //    Status = 1,
+                //    CreatedBy = "VCheck Viewer"
+                //};
 
-                VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest insertLocation = new VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest()
-                {
-                    clinic_id = ClinicID,
-                    name = name,
-                    address_1 = address,
-                    city = city,
-                    state = state,
-                    phone = phoneNum,
-                    api_access = "1"
-                };
+                //ClinicID = await vcheckAPI.UpdateLocation(location);
 
-                await greywindAPI.InsertClinicInfo(insertLocation, PMSURL);
+                //VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest insertLocation = new VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest()
+                //{
+                //    clinic_id = ClinicID,
+                //    name = name,
+                //    address_1 = address,
+                //    city = city,
+                //    state = state,
+                //    phone = phoneNum,
+                //    api_access = "1"
+                //};
+
+                //success = await greywindAPI.InsertClinicInfo(insertLocation, PMSURL);
             }
 
             if (string.IsNullOrEmpty(ClinicID))
@@ -592,9 +603,132 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
             }
             else
             {
-                configDBContext.AddConfiguration("ClinicID", ClinicID);
-                return await CheckGreywindClinic();
+                if (ClinicIDNotExist)
+                {
+                    configDBContext.AddConfiguration("ClinicID", ClinicID);
+                }
+
+                success = await CheckGreywindClinic();
+
+                if (success)
+                {
+                    return true;
+                }
+                else
+                {
+                    if (!ClinicIDNotExist)
+                    {
+                        ClinicID = await CreateClinicInfoVcheck(sSettingsObj, ClinicID);
+
+                        success = await CheckGreywindClinic();
+                    }
+
+                    if (!string.IsNullOrEmpty(ClinicID) && !success)
+                    {
+                        success = await CreateClinicInfoGW(sSettingsObj);
+                    }
+                    else if (!string.IsNullOrEmpty(ClinicID) && success)
+                    {
+                        configDBContext.UpdateConfiguration("ClinicID", ClinicID);
+                    }
+
+                    return success;
+                }
+
+                //return await CheckGreywindClinic();
             }
+        }
+
+        public async Task<String> CreateClinicInfoVcheck(List<ConfigurationModel> sSettingsObj, string ClinicID = "")
+        {
+            VCheckAPI vcheckAPI = new VCheckAPI();
+
+            var name = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicName").ConfigurationValue;
+            var address = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicAddress").ConfigurationValue;
+            var city = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicCity").ConfigurationValue;
+            var state = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicState").ConfigurationValue;
+            var phoneNum = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicPhoneNum").ConfigurationValue;
+
+            VCheck.Interface.API.Lib.General.LocationModel location = new VCheck.Interface.API.Lib.General.LocationModel()
+            {
+                ID = ClinicID,
+                Name = name,
+                Address = address,
+                ContactName = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicContactName").ConfigurationValue,
+                PhoneNum = phoneNum,
+                Email = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicEmail").ConfigurationValue,
+                Description = "Clinic",
+                Status = 1,
+                CreatedBy = "VCheck Viewer"
+            };
+
+            return await vcheckAPI.UpdateLocation(location);
+        }
+
+        public async Task<bool> CreateClinicInfoGW(List<ConfigurationModel> sSettingsObj)
+        {
+            GreywindAPI greywindAPI = new GreywindAPI();
+
+            var name = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicName").ConfigurationValue;
+            var address = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicAddress").ConfigurationValue;
+            var city = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicCity").ConfigurationValue;
+            var state = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicState").ConfigurationValue;
+            var phoneNum = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicPhoneNum").ConfigurationValue;
+
+            VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest insertLocation = new VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest()
+            {
+                clinic_id = ClinicID,
+                name = name,
+                address_1 = address,
+                city = city,
+                state = state,
+                phone = phoneNum,
+                api_access = "1"
+            };
+
+            return await greywindAPI.InsertClinicInfo(insertLocation, PMSURL);
+        }
+
+        public static void ConnectionStatusHandler(EventArgs e, object sender)
+        {
+            if (ConnectionStatus != null)
+            {
+                ConnectionStatus(sender, e);
+            }
+        }
+
+        public async void ConnectionStatusReload(object sender, EventArgs e)
+        {
+            if (Greywind.IsChecked.GetValueOrDefault())
+            {
+                if (await ConnectToPIMS(sender, null))
+                {
+                    btnConnect.Content = Properties.Resources.Maintenance_Label_Connected;
+                    btnConnect.Tag = "Connected";
+                    btnConnect.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFromString("#0ed145");
+
+                    btnUpdate.IsEnabled = false;
+                }
+                else
+                {
+                    btnConnect.Content = Properties.Resources.Maintenance_Label_NotConnected;
+                    btnConnect.Tag = "Not Connected";
+                    btnConnect.Background = System.Windows.Media.Brushes.Gray;
+                }
+
+                CurrentLIS = "Greywind";
+            }
+            else
+            {
+                btnConnect.Content = Properties.Resources.Maintenance_Label_Connected;
+                btnConnect.Tag = "Connected";
+                btnConnect.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFromString("#0ed145");
+
+                btnUpdate.IsEnabled = false;
+
+                CurrentLIS = "Other";
+            }
+            
         }
     }
 }

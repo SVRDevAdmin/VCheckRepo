@@ -616,19 +616,41 @@ namespace VCheck.Lib.Data
             }
         }
 
+        ///// <summary>
+        ///// Get list of test
+        ///// </summary>
+        ///// <param name="config"></param>
+        ///// <returns></returns>
+        //public static string[] GetAllTestParameterByTestName(IConfiguration config, string[] testNames)
+        //{
+        //    try
+        //    {
+        //        using (var ctx = new TestResultDBContext(config))
+        //        {
+        //            return ctx.mst_testlist.Where(x => testNames.Contains(x.TestName)).Select(y => y.Parameter).ToArray();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Error("Error >>> " + ex.ToString());
+        //        return null;
+        //    }
+        //}
+
         /// <summary>
         /// Get list of test
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static string[] GetAllTestParameterByTestName(IConfiguration config, string[] testNames)
+        public static List<TestIDAnalyzers> GetAllAnalyzerByTestName(IConfiguration config, string[] testNames)
         {
-
             try
             {
                 using (var ctx = new TestResultDBContext(config))
                 {
-                    return ctx.mst_testlist.Where(x => testNames.Contains(x.TestName)).Select(y => y.Parameter).ToArray();
+                    return ctx.mst_testlist.Where(x => testNames.Contains(x.TestName)).Select(y => new TestIDAnalyzers(){ TestID = y.TestID, Analyzers = y.Analyzer }).ToList();
+
+                    //return ctx.mst_testlist.Where(x => testNames.Contains(x.TestName)).Select(y => y.Analyzer).ToArray();
                 }
             }
             catch (Exception ex)
@@ -638,19 +660,41 @@ namespace VCheck.Lib.Data
             }
         }
 
+        ///// <summary>
+        ///// Get list of test
+        ///// </summary>
+        ///// <param name="config"></param>
+        ///// <returns></returns>
+        //public static List<string> GetAllTestListByParameters(IConfiguration config, List<string> parameters)
+        //{
+
+        //    try
+        //    {
+        //        using (var ctx = new TestResultDBContext(config))
+        //        {
+        //            return ctx.mst_testlist.Where(x => parameters.Contains(x.Parameter)).Select(y => y.TestName).ToList();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Error("Error >>> " + ex.ToString());
+        //        return null;
+        //    }
+        //}
+
         /// <summary>
         /// Get list of test
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static List<string> GetAllTestListByParameters(IConfiguration config, List<string> parameters)
+        public static List<string> GetAllTestListByAnalyzer(IConfiguration config, List<string> analyzer)
         {
 
             try
             {
                 using (var ctx = new TestResultDBContext(config))
                 {
-                    return ctx.mst_testlist.Where(x => parameters.Contains(x.Parameter)).Select(y => y.TestName).ToList();
+                    return ctx.mst_testlist.AsEnumerable().Where(x => x.Analyzer.Split(", ").Intersect(analyzer).Any()).Select(y => y.TestName).ToList();
                 }
             }
             catch (Exception ex)

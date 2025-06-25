@@ -69,6 +69,16 @@ namespace VCheckViewerAPI.Message.CreateScheduledTest
                 isValid = false;
             }
 
+            if (String.IsNullOrEmpty(Gender))
+            {
+                isValid = false;
+            }
+
+            if (String.IsNullOrEmpty(Species))
+            {
+                isValid = false;
+            }
+
             return isValid;
         }
     }

@@ -18,9 +18,9 @@ namespace ScheduleAutomation.Lib.Services
         static NetworkStream networkStream = null;
         static String receivedMessage = "";
 
-        public static async Task SendMessage(ScheduledTestModel scheduleTest, DeviceModel device)
+        public static async Task SendMessage(List<TestIDAnalyzers> testID, ScheduledTestModel scheduleTest, DeviceModel device)
         {
-            String sContent = MessageGenerator.GenerateOMLO33Message(scheduleTest);
+            String sContent = MessageGenerator.GenerateOMLO33Message(testID, scheduleTest);
             int timeout = 6000;
 
             //String sContent = "";
@@ -64,7 +64,8 @@ namespace ScheduleAutomation.Lib.Services
                         if (success)
                         {
                             VCheckAPI vCheckAPI = new VCheckAPI();
-                            var test = await vCheckAPI.UpdateScheduleStatus(scheduleTest.LocationID, scheduleTest.PatientID, scheduleTest.ScheduleUniqueID.Split("-")[1], scheduleTest.CreatedBy, 1);
+                            var UpdateStatus = await vCheckAPI.UpdateScheduleStatus(scheduleTest.LocationID, scheduleTest.PatientID, scheduleTest.ScheduleUniqueID.Split("-")[1], scheduleTest.CreatedBy, 1);
+                            var updateAnalyzer = await vCheckAPI.UpdateScheduleAnalyzer(device.DeviceName, scheduleTest.ScheduleUniqueID);
                         }
 
                     }

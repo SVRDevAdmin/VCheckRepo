@@ -35,7 +35,6 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <!--<RowDefinition Height="auto"/>-->
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
@@ -45,8 +44,6 @@
                     <TextBlock Grid.Row="1" Grid.Column="1" x:Name="APIStatus" HorizontalAlignment="Center"/>
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="VCheck Listener" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
                     <TextBlock Grid.Row="2" Grid.Column="1" x:Name="ListenerStatus" HorizontalAlignment="Center"/>
-                    <!--<TextBlock Grid.Row="3" Grid.Column="0" Text="Greywind" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
-                    <TextBlock Grid.Row="3" Grid.Column="1" x:Name="GreywindStatus" HorizontalAlignment="Center"/>-->
 
                     <Button Name="RefreshButton" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Foreground="White" Content="{Binding Path=Maintenance_Label_Refresh, Source={StaticResource Resources}}" Margin="0,5,0,0" Click="RefreshButton_Click"
                             Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" />
@@ -64,18 +61,16 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <!--<RowDefinition Height="auto"/>-->
-                        <!--<RowDefinition Height="*"/>-->
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Path=Maintenance_Label_Information, Source={StaticResource Resources}}" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
-
-                    <!--<TextBlock Grid.Row="1" Grid.Column="0" Text="API URL" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" x:Name="APIURL" HorizontalAlignment="Center"/>-->
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Listener IP" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Listener IP Address" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
                     <TextBlock Grid.Row="1" Grid.Column="1" x:Name="ListenerIP" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="PMS/LIS/HIS" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
-                    <TextBlock Grid.Row="2" Grid.Column="1" x:Name="PMSConnected" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Listener Port No." FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" x:Name="ListenerPort" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="PMS/LIS/HIS" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" x:Name="PMSConnected" HorizontalAlignment="Center"/>
 
                 </Grid>
             </Border>

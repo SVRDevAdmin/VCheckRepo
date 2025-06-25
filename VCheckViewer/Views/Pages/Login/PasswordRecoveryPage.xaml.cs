@@ -1,22 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.VisualBasic.Logging;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VCheck.Helper;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
@@ -79,16 +64,12 @@ namespace VCheckViewer.Views.Pages.Login
                 else
                 {
                     ErrorText.Visibility = Visibility.Visible;
-                    //ErrorText.Text = "Wrong email linked to the account, please verify it is the correct email and try again.";
-                    //ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongEmail;
                     ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongUsernameEmail;
                 }
             }
             else
             {
                 ErrorText.Visibility = Visibility.Visible;
-                //ErrorText.Text = "Cannot find user according to Login ID, please verify it is the correct login ID and try again.";
-                //ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongLoginIDRecovery;
                 ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongUsernameEmail;
             }
         }
@@ -137,7 +118,6 @@ namespace VCheckViewer.Views.Pages.Login
                 {
                     ConfigurationModel sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
 
-                    //var notificationTemplate = TemplateContext.GetTemplateByCode("EN02");
                     var notificationTemplate = TemplateContext.GetTemplateByCodeLang("EN02", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                     notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###", userModel.FullName).Replace("###<password>###", newPassword);
 
@@ -189,7 +169,6 @@ namespace VCheckViewer.Views.Pages.Login
                     catch (Exception ex)
                     {
                         ErrorText.Visibility = Visibility.Visible;
-                        //ErrorText.Text = "Error occur when creating password. Please contact administrator.";
                         ErrorText.Text = Properties.Resources.Login_Message_CreatePasswordError;
                         App.log.Error("Password Recovery Error >>> ", ex);
                     }
@@ -197,14 +176,12 @@ namespace VCheckViewer.Views.Pages.Login
                 else
                 {
                     ErrorText.Visibility = Visibility.Visible;
-                    //ErrorText.Text = "Error occur when creating password. Please contact administrator.";
                     ErrorText.Text = Properties.Resources.Login_Message_CreatePasswordError;
                 }
             }
             else
             {
                 ErrorText.Visibility = Visibility.Visible;
-                //ErrorText.Text = "Error occur when removing password. Please contact administrator.";
                 ErrorText.Text = Properties.Resources.Login_Message_RemovePasswordError;
             }
             

@@ -145,6 +145,11 @@ namespace VCheck.Lib.Data
                             sData.ScheduleTestStatus = sScheduledTestObj.ScheduleTestStatus;
                         }
 
+                        if (sData.SentToAnalyzer != sScheduledTestObj.SentToAnalyzer)
+                        {
+                            sData.SentToAnalyzer = sScheduledTestObj.SentToAnalyzer;
+                        }
+
                         ctx.SaveChanges();
 
                         isSuccess = true;
@@ -270,6 +275,8 @@ namespace VCheck.Lib.Data
         public static List<ScheduledTestModel> GetScheduleListByLocation(IConfiguration config, string locationID)
         {
             DateTime MinimumDatetime = DateTime.Now.ToUniversalTime().AddHours(-48);
+            var sBuilder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
+            int dataRowLimit = sBuilder.Configuration.GetValue<int>("DataRowLimit");
 
             try
             {
@@ -277,7 +284,7 @@ namespace VCheck.Lib.Data
                 {
                     return ctx.Txn_ScheduledTests.Where(x => x.ScheduledDateTime >= MinimumDatetime && x.ScheduleTestStatus < 2 && x.LocationID == locationID && x.TestCompleted == 0)
                                                 .OrderBy(x => x.ScheduledDateTime)
-                                                .Take(5)
+                                                .Take(dataRowLimit)
                                                 .ToList();
                 }
             }
@@ -289,12 +296,12 @@ namespace VCheck.Lib.Data
         }
 
         /// <summary>
-        /// Get Scheduled Test List Info by Location ID
+        /// Get Not Sent Scheduled Test List Info by Location ID
         /// </summary>
         /// <param name="config"></param>
         /// <param name="sUniqueID"></param>
         /// <returns></returns>
-        public static List<ScheduledTestModelExtended> GetScheduleListByLocationNotSent(IConfiguration config, string locationID)
+        public static List<ScheduledTestModelExtended> GetScheduleListByLocationNotSent(IConfiguration config, string locationID, string uniqueID = null)
         {
             DateTime MinimumDatetime = DateTime.Now.ToUniversalTime().AddHours(-48);
             List<ScheduledTestModelExtended> scheduledTestModelExtendeds = new List<ScheduledTestModelExtended>();
@@ -303,12 +310,24 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new ScheduleDBContext(config))
                 {
-                    var ScheduleList = ctx.Txn_ScheduledTests.Where(x => x.ScheduledDateTime >= MinimumDatetime && x.ScheduleTestStatus == 0 && x.LocationID == locationID && x.TestCompleted == 0).ToList();
+                    List<ScheduledTestModel> ScheduleList = new List<ScheduledTestModel>();
 
-                    foreach(var schedule in ScheduleList)
+                    if (string.IsNullOrEmpty(uniqueID))
                     {
-                        var parameters =  TestResultsRepository.GetAllTestParameterByTestName(config, schedule.ScheduledTestType.Split(","));
-                        ScheduledTestModelExtended scheduledExtended = new ScheduledTestModelExtended() { Schedule = schedule, Parameters = parameters };
+                        ScheduleList = ctx.Txn_ScheduledTests.Where(x => x.ScheduledDateTime >= MinimumDatetime && x.ScheduleTestStatus == 0 && x.LocationID == locationID && x.TestCompleted == 0).ToList();
+                    }
+                    else
+                    {
+                        ScheduleList = ctx.Txn_ScheduledTests.Where(x => x.ScheduleUniqueID.Substring(x.ScheduleUniqueID.Length - 8) == uniqueID).ToList();
+                    }
+
+
+                    foreach (var schedule in ScheduleList)
+                    {
+                        //var parameters =  TestResultsRepository.GetAllTestParameterByTestName(config, schedule.ScheduledTestType.Split(","));
+                        //ScheduledTestModelExtended scheduledExtended = new ScheduledTestModelExtended() { Schedule = schedule, Parameters = parameters };
+                        var testIDAnalyzers = TestResultsRepository.GetAllAnalyzerByTestName(config, schedule.ScheduledTestType.Split(","));
+                        ScheduledTestModelExtended scheduledExtended = new ScheduledTestModelExtended() { Schedule = schedule, IDAnalyzers = testIDAnalyzers };
 
                         scheduledTestModelExtendeds.Add(scheduledExtended);
                     }                    
@@ -324,19 +343,22 @@ namespace VCheck.Lib.Data
         }
 
         /// <summary>
-        /// Get Scheduled Test List Info by Location ID
+        /// Get Scheduled Test List Info by Location ID & Patient ID
         /// </summary>
         /// <param name="config"></param>
         /// <param name="sUniqueID"></param>
         /// <returns></returns>
-        public static ScheduledTestModel GetScheduleByLocationPatientID(IConfiguration config, string locationID, string patientID, string[] testType)
+        //public static ScheduledTestModel GetScheduleByLocationPatientID(IConfiguration config, string locationID, string patientID, string[] testType)
+        public static ScheduledTestModel GetScheduleByLocationPatientID(IConfiguration config, string locationID, string patientID, string testName)
         {
             try
             {
                 using (var ctx = new ScheduleDBContext(config))
                 {
-                    var scheduleList = ctx.Txn_ScheduledTests.Where(x => x.PatientID == patientID && x.ScheduleTestStatus < 2 && x.LocationID == locationID && x.TestCompleted == 0);
-                    var schedule = scheduleList.AsEnumerable().FirstOrDefault(x => x.ScheduledTestType.Split(", ").Intersect(testType).ToArray().Length > 0);
+                    //var scheduleList = ctx.Txn_ScheduledTests.Where(x => x.PatientID == patientID && x.ScheduleTestStatus < 2 && x.LocationID == locationID && x.TestCompleted == 0);
+                    //var schedule = scheduleList.AsEnumerable().FirstOrDefault(x => x.ScheduledTestType.Split(", ").Intersect(testType).ToArray().Length > 0);
+
+                    var schedule = ctx.Txn_ScheduledTests.FirstOrDefault(x => x.PatientID == patientID && x.ScheduleTestStatus < 2 && x.LocationID == locationID && x.TestCompleted == 0 && x.ScheduledTestType == testName);
 
                     return schedule;
                 }

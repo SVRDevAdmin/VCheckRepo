@@ -1,9 +1,7 @@
 ﻿using System.Text;
-using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
-using VCheckViewer.Views.Pages.Schedule;
 using VCheckViewerAPI.Lib.Object;
 using Message = VCheckViewerAPI.Lib.Object.Message;
 
@@ -13,7 +11,7 @@ namespace VCheckViewer.Services.HL7MessageSender
     {
         public static ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
 
-        public static String GenerateOMLO33Message(ScheduledTestModel info)
+        public static String GenerateOMLO33Message(List<TestIDAnalyzers> testIDAnalyzers, ScheduledTestModel info)
         {
             var message = new HL7MessageModel();
             message.MSH = new MSHModel()
@@ -32,7 +30,6 @@ namespace VCheckViewer.Services.HL7MessageSender
 
             
             var sLocation = configDBContext.GetConfigurationData("ClinicName").FirstOrDefault();
-            //var sLocation = LocationRepository.GetLocationByID(ConfigSettings.GetConfigurationSettings(), info.LocationID);
 
             message.PID = new PIDModel()
             {
@@ -70,8 +67,10 @@ namespace VCheckViewer.Services.HL7MessageSender
                 TransactionDatetime = DateTime.Now
             };
 
-            string CartridgeID = "DC001B";
-            string CartridgeName = "Comprehensive 17";
+            //string CartridgeID = "DC001B";
+            //string CartridgeName = "Comprehensive 17";
+            string CartridgeID = testIDAnalyzers.FirstOrDefault().TestID;
+            string CartridgeName = info.ScheduledTestType;
 
             message.OBR = new OBRModel()
             {
@@ -151,7 +150,6 @@ namespace VCheckViewer.Services.HL7MessageSender
             response = new Message();
             Segment spm = new Segment("SPM");
             spm.Field(1, message.SPM.SetID);
-            //spm.Field(4, "Serum^Respiratory^HL70487");
             spm.Field(4, message.SPM.SpecimenType);
             spm.Field(11, message.SPM.SpecimentRole); //optional
             response.Add(spm);
@@ -171,9 +169,7 @@ namespace VCheckViewer.Services.HL7MessageSender
             Segment orc = new Segment("ORC");
             orc.Field(1, message.ORC.OrderControl);
             orc.Field(2, message.ORC.PlacerOrderNo);
-            //orc.Field(4, "12345^IHE_OM_OP^1.3.6.1.4.1.12559.11.1.2.2.4.4^ISO");
             orc.Field(4, message.ORC.PlacerGroupNo);
-            //orc.Field(5, "IP");
             orc.Field(9, message.ORC.TransactionDatetime.ToString("yyyyMMddhhmmss"));
             response.Add(orc);
             frame.Append(response.SerializeMessage());

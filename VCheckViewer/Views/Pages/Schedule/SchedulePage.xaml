@@ -24,7 +24,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- // Left Section //-->
-        <Border Grid.Column="0" BorderThickness="0" BorderBrush="Black">
+        <Border Grid.Column="0" BorderThickness="0" BorderBrush="Black" VerticalAlignment="Center">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*" />
@@ -85,7 +85,7 @@
                     </Border>
                 </Border>
                 <!-- // Total New Patients // -->
-                <Border Grid.Row="3" BorderBrush="Black" BorderThickness="0">
+                <Border Grid.Row="3" BorderBrush="Black" BorderThickness="0" Visibility="Collapsed">
                     <Border BorderThickness="0">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -158,17 +158,18 @@
                                                         <RowDefinition Height="auto" />
                                                         <RowDefinition Height="auto" />
                                                         <RowDefinition Height="auto" />
+                                                        <RowDefinition Height="auto" />
+                                                        <RowDefinition Height="auto" />
                                                     </Grid.RowDefinitions>
 
                                                     <!-- // Column Left // -->
                                                     <Border Grid.Column="0" Grid.Row="0" Height="5"></Border>
-                                                    <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="0" Height="30">
+                                                    <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="4" BorderBrush="Black" BorderThickness="0" Height="30">
                                                         <Border CornerRadius="30" Width="30" Background="Transparent">
-                                                            <Image Source="{DynamicResource Themes_DogIcon}" Width="20" Height="20" />
-                                                            <!--<Image Source="../../../Content/Images/Icons/icon_dog.png" Width="20" Height="20" />-->
+                                                            <Image Source="{DynamicResource Themes_DogIcon}" Width="20" Height="20" />                                                            <!--<Image Source="../../../Content/Images/Icons/icon_dog.png" Width="20" Height="20" />-->
                                                         </Border>
                                                     </Border>
-                                                    <Border Grid.Column="0" Grid.Row="3" Grid.RowSpan="5" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1"></Border>
+                                                    <Border Grid.Column="0" Grid.Row="3" Grid.RowSpan="7" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1"></Border>
 
                                                     <!-- // Column Center // -->
                                                     <Border Grid.Column="0" Grid.Row="0" Height="7"></Border>
@@ -176,7 +177,7 @@
                                                         <Border>
                                                             <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}">
                                                             <Run Text="{Binding PatientIDString }" />
-                                                            <Run Text="{Binding PatientID}" FontWeight="Bold" />
+                                                            <Run Text="{Binding PatientID}" FontWeight="Bold"/>
                                                             </TextBlock>
                                                         </Border>
                                                     </Border>
@@ -188,21 +189,29 @@
                                                             </TextBlock>
                                                         </Border>
                                                     </Border>
-                                                    <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0" Height="15">
+                                                    <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0" Height="15" Visibility="Collapsed">
                                                         <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Text="{Binding InchargePerson}" Foreground="{DynamicResource Themes_FontColor}"></TextBlock>
                                                     </Border>
-                                                    <!--<Border Grid.Column="1" Grid.Row="4" BorderBrush="Black" BorderThickness="0" Height="25">
-                                                        <TextBlock Text="{Binding Path=Schedule_Label_ViewSchedulePMS, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center"></TextBlock>
+                                                    <Border Grid.Column="1" Grid.Row="4" BorderBrush="Black" BorderThickness="0" Height="15">
+                                                        <Border>
+                                                            <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}">
+                                                                <Run Text="{Binding TestListStringFirst }" />
+                                                                <Run Text="{Binding TestListStringSecond}" FontWeight="Bold" ToolTip="{Binding TestList}"/>
+                                                            </TextBlock>
+                                                        </Border>
                                                     </Border>
-                                                    <Border Grid.Column="1" Grid.Row="5" BorderBrush="Black" BorderThickness="0" Height="25">
-                                                        <TextBlock Text="{Binding Path=Schedule_Label_SendToAnalyzer, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" MouseDown="SendToAnalyzer_MouseDown" Tag="{Binding ID}"></TextBlock>
-                                                    </Border>
-                                                    <Border Grid.Column="1" Grid.Row="6" BorderBrush="Black" BorderThickness="0" Height="25">
-                                                        <TextBlock Text="{Binding Path=Schedule_Label_CancelSchedule, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" MouseDown="CancelSchedule_MouseDown" Tag="{Binding ID}"></TextBlock>
-                                                    </Border>-->
-                                                    <Border Grid.Column="1" Grid.Row="7" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1" Height="45">
+                                                    <Border Grid.Column="1" Grid.Row="8" Height="45">
                                                         <Border Width="120" Height="30" Background="#C2E2F5" HorizontalAlignment="Left" CornerRadius="4">
-                                                            <TextBlock Text="{Binding ScheduledDateTime, StringFormat={}{0:dd/MM/yyyy HH:mm tt}}" Foreground="#1e76fb" 
+                                                            <TextBlock Text="{Binding ScheduledDateTime, StringFormat={}{0:dd/MM/yyyy HH:mm}}" Foreground="#1e76fb" 
+                                                                       FontFamily="Noto Sans" FontSize="11" FontWeight="Bold" 
+                                                                       VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                            </TextBlock>
+                                                        </Border>
+                                                    </Border>
+
+                                                    <Border Grid.Column="1" Grid.Row="9" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1">
+                                                        <Border Height="30" HorizontalAlignment="Left">
+                                                            <TextBlock Text="{Binding AnalyzerName}"
                                                                        FontFamily="Noto Sans" FontSize="11" FontWeight="Bold" 
                                                                        VerticalAlignment="Center" HorizontalAlignment="Center">
                                                             </TextBlock>
@@ -211,13 +220,9 @@
 
                                                     <!-- // Column Right // -->
                                                     <Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="0" VerticalAlignment="Top">
-                                                        <!--<Image Source="../../../Content/Images/Collapse_BlackArrow_Right.png" Width="15" Height="15" Margin="0, 10" Visibility="Collapsed" /> -->
-                                                        <!--<Image Source="{DynamicResource Themes_ArrowRight}" Width="15" Height="15" Margin="0, 10" Visibility="Collapsed" />-->
-
                                                         <Menu>
                                                             <MenuItem>
                                                                 <MenuItem.Icon>
-                                                                    <!--<ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />-->
                                                                     <Image Source="{DynamicResource Themes_GirdUserMoreIcon}" Width="12"/>
                                                                 </MenuItem.Icon>
                                                                 <MenuItem Name="menuViewPMS" Header="{Binding Path=Schedule_Label_ViewSchedulePMS, Source={StaticResource Resources}}" Tag="{Binding ScheduleUniqueID}" Visibility="Collapsed"/>
@@ -295,8 +300,7 @@
                                                     <!-- // Column Left // -->
                                                     <Border Grid.Column="0" Grid.Row="0" Height="5"></Border>
                                                     <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0" Height="30">
-                                                        <Border CornerRadius="30" Width="30" Background="Transparent">
-                                                            <!--<Image Source="../../../Content/Images/Icons/icon_dog.png" Width="20" Height="20" />-->
+                                                        <Border CornerRadius="30" Width="30" Background="Transparent">                                                            <!--<Image Source="../../../Content/Images/Icons/icon_dog.png" Width="20" Height="20" />-->
                                                             <Image Source="{DynamicResource Themes_DogIcon}" Width="20" Height="20" />
                                                         </Border>
                                                     </Border>
@@ -321,13 +325,9 @@
                                                     <Border Grid.Column="1" Grid.Row="4" BorderBrush="Black" BorderThickness="0" Height="15">
                                                         <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Text="{Binding InchargePerson}" Foreground="{DynamicResource Themes_FontColor}"></TextBlock>
                                                     </Border>
-                                                    <!--<Border Grid.Column="1" Grid.Row="5" BorderBrush="Black" BorderThickness="0" Height="25">
-                                                        <TextBlock Text="{Binding Path=Schedule_Label_ViewReport, Source={StaticResource Resources}}" 
-                                                                   Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Tag="{Binding ID}" MouseLeftButtonDown="ViewReport_MouseDown"></TextBlock>
-                                                    </Border>-->
                                                     <Border Grid.Column="1" Grid.Row="6" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1" Height="45">
                                                         <Border Width="70" Height="30" Background="Transparent" HorizontalAlignment="Left" CornerRadius="4">
-                                                            <TextBlock Text="{Binding TestResultStatus}" Foreground="#57baa5" 
+                                                            <TextBlock Text="{Binding TestResultStatus}" Foreground="{Binding StatusForeground}" 
                                                                        FontFamily="Noto Sans" FontSize="11" FontWeight="Bold" 
                                                                        VerticalAlignment="Center" >
                                                             </TextBlock>
@@ -336,13 +336,9 @@
 
                                                     <!-- // Column Right // -->
                                                     <Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="0" VerticalAlignment="Top">
-                                                        <!--<Image Source="../../../Content/Images/Collapse_BlackArrow_Right.png" Width="15" Height="15" Margin="0, 10" Visibility="Collapsed" />-->
-                                                        <!--<Image Source="{DynamicResource Themes_ArrowRight}" Width="15" Height="15" Margin="0, 10" Visibility="Collapsed" />-->
-
                                                         <Menu>
                                                             <MenuItem>
                                                                 <MenuItem.Icon>
-                                                                    <!--<ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />-->
                                                                     <Image Source="{DynamicResource Themes_GirdUserMoreIcon}" Width="12"/>
                                                                 </MenuItem.Icon>
                                                                 <MenuItem Name="menuViewReport" Header="{Binding Path=Schedule_Label_ViewReport, Source={StaticResource Resources}}" Tag="{Binding ID}" Click="menuViewReport_Click"/>

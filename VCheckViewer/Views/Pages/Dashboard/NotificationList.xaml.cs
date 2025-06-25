@@ -1,21 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Printing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VCheck.Lib.Data.DBContext;
-using VCheck.Lib.Data.Models;
-using Brushes = System.Windows.Media.Brushes;
 
 namespace VCheckViewer.Views.Pages.Dashboard
 {
@@ -29,7 +14,7 @@ namespace VCheckViewer.Views.Pages.Dashboard
         public NotificationList()
         {
             InitializeComponent();
-            //initializeData();
+            initializeData();
         }
 
         public void initializeData()

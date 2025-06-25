@@ -115,7 +115,7 @@ namespace VCheck.Lib.Data
             }
         }
 
-        public void UpdateScheduledTest(string scheduledUniqueID ,string scheduledDatetime, string inchargePerson, string updatedBy, out ScheduledTestModel returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        public void UpdateScheduledTest(string scheduledUniqueID ,string scheduledDatetime, string inchargePerson, string analyzerName, string updatedBy, out ScheduledTestModel returnData, out string responseCode, out string responseMessage, out string responseStatus)
         {
             returnData = null;
 
@@ -127,10 +127,22 @@ namespace VCheck.Lib.Data
                     responseCode = "VV.0002";
                     responseMessage = "No Data Found";
                 }
-                else if ((!String.IsNullOrEmpty(scheduledDatetime) && data.ScheduledDateTime != DateTime.ParseExact(scheduledDatetime, "yyyyMMddHHmmss", null)) || (!String.IsNullOrEmpty(inchargePerson) != null && data.InchargePerson != inchargePerson))
+                else if ((!String.IsNullOrEmpty(scheduledDatetime) && data.ScheduledDateTime != DateTime.ParseExact(scheduledDatetime, "yyyyMMddHHmmss", null)) || (!String.IsNullOrEmpty(inchargePerson) && data.InchargePerson != inchargePerson))
                 {
                     data.ScheduledDateTime = (!String.IsNullOrEmpty(scheduledDatetime)) ? DateTime.ParseExact(scheduledDatetime, "yyyyMMddHHmmss", null) : data.ScheduledDateTime;
                     data.InchargePerson = (!String.IsNullOrEmpty(inchargePerson)) ? inchargePerson : data.InchargePerson;
+                    data.UpdatedBy = updatedBy;
+                    data.UpdatedDate = DateTime.Now;
+
+                    ScheduledTestRepository.UpdateScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), data);
+
+                    responseCode = "VV.0001";
+                    responseMessage = "Success";
+                    returnData = data;
+                }
+                else if (!string.IsNullOrEmpty(analyzerName) && analyzerName != data.SentToAnalyzer)
+                {
+                    data.SentToAnalyzer = analyzerName;
                     data.UpdatedBy = updatedBy;
                     data.UpdatedDate = DateTime.Now;
 
@@ -190,13 +202,13 @@ namespace VCheck.Lib.Data
             }
         }
 
-        public void GetScheduleListByLocationNotSent(string locationID, out List<ScheduledTestModelExtended> returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        public void GetScheduleListByLocationNotSent(string locationID, string uniqueID, out List<ScheduledTestModelExtended> returnData, out string responseCode, out string responseMessage, out string responseStatus)
         {
             returnData = null;
 
             try
             {
-                var data = ScheduledTestRepository.GetScheduleListByLocationNotSent(ConfigSettings.GetConfigurationSettings(), locationID);
+                var data = ScheduledTestRepository.GetScheduleListByLocationNotSent(ConfigSettings.GetConfigurationSettings(), locationID, uniqueID);
                 if (data == null)
                 {
                     responseCode = "VV.0002";
@@ -221,14 +233,17 @@ namespace VCheck.Lib.Data
             }
         }
 
-        public void GetScheduleByLocationPatientID(string locationID, string patientID, List<string> parameters, out ScheduledTestModel returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        //public void GetScheduleByLocationPatientID(string locationID, string patientID, List<string> parameters, out ScheduledTestModel returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        public void GetScheduleByLocationPatientID(string locationID, string patientID, string testName, out ScheduledTestModel returnData, out string responseCode, out string responseMessage, out string responseStatus)
         {
             returnData = null;
 
             try
             {
-                var testTypeList = TestResultsRepository.GetAllTestListByParameters(ConfigSettings.GetConfigurationSettings(), parameters);
-                var data = ScheduledTestRepository.GetScheduleByLocationPatientID(ConfigSettings.GetConfigurationSettings(), locationID, patientID, testTypeList.ToArray());
+                //var testTypeList = TestResultsRepository.GetAllTestListByParameters(ConfigSettings.GetConfigurationSettings(), parameters);
+                //var data = ScheduledTestRepository.GetScheduleByLocationPatientID(ConfigSettings.GetConfigurationSettings(), locationID, patientID, testTypeList.ToArray());
+                var data = ScheduledTestRepository.GetScheduleByLocationPatientID(ConfigSettings.GetConfigurationSettings(), locationID, patientID, testName);
+
                 if (data == null)
                 {
                     responseCode = "VV.0002";
@@ -442,10 +457,12 @@ namespace VCheck.Lib.Data
             }
         }
 
-        public bool ValidateTestInfo(string TestUniqueID, string Species, string Gender, out int isMismatchedWrongUniqueIDError)
+        public bool ValidateTestInfo(string TestUniqueID, string Species, string Gender, out int isMismatchedWrongUniqueIDError, out string TestName)
         {
             isMismatchedWrongUniqueIDError = 0;
             var uniqueKey = TestUniqueID.Split("-");
+            TestName = "";
+
             try
             {
                 var data = TestResultsRepository.GetTestByUniqueID(ConfigSettings.GetConfigurationSettings(), uniqueKey[0]);
@@ -465,6 +482,7 @@ namespace VCheck.Lib.Data
                 }
                 else
                 {
+                    TestName = data.TestName;
                     return true;
                 }
             }

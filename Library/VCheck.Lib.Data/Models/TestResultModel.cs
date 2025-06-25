@@ -140,8 +140,9 @@ namespace VCheck.Lib.Data.Models
         [Key]
         public String? TestID { get; set; }
         public String? TestName { get; set; }
-        public String? Parameter { get; set; }
+        //public String? Parameter { get; set; }
         public String? TestDescription { get; set; }
+        public String? Analyzer { get; set; }
         public String? Species { get; set; }
         public String? Gender { get; set; }
         public DateTime? CreatedDate { get; set; }

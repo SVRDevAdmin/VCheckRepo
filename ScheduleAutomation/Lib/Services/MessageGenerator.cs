@@ -12,7 +12,7 @@ namespace ScheduleAutomation.Lib.Services
 {
     public class MessageGenerator
     {
-        public static String GenerateOMLO33Message(ScheduledTestModel info)
+        public static String GenerateOMLO33Message(List<TestIDAnalyzers> testIDAnalyzers, ScheduledTestModel info)
         {
             var message = new HL7MessageModel();
             message.MSH = new MSHModel()
@@ -67,13 +67,16 @@ namespace ScheduleAutomation.Lib.Services
                 TransactionDatetime = DateTime.Now
             };
 
-            string CartridgeID = "DC001B";
-            string CartridgeName = "Comprehensive 17";
+            //string CartridgeID = "DC001B";
+            //string CartridgeName = "Comprehensive 17";
+            string CartridgeID = testIDAnalyzers.FirstOrDefault().TestID;
+            string CartridgeName = info.ScheduledTestType;
+            string CodeSystemName = "VCHECK";
 
             message.OBR = new OBRModel()
             {
                 PlacerOrderNo = Guid.NewGuid().ToString(),
-                UniversalServiceID = CartridgeID + "^" + CartridgeName + "^VCHECK"
+                UniversalServiceID = CartridgeID + "^" + CartridgeName + "^" + CodeSystemName
             };
 
             List<OBXModel> obx = new List<OBXModel>()
@@ -87,8 +90,21 @@ namespace ScheduleAutomation.Lib.Services
                     SetID = "2", ValueType = "NM", ObservationIdentifier = "^Weight", ObservationValue = "5.4", Units = "kg", ObservationResultStatus = "F"
                 }
             };
-
             message.OBX = obx;
+
+            List<NTEModel> nte = new List<NTEModel>()
+            {
+                new NTEModel()
+                {
+                    SetID = "1", Comment = "24^Months", CommentType = "Age"
+                },
+                new NTEModel()
+                {
+                    SetID = "2", Comment = "5.4^Kg", CommentType = "Weight"
+                }
+            };
+            message.NTE = nte;
+
 
             return GenerateMessage(message);
         }
@@ -123,6 +139,7 @@ namespace ScheduleAutomation.Lib.Services
             // ------------- Patient Identification Segment ------------//
             response = new Message();
             Segment pid = new Segment("PID");
+            pid.Field(1, "1");
             pid.Field(3, message.PID.PatientID + "^^^^^" + message.PID.Hospital);
             pid.Field(5, message.PID.PetName);
             pid.Field(7, message.PID.BirthDate.ToString("yyyyMMdd"));
@@ -147,7 +164,7 @@ namespace ScheduleAutomation.Lib.Services
             // ------------- Speciment Segment ------------//
             response = new Message();
             Segment spm = new Segment("SPM");
-            spm.Field(1, message.SPM.SetID);
+            spm.Field(1, "1");
             //spm.Field(4, "Serum^Respiratory^HL70487");
             spm.Field(4, message.SPM.SpecimenType);
             spm.Field(11, message.SPM.SpecimentRole); //optional
@@ -169,8 +186,8 @@ namespace ScheduleAutomation.Lib.Services
             orc.Field(1, message.ORC.OrderControl);
             orc.Field(2, message.ORC.PlacerOrderNo);
             //orc.Field(4, "12345^IHE_OM_OP^1.3.6.1.4.1.12559.11.1.2.2.4.4^ISO");
-            orc.Field(4, message.ORC.PlacerGroupNo);
-            //orc.Field(5, "IP");
+            //orc.Field(4, message.ORC.PlacerGroupNo);
+            orc.Field(5, "IP");
             orc.Field(9, message.ORC.TransactionDatetime.ToString("yyyyMMddhhmmss"));
             response.Add(orc);
             frame.Append(response.SerializeMessage());
@@ -179,6 +196,7 @@ namespace ScheduleAutomation.Lib.Services
             // ------------- Observation Request Segment ------------//
             response = new Message();
             Segment obr = new Segment("OBR");
+            obr.Field(1, "1"); //optional
             obr.Field(2, message.OBR.PlacerOrderNo); //optional
             obr.Field(4, message.OBR.UniversalServiceID);
             response.Add(obr);
@@ -201,6 +219,20 @@ namespace ScheduleAutomation.Lib.Services
                 frame.Append(response.SerializeMessage());
                 frame.Append((char)0x0d);
             }
+
+            foreach (var nteValue in message.NTE)
+            {
+                // ------------- Notes and Comments Segment ------------//
+                response = new Message();
+                Segment nte = new Segment("NTE");
+                nte.Field(1, nteValue.SetID);
+                nte.Field(3, nteValue.Comment);
+                nte.Field(4, nteValue.CommentType);
+                response.Add(nte);
+                frame.Append(response.SerializeMessage());
+                frame.Append((char)0x0d);
+            }
+
 
             frame.Append((char)0x1c);
             frame.Append((char)0x0d);

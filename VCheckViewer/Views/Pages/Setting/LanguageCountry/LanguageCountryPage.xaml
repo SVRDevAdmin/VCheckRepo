@@ -109,7 +109,6 @@
                         <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Margin="10,0,10,0" BorderThickness="1" BorderBrush="{DynamicResource Themes_SearchFieldFontColor}" CornerRadius="7">
                             <Border Background="{DynamicResource Themes_CountryLangSearchBackground}" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangSearchBackground}">
                                 <Grid>
-                                    <!--<ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->
                                     <Image Source="{DynamicResource Themes_SearchIcon}" Width="24" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
 
                                     <TextBox x:Name="CountrySearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" KeyUp="CountrySearchBar_KeyUp" Style="{StaticResource TextBoxStyle}"/>
@@ -133,7 +132,6 @@
                             </ListView>
                         </Border>
                     </Grid>
-                    <!--<ComboBox Name="CountryListView" VerticalAlignment="Top" IsEditable="True" IsTextSearchEnabled="True" IsDropDownOpen="True" VerticalContentAlignment="Stretch" StaysOpenOnEdit="True"></ComboBox>-->
                 </Border>
             </Grid>
         </Border>

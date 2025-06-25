@@ -125,7 +125,6 @@
                     </Border>
                     <TextBlock Text="{Binding Path=Setting_Label_Status, Source={StaticResource Resources}}" Grid.Row="8" VerticalAlignment="Bottom" Margin="10" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}"  Visibility="Hidden"/>
                     <Border Grid.Row="9" Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black"  Visibility="Hidden">
-                        <!--<ComboBox x:Name="Status" Grid.Row="9" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbStatus}" SelectedItem="{Binding SelectedcbStatus}" LostFocus="CheckValueExist"/>-->
                         <ComboBox x:Name="Status" Grid.Row="9" Background="White" BorderThickness="0" Margin="10,0,10,0" VerticalAlignment="Center" ItemsSource="{Binding cbStatus}" SelectedItem="{Binding SelectedcbStatus}" IsEnabled="False"/>
                     </Border>
                 </Grid>

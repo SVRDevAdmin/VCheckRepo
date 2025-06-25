@@ -421,11 +421,11 @@ namespace VCheckListenerWorker.Lib.Logic
                 {
                     DeviceModel device = new DeviceModel();
 
-                    if (string.IsNullOrEmpty(sIP))
+                    if (!string.IsNullOrEmpty(sIP))
                     {
                         device =  ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceIPAddress == sIP);
                     }
-                    else if (string.IsNullOrEmpty(sSerialNo))
+                    else if (!string.IsNullOrEmpty(sSerialNo))
                     {
                         device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceSerialNo == sSerialNo);
                     }

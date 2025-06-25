@@ -511,7 +511,8 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                 var clinic = TestResultRepository.GetConfigurationByKey("ClinicID");
                 if (clinic != null && !string.IsNullOrEmpty(clinic.ConfigurationValue))
                 {
-                    var scheduleString = await VcheckAPI.GetSchedule(clinic.ConfigurationValue, sTestResultObj.PatientID, parameters);
+                    //var scheduleString = await VcheckAPI.GetSchedule(clinic.ConfigurationValue, sTestResultObj.PatientID, parameters);
+                    var scheduleString = await VcheckAPI.GetSchedule(clinic.ConfigurationValue, sTestResultObj.PatientID, sResultTestType);
                     sScheduledTestObj = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
 
                     if (sScheduledTestObj != null)
@@ -528,10 +529,13 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
 
                     if (sScheduledTestObj != null)
                     {
-                        var success = await VcheckAPI.UpdateScheduleStatus(sScheduledTestObj.LocationID, sScheduledTestObj.PatientID, sScheduledTestObj.ScheduleUniqueID.Split("-")[1], sScheduledTestObj.CreatedBy, 3);
-
                         PMSHandler pmsHandler = new PMSHandler();
-                        pmsHandler.SendToPMS(sTestResultObj, sTestResultDetails, sScheduledTestObj);
+                        var success = await pmsHandler.SendToPMS(sTestResultObj, sTestResultDetails, sScheduledTestObj);
+
+                        if (success)
+                        {
+                            success = await VcheckAPI.UpdateScheduleStatus(sScheduledTestObj.LocationID, sScheduledTestObj.PatientID, sScheduledTestObj.ScheduleUniqueID.Split("-")[1], sScheduledTestObj.CreatedBy, 3);
+                        }
                     }
 
                     NotificationRepository.SendNotification(sTestResultObj.PatientID, sSystemName);

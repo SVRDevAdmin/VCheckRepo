@@ -861,4 +861,61 @@
   <data name="Popup_Message_SelectAll" xml:space="preserve">
     <value>選擇全部</value>
   </data>
+  <data name="ClinicInfo_Button_Connect" xml:space="preserve">
+    <value>連接</value>
+  </data>
+  <data name="ClinicInfo_Label_City" xml:space="preserve">
+    <value>城市</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicAddress" xml:space="preserve">
+    <value>診所地址</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInfo" xml:space="preserve">
+    <value>診所資訊</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInformation" xml:space="preserve">
+    <value>診所資訊</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicName" xml:space="preserve">
+    <value>診所名稱</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicPhoneNumber" xml:space="preserve">
+    <value>診所電話號碼</value>
+  </data>
+  <data name="ClinicInfo_Label_CountryCode" xml:space="preserve">
+    <value>國家/地區代碼</value>
+  </data>
+  <data name="ClinicInfo_Label_PhoneNumber" xml:space="preserve">
+    <value>電話號碼</value>
+  </data>
+  <data name="ClinicInfo_Label_PrimaryContactName" xml:space="preserve">
+    <value>主要聯絡人姓名</value>
+  </data>
+  <data name="ClinicInfo_Label_State" xml:space="preserve">
+    <value>州/省</value>
+  </data>
+  <data name="Maintenance_Label_Connected" xml:space="preserve">
+    <value>已連接</value>
+  </data>
+  <data name="Maintenance_Label_NotConnected" xml:space="preserve">
+    <value>未連接</value>
+  </data>
+  <data name="Popup_Message_APINoLinkFound" xml:space="preserve">
+    <value>未找到與結果關聯的預約。</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdate" xml:space="preserve">
+    <value>保存診所詳情？</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdateCompleted" xml:space="preserve">
+    <value>已成功更新診所詳情。</value>
+  </data>
+  <data name="Popup_Message_FailedGreywindConnect" xml:space="preserve">
+    <value>無法連接 Greywind。</value>
+  </data>
+  <data name="Popup_Message_FailedToCancelSchedule" xml:space="preserve">
+    <value>無法取消預約。</value>
+  </data>
+  <data name="Popup_Message_GreywindConnected" xml:space="preserve">
+    <value>已成功連接 Greywind。</value>
+  </data>
 </root>

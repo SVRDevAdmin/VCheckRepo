@@ -117,6 +117,39 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ClinicInfo_Button_Connect" xml:space="preserve">
+    <value>연결</value>
+  </data>
+  <data name="ClinicInfo_Label_City" xml:space="preserve">
+    <value>도시</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicAddress" xml:space="preserve">
+    <value>진료소 주소</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInfo" xml:space="preserve">
+    <value>진료소 정보</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInformation" xml:space="preserve">
+    <value>진료소 정보</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicName" xml:space="preserve">
+    <value>진료소 이름</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicPhoneNumber" xml:space="preserve">
+    <value>진료소 전화번호</value>
+  </data>
+  <data name="ClinicInfo_Label_CountryCode" xml:space="preserve">
+    <value>국가 번호</value>
+  </data>
+  <data name="ClinicInfo_Label_PhoneNumber" xml:space="preserve">
+    <value>전화번호</value>
+  </data>
+  <data name="ClinicInfo_Label_PrimaryContactName" xml:space="preserve">
+    <value>주 연락처 이름</value>
+  </data>
+  <data name="ClinicInfo_Label_State" xml:space="preserve">
+    <value>주</value>
+  </data>
   <data name="Configuration_Label_Button_Update" xml:space="preserve">
     <value>업데이트</value>
   </data>
@@ -372,8 +405,14 @@
   <data name="Maintenance_Label_Checking" xml:space="preserve">
     <value>확인 중..</value>
   </data>
+  <data name="Maintenance_Label_Connected" xml:space="preserve">
+    <value>연결됨</value>
+  </data>
   <data name="Maintenance_Label_Information" xml:space="preserve">
     <value>정보</value>
+  </data>
+  <data name="Maintenance_Label_NotConnected" xml:space="preserve">
+    <value>연결되지 않음</value>
   </data>
   <data name="Maintenance_Label_NotRunning" xml:space="preserve">
     <value>실행 중이 아님</value>
@@ -438,6 +477,9 @@
   <data name="Popup_Message_AddAnalyzer" xml:space="preserve">
     <value>이 새 분석기를 추가하시겠습니까?</value>
   </data>
+  <data name="Popup_Message_APINoLinkFound" xml:space="preserve">
+    <value>검색 결과에 연결된 일정을 찾을 수 없습니다.</value>
+  </data>
   <data name="Popup_Message_APIUpdateFailed" xml:space="preserve">
     <value>결과 API 업데이트가 실패했습니다.</value>
   </data>
@@ -455,6 +497,12 @@
   </data>
   <data name="Popup_Message_CheckUsername" xml:space="preserve">
     <value>사용자 이름을 다시 확인하세요.</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdate" xml:space="preserve">
+    <value>진료소 정보를 저장하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdateCompleted" xml:space="preserve">
+    <value>진료소 정보가 성공적으로 업데이트되었습니다.</value>
   </data>
   <data name="Popup_Message_ConfirmPasswordDoNotMatch" xml:space="preserve">
     <value>비밀번호와 비밀번호 확인이 일치하지 않습니다.</value>
@@ -477,8 +525,14 @@
   <data name="Popup_Message_FailedDownloadListing" xml:space="preserve">
     <value>테스트 결과 목록을 다운로드하지 못했습니다.</value>
   </data>
+  <data name="Popup_Message_FailedGreywindConnect" xml:space="preserve">
+    <value>Greywind에 연결하지 못했습니다.</value>
+  </data>
   <data name="Popup_Message_FailedOpenPrint" xml:space="preserve">
     <value>인쇄를 열지 못했습니다.</value>
+  </data>
+  <data name="Popup_Message_FailedToCancelSchedule" xml:space="preserve">
+    <value>일정을 취소하지 못했습니다.</value>
   </data>
   <data name="Popup_Message_FailedToDownload" xml:space="preserve">
     <value>다운로드에 실패했습니다.</value>
@@ -494,6 +548,9 @@
   </data>
   <data name="Popup_Message_FailedUpdateLISInfo" xml:space="preserve">
     <value>LIS 정보를 업데이트하지 못했습니다.</value>
+  </data>
+  <data name="Popup_Message_GreywindConnected" xml:space="preserve">
+    <value>Greywind에 성공적으로 연결되었습니다.</value>
   </data>
   <data name="Popup_Message_InputPassword" xml:space="preserve">
     <value>비밀번호를 입력하세요.</value>

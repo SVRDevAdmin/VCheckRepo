@@ -1,23 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Net;
-using System.Net.Http;
 using System.Net.Sockets;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheckViewer.Lib.Function;
 using Brush = System.Windows.Media.Brush;
@@ -31,7 +17,6 @@ namespace VCheckViewer.Views.Pages.Maintenance
     public partial class MaintenancePage : Page
     {
         private string apiURL = "http://vcheckstaging.inteleon.xyz/API";
-        //private string apiURL = "http://localhost:82/API";
         public ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
 
         public MaintenancePage()
@@ -65,25 +50,6 @@ namespace VCheckViewer.Views.Pages.Maintenance
             return false;
         }
 
-        //public async Task<bool> CheckGreywindConnection(string ClinicID)
-        //{
-        //    try
-        //    {
-        //        GreywindAPI sAPI = new GreywindAPI();
-        //        VCheckAPI VcheckAPI = new VCheckAPI();
-        //        var url = await VcheckAPI.GetPMSUrl(2);
-
-        //        return await sAPI.ClinicInfo(ClinicID, url);
-        //        //return await sAPI.ClinicInfo("1", url);
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-
-        //    return false;
-        //}
-
         public bool CheckListener()
         {
             return Process.GetProcessesByName("VCheckListenerWorker").Any();
@@ -104,22 +70,22 @@ namespace VCheckViewer.Views.Pages.Maintenance
             APIStatus.Foreground = (Brush)new BrushConverter().ConvertFromString("#fa8219");
             ListenerStatus.Text = Properties.Resources.Maintenance_Label_Checking;
             ListenerStatus.Foreground = (Brush)new BrushConverter().ConvertFromString("#fa8219");
-            //APIURL.Text = apiURL;
-            //APIURL.Foreground = (Brush)new BrushConverter().ConvertFromString("#fa8219");
             ListenerIP.Text = GetAssignedIPAddress();
             ListenerIP.Foreground = (Brush)new BrushConverter().ConvertFromString("#fa8219");
+            ListenerPort.Text = "8585";
+            ListenerPort.Foreground = (Brush)new BrushConverter().ConvertFromString("#fa8219");
             PMSConnected.Text = PMS != null ? PMS.ConfigurationValue : "None";
             PMSConnected.Foreground = (Brush)new BrushConverter().ConvertFromString("#fa8219");
 
             var APIRunning = await CheckAPI();
             APIStatus.Text = APIRunning ? Properties.Resources.Maintenance_Label_Connected : Properties.Resources.Maintenance_Label_NotConnected;
             APIStatus.Foreground = APIRunning ? (Brush)new BrushConverter().ConvertFromString("#16c933") : Brushes.Red;
-            //APIURL.Foreground = APIRunning ? (Brush)new BrushConverter().ConvertFromString("#16c933") : Brushes.Red;
 
             var ListenerRunning = CheckListener();
             ListenerStatus.Text = ListenerRunning ? Properties.Resources.Maintenance_Label_Running : Properties.Resources.Maintenance_Label_NotRunning;
             ListenerStatus.Foreground = ListenerRunning ? (Brush)new BrushConverter().ConvertFromString("#16c933") : Brushes.Red;
             ListenerIP.Foreground = ListenerRunning ? (Brush)new BrushConverter().ConvertFromString("#16c933") : Brushes.Red;
+            ListenerPort.Foreground = ListenerRunning ? (Brush)new BrushConverter().ConvertFromString("#16c933") : Brushes.Red;
 
             var PMSConnect = PMS != null;
             PMSConnected.Text = PMSConnect ? PMS.ConfigurationValue : "None";
@@ -133,17 +99,14 @@ namespace VCheckViewer.Views.Pages.Maintenance
         /// </summary>
         public static string GetAssignedIPAddress()
         {
-            var port = 8585;
-
             var host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (var ip in host.AddressList)
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork && ip.ToString() != "127.0.0.1")
                 {
-                    return ip.ToString() + ":" + port;
+                    return ip.ToString();
                 }
             }
-            //throw new Exception("No network adapters with an IPv4 address in the system!");
             return "";
         }
     }

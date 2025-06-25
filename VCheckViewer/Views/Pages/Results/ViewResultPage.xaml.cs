@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
@@ -74,7 +63,6 @@ namespace VCheckViewer.Views.Pages.Results
 
         private void LoadResultData()
         {
-            //var parameterOrder = App.iConfig.GetSection("Configuration:ParameterOrder").Value.Split(",").ToList();
             var parameterOrder = TestResultsRepository.GetAllParameters(ConfigSettings.GetConfigurationSettings()).Select(x => x.Parameter).ToList();
             List<TestResultDetailsModel> sTestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), App.TestResultID).OrderBy(d => parameterOrder.IndexOf(d.TestParameter)).ToList();
             List<TestResultDetailsExtension> sTestResultDetailsExtension = new List<TestResultDetailsExtension>();
@@ -86,7 +74,7 @@ namespace VCheckViewer.Views.Pages.Results
                 var secondLayer = 0;
                 var barVisibility = "Visible";
 
-                if (!string.IsNullOrEmpty(testDetail.ReferenceRange))
+                if (!string.IsNullOrEmpty(testDetail.ReferenceRange) && !string.IsNullOrEmpty(testDetail.TestResultValue) && !testDetail.TestResultValue.Contains("-"))
                 {
                     barVisibility = "Collapsed";
                     var range = testDetail.ReferenceRange.Replace("[", "").Replace("]", "").Contains(";") ? testDetail.ReferenceRange.Split(";") : testDetail.ReferenceRange.Split("-");

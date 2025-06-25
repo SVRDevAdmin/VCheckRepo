@@ -22,16 +22,16 @@ namespace ScheduleAutomation.Lib.Logic
             return configuration != null ? configuration.ConfigurationValue : "";
         }
 
-        public static DeviceModel GetTargetAnalyzer()
+        public static bool TwoWayDeviceExist()
         {
             var device = DeviceRepository.GetTwoWayCommDevice(GetConfigurationSettings()).FirstOrDefault();
 
-            return device;
+            return device != null;
         }
 
-        public static List<DeviceTypeModel> GetDeviceTypeList()
+        public static List<DeviceTypeModel> GetTwoWayCommunicationDeviceTypeList()
         {
-            var deviceTypes = DeviceRepository.GetDeviceTypeList(GetConfigurationSettings());
+            var deviceTypes = DeviceRepository.GetDeviceTypeList(GetConfigurationSettings()).Where(x => x.TwoWayCommunication == 1).ToList();
 
             return deviceTypes;
         }
@@ -43,31 +43,36 @@ namespace ScheduleAutomation.Lib.Logic
             return parameters;
         }
 
-        public static DeviceModel GetAnalyzerByParameterAllowed(string[] parameters)
+        //public static DeviceModel GetAnalyzerByParameterAllowed(string[] parameters)
+        //{
+        //    var deviceTypes = GetTwoWayCommunicationDeviceTypeList();
+        //    var twoWaydevices = DeviceRepository.GetTwoWayCommDevice(GetConfigurationSettings());
+
+        //    foreach (var device in deviceTypes)
+        //    {
+        //        var deviceParameters = TestResultsRepository.GetAllParametersByAnalyzer(GetConfigurationSettings(), device.ParameterType);
+
+        //        if (!parameters.Except(deviceParameters).Any())
+        //        {
+        //            var selectDevice = twoWaydevices.FirstOrDefault(x => x.DeviceTypeID == device.id && x.Next == 0);
+
+        //            if (selectDevice == null)
+        //            {
+        //                DeviceRepository.RevertTwoWayCommDevice(GetConfigurationSettings(), device.id);
+        //                selectDevice = twoWaydevices.FirstOrDefault(x => x.DeviceTypeID == device.id);
+        //            }
+
+        //            NextUpdate(selectDevice.id);
+        //            return selectDevice;
+        //        }
+        //    }
+
+        //    return null;
+        //}
+
+        public static DeviceModel GetDeviceByAnalyzerList(int[] analyzersID)
         {
-            var deviceTypes = GetDeviceTypeList();
-            var twoWaydevices = DeviceRepository.GetTwoWayCommDevice(GetConfigurationSettings());
-
-            foreach (var device in deviceTypes)
-            {
-                var deviceParameters = TestResultsRepository.GetAllParametersByAnalyzer(GetConfigurationSettings(), device.ParameterType);
-
-                if (!parameters.Except(deviceParameters).Any())
-                {
-                    var selectDevice = twoWaydevices.FirstOrDefault(x => x.DeviceTypeID == device.id && x.Next == 0);
-
-                    if (selectDevice == null)
-                    {
-                        DeviceRepository.RevertTwoWayCommDevice(GetConfigurationSettings(), device.id);
-                        selectDevice = twoWaydevices.FirstOrDefault(x => x.DeviceTypeID == device.id);
-                    }
-
-                    NextUpdate(selectDevice.id);
-                    return selectDevice;
-                }
-            }
-
-            return null;
+            return DeviceRepository.GetDeviceByDeviceTypeIDList(GetConfigurationSettings(), analyzersID);
         }
 
         public static void NextUpdate(int id)

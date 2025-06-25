@@ -1,23 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
-using TextBox = System.Windows.Controls.TextBox;
 
 namespace VCheckViewer.Views.Pages.Setting.Clinic
 {
@@ -57,10 +45,6 @@ namespace VCheckViewer.Views.Pages.Setting.Clinic
             var phoneNumberObject = sClinicPhoneNum != null ? sClinicPhoneNum.ConfigurationValue.Split(" ") : Array.Empty<string>();
             var phoneNumber = phoneNumberObject.Count() == 0 ? "" : phoneNumberObject[1];
             var countryCode = phoneNumberObject.Count() == 0 ? "" : phoneNumberObject[0];
-
-            //var CountryCodeList = ClinicCountryCode.Items.OfType<ComboBoxItem>();
-            //var CountryCodeObject = CountryCodeList.FirstOrDefault(x => x.Tag.ToString() == countryCode);
-            //ClinicCountryCode.SelectedItem = CountryCodeObject;
 
             ClinicName.Text = sClinicName != null ? sClinicName.ConfigurationValue : "";
             ClinicAddress.Text = sClinicAddress != null ? sClinicAddress.ConfigurationValue : "";

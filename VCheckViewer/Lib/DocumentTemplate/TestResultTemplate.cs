@@ -1,23 +1,8 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing.Printing;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using DocumentFormat.OpenXml.Drawing.Wordprocessing;
-using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using QuestPDF.Previewer;
-using SkiaSharp;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
@@ -28,31 +13,16 @@ namespace VCheckViewer.Lib.DocumentTemplate
 {
     public class TestResultTemplate : IDocument
     {
-        //private TestResultListingExtendedObj sTestResultRow { get; set; }
-        //private List<TestResultDetailsModel> sTestResultDetail { get; set; }
-        //private List<TestResultDetailsModel> sPreviousTestResultDetail { get; set; }
-        //private string sPreviousTestDateTime { get; set; }
         private List<DownloadPrintResultModel> sDownloadPrintResultModels { get; set; }
         private bool sIsPrint { get; set; }
 
         public ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
-
-        //public TestResultTemplate(TestResultListingExtendedObj sTestResultRow, List<TestResultDetailsModel> sTestResultDetail, List<TestResultDetailsModel> sPreviousTestResultDetail, string sPreviousTestDateTime)
-        //{
-        //    this.sTestResultRow = sTestResultRow;
-        //    this.sTestResultDetail = sTestResultDetail;
-        //    this.sPreviousTestResultDetail = sPreviousTestResultDetail;
-        //    this.sPreviousTestDateTime = sPreviousTestDateTime;
-        //}
 
         public TestResultTemplate(List<DownloadPrintResultModel> sDownloadPrintResultModels, bool sIsPrint)
         {
             this.sDownloadPrintResultModels = sDownloadPrintResultModels;
             this.sIsPrint = sIsPrint;
         }
-
-        private DocumentMetadata GetMetadata() => DocumentMetadata.Default;
-        private DocumentSettings GetSettings() => DocumentSettings.Default;
 
         //public void Compose(IDocumentContainer container)
         //{
@@ -737,10 +707,6 @@ namespace VCheckViewer.Lib.DocumentTemplate
                         page.DefaultTextStyle(x => x.FontSize(10));
                         page.DefaultTextStyle(x => x.FontFamily("Noto Sans"));
 
-                        //page.Header()
-                        //    .Height(5, Unit.Centimetre)
-                        //    .Image(sIconPath);
-
                         page.Header().BorderBottom(1).Column(c =>
                         {
                             c.Item().Row(row =>
@@ -1098,13 +1064,14 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                                         var paddingLeft = 0;
                                                         var paddingRight = 0;
                                                         var haveIndicator = false;
+                                                        float resultValue = 0;
+                                                        var testResultValue = float.TryParse(d.TestResultValue.Replace("< ", "").Replace("> ", ""), out resultValue);
 
-                                                        if (!string.IsNullOrEmpty(d.ReferenceRange))
+                                                        if (!string.IsNullOrEmpty(d.ReferenceRange) && testResultValue)
                                                         {
                                                             var range = d.ReferenceRange.Replace("[", "").Replace("]", "").Contains(";") ? d.ReferenceRange.Split(";") : d.ReferenceRange.Split("-");
                                                             reference = range[0] + " - " + range[1];
-                                                            paddingLeft = (CalculateRange(float.Parse(range[0].Replace("[", "")), float.Parse(range[1].Replace("]", "")), float.Parse(d.TestResultValue.Replace("< ", "").Replace("> ", "")))) - 2;
-                                                            //paddingRight = 140 - paddingLeft - 2;
+                                                            paddingLeft = (CalculateRange(float.Parse(range[0].Replace("[", "")), float.Parse(range[1].Replace("]", "")), resultValue)) - 2;
                                                             paddingRight = 110 - paddingLeft - 2;
                                                             haveIndicator = true;
                                                         }
@@ -1200,7 +1167,6 @@ namespace VCheckViewer.Lib.DocumentTemplate
 
                 if (sIsPrint)
                 {
-                    //App.FilePath = System.IO.Path.Combine(sDownloadPath, "Report-temp.pdf");
                     App.FilePath = "Report-temp.pdf";
                     sDocument.GeneratePdf(App.FilePath);
 
@@ -1241,9 +1207,6 @@ namespace VCheckViewer.Lib.DocumentTemplate
 
         public int CalculateRange(float start, float end, float value)
         {
-            //float onceWidth = (float)46.6666;
-            //float twiceWidth = (float)93.3333;
-            //float fullwidth = 140;
             float onceWidth = (float)36.6666;
             float twiceWidth = (float)73.3333;
             float fullwidth = 110;

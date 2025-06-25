@@ -115,7 +115,6 @@
                           HorizontalGridLinesBrush="{DynamicResource Themes_GridUserRowLinesColor}"
                           AlternationCount="{Binding Items.Count, RelativeSource={RelativeSource Self}}">
                     <DataGrid.Columns>
-                        <!--<DataGridTextColumn Header = "{Binding Path=General_Label_Number, Source={StaticResource Resources}}" Binding = "{Binding No}" Width="auto" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>-->
                         <DataGridTextColumn Header = "{Binding Path=General_Label_Number, Source={StaticResource Resources}}" Binding="{Binding AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource IndexedConverter}}" Width="auto" MinWidth="1" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
                         <DataGridTextColumn Header = "{Binding Path=Setting_Label_StaffName, Source={StaticResource Resources}}" Binding = "{Binding StaffName}" Width="1.1*" MinWidth="180" ElementStyle="{StaticResource DataGridVerticalTextCenterAligned }" FontWeight="Bold" />
                         <DataGridTextColumn Header = "{Binding Path=Setting_Label_StaffID, Source={StaticResource Resources}}" Binding = "{Binding EmployeeID}" Width="0.5*" MinWidth="100"  ElementStyle="{StaticResource DataGridVerticalTextCenterAligned}"/>
@@ -131,12 +130,10 @@
                                         <Menu>
                                             <MenuItem>
                                                 <MenuItem.Icon>
-                                                    <!--<ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />-->
                                                     <Image Source="{DynamicResource Themes_GirdUserMoreIcon}" Width="12" />
                                                 </MenuItem.Icon>
                                                 <MenuItem Header="{Binding Path=General_Label_View, Source={StaticResource Resources}}" Click="ViewUserButton_Click"/>
                                                 <MenuItem Header="{Binding Path=General_Label_Update, Source={StaticResource Resources}}" Click="UpdateUserButton_Click"/>
-                                                <!--<MenuItem Header="{Binding Path=General_Label_Delete, Source={StaticResource Resources}}" Click="DeleteUserButton_Click"/>-->
                                             </MenuItem>
                                         </Menu>
                                     </Grid>

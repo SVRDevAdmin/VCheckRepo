@@ -20,7 +20,6 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Border BorderBrush="{DynamicResource Themes_FontColor}" Grid.Column="0" BorderThickness="1" CornerRadius="10">
-                                    <!--<Image Source="../../../Content/Images/path_4004.png" Width="10"  VerticalAlignment="Top" Margin="0,4,0,0"/>-->
                                     <Image Source="{DynamicResource Themes_BackArrowRoundButton}" Width="10"  VerticalAlignment="Top" Margin="0,4,0,0"/>
                                 </Border>
                                 <TextBlock Text="{Binding Path=Login_Label_BackButton, Source={StaticResource Resources}}" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
@@ -77,9 +76,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <!--<Image Source="../../../Content/Images/Login Photo.png" Grid.Row="0" VerticalAlignment="Top"/>-->
                 <Border Grid.Row="0" Panel.ZIndex="8" Margin="220, 0, 0, 40" BorderBrush="Black" BorderThickness="0">
-                    <!--<Image Source="../../../Content/Images/paw_light.png" Width="300" />-->
                     <Image Source="{DynamicResource Themes_PawImage}" Width="300" />
                 </Border>
                 <Border Grid.Row="0" Panel.ZIndex="9" Margin="200, 20, 0, 50" BorderBrush="Black" BorderThickness="0">

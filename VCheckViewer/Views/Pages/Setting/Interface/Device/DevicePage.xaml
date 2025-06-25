@@ -71,14 +71,12 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button Name="imgBack" Click="imgBack_Click" Grid.Column="0" Background="Transparent" BorderThickness="0" Visibility="Collapsed">
-                    <!--<Image Source="../../../../Content/Images/BackArrow.png" VerticalAlignment="Center"/>-->
                     <Image Source="{DynamicResource Themes_BackButton}" VerticalAlignment="Center"/>
                 </Button>
                 <Button Name="btnBack" Width="250" BorderThickness="0" Background="Transparent" Grid.Column="1" Margin="-5, 0, 0, 0" 
                         HorizontalContentAlignment="Left" Foreground="{DynamicResource Themes_FontColor}" 
                         Click="btnBack_Click" Visibility="Collapsed"></Button>
             </Grid>
-            <!--<Button x:Name="btnBackDevice" Style="{StaticResource BackButton}" Margin="0,10,0,0" Click="btnBackDevice_Click" ></Button>-->
         </Border>
         <Border Name="borderEdit" Grid.Column="1" Grid.Row="2">
             <Border Margin="30, 30, 30, 10" BorderThickness="1" BorderBrush="{DynamicResource Themes_DevicesFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_DevicesFrameBackground}">
@@ -118,9 +116,6 @@
                     <!-- // Device IP Address //-->
                     <TextBlock Name="labelIPAddress" Text="{Binding Path=Device_Label_DeviceIPAddress, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="6" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 5"></TextBlock>
                     <Border Name="borderIPEdit" Grid.Row="7" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
-                        <!--<WindowsFormsHost KeyUp="FieldsVal_KeyUp" Margin="10, 0" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Noto Sans" FontSize="12" FontWeight="Light" Background="White">
-                            <wf:MaskedTextBox x:Name="txtIPAddress" Mask="000.000.##9.##9" Width="350" Height="40" TextAlign="Left" BorderStyle="None" />
-                        </WindowsFormsHost>-->
                         <TextBox x:Name="txtIPAddress" KeyUp="FieldsVal_KeyUp" Background="White"/>
                     </Border>
                     <Border Name="borderIPView" Grid.Row="7" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">

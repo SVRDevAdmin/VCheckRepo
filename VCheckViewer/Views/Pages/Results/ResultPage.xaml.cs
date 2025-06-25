@@ -1,54 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VCheckViewer.Lib.Function;
-using ComboBox = System.Windows.Controls.ComboBox;
-using Brushes = System.Windows.Media.Brushes;
-using Button = System.Windows.Controls.Button;
-using TextBlock = System.Windows.Controls.TextBlock;
-using ZstdSharp.Unsafe;
-using VCheckViewer.Views.Pages.Schedule;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.DocumentTemplate;
 using QuestPDF.Fluent;
-using Pomelo.EntityFrameworkCore.MySql.Query.Internal;
 using System.Data;
 using ClosedXML.Excel;
-using System.IO;
 using System.Diagnostics;
-using DocumentFormat.OpenXml.Spreadsheet;
-using System.ComponentModel;
 using Spire.Xls;
-using Microsoft.Extensions.Logging;
-using VCheckViewer.UserControls;
-using System.Management;
-using System.Globalization;
-using DatePicker = System.Windows.Controls.DatePicker;
-using VCheck.Interface.API.Greywind.RequestMessage;
 using VCheck.Lib.Data;
 using System.Drawing.Printing;
-using VCheckViewer.Views.Windows;
-using Font = System.Drawing.Font;
-using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.VisualBasic.Devices;
 using log4net;
 using System.Reflection;
-using Microsoft.Extensions.Configuration;
-using static Org.BouncyCastle.Math.EC.ECCurve;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using VCheckViewer.Views.Pages.Login;
 
 namespace VCheckViewer.Views.Pages.Results
@@ -56,7 +22,7 @@ namespace VCheckViewer.Views.Pages.Results
     /// <summary>
     /// Interaction logic for ResultPage.xaml
     /// </summary>
-    public partial class ResultPage : System.Windows.Controls.Page
+    public partial class ResultPage : Page
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
         public ObservableCollection<ComboBoxItem> cbSort { get; set; }
@@ -67,8 +33,6 @@ namespace VCheckViewer.Views.Pages.Results
         public int startPagination = 1;
         public int endPagination = 0;
         public int iTotalCount = 0;
-
-        private PrintDocument printDocument1 = new PrintDocument();
 
         public static event EventHandler? DownloadPrintReport;
         public static event EventHandler? UpdatePatientNameEvent;
@@ -84,8 +48,6 @@ namespace VCheckViewer.Views.Pages.Results
             pagination.ButtonNextControlClick += new EventHandler(PaginationNextButton_Click);
             pagination.ButtonPrevControlClick += new EventHandler(PaginationPrevButton_Click);
             pagination.ButtonPageControlClick += new EventHandler(PaginationNumButton_Click);
-
-            //printDocument1.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage);
 
             LoadResultDataGrid();
 
@@ -122,22 +84,15 @@ namespace VCheckViewer.Views.Pages.Results
         private void menuDownload_Click(object sender, RoutedEventArgs e)
         {
             DownloadPrint(false);
-
-            //LoadTestResultData();
         }
 
         private void menuPrint_Click(object sender, RoutedEventArgs e)
         {
             DownloadPrint(true);
-
-            //LoadTestResultData(true);
-
-            //printDocument1.Print();
         }
 
         private void DownloadPrint(bool IsPrint)
         {
-            //App.sTestResultObj = dgResult.SelectedItem as TestResultListingExtendedObj;
             var parameterOrder = TestResultsRepository.GetAllParameters(ConfigSettings.GetConfigurationSettings()).Select(x => x.Parameter).ToList();
             App.IsPrint = IsPrint;
             var selectedResult = dgResult.SelectedItem as TestResultListingExtendedObj;
@@ -164,7 +119,7 @@ namespace VCheckViewer.Views.Pages.Results
             App.DowloadPrintObject.Add(downloadPrintResultModel);
 
             App.Device = new List<TestDeviceName>();
-            App.Device.Add(new TestDeviceName() { DeviceName = DeviceRepository.GetDeviceNameBySerialNo(ConfigSettings.GetConfigurationSettings(), TestResult.DeviceSerialNo), TestID = TestResult.ID});
+            App.Device.Add(new TestDeviceName() { DeviceName = DeviceRepository.GetDeviceNameBySerialNo(ConfigSettings.GetConfigurationSettings(), TestResult.DeviceSerialNo), TestID = TestResult.ID });
 
             if (App.isEmptyName)
             {
@@ -178,93 +133,11 @@ namespace VCheckViewer.Views.Pages.Results
 
         }
 
-        //private void LoadTestResultData(Boolean isPrint = false)
-        //{
-        //    //TestResultListingObj sTestResultObj = dgResult.SelectedItem as TestResultListingObj;
-        //    TestResultListingExtendedObj sTestResultObj = dgResult.SelectedItem as TestResultListingExtendedObj;
-        //    sTestResultObj.printedBy = App.MainViewModel.CurrentUsers.FullName;
-        //    sTestResultObj.printedOn = DateTime.Now;
-        //    sTestResultObj.isPrint = isPrint;
-
-        //    List<TestResultDetailsModel> sTestResultDetails = new List<TestResultDetailsModel>();
-        //    if (sTestResultObj != null)
-        //    {
-        //        sTestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), sTestResultObj.ID);
-        //    }
-
-        //    try
-        //    {
-        //        TestResultTemplate sTestResultTemplate = new TestResultTemplate(sTestResultObj, sTestResultDetails);
-
-        //        if (isPrint)
-        //        {
-        //            sTestResultTemplate.GeneratePdfAndShow();
-        //        }
-        //        else
-        //        {
-        //            sTestResultTemplate.GeneratePdf();
-        //        }
-        //    }
-        //    catch (QuestPDF.Drawing.Exceptions.DocumentDrawingException drawEx)
-        //    {
-        //        Debug.WriteLine(drawEx.ToString());
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return;
-        //    }
-
-        //    if (!isPrint)
-        //    {
-        //        Popup sConfirmPopup = new Popup();
-        //        sConfirmPopup.IsOpen = true;
-
-        //        if (App.ErrorOccur)
-        //        {
-        //            App.MainViewModel.Origin = "FailedToDownload";
-        //        }
-        //        else
-        //        {
-        //            App.MainViewModel.Origin = "TestResultDownloadCompleted";
-        //        }
-
-        //        App.PopupHandler(null, null);
-        //    }
-        //    else
-        //    {
-        //        //File.Delete(App.FilePath);
-        //        if (App.ErrorOccur)
-        //        {
-        //            App.MainViewModel.Origin = "FailedToPrint";
-        //            App.PopupHandler(null, null);
-        //        }
-        //    }
-        //}
-
-
-
         public void LoadTestResultData(object sender, EventArgs e)
         {
             try
             {
-                //var parameterOrder = App.iConfig.GetSection("Configuration:ParameterOrder").Value.Split(",").ToList();
                 var parameterOrder = TestResultsRepository.GetAllParameters(ConfigSettings.GetConfigurationSettings()).Select(x => x.Parameter).ToList();
-                //TestResultListingExtendedObj sTestResultObj = App.sTestResultObj;
-                //sTestResultObj.printedBy = App.MainViewModel.CurrentUsers.FullName;
-                //sTestResultObj.printedOn = DateTime.Now;
-                //sTestResultObj.isPrint = App.IsPrint;
-
-                //List<TestResultDetailsModel> previousTestDetails = new List<TestResultDetailsModel>();
-                //List<TestResultDetailsModel> sTestResultDetails = new List<TestResultDetailsModel>();
-                //TestResultModel PreviousTestResult = new TestResultModel();
-                //string previousTestDateTime = "-";
-
-                //if (sTestResultObj != null)
-                //{
-                //    sTestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), sTestResultObj.ID).Where(x => App.Parameters.Contains(x.TestParameter)).OrderBy(d => parameterOrder.IndexOf(d.TestParameter)).ToList();
-                //    previousTestDetails = TestResultsRepository.GetPreviousTestRecord(ConfigSettings.GetConfigurationSettings(), sTestResultObj, out previousTestDateTime, out PreviousTestResult);
-                //    previousTestDetails = previousTestDetails != null ? previousTestDetails.Where(x => App.Parameters.Contains(x.TestParameter)).OrderBy(d => parameterOrder.IndexOf(d.TestParameter)).ToList() : new List<TestResultDetailsModel>();
-                //}
 
                 foreach(var test in App.DowloadPrintObject)
                 {
@@ -272,7 +145,6 @@ namespace VCheckViewer.Views.Pages.Results
                     test.PreviousTestResultDetails = test.PreviousTestResultDetails != null ? test.PreviousTestResultDetails.Where(x => App.Parameters.Contains(x.TestParameter)).OrderBy(d => parameterOrder.IndexOf(d.TestParameter)).ToList() : null;
                 }
 
-                //TestResultTemplate sTestResultTemplate = new TestResultTemplate(sTestResultObj, sTestResultDetails, previousTestDetails, previousTestDateTime);
                 TestResultTemplate sTestResultTemplate = new TestResultTemplate(App.DowloadPrintObject, App.IsPrint);
 
                 if (App.IsPrint)
@@ -312,7 +184,6 @@ namespace VCheckViewer.Views.Pages.Results
             }
             else
             {
-                //File.Delete(App.FilePath);
                 if (App.ErrorOccur)
                 {
                     App.MainViewModel.Origin = "FailedToPrint";
@@ -378,14 +249,6 @@ namespace VCheckViewer.Views.Pages.Results
                 sStart = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd HH:mm:ss");
                 sEnd = RangeDate.SelectedDates.FirstOrDefault().AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd HH:mm:ss");
             }
-            //else if (RangeDate.SelectedDates.Count == 0)
-            //{
-            //    sStart = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            //    sEnd = DateTime.Now.AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd HH:mm:ss");
-
-            //    RangeDate.DisplayValue = (DateTime.ParseExact(sStart, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)).ToString("dd/MM/yyyy") + " - " +
-            //                             (DateTime.ParseExact(sEnd, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)).ToString("dd/MM/yyyy");
-            //}
 
             String sKeyword = KeywordSearchBar.Text;
 
@@ -561,7 +424,7 @@ namespace VCheckViewer.Views.Pages.Results
         //---------- POC Testing -----------------//
         private void menuTransfer_Click(object sender, RoutedEventArgs e)
         {
-            var sMenu = sender as System.Windows.Controls.MenuItem;
+            var sMenu = sender as MenuItem;
 
             Popup sInputID = new Popup();
             sInputID.IsOpen = true;
@@ -569,105 +432,6 @@ namespace VCheckViewer.Views.Pages.Results
             App.MainViewModel.Origin = "GreywindSendUniqueID";
             App.MainViewModel.TestResultID = sMenu.Tag.ToString();
             App.PopupHandler(e, sender);
-
-            //UpdateResultRequest sRequestAPI = new UpdateResultRequest();
-            //long iTestResultID = 0;
-
-            //var sMenu = sender as System.Windows.Controls.MenuItem;
-            //if (!String.IsNullOrEmpty(sMenu.Tag.ToString()))
-            //{
-            //    iTestResultID = Convert.ToInt64(sMenu.Tag);
-
-            //    var sTestResultObj = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
-            //    if (sTestResultObj != null)
-            //    {
-            //        List<UpdateResultPanelTestObject> sResultListing = new List<UpdateResultPanelTestObject>();
-            //        List<UpdateResultPanelsObject> sPanelListing = new List<UpdateResultPanelsObject>();
-
-            //        String sOrderID = "";
-            //        var sScheduledTestObj = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), "TBLAM FIA-8");
-            //        if (sScheduledTestObj != null)
-            //        {
-            //            if (sScheduledTestObj.ScheduleUniqueID.Contains("-"))
-            //            {
-            //                var UniqueIDSplit = sScheduledTestObj.ScheduleUniqueID.Split("-");
-            //                if (UniqueIDSplit.Length > 0)
-            //                {
-            //                    sOrderID = UniqueIDSplit[1];
-            //                }
-            //            }
-            //        } 
-
-            //        sRequestAPI.accessionnumber = iTestResultID.ToString();
-            //        sRequestAPI.clinic_id = "";
-            //        sRequestAPI.reportdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
-            //        sRequestAPI.providerid = "";
-
-            //        UpdateResultPatientObject sPatientObj = new UpdateResultPatientObject();
-            //        sPatientObj.patientid = sTestResultObj.PatientID;
-            //        sPatientObj.firstname = (sScheduledTestObj != null) ? sScheduledTestObj.PatientName : "";
-            //        sPatientObj.lastname = "";
-            //        sPatientObj.gender = (sScheduledTestObj != null) ? sScheduledTestObj.Gender : "";
-            //        sPatientObj.birthday = "2023-01-01";
-            //        sPatientObj.species = (sScheduledTestObj != null) ? sScheduledTestObj.Species : "";
-            //        sPatientObj.breed = "";
-
-            //        sRequestAPI.patient = sPatientObj;
-
-            //        UpdateResultPanelsObject sPanelObj = new UpdateResultPanelsObject();
-            //        sPanelObj.code = sTestResultObj.TestResultType;
-            //        sPanelObj.name = sTestResultObj.TestResultType;
-            //        sPanelObj.status = "F";
-            //        sPanelObj.source = "";
-            //        sPanelObj.resultdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
-
-
-            //        var sDetailsObj = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
-            //        if (sDetailsObj != null && sDetailsObj.Count > 0)
-            //        {
-            //            foreach (var d in sDetailsObj) 
-            //            {
-            //                String[] sRange = new string[0];
-            //                if (d.ReferenceRange != null)
-            //                {
-            //                    String sReferenceRange = d.ReferenceRange.Replace("[", "").Replace("]", "");
-            //                    if (sReferenceRange != "")
-            //                    {
-            //                        sRange = sReferenceRange.Split(";");
-            //                    }
-            //                }
-
-            //                sResultListing.Add(new UpdateResultPanelTestObject
-            //                {
-            //                    name = d.TestParameter,
-            //                    code = d.TestParameter,
-            //                    result = d.TestResultValue,
-            //                    referencelow = (sRange.Length > 0) ? sRange[0] : "",
-            //                    referencehigh = (sRange.Length > 0) ? sRange[1] : "",
-            //                    unitofmeasure = d.TestResultUnit,
-            //                    status = "F",
-            //                    notes = ""
-            //                });
-            //            }
-
-            //            sPanelObj.tests = sResultListing;
-            //        }
-            //        sPanelListing.Add(sPanelObj);
-
-            //        sRequestAPI.panels = sPanelListing;
-
-            //        VCheck.Interface.API.GreywindAPI sAPI = new VCheck.Interface.API.GreywindAPI();
-            //        var sRespAPI = sAPI.UpdateResult(sRequestAPI, sOrderID);
-            //        if (sRespAPI)
-            //        {
-            //            System.Windows.Forms.MessageBox.Show("Update Result API Successfully.");
-            //        }
-            //        else
-            //        {
-            //            System.Windows.Forms.MessageBox.Show("Update Result API Failed.");
-            //        }
-            //    }
-            //}
 
         }
 
@@ -690,30 +454,6 @@ namespace VCheckViewer.Views.Pages.Results
             App.TestResultInfo = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), Convert.ToInt64(App.MainViewModel.TestResultID));
 
             App.PopupHandler(e, sender);
-        }
-
-        private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
-        {
-            //string documentContent = "Hello, this is a test print document.";
-            //Font printFont = new Font("Arial", 12);
-            //e.Graphics.DrawString(documentContent, printFont, System.Drawing.Brushes.Black, new PointF(100, 100));
-
-            string pdfPath = @"C:\VCheck\Downloads\TestResult_Comprehensive17_PatientID_27412_20250313145705.pdf";
-
-            try
-            {
-                Process process = new Process();
-                process.StartInfo = new ProcessStartInfo()
-                {
-                    FileName = pdfPath,
-                    UseShellExecute = true
-                };
-                process.Start();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error: " + ex.Message);
-            }
         }
 
         public static void DownloadPrintReportHandler(EventArgs e, object sender)

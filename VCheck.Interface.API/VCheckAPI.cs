@@ -11,8 +11,9 @@ namespace VCheck.Interface.API
 {
     public class VCheckAPI
     {
-        private string url = "http://vcheckstaging.inteleon.xyz/API";
         //private string url = "http://localhost:82/API";
+        private string url = "http://vcheckstaging.inteleon.xyz/API";
+        //private string url = "http://api.vcheckviewer.com/API";
 
         private string clientKey = "qwertyuiop123asdfghjkl456zxcvbnm789";
 
@@ -46,6 +47,58 @@ namespace VCheck.Interface.API
             catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Is Latest Version
+        /// </summary>
+        /// <param name="sResultRequest"></param>
+        /// <returns></returns>
+        public async Task<bool> IsLatestVersion(string version)
+        {
+            ClientDataRequest request = new ClientDataRequest() { Header = new HeaderModel(), Body = new ClientDataRequestBody() };
+
+            request.Header.timestamp = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+            request.Header.clientKey = clientKey;
+
+            request.Body.Version = version;
+
+            String strJson = JsonConvert.SerializeObject(request);
+            HttpContent content = new StringContent(strJson, Encoding.UTF8, "application/json");
+
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
+
+
+                    HttpResponseMessage resp = await client.PostAsync(url + "/IsLatestVersion", content);
+                    if (resp.IsSuccessStatusCode)
+                    {
+                        var resultString = resp.Content.ReadAsStringAsync().Result;
+                        var results = JsonConvert.DeserializeObject<ResponseModel>(resultString);
+
+                        if(results.Body.Results != null)
+                        {
+                            return (bool)results.Body.Results;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return true;
             }
         }
 
@@ -145,7 +198,7 @@ namespace VCheck.Interface.API
         /// </summary>
         /// <param name="sResultRequest"></param>
         /// <returns></returns>
-        public async Task<string> GetScheduleListNotSent(string locationID)
+        public async Task<string> GetScheduleListNotSent(string locationID, string uniqueID = null)
         {
             ScheduleDataRequest request = new ScheduleDataRequest() { Header = new HeaderModel(), Body = new ScheduleDataRequestBody() };
 
@@ -153,6 +206,7 @@ namespace VCheck.Interface.API
             request.Header.clientKey = clientKey;
 
             request.Body.LocationID = locationID;
+            request.Body.ScheduledUniqueID = uniqueID;
 
             String strJson = JsonConvert.SerializeObject(request);
             HttpContent content = new StringContent(strJson, Encoding.UTF8, "application/json");
@@ -190,7 +244,8 @@ namespace VCheck.Interface.API
         /// </summary>
         /// <param name="sResultRequest"></param>
         /// <returns></returns>
-        public async Task<string> GetSchedule(string locationID, string patientID, List<string> parameters, string uniqueID = null)
+        //public async Task<string> GetSchedule(string locationID, string patientID, List<string> parameters, string uniqueID = null)
+        public async Task<string> GetSchedule(string locationID, string patientID, string testName, string uniqueID = null)
         {
             ScheduleDataRequest request = new ScheduleDataRequest() { Header = new HeaderModel(), Body = new ScheduleDataRequestBody() };
 
@@ -199,7 +254,7 @@ namespace VCheck.Interface.API
 
             request.Body.LocationID = locationID;
             request.Body.PatientID = patientID;
-            request.Body.Parameters = parameters;
+            request.Body.TestName = testName;
             request.Body.ScheduledUniqueID = uniqueID;
 
             String strJson = JsonConvert.SerializeObject(request);
@@ -278,6 +333,41 @@ namespace VCheck.Interface.API
 
 
                     HttpResponseMessage resp = await client.PostAsync(url + endpoint, content);
+
+                    return resp.IsSuccessStatusCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }/// <summary>
+         /// Cancel Schedule
+         /// </summary>
+         /// <param name="sResultRequest"></param>
+         /// <returns></returns>
+        public async Task<bool> UpdateScheduleAnalyzer(string analyzerName, string uniqueID)
+        {
+            ScheduleDataRequest request = new ScheduleDataRequest() { Header = new HeaderModel(), Body = new ScheduleDataRequestBody() };
+
+            request.Header.timestamp = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+            request.Header.clientKey = clientKey;
+
+            request.Body.AnalyzerName = analyzerName;
+            request.Body.ScheduledUniqueID = uniqueID;
+
+            String strJson = JsonConvert.SerializeObject(request);
+            HttpContent content = new StringContent(strJson, Encoding.UTF8, "application/json");
+
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
+
+
+                    HttpResponseMessage resp = await client.PostAsync(url + "/UpdateScheduledTest", content);
 
                     return resp.IsSuccessStatusCode;
                 }

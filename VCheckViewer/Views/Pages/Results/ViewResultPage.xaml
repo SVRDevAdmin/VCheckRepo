@@ -7,41 +7,8 @@
       xmlns:Converter="clr-namespace:VCheckViewer.Converter"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ViewResultPage">
-
-    <Page.Resources>
-        <!--<Converter:HeightConverter x:Key="HeightConverter"/>-->
-        
-        <!--<Style TargetType="DataGridColumnHeader">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="DataGridColumnHeader">
-                        <Border Background="#f7f7f7"
-                            BorderThickness="1" 
-                            BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}"
-                            CornerRadius="5,5,0,0"
-                                Height="25">
-                            <ContentPresenter HorizontalAlignment="Center" 
-                                          VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="FontWeight" Value="Bold" />
-        </Style>-->
-
-
-        <!--<Style x:Key="ResultDetailsElement" TargetType="TextBlock">
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Foreground" Value="{DynamicResource Themes_GridUserFontColor}" />
-        </Style>-->
-
-    </Page.Resources>
+      Title="ViewResultPage">  
     
-    
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -80,7 +47,6 @@
           VerticalAlignment="Stretch" RowHeaderWidth="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 
             <DataGrid.Columns>
-                <!--<DataGridTextColumn Header="Test" Width="*" Binding="{Binding TestParameter}" ElementStyle="{StaticResource ResultDetailsElement}" />-->
 
                 <!-- Column with border -->
                 <DataGridTemplateColumn Header="{Binding Path=Report_Label_Test, Source={StaticResource Resources}}" Width="*">
@@ -112,8 +78,6 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <!--<DataGridTextColumn Header="Result Status" Width="*" Binding="{Binding TestResultStatus}" ElementStyle="{StaticResource ResultDetailsElement}" />-->
-
                 <!-- Column with border -->
                 <DataGridTemplateColumn Header="{Binding Path=Report_Label_ResultStatus, Source={StaticResource Resources}}" Width="*">
                     <DataGridTemplateColumn.HeaderStyle>
@@ -142,8 +106,6 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
-                <!--<DataGridTextColumn Header="Result Value" Width="*" Binding="{Binding TestResultValue}" ElementStyle="{StaticResource ResultDetailsElement}" />-->
 
                 <!-- Column with border -->
                 <DataGridTemplateColumn Header="{Binding Path=Report_Label_ResultValue, Source={StaticResource Resources}}" Width="*">

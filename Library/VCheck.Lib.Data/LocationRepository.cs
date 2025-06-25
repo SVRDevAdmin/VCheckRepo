@@ -95,7 +95,7 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new LocationDBContext(config))
                 {
-                    var temp = ctx.mst_location.AsNoTracking().FirstOrDefault(x => x.ID == location.ID);
+                    var temp = ctx.mst_location.AsNoTracking().FirstOrDefault(x => x.ID == location.ID || x.PhoneNum == location.PhoneNum);
 
                     if (temp != null)
                     {
@@ -103,6 +103,7 @@ namespace VCheck.Lib.Data
                         location.UpdatedBy = location.CreatedBy;
                         location.CreatedDate = temp.CreatedDate;
                         location.CreatedBy = temp.CreatedBy;
+                        location.ID = temp.ID;
 
                         ctx.mst_location.Update(location);
                     }

@@ -26,44 +26,6 @@
                                 Duration="0:0:0" />
         </Storyboard>
 
-        <!-- Style for overall  ScrollViewer -->
-        <!--<Style x:Key="FavsScrollViewer" TargetType="{x:Type ScrollViewer}">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <ScrollContentPresenter Grid.Column="1"/>
-
-                            <ScrollBar Name="PART_VerticalScrollBar"
-            Value="{TemplateBinding VerticalOffset}"
-            Maximum="{TemplateBinding ScrollableHeight}"
-            ViewportSize="{TemplateBinding ViewportHeight}"
-            Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
-                            <ScrollBar Name="PART_HorizontalScrollBar"
-            Orientation="Horizontal"
-            Grid.Row="1"
-            Grid.Column="1"
-            Value="{TemplateBinding HorizontalOffset}"
-            Maximum="{TemplateBinding ScrollableWidth}"
-            ViewportSize="{TemplateBinding ViewportWidth}"
-            Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
-
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>-->
-
     </Window.Resources>
     
     <Grid x:Name="MainGrid" Margin="0,0,10,0">
@@ -79,7 +41,6 @@
                     </Grid.ColumnDefinitions>
                     <Border x:Name="MainLogoBorder" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15 20 10 10" Grid.Column="0">
                         <ui:Image Source="{DynamicResource Themes_TemplateBioLogo}" Width="150"/>
-                        <!--<ui:Image Source="../../Content/Images/bio_logo.png"/>-->
                     </Border>
                     <Border VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" Margin="50,0,50,0">
                         <TextBlock x:Name="PageTitle" Foreground="{DynamicResource Themes_MasterPageFontColor}" FontWeight="Bold" FontFamily="Noto Sans" FontSize="25"  Padding="0, 17, 0, 0"/>
@@ -111,7 +72,6 @@
                         <Menu>
                             <MenuItem Name="Username" Style="{StaticResource Services_MenuItem_With_Dropdown}">
                                 <MenuItem.Icon>
-                                    <!--<Image Source="../../Content/Images/Avatar_Orange.png"/>-->
                                     <Image Source="../../Content/Images/Avatar.png" Width="20" Height="20"/>
                                 </MenuItem.Icon>
                                 <MenuItem Header="{Binding Path=Main_Label_ViewProfile, Source={StaticResource Resources}}" Click="ViewProfileButton_Click"/>
@@ -185,7 +145,6 @@
                             <Menu Height="50" Background="{DynamicResource Themes_MasterPageFrameBackground}" Margin="0, 10, 0, 0">
                                 <MenuItem Name="mnDashboard" Header="{Binding Path=Main_Label_SideMenuDashboard, Source={StaticResource Resources}}" Template="{StaticResource Menu_Template}" Click="mnDashboard_Click">
                                     <MenuItem.Icon>
-                                        <!--<Image Name="imgDashboard" Source="../../Content/Images/dashboard.png" Width="20" Height="20"/>-->
                                         <Image Name="imgDashboard" Source="{DynamicResource Themes_MenuDashboardIcon}" Width="20" Height="20" MouseLeftButtonDown="mnDashboard_Click"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
@@ -196,7 +155,6 @@
                             <Menu Height="50" Background="{DynamicResource Themes_MasterPageFrameBackground}" Margin="0, 10, 0, 0">
                                 <MenuItem Name="mnSchedule" Header="{Binding Path=Main_Label_SideMenuSchedule, Source={StaticResource Resources}}" Template="{StaticResource Menu_Template}" Click="mnSchedule_Click">
                                     <MenuItem.Icon>
-                                        <!--<Image Source="../../Content/Images/clock.png" Width="20" Height="20" />-->
                                         <Image Source="{DynamicResource Themes_MenuClockIcon}" Width="20" Height="20" MouseLeftButtonDown="mnSchedule_Click" />
                                     </MenuItem.Icon>
                                 </MenuItem>
@@ -207,7 +165,6 @@
                             <Menu Height="50" Background="{DynamicResource Themes_MasterPageFrameBackground}" Margin="0, 10, 0, 0">
                                 <MenuItem Name="mnResults" Header="{Binding Path=Main_Label_SideMenuResults, Source={StaticResource Resources}}" Template="{StaticResource Menu_Template}" Click="mnResults_Click">
                                     <MenuItem.Icon>
-                                        <!--<Image Source="../../Content/Images/results.png" Width="20" Height="20" />-->
                                         <Image Source="{DynamicResource Themes_MenuResultsIcon}" Width="20" Height="20" MouseLeftButtonDown="mnResults_Click" />
                                     </MenuItem.Icon>
                                 </MenuItem>
@@ -218,7 +175,6 @@
                             <Menu Height="50" Background="{DynamicResource Themes_MasterPageFrameBackground}" Margin="0, 10, 0, 0">
                                 <MenuItem Name="mnNotifications" Header="{Binding Path=Main_Label_SideMenuNotification, Source={StaticResource Resources}}" Template="{StaticResource Menu_Template}" Click="mnNotifications_Click">
                                     <MenuItem.Icon>
-                                        <!--<Image Source="../../Content/Images/bell.png" Width="20" Height="20" />-->
                                         <Image Source="{DynamicResource Themes_MenuBellIcon}" Width="20" Height="20" MouseLeftButtonDown="mnNotifications_Click" />
                                     </MenuItem.Icon>
                                 </MenuItem>
@@ -229,7 +185,6 @@
                             <Menu Height="50" Background="{DynamicResource Themes_MasterPageFrameBackground}" Margin="0, 10, 0, 0">
                                 <MenuItem Name="mnSettings" Header="{Binding Path=Main_Label_SideMenuSetting, Source={StaticResource Resources}}" Template="{StaticResource Menu_Template}" Click="mnSettings_Click">
                                     <MenuItem.Icon>
-                                        <!--<Image Source="../../Content/Images/setting.png" Width="20" Height="20" />-->
                                         <Image Source="{DynamicResource Themes_MenuSettingIcon}" Width="20" Height="20" MouseLeftButtonDown="mnSettings_Click" />
                                     </MenuItem.Icon>
                                 </MenuItem>
@@ -238,9 +193,6 @@
                         </Grid>
                         <Grid x:Name="BackgroundElement" Background="{DynamicResource Themes_PageBackground}">
                             <Border Background="{DynamicResource Themes_MasterPageFrameBackground}" CornerRadius="0, 0, 15, 0">
-                                <!--<Grid Height="255" Background="White">-->
-                            <!--<Border Background="#f2f2f2" CornerRadius="0, 0, 10, 0">--> <!--To make corner less round-->
-                                <!--<Border Background="#f2f2f2" CornerRadius="0, 0, 60, 0">-->
                             </Border>
                         </Grid>
                     </StackPanel>

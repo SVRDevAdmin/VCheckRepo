@@ -863,78 +863,79 @@
   </data>
   <data name="Maintenance_Label_Connected" xml:space="preserve">
     <value>Connected</value>
-    <comment>n</comment>
   </data>
   <data name="Maintenance_Label_NotConnected" xml:space="preserve">
     <value>Not Connected</value>
-    <comment>n</comment>
   </data>
   <data name="ClinicInfo_Button_Connect" xml:space="preserve">
     <value>Connect</value>
-    <comment>n</comment>
   </data>
   <data name="ClinicInfo_Label_City" xml:space="preserve">
     <value>City</value>
-    <comment>n</comment>
   </data>
   <data name="ClinicInfo_Label_ClinicAddress" xml:space="preserve">
     <value>Clinic Address</value>
-    <comment>n</comment>
   </data>
   <data name="ClinicInfo_Label_ClinicInfo" xml:space="preserve">
     <value>Clinic Info</value>
-    <comment>n</comment>
   </data>
   <data name="ClinicInfo_Label_ClinicInformation" xml:space="preserve">
     <value>Clinic Information</value>
-    <comment>n</comment>
   </data>
   <data name="ClinicInfo_Label_ClinicName" xml:space="preserve">
     <value>Clinic Name</value>
-    <comment>n</comment>
   </data>
   <data name="ClinicInfo_Label_ClinicPhoneNumber" xml:space="preserve">
     <value>Clinic Phone Number</value>
-    <comment>n</comment>
   </data>
   <data name="ClinicInfo_Label_CountryCode" xml:space="preserve">
     <value>Country Code</value>
-    <comment>n</comment>
   </data>
   <data name="ClinicInfo_Label_PhoneNumber" xml:space="preserve">
     <value>Phone Number</value>
-    <comment>n</comment>
   </data>
   <data name="ClinicInfo_Label_PrimaryContactName" xml:space="preserve">
     <value>Primary Contact Name</value>
-    <comment>n</comment>
   </data>
   <data name="ClinicInfo_Label_State" xml:space="preserve">
     <value>State</value>
-    <comment>n</comment>
   </data>
   <data name="Popup_Message_APINoLinkFound" xml:space="preserve">
     <value>No schedule found linked to the result.</value>
-    <comment>n</comment>
   </data>
   <data name="Popup_Message_ClinicInfoUpdate" xml:space="preserve">
     <value>Save clinic details?</value>
-    <comment>n</comment>
   </data>
   <data name="Popup_Message_ClinicInfoUpdateCompleted" xml:space="preserve">
     <value>Successfully updated clinic details.</value>
-    <comment>n</comment>
   </data>
   <data name="Popup_Message_FailedGreywindConnect" xml:space="preserve">
     <value>Failed to connect with Greywind.</value>
-    <comment>n</comment>
   </data>
   <data name="Popup_Message_GreywindConnected" xml:space="preserve">
     <value>Successfully connected to Greywind.</value>
-    <comment>n</comment>
   </data>
   <data name="Popup_Message_FailedToCancelSchedule" xml:space="preserve">
     <value>Failed to cancel schedule.</value>
+  </data>
+  <data name="General_Label_ThreeDaysReminder" xml:space="preserve">
+    <value>Remind me in 3 days</value>
+    <comment>n</comment>
+  </data>
+  <data name="General_Message_NewVersionAvailable" xml:space="preserve">
+    <value>New Vcheck Viewer version is available, download the new version?</value>
+    <comment>n</comment>
+  </data>
+  <data name="General_Message_NewVersionNotification" xml:space="preserve">
+    <value>New Version Notification</value>
+    <comment>n</comment>
+  </data>
+  <data name="Popup_Message_NoScheduleFound" xml:space="preserve">
+    <value>No schedule found.</value>
+    <comment>n</comment>
+  </data>
+  <data name="Popup_Message_SelectSchedule" xml:space="preserve">
+    <value>Please select schedule to send the test result data.</value>
     <comment>n</comment>
   </data>
 </root>

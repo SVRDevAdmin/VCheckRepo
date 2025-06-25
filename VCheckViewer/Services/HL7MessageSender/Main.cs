@@ -1,12 +1,10 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using VCheck.Interface.API;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
-using VCheckViewer;
 using VCheckViewer.Lib.Function;
 
 namespace VCheckViewer.Services.HL7MessageSender
@@ -18,15 +16,11 @@ namespace VCheckViewer.Services.HL7MessageSender
         NetworkStream networkStream = null;
         String receivedMessage = "";
 
-        public async Task SendMessage(ScheduledTestModel scheduleTest)
+        public async Task SendMessage(ScheduledTestModelExtended scheduleTest)
         {
             DeviceModel device = DeviceRepository.GetDeviceByID(App.AnalyzerID, ConfigSettings.GetConfigurationSettings());
-            String sContent = MessageGenerator.GenerateOMLO33Message(scheduleTest);
-            //String sContent = System.IO.File.ReadAllText("C:\\Users\\azwan\\Work\\HL7 file\\Send Schedule.hl7"); // MLLP
+            String sContent = MessageGenerator.GenerateOMLO33Message(scheduleTest.IDAnalyzers, scheduleTest.Schedule);
             int timeout = 60000;
-
-            //String sContent = "";
-            //int timeout = 5000;
 
             bool success = false;
 
@@ -67,7 +61,7 @@ namespace VCheckViewer.Services.HL7MessageSender
                         {
 
                             VCheckAPI vCheckAPI = new VCheckAPI();
-                            var test = await vCheckAPI.UpdateScheduleStatus(scheduleTest.LocationID, scheduleTest.PatientID, scheduleTest.ScheduleUniqueID.Split("-")[1], scheduleTest.CreatedBy, 1);
+                            var test = await vCheckAPI.UpdateScheduleStatus(scheduleTest.Schedule.LocationID, scheduleTest.Schedule.PatientID, scheduleTest.Schedule.ScheduleUniqueID.Split("-")[1], scheduleTest.Schedule.CreatedBy, 1);
                             App.MainViewModel.Origin = "SentToAnalyzer";
                         }
                         else

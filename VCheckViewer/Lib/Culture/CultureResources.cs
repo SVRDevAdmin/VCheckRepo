@@ -49,7 +49,7 @@ namespace VCheckViewer.Lib.Culture
                     }
                     catch (ArgumentException ex) //ignore exceptions generated for any unrelated directories in the bin folder
                     {
-                        //App.log.Error("Culture Resource Error >>> ", ex);
+                        App.log.Error("Culture Resource Error >>> ", ex);
                     }
                 }
                 bFoundInstalledCultures = true;

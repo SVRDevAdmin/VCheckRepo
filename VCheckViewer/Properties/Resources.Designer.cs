@@ -493,6 +493,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remind me in 3 days.
+        /// </summary>
+        public static string General_Label_ThreeDaysReminder {
+            get {
+                return ResourceManager.GetString("General_Label_ThreeDaysReminder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update.
         /// </summary>
         public static string General_Label_Update {
@@ -534,6 +543,24 @@ namespace VCheckViewer.Properties {
         public static string General_Message_ErrorOccured {
             get {
                 return ResourceManager.GetString("General_Message_ErrorOccured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Vcheck Viewer version is available, download the new version?.
+        /// </summary>
+        public static string General_Message_NewVersionAvailable {
+            get {
+                return ResourceManager.GetString("General_Message_NewVersionAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Version Notification.
+        /// </summary>
+        public static string General_Message_NewVersionNotification {
+            get {
+                return ResourceManager.GetString("General_Message_NewVersionNotification", resourceCulture);
             }
         }
         
@@ -1420,6 +1447,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No schedule found..
+        /// </summary>
+        public static string Popup_Message_NoScheduleFound {
+            get {
+                return ResourceManager.GetString("Popup_Message_NoScheduleFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to We have send you a temporary password to your email. You can use it to log in. &lt;next line&gt; Once you are logged in, you can change it to your preferred password in .
         /// </summary>
         public static string Popup_Message_PasswordRecoveredP1 {
@@ -1560,6 +1596,15 @@ namespace VCheckViewer.Properties {
         public static string Popup_Message_SelectParameterPrint {
             get {
                 return ResourceManager.GetString("Popup_Message_SelectParameterPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select schedule to send the test result data..
+        /// </summary>
+        public static string Popup_Message_SelectSchedule {
+            get {
+                return ResourceManager.GetString("Popup_Message_SelectSchedule", resourceCulture);
             }
         }
         

@@ -23,21 +23,32 @@ namespace ScheduleAutomation
 
                 VCheckAPI vCheckAPI = new VCheckAPI();
 
+                var twoWayCommDeviceType = ScheduleRepository.GetTwoWayCommunicationDeviceTypeList();
                 var schedulesString = await vCheckAPI.GetScheduleListNotSent(clinicID);
                 var schedulesExtended = string.IsNullOrEmpty(schedulesString) ? new List<ScheduledTestModelExtended>() : JsonConvert.DeserializeObject<List<ScheduledTestModelExtended>>(schedulesString);
-                DeviceModel device = ScheduleRepository.GetTargetAnalyzer();
-                List<DeviceTypeModel> deviceTypes = ScheduleRepository.GetDeviceTypeList();
+                bool TwoWayDeviceExist = ScheduleRepository.TwoWayDeviceExist();
+                //List<DeviceTypeModel> deviceTypes = ScheduleRepository.GetDeviceTypeList();
 
-                if (device != null && schedulesExtended.Any())
+                if (TwoWayDeviceExist && schedulesExtended.Any())
                 {
                     foreach (var schedule in schedulesExtended)
                     {
-                        var selectedDevice = ScheduleRepository.GetAnalyzerByParameterAllowed(schedule.Parameters);
+                        //var selectedDevice = ScheduleRepository.GetAnalyzerByParameterAllowed(schedule.Parameters);
 
-                        if (selectedDevice != null)
+                        string[] deviceList = schedule.IDAnalyzers.FirstOrDefault().Analyzers.Split(",");
+                        DeviceModel targetDevice = null;
+                        var targetDeviceType = twoWayCommDeviceType.AsEnumerable().Where(x => deviceList.Contains(x.TypeName));
+
+                        if (targetDeviceType.Any())
                         {
-                            HL7.SendMessage(schedule.Schedule, device);
+                            targetDevice = ScheduleRepository.GetDeviceByAnalyzerList(targetDeviceType.Select(x => x.id).ToArray());
+
+                            if (targetDevice != null)
+                            {
+                                HL7.SendMessage(schedule.IDAnalyzers, schedule.Schedule, targetDevice);
+                            }
                         }
+                        
                     }
                 }
 

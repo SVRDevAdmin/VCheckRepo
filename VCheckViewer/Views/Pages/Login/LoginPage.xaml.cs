@@ -1,24 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.VisualBasic.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheckViewer.Views.Windows;
-using Wpf.Ui;
 using Brushes = System.Windows.Media.Brushes;
 using TextBox = System.Windows.Controls.TextBox;
 
@@ -29,11 +16,6 @@ namespace VCheckViewer.Views.Pages.Login
     /// </summary>
     public partial class LoginPage : Page
     {
-
-        //INavigationService _navigationService;
-        //IPageService _pageService;
-        int maxLoginAttempt = 5;
-
         static UserDBContext sContext = App.GetService<UserDBContext>();
         static ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
 
@@ -50,12 +32,6 @@ namespace VCheckViewer.Views.Pages.Login
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            //VCheck.Lib.Data.Models.UserModel sUser = new VCheck.Lib.Data.Models.UserModel();
-            //sUser.UserId = "Tester";
-            //App.MainViewModel.CurrentUsers = sUser;
-            //GoToMainWindowHandler(e, sender);
-            //return;
-
             try
             {
                 IdentityUser user = await App.UserManager.FindByNameAsync(Username.Text);
@@ -94,7 +70,6 @@ namespace VCheckViewer.Views.Pages.Login
                         else
                         {
                             ErrorText.Visibility = Visibility.Visible;
-                            //ErrorText.Text = "Account are deactivated. Please contact administrator.";
                             ErrorText.Text = Properties.Resources.Login_ErrorMessage_AccountDeactivated;
                         }
 
@@ -102,29 +77,22 @@ namespace VCheckViewer.Views.Pages.Login
                     else if (loginAttempt.IsLockedOut)
                     {
                         ErrorText.Visibility = Visibility.Visible;
-                        //ErrorText.Text = "Account are locked. Please contact administrator.";
                         ErrorText.Text = Properties.Resources.Login_ErrorMessage_AccountLocked;
                     }
                     else if (loginAttempt.IsNotAllowed)
                     {
                         ErrorText.Visibility = Visibility.Visible;
-                        //ErrorText.Text = "Account are not confirmed yet. Please confirm the account through email.";
                         ErrorText.Text = Properties.Resources.Login_ErrorMessage_AccountNotConfirmed;
                     }
                     else
                     {
                         ErrorText.Visibility = Visibility.Visible;
-                        //int attemptleft = (maxLoginAttempt - user.AccessFailedCount);
-                        //ErrorText.Text = "Wrong password. You have " + attemptleft + " attemp[s] left before account are locked.";
-                        //ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongPassword.Replace("<attemptcount>", attemptleft.ToString());
                         ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongUsernamePassword;
                     }
                 }
                 else
                 {
                     ErrorText.Visibility = Visibility.Visible;
-                    //ErrorText.Text = "Wrong login ID.";
-                    //ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongLoginID;
                     ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongUsernamePassword;
                 }
             }
@@ -134,49 +102,6 @@ namespace VCheckViewer.Views.Pages.Login
                 ErrorText.Text = Properties.Resources.General_Message_Error;
                 App.log.Error("Login Error >>> ", ex);
             }
-            
-
-
-
-            //IdentityUser newUser = Activator.CreateInstance<IdentityUser>();
-
-            //await App.UserStore.SetUserNameAsync(newUser, "123456", CancellationToken.None);
-
-            //var result = await App.UserManager.CreateAsync(newUser, "Retes123@Retes");
-
-            //if (result.Succeeded)
-            //{
-            //    var test = newUser;
-            //}
-
-
-            //var applicationRoleAdministrator = new IdentityRole("Lab User");
-            //App.RoleManager.CreateAsync(applicationRoleAdministrator);
-
-            //var test = App.RoleManager.Roles.ToList();
-
-            //int attempt = 0;
-            //while (user.LockoutEnd == null)
-            //{
-            //    test = await App.SignInManager.CheckPasswordSignInAsync(user, Password.Password, lockoutOnFailure: true);
-            //    attempt++;
-            //}
-
-
-            //var userLogin = sContext.ValidateLogin(Username.Text, Password.Password);
-
-            //if (userLogin != null && userLogin.UserId != 0)
-            //{
-            //    App.MainViewModel.CurrentUsers = userLogin;
-            //    //Main main = new Main(_navigationService, _pageService);
-            //    //this.CloseWindow();
-            //    //main.Show();
-            //    //main.Navigate(typeof(DashboardPage));
-            //    Main main = new Main();
-            //    this.CloseWindow();
-            //    main.Show();
-            //    main.frameContent.Content = new DashboardPage();
-            //}
         }
 
         private void CheckValue(object sender, System.Windows.Input.KeyEventArgs e)

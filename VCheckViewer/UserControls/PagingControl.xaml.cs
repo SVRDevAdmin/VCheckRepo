@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using VCheckViewer.Views.Pages.Results;
 
 namespace VCheckViewer.UserControls
 {
@@ -93,18 +80,12 @@ namespace VCheckViewer.UserControls
 
                 if (i == iPageIndex)
                 {
-                    //newBtn.BorderBrush = System.Windows.Media.Brushes.DarkOrange;
-                    //newBtn.Background = System.Windows.Media.Brushes.DarkOrange;
-                    //newBtn.Foreground = System.Windows.Media.Brushes.White;
                     newBtn.BorderBrush = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                     newBtn.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                     newBtn.Foreground = new BrushConverter().ConvertFrom(sSelectedColor) as SolidColorBrush;
                 }
                 else
                 {
-                    //newBtn.BorderBrush = System.Windows.Media.Brushes.DarkOrange;
-                    //newBtn.Background = System.Windows.Media.Brushes.Transparent;
-                    //newBtn.Foreground = System.Windows.Media.Brushes.DarkOrange;
                     newBtn.BorderBrush = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                     newBtn.Background = System.Windows.Media.Brushes.Transparent;
                     newBtn.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
@@ -192,18 +173,12 @@ namespace VCheckViewer.UserControls
 
                     if (i == iPageIndex)
                     {
-                        //newBtn.BorderBrush = System.Windows.Media.Brushes.DarkOrange;
-                        //newBtn.Background = System.Windows.Media.Brushes.DarkOrange;
-                        //newBtn.Foreground = System.Windows.Media.Brushes.White;
                         newBtn.BorderBrush = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                         newBtn.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                         newBtn.Foreground = new BrushConverter().ConvertFrom(sSelectedColor) as SolidColorBrush;
                     }
                     else
                     {
-                        //newBtn.BorderBrush = System.Windows.Media.Brushes.DarkOrange;
-                        //newBtn.Background = System.Windows.Media.Brushes.Transparent;
-                        //newBtn.Foreground = System.Windows.Media.Brushes.DarkOrange;
                         newBtn.BorderBrush =  new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                         newBtn.Background = System.Windows.Media.Brushes.Transparent;
                         newBtn.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;

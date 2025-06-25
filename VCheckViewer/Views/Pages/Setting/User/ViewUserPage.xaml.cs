@@ -1,21 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VCheck.Lib.Data.Models;
-using VCheckViewer.Views.Windows;
-using WPFLocalizeExtension.Providers;
-using Button = System.Windows.Controls.Button;
 
 namespace VCheckViewer.Views.Pages.Setting.User
 {
@@ -35,7 +20,6 @@ namespace VCheckViewer.Views.Pages.Setting.User
             userInfoViewPage = App.MainViewModel.Users;
 
             Title.Text = userInfoViewPage.Title;
-            //Surname.Text = userInfoViewPage.FirstName;
             FullName.Text = userInfoViewPage.FullName;
             StaffID.Text = userInfoViewPage.EmployeeID;
             RegistrationNo.Text = userInfoViewPage.RegistrationNo;
@@ -45,9 +29,6 @@ namespace VCheckViewer.Views.Pages.Setting.User
             EmailAddress.Text = userInfoViewPage.EmailAddress;
             Status.Text = userInfoViewPage.Status;
             LoginID.Text = userInfoViewPage.LoginID;
-
-            //if (App.MainViewModel.CurrentUsers.UserId == userInfoViewPage.UserId) { Edit.Visibility = Visibility.Visible; }
-
 
             if (App.MainViewModel.CurrentUsers.Role == "Lab User")
             {

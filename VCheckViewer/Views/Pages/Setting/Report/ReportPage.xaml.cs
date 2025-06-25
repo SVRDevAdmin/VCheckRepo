@@ -1,20 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
@@ -147,15 +135,6 @@ namespace VCheckViewer.Views.Pages.Setting.Report
 
         private bool isSufficient()
         {
-            //if (String.IsNullOrEmpty(LogoPath.Text) || String.IsNullOrEmpty(ClinicName.Text) || String.IsNullOrEmpty(ReportTitle.Text) || String.IsNullOrEmpty(ClinicAddress.Text))
-            //{
-            //    return false;
-            //}
-            //else
-            //{
-            //    return true;
-            //}
-
             return true;
         }
 

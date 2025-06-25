@@ -8,17 +8,6 @@
       Title="VCheck Viewer" 
       Background="{DynamicResource Themes_PageBackground}">
 
-    <!--
-    <Page.Resources>
-        <Style TargetType="{x:Type PasswordBox}">
-            <Setter Property="OverridesDefaultStyle" Value="False" />
-            <Setter Property="SnapsToDevicePixels" Value="True" />
-            <Setter Property="Height" Value="35" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="Padding" Value="10" />
-        </Style>
-    </Page.Resources>
-    -->
     <Grid Margin="30,0,30,70">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -29,7 +18,6 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Border Grid.Row="0" Grid.Column="0" Padding="10,20,0,10">
-            <!--<Image Source="../../../Content/Images/bio_logo.png" Width="150" HorizontalAlignment="Left"/>-->
             <Image Source="{DynamicResource Themes_BioLogo}" Width="150" HorizontalAlignment="Left"/>
         </Border>
         <Border Grid.Row="0" Grid.Column="1" Padding="0" VerticalAlignment="Stretch">
@@ -65,10 +53,8 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <!--<Image Source="../../../Content/Images/Login Photo.png" Grid.Row="0" VerticalAlignment="Top"/>-->
 
                 <Border Grid.Row="0" Panel.ZIndex="8" Margin="220, 0, 0, 40" BorderBrush="Black" BorderThickness="0">
-                    <!--<Image Source="../../../Content/Images/paw_light.png" Width="300" />-->
                     <Image Source="{DynamicResource Themes_PawImage}" Width="300" />
                 </Border>
                 <Border Grid.Row="0" Panel.ZIndex="9" Margin="200, 20, 0, 50" BorderBrush="Black" BorderThickness="0">
@@ -87,7 +73,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <!-- Background="PeachPuff" -->
+                
                 <Border BorderThickness="0" BorderBrush="White" Background="{DynamicResource Themes_FrameBackground}" CornerRadius="7" Grid.Row="1" Padding="0,60,0,0">
                     <StackPanel HorizontalAlignment="Center" Width="350">
                         <TextBlock Text="{Binding Path=Login_Title_PageTitle, Source={StaticResource Resources}}" TextAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,0,0,30" Foreground="{DynamicResource Themes_LoginPageFontColor}"/>
