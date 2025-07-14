@@ -57,8 +57,19 @@ namespace VCheckViewer.Views.Pages.Schedule
                 List<ScheduledTestModelExtended> sUpdateScheduledList = new List<ScheduledTestModelExtended>();
                 foreach(var t in sScheduledList)
                 {
-                    var SentFunction = t.ScheduleTestStatus == 1 ? "Collapsed" : "Visible";
-                    var AnalyzerNameFunction = string.IsNullOrEmpty(t.SentToAnalyzer) ? false : true;
+                    var AnalyzerStatus = "";
+                    var SentFunction = "";
+
+                    if (!string.IsNullOrEmpty(t.SentToAnalyzer))
+                    {
+                        AnalyzerStatus = t.SentToAnalyzer != "N/A" ? "Sent to " + t.SentToAnalyzer + "" : "No analyzer can receive this schedule.";
+                    }
+                    else
+                    {
+                        AnalyzerStatus = "Not yet sent to analyzer";
+                    }
+
+                    SentFunction = t.ScheduleTestStatus == 1 ? "Collapsed" : "Visible";
                     var testArray = t.ScheduledTestType.Split(",");
                     var TestList = "";
 
@@ -82,7 +93,7 @@ namespace VCheckViewer.Views.Pages.Schedule
                         UniqueIDString = Properties.Resources.Schedule_Label_UniqueID,
                         InchargePerson = t.InchargePerson,
                         ScheduleTestStatus = t.ScheduleTestStatus,
-                        AnalyzerName = AnalyzerNameFunction ? "Sent to " + t.SentToAnalyzer + "" : "Not yet sent to analyzer",
+                        AnalyzerName = AnalyzerStatus,
                         CreatedDate = t.CreatedDate.Value.ToLocalTime(),
                         CreatedBy = t.CreatedBy,
                         UpdatedDate = t.UpdatedDate != null ? t.UpdatedDate.Value.ToLocalTime() : null,
@@ -181,14 +192,14 @@ namespace VCheckViewer.Views.Pages.Schedule
             }
         }
 
-        private async void SendToAnalyzer_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            TextBlock schedule = sender as TextBlock;
-            App.ScheduleTestInfo = ScheduledTestRepository.GetScheduledTestByID(ConfigSettings.GetConfigurationSettings(), long.Parse(schedule.Tag.ToString()));
+        //private async void SendToAnalyzer_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    TextBlock schedule = sender as TextBlock;
+        //    App.ScheduleTestInfo = ScheduledTestRepository.GetScheduledTestByID(ConfigSettings.GetConfigurationSettings(), long.Parse(schedule.Tag.ToString()));
 
-            App.MainViewModel.Origin = "SendToAnalyzer";
-            App.PopupHandler(null, null);      
-        }
+        //    App.MainViewModel.Origin = "SendToAnalyzer";
+        //    App.PopupHandler(null, null);      
+        //}
 
         private async void CancelSchedule_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -226,7 +237,8 @@ namespace VCheckViewer.Views.Pages.Schedule
             //var scheduleString = await vCheckAPI.GetSchedule(ClinicID, null, null, schedule.Tag.ToString());
             //App.ScheduleTestInfo = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
             var scheduleString = await vCheckAPI.GetScheduleListNotSent(ClinicID, schedule.Tag.ToString());
-            App.ScheduleTestInfoExtended = JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.ScheduledTestModelExtended>(scheduleString);
+            List<VCheck.Lib.Data.Models.ScheduledTestModelExtended> scheduleList = JsonConvert.DeserializeObject<List<VCheck.Lib.Data.Models.ScheduledTestModelExtended>>(scheduleString);
+            App.ScheduleTestInfoExtended = scheduleList.FirstOrDefault();
 
             App.MainViewModel.Origin = "SendToAnalyzer";
             App.PopupHandler(null, null);

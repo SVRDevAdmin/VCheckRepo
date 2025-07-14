@@ -15,7 +15,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
 {
     public class HL7Repository
     {
-        static VCheckListenerWorker.Lib.Util.Logger _logger = new VCheckListenerWorker.Lib.Util.Logger();
+        static VCheckListenerWorker.Lib.Util.Logger _logger = new VCheckListenerWorker.Lib.Util.Logger();        
 
         /// <summary>
         /// Process HL7 Message
@@ -45,6 +45,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                 String sDoctorName = "";
                 Decimal iResultValue = 0;
                 DateTime dAnalysisDateTime = DateTime.MinValue;
+                DateTime CurrentDatetime = DateTime.Now;
 
                 //if (sORU_R01.MSH.SendingApplication.NamespaceID != null && sORU_R01.MSH.SendingApplication.NamespaceID.Value != null)
                 //{
@@ -90,7 +91,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                     sPatientID = sPID.PatientID;
                 }
 
-                if(sORU_R01.PATIENT_RESULTs.FirstOrDefault().PATIENT.PID.SetIDPID != null)
+                if (sORU_R01.PATIENT_RESULTs.FirstOrDefault().PATIENT.PID.SetIDPID != null)
                 {
                     sPID.SetID = sORU_R01.PATIENT_RESULTs.FirstOrDefault().PATIENT.PID.SetIDPID.Value;
                 }
@@ -125,10 +126,12 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                                            sNameObj.DegreeEgMD + "^" +
                                            sNameObj.NameTypeCode;
 
-                        sPatientName = sNameObj.GivenName.Value;
+                        sPatientName = string.IsNullOrEmpty(sNameObj.GivenName.Value) ? sNameObj.FamilyLastName.FamilyName.Value : sNameObj.GivenName.Value;
+
 
                         if (sPID.PatientName.Replace("^", "").Length == 0)
                         {
+
                             sPID.PatientName = "";
                         }
                     }
@@ -194,6 +197,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                 //----------------- Observation Request ----------------------//
                 var sTestResultLst = new List<txn_testresults>();
                 var sTestResultDetails = new List<txn_testresults_details>();
+                var sTestResultGraph = new List<txn_testresults_graphsExtended>();
                 var sNTEObj = new List<tbltestanalyze_results_notes>();
                 var sOBXObjList = new List<tbltestanalyze_results_observationresult>();
                 var sOBRObj = new tbltestanalyze_results_observationrequest();
@@ -205,12 +209,14 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                                                 observation.OBR.FillerOrderNumber.UniversalID.Value + "^" +
                                                 observation.OBR.FillerOrderNumber.UniversalIDType.Value;
 
+                    sPatientID = string.IsNullOrEmpty(sPatientID) ? observation.OBR.FillerOrderNumber.EntityIdentifier.Value : sPatientID;
+
                     if (sFillerOrdNum.Replace("^", "").Length == 0)
                     {
                         sFillerOrdNum = "";
                     }
 
-                    sResultTestType = observation.OBR.UniversalServiceID.Text.Value;
+                    sResultTestType = string.IsNullOrEmpty(sResultTestType) ? observation.OBR.UniversalServiceID.Identifier.Value : observation.OBR.UniversalServiceID.Text.Value;
                     sUniversalIdentifier = observation.OBR.UniversalServiceID.Text.Value;
                     sSerialNo = observation.OBR.UniversalServiceID.Identifier.Value;
 
@@ -261,9 +267,11 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                         strObserveValue = "";
                         if (observationDetail.OBX.GetObservationValue().Count() > 0)
                         {
-                            if (observationDetail.OBX.GetObservationValue().FirstOrDefault().Data.GetType() == typeof(NHapi.Model.V231.Datatype.NA))
+                            var tempsObservValue = observationDetail.OBX.GetObservationValue().FirstOrDefault().Data;
+
+                            if (tempsObservValue.GetType() == typeof(NHapi.Model.V231.Datatype.NA))
                             {
-                                var sNAObject = observationDetail.OBX.GetObservationValue().FirstOrDefault().Data;
+                                var sNAObject = tempsObservValue;
 
                                 int iTotalComponent = sNAObject.ExtraComponents.NumComponents();
                                 List<String> sVal = new List<String>();
@@ -295,9 +303,9 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                             }
                             else
                             {
-                                if (observationDetail.OBX.GetObservationValue().FirstOrDefault().Data.GetType() == typeof(NHapi.Model.V231.Datatype.CWE))
+                                if (tempsObservValue.GetType() == typeof(NHapi.Model.V231.Datatype.CWE))
                                 {
-                                    var sCWEObject = observationDetail.OBX.GetObservationValue().FirstOrDefault().Data;
+                                    var sCWEObject = tempsObservValue;
 
                                     List<String> sCWEVal = new List<String>();
                                     PropertyInfo[] propCWE = sCWEObject.GetType().GetProperties();
@@ -318,9 +326,24 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                                         sObservValue = String.Join("^", sCWEVal);
                                     }
                                 }
+                                else if (tempsObservValue.GetType() == typeof(NHapi.Model.V231.Datatype.ED))
+                                {
+                                    var componentArray = (tempsObservValue as NHapi.Model.V231.Datatype.ED).Components;
+
+                                    var name = (componentArray[0] as NHapi.Model.V231.Datatype.HD).NamespaceID.Value;
+
+                                    if (name.Contains("Style1") && !name.Contains("N-Hollow"))
+                                    {
+                                        var fileName = name + "." + componentArray[1].ToString();
+                                        var base64string = componentArray[3].ToString();
+                                        sTestResultGraph.Add(new txn_testresults_graphsExtended() { FileName = fileName, Base64String = base64string });                                       
+                                    }
+
+                                    continue;
+                                }
                                 else
                                 {
-                                    sObservValue = observationDetail.OBX.GetObservationValue().FirstOrDefault().Data.ToString();
+                                    sObservValue = tempsObservValue.ToString();
                                 }
 
                             }
@@ -495,6 +518,8 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                             String sStatus = General.ProcessObservationResultStatusValue(isRangeReference, sObservValue, observationDetail.OBX.ReferencesRange.Value, iResultValue);
 
                             var testParamName = (observationDetail.OBX.ObservationIdentifier.Text.Value != null && observationDetail.OBX.ObservationIdentifier.Text.Value != "") ? observationDetail.OBX.ObservationIdentifier.Text.Value : observationDetail.OBX.ObservationIdentifier.Identifier.Value;
+                            int testUnit = 0;
+                            var unitExtended = int.TryParse(observationDetail.OBX.Units.Identifier.Value, out testUnit) ? observationDetail.OBX.Units.Identifier.Value + "^" + observationDetail.OBX.Units.Text.Value : observationDetail.OBX.Units.Identifier.Value;
 
                             sTestResultDetails.Add(new txn_testresults_details
                             {
@@ -503,7 +528,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                                 ProceduralControl = strResultObservStatus,
                                 TestResultStatus = sStatus,
                                 TestResultValue = sObservValue,
-                                TestResultUnit = observationDetail.OBX.Units.Identifier.Value,
+                                TestResultUnit = unitExtended,
                                 ReferenceRange = observationDetail.OBX.ReferencesRange.Value,
                                 Interpretation = sInterpretation
                             });
@@ -531,7 +556,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                 sTestResultObj.PatientName = sPatientName;
                 sTestResultObj.InchargePerson = sDoctorName;
                 sTestResultObj.OverallStatus = sOverallStatus;
-                sTestResultObj.CreatedDate = DateTime.Now;
+                sTestResultObj.CreatedDate = CurrentDatetime;
                 sTestResultObj.CreatedBy = sSystemName;
                 sTestResultObj.DeviceSerialNo = Worker.MainModel.DeviceSerialNum != null ? Worker.MainModel.DeviceSerialNum : sSerialNo.Trim();
                 sTestResultObj.PMSFunction = "Visible";
@@ -544,7 +569,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                     CreatedBy = sSystemName
                 };
 
-                var parameters = sTestResultDetails.Select(x => x.TestParameter).ToList();
+                //var parameters = sTestResultDetails.Select(x => x.TestParameter).ToList();
 
                 VCheckAPI VcheckAPI = new VCheckAPI();
 
@@ -567,9 +592,9 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                 if (bResult)
                 {
                     // Insert into Test Result table & create notification 
-                    TestResultRepository.createTestResultsMultipleParam(sTestResultObj, sTestResultDetails);
+                    TestResultRepository.createTestResultsMultipleParam(sTestResultObj, sTestResultDetails, sTestResultGraph);
 
-                    if (sScheduledTestObj != null)
+                    if (sScheduledTestObj != null && !string.IsNullOrEmpty(sScheduledTestObj.ScheduleUniqueID))
                     {
                         PMSHandler pmsHandler = new PMSHandler();
                         var success = await pmsHandler.SendToPMS(sTestResultObj, sTestResultDetails, sScheduledTestObj);

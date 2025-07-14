@@ -462,7 +462,7 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new TestResultDBContext(config))
                 {
-                    return ctx.txn_testresults_details.Where(x => x.TestResultRowID == iTestResultID && x.TestParameter.ToLower() != "alarm").ToList();
+                    return ctx.txn_testresults_details.Where(x => x.TestResultRowID == iTestResultID && x.TestParameter.ToLower() != "alarm" && !x.TestParameter.ToLower().Contains("Scattergram") && !x.TestParameter.ToLower().Contains("Histogram")).ToList();
                 }
             }
             catch (Exception ex)

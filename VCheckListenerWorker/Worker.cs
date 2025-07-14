@@ -10,6 +10,10 @@ using NHapi.Model.V23.Segment;
 using Org.BouncyCastle.Asn1;
 using System.Net.Sockets;
 using System.Net;
+using NHapi.Base.Validation.Implementation;
+using NHapi.Base.Util;
+using NHapi.Base.Parser;
+using VCheckListenerWorker.Lib.ValidationContext;
 
 namespace VCheckListenerWorker
 {
@@ -59,17 +63,37 @@ namespace VCheckListenerWorker
 
                     //Console.WriteLine("Connection Accepted. Client IP Address is " + clientIpAddress + ":" + clientIpPort);
 
-                    //byte[] bBuffer = new byte[4096];
-                    byte[] bBuffer = new byte[32768];
+                    int byteLength = sClient.Available;
+                    while (true)
+                    {
+                        Thread.Sleep(1000);
+                        var temp = sClient.Available;
+                        if (temp == byteLength && temp != 0) { break; }
+                        byteLength = temp;
+                    }
+
+                    //byte[] bBuffer = new byte[1048576];
+                    //byte[] bBuffer = new byte[32768];
+                    byte[] bBuffer = new byte[byteLength];
 
                     var childSocket = new Thread(() =>
                     {
                         int s = sClient.Receive(bBuffer);
-                        Console.WriteLine("Received Data.");
-
-                        String sData = System.Text.Encoding.ASCII.GetString(bBuffer, 0, s);
-                        sData = sData.Replace("\u001c", "")
+                        String sDataTemp = System.Text.Encoding.ASCII.GetString(bBuffer, 0, s);
+                        sDataTemp = sDataTemp.Replace("\u001c", "")
                                      .Replace("\n", "\r");
+                        String sData = sDataTemp;
+
+                        while (true)
+                        {
+                            s = sClient.Receive(bBuffer);
+                            sDataTemp = System.Text.Encoding.ASCII.GetString(bBuffer, 0, s);
+                            sDataTemp = sDataTemp.Replace("\u001c", "")
+                                         .Replace("\n", "\r");
+                            if (string.IsNullOrEmpty(sDataTemp) || sDataTemp.Contains("MSH|")) { break; }
+                            sData += sDataTemp;
+                        }
+                        
 
                         if (!String.IsNullOrEmpty(sData))
                         {
@@ -77,12 +101,25 @@ namespace VCheckListenerWorker
                             Console.WriteLine(sData);
 
                             NHapi.Base.Parser.XMLParser sXMLParser = new NHapi.Base.Parser.DefaultXMLParser();
-                            NHapi.Base.Parser.PipeParser sParser = new NHapi.Base.Parser.PipeParser();
-                            NHapi.Base.Model.IMessage sIMessage = sParser.Parse(sData.Trim());
+                            //NHapi.Base.Parser.PipeParser sParser = new NHapi.Base.Parser.PipeParser();
+                            NHapi.Base.Parser.ParserOptions sParserOptions = new ParserOptions { InvalidObx2Type = "ED" };
+                            NHapi.Base.Parser.PipeParser sParser = new NHapi.Base.Parser.PipeParser() { ValidationContext = new CustomMessageValidation() };
+                            //NHapi.Base.Parser.PipeParser sParser = new NHapi.Base.Parser.PipeParser() { ValidationContext = new StrictValidation() };
+                            NHapi.Base.Model.IMessage sIMessage = null;
+
+                            try
+                            {
+                                sIMessage = sParser.Parse(sData.Trim());
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("Message failed during parsing: " + e.Message);
+                            }
 
                             String sXMLMessage = String.Empty;
                             String sAckMessage = String.Empty;
                             String sFileName = String.Empty;
+
                             if (sIMessage != null)
                             {
                                 sAckMessage = SendAckMessage(sIMessage);
@@ -130,6 +167,9 @@ namespace VCheckListenerWorker
                 //var builder = Host.CreateApplicationBuilder();
                 //sHostIP = builder.Configuration.GetSection("Listener:HostIP").Value;                
                 //iPortNo = Convert.ToInt32(builder.Configuration.GetSection("Listener:Port").Value);
+
+                //sHostIP = "169.254.98.184";
+                //iPortNo = 8585;
 
                 sHostIP = GetAssignedIPAddress(out iPortNo);
                 //sHostIP = GetIPAddressFromDatabase(out iPortNo);
@@ -214,7 +254,14 @@ namespace VCheckListenerWorker
                     break;
 
                 case "2.3.1":
-                    Lib.Logic.HL7.V231.HL7Repository.ProcessMessageAsync(sIMessage, sSystemName);
+                    if (sIMessage.Message.Message.GetType() == typeof(NHapi.Model.V231.Message.ORU_R01))
+                    {
+                        Lib.Logic.HL7.V231.HL7Repository.ProcessMessageAsync(sIMessage, sSystemName);
+                    }
+                    else if (sIMessage.Message.Message.GetType() == typeof(NHapi.Model.V231.Message.QRY_Q02))
+                    {
+
+                    }
                     break;
 
                 default:

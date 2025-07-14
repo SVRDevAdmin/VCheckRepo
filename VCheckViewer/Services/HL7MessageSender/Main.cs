@@ -19,7 +19,17 @@ namespace VCheckViewer.Services.HL7MessageSender
         public async Task SendMessage(ScheduledTestModelExtended scheduleTest)
         {
             DeviceModel device = DeviceRepository.GetDeviceByID(App.AnalyzerID, ConfigSettings.GetConfigurationSettings());
-            String sContent = MessageGenerator.GenerateOMLO33Message(scheduleTest.IDAnalyzers, scheduleTest.Schedule);
+            DeviceTypeModel deviceType = DeviceRepository.GetDeviceTypeByID(ConfigSettings.GetConfigurationSettings(), device.DeviceTypeID.Value);
+            string sContent = "";
+            if(deviceType.TypeName == "C10")
+            {
+                sContent = MessageGenerator.GenerateOMLO33Message(scheduleTest.IDAnalyzers, scheduleTest.Schedule);
+            }
+            else if (deviceType.TypeName == "H6")
+            {
+
+            }
+
             int timeout = 60000;
 
             bool success = false;

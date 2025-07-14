@@ -237,6 +237,25 @@ namespace VCheckListenerWorker.Lib.Models
         public string? Interpretation { get; set; }
     }
 
+    public class txn_testresults_graphs
+    {
+        [Key]
+        public long ID { get; set; }
+        public long TestResultRowID { get; set; }
+        public string? FileName { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public string? UpdatedBy { get; set; }
+
+    }
+
+    public class txn_testresults_graphsExtended
+    {
+        public string? FileName { get; set; }
+        public string Base64String { get; set; }
+    }
+
     public class txn_notification
     {
         [Key]

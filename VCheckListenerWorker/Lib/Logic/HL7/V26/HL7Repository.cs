@@ -527,7 +527,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                     // Insert into Test Result table & create notification 
                     TestResultRepository.createTestResultsMultipleParam(sTestResultObj, sTestResultDetails);
 
-                    if (sScheduledTestObj != null)
+                    if (sScheduledTestObj != null && !string.IsNullOrEmpty(sScheduledTestObj.ScheduleUniqueID))
                     {
                         PMSHandler pmsHandler = new PMSHandler();
                         var success = await pmsHandler.SendToPMS(sTestResultObj, sTestResultDetails, sScheduledTestObj);

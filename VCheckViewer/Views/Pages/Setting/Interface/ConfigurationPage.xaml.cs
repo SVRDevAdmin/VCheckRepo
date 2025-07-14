@@ -382,7 +382,6 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 borderClinicPhoneNum.Visibility = Visibility.Visible;
                 borderUsername.Visibility = Visibility.Collapsed;
                 borderPassword.Visibility = Visibility.Collapsed;
-                //btnConnect.Visibility = Visibility.Visible;
             }
             else
             {
@@ -422,7 +421,6 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 borderClinicPhoneNum.Visibility = Visibility.Collapsed;
                 borderUsername.Visibility = Visibility.Visible;
                 borderPassword.Visibility = Visibility.Visible;
-                //btnConnect.Visibility = Visibility.Collapsed;
             }            
 
             FieldsVal_KeyUp(null, null);
@@ -440,29 +438,8 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
             CheckPMSSelected();
         }
 
-        //private async void btnConnect_Click(object sender, RoutedEventArgs e)
-        //{
-        //    btnConnect.IsEnabled = false;
-        //    var success = await CreateClinicInfoPMS();
-
-        //    if (success)
-        //    {
-        //        btnConnect.Content = Properties.Resources.Maintenance_Label_Connected; ;
-        //        FieldsVal_KeyUp(new RadioButton() { Name = "Greywind"}, null);
-        //        App.MainViewModel.Origin = "GreywindConnected";
-        //        App.PopupHandler(e, sender);
-        //    }
-        //    else
-        //    {
-        //        btnConnect.IsEnabled = true;
-        //        App.MainViewModel.Origin = "FailedGreywindConnect";
-        //        App.PopupHandler(e, sender);
-        //    }
-        //}
-
         private async Task<bool> ConnectToPIMS(object sender, RoutedEventArgs? e)
         {
-            //btnConnect.IsEnabled = false;
             var success = await CreateClinicInfoPMS();
 
             if (success)
@@ -511,28 +488,18 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
 
             if (cannotConnect)
             {
-                //btnConnect.IsEnabled = false;
                 btnConnect.Content = Properties.Resources.Maintenance_Label_NotConnected;
                 btnConnect.Tag = "Not Connected";
                 btnConnect.Background = System.Windows.Media.Brushes.Gray;
             }
             else if (disableConnect)
             {
-                //btnConnect.IsEnabled = false;
                 btnConnect.Content = Properties.Resources.Maintenance_Label_Connected;
                 btnConnect.Tag = "Connected";
                 btnConnect.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFromString("#0ed145");
 
                 btnUpdate.IsEnabled = false;
-
-                //btnConnect.Content = Properties.Resources.Maintenance_Label_NotConnected;
-                //btnConnect.Tag = "Not Connected";
-                //btnConnect.Background = System.Windows.Media.Brushes.Red;
             }
-            //else
-            //{
-            //    btnConnect.IsEnabled = true;
-            //}
         }
 
         private async Task<bool> CheckGreywindClinic()
@@ -558,43 +525,6 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
             else
             {
                 ClinicID = await CreateClinicInfoVcheck(sSettingsObj);
-
-                //VCheckAPI vcheckAPI = new VCheckAPI();
-                //GreywindAPI greywindAPI = new GreywindAPI();
-
-                //var name = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicName").ConfigurationValue;
-                //var address = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicAddress").ConfigurationValue;
-                //var city = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicCity").ConfigurationValue;
-                //var state = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicState").ConfigurationValue;
-                //var phoneNum = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicPhoneNum").ConfigurationValue;
-
-                //VCheck.Interface.API.Lib.General.LocationModel location = new VCheck.Interface.API.Lib.General.LocationModel()
-                //{
-                //    ID = "",
-                //    Name = name,
-                //    Address = address,
-                //    ContactName = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicContactName").ConfigurationValue,
-                //    PhoneNum = phoneNum,
-                //    Email = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicEmail").ConfigurationValue,
-                //    Description = "Clinic",
-                //    Status = 1,
-                //    CreatedBy = "VCheck Viewer"
-                //};
-
-                //ClinicID = await vcheckAPI.UpdateLocation(location);
-
-                //VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest insertLocation = new VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest()
-                //{
-                //    clinic_id = ClinicID,
-                //    name = name,
-                //    address_1 = address,
-                //    city = city,
-                //    state = state,
-                //    phone = phoneNum,
-                //    api_access = "1"
-                //};
-
-                //success = await greywindAPI.InsertClinicInfo(insertLocation, PMSURL);
             }
 
             if (string.IsNullOrEmpty(ClinicID))
@@ -634,8 +564,6 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
 
                     return success;
                 }
-
-                //return await CheckGreywindClinic();
             }
         }
 

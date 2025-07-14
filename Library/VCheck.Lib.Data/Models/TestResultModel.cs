@@ -50,6 +50,20 @@ namespace VCheck.Lib.Data.Models
 
     }
 
+    public class TestResultGraphModel
+    {
+        [Key]
+        public long ID { get; set; }
+        public long TestResultRowID { get; set; }
+        public String? FolderName { get; set; }
+        public String? FileName { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public String CreatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public String? UpdatedBy { get; set; }
+
+    }
+
     public class TestResultOutputFileModel : TestResultModel
     {
         public String? TestParameter { get; set; }

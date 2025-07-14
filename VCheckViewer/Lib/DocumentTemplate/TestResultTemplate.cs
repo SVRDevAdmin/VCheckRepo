@@ -815,7 +815,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
                             {                                
                                 foreach(var test in sDownloadPrintResultModels)
                                 {
-                                    c.Item().ShowEntire().Column(c =>
+                                    c.Item().EnsureSpace().Column(c =>
                                     {
                                         c.Item().Height(25);
 
@@ -1151,6 +1151,8 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                                 }
                                             });
                                         });
+
+                                        c.Item().PageBreak();
                                     });                                    
                                 }                                
                             });

@@ -15,6 +15,7 @@ namespace VCheckListenerWorker.Lib.Logic
     public class TestResultRepository
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
+        public static string graphFolder = Host.CreateApplicationBuilder().Configuration.GetSection("FileOutput:Graph").Value;
 
         /// <summary>
         /// Insert Test Result Raw Data
@@ -157,7 +158,7 @@ namespace VCheckListenerWorker.Lib.Logic
         /// <param name="sTestResult"></param>
         /// <param name="sTestResultDetail"></param>
         /// <returns></returns>
-        public static Boolean createTestResultsMultipleParam(txn_testresults sTestResult, List<txn_testresults_details> sTestResultDetail)
+        public static Boolean createTestResultsMultipleParam(txn_testresults sTestResult, List<txn_testresults_details> sTestResultDetail, List<txn_testresults_graphsExtended> sTestResultGraph = null)
         {
             Boolean isSuccess = false;
 
@@ -173,6 +174,25 @@ namespace VCheckListenerWorker.Lib.Logic
                         d.TestResultRowID = sTestResult.ID;
 
                         ctx.txn_testresults_details.Add(d);
+                        ctx.SaveChanges();
+                    }
+
+                    if(sTestResultGraph != null && sTestResultGraph.Count() > 0)
+                    {
+                        foreach (var d in sTestResultGraph)
+                        {
+                            var graph = new txn_testresults_graphs() { TestResultRowID = sTestResult.ID, FileName = d.FileName, CreatedDate = DateTime.Now, CreatedBy = "VCheckViewer Listener" };
+                            ctx.txn_testresults_graphs.Add(graph);
+
+                            byte[] imageBytes = Convert.FromBase64String(d.Base64String);
+
+                            if (!Directory.Exists(graphFolder + sTestResult.ID))
+                            {
+                                Directory.CreateDirectory(graphFolder + sTestResult.ID);
+                            }
+
+                            File.WriteAllBytes(graphFolder + sTestResult.ID + "\\" + d.FileName, imageBytes);
+                        }
                         ctx.SaveChanges();
                     }
 

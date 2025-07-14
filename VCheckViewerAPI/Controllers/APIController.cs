@@ -538,9 +538,9 @@ namespace VCheckViewerAPI.Controllers
             response.Body.Results = result;
 
             //--------- Log Payload -------//
-            VCheck.APILogging.CallLogging.InsertAPiLog("GetScheduleListByLocation", Guid.NewGuid().ToString(), request.Header.timestamp,
-                                                       Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
-                                                       Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus, responseMessage);
+            //VCheck.APILogging.CallLogging.InsertAPiLog("GetScheduleListByLocation", Guid.NewGuid().ToString(), request.Header.timestamp,
+            //                                           Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+            //                                           Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus, responseMessage);
 
             return response;
         }
@@ -599,9 +599,9 @@ namespace VCheckViewerAPI.Controllers
             response.Body.Results = result;
 
             //--------- Log Payload -------//
-            VCheck.APILogging.CallLogging.InsertAPiLog("GetScheduleListByLocationNotSent", Guid.NewGuid().ToString(), request.Header.timestamp,
-                                                       Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
-                                                       Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus, responseMessage);
+            //VCheck.APILogging.CallLogging.InsertAPiLog("GetScheduleListByLocationNotSent", Guid.NewGuid().ToString(), request.Header.timestamp,
+            //                                           Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+            //                                           Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus, responseMessage);
 
             return response;
         }
@@ -876,10 +876,10 @@ namespace VCheckViewerAPI.Controllers
                 response.Body.ResponseMessage = responseMessage;
 
                 //--------- Log Payload -------//
-                VCheck.APILogging.CallLogging.InsertAPiLog("SentScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
-                                               responseMessage);
+                //VCheck.APILogging.CallLogging.InsertAPiLog("SentScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                //                               responseMessage);
             }
             catch (Exception ex)
             {
@@ -968,10 +968,10 @@ namespace VCheckViewerAPI.Controllers
                 response.Body.ResponseMessage = responseMessage;
 
                 //--------- Log Payload -------//
-                VCheck.APILogging.CallLogging.InsertAPiLog("CancelScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
-                                               responseMessage);
+                //VCheck.APILogging.CallLogging.InsertAPiLog("CancelScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                //                               responseMessage);
             }
             catch (Exception ex)
             {
@@ -1036,10 +1036,10 @@ namespace VCheckViewerAPI.Controllers
                 response.Body.ResponseMessage = responseMessage;
 
                 //--------- Log Payload -------//
-                VCheck.APILogging.CallLogging.InsertAPiLog("CloseScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
-                                               responseMessage);
+                //VCheck.APILogging.CallLogging.InsertAPiLog("CloseScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                //                               responseMessage);
             }
             catch (Exception ex)
             {

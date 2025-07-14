@@ -18,9 +18,19 @@ namespace ScheduleAutomation.Lib.Services
         static NetworkStream networkStream = null;
         static String receivedMessage = "";
 
-        public static async Task SendMessage(List<TestIDAnalyzers> testID, ScheduledTestModel scheduleTest, DeviceModel device)
+        public static async Task SendMessage(List<TestIDAnalyzers> testID, ScheduledTestModel scheduleTest, DeviceModel device, string DeviceTypeName)
         {
-            String sContent = MessageGenerator.GenerateOMLO33Message(testID, scheduleTest);
+            String sContent = "";
+
+            if (DeviceTypeName == "C10")
+            {
+                sContent = MessageGenerator.GenerateOMLO33Message(testID, scheduleTest);
+            }
+            else
+            {
+
+            }
+            
             int timeout = 6000;
 
             //String sContent = "";

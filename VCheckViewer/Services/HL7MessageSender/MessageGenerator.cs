@@ -10,9 +10,11 @@ namespace VCheckViewer.Services.HL7MessageSender
     public class MessageGenerator
     {
         public static ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
+        public static int MessageType = 0;
 
         public static String GenerateOMLO33Message(List<TestIDAnalyzers> testIDAnalyzers, ScheduledTestModel info)
         {
+            MessageType = 1;
             var message = new HL7MessageModel();
             message.MSH = new MSHModel()
             {
@@ -34,7 +36,7 @@ namespace VCheckViewer.Services.HL7MessageSender
             message.PID = new PIDModel()
             {
                 PatientID = info.PatientID,
-                Hospital = sLocation.ConfigurationKey,
+                Hospital = sLocation.ConfigurationValue,
                 PetName = info.PatientName,
                 BirthDate = DateTime.Parse("2024-01-01"),
                 Gender = info.Gender,
@@ -89,8 +91,119 @@ namespace VCheckViewer.Services.HL7MessageSender
                     SetID = "2", ValueType = "NM", ObservationIdentifier = "^Weight", ObservationValue = "5.4", Units = "kg", ObservationResultStatus = "F"
                 }
             };
-
             message.OBX = obx;
+
+
+            List<NTEModel> nte = new List<NTEModel>()
+            {
+                new NTEModel()
+                {
+                    SetID = "1", Comment = "24^Months", CommentType = "Age"
+                },
+                new NTEModel()
+                {
+                    SetID = "2", Comment = "5.4^Kg", CommentType = "Weight"
+                }
+            };
+            message.NTE = nte;
+
+            return GenerateMessage(message);
+        }
+
+        public static String GenerateORMO01Message(List<TestIDAnalyzers> testIDAnalyzers, ScheduledTestModel info)
+        {
+            MessageType = 2;
+            var message = new HL7MessageModel();
+            message.MSH = new MSHModel()
+            {
+                SendingApplication = "LIS",
+                SendingFacility = "",
+                ReceivingApplication = "VCHECK H6",
+                ReceivingFacility = "LAB",
+                MessageType = "ORM^O01^ORM_O01",
+                VersionID = "2.3.1",
+                AcceptAckType = "NE",
+                AppAckType = "AL",
+                CharacterSet = "UTF-8",
+                //MessageProfileIdentifier = "LAB-28^IHE"
+            };
+
+
+            var sLocation = configDBContext.GetConfigurationData("ClinicName").FirstOrDefault();
+            var gender = info.Gender == "Male" ? "M" : "F";
+            message.PID = new PIDModel()
+            {
+                PatientID = info.PatientID,
+                Hospital = sLocation.ConfigurationValue,
+                PetName = info.PatientName,
+                BirthDate = DateTime.Parse("2024-01-01"),
+                Gender = gender,
+                OwnerName = info.OwnerName,
+                Species = info.Species,
+                Breed = "NA"
+            };
+
+            message.PV1 = new PV1Model()
+            {
+                PatientClass = "E",
+                Room = "^3001",
+                DoctorName = info.InchargePerson
+            };
+
+            message.SPM = new SPMModel()
+            {
+                SetID = "1",
+                SpecimenType = "Serum",
+                SpecimentRole = "P^Patient^HL70369"
+            };
+
+            message.SAC = new SACModel() { ContainerID = "g55643" };
+
+            message.ORC = new ORCModel()
+            {
+                OrderControl = "NW",
+                PlacerOrderNo = Guid.NewGuid().ToString(),
+                PlacerGroupNo = Guid.NewGuid().ToString(),
+                TransactionDatetime = DateTime.Now
+            };
+
+            //string CartridgeID = "DC001B";
+            //string CartridgeName = "Comprehensive 17";
+            string CartridgeID = testIDAnalyzers.FirstOrDefault().TestID;
+            string CartridgeName = info.ScheduledTestType;
+
+            message.OBR = new OBRModel()
+            {
+                PlacerOrderNo = Guid.NewGuid().ToString(),
+                UniversalServiceID = CartridgeID + "^" + CartridgeName + "^VCHECK"
+            };
+
+            List<OBXModel> obx = new List<OBXModel>()
+            {
+                new OBXModel()
+                {
+                    SetID = "1", ValueType = "NM", ObservationIdentifier = "^Age", ObservationValue = "24", Units = "Months", ObservationResultStatus = "F"
+                },
+                new OBXModel()
+                {
+                    SetID = "2", ValueType = "NM", ObservationIdentifier = "^Weight", ObservationValue = "5.4", Units = "kg", ObservationResultStatus = "F"
+                }
+            };
+            message.OBX = obx;
+
+
+            List<NTEModel> nte = new List<NTEModel>()
+            {
+                new NTEModel()
+                {
+                    SetID = "1", Comment = "24^Months", CommentType = "Age"
+                },
+                new NTEModel()
+                {
+                    SetID = "2", Comment = "5.4^Kg", CommentType = "Weight"
+                }
+            };
+            message.NTE = nte;
 
             return GenerateMessage(message);
         }

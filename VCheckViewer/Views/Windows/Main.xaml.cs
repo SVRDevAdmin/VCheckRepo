@@ -247,21 +247,34 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "ChangeLanguageCountry") { PopupContent.Text = Properties.Resources.Popup_Message_LanguageCountryChange; }
             if (App.MainViewModel.Origin == "Logout") { PopupContent.Text = Properties.Resources.Popup_Message_Logout; }
             if (App.MainViewModel.Origin == "ResetPassword") { PopupContent.Text = Properties.Resources.Popup_Message_ResetPassword; }
-            if (App.MainViewModel.Origin == "DeviceAdd") { PopupContent.Text = Properties.Resources.Popup_Message_AddAnalyzer;  }
             if (App.MainViewModel.Origin == "DeviceDelete") { PopupContent.Text = Properties.Resources.Popup_Message_RemoveAnalyzer; }
             if (App.MainViewModel.Origin == "DeviceUpdate") { PopupContent.Text = Properties.Resources.Popup_Message_UpdateAnalyzer; }
             if (App.MainViewModel.Origin == "SettingsUpdate" || App.MainViewModel.Origin == "ReportSettingsUpdate" || App.MainViewModel.Origin == "LISSettingsUpdate") { PopupContent.Text = Properties.Resources.Popup_Message_SaveSettings; }
             if (App.MainViewModel.Origin == "CancelSchedule") { PopupContent.Text = Properties.Resources.Popup_Message_CancelSchedule; }
             if (App.MainViewModel.Origin == "ClinicInfoUpdate") { PopupContent.Text = Properties.Resources.Popup_Message_ClinicInfoUpdate; }
-            if (App.MainViewModel.Origin == "ScheduleCancelled") 
+            if (App.MainViewModel.Origin == "DeviceAdd")
             {
-                btnYes.Visibility = Visibility.Collapsed;
-                btnNo.Visibility = Visibility.Collapsed;
-                btnOk.Visibility = Visibility.Visible;
-                btnCancel.Visibility = Visibility.Collapsed;
-                txtInput.Visibility = Visibility.Collapsed;
-                deviceList.Visibility = Visibility.Collapsed;
-                ParameterView.Visibility = Visibility.Collapsed;
+                PopupSetup(true, true, false, false, false, false, false);
+                //btnYes.Visibility = Visibility.Collapsed;
+                //btnNo.Visibility = Visibility.Collapsed;
+                //btnOk.Visibility = Visibility.Visible;
+                //btnCancel.Visibility = Visibility.Collapsed;
+                //txtInput.Visibility = Visibility.Collapsed;
+                //deviceList.Visibility = Visibility.Collapsed;
+                //ParameterView.Visibility = Visibility.Collapsed;
+
+                PopupContent.Text = Properties.Resources.Popup_Message_AddAnalyzer; 
+            }
+            if (App.MainViewModel.Origin == "ScheduleCancelled")
+            {
+                PopupSetup(false, false, true, false, false, false, false);
+                //btnYes.Visibility = Visibility.Collapsed;
+                //btnNo.Visibility = Visibility.Collapsed;
+                //btnOk.Visibility = Visibility.Visible;
+                //btnCancel.Visibility = Visibility.Collapsed;
+                //txtInput.Visibility = Visibility.Collapsed;
+                //deviceList.Visibility = Visibility.Collapsed;
+                //ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_ScheduleCancel;
             }
@@ -441,6 +454,11 @@ namespace VCheckViewer.Views.Windows
             if (App.MainViewModel.Origin == "SendToAnalyzer")
             {
                 List<DeviceModel> devices = DeviceRepository.GetTwoWayCommDevice(ConfigSettings.GetConfigurationSettings());
+                var deviceTypes = DeviceRepository.GetDeviceTypeList(ConfigSettings.GetConfigurationSettings()).Where(x => x.TwoWayCommunication == 1).ToList();
+                string[] deviceListExtended = App.ScheduleTestInfoExtended.IDAnalyzers.FirstOrDefault().Analyzers.Split(",");
+                var deviceTypeIDList = deviceTypes.Where(x => Array.Exists(deviceListExtended, element => element == x.TypeName)).Select(y => y.id).ToArray();
+                devices = devices.Where(x => Array.Exists(deviceTypeIDList, element => element == x.DeviceTypeID)).ToList();
+
 
                 btnYes.Visibility = Visibility.Collapsed;
                 btnNo.Visibility = Visibility.Collapsed;
@@ -2197,6 +2215,17 @@ namespace VCheckViewer.Views.Windows
             username = configuration != null ? configuration.ConfigurationValue : "";
             configuration = ConfigurationContext.GetConfigurationData("InterfaceSettingsPassword").FirstOrDefault();
             password = configuration != null ? configuration.ConfigurationValue : "";
+        }
+
+        private void PopupSetup(bool btnYesShow, bool btnNoShow, bool btnOkShow, bool btnCancelShow, bool txtInputShow, bool deviceListShow, bool ParameterViewShow)
+        {
+            btnYes.Visibility = btnYesShow ? Visibility.Visible : Visibility.Collapsed;
+            btnNo.Visibility = btnNoShow ? Visibility.Visible : Visibility.Collapsed;
+            btnOk.Visibility = btnOkShow ? Visibility.Visible : Visibility.Collapsed;
+            btnCancel.Visibility = btnCancelShow ? Visibility.Visible : Visibility.Collapsed;
+            txtInput.Visibility = txtInputShow ? Visibility.Visible : Visibility.Collapsed;
+            deviceList.Visibility = deviceListShow ? Visibility.Visible : Visibility.Collapsed;
+            ParameterView.Visibility = ParameterViewShow ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 

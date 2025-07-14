@@ -28,6 +28,7 @@ namespace VCheckListenerWorker.Lib.DBContext
         public DbSet<tbltestanalyze_results_specimencontainer> tbltestanalyze_results_specimencontainer { get; set; }
         public DbSet<txn_testresults> txn_Testresults { get; set; }
         public DbSet<txn_testresults_details> txn_testresults_details { get; set; }
+        public DbSet<txn_testresults_graphs> txn_testresults_graphs { get; set; }
         public DbSet<mst_template> mst_template { get; set; }
         public DbSet<mst_template_details> mst_template_details { get; set; }
         public DbSet<txn_notification> txn_notification { get; set; }
