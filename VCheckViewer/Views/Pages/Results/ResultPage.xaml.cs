@@ -1,21 +1,24 @@
-﻿using System.Collections.ObjectModel;
+﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using log4net;
+using QuestPDF.Fluent;
+using Spire.Xls;
+using System.Collections.ObjectModel;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing.Printing;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using VCheckViewer.Lib.Function;
+using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.DocumentTemplate;
-using QuestPDF.Fluent;
-using System.Data;
-using ClosedXML.Excel;
-using System.Diagnostics;
-using Spire.Xls;
-using VCheck.Lib.Data;
-using System.Drawing.Printing;
-using log4net;
-using System.Reflection;
+using VCheckViewer.Lib.Function;
 using VCheckViewer.Views.Pages.Login;
+using Wpf.Ui.Controls;
 
 namespace VCheckViewer.Views.Pages.Results
 {
@@ -33,6 +36,8 @@ namespace VCheckViewer.Views.Pages.Results
         public int startPagination = 1;
         public int endPagination = 0;
         public int iTotalCount = 0;
+        public string oldName;
+        public TestResultListingExtendedObj currentRow;
 
         public static event EventHandler? DownloadPrintReport;
         public static event EventHandler? UpdatePatientNameEvent;
@@ -76,7 +81,7 @@ namespace VCheckViewer.Views.Pages.Results
         private void menuView_Click(object sender, RoutedEventArgs e)
         {
             TestResultListingExtendedObj sTestResultObj = dgResult.SelectedItem as TestResultListingExtendedObj;
-            App.TestResultID = sTestResultObj.ID;
+            App.TestResultID = sTestResultObj != null ? sTestResultObj.ID : currentRow.ID;
 
             App.GoToViewResultPageHandler(e, sender);
         }
@@ -96,6 +101,7 @@ namespace VCheckViewer.Views.Pages.Results
             var parameterOrder = TestResultsRepository.GetAllParameters(ConfigSettings.GetConfigurationSettings()).Select(x => x.Parameter).ToList();
             App.IsPrint = IsPrint;
             var selectedResult = dgResult.SelectedItem as TestResultListingExtendedObj;
+            selectedResult = selectedResult != null ? selectedResult : currentRow;
             App.TestResultID = selectedResult.ID;
             App.Parameters = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), selectedResult.ID).Select(x => x.TestParameter).OrderBy(d => parameterOrder.IndexOf(d)).ToList();
 
@@ -115,6 +121,7 @@ namespace VCheckViewer.Views.Pages.Results
             downloadPrintResultModel.TestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), TestResult.ID);
             downloadPrintResultModel.PreviousTestResultDetails = TestResultsRepository.GetPreviousTestRecord(ConfigSettings.GetConfigurationSettings(), TestResult, out previousTest);
             downloadPrintResultModel.PreviousTestResult = previousTest;
+            downloadPrintResultModel.TestResultsGraph = TestResultsRepository.GetResultGraphsByTestResultID(ConfigSettings.GetConfigurationSettings(), TestResult.ID);
 
             App.DowloadPrintObject.Add(downloadPrintResultModel);
 
@@ -194,6 +201,8 @@ namespace VCheckViewer.Views.Pages.Results
 
         public void UpdatePatientName(object sender, EventArgs e)
         {
+            TestResultsRepository.UpdateTestResult(ConfigSettings.GetConfigurationSettings(), App.TestResultInfo);
+
             LoadResultDataGrid();
         }
 
@@ -424,13 +433,13 @@ namespace VCheckViewer.Views.Pages.Results
         //---------- POC Testing -----------------//
         private void menuTransfer_Click(object sender, RoutedEventArgs e)
         {
-            var sMenu = sender as MenuItem;
+            var sMenu = sender as System.Windows.Controls.MenuItem;
 
             Popup sInputID = new Popup();
             sInputID.IsOpen = true;
 
             App.MainViewModel.Origin = "GreywindSendUniqueID";
-            App.MainViewModel.TestResultID = sMenu.Tag.ToString();
+            App.MainViewModel.TestResultID = sMenu.Tag == null ? currentRow.ID.ToString() : sMenu.Tag.ToString();
             App.PopupHandler(e, sender);
 
         }
@@ -439,21 +448,24 @@ namespace VCheckViewer.Views.Pages.Results
         {
             App.isEmptyName = false;
             var sMenu = sender as System.Windows.Controls.MenuItem;
-
-            updateName(sMenu.Tag.ToString(), sender, e);
+            string testID = sMenu.Tag == null ? currentRow.ID.ToString() : sMenu.Tag.ToString();
+            updateName(testID, sender, e);
         }
 
         private void updateName(string TestResultID, object sender, RoutedEventArgs e)
         {
-            Popup sInputID = new Popup();
-            sInputID.IsOpen = true;
+            if (!string.IsNullOrEmpty(TestResultID))
+            {
+                Popup sInputID = new Popup();
+                sInputID.IsOpen = true;
 
-            App.MainViewModel.Origin = "UpdatePatientName";
-            App.MainViewModel.TestResultID = TestResultID;
+                App.MainViewModel.Origin = "UpdatePatientName";
+                App.MainViewModel.TestResultID = TestResultID;
 
-            App.TestResultInfo = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), Convert.ToInt64(App.MainViewModel.TestResultID));
+                App.TestResultInfo = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), Convert.ToInt64(App.MainViewModel.TestResultID));
 
-            App.PopupHandler(e, sender);
+                App.PopupHandler(e, sender);
+            }
         }
 
         public static void DownloadPrintReportHandler(EventArgs e, object sender)
@@ -469,6 +481,50 @@ namespace VCheckViewer.Views.Pages.Results
             if (UpdatePatientNameEvent != null)
             {
                 UpdatePatientNameEvent(sender, e);
+            }
+        }
+
+        private void dgResult_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
+        {
+            var editedTextbox = e.EditingElement as System.Windows.Controls.TextBox;
+            oldName = editedTextbox.Text;
+        }
+
+        public void dgResult_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (e.EditAction == DataGridEditAction.Commit)
+            {
+                var editedTextbox = e.EditingElement as System.Windows.Controls.TextBox;
+                if (editedTextbox != null)
+                {
+                    if(editedTextbox.Text != oldName)
+                    {
+                        int rowIndex = e.Row.GetIndex();
+                        var testID = ((sender as System.Windows.Controls.DataGrid).Items[rowIndex] as TestResultListingExtendedObj).ID;
+                        string newValue = editedTextbox.Text;
+
+                        App.TestResultInfo = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), Convert.ToInt64(testID));
+                        App.TestResultInfo.PatientName = newValue;
+
+                        UpdatePatientName(null, null);
+                    }
+                }
+            }
+        }
+
+        private void dgResult_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            currentRow = null;
+            if (e.OriginalSource.GetType() == typeof(Border)) { currentRow = ((e.OriginalSource as Border).DataContext as TestResultListingExtendedObj); }
+            else if (e.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBlock)) { currentRow = ((e.OriginalSource as System.Windows.Controls.TextBlock).DataContext as TestResultListingExtendedObj); }
+            else
+            {
+                
+            }
+
+            if (dgResult.ContextMenu != null && !(currentRow == null))
+            {
+                dgResult.ContextMenu.IsOpen = true;
             }
         }
     }

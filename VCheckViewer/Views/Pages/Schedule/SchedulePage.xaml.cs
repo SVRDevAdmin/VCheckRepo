@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using VCheck.Interface.API;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
@@ -270,6 +271,16 @@ namespace VCheckViewer.Views.Pages.Schedule
             if (ReloadSchedule != null)
             {
                 ReloadSchedule(sender, e);
+            }
+        }
+
+        private void Grid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var grid = sender as Grid;
+            if (grid.ContextMenu != null)
+            {
+                grid.ContextMenu.PlacementTarget = grid;
+                grid.ContextMenu.IsOpen = true;
             }
         }
     }

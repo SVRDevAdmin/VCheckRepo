@@ -12,8 +12,8 @@ namespace VCheck.Interface.API
     public class VCheckAPI
     {
         //private string url = "http://localhost:82/API";
-        private string url = "http://vcheckstaging.inteleon.xyz/API";
-        //private string url = "http://api.vcheckviewer.com/API";
+        //private string url = "http://vcheckstaging.inteleon.xyz/API";
+        private string url = "http://api.vcheckviewer.com/API";
 
         private string clientKey = "qwertyuiop123asdfghjkl456zxcvbnm789";
 

@@ -27,7 +27,7 @@ namespace VCheckViewer.Services.HL7MessageSender
             }
             else if (deviceType.TypeName == "H6")
             {
-
+                sContent = MessageGenerator.GenerateORMO01Message(scheduleTest.IDAnalyzers, scheduleTest.Schedule);                
             }
 
             int timeout = 60000;

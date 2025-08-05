@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheckViewer.Views.Windows;
@@ -63,7 +64,7 @@ namespace VCheckViewer.Views.Pages.Login
 
                             App.MainViewModel.CurrentUsers.Gender = App.MainViewModel.CurrentUsers.Gender == "M" ? "Male" : "Female";
 
-                            CheckPMSUser();
+                            //CheckPMSUser();
 
                             LoginWindow.GoToMainWindowHandler(e, sender);
                         }
@@ -149,6 +150,12 @@ namespace VCheckViewer.Views.Pages.Login
         {
             if (Password.Password == "") { PasswordPlaceholder.Visibility = Visibility.Visible; }
             else { PasswordPlaceholder.Visibility = Visibility.Collapsed; }
+        }
+
+        private void passwordShow_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (passwordShow.Text == "") { PasswordPlaceholder.Visibility = Visibility.Visible; }
+            else { PasswordPlaceholder.Visibility = Visibility.Collapsed; Password.Password = passwordShow.Text; }
         }
 
         private void ResetPassword(object sender, RoutedEventArgs e)
@@ -256,6 +263,18 @@ namespace VCheckViewer.Views.Pages.Login
             {
                 App.PMSFunction = "Collapsed";
             }
+        }
+
+        private void PasswordVisible_Click(object sender, RoutedEventArgs e)
+        {
+            string iconPath;
+            if (passwordVisibleIcon.Tag.ToString() == "hide") { iconPath = "see password"; passwordVisibleIcon.Tag = "show"; passwordShow.Visibility = Visibility.Visible; Password.Visibility = Visibility.Collapsed; passwordShow.Text = Password.Password; }
+            else { iconPath = "hide password"; passwordVisibleIcon.Tag = "hide"; passwordShow.Visibility = Visibility.Collapsed; Password.Visibility = Visibility.Visible; Password.Password = passwordShow.Text; }
+
+            var bitmap = new BitmapImage();
+            Uri uri = new Uri("pack://application:,,,/Content/Images/"+ iconPath + ".png");
+            bitmap = new BitmapImage(uri);
+            passwordVisibleIcon.Source = bitmap;
         }
     }
 }

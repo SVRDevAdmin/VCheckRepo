@@ -36,6 +36,8 @@ namespace VCheckViewer.Views.Pages
 
             updateMessage.Text = message[0] + "\r\n" + message[1];
 
+            this.SizeChanged += MainWindow_SizeChanged;
+
             //if (App.ShowUpdateNotification)
             //{
             //    VersionUpdate.Visibility = Visibility.Visible;
@@ -96,7 +98,7 @@ namespace VCheckViewer.Views.Pages
         }
         
         public async Task createElementUsingGridByDevice(int totalElementPerRow, int imageHeight, int borderHeight, int borderWidth, int margin, int totalRow, bool excess, int remainder)
-        {
+        {            
             String? sColor = System.Windows.Application.Current.Resources["Themes_FontColor"].ToString();
             String? sFrameColor = System.Windows.Application.Current.Resources["Themes_DashboardAnalyzerFrameBackground"].ToString();
             SolidColorBrush sBrushFontColor = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
@@ -105,6 +107,7 @@ namespace VCheckViewer.Views.Pages
 
             List<int> twoWayDevices = DeviceRepository.GetTwoWayCommDevice(ConfigSettings.GetConfigurationSettings()).Select(x => x.id).ToList();
             List<int> posNegRequired = DeviceRepository.GetPosNegRequiredDevice(ConfigSettings.GetConfigurationSettings()).Select(x => x.id).ToList();
+
 
             for (int i = 0; i < totalRow; i++)
             {
@@ -218,7 +221,8 @@ namespace VCheckViewer.Views.Pages
                     testGrid.Children.Add(parentBorder);
                 }
 
-                responsiveView.Children.Clear();
+                if(i == 0) { responsiveView.Children.Clear(); }
+                
                 responsiveView.Children.Add(testGrid);
             }
         }
@@ -226,6 +230,14 @@ namespace VCheckViewer.Views.Pages
         void DownloadButton_Clicked(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo(App.UpdateLink) { UseShellExecute = true });
+        }
+
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var windowHeight = App.WindowHeight;
+
+            if(windowHeight > 1016) { deviceListView.MaxHeight = 500; }
+            else { deviceListView.MaxHeight = windowHeight * 0.39; }
         }
     }
 }

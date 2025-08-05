@@ -55,7 +55,7 @@ namespace VCheck.Lib.Data.Models
         [Key]
         public long ID { get; set; }
         public long TestResultRowID { get; set; }
-        public String? FolderName { get; set; }
+        //public String? FolderName { get; set; }
         public String? FileName { get; set; }
         public DateTime CreatedDate { get; set; }
         public String CreatedBy { get; set; }
@@ -181,6 +181,7 @@ namespace VCheck.Lib.Data.Models
         public List<TestResultDetailsModel> TestResultDetails { get; set; }
         public TestResultModel PreviousTestResult { get; set; }
         public List<TestResultDetailsModel> PreviousTestResultDetails { get; set; }
+        public List<TestResultGraphModel> TestResultsGraph { get; set; }
     }
 
     public class TestDeviceName

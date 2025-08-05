@@ -65,10 +65,10 @@ namespace VCheckViewer
         public static bool isLanguagePage { get; set; }
         public static bool isEmptyName { get; set; }
         public static List<DownloadPrintResultModel> DowloadPrintObject { get; set; }
-        public static bool LoginWindowNotInitialized { get; set; } = true;
         public static string ClinicID { get; set; }
         public static bool ShowUpdateNotification { get; set; } = false;
         public static bool ConnectionStatus { get; set; } = false;
+        public static double WindowHeight { get; set; }
 
         public static IConfiguration iConfig { get; set; }
 

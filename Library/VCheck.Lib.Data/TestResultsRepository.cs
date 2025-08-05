@@ -415,7 +415,8 @@ namespace VCheck.Lib.Data
                                                            sReader["OverallStatus"].ToString() == "Invalid") ? 
                                                            "#ff2c29" : "#57baa5",
                                         DeviceSerialNo = sReader["DeviceSerialNo"].ToString(),
-                                        PMSFunction = isPMSUser == "Visible" ? sReader["PMSFunction"].ToString() : isPMSUser
+                                        //PMSFunction = isPMSUser == "Visible" ? sReader["PMSFunction"].ToString() : isPMSUser
+                                        PMSFunction = isPMSUser
                                     }); ;
 
                                     iIndex++;
@@ -463,6 +464,21 @@ namespace VCheck.Lib.Data
                 using (var ctx = new TestResultDBContext(config))
                 {
                     return ctx.txn_testresults_details.Where(x => x.TestResultRowID == iTestResultID && x.TestParameter.ToLower() != "alarm" && !x.TestParameter.ToLower().Contains("Scattergram") && !x.TestParameter.ToLower().Contains("Histogram")).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static List<TestResultGraphModel> GetResultGraphsByTestResultID(IConfiguration config, long iTestResultID)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.txn_testresults_graphs.Where(x => x.TestResultRowID == iTestResultID).ToList();
                 }
             }
             catch (Exception ex)

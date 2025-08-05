@@ -24,11 +24,12 @@ namespace ScheduleAutomation.Lib.Services
 
             if (DeviceTypeName == "C10")
             {
-                sContent = MessageGenerator.GenerateOMLO33Message(testID, scheduleTest);
+                //sContent = MessageGenerator.GenerateOMLO33Message(testID, scheduleTest);
+                sContent = MessageGenerator.GenerateORMO01Message(testID, scheduleTest);
             }
             else
             {
-
+                //sContent = MessageGenerator.GenerateORMO01Message(testID, scheduleTest);
             }
             
             int timeout = 6000;

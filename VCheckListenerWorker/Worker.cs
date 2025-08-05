@@ -84,7 +84,7 @@ namespace VCheckListenerWorker
                                      .Replace("\n", "\r");
                         String sData = sDataTemp;
 
-                        while (true)
+                        while (sClient.Available != 0)
                         {
                             s = sClient.Receive(bBuffer);
                             sDataTemp = System.Text.Encoding.ASCII.GetString(bBuffer, 0, s);
@@ -93,16 +93,16 @@ namespace VCheckListenerWorker
                             if (string.IsNullOrEmpty(sDataTemp) || sDataTemp.Contains("MSH|")) { break; }
                             sData += sDataTemp;
                         }
-                        
 
                         if (!String.IsNullOrEmpty(sData))
                         {
+
                             Console.WriteLine("Data Message >> ");
                             Console.WriteLine(sData);
 
                             NHapi.Base.Parser.XMLParser sXMLParser = new NHapi.Base.Parser.DefaultXMLParser();
                             //NHapi.Base.Parser.PipeParser sParser = new NHapi.Base.Parser.PipeParser();
-                            NHapi.Base.Parser.ParserOptions sParserOptions = new ParserOptions { InvalidObx2Type = "ED" };
+                            //NHapi.Base.Parser.ParserOptions sParserOptions = new ParserOptions { InvalidObx2Type = "ED" };
                             NHapi.Base.Parser.PipeParser sParser = new NHapi.Base.Parser.PipeParser() { ValidationContext = new CustomMessageValidation() };
                             //NHapi.Base.Parser.PipeParser sParser = new NHapi.Base.Parser.PipeParser() { ValidationContext = new StrictValidation() };
                             NHapi.Base.Model.IMessage sIMessage = null;
@@ -303,6 +303,10 @@ namespace VCheckListenerWorker
                     if (sIMessage.Message.Message.GetType() == typeof(NHapi.Model.V231.Message.ORU_R01))
                     {
                         sMessage = Lib.Logic.HL7.V231.AckRepository.GenerateAcknowlegeMessageORU(sIMessage);
+                    }
+                    else if (sIMessage.Message.Message.GetType() == typeof(NHapi.Model.V231.Message.QRY_Q02))
+                    {
+                        sMessage = Lib.Logic.HL7.V231.AckRepository.GenerateAcknowlegeMessageQRY(sIMessage);
                     }
                     break;
 

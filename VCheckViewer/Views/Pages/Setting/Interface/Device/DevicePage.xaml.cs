@@ -26,6 +26,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             LoadDeviceTypeList();
             LoadDeviceListing();
 
+            this.SizeChanged += MainWindow_SizeChanged;
+
             twoWayDeviceTypesID = DeviceRepository.GetDeviceTypeList(ConfigSettings.GetConfigurationSettings()).Where(x => x.TwoWayCommunication == 1).Select(y => y.id.ToString()).ToList();
 
             DataContext = this;
@@ -53,7 +55,7 @@ namespace VCheckViewer.Views.Pages.Setting.Device
         }
 
         private void LoadDeviceListing()
-        {          
+        {      
             dgDevice.ItemsSource = DeviceRepository.GetDeviceList(ConfigSettings.GetConfigurationSettings());
         }
 
@@ -533,6 +535,14 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 dgDevice.SelectedItem = null;
                 ShowHideBorder("Add");
             }
+        }
+
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var windowHeight = App.WindowHeight;
+
+            if (windowHeight > 1016) { deviceBorder.Height = 650; }
+            else { deviceBorder.Height = windowHeight * 0.52; }
         }
     }
 }

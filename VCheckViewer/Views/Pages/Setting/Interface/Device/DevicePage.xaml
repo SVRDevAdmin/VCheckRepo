@@ -189,7 +189,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="{Binding Path=Device_Label_AddedDevices, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
-                    <Border Grid.Row="2" Margin="10, 5" Height="250" BorderBrush="Black" BorderThickness="0">
+                    <Border x:Name="deviceBorder" Grid.Row="2" Margin="10, 5" BorderBrush="Black" BorderThickness="0">
                         <DataGrid SelectionChanged="dgDevice_SelectionChanged" Name="dgDevice" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="None" 
                                   GridLinesVisibility="Horizontal" Foreground="{DynamicResource Themes_FontColor}" 
                                   HorizontalGridLinesBrush="{DynamicResource Themes_GridDevicesRowLinesColor}"

@@ -27,7 +27,7 @@ namespace VCheckViewer.Views.Pages.Login
         NotificationDBContext NotificationContext = App.GetService<NotificationDBContext>();
         ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
 
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public PasswordRecoveryPage()
         {
@@ -51,7 +51,7 @@ namespace VCheckViewer.Views.Pages.Login
 
             if(user != null)
             {
-                if (user.NormalizedEmail == Email.Text.ToUpper())
+                if (user.NormalizedEmail == Email.Text.ToUpper() || string.IsNullOrEmpty(user.NormalizedEmail))
                 {
                     newPassword = RandomPasswordGenerator();
 
@@ -129,8 +129,9 @@ namespace VCheckViewer.Views.Pages.Login
 
                         sEmail.SenderEmail = App.SMTP.Sender;
 
-                        List<string> sRecipientList = [user.NormalizedEmail];
-
+                        List<string> sRecipientList;
+                        if (string.IsNullOrEmpty(user.NormalizedEmail)) { sRecipientList = ["vcheckvieweradmin@svrtech.com.my"]; }
+                        else { sRecipientList = [user.NormalizedEmail]; }
 
                         sEmail.RecipientEmail = sRecipientList;
                         sEmail.IsHtml = true;

@@ -187,10 +187,32 @@
         <TextBlock Name="txtTotalCount" Text="0" Visibility="Collapsed" />
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Margin="15, 10, 10, 5">
             <DataGrid Name="dgResult" BorderThickness="0" AutoGenerateColumns="False" GridLinesVisibility="Horizontal" Background="Transparent"
-                RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}" HorizontalGridLinesBrush="{DynamicResource Themes_GridRowLinesColor}" CanUserAddRows="False">
+                RowHeaderWidth="0" ColumnHeaderStyle="{DynamicResource ColumnHeaderStyle1}" HorizontalGridLinesBrush="{DynamicResource Themes_GridRowLinesColor}" CanUserAddRows="False" CellEditEnding="dgResult_CellEditEnding" PreparingCellForEdit="dgResult_PreparingCellForEdit" MouseRightButtonDown="dgResult_MouseRightButtonDown" ContextMenuService.IsEnabled="False">
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource Themes_HighlightColor}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Name="menuEditPatientName" Tag="{Binding ID}" Header="{Binding Path=Results_Label_EditPatientName, Source={StaticResource Resources}}" Click="updateNameButton_Click"/>
+                        <MenuItem Name="menuView" Header="{Binding Path=Results_Label_View, Source={StaticResource Resources}}" Click="menuView_Click"/>
+                        <MenuItem Name="menuDownload" Header="{Binding Path=Results_Label_Download, Source={StaticResource Resources}}" Click="menuDownload_Click" />
+                        <MenuItem Name="menuPrint" Header="{Binding Path=Results_Label_Print, Source={StaticResource Resources}}" Click="menuPrint_Click" />
+                        <MenuItem Name="menuTransfer" Tag="{Binding ID}" Header="{Binding Path=Results_Label_SendToPMS, Source={StaticResource Resources}}" Click="menuTransfer_Click" Visibility="{Binding PMSFunction}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_No, Source={StaticResource Resources}}" Binding="{Binding RowNo}" Width="35" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_PatientName, Source={StaticResource Resources}}" Binding="{Binding PatientName}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_No, Source={StaticResource Resources}}" Binding="{Binding RowNo}" Width="35" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_PatientName, Source={StaticResource Resources}}" Binding="{Binding PatientName}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="False" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_OperatorID, Source={StaticResource Resources}}" Binding="{Binding OperatorID}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_PatientID, Source={StaticResource Resources}}" Binding="{Binding PatientID}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True" />
                     <DataGridTextColumn Header="{Binding Path=Results_Label_TestResultType, Source={StaticResource Resources}}" Binding="{Binding TestResultType}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True" />
@@ -205,7 +227,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="{Binding Path=Results_Label_Time, Source={StaticResource Resources}}" Binding="{Binding TestResultDateTime, StringFormat={}{0:yyyy-MM-dd HH:ss}}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True" />
+                    <DataGridTextColumn Header="{Binding Path=Results_Label_Time, Source={StaticResource Resources}}" Binding="{Binding TestResultDateTime, StringFormat={}{0:yyyy-MM-dd HH:ss}}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="{Binding Path=Results_Label_Doctor, Source={StaticResource Resources}}" Binding="{Binding InchargePerson}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="{Binding Path=Results_Label_DeviceSerialNo, Source={StaticResource Resources}}" Binding="{Binding DeviceSerialNo}" Width="*" ElementStyle="{StaticResource DataGridVerticalText}" IsReadOnly="True" />
                     <DataGridTemplateColumn Width="0.3*">

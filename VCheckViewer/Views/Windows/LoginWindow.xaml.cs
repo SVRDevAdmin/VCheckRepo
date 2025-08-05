@@ -18,23 +18,18 @@ namespace VCheckViewer.Views.Windows
         public LoginWindow()
         {
             SystemThemeWatcher.Watch(this);
-            InitializeComponent(); 
+            InitializeComponent();
 
-            if (App.LoginWindowNotInitialized)
-            {
-                LoginPage.GoToResetPasswordPage += new EventHandler(GoToResetPasswordPage);
-                ResetPasswordPage.GoToLoginPage += new EventHandler(GoToLoginPage);
-                PasswordRecoveryPage.GoToLoginPage += new EventHandler(GoToLoginPage);
+            LoginPage.GoToResetPasswordPage += new EventHandler(GoToResetPasswordPage);
+            ResetPasswordPage.GoToLoginPage += new EventHandler(GoToLoginPage);
+            PasswordRecoveryPage.GoToLoginPage += new EventHandler(GoToLoginPage);
 
-                GoToMainWindow = null;
-                GoToMainWindow += new EventHandler(GoToMainWindowProcess);
+            GoToMainWindow = null;
+            GoToMainWindow += new EventHandler(GoToMainWindowProcess);
 
-                //popup
-                PasswordRecoveryPage.Popup += new EventHandler(OpenPopup);
-                App.Popup += new EventHandler(GoToLoginPage);
-
-                App.LoginWindowNotInitialized = false;
-            }
+            //popup
+            PasswordRecoveryPage.Popup += new EventHandler(OpenPopup);
+            App.Popup += new EventHandler(GoToLoginPage);
 
         }
 

@@ -1,10 +1,14 @@
-﻿using System.Windows;
+﻿using Microsoft.Extensions.Hosting;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
+using VCheckViewer.Services;
 
 namespace VCheckViewer.Views.Pages.Results
 {
@@ -20,6 +24,7 @@ namespace VCheckViewer.Views.Pages.Results
             InitializeComponent();
             LoadReportInfo();
             LoadResultData();
+            LoadResultGraph();
 
             this.SizeChanged += MainWindow_SizeChanged;
 
@@ -99,9 +104,145 @@ namespace VCheckViewer.Views.Pages.Results
             dgResultDetails.ItemsSource = sTestResultDetailsExtension;
         }
 
+        public void LoadResultGraph()
+        {
+            List<TestResultGraphModel> TestResultsGraph = TestResultsRepository.GetResultGraphsByTestResultID(ConfigSettings.GetConfigurationSettings(), App.TestResultID);
+
+            int totalElement = TestResultsGraph.Count;
+            int imageHeight = 250;
+            int borderHeight = 400;
+            int borderWidth = 420;
+            int margin = 15;
+            int totalRow = 1;
+            int totalElementPerRow = 3;
+            bool excess = false;
+            int remainder = 0;
+
+            if (totalElement == 0)
+            {
+                totalElementPerRow = 0;
+            }
+            else if (totalElement > 0 && totalElement < 3)
+            {
+                totalElementPerRow = totalElement;
+            }
+            else if (totalElement == 3)
+            {
+                imageHeight = 170;
+                borderHeight = 300;
+                borderWidth = 290;
+                margin = 10;
+            }
+            else if (totalElement == 4)
+            {
+                totalRow = 2;
+                totalElementPerRow = 2;
+                imageHeight = 100;
+                borderHeight = 199;
+                borderWidth = 290;
+                margin = 3;
+            }
+            else
+            {
+                totalRow = Math.DivRem(totalElement, 3, out remainder);
+                if (remainder > 0)
+                {
+                    totalRow += 1;
+                    excess = true;
+                }
+                imageHeight = 100;
+                borderHeight = 199;
+                borderWidth = 290;
+                margin = 3;
+            }
+
+            createElementUsingGridByGraph(TestResultsGraph, totalElementPerRow, imageHeight, borderHeight, borderWidth, margin, totalRow, excess, remainder);
+        }
+
+        public async Task createElementUsingGridByGraph(List<TestResultGraphModel> graphs, int totalElementPerRow, int imageHeight, int borderHeight, int borderWidth, int margin, int totalRow, bool excess, int remainder)
+        {
+            string graphFolder = Host.CreateApplicationBuilder().Configuration.GetSection("Configuration:GraphFolder").Value;
+            String? sColor = System.Windows.Application.Current.Resources["Themes_FontColor"].ToString();
+            String? sFrameColor = System.Windows.Application.Current.Resources["Themes_DashboardAnalyzerFrameBackground"].ToString();
+            SolidColorBrush sBrushFontColor = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+            SolidColorBrush sBrushFrameColor = new BrushConverter().ConvertFrom(sFrameColor) as SolidColorBrush;
+            int currentGraph = 0;
+
+            for (int i = 0; i < totalRow; i++)
+            {
+                Grid testGrid = new Grid() { Margin = new Thickness(0, 10, 0, 10) };
+
+                if (totalElementPerRow == 0) { TextBlock textBlock = new TextBlock() { Text = Properties.Resources.General_Message_NoDevice, FontSize = 50, TextAlignment = TextAlignment.Center, Foreground = sBrushFontColor }; testGrid.Children.Add(textBlock); }
+
+                for (int column = 0; column < totalElementPerRow; column++)
+                {
+                    ColumnDefinition columnDefinition = new ColumnDefinition() { Width = (GridLength)new GridLengthConverter().ConvertFromString("*") };
+                    testGrid.ColumnDefinitions.Add(columnDefinition);
+                }
+
+                RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)new GridLengthConverter().ConvertFromString("*") };
+                testGrid.RowDefinitions.Add(rowDefinition);
+
+                if (i == (totalRow - 1) && excess) { totalElementPerRow = remainder; }
+
+                for (int j = 0; j < totalElementPerRow; j++)
+                {
+                    TestResultGraphModel graph = graphs[currentGraph++];
+
+                    Border parentBorder = new Border() { CornerRadius = new CornerRadius(7), Margin = new Thickness(10, 0, 10, 0), Padding = new Thickness(5) };
+
+                    if (totalElementPerRow > 2)
+                    {
+                        if (j == 0) { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Left; }
+                        else if (j == totalElementPerRow - 1) { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Right; }
+                        else { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Center; }
+                    }
+                    else
+                    {
+                        parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+
+                        if (excess)
+                        {
+                            if (j == 0) { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Left; }
+                            else { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Center; }
+                        }
+                    }
+
+                    StackPanel secondStackPanel = new StackPanel() { Orientation = System.Windows.Controls.Orientation.Vertical };
+
+                    bool isReady = false;
+                    bool resultRequired = false;
+
+                    System.Windows.Controls.Image image = new System.Windows.Controls.Image();
+                    var uri = new Uri(graphFolder + graph.TestResultRowID + "\\" + graph.FileName);
+                    var bitmap = new BitmapImage(uri);
+                    image.Source = bitmap;
+                    image.Height = borderHeight;
+                    image.Margin = new Thickness(margin);
+
+
+                    secondStackPanel.Children.Add(image);
+
+                    parentBorder.Child = secondStackPanel;
+                    parentBorder.Background = sBrushFrameColor;
+                    DropShadowEffect effect = new DropShadowEffect() { ShadowDepth = 0, Opacity = 0.3, BlurRadius = 15 };
+                    parentBorder.Effect = effect;
+
+                    Grid.SetColumn(parentBorder, j);
+
+                    testGrid.Children.Add(parentBorder);
+                }
+
+                if (i == 0) { responsiveView.Children.Clear(); }
+                responsiveView.Children.Add(testGrid);
+            }
+        }
+
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            dgResultDetails.MaxHeight = e.NewSize.Height * 0.65;
+            var windowHeight = App.WindowHeight;
+
+            dgResultDetails.MaxHeight = windowHeight * 0.48;
             ViewReportLogo.Height = e.NewSize.Height * 0.2;
         }
 

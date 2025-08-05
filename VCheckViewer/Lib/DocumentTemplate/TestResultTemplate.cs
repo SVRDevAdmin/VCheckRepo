@@ -1,8 +1,9 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using Microsoft.Extensions.Hosting;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Diagnostics;
+using System.IO;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
@@ -693,6 +694,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
             String sFooterLogo = System.Environment.CurrentDirectory + sIconConfigPath;
             String sIconPath = sReportImagePath != null && File.Exists(sReportImagePath.ConfigurationValue) ? sReportImagePath.ConfigurationValue : sFooterLogo;
             String sDownloadPath = sBuilder.Configuration.GetSection("Configuration:DownloadFolderPath").Value;
+            string graphFolder = sBuilder.Configuration.GetSection("Configuration:GraphFolder").Value;
 
             try
             {
@@ -812,9 +814,13 @@ namespace VCheckViewer.Lib.DocumentTemplate
                         // -- Content -- //
                         page.Content()
                             .Column(c =>
-                            {                                
-                                foreach(var test in sDownloadPrintResultModels)
+                            {
+                                int totalTest = sDownloadPrintResultModels.Count();
+                                int current = 0;
+                                foreach (var test in sDownloadPrintResultModels)
                                 {
+                                    current++;
+
                                     c.Item().EnsureSpace().Column(c =>
                                     {
                                         c.Item().Height(25);
@@ -1152,7 +1158,33 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                             });
                                         });
 
-                                        c.Item().PageBreak();
+                                        c.Item().Height(25);
+
+                                        int remainder = 0;
+                                        var graph = test.TestResultsGraph;
+                                        int totalRow = Math.DivRem(test.TestResultsGraph.Count(), 3, out remainder);
+                                        int currentGraphIndex = 0;
+
+                                        for (int i = 0; i < totalRow; i++)
+                                        {
+                                            var totalRowGraph = 0;
+
+                                            if (i == totalRow - 1 && remainder != 0) { totalRowGraph = remainder; }
+                                            else { totalRowGraph = 3; }
+
+                                            c.Item().Row(row =>
+                                            {
+                                                for (int j = 0; j < totalRowGraph; j++)
+                                                {
+                                                    row.RelativeItem().Image(graphFolder + test.TestResult.ID + "\\" + graph[currentGraphIndex].FileName);
+                                                    currentGraphIndex++;
+                                                }
+                                            });
+                                            
+                                        }
+
+                                        if (current != totalTest) { c.Item().PageBreak(); }
+                                        
                                     });                                    
                                 }                                
                             });

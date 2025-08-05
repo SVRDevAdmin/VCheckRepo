@@ -117,10 +117,10 @@ namespace VCheckViewer.Services.HL7MessageSender
             message.MSH = new MSHModel()
             {
                 SendingApplication = "LIS",
-                SendingFacility = "",
+                SendingFacility = "BIONOTE",
                 ReceivingApplication = "VCHECK H6",
                 ReceivingFacility = "LAB",
-                MessageType = "ORM^O01^ORM_O01",
+                MessageType = "ORM^O01",
                 VersionID = "2.3.1",
                 AcceptAckType = "NE",
                 AppAckType = "AL",
@@ -143,27 +143,11 @@ namespace VCheckViewer.Services.HL7MessageSender
                 Breed = "NA"
             };
 
-            message.PV1 = new PV1Model()
-            {
-                PatientClass = "E",
-                Room = "^3001",
-                DoctorName = info.InchargePerson
-            };
-
-            message.SPM = new SPMModel()
-            {
-                SetID = "1",
-                SpecimenType = "Serum",
-                SpecimentRole = "P^Patient^HL70369"
-            };
-
-            message.SAC = new SACModel() { ContainerID = "g55643" };
-
             message.ORC = new ORCModel()
             {
                 OrderControl = "NW",
-                PlacerOrderNo = Guid.NewGuid().ToString(),
-                PlacerGroupNo = Guid.NewGuid().ToString(),
+                PlacerOrderNo = "1",
+                PlacerGroupNo = "123456789",
                 TransactionDatetime = DateTime.Now
             };
 
@@ -205,7 +189,7 @@ namespace VCheckViewer.Services.HL7MessageSender
             };
             message.NTE = nte;
 
-            return GenerateMessage(message);
+            return GenerateMessageORM(message);
         }
 
         public static String GenerateMessage(HL7MessageModel message)
@@ -313,6 +297,87 @@ namespace VCheckViewer.Services.HL7MessageSender
                 frame.Append(response.SerializeMessage());
                 frame.Append((char)0x0d);
             }
+
+            frame.Append((char)0x1c);
+            frame.Append((char)0x0d);
+
+            return frame.ToString();
+        }
+
+        public static String GenerateMessageORM(HL7MessageModel message)
+        {
+            StringBuilder frame = new StringBuilder();
+            frame.Append((char)0x0b);
+
+            // ------------- Message Header ------------//
+            Message response = new Message();
+            Segment msh = new Segment("MSH");
+            msh.Field(1, "|");
+            msh.Field(2, "^~\\&");
+            msh.Field(3, message.MSH.SendingApplication);
+            msh.Field(4, message.MSH.SendingFacility);
+            msh.Field(5, message.MSH.ReceivingApplication);
+            msh.Field(6, message.MSH.ReceivingFacility);
+            msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+            msh.Field(9, message.MSH.MessageType);
+            msh.Field(10, "9");
+            msh.Field(11, "P");
+            msh.Field(18, message.MSH.CharacterSet);
+            response.Add(msh);
+            frame.Append(response.SerializeMessage());
+            frame.Append((char)0x0d);
+
+            // ------------- Patient Identification Segment ------------//
+            response = new Message();
+            Segment pid = new Segment("PID");
+            pid.Field(1, "1");
+            pid.Field(2, "1001");
+            pid.Field(3, "1901");
+            pid.Field(4, "01");
+            pid.Field(5, message.PID.PetName);
+            pid.Field(6, "Kevin");
+            pid.Field(7, message.PID.BirthDate.ToString("yyyyMMddhhmmss"));
+            pid.Field(8, "M");
+            pid.Field(9, "O");
+            pid.Field(11, "GUILIN");
+            pid.Field(12, "541000");
+            pid.Field(13, "12345678900");
+            pid.Field(14, "18");
+            pid.Field(15, "Y");
+            pid.Field(18, "breed");
+            pid.Field(19, "hospital");
+            pid.Field(23, "0");
+            pid.Field(26, "Veter");
+            pid.Field(27, "CHINA");
+            pid.Field(28, "2");
+            response.Add(pid);
+            frame.Append(response.SerializeMessage());
+            frame.Append((char)0x0d);
+
+            // ------------- Common Order Segment ------------//
+            response = new Message();
+            Segment orc = new Segment("ORC");
+            orc.Field(1, message.ORC.OrderControl);
+            orc.Field(2, message.ORC.PlacerOrderNo);
+            orc.Field(3, "123456789");
+            orc.Field(4, "Barcode");
+            orc.Field(11, "Blood");
+            orc.Field(15, DateTime.Now.ToString("yyyyMMddhhmmss"));
+            orc.Field(17, "Department");
+            orc.Field(21, "OrderingProvider");
+            orc.Field(22, "1234567777");
+            response.Add(orc);
+            frame.Append(response.SerializeMessage());
+            frame.Append((char)0x0d);
+
+            // ------------- Observation Request Segment ------------//
+            response = new Message();
+            Segment cti = new Segment("CTI");
+            cti.Field(1, "Blood^CBC^DIFF");
+            cti.Field(2, "ABC^1");
+            response.Add(cti);
+            frame.Append(response.SerializeMessage());
+            frame.Append((char)0x0d);
 
             frame.Append((char)0x1c);
             frame.Append((char)0x0d);

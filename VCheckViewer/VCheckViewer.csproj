@@ -49,6 +49,7 @@
     <None Remove="Content\Images\Download_White.png" />
     <None Remove="Content\Images\Email Icon.png" />
     <None Remove="Content\Images\group_640.png" />
+    <None Remove="Content\Images\Hide password.png" />
     <None Remove="Content\Images\Icons\dashboard.png" />
     <None Remove="Content\Images\Icons\de.png" />
     <None Remove="Content\Images\Icons\en.png" />
@@ -94,6 +95,7 @@
     <None Remove="Content\Images\Screenshot 2024-04-15 152644.png" />
     <None Remove="Content\Images\Search_Dark.png" />
     <None Remove="Content\Images\Search_White.png" />
+    <None Remove="Content\Images\See password.png" />
     <None Remove="Content\Images\setting.png" />
     <None Remove="Content\Fonts\Orbitron-Medium.ttf" />
     <None Remove="Content\Fonts\Roboto-Light.ttf" />
@@ -784,6 +786,9 @@
     <Resource Include="Content\Images\Download_White.png" />
     <Resource Include="Content\Images\Email Icon.png" />
     <Resource Include="Content\Images\BackArrow.png" />
+    <Resource Include="Content\Images\Hide password.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Content\Images\Icons\de.png" />
     <Resource Include="Content\Images\Icons\en.png" />
     <Resource Include="Content\Images\Icons\es.png" />
@@ -824,6 +829,9 @@
     <Resource Include="Content\Images\results_white.png" />
     <Resource Include="Content\Images\Search_Dark.png" />
     <Resource Include="Content\Images\Search_White.png" />
+    <Resource Include="Content\Images\See password.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Content\Images\setting.png" />
     <Resource Include="Content\Images\setting_white.png" />
     <Resource Include="Content\Images\stroke_1_ek2.png" />

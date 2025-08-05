@@ -547,6 +547,7 @@ namespace VCheckViewer.Views.Windows
                 btnCancel.Visibility = Visibility.Visible;
                 txtInput.Visibility = Visibility.Visible;
                 txtInput.Text = App.TestResultInfo.PatientName;
+                deviceList.Visibility = Visibility.Collapsed;
                 ParameterView.Visibility = Visibility.Collapsed;
 
                 PopupContent.Text = Properties.Resources.Popup_Message_UpdatePatientName;
@@ -1216,6 +1217,8 @@ namespace VCheckViewer.Views.Windows
                         App.MainViewModel.CurrentUsers.EmailAddress = App.MainViewModel.Users.EmailAddress;
                         App.MainViewModel.CurrentUsers.Status = App.MainViewModel.Users.Status;
                         App.MainViewModel.CurrentUsers.Role = App.MainViewModel.Users.Role;
+                        App.MainViewModel.CurrentUsers.EmailAddressChanged = App.MainViewModel.Users.EmailAddressChanged;
+                        App.MainViewModel.CurrentUsers.RoleChanged = App.MainViewModel.Users.RoleChanged;
                     }
 
                     if (App.MainViewModel.Users.StatusChanged)
@@ -1566,7 +1569,7 @@ namespace VCheckViewer.Views.Windows
 
         private void UpdatePatientName(EventArgs e, object sender)
         {
-            TestResultsRepository.UpdateTestResult(ConfigSettings.GetConfigurationSettings(), App.TestResultInfo);
+            //TestResultsRepository.UpdateTestResult(ConfigSettings.GetConfigurationSettings(), App.TestResultInfo);
             ResultPage.UpdatePatientNameHandler(e, sender);
 
             if (App.isEmptyName)
@@ -1605,6 +1608,7 @@ namespace VCheckViewer.Views.Windows
                 downloadPrintModelTemp.TestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), TestID);
                 downloadPrintModelTemp.PreviousTestResultDetails = TestResultsRepository.GetPreviousTestRecord(ConfigSettings.GetConfigurationSettings(), TestResult, out previousTest);
                 downloadPrintModelTemp.PreviousTestResult = previousTest;
+                downloadPrintModelTemp.TestResultsGraph = TestResultsRepository.GetResultGraphsByTestResultID(ConfigSettings.GetConfigurationSettings(), TestID);
 
                 App.DowloadPrintObject.Add(downloadPrintModelTemp);
                 App.Parameters.AddRange(downloadPrintModelTemp.TestResultDetails.Select(x => x.TestParameter).Where(y => !App.Parameters.Contains(y)));
@@ -2152,6 +2156,7 @@ namespace VCheckViewer.Views.Windows
 
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            App.WindowHeight = e.NewSize.Height;
             var windowHeight = e.NewSize.Height;
 
             GridElement.Height = windowHeight * 0.04;
