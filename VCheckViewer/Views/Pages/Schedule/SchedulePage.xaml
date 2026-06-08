@@ -11,6 +11,7 @@
 
     <Page.Resources>
         <Converter:HeightConverter x:Key="HeightPortionConverter" Portion="0.7"/>
+        <Converter:DateFormatConverter x:Key="DateFormatConverter"/>
     </Page.Resources>
 
     <Grid Margin="0, 0, 0, 10">
@@ -24,7 +25,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- // Left Section //-->
-        <Border Grid.Column="0" BorderThickness="0" BorderBrush="Black">
+        <Border Grid.Column="0" BorderThickness="0" BorderBrush="Black" VerticalAlignment="Center">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*" />
@@ -85,7 +86,7 @@
                     </Border>
                 </Border>
                 <!-- // Total New Patients // -->
-                <Border Grid.Row="3" BorderBrush="Black" BorderThickness="0">
+                <Border Grid.Row="3" BorderBrush="Black" BorderThickness="0" Visibility="Collapsed">
                     <Border BorderThickness="0">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -122,8 +123,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Row="0" BorderBrush="Black" BorderThickness="0">
-                    <TextBlock Text="{Binding Path=Schedule_Label_UpcomingTest, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="22" FontWeight="Bold" Margin="85, 40, 0, 0">
+                <Border Grid.Row="0" BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <!--<TextBlock Text="{Binding Path=Schedule_Label_UpcomingTest, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="22" FontWeight="Bold" Margin="85, 40, 0, 0">-->
+                    <TextBlock Text="{Binding Path=Schedule_Label_OrderedTest, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="22" FontWeight="Bold">
                     </TextBlock>
                 </Border>
                 <Border Grid.Row="1" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="0">
@@ -143,90 +145,160 @@
 
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Grid Margin="0">
+
+                                                <Grid Margin="0,0,10,0" MouseRightButtonDown="Grid_MouseRightButtonDown" ContextMenuService.IsEnabled="False">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="2*"  />
-                                                        <ColumnDefinition Width="6*" />
-                                                        <ColumnDefinition Width="1*" />
+                                                        <ColumnDefinition Width="8*" />
+                                                        <!--<ColumnDefinition Width="1*" />-->
                                                     </Grid.ColumnDefinitions>
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="auto" />
-                                                        <RowDefinition Height="auto" />
-                                                        <RowDefinition Height="auto" />
-                                                        <RowDefinition Height="auto" />
-                                                        <RowDefinition Height="auto" />
-                                                        <RowDefinition Height="auto" />
-                                                        <RowDefinition Height="auto" />
-                                                        <RowDefinition Height="auto" />
                                                     </Grid.RowDefinitions>
 
-                                                    <!-- // Column Left // -->
-                                                    <Border Grid.Column="0" Grid.Row="0" Height="5"></Border>
-                                                    <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="0" Height="30">
-                                                        <Border CornerRadius="30" Width="30" Background="Transparent">
-                                                            <Image Source="{DynamicResource Themes_DogIcon}" Width="20" Height="20" />
-                                                            <!--<Image Source="../../../Content/Images/Icons/icon_dog.png" Width="20" Height="20" />-->
-                                                        </Border>
-                                                    </Border>
-                                                    <Border Grid.Column="0" Grid.Row="3" Grid.RowSpan="5" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1"></Border>
+                                                    <Grid.ContextMenu>
+                                                        <ContextMenu>
+                                                            <!--<MenuItem Header="{Binding Path=Schedule_Label_ViewSchedulePMS, Source={StaticResource Resources}}" Tag="{Binding ScheduleUniqueID}" Visibility="Collapsed"/>-->
+                                                            <MenuItem Header="{Binding Path=Schedule_Label_SendToAnalyzer, Source={StaticResource Resources}}" Tag="{Binding ScheduleUniqueID}" Click="menuSendAnalyzer_Click" Visibility="{Binding SentFunction}"/>
+                                                            <MenuItem Header="{Binding Path=Schedule_Label_CancelSchedule, Source={StaticResource Resources}}" Tag="{Binding ScheduleUniqueID}" Click="menuCancelSchedule_Click" Visibility="{Binding CancelFunction}" />
+                                                        </ContextMenu>
+                                                    </Grid.ContextMenu>
 
-                                                    <!-- // Column Center // -->
-                                                    <Border Grid.Column="0" Grid.Row="0" Height="7"></Border>
-                                                    <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0" Height="15">
-                                                        <Border>
-                                                            <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}">
-                                                            <Run Text="{Binding PatientIDString }" />
-                                                            <Run Text="{Binding PatientID}" FontWeight="Bold" />
-                                                            </TextBlock>
+                                                    <Border Padding="0,5,0,5" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1">
+                                                        <Border CornerRadius="5">
+                                                            <Border.Resources>
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="Background" Value="Transparent"/>
+                                                                    <Style.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Background" Value="{DynamicResource Themes_HighlightColor}"/>
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Resources>
+
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="2*"  />
+                                                                    <ColumnDefinition Width="6*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                </Grid.RowDefinitions>
+
+
+
+                                                                <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="0" Height="30">
+                                                                    <Border CornerRadius="30" Width="30" Background="Transparent">
+                                                                        <Image Source="{DynamicResource Themes_DogIcon}" Width="20" Height="20" />
+                                                                        <!--<Image Source="../../../Content/Images/Icons/icon_dog.png" Width="20" Height="20" />-->
+                                                                    </Border>
+                                                                </Border>
+
+                                                                <!-- // Column Center // -->
+                                                                <Border Grid.Column="0" Grid.Row="0" Height="7" CornerRadius="10"></Border>
+                                                                <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0" Height="15">
+                                                                    <Border>
+                                                                        <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}" Tag="123">
+                                                                            <!--<Run Text="{Binding PatientIDString }" />-->
+                                                                            <Run Text="Patient ID:" />
+                                                                            <Run Text="{Binding PatientID}" FontWeight="Bold"/>
+                                                                        </TextBlock>
+                                                                    </Border>
+                                                                </Border>
+                                                                <Border Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="0" Height="15">
+                                                                    <Border>
+                                                                        <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}">
+                                                                            <Run Text="{Binding PatientNameString }" />
+                                                                            <Run Text="{Binding PatientName}" FontWeight="Bold"/>
+                                                                        </TextBlock>
+                                                                    </Border>
+                                                                </Border>
+                                                                <!--<Border Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="0" Height="15" Visibility="Collapsed">
+                                                                    <Border>
+                                                                        <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}">
+                                                                            <Run Text="{Binding UniqueIDString }" />
+                                                                            <Run Text="{Binding ScheduleUniqueID}" FontWeight="Bold" />
+                                                                        </TextBlock>
+                                                                    </Border>
+                                                                </Border>-->
+                                                                <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0" Height="15" Visibility="Collapsed">
+                                                                    <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Text="{Binding InchargePerson}" Foreground="{DynamicResource Themes_FontColor}"></TextBlock>
+                                                                </Border>
+                                                                <Border Grid.Column="1" Grid.Row="4" BorderBrush="Black" BorderThickness="0">
+                                                                    <Border>
+                                                                        <Grid>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="auto"/>
+                                                                                <ColumnDefinition Width="*"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <TextBlock Grid.Column="0" Text="{Binding TestListStringFirst }" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Top" Foreground="{DynamicResource Themes_FontColor}" TextWrapping="Wrap"/>
+                                                                            <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding TestList }" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}" TextWrapping="Wrap"/>
+                                                                        </Grid>
+                                                                        <!--<TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}" TextWrapping="Wrap">
+                                                                            <Run Text="{Binding TestListStringFirst }" />
+                                                                            <Run Text="{Binding TestListStringSecond}" FontWeight="Bold" ToolTip="{Binding TestList}"/>
+                                                                        </TextBlock>-->
+                                                                    </Border>
+                                                                </Border>
+                                                                <Border Grid.Column="1" Grid.Row="5" BorderBrush="Black" BorderThickness="0" Height="15">
+                                                                    <Border>
+                                                                        <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}" Tag="{Binding Status}">
+                                                                            <Run Text="Status: " />
+                                                                            <Run Text="{Binding StatusTranslate}" FontWeight="Bold" />
+                                                                        </TextBlock>
+                                                                    </Border>
+                                                                </Border>
+                                                                <Border Grid.Column="1" Grid.Row="8" Height="45">
+                                                                    <Border Width="120" Height="30" Background="#C2E2F5" HorizontalAlignment="Left" CornerRadius="4">
+                                                                        <TextBlock Text="{Binding ScheduledDateTime, Converter={StaticResource DateFormatConverter}}" Foreground="#1e76fb" 
+                                                                           FontFamily="Noto Sans" FontSize="11" FontWeight="Bold" 
+                                                                           VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                                        </TextBlock>
+                                                                    </Border>
+                                                                </Border>
+
+                                                                <!--<Border Grid.Column="1" Grid.Row="9" CornerRadius="5" Visibility="Collapsed">
+                                                                    <Border Height="30" HorizontalAlignment="Left">
+                                                                        <TextBlock Text="{Binding AnalyzerName}" Foreground="{DynamicResource Themes_FontColor}"
+                                                                           FontFamily="Noto Sans" FontSize="11" FontWeight="Bold" 
+                                                                           VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                                        </TextBlock>
+                                                                    </Border>
+                                                                </Border>-->
+                                                            </Grid>
+
                                                         </Border>
                                                     </Border>
-                                                    <Border Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="0" Height="15">
-                                                        <Border>
-                                                            <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}">
-                                                                <Run Text="{Binding UniqueIDString }" />
-                                                                <Run Text="{Binding ScheduleUniqueID}" FontWeight="Bold" />
-                                                            </TextBlock>
-                                                        </Border>
-                                                    </Border>
-                                                    <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0" Height="15">
-                                                        <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Text="{Binding InchargePerson}" Foreground="{DynamicResource Themes_FontColor}"></TextBlock>
-                                                    </Border>
-                                                    <!--<Border Grid.Column="1" Grid.Row="4" BorderBrush="Black" BorderThickness="0" Height="25">
-                                                        <TextBlock Text="{Binding Path=Schedule_Label_ViewSchedulePMS, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center"></TextBlock>
-                                                    </Border>
-                                                    <Border Grid.Column="1" Grid.Row="5" BorderBrush="Black" BorderThickness="0" Height="25">
-                                                        <TextBlock Text="{Binding Path=Schedule_Label_SendToAnalyzer, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" MouseDown="SendToAnalyzer_MouseDown" Tag="{Binding ID}"></TextBlock>
-                                                    </Border>
-                                                    <Border Grid.Column="1" Grid.Row="6" BorderBrush="Black" BorderThickness="0" Height="25">
-                                                        <TextBlock Text="{Binding Path=Schedule_Label_CancelSchedule, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" MouseDown="CancelSchedule_MouseDown" Tag="{Binding ID}"></TextBlock>
-                                                    </Border>-->
-                                                    <Border Grid.Column="1" Grid.Row="7" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1" Height="45">
-                                                        <Border Width="120" Height="30" Background="#C2E2F5" HorizontalAlignment="Left" CornerRadius="4">
-                                                            <TextBlock Text="{Binding ScheduledDateTime, StringFormat={}{0:dd/MM/yyyy HH:mm tt}}" Foreground="#1e76fb" 
-                                                                       FontFamily="Noto Sans" FontSize="11" FontWeight="Bold" 
-                                                                       VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                            </TextBlock>
-                                                        </Border>
-                                                    </Border>
+
+                                                    
+
+                                                    <!-- // Column Left // -->
+
 
                                                     <!-- // Column Right // -->
-                                                    <Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="0" VerticalAlignment="Top">
-                                                        <!--<Image Source="../../../Content/Images/Collapse_BlackArrow_Right.png" Width="15" Height="15" Margin="0, 10" Visibility="Collapsed" /> -->
-                                                        <!--<Image Source="{DynamicResource Themes_ArrowRight}" Width="15" Height="15" Margin="0, 10" Visibility="Collapsed" />-->
-
+                                                    <!--<Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="0" VerticalAlignment="Top">
                                                         <Menu>
                                                             <MenuItem>
                                                                 <MenuItem.Icon>
-                                                                    <!--<ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />-->
                                                                     <Image Source="{DynamicResource Themes_GirdUserMoreIcon}" Width="12"/>
                                                                 </MenuItem.Icon>
-                                                                <MenuItem Name="menuViewPMS" Header="{Binding Path=Schedule_Label_ViewSchedulePMS, Source={StaticResource Resources}}" Tag="{Binding ScheduleUniqueID}" Visibility="Collapsed"/>
-                                                                <MenuItem Name="menuSendAnalyzer" Header="{Binding Path=Schedule_Label_SendToAnalyzer, Source={StaticResource Resources}}" Tag="{Binding ScheduleUniqueID}" Click="menuSendAnalyzer_Click" Visibility="{Binding SentFunction}"/>
-                                                                <MenuItem Name="menuCancelSchedule" Header="{Binding Path=Schedule_Label_CancelSchedule, Source={StaticResource Resources}}" Tag="{Binding ScheduleUniqueID}" Click="menuCancelSchedule_Click" />
+                                                                <MenuItem Header="{Binding Path=Schedule_Label_ViewSchedulePMS, Source={StaticResource Resources}}" Tag="{Binding ScheduleUniqueID}" Visibility="Collapsed"/>
+                                                                <MenuItem Header="{Binding Path=Schedule_Label_SendToAnalyzer, Source={StaticResource Resources}}" Tag="{Binding ScheduleUniqueID}" Click="menuSendAnalyzer_Click" Visibility="{Binding SentFunction}" Foreground="{Binding ThemeColor}"/>
+                                                                <MenuItem Header="{Binding Path=Schedule_Label_CancelSchedule, Source={StaticResource Resources}}" Tag="{Binding ScheduleUniqueID}" Click="menuCancelSchedule_Click" Foreground="{Binding ThemeColor}" />
                                                             </MenuItem>
                                                         </Menu>
-                                                    </Border>
+                                                    </Border>-->
                                                 </Grid>
+
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
@@ -255,8 +327,8 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Row="0" BorderBrush="Black" BorderThickness="0">
-                    <TextBlock Text="{Binding Path=Schedule_Label_RecentTestResults, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="22" FontWeight="Bold" Margin="85, 40, 0, 0">
+                <Border Grid.Row="0" BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Path=Schedule_Label_RecentTestResults, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="22" FontWeight="Bold"  TextWrapping="Wrap">
                     </TextBlock>
                 </Border>
                 <Border Grid.Row="1" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="0">
@@ -266,9 +338,9 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
-                            <Border Grid.Row="0" Margin="10, 8, 10, 0" Padding="250, 255, 70, 255" Panel.ZIndex="22" CornerRadius="7" BorderThickness="1" BorderBrush="{DynamicResource Themes_RecentTestBackground}" Background="{DynamicResource Themes_RecentTestBackground}">
+                            <Border Grid.Row="0" Margin="10, 10, 10, 0" Padding="250, 255, 70, 255" Panel.ZIndex="22" CornerRadius="7" BorderThickness="1" BorderBrush="{DynamicResource Themes_RecentTestBackground}" Background="{DynamicResource Themes_RecentTestBackground}">
                             </Border>
-                            <Border Name="borderTestsCompleted" Grid.Row="0" Margin="25, 24, 25, 0" Padding="20" Panel.ZIndex="23" BorderThickness="0">
+                            <Border Name="borderTestsCompleted" Grid.Row="0" Margin="25, 25, 25, 10" Padding="20" Panel.ZIndex="23" BorderThickness="0">
 
                                 <ScrollViewer x:Name="rightScrollViewer" Margin="-25, -30, -25, -25" VerticalScrollBarVisibility="Auto">
                                     <ItemsControl Name="icTestResult" Margin="0" Panel.ZIndex="23" 
@@ -276,79 +348,105 @@
 
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Grid Margin="0">
+                                                <Grid Margin="0,0,10,0">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="2*"  />
-                                                        <ColumnDefinition Width="6*" />
-                                                        <ColumnDefinition Width="1*" />
+                                                        <ColumnDefinition Width="8*" />
+                                                        <!--<ColumnDefinition Width="1*" />-->
                                                     </Grid.ColumnDefinitions>
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="auto" />
-                                                        <RowDefinition Height="auto" />
-                                                        <RowDefinition Height="auto" />
-                                                        <RowDefinition Height="auto" />
-                                                        <RowDefinition Height="auto" />
-                                                        <RowDefinition Height="auto" />
-                                                        <RowDefinition Height="auto" />
                                                     </Grid.RowDefinitions>
 
-                                                    <!-- // Column Left // -->
-                                                    <Border Grid.Column="0" Grid.Row="0" Height="5"></Border>
-                                                    <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0" Height="30">
-                                                        <Border CornerRadius="30" Width="30" Background="Transparent">
-                                                            <!--<Image Source="../../../Content/Images/Icons/icon_dog.png" Width="20" Height="20" />-->
-                                                            <Image Source="{DynamicResource Themes_DogIcon}" Width="20" Height="20" />
-                                                        </Border>
-                                                    </Border>
-                                                    <Border Grid.Column="0" Grid.Row="3" Grid.RowSpan="4" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1"></Border>
+                                                    <Grid.ContextMenu>
+                                                        <ContextMenu>
+                                                            <MenuItem Header="{Binding Path=Schedule_Label_ViewReport, Source={StaticResource Resources}}" Tag="{Binding ID}" Click="menuViewReport_Click"/>
+                                                            <MenuItem Header="{Binding Path=Results_Label_SendToPMS, Source={StaticResource Resources}}" Tag="{Binding ID}" Click="menuSendReport_Click" Visibility="{Binding PMSFunction}"/>
+                                                        </ContextMenu>
+                                                    </Grid.ContextMenu>
 
-                                                    <!-- // Column Center // -->
-                                                    <Border Grid.Column="0" Grid.Row="0" Height="7"></Border>
-                                                    <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0" Height="15">
-                                                        <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Text="{Binding TestResultType}" Foreground="{DynamicResource Themes_FontColor}"></TextBlock>
-                                                    </Border>
-                                                    <Border Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="0" Height="15">
-                                                        <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Text="{Binding TestResultDateTime, StringFormat={}{0:dd/MM/yyyy}}" Foreground="{DynamicResource Themes_FontColor}"></TextBlock>
-                                                    </Border>
-                                                    <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0" Height="15">
-                                                        <Border>
-                                                            <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}">
-                                                            <Run Text="{Binding PatientIDString}" />
-                                                            <Run Text="{Binding PatientID}" FontWeight="Bold" />
-                                                            </TextBlock>
+                                                    <Border Padding="0,5,0,5" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1">
+                                                        <Border CornerRadius="5">
+                                                            <Border.Resources>
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="Background" Value="Transparent"/>
+                                                                    <Style.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Background" Value="{DynamicResource Themes_HighlightColor}"/>
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Resources>
+                                                            
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="2*"  />
+                                                                    <ColumnDefinition Width="6*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                    <RowDefinition Height="auto" />
+                                                                </Grid.RowDefinitions>
+
+                                                                <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0" Height="30">
+                                                                    <Border CornerRadius="30" Width="30" Background="Transparent">
+                                                                        <!--<Image Source="../../../Content/Images/Icons/icon_dog.png" Width="20" Height="20" />-->
+                                                                        <Image Source="{DynamicResource Themes_DogIcon}" Width="20" Height="20" />
+                                                                    </Border>
+                                                                </Border>
+
+                                                                <!-- // Column Center // -->
+                                                                <Border Grid.Column="0" Grid.Row="0" Height="7" CornerRadius="10"></Border>
+                                                                <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0" Height="15">
+                                                                    <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Text="{Binding TestResultType}" Foreground="{DynamicResource Themes_FontColor}"></TextBlock>
+                                                                </Border>
+                                                                <Border Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="0" Height="15">
+                                                                    <!--<TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Text="{Binding TestResultDateTime, StringFormat={}{0:dd/MM/yyyy}}" Foreground="{DynamicResource Themes_FontColor}"></TextBlock>-->
+                                                                    <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Text="{Binding TestResultDateTime, Converter={StaticResource DateFormatConverter}}" Foreground="{DynamicResource Themes_FontColor}"></TextBlock>
+                                                                </Border>
+                                                                <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0" Height="15">
+                                                                    <Border>
+                                                                        <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}">
+                                                                             <Run Text="{Binding PatientIDString}" />
+                                                                             <Run Text="{Binding PatientID}" FontWeight="Bold" />
+                                                                        </TextBlock>
+                                                                    </Border>
+                                                                </Border>
+                                                                <Border Grid.Column="1" Grid.Row="4" BorderBrush="Black" BorderThickness="0" Height="15">
+                                                                    <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Text="{Binding InchargePerson}" Foreground="{DynamicResource Themes_FontColor}"></TextBlock>
+                                                                </Border>
+                                                                <Border Grid.Column="1" Grid.Row="6" Height="45" CornerRadius="5">
+                                                                    <Border Width="70" Height="30" Background="Transparent" HorizontalAlignment="Left">
+                                                                        <TextBlock Text="{Binding TestResultStatus}" Foreground="{Binding StatusForeground}" 
+                                                                            FontFamily="Noto Sans" FontSize="11" FontWeight="Bold" 
+                                                                            VerticalAlignment="Center" >
+                                                                        </TextBlock>
+                                                                    </Border>
+                                                                </Border>
+
+                                                            </Grid>
+
                                                         </Border>
                                                     </Border>
-                                                    <Border Grid.Column="1" Grid.Row="4" BorderBrush="Black" BorderThickness="0" Height="15">
-                                                        <TextBlock FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Text="{Binding InchargePerson}" Foreground="{DynamicResource Themes_FontColor}"></TextBlock>
-                                                    </Border>
-                                                    <!--<Border Grid.Column="1" Grid.Row="5" BorderBrush="Black" BorderThickness="0" Height="25">
-                                                        <TextBlock Text="{Binding Path=Schedule_Label_ViewReport, Source={StaticResource Resources}}" 
-                                                                   Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="11" VerticalAlignment="Center" Tag="{Binding ID}" MouseLeftButtonDown="ViewReport_MouseDown"></TextBlock>
-                                                    </Border>-->
-                                                    <Border Grid.Column="1" Grid.Row="6" BorderBrush="{DynamicResource Themes_FontColor}" BorderThickness="0, 0, 0, 1" Height="45">
-                                                        <Border Width="70" Height="30" Background="Transparent" HorizontalAlignment="Left" CornerRadius="4">
-                                                            <TextBlock Text="{Binding TestResultStatus}" Foreground="#57baa5" 
-                                                                       FontFamily="Noto Sans" FontSize="11" FontWeight="Bold" 
-                                                                       VerticalAlignment="Center" >
-                                                            </TextBlock>
-                                                        </Border>
-                                                    </Border>
+
+                                                    <!-- // Column Left // -->
+                                                    
 
                                                     <!-- // Column Right // -->
-                                                    <Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="0" VerticalAlignment="Top">
-                                                        <!--<Image Source="../../../Content/Images/Collapse_BlackArrow_Right.png" Width="15" Height="15" Margin="0, 10" Visibility="Collapsed" />-->
-                                                        <!--<Image Source="{DynamicResource Themes_ArrowRight}" Width="15" Height="15" Margin="0, 10" Visibility="Collapsed" />-->
-
+                                                    <!--<Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="0" VerticalAlignment="Top">
                                                         <Menu>
                                                             <MenuItem>
                                                                 <MenuItem.Icon>
-                                                                    <!--<ui:SymbolIcon Symbol="MoreVertical48" FontSize="20" />-->
                                                                     <Image Source="{DynamicResource Themes_GirdUserMoreIcon}" Width="12"/>
                                                                 </MenuItem.Icon>
-                                                                <MenuItem Name="menuViewReport" Header="{Binding Path=Schedule_Label_ViewReport, Source={StaticResource Resources}}" Tag="{Binding ID}" Click="menuViewReport_Click"/>
+                                                                <MenuItem Header="{Binding Path=Schedule_Label_ViewReport, Source={StaticResource Resources}}" Tag="{Binding ID}" Click="menuViewReport_Click" Foreground="{Binding ThemeColor}"/>
                                                             </MenuItem>
                                                         </Menu>
-                                                    </Border>
+                                                    </Border>-->
                                                 </Grid>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>

@@ -28,7 +28,12 @@ namespace VCheckListenerWorker.Lib.PMS
         NetworkStream networkStream = null;
         String receivedMessage = "";
 
-        public async void SendToPMS(txn_testresults sTestResults, List<txn_testresults_details> sTestResultDetails, ScheduledTestModel sScheduledTestObj)
+        private static readonly string subscriptDigits = "₀₁₂₃₄₅₆₇₈₉₋₊";
+        private static readonly string superscriptDigits = "⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺";
+        private static readonly string normalDigits = "0123456789-+";
+        private static readonly string[] calItems = { "A/G", "B/C", "GLOB", "Na/K"};
+
+        public async Task<bool> SendToPMS(txn_testresults sTestResults, List<txn_testresults_details> sTestResultDetails, ScheduledTestModel sScheduledTestObj, string sTestCode, string sNotes = "")
         {
             VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest sRequestAPI = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest();
 
@@ -36,6 +41,23 @@ namespace VCheckListenerWorker.Lib.PMS
             List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject> sPanelListing = new List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject>();
 
             String sOrderID = "";
+            string[] ownerName = sScheduledTestObj.OwnerName.Split(" ");
+            var lastName = "";
+            int start = 0;
+
+            foreach (var name in ownerName)
+            {
+                if (ownerName.Length == 1)
+                {
+                    lastName = name;
+                }
+                else if (start != 0)
+                {
+                    lastName = string.IsNullOrEmpty(lastName) ? lastName + ownerName[start] : lastName + " " + ownerName[start];
+                }
+
+                start++;
+            }
 
             if (sScheduledTestObj.ScheduleUniqueID.Contains("-"))
             {
@@ -53,11 +75,11 @@ namespace VCheckListenerWorker.Lib.PMS
             sRequestAPI.providerid = "";
 
             VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject sPatientObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject();
-            sPatientObj.patientid = sTestResults.PatientID;
+            sPatientObj.patientid = sScheduledTestObj.PatientID;
             sPatientObj.firstname = (sScheduledTestObj != null) ? sScheduledTestObj.PatientName : "";
-            sPatientObj.lastname = "";
+            sPatientObj.lastname = lastName;
             sPatientObj.gender = (sScheduledTestObj != null) ? sScheduledTestObj.Gender : "";
-            sPatientObj.birthday = "2023-01-01";
+            sPatientObj.birthday = sScheduledTestObj.PatientDOB != null ? sScheduledTestObj.PatientDOB.Value.ToString("yyyy-MM-dd") : "";
             sPatientObj.species = (sScheduledTestObj != null) ? sScheduledTestObj.Species : "";
             sPatientObj.breed = "";
 
@@ -67,7 +89,7 @@ namespace VCheckListenerWorker.Lib.PMS
 
             var panel = string.IsNullOrEmpty(sTestResults.TestResultType) ? "VCheck" : sTestResults.TestResultType;
 
-            sPanelObj.code = panel;
+            sPanelObj.code = sTestCode;
             sPanelObj.name = panel;
             sPanelObj.status = "F";
             sPanelObj.source = "";
@@ -77,12 +99,57 @@ namespace VCheckListenerWorker.Lib.PMS
             var sDetailsObj = sTestResultDetails;
             if (sDetailsObj != null && sDetailsObj.Count > 0)
             {
+                int count = 0;
+
                 foreach (var d in sDetailsObj)
                 {
                     String[] sRange = Array.Empty<string>();
-                    if (d.ReferenceRange != null)
+                    string referenceLow = "";
+                    string referenceHigh = "";
+
+
+
+                    if (!string.IsNullOrEmpty(d.ReferenceRange))
                     {
                         String sReferenceRange = d.ReferenceRange.Replace("[", "").Replace("]", "");
+                        if (sReferenceRange != "")
+                        {
+                            if (sReferenceRange.Contains(","))
+                            {
+                                var temp = sReferenceRange.Split(",");
+                                string[] result = new string[2];
+                                Array.Copy(temp, 0, result, 0, 1);
+                                Array.Copy(temp, 2, result, 1, 1);
+                                sRange = result;
+                            }
+                            else if (sReferenceRange.Contains(";"))
+                            {
+                                sRange = sReferenceRange.Split(";");
+                            }
+                            else if (sReferenceRange.Contains("-"))
+                            {
+                                sRange = sReferenceRange.Split("-");
+                            }
+                            else if (sReferenceRange.Contains("<"))
+                            {
+                                sRange = new string[] { sReferenceRange, "" };
+                            }
+                            else if (sReferenceRange.Contains(">"))
+                            {
+                                sRange = new string[] { "", sReferenceRange };
+                            }
+
+
+                            if (sRange.Length > 1)
+                            {
+                                referenceLow = (sRange.Length > 0) ? sRange[0] : "";
+                                referenceHigh = (sRange.Length > 0) ? sRange[1] : "";
+                            }
+                        }
+                    }
+                    else if(!string.IsNullOrEmpty(d.MeasuringRange))
+                    {
+                        String sReferenceRange = d.MeasuringRange.Replace("[", "").Replace("]", "");
                         if (sReferenceRange != "")
                         {
                             if (sReferenceRange.Contains(";"))
@@ -93,19 +160,34 @@ namespace VCheckListenerWorker.Lib.PMS
                             {
                                 sRange = sReferenceRange.Split("-");
                             }
+
+                            referenceLow = (sRange.Length > 0) ? sRange[0] : "";
+                            referenceHigh = (sRange.Length > 0) ? sRange[1] : "";
                         }
                     }
 
+                    var flags = "";
+
+                    if(d.TestResultStatus == "Low") { flags = "L"; }
+                    else if (d.TestResultStatus == "High") { flags = "H"; }
+
+                    Parameter = CheckParameter(d.TestParameter);
+                    //var UniqueID = UniqueCode;
+
                     sResultListing.Add(new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelTestObject
                     {
-                        name = d.TestParameter,
-                        code = d.TestParameter,
+                        name = Parameter,
+                        //code = "Test4-" + count++,
+                        code = sTestCode + "-" + count++,
+                        //code = sTestCode + "-" + UniqueCode,
                         result = d.TestResultValue,
-                        referencelow = (sRange.Length > 0) ? sRange[0] : "",
-                        referencehigh = (sRange.Length > 0) ? sRange[1] : "",
+                        referencelow = referenceLow,
+                        referencehigh = referenceHigh,
                         unitofmeasure = d.TestResultUnit,
+                        nature = d.TestResultStatus == "Normal" | d.TestResultStatus == "Positive" ? "N" : "A", 
+                        flags = flags,
                         status = "F",
-                        notes = ""
+                        notes = d.Interpretation
                     });
                 }
 
@@ -146,11 +228,11 @@ namespace VCheckListenerWorker.Lib.PMS
                 sTestResults.PMSFunction = "Collapsed";
 
                 TestResultRepository.createTestResult(sTestResults);
+                return true;
             }
-            else
-            {
 
-            }
+            return false;
+
         }
 
         public async Task<Boolean> SendData(VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest sResultRequest, System.Net.IPAddress ip, int port)
@@ -239,5 +321,162 @@ namespace VCheckListenerWorker.Lib.PMS
             specificConfiguration = configuration.FirstOrDefault(x => x.ConfigurationKey == "InterfaceSettingsPassword");
             password = specificConfiguration != null ? specificConfiguration.ConfigurationValue : "";
         }
+
+        public static string CheckParameter(string input)
+        {
+            foreach (var item in calItems) 
+            {
+                if(input.ToLower().Contains(item.ToLower())) { return item + "*"; }
+            }
+
+            return ConvertSubscriptsToNormal(input);
+        }
+
+        public static string ConvertSubscriptsToNormal(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            StringBuilder result = new StringBuilder(input.Length);
+
+            foreach (char c in input)
+            {
+                int subindex = subscriptDigits.IndexOf(c);
+                int superindex = superscriptDigits.IndexOf(c);
+                if (subindex >= 0 || superindex >= 0) 
+                {
+                    result.Append(subindex >= 0 ? normalDigits[subindex] : normalDigits[superindex]); // Replace with normal digit
+                    break;
+                }                    
+                else
+                    result.Append(c); // Keep unchanged
+            }
+
+            return result.ToString();
+        }
+
+        public static string Parameter { get; set; }
+        public static string UniqueCode => Parameter switch
+        {
+            "Canine CRP" => "1",
+            "fSAA3.0" => "2",
+            "cPL2" => "3",
+            "fPL2" => "4",
+            "SDMA" => "5",
+            "D-dimer" => "6",
+            "f.NT-proBNP" => "7",
+            "c.NT-proBNP" => "8",
+            "cTnI" => "9",
+            "fTnI" => "10",
+            "T4" => "11",
+            "cTSH" => "12",
+            "cCortisol" => "13",
+            "cPRG" => "14",
+            "cPRG2.0" => "15",
+            "Equine SAA" => "16",
+            "ePRG" => "17",
+            "Foal IgG" => "18",
+            "WBC" => "19",
+            "KET" => "20",
+            "NIT" => "21",
+            "URO" => "22",
+            "BIL" => "23",
+            "GLU" => "24",
+            "PRO" => "25",
+            "SG" => "26",
+            "PH" => "27",
+            "BLD" => "28",
+            "VC" => "29",
+            "MA" => "30",
+            "CA" => "31",
+            "CR" => "32",
+            "PCR" => "33",
+            "LYM%" => "34",
+            "MON%" => "35",
+            "NEU%" => "36",
+            "EOS%" => "37",
+            "BASO%" => "38",
+            "LYM#" => "39",
+            "MON#" => "40",
+            "NEU#/HETERO" => "41",
+            "EOS#" => "42",
+            "BASO#" => "43",
+            "IMG%" => "44",
+            "IMG#" => "45",
+            "RBC" => "46",
+            "HGB" => "47",
+            "HCT" => "48",
+            "MCV" => "49",
+            "MCH" => "50",
+            "MCHC" => "51",
+            "RDW_CV" => "52",
+            "RDW_SD" => "53",
+            "RET%" => "54",
+            "RET#" => "55",
+            "IRF" => "56",
+            "LFR" => "57",
+            "MFR" => "58",
+            "HFR" => "59",
+            "RHE" => "60",
+            "PLT" => "61",
+            "MPV" => "62",
+            "PDW" => "63",
+            "PCT" => "64",
+            "P_LCR" => "65",
+            "P_LCC" => "66",
+            "IPF" => "67",
+            "UREA" => "68",
+            "UA" => "69",
+            "TP" => "70",
+            "TG" => "71",
+            "TC" => "72",
+            "TB" => "73",
+            "PHOS" => "74",
+            "Na" => "75",
+            "Mg" => "76",
+            "LDH" => "77",
+            "K" => "78",
+            "GLOB" => "79",
+            "GGT" => "80",
+            "Crea" => "81",
+            "Cl" => "82",
+            "CK" => "83",
+            "BUN" => "84",
+            "AST" => "85",
+            "AMY" => "86",
+            "ALT" => "87",
+            "ALP" => "88",
+            "ALB" => "89",
+            "tCO2" => "90",
+            "LAC" => "91",
+            "LPS" => "92",
+            "TBA" => "93",
+            "U/C" => "94",
+            "NH3" => "95",
+            "HbA1c" => "96",
+            "FRUC" => "97",
+            "DB" => "98",
+            "CHE" => "99",
+            "c-Cys C" => "100",
+            "c-CRP" => "101",
+            "BUN/CREA" => "102",
+            "f-SAA" => "103",
+            "K+" => "104",
+            "Na+" => "105",
+            "TT-1" => "106",
+            "PT-1" => "107",
+            "Fib-1" => "108",
+            "APTT" => "109",
+            "TBIL" => "110",
+            "B/C" => "111",
+            "Globulin" => "112",
+            "Urine Protein" => "113",
+            "Urine Creatinine" => "114",
+            "TRIG" => "115",
+            "CHOL" => "116",
+            "LIPA" => "117",
+            "UPC" => "118",
+            _ => "General"
+        };
     }
 }

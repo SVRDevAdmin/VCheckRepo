@@ -27,14 +27,15 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2.5*" />
+            <ColumnDefinition Width="2.5*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
+        <!--<Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
@@ -63,7 +64,26 @@
                     <Button Content="{Binding Path=ClinicInfo_Label_ClinicInfo, Source={StaticResource Resources}}" Name="btnClinic" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ClinicInfoPage"></Button>
                 </Border>
             </Grid>
+        </Border>-->
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Margin="2">
+                    <Button Content="Information" Name="btnInfo" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnInfo_Click"></Button>
+                </Border>
+                <Border Grid.Column="1" Margin="2">
+                    <Button Name="btnSettings" Content="PMS/LIS/HIS" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnSettings_Click"></Button>
+                </Border>
+                <Border Grid.Column="2" Margin="2">
+                    <Button Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" Background="{DynamicResource Themes_ButtonColor}" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+            </Grid>
         </Border>
+        <Button Grid.Column="3" Content="Download Software" Foreground="{DynamicResource Themes_ButtonFontColor}" HorizontalAlignment="Left" BorderBrush="{DynamicResource Themes_ButtonColor}" Background="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" Grid.Row="0" Width="130" Height="40" Click="DownloadButton_Clicked"/>
         <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="10, 30, 0, 0">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -71,14 +91,12 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button Name="imgBack" Click="imgBack_Click" Grid.Column="0" Background="Transparent" BorderThickness="0" Visibility="Collapsed">
-                    <!--<Image Source="../../../../Content/Images/BackArrow.png" VerticalAlignment="Center"/>-->
                     <Image Source="{DynamicResource Themes_BackButton}" VerticalAlignment="Center"/>
                 </Button>
                 <Button Name="btnBack" Width="250" BorderThickness="0" Background="Transparent" Grid.Column="1" Margin="-5, 0, 0, 0" 
                         HorizontalContentAlignment="Left" Foreground="{DynamicResource Themes_FontColor}" 
                         Click="btnBack_Click" Visibility="Collapsed"></Button>
             </Grid>
-            <!--<Button x:Name="btnBackDevice" Style="{StaticResource BackButton}" Margin="0,10,0,0" Click="btnBackDevice_Click" ></Button>-->
         </Border>
         <Border Name="borderEdit" Grid.Column="1" Grid.Row="2">
             <Border Margin="30, 30, 30, 10" BorderThickness="1" BorderBrush="{DynamicResource Themes_DevicesFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_DevicesFrameBackground}">
@@ -102,7 +120,7 @@
                     <!-- // Device Type //-->
                     <TextBlock Text="{Binding Path=Setting_Label_DeviceType, Source={StaticResource Resources}}" Grid.Row="1" VerticalAlignment="Bottom" Foreground="{DynamicResource Themes_FontColor}" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 5"></TextBlock>
                     <Border Name="borderDeviceTypeEdit" Grid.Row="2" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
-                        <ComboBox x:Name="cboDeviceType" Background="White" BorderThickness="0" VerticalAlignment="Center" Margin="10, 0, 10, 0" SelectionChanged="dgDeviceType_SelectionChanged" />
+                        <ComboBox x:Name="cboDeviceType" Background="White" Foreground="Black" BorderThickness="0" VerticalAlignment="Center" Margin="10, 0, 10, 0" SelectionChanged="dgDeviceType_SelectionChanged"/>
                     </Border>
                     <Border Name="borderDeviceTypeView" Grid.Row="2" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
                         <TextBlock x:Name="lbDeviceType" VerticalAlignment="Center" FontFamily="Noto Sans" FontSize="13" Foreground="{DynamicResource Themes_FontColor}">xx</TextBlock>
@@ -118,9 +136,6 @@
                     <!-- // Device IP Address //-->
                     <TextBlock Name="labelIPAddress" Text="{Binding Path=Device_Label_DeviceIPAddress, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="6" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 5"></TextBlock>
                     <Border Name="borderIPEdit" Grid.Row="7" Background="White" Padding="5" BorderThickness="1" BorderBrush="Black" CornerRadius="7">
-                        <!--<WindowsFormsHost KeyUp="FieldsVal_KeyUp" Margin="10, 0" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Noto Sans" FontSize="12" FontWeight="Light" Background="White">
-                            <wf:MaskedTextBox x:Name="txtIPAddress" Mask="000.000.##9.##9" Width="350" Height="40" TextAlign="Left" BorderStyle="None" />
-                        </WindowsFormsHost>-->
                         <TextBox x:Name="txtIPAddress" KeyUp="FieldsVal_KeyUp" Background="White"/>
                     </Border>
                     <Border Name="borderIPView" Grid.Row="7" Background="Transparent" Padding="10" BorderThickness="1" BorderBrush="Transparent" CornerRadius="7" Visibility="Collapsed">
@@ -194,13 +209,13 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="{Binding Path=Device_Label_AddedDevices, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="1" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 30, 0, 10"></TextBlock>
-                    <Border Grid.Row="2" Margin="10, 5" Height="250" BorderBrush="Black" BorderThickness="0">
+                    <Border x:Name="deviceBorder" Grid.Row="2" Margin="10, 5" BorderBrush="Black" BorderThickness="0">
                         <DataGrid SelectionChanged="dgDevice_SelectionChanged" Name="dgDevice" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="None" 
                                   GridLinesVisibility="Horizontal" Foreground="{DynamicResource Themes_FontColor}" 
                                   HorizontalGridLinesBrush="{DynamicResource Themes_GridDevicesRowLinesColor}"
                                   Background="Transparent" BorderThickness="0" BorderBrush="Transparent">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="" Width="200" Binding="{Binding DeviceName}" 
+                                <DataGridTextColumn Header="" Width="200" Binding="{Binding DeviceNameExtended}" 
                                                     ElementStyle="{StaticResource CellVerticalText}"
                                                     Foreground="{DynamicResource Themes_FontColor}">
                                 </DataGridTextColumn>
@@ -211,6 +226,30 @@
                     
                 </Grid>
             </Border>
+        </Border>
+
+        <Border Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="3" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Quick Device Connection Guide" HorizontalAlignment="Center" FontWeight="Bold"/>
+                <TextBlock Grid.Row="1">
+                    <Run Text="V200 : " FontWeight="Bold"/>
+                    <Hyperlink NavigateUri="https://www.bionote.co.kr/en/service/update.html" RequestNavigate="Hyperlink_RequestNavigate"> https://www.bionote.co.kr/en/service/update.html </Hyperlink>
+                </TextBlock>
+                <TextBlock Grid.Row="2">
+                    <Run Text="V2400 : " FontWeight="Bold"/>
+                    <Hyperlink NavigateUri="https://www.bionote.co.kr/en/service/update.html" RequestNavigate="Hyperlink_RequestNavigate"> https://www.bionote.co.kr/en/service/update.html </Hyperlink>
+                </TextBlock>
+            </Grid>
         </Border>
     </Grid>
 </Page>

@@ -14,10 +14,6 @@
             <Setter Property="Foreground" Value="{DynamicResource Themes_SearchFieldFontColor}" />
             <Setter Property="Padding" Value="5, 2, 0, 0" />
         </Style>
-        <!--<Style x:Key="CalendarPopupStyle" TargetType="Calendar">
-            <Setter Property="Background" Value="{DynamicResource Themes_SearchFieldBackground}" />
-            <Setter Property="Foreground" Value="{DynamicResource Themes_SearchFieldFontColor}" />
-        </Style>-->
     </UserControl.Resources>
     
     <Grid>
@@ -43,8 +39,8 @@
                     Text="{Binding ElementName=this, Path=DisplayValue, Mode=TwoWay, Delay=300}"
                     Style="{StaticResource TextBoxStyle}"
                     KeyUp="Handle_Escape_Button" GotMouseCapture="DateRangePicker_TextBox_GotMouseCapture"/>
-                    
-                    <TextBlock IsHitTestVisible="False" Text="{Binding Path=General_Label_SelectDuration, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+
+                    <TextBlock IsHitTestVisible="False" x:Name="DateRangePicker_TextBlock" Text="{Binding Path=General_Label_SelectDuration, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -56,29 +52,6 @@
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
-                    <!-- Text="{Binding ElementName=this, Path=DisplayValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=300}" -->
-                    
-                    <!--<ToggleButton
-                    x:Name="DateRangePicker_ArrowButton"
-                    Grid.Column="1"
-                    Height="{Binding ElementName=DateRangePicker_TextBox, Path=Height}"
-                    Focusable="False"
-                    ClickMode="Press"
-                    IsChecked="{Binding ElementName=this, Path=IsDropDownOpen, Mode=TwoWay}"
-                    MinWidth="30"
-                    Background="{Binding ElementName=DateRangePicker_TextBox, Path=Background}"
-                    BorderBrush="{Binding ElementName=DateRangePicker_TextBox, Path=Background}"
-                    BorderThickness="0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Stretch">
-                        <Path
-                        x:Name="DateRangePicker_Arrow"
-                        Data="M 0 0 L 4 4 L 8 0 Z">
-                            <Path.Fill>
-                                <SolidColorBrush Color="#FF444444"/>
-                            </Path.Fill>
-                        </Path>
-                    </ToggleButton>-->
                 </Grid>
             </Border>
             <Popup x:Name="DateRangePicker_Popup"

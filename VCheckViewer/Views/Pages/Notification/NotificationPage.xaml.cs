@@ -1,32 +1,24 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.Extensions.Caching.Memory;
-using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
-using Wpf.Ui.Controls;
-using Brushes = System.Windows.Media.Brushes;
+using VCheckViewer.Converter;
+using VCheckViewer.Lib.Function;
+using VCheckViewer.UserControls;
 using Button = System.Windows.Controls.Button;
 using Hyperlink = System.Windows.Documents.Hyperlink;
-using Label = System.Windows.Controls.Label;
-using Run = System.Windows.Documents.Run;
 using TextBlock = System.Windows.Controls.TextBlock;
-using System.Runtime.Caching;
-using System.IO;
 
 namespace VCheckViewer.Views.Pages.Notification
 {
@@ -45,43 +37,36 @@ namespace VCheckViewer.Views.Pages.Notification
         public int currentPage = 1;
         public string? currentNotificationType;
         public string? currentStartDate, currentEndDate, currentKeyword;
+        public ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
 
         public NotificationPage()
         {
             InitializeComponent();
-
-            //List<NotificationModel> notificationList = sContext.GetNotificationByPage(0, pageSize, null, null, null, null);
-            //totalNotification = sContext.GetTotalNotification(null, null, null, null);
-            //createList(notificationList);
-
-            //paginationPanel.Children.Clear();
-
-            //if (notificationList.Count > 0)
-            //{
-            //    totalNotification = sContext.GetTotalNotification(null, null, null, null);
-            //    int totalpage = totalNotification / pageSize;
-             
-            //    if (totalNotification > (pageSize * totalpage)) { totalpage++; }
-
-            //    if (totalpage > paginationSize) { totalpage = paginationSize; }
-
-            //    endPagination = totalpage;
-            //    startPagination = 1;
-
-            //    createPagination(startPagination);
-            //}
 
             reloadData(0, pageSize, null, null, null, null, true);
 
             pagination.ButtonNextControlClick += new EventHandler(PaginationNextButton_Click);
             pagination.ButtonPrevControlClick += new EventHandler(PaginationPrevButton_Click);
             pagination.ButtonPageControlClick += new EventHandler(PaginationNumButton_Click);
+
+            RangeDateStart.DateRangePicker_Calendar.SelectionMode = CalendarSelectionMode.SingleDate;
+            RangeDateEnd.DateRangePicker_Calendar.SelectionMode = CalendarSelectionMode.SingleDate;
+            RangeDateStart.DateRangePicker_TextBlock.Text = "Start Date";
+            RangeDateEnd.DateRangePicker_TextBlock.Text = "End Date";
+
+            RangeDateStart.DateRangePicker_Calendar.SelectedDatesChanged += RangeDate_SelectedDateChanged;
+            RangeDateEnd.DateRangePicker_Calendar.SelectedDatesChanged += RangeDate_SelectedDateChanged;
+            RangeDateStart.DateRangePicker_Calendar.LostFocus += CloseCalender;
+            RangeDateEnd.DateRangePicker_Calendar.LostFocus += CloseCalender;
         }
 
-        public void reloadData(int start, int end, string? notificationType, string? startDate, string? endDate, string? keyword, bool reset)
+        public async Task reloadData(int start, int end, string? notificationType, string? startDate, string? endDate, string? keyword, bool reset)
         {
             var currentUserCreatedDate = App.MainViewModel.CurrentUsers.CreatedDate;
             List<NotificationModel> notificationList = sContext.GetNotificationByPage(start, end, notificationType, startDate, endDate, keyword, currentUserCreatedDate);
+
+            //if(string.IsNullOrEmpty(notificationType) || notificationType == "Schedule Error") { notificationList.AddRange(await GetErrorList(startDate, endDate)); }            
+
             createList(notificationList);
 
             if (reset)
@@ -93,12 +78,8 @@ namespace VCheckViewer.Views.Pages.Notification
                 pagination.GetPageCountByRecordCountWithLimit();
             }
 
-            pagination.LoadPagingNumberWithLimit();
-
-            //pagination.iTotalRecords = sContext.GetTotalNotification(notificationType, startDate, endDate, keyword);
-            //pagination.iPageIndex = currentPage;
-            //pagination.iPageSize = pageSize;
-            //pagination.LoadPagingNumber();
+            //pagination.LoadPagingNumberWithLimit();
+            pagination.LoadPagingNumber();
 
             NotificationSearch sSearchModel = new NotificationSearch();
             sSearchModel.SearchStart = start;
@@ -116,9 +97,11 @@ namespace VCheckViewer.Views.Pages.Notification
             sSearchModel.SearchEndDate = endDate;
             sSearchModel.SearchKeyword = keyword;
             sSearchModel.SearchReset = reset;
-            sSearchModel.SearchSelectedDates = RangeDate.SelectedDates;
+            //sSearchModel.SearchSelectedDates = RangeDate.SelectedDates;
 
             App.MainViewModel.SearchModel = sSearchModel;
+
+            App.RefreshUnreadNotificationHandler(null, null);
         }
 
         public void createList(List<NotificationModel> notificationList)
@@ -133,13 +116,38 @@ namespace VCheckViewer.Views.Pages.Notification
             {
                 foreach (NotificationModel notification in notificationList)
                 {
-                    DockPanel mainPanel = new DockPanel();
+                    Grid grid = new Grid();
+                    Ellipse ellipse = new Ellipse() { Width = 10, Height = 10, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = System.Windows.HorizontalAlignment.Center, StrokeThickness = 0, Fill = System.Windows.Media.Brushes.Gray, Visibility = notification.Read == 0 ? Visibility.Visible : Visibility.Hidden };
+                    DockPanel mainPanel = new DockPanel() { HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch, Margin = new Thickness(10, 10, 10, 10) };
                     DockPanel panel1 = new DockPanel();
                     DockPanel panel2 = new DockPanel();
                     TextBlock title = new TextBlock();
                     TextBlock date = new TextBlock();
                     TextBlock content = new TextBlock();
-                    
+                    TextBlock NotificationID = new TextBlock() { Text = notification.NotificationID.ToString(), Visibility = Visibility.Collapsed };
+                    Border borderLeft = new Border() { Child = ellipse, Width = 10, Margin = notification.Read == 0 ? new Thickness(10, 10, 10, 10) : new Thickness(0, 10, 10, 10) };
+                    Border borderRight = new Border() { Width = 10, Margin = new Thickness(10, 10, 0, 10) };
+                    Border borderWhole = new Border() { Tag = "BorderWhole", CornerRadius = new CornerRadius(5), HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch };
+
+                    grid.MouseDown += Grid_MouseDown;
+                    grid.MouseEnter += Grid_MouseEnter;
+                    grid.MouseLeave += Grid_MouseLeave;
+
+                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)new GridLengthConverter().ConvertFromString("auto") });
+                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)new GridLengthConverter().ConvertFromString("*") });
+                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)new GridLengthConverter().ConvertFromString("auto") });
+                    Grid.SetColumn(borderLeft, 0);
+                    Grid.SetColumn(NotificationID, 0);
+                    Grid.SetColumn(borderRight, 2);
+                    Grid.SetColumn(borderWhole, 0);
+                    Grid.SetColumnSpan(borderWhole, 3);
+                    grid.Children.Add(borderLeft);
+                    grid.Children.Add(NotificationID);
+                    grid.Children.Add(borderRight);
+                    grid.Children.Add(borderWhole);
+
+                    System.Windows.Controls.Panel.SetZIndex(borderLeft, 5);
+
 
                     title.Text = notification.NotificationTitle;
                     title.TextAlignment = System.Windows.TextAlignment.Left;
@@ -192,15 +200,17 @@ namespace VCheckViewer.Views.Pages.Notification
                     mainPanel.Children.Add(panel1);
                     mainPanel.Children.Add(panel2);
 
-                    NotificationViewList.Children.Add(mainPanel);
+                    Grid.SetColumn(mainPanel, 1);
+                    grid.Children.Add(mainPanel);
+
+                    //NotificationViewList.Children.Add(mainPanel);
+                    NotificationViewList.Children.Add(grid);
                     if (notification != notificationList.LastOrDefault() || notificationList.Count == 1) { NotificationViewList.Children.Add(new Separator() { BorderBrush = sBrushSeparator, BorderThickness = new Thickness(0.5) }); }
-                    //if (notification != notificationList.LastOrDefault() || notificationList.Count == 1) { NotificationViewList.Children.Add(new Separator() { BorderBrush = Brushes.Black, BorderThickness = new Thickness(0.5) }); }
                 }
             }
             else
             {
                 TextBlock textBlock = new TextBlock();
-                //textBlock.Text = "No data available";
                 textBlock.Text = Properties.Resources.General_Message_NoData;
                 textBlock.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
                 textBlock.FontWeight = FontWeights.Bold;
@@ -208,109 +218,7 @@ namespace VCheckViewer.Views.Pages.Notification
                 NotificationViewList.Children.Add(textBlock);
             }
         }
-
-        //public void createPagination(int highligtedIndex)
-        //{
-        //    currentPage = highligtedIndex;
-
-        //    //Button newBtn = new Button();
-        //    //newBtn.Content = Properties.Resources.General_Label_Previous;
-        //    //newBtn.Tag = "Prev";
-        //    //newBtn.BorderThickness = new Thickness(0);
-        //    //newBtn.FontWeight = FontWeights.Bold;
-        //    //newBtn.Foreground = Brushes.Gray;
-        //    //paginationPanel.Children.Add(newBtn);
-        //    //newBtn.Click += new RoutedEventHandler(PreviousUserList_Click);
-
-        //    //for (int i = startPagination; i <= endPagination; i++)
-        //    //{
-        //    //    newBtn = new Button();
-
-        //    //    if (i < 10) { newBtn.Content = "0" + i; }
-        //    //    else { newBtn.Content = i; }
-
-        //    //    newBtn.Tag = i;
-        //    //    newBtn.Style = (Style)System.Windows.Application.Current.FindResource("RoundButton");
-        //    //    newBtn.Width = 40;
-        //    //    newBtn.Margin = new Thickness(5, 0, 5, 0);
-        //    //    newBtn.FontWeight = FontWeights.Bold;
-        //    //    newBtn.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
-
-        //    //    if (i == highligtedIndex)
-        //    //    {
-        //    //        newBtn.BorderBrush = Brushes.DarkOrange;
-        //    //        newBtn.Background = Brushes.DarkOrange;
-        //    //        newBtn.Foreground = Brushes.White;
-        //    //    }
-        //    //    else
-        //    //    {
-        //    //        newBtn.BorderBrush = Brushes.DarkOrange;
-        //    //        newBtn.Background = Brushes.Transparent;
-        //    //        newBtn.Foreground = Brushes.DarkOrange;
-        //    //    }
-
-        //    //    paginationPanel.Children.Add(newBtn);
-        //    //    newBtn.Click += new RoutedEventHandler(newBtn_Click);
-        //    //}
-
-        //    //newBtn = new Button();
-        //    //newBtn.Content = Properties.Resources.General_Label_Next;
-        //    //newBtn.Tag = "Next";
-        //    //newBtn.BorderThickness = new Thickness(0);
-        //    //newBtn.FontWeight = FontWeights.Bold;
-        //    //newBtn.Foreground = Brushes.DarkOrange;
-        //    //paginationPanel.Children.Add(newBtn);
-        //    //newBtn.Click += new RoutedEventHandler(NextUserList_Click);
-        //}
-
-        //private void newBtn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
-
-        //    btn.BorderBrush = Brushes.DarkOrange;
-        //    btn.Background = Brushes.DarkOrange;
-        //    btn.Foreground = Brushes.White;
-
-        //    string startDate = null, endDate = null, keyword = null;
-
-        //    if (RangeDate.SelectedDates.Count > 1)
-        //    {
-        //        startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-        //        endDate = RangeDate.SelectedDates.LastOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-        //    }
-        //    else if (RangeDate.SelectedDates.Count == 1)
-        //    {
-        //        startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-        //        endDate = RangeDate.SelectedDates.FirstOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-        //    }
-
-        //    if (KeywordSearchBar.Text.Length > 0) {  keyword = KeywordSearchBar.Text; }
-
-        //    var currentlist = sContext.GetNotificationByPage((((int)btn.Tag) - 1) * pageSize, pageSize, currentNotificationType, startDate, endDate, keyword);
-        //    createList(currentlist);
-
-        //    int childrenCount = VisualTreeHelper.GetChildrenCount(btn.Parent);
-
-        //    for (int i = 0; i < childrenCount; i++)
-        //    {
-        //        var child = VisualTreeHelper.GetChild(btn.Parent, i);
-        //        var frameworkElement = child as System.Windows.Controls.Button;
-        //        if (frameworkElement.Tag.ToString() == currentPage.ToString() && childrenCount > 3)
-        //        {
-        //            frameworkElement.BorderBrush = Brushes.DarkOrange;
-        //            frameworkElement.Background = Brushes.Transparent;
-        //            frameworkElement.Foreground = Brushes.DarkOrange;
-        //        }
-        //    }
-
-        //    currentPage = (int)btn.Tag;
-
-        //    if (currentPage == endPagination) { GoToNextPaginationGroup(); return; }
-        //    else if (currentPage == startPagination && currentPage != 1) { GoToPreviousPaginationGroup(); return; }
-
-        //    RangeDate.DateRangePicker_Popup.IsOpen = false;
-        //}
-
+        
         protected void PaginationNumButton_Click(object? sender, EventArgs? e)
         {
             Button btnNum = sender as Button;
@@ -318,386 +226,71 @@ namespace VCheckViewer.Views.Pages.Notification
 
             currentPage = iNumberSelected;
 
-            //var currentlist = sContext.GetNotificationByPage((currentPage - 1) * pageSize, pageSize, currentNotificationType, currentStartDate, currentEndDate, currentKeyword);
-
-            //createList(currentlist);
             pagination.iPageIndex = currentPage;
 
             if (pagination.iPaginationEnd == currentPage && pagination.iPaginationEnd != pagination.iLastPage) { pagination.iPaginationStart++; pagination.iPaginationEnd++; }
             else if (pagination.iPaginationStart == currentPage && currentPage != 1) { pagination.iPaginationStart--; pagination.iPaginationEnd--; }
 
             reloadData((currentPage - 1) * pageSize, pageSize, currentNotificationType, currentStartDate, currentEndDate, currentKeyword, false);
-
-            //pagination.LoadPagingNumberWithLimit();
-
-        }
-
-        //private void NextUserList_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Button btn = sender as Button;
-        //    int childrenCount = VisualTreeHelper.GetChildrenCount(btn.Parent);
-
-        //    var nextpage = currentPage + 1;
-
-        //    string startDate = null, endDate = null, keyword = null;
-
-        //    if (RangeDate.SelectedDates.Count > 1)
-        //    {
-        //        startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-        //        endDate = RangeDate.SelectedDates.LastOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-        //    }
-        //    else if (RangeDate.SelectedDates.Count == 1)
-        //    {
-        //        startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-        //        endDate = RangeDate.SelectedDates.FirstOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-        //    }
-
-        //    if (KeywordSearchBar.Text.Length > 0) { keyword = KeywordSearchBar.Text; }
-
-        //    var currentlist = sContext.GetNotificationByPage((nextpage - 1) * pageSize, pageSize, currentNotificationType, startDate, endDate, keyword);
-
-        //    if (!(currentlist.Count == 0))
-        //    {
-        //        createList(currentlist);
-
-        //        for (int i = 0; i < childrenCount; i++)
-        //        {
-        //            var child = VisualTreeHelper.GetChild(btn.Parent, i);
-        //            var frameworkElement = child as System.Windows.Controls.Button;
-        //            if (frameworkElement.Tag.ToString() == currentPage.ToString())
-        //            {
-        //                frameworkElement.BorderBrush = Brushes.DarkOrange;
-        //                frameworkElement.Background = Brushes.Transparent;
-        //                frameworkElement.Foreground = Brushes.DarkOrange;
-        //            }
-        //            else if (frameworkElement.Tag.ToString() == nextpage.ToString())
-        //            {
-        //                frameworkElement.BorderBrush = Brushes.DarkOrange;
-        //                frameworkElement.Background = Brushes.DarkOrange;
-        //                frameworkElement.Foreground = Brushes.White;
-        //            }
-        //        }
-
-        //        currentPage = nextpage;
-        //    }
-
-        //    if (currentPage == endPagination) { GoToNextPaginationGroup(); return; }
-        //}
+        }               
 
         protected void PaginationNextButton_Click(object? sender, EventArgs? e)
         {
             currentPage++;
 
-            //var currentlist = sContext.GetNotificationByPage((currentPage - 1) * pageSize, pageSize, currentNotificationType, currentStartDate, currentEndDate, currentKeyword);
-
-            //createList(currentlist);
             pagination.iPageIndex = currentPage;
 
             if(pagination.iPaginationEnd == currentPage && pagination.iPaginationEnd != pagination.iLastPage) { pagination.iPaginationStart++; pagination.iPaginationEnd++; }
 
             reloadData((currentPage - 1) * pageSize, pageSize, currentNotificationType, currentStartDate, currentEndDate, currentKeyword, false);
-
-            //pagination.LoadPagingNumberWithLimit();
         }
-
-        //private void PreviousUserList_Click(object sender, RoutedEventArgs e)
-        //{
-        //    System.Windows.Controls.Button btn = sender as System.Windows.Controls.Button;
-        //    int childrenCount = VisualTreeHelper.GetChildrenCount(btn.Parent);
-
-        //    var nextPage = currentPage - 1;
-        //    List<NotificationModel> currentlist;
-
-        //    string startDate = null, endDate = null, keyword = null;
-
-        //    if (RangeDate.SelectedDates.Count > 1)
-        //    {
-        //        startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-        //        endDate = RangeDate.SelectedDates.LastOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-        //    }
-        //    else if (RangeDate.SelectedDates.Count == 1)
-        //    {
-        //        startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-        //        endDate = RangeDate.SelectedDates.FirstOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-        //    }
-
-        //    if (KeywordSearchBar.Text.Length > 0) { keyword = KeywordSearchBar.Text; }
-
-        //    if (!(nextPage < 1))
-        //    {
-        //        currentlist = sContext.GetNotificationByPage((nextPage - 1) * pageSize, pageSize, currentNotificationType, startDate, endDate, keyword);
-        //        createList(currentlist);
-
-        //        for (int i = 0; i < childrenCount; i++)
-        //        {
-        //            var child = VisualTreeHelper.GetChild(btn.Parent, i);
-        //            var frameworkElement = child as System.Windows.Controls.Button;
-        //            if (frameworkElement.Tag.ToString() == currentPage.ToString())
-        //            {
-        //                frameworkElement.BorderBrush = Brushes.DarkOrange;
-        //                frameworkElement.Background = Brushes.Transparent;
-        //                frameworkElement.Foreground = Brushes.DarkOrange;
-        //            }
-        //            else if (frameworkElement.Tag.ToString() == nextPage.ToString())
-        //            {
-        //                frameworkElement.BorderBrush = Brushes.DarkOrange;
-        //                frameworkElement.Background = Brushes.DarkOrange;
-        //                frameworkElement.Foreground = Brushes.White;
-        //            }
-        //        }
-
-        //        currentPage = nextPage;
-        //    }
-
-        //    if (currentPage == startPagination && currentPage != 1) { GoToPreviousPaginationGroup(); return; }
-
-        //    RangeDate.DateRangePicker_Popup.IsOpen = false;
-        //}
 
         protected void PaginationPrevButton_Click(object? sender, EventArgs? e)
         {
             currentPage--;
-
-            //List<NotificationModel> currentlist = sContext.GetNotificationByPage((currentPage - 1) * pageSize, pageSize, currentNotificationType, currentStartDate, currentEndDate, currentKeyword);
-            //createList(currentlist);
 
             pagination.iPageIndex = currentPage;
 
             if (pagination.iPaginationStart == currentPage && currentPage != 1) { pagination.iPaginationStart--; pagination.iPaginationEnd--; }
 
             reloadData((currentPage - 1) * pageSize, pageSize, currentNotificationType, currentStartDate, currentEndDate, currentKeyword, false);
-
-            //pagination.LoadPagingNumberWithLimit();
         }
-
-        //private void GoToNextPaginationGroup()
-        //{
-        //    string startDate = null, endDate = null, keyword = null;
-
-        //    if (RangeDate.SelectedDates.Count > 1)
-        //    {
-        //        startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-        //        endDate = RangeDate.SelectedDates.LastOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-        //    }
-        //    else if (RangeDate.SelectedDates.Count == 1)
-        //    {
-        //        startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-        //        endDate = RangeDate.SelectedDates.FirstOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-        //    }
-
-        //    if (KeywordSearchBar.Text.Length > 0) { keyword = KeywordSearchBar.Text; }
-
-        //    var currentlist = sContext.GetNotificationByPage(endPagination * pageSize, pageSize, currentNotificationType, startDate, endDate, keyword);
-
-        //    if (!(currentlist.Count == 0))
-        //    {
-        //        startPagination++;
-        //        endPagination++;
-
-        //        createPagination(endPagination - 1);
-        //    }
-
-        //}
-
-        //private void GoToPreviousPaginationGroup()
-        //{
-        //    startPagination--;
-        //    endPagination--;
-
-        //    createPagination(startPagination + 1);
-        //}
-
-        //private void RangeDate_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    string startDate = null, endDate = null, keyword = null;
-
-        //    if (RangeDate.SelectedDates.Count > 1)
-        //    {
-        //        startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-        //        endDate = RangeDate.SelectedDates.LastOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-        //    }
-        //    else if (RangeDate.SelectedDates.Count == 1)
-        //    {
-        //        startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-        //        endDate = RangeDate.SelectedDates.FirstOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-        //    }
-
-        //    if (KeywordSearchBar.Text.Length > 0) { keyword = KeywordSearchBar.Text; }
-
-        //    var notificationList = sContext.GetNotificationByPage(0, pageSize, currentNotificationType, startDate, endDate, keyword);
-
-        //    createList(notificationList);
-
-        //    paginationPanel.Children.Clear();
-
-        //    if (notificationList.Count > 0)
-        //    {
-        //        totalNotification = sContext.GetTotalNotification(currentNotificationType, startDate, endDate, keyword);
-        //        int totalpage = totalNotification / pageSize;
-
-        //        if (totalNotification > (pageSize * totalpage)) { totalpage++; }
-
-        //        if (totalpage > paginationSize) { totalpage = paginationSize; }
-
-        //        endPagination = totalpage;
-        //        startPagination = 1;
-
-        //        createPagination(startPagination);
-        //    }
-        //}
 
         private void NotificationKeywordSearch(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            //string startDate = null, endDate = null, keyword = null;
-
-            //if (RangeDate.SelectedDates.Count > 1)
-            //{
-            //    startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-            //    endDate = RangeDate.SelectedDates.LastOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-            //}
-            //else if (RangeDate.SelectedDates.Count == 1)
-            //{
-            //    startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-            //    endDate = RangeDate.SelectedDates.FirstOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-            //}
-
-            //if (KeywordSearchBar.Text.Length > 0) { keyword = KeywordSearchBar.Text; }
-
-            //var notificationList = sContext.GetNotificationByPage(0, pageSize, currentNotificationType, startDate, endDate, keyword);
-
-            //createList(notificationList);
-
-            //paginationPanel.Children.Clear();
-
-            //if (notificationList.Count > 0)
-            //{
-            //    totalNotification = sContext.GetTotalNotification(currentNotificationType, startDate, endDate, keyword);
-            //    int totalpage = totalNotification / pageSize;
-
-            //    if (totalNotification > (pageSize * totalpage)) { totalpage++; }
-
-            //    if (totalpage > paginationSize) { totalpage = paginationSize; }
-
-            //    endPagination = totalpage;
-            //    startPagination = 1;
-
-            //    createPagination(startPagination);
-            //}
-
             CloseCalenderPopup(null, null);
         }
 
         private void ChangeNotificationType(object sender, RoutedEventArgs e)
         {
-            //Button notificationTypeBtn = sender as Button;
-
-            //notificationTypeBtn.Background = Brushes.DarkOrange;
-            //notificationTypeBtn.BorderThickness = new Thickness();
-
-            //if(notificationTypeBtn.Tag != null) { currentNotificationType = notificationTypeBtn.Tag.ToString(); }
-            //else { currentNotificationType = null; }
-
-            //Grid parent = (Grid)((Border)notificationTypeBtn.Parent).Parent;
-
-            //int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
-
-            //for (int i = 0; i < childrenCount; i++)
-            //{
-            //    var firstChild = (Border)VisualTreeHelper.GetChild(parent, i);
-            //    var secondChild = (Button)VisualTreeHelper.GetChild(firstChild, 0);
-
-            //    if(secondChild != notificationTypeBtn)
-            //    {
-            //        secondChild.Background = Brushes.Black;
-            //        secondChild.BorderThickness = new Thickness(0);
-            //    }
-            //}
-
-            //string startDate = null, endDate = null, keyword = null;
-
-            //if (RangeDate.SelectedDates.Count > 1)
-            //{
-            //    startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-            //    endDate = RangeDate.SelectedDates.LastOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-            //}
-            //else if (RangeDate.SelectedDates.Count == 1)
-            //{
-            //    startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-            //    endDate = RangeDate.SelectedDates.FirstOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-            //}
-
-            //if (KeywordSearchBar.Text.Length > 0) { keyword = KeywordSearchBar.Text; }
-
-            //var notificationTypeBtn = ((ComboBoxItem)NotificationType.SelectedItem).Tag;
-
-            //if (notificationTypeBtn != null) { currentNotificationType = notificationTypeBtn.ToString(); }
-            //else { currentNotificationType = null; }
-
-            //var notificationList = sContext.GetNotificationByPage(0, pageSize, currentNotificationType, startDate, endDate, keyword);
-
-            //createList(notificationList);
-
-            //paginationPanel.Children.Clear();
-
-            //if (notificationList.Count > 0)
-            //{
-            //    totalNotification = sContext.GetTotalNotification(currentNotificationType, startDate, endDate, keyword);
-            //    int totalpage = totalNotification / pageSize;
-
-            //    if (totalNotification > (pageSize * totalpage)) { totalpage++; }
-
-            //    if (totalpage > paginationSize) { totalpage = paginationSize; }
-
-            //    endPagination = totalpage;
-            //    startPagination = 1;
-
-            //    createPagination(startPagination);
-            //}
-
             CloseCalenderPopup(null, null);
-
         }
 
         private void UpdateFilter(object sender, RoutedEventArgs e)
         {
-            //Button notificationTypeBtn = sender as Button;
-
-            //notificationTypeBtn.Background = Brushes.DarkOrange;
-            //notificationTypeBtn.BorderThickness = new Thickness();
-
-            //if(notificationTypeBtn.Tag != null) { currentNotificationType = notificationTypeBtn.Tag.ToString(); }
-            //else { currentNotificationType = null; }
-
-            //Grid parent = (Grid)((Border)notificationTypeBtn.Parent).Parent;
-
-            //int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
-
-            //for (int i = 0; i < childrenCount; i++)
-            //{
-            //    var firstChild = (Border)VisualTreeHelper.GetChild(parent, i);
-            //    var secondChild = (Button)VisualTreeHelper.GetChild(firstChild, 0);
-
-            //    if(secondChild != notificationTypeBtn)
-            //    {
-            //        secondChild.Background = Brushes.Black;
-            //        secondChild.BorderThickness = new Thickness(0);
-            //    }
-            //}
-
             currentStartDate = null;
             currentEndDate = null;
             currentKeyword = null;
 
-            if (RangeDate.SelectedDates.Count > 0)
-            {
-                currentStartDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-                currentEndDate = RangeDate.SelectedDates.LastOrDefault().AddDays(1).ToString("yyyy-MM-dd");
-            }
-            //else if (RangeDate.SelectedDates.Count == 1)
+            //if (RangeDate.SelectedDates.Count > 0)
             //{
-            //    startDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-            //    endDate = RangeDate.SelectedDates.FirstOrDefault().AddDays(1).ToString("yyyy-MM-dd");
+            //    currentStartDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
+            //    currentEndDate = RangeDate.SelectedDates.LastOrDefault().AddDays(1).ToString("yyyy-MM-dd");
             //}
+
+            if (RangeDateStart.SelectedDates.Count() == 1)
+            {
+                currentStartDate = RangeDateStart.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
+            }
+
+            if (RangeDateEnd.SelectedDates.Count() == 1)
+            {
+                currentEndDate = RangeDateEnd.SelectedDates.FirstOrDefault().AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd");
+            }
+            else if (!string.IsNullOrEmpty(currentStartDate))
+            {
+                currentEndDate = RangeDateStart.SelectedDates.FirstOrDefault().AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd");
+            }
 
             if (KeywordSearchBar.Text.Length > 0) { currentKeyword = KeywordSearchBar.Text; }
 
@@ -706,36 +299,119 @@ namespace VCheckViewer.Views.Pages.Notification
             if (notificationTypeBtn != null) { currentNotificationType = notificationTypeBtn.ToString(); }
             else { currentNotificationType = null; }
 
-            //var notificationList = sContext.GetNotificationByPage(0, pageSize, currentNotificationType, currentStartDate, currentEndDate, currentKeyword);
-            //totalNotification = sContext.GetTotalNotification(currentNotificationType, currentStartDate, currentEndDate, currentKeyword);
-            //createList(notificationList);
-
-            //paginationPanel.Children.Clear();
-
-            //if (notificationList.Count > 0)
-            //{
-            //    totalNotification = sContext.GetTotalNotification(currentNotificationType, currentStartDate, currentEndDate, currentKeyword);
-            //    int totalpage = totalNotification / pageSize;
-
-            //    if (totalNotification > (pageSize * totalpage)) { totalpage++; }
-
-            //    if (totalpage > paginationSize) { totalpage = paginationSize; }
-
-            //    endPagination = totalpage;
-            //    startPagination = 1;
-
-            //    createPagination(startPagination);
-            //}
-
             reloadData(0, pageSize, currentNotificationType, currentStartDate, currentEndDate, currentKeyword, true);
 
             CloseCalenderPopup(null, null);
 
         }
 
+        private void RefreshFilter(object sender, RoutedEventArgs e)
+        {
+            KeywordSearchBar.Text = string.Empty;
+            RangeDateStart.SelectedDates = new ObservableCollection<DateTime>();
+            RangeDateStart.DateRangePicker_TextBox.Text = string.Empty;
+            RangeDateEnd.SelectedDates = new ObservableCollection<DateTime>();
+            RangeDateEnd.DateRangePicker_TextBox.Text = string.Empty;
+            NotificationType.SelectedItem = NotificationType.Items.OfType<ComboBoxItem>().Where(x => x.Tag == null).FirstOrDefault();
+
+            UpdateFilter(null, null);
+
+        }
+
         private void CloseCalenderPopup(object? sender, MouseButtonEventArgs? e)
         {
-            RangeDate.DateRangePicker_Popup.IsOpen = false;
+            RangeDateStart.DateRangePicker_Popup.IsOpen = false;
+            RangeDateEnd.DateRangePicker_Popup.IsOpen = false;
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var grid = (Grid)sender;
+            var NotificationID = grid.Children.OfType<TextBlock>().FirstOrDefault().Text.ToString();
+            var currentSearch = App.MainViewModel.SearchModel;
+
+            sContext.MarkReadByID(NotificationID);
+            reloadData(currentSearch.SearchStart, currentSearch.SearchEnd, currentNotificationType, currentStartDate, currentEndDate, currentKeyword, false);
+        }
+
+        private void MarkAsRead_Click(object sender, RoutedEventArgs e)
+        {
+            var currentSearch = App.MainViewModel.SearchModel;
+            sContext.MarkAllAsRead();
+            reloadData(currentSearch.SearchStart, currentSearch.SearchEnd, currentNotificationType, currentStartDate, currentEndDate, currentKeyword, false);
+        }
+
+        private void Grid_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var grid = (Grid)sender;
+            var border = grid.Children.OfType<Border>().FirstOrDefault(x => x.Tag != null && x.Tag.ToString() == "BorderWhole");
+            border.SetResourceReference(Border.BackgroundProperty, "Themes_HighlightColor");
+        }
+
+        private void Grid_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var grid = (Grid)sender;
+            var border = grid.Children.OfType<Border>().FirstOrDefault(x => x.Tag != null && x.Tag.ToString() == "BorderWhole");
+            border.Background = System.Windows.Media.Brushes.Transparent;
+        }
+
+        private void CloseCalender(object sender, RoutedEventArgs e)
+        {
+            var focusedControl = Keyboard.FocusedElement as FrameworkElement;
+
+            if (focusedControl == null || focusedControl.GetType() == typeof(CalendarDayButton) || focusedControl.GetType() == typeof(CalendarButton) ||
+                focusedControl.GetType() == typeof(Calendar))
+            {
+                return;
+            }
+
+            if (focusedControl.GetType() == typeof(ScrollViewer))
+            {
+                focusedControl.LostFocus += CloseCalender;
+
+                return;
+            }
+
+
+            DateRangePicker calender = sender as DateRangePicker;
+
+            if (calender == RangeDateStart || RangeDateStart.DateRangePicker_Popup.IsOpen)
+            {
+                RangeDateStart.DateRangePicker_Popup.IsOpen = false;
+            }
+            else if (calender == RangeDateEnd || RangeDateEnd.DateRangePicker_Popup.IsOpen)
+            {
+                RangeDateEnd.DateRangePicker_Popup.IsOpen = false;
+            }
+        }
+
+        private void RangeDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RangeDateStart.SelectedDates = RangeDateStart.DateRangePicker_Calendar.SelectedDates;
+            RangeDateEnd.SelectedDates = RangeDateEnd.DateRangePicker_Calendar.SelectedDates;
+
+            if (RangeDateStart.SelectedDates.Count() == 1 && RangeDateEnd.SelectedDates.Count() == 0)
+            {
+                RangeDateEnd.SelectedDates = RangeDateStart.SelectedDates;
+            }
+            else if (RangeDateEnd.SelectedDates.Count() == 1 && RangeDateStart.SelectedDates.Count() == 0)
+            {
+                RangeDateStart.SelectedDates = RangeDateEnd.SelectedDates;
+            }
+            else if (RangeDateEnd.SelectedDates.FirstOrDefault() < RangeDateStart.SelectedDates.FirstOrDefault())
+            {
+                RangeDateEnd.SelectedDates = RangeDateStart.SelectedDates;
+                RangeDateEnd.DateRangePicker_Calendar.SelectedDate = RangeDateStart.DateRangePicker_Calendar.SelectedDate;
+            }
+
+            RangeDateEnd.DateRangePicker_Calendar.DisplayDateStart = RangeDateStart.DateRangePicker_Calendar.SelectedDate;
+
+            DateFormatConverter dateFormatConverter = new DateFormatConverter();
+
+            RangeDateStart.DateRangePicker_TextBox.Text = dateFormatConverter.ConvertSimpleDate(RangeDateStart.SelectedDates.FirstOrDefault()).ToString();
+            RangeDateEnd.DateRangePicker_TextBox.Text = dateFormatConverter.ConvertSimpleDate(RangeDateEnd.SelectedDates.FirstOrDefault()).ToString();
+
+            CloseCalenderPopup(null, null);
         }
     }
 }

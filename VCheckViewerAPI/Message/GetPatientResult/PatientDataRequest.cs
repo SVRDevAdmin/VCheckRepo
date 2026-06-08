@@ -1,4 +1,5 @@
-﻿using VCheckViewerAPI.Message.General;
+﻿using VCheck.Lib.Data.Models;
+using VCheckViewerAPI.Message.General;
 
 namespace VCheckViewerAPI.Message.GetPatientResult
 {

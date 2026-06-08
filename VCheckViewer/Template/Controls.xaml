@@ -28,8 +28,7 @@
 
                             <!--// Dropdown Icon //-->
                             <Image Source="{DynamicResource Themes_ArrowDown}" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2" Margin="10,0,0,0"/>
-                            <!--<Image Source="../../Content/Images/path_3550.png" Stretch="None" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2" Margin="10,0,0,0"/>-->
-
+                            
                             <!--// Popup //-->
                             <Popup x:Name="PART_Popup" AllowsTransparency="True" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}">
                                 <Border x:Name="SubMenuBorder" Background="White" BorderBrush="#484546" BorderThickness="1" CornerRadius="10">
@@ -139,7 +138,6 @@
                                 <ColumnDefinition Width="20"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <!--<Image Source="../../../../Content/Images/BackArrow.png" Grid.Column="0" VerticalAlignment="Center"/>-->
                             <Image Source="{DynamicResource Themes_BackButton}" Grid.Column="0" VerticalAlignment="Center"/>
                             <TextBlock x:Name="lbBack" Text="{Binding Path=BackButtonText}" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"/>
                         </Grid>

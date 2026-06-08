@@ -1,22 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.VisualBasic.Logging;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using DocumentFormat.OpenXml.Drawing;
+using Microsoft.AspNetCore.Identity;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VCheck.Helper;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
@@ -42,7 +28,7 @@ namespace VCheckViewer.Views.Pages.Login
         NotificationDBContext NotificationContext = App.GetService<NotificationDBContext>();
         ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
 
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public PasswordRecoveryPage()
         {
@@ -50,6 +36,7 @@ namespace VCheckViewer.Views.Pages.Login
             CheckThemesSettings();
 
             LoginWindow.ResetPassword += new EventHandler(ProceedResetPassword);
+            //LoginWindow.ResetPassword += new EventHandler(TestProceedResetPassword);
 
             var pageTitle = Properties.Resources.Login_Label_PasswordRecovery.Split("<nextline>");
             Login_Label_PasswordRecovery.Text = pageTitle[0] + "\r\n" + pageTitle[1];
@@ -66,29 +53,23 @@ namespace VCheckViewer.Views.Pages.Login
 
             if(user != null)
             {
-                if (user.NormalizedEmail == Email.Text.ToUpper())
+                if (user.NormalizedEmail == Email.Text.ToUpper() || string.IsNullOrEmpty(user.NormalizedEmail))
                 {
                     newPassword = RandomPasswordGenerator();
 
                     userModel = UserContext.GetUserByID(user.Id);
 
-                    if(userModel != null) { PopupHandler(e, sender); }
-
-                    
+                    if(userModel != null) { PopupHandler(e, sender); }                    
                 }
                 else
                 {
                     ErrorText.Visibility = Visibility.Visible;
-                    //ErrorText.Text = "Wrong email linked to the account, please verify it is the correct email and try again.";
-                    //ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongEmail;
                     ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongUsernameEmail;
                 }
             }
             else
             {
                 ErrorText.Visibility = Visibility.Visible;
-                //ErrorText.Text = "Cannot find user according to Login ID, please verify it is the correct login ID and try again.";
-                //ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongLoginIDRecovery;
                 ErrorText.Text = Properties.Resources.Login_ErrorMessage_WrongUsernameEmail;
             }
         }
@@ -114,7 +95,7 @@ namespace VCheckViewer.Views.Pages.Login
                 parentBorder.BorderBrush = Brushes.Red;
                 parentBorder.ToolTip = Properties.Resources.Setting_ErrorMessage_FiveCharMin;
             }
-            else if (textBox != null && textBox.Name == "Email" && !textBox.Text.Contains("@"))
+            else if (textBox != null && textBox.Name == "Email" && (!textBox.Text.Contains("@") || !textBox.Text.Contains(".")))
             {
                 parentBorder.BorderBrush = Brushes.Red;
                 parentBorder.ToolTip = Properties.Resources.Setting_ErrorMessage_EmailFormat;
@@ -126,8 +107,49 @@ namespace VCheckViewer.Views.Pages.Login
             }
         }
 
+        private async void TestProceedResetPassword(object sender, EventArgs e)
+        {
+            //ConfigurationModel sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
+
+            //var notificationTemplate = TemplateContext.GetTemplateByCodeLang("EN02", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
+            //notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###", userModel.FullName).Replace("###<password>###", newPassword);
+
+            //string sErrorMessage;
+
+            //try
+            //{
+            //    EmailObject sEmail = new EmailObject();
+
+            //    sEmail.SenderEmail = App.SMTP.Sender;
+
+            //    List<string> sRecipientList = new List<string>() { "azwan@svrtech.com.my", "azwan.masri.retes@gmail.com" };
+
+            //    sEmail.RecipientEmail = sRecipientList;
+            //    sEmail.IsHtml = true;
+            //    sEmail.Subject = "[VCheck Viewer] Test";
+            //    sEmail.Body = notificationTemplate.TemplateContent;
+            //    sEmail.SMTPHost = App.SMTP.Host;
+            //    sEmail.PortNo = App.SMTP.Port;
+            //    sEmail.HostUsername = App.SMTP.Username;
+            //    sEmail.HostPassword = App.SMTP.Password;
+            //    sEmail.EnableSsl = true;
+            //    sEmail.UseDefaultCredentials = false;
+
+            //    EmailHelper.SendEmail(sEmail, out sErrorMessage);
+
+            //    if (!String.IsNullOrEmpty(sErrorMessage)) { throw new Exception(sErrorMessage); }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ErrorText.Visibility = Visibility.Visible;
+            //    ErrorText.Text = Properties.Resources.Login_Message_CreatePasswordError;
+            //    App.log.Error("Password Recovery Error >>> ", ex);
+            //}
+        }
+
         private async void ProceedResetPassword(object sender, EventArgs e)
         {
+            if(user == null) { return; }
             var removepassword = await App.UserManager.RemovePasswordAsync(user);
             if(removepassword.Succeeded)
             {
@@ -137,7 +159,6 @@ namespace VCheckViewer.Views.Pages.Login
                 {
                     ConfigurationModel sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
 
-                    //var notificationTemplate = TemplateContext.GetTemplateByCode("EN02");
                     var notificationTemplate = TemplateContext.GetTemplateByCodeLang("EN02", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                     notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###", userModel.FullName).Replace("###<password>###", newPassword);
 
@@ -149,8 +170,9 @@ namespace VCheckViewer.Views.Pages.Login
 
                         sEmail.SenderEmail = App.SMTP.Sender;
 
-                        List<string> sRecipientList = [user.NormalizedEmail];
-
+                        List<string> sRecipientList;
+                        if (string.IsNullOrEmpty(user.NormalizedEmail)) { sRecipientList = ["vcheckvieweradmin@svrtech.com.my"]; }
+                        else { sRecipientList = [user.NormalizedEmail]; }
 
                         sEmail.RecipientEmail = sRecipientList;
                         sEmail.IsHtml = true;
@@ -189,7 +211,6 @@ namespace VCheckViewer.Views.Pages.Login
                     catch (Exception ex)
                     {
                         ErrorText.Visibility = Visibility.Visible;
-                        //ErrorText.Text = "Error occur when creating password. Please contact administrator.";
                         ErrorText.Text = Properties.Resources.Login_Message_CreatePasswordError;
                         App.log.Error("Password Recovery Error >>> ", ex);
                     }
@@ -197,14 +218,12 @@ namespace VCheckViewer.Views.Pages.Login
                 else
                 {
                     ErrorText.Visibility = Visibility.Visible;
-                    //ErrorText.Text = "Error occur when creating password. Please contact administrator.";
                     ErrorText.Text = Properties.Resources.Login_Message_CreatePasswordError;
                 }
             }
             else
             {
                 ErrorText.Visibility = Visibility.Visible;
-                //ErrorText.Text = "Error occur when removing password. Please contact administrator.";
                 ErrorText.Text = Properties.Resources.Login_Message_RemovePasswordError;
             }
             

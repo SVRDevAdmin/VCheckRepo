@@ -1,27 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.VisualBasic.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
+﻿using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using VCheck.Lib.Data.DBContext;
-using VCheck.Lib.Data.Models;
-using VCheckViewer.ViewModels.Windows;
 using VCheckViewer.Views.Pages;
 using VCheckViewer.Views.Pages.Login;
-using Wpf.Ui;
 using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace VCheckViewer.Views.Windows
 {
@@ -31,40 +13,29 @@ namespace VCheckViewer.Views.Windows
     //public partial class Login : INavigationWindow
     public partial class LoginWindow : Window
     {
-        INavigationService _navigationService;
-        IPageService _pageService;
-        int maxLoginAttempt = 5;
-
-
         public static event EventHandler ResetPassword;
         public static event EventHandler GoToMainWindow;
 
-        public LoginWindow
-        (
-        //INavigationService navigationService,
-        //IPageService pageService
-        )
+        public LoginWindow()
         {
             SystemThemeWatcher.Watch(this);
             InitializeComponent();
-            //_navigationService = navigationService;
-            //_pageService = pageService;            
 
-            if (App.LoginWindowNotInitialized)
-            {
-                LoginPage.GoToResetPasswordPage += new EventHandler(GoToResetPasswordPage);
-                ResetPasswordPage.GoToLoginPage += new EventHandler(GoToLoginPage);
-                PasswordRecoveryPage.GoToLoginPage += new EventHandler(GoToLoginPage);
+            //WindowStyle = WindowStyle.None;
+            //WindowState = WindowState.Maximized;
+            //ResizeMode = ResizeMode.NoResize;
+            //Topmost = true;
 
-                GoToMainWindow = null;
-                GoToMainWindow += new EventHandler(GoToMainWindowProcess);
+            LoginPage.GoToResetPasswordPage += new EventHandler(GoToResetPasswordPage);
+            ResetPasswordPage.GoToLoginPage += new EventHandler(GoToLoginPage);
+            PasswordRecoveryPage.GoToLoginPage += new EventHandler(GoToLoginPage);
 
-                //popup
-                PasswordRecoveryPage.Popup += new EventHandler(OpenPopup);
-                App.Popup += new EventHandler(GoToLoginPage);
+            GoToMainWindow = null;
+            GoToMainWindow += new EventHandler(GoToMainWindowProcess);
 
-                App.LoginWindowNotInitialized = false;
-            }
+            //popup
+            PasswordRecoveryPage.Popup += new EventHandler(OpenPopup);
+            App.Popup += new EventHandler(GoToLoginPage);
 
         }
 
@@ -77,7 +48,6 @@ namespace VCheckViewer.Views.Windows
 
         public void GoToResetPasswordPage(object sender, EventArgs e)
         {
-            //LoginFrame.Content = new ResetPasswordPage();
             LoginFrame.Content = new PasswordRecoveryPage();
         }
 
@@ -106,7 +76,6 @@ namespace VCheckViewer.Views.Windows
             {
                 window.Close();
             }
-            //Close();
         }
 
         public void OpenPopup(object sender, EventArgs e)
@@ -140,19 +109,17 @@ namespace VCheckViewer.Views.Windows
             }
 
             Run bold = new Run();
-            //bold.Text = "'Reset Password'";
             bold.Text = Properties.Resources.Popup_Message_PasswordRecoveredP2;
 
             bold.FontWeight = FontWeights.Bold;
 
             PopupContent.Text = "";
 
-            var firstpartSection = (Properties.Resources.Popup_Message_PasswordRecoveredP1).Split("<next line>");
+            var firstpartSection = (Properties.Resources.Popup_Message_PasswordRecoveredP1).Split("<nextline>");
+            var combineFirstpartSection = firstpartSection.Count() == 1 ? firstpartSection[0] : firstpartSection[0] + "\r\n \r\n" + firstpartSection[1];
 
-            //PopupContent.Inlines.Add("We have send you a temporary password to your email. You can use it to log in. \r\n \r\n Once you are logged in, you can change it to your preferred password in ");
-            PopupContent.Inlines.Add(firstpartSection[0] + "\r\n \r\n" + firstpartSection[1]);
+            PopupContent.Inlines.Add(combineFirstpartSection);
             PopupContent.Inlines.Add(bold);
-            //PopupContent.Inlines.Add(" section");
             PopupContent.Inlines.Add(Properties.Resources.Popup_Message_PasswordRecoveredP3);
         }
 
@@ -195,5 +162,12 @@ namespace VCheckViewer.Views.Windows
             }
         }
 
+        private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt && e.SystemKey == Key.F4)
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

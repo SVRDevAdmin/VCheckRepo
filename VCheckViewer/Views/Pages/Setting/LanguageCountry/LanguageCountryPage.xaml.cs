@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Culture;
@@ -27,7 +17,6 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
     {
         CountryDBContext sContext = App.GetService<CountryDBContext>();
         MasterCodeDataDBContext MasterCodeDataContext = App.GetService<MasterCodeDataDBContext>();
-        //ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
 
         ConfigurationModel currentCountry;
         ConfigurationModel currentLanguage;
@@ -44,14 +33,14 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
             if (App.MainViewModel.CurrentUsers.Role == "Lab User")
             {
                 btnUserSetting.IsEnabled = false;
-                btnSettings.IsEnabled = false;
-                btnDeviceSetting.IsEnabled = false;
+                //btnSettings.IsEnabled = false;
+                //btnDeviceSetting.IsEnabled = false;
             }
             else
             {
                 btnUserSetting.IsEnabled = true;
-                btnSettings.IsEnabled = true;
-                btnDeviceSetting.IsEnabled = true;
+                //btnSettings.IsEnabled = true;
+                //btnDeviceSetting.IsEnabled = true;
             }
 
             App.isLanguagePage = true;
@@ -132,12 +121,11 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
 
             languageSelected = radioButton.Tag.ToString();
 
-            //var getSelectedLanguage = (TextBlock)VisualTreeHelper.GetChild((DockPanel)radioButton.Content, 1);
-            //SelectedLanguage.Text = getSelectedLanguage.Text;   
-
             System.Globalization.CultureInfo sZHCultureNew = new(languageSelected);
 
             CultureResources.ChangeCulture(sZHCultureNew);
+
+            App.TempChangeLanguageHandler(e, sender);
 
             LanguageListView.SelectedItems.Clear();
 
@@ -186,10 +174,6 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
 
             CountryListView.SelectedItem = item;
 
-            //CountrySearchBar_KeyUp(null, null);
-
-            //SelectedCountry.Text = item.Header.ToString();
-
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -205,7 +189,6 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
                 {
                     ErrorText.Visibility = Visibility.Hidden;
 
-                    //App.MainViewModel.ConfigurationModel = configurationModels;
                     currentCountry.ConfigurationValueTemp = countrySelected;
                     currentLanguage.ConfigurationValueTemp = languageSelected;
 

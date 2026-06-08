@@ -22,19 +22,29 @@ namespace VCheck.Lib.Data.Models
         public String? Species { get; set; }
         public String? OwnerName { get; set; }
         public String? InchargePerson { get; set; }
+        public DateTime? PatientDOB { get; set; }
         public int? ScheduleTestStatus { get; set; }
         public int? TestCompleted { get; set; }
         public String? ScheduleUniqueID { get; set; }
+        public String? SentToAnalyzer { get; set; }
+        public String? LocationID { get; set; }
         public DateTime? CreatedDate { get; set; }
         public String? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public String? UpdatedBy { get; set; }
-        public String? LocationID { get; set; }
     }
 
     public class ScheduledTestModelExtended
     {
         public ScheduledTestModel Schedule { get; set; }
-        public string[]? Parameters { get; set; }
+        //public string[]? Parameters { get; set; }
+        //public string[]? Analyzers { get; set; }
+        public List<TestIDAnalyzers> IDAnalyzers { get; set; }
+    }
+
+    public class TestIDAnalyzers
+    {
+        public string TestID { get; set; }
+        public string Analyzers { get; set; }
     }
 }

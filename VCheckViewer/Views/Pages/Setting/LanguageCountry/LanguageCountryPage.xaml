@@ -15,6 +15,45 @@
             <Setter Property="Foreground" Value="{DynamicResource Themes_SearchFieldFontColor}" />
             <Setter Property="Padding" Value="5, 2, 0, 0" />
         </Style>
+
+        <!-- Custom RadioButton Style -->
+        <Style TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <StackPanel Orientation="Horizontal">
+                            <!-- Outer Border -->
+                            <Border x:Name="OuterBorder"
+                                    Width="16" Height="16"
+                                    CornerRadius="8"
+                                    BorderThickness="1"
+                                    BorderBrush="{DynamicResource Themes_SearchFieldFontColor}"
+                                    Background="White"
+                                    Margin="0,0,5,0">
+                                <!-- Inner Circle -->
+                                <Ellipse x:Name="InnerCircle"
+                                         Fill="Transparent"
+                                         Width="8" Height="8"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
+                            </Border>
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <!-- Change border color when checked -->
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="Blue"/>
+                                <Setter TargetName="InnerCircle" Property="Fill" Value="Blue"/>
+                            </Trigger>
+                            <!-- Change border color on hover -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="Blue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
     
     <Grid Margin="0,10,0,10">
@@ -28,7 +67,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
+        <!--<Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
@@ -54,6 +93,28 @@
                     <Button Content="{Binding Path=Report_Label_Report, Source={StaticResource Resources}}" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
                 </Border>
                 <Border Grid.Column="5" Margin="2">
+                    <Button Content="{Binding Path=ClinicInfo_Label_ClinicInfo, Source={StaticResource Resources}}" Name="btnClinic" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ClinicInfoPage"></Button>
+                </Border>
+            </Grid>
+        </Border>-->
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Margin="2">
+                    <Button Name="btnUserSetting" Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="UserPage"></Button>
+                </Border>
+                <Border Grid.Column="1" Margin="2">
+                    <Button Content="{Binding Path=Setting_Label_LanguageCountry, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+                <Border Grid.Column="2" Margin="2">
+                    <Button Content="{Binding Path=Report_Label_Report, Source={StaticResource Resources}}" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
+                </Border>
+                <Border Grid.Column="3" Margin="2">
                     <Button Content="{Binding Path=ClinicInfo_Label_ClinicInfo, Source={StaticResource Resources}}" Name="btnClinic" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ClinicInfoPage"></Button>
                 </Border>
             </Grid>
@@ -109,7 +170,6 @@
                         <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Margin="10,0,10,0" BorderThickness="1" BorderBrush="{DynamicResource Themes_SearchFieldFontColor}" CornerRadius="7">
                             <Border Background="{DynamicResource Themes_CountryLangSearchBackground}" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangSearchBackground}">
                                 <Grid>
-                                    <!--<ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->
                                     <Image Source="{DynamicResource Themes_SearchIcon}" Width="24" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
 
                                     <TextBox x:Name="CountrySearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" KeyUp="CountrySearchBar_KeyUp" Style="{StaticResource TextBoxStyle}"/>
@@ -133,7 +193,6 @@
                             </ListView>
                         </Border>
                     </Grid>
-                    <!--<ComboBox Name="CountryListView" VerticalAlignment="Top" IsEditable="True" IsTextSearchEnabled="True" IsDropDownOpen="True" VerticalContentAlignment="Stretch" StaysOpenOnEdit="True"></ComboBox>-->
                 </Border>
             </Grid>
         </Border>

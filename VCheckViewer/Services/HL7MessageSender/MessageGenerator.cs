@@ -1,9 +1,9 @@
-﻿using System.Text;
-using VCheck.Lib.Data;
+﻿using Newtonsoft.Json;
+using System.Text;
+using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
-using VCheckViewer.Views.Pages.Schedule;
 using VCheckViewerAPI.Lib.Object;
 using Message = VCheckViewerAPI.Lib.Object.Message;
 
@@ -12,9 +12,11 @@ namespace VCheckViewer.Services.HL7MessageSender
     public class MessageGenerator
     {
         public static ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
+        public static int MessageType = 0;
 
-        public static String GenerateOMLO33Message(ScheduledTestModel info)
+        public static String GenerateOMLO33Message(List<(string, string)> testCodeName, ScheduledTestModel info)
         {
+            MessageType = 1;
             var message = new HL7MessageModel();
             message.MSH = new MSHModel()
             {
@@ -32,12 +34,11 @@ namespace VCheckViewer.Services.HL7MessageSender
 
             
             var sLocation = configDBContext.GetConfigurationData("ClinicName").FirstOrDefault();
-            //var sLocation = LocationRepository.GetLocationByID(ConfigSettings.GetConfigurationSettings(), info.LocationID);
 
             message.PID = new PIDModel()
             {
                 PatientID = info.PatientID,
-                Hospital = sLocation.ConfigurationKey,
+                Hospital = sLocation.ConfigurationValue,
                 PetName = info.PatientName,
                 BirthDate = DateTime.Parse("2024-01-01"),
                 Gender = info.Gender,
@@ -70,8 +71,100 @@ namespace VCheckViewer.Services.HL7MessageSender
                 TransactionDatetime = DateTime.Now
             };
 
-            string CartridgeID = "DC001B";
-            string CartridgeName = "Comprehensive 17";
+            //string CartridgeID = "DC001B";
+            //string CartridgeName = "Comprehensive 17";
+            //string CartridgeID = testIDAnalyzers.FirstOrDefault().TestID;
+            //string CartridgeName = info.ScheduledTestType;
+
+            message.OBR = new OBRModel()
+            {
+                PlacerOrderNo = Guid.NewGuid().ToString(),
+                //UniversalServiceID = CartridgeID + "^" + CartridgeName + "^VCHECK"
+            };
+
+            List<OBXModel> obx = new List<OBXModel>()
+            {
+                new OBXModel()
+                {
+                    SetID = "1", ValueType = "NM", ObservationIdentifier = "^Age", ObservationValue = "24", Units = "Months", ObservationResultStatus = "F"
+                },
+                new OBXModel()
+                {
+                    SetID = "2", ValueType = "NM", ObservationIdentifier = "^Weight", ObservationValue = "5.4", Units = "kg", ObservationResultStatus = "F"
+                }
+            };
+            message.OBX = obx;
+
+
+            List<NTEModel> nte = new List<NTEModel>()
+            {
+                new NTEModel()
+                {
+                    SetID = "1", Comment = "24^Months", CommentType = "Age"
+                },
+                new NTEModel()
+                {
+                    SetID = "2", Comment = "5.4^Kg", CommentType = "Weight"
+                }
+            };
+            message.NTE = nte;
+
+            var completeHL7 = "";
+
+            foreach(var testInfo in testCodeName)
+            {
+                completeHL7 += "\n\n" + GenerateMessage(message, testInfo.Item1, testInfo.Item2);
+            }
+
+            //return GenerateMessage(message);
+            return completeHL7;
+        }
+
+        public static String GenerateORMO01Message(List<TestIDAnalyzers> testIDAnalyzers, ScheduledTestModel info)
+        {
+            MessageType = 2;
+            var message = new HL7MessageModel();
+            message.MSH = new MSHModel()
+            {
+                SendingApplication = "LIS",
+                SendingFacility = "BIONOTE",
+                ReceivingApplication = "VCHECK H6",
+                ReceivingFacility = "LAB",
+                MessageType = "ORM^O01",
+                VersionID = "2.3.1",
+                AcceptAckType = "NE",
+                AppAckType = "AL",
+                CharacterSet = "UTF-8",
+                //MessageProfileIdentifier = "LAB-28^IHE"
+            };
+
+
+            var sLocation = configDBContext.GetConfigurationData("ClinicName").FirstOrDefault();
+            var gender = info.Gender == "Male" ? "M" : "F";
+            message.PID = new PIDModel()
+            {
+                PatientID = info.PatientID,
+                Hospital = sLocation.ConfigurationValue,
+                PetName = info.PatientName,
+                BirthDate = DateTime.Parse("2024-01-01"),
+                Gender = gender,
+                OwnerName = info.OwnerName,
+                Species = info.Species,
+                Breed = "NA"
+            };
+
+            message.ORC = new ORCModel()
+            {
+                OrderControl = "NW",
+                PlacerOrderNo = "1",
+                PlacerGroupNo = "123456789",
+                TransactionDatetime = DateTime.Now
+            };
+
+            //string CartridgeID = "DC001B";
+            //string CartridgeName = "Comprehensive 17";
+            string CartridgeID = testIDAnalyzers.FirstOrDefault().TestID;
+            string CartridgeName = info.ScheduledTestType;
 
             message.OBR = new OBRModel()
             {
@@ -90,13 +183,26 @@ namespace VCheckViewer.Services.HL7MessageSender
                     SetID = "2", ValueType = "NM", ObservationIdentifier = "^Weight", ObservationValue = "5.4", Units = "kg", ObservationResultStatus = "F"
                 }
             };
-
             message.OBX = obx;
 
-            return GenerateMessage(message);
+
+            List<NTEModel> nte = new List<NTEModel>()
+            {
+                new NTEModel()
+                {
+                    SetID = "1", Comment = "24^Months", CommentType = "Age"
+                },
+                new NTEModel()
+                {
+                    SetID = "2", Comment = "5.4^Kg", CommentType = "Weight"
+                }
+            };
+            message.NTE = nte;
+
+            return GenerateMessageORM(message);
         }
 
-        public static String GenerateMessage(HL7MessageModel message)
+        public static String GenerateMessage(HL7MessageModel message, string CartridgeID, string CartridgeName)
         {
             StringBuilder frame = new StringBuilder();
             frame.Append((char)0x0b);
@@ -151,7 +257,6 @@ namespace VCheckViewer.Services.HL7MessageSender
             response = new Message();
             Segment spm = new Segment("SPM");
             spm.Field(1, message.SPM.SetID);
-            //spm.Field(4, "Serum^Respiratory^HL70487");
             spm.Field(4, message.SPM.SpecimenType);
             spm.Field(11, message.SPM.SpecimentRole); //optional
             response.Add(spm);
@@ -171,9 +276,7 @@ namespace VCheckViewer.Services.HL7MessageSender
             Segment orc = new Segment("ORC");
             orc.Field(1, message.ORC.OrderControl);
             orc.Field(2, message.ORC.PlacerOrderNo);
-            //orc.Field(4, "12345^IHE_OM_OP^1.3.6.1.4.1.12559.11.1.2.2.4.4^ISO");
             orc.Field(4, message.ORC.PlacerGroupNo);
-            //orc.Field(5, "IP");
             orc.Field(9, message.ORC.TransactionDatetime.ToString("yyyyMMddhhmmss"));
             response.Add(orc);
             frame.Append(response.SerializeMessage());
@@ -183,7 +286,8 @@ namespace VCheckViewer.Services.HL7MessageSender
             response = new Message();
             Segment obr = new Segment("OBR");
             obr.Field(2, message.OBR.PlacerOrderNo); //optional
-            obr.Field(4, message.OBR.UniversalServiceID);
+            //obr.Field(4, message.OBR.UniversalServiceID);
+            obr.Field(4, CartridgeID + "^" + CartridgeName + "^VCHECK");
             response.Add(obr);
             frame.Append(response.SerializeMessage());
             frame.Append((char)0x0d);
@@ -204,6 +308,87 @@ namespace VCheckViewer.Services.HL7MessageSender
                 frame.Append(response.SerializeMessage());
                 frame.Append((char)0x0d);
             }
+
+            frame.Append((char)0x1c);
+            frame.Append((char)0x0d);
+
+            return frame.ToString();
+        }
+
+        public static String GenerateMessageORM(HL7MessageModel message)
+        {
+            StringBuilder frame = new StringBuilder();
+            frame.Append((char)0x0b);
+
+            // ------------- Message Header ------------//
+            Message response = new Message();
+            Segment msh = new Segment("MSH");
+            msh.Field(1, "|");
+            msh.Field(2, "^~\\&");
+            msh.Field(3, message.MSH.SendingApplication);
+            msh.Field(4, message.MSH.SendingFacility);
+            msh.Field(5, message.MSH.ReceivingApplication);
+            msh.Field(6, message.MSH.ReceivingFacility);
+            msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+            msh.Field(9, message.MSH.MessageType);
+            msh.Field(10, "9");
+            msh.Field(11, "P");
+            msh.Field(18, message.MSH.CharacterSet);
+            response.Add(msh);
+            frame.Append(response.SerializeMessage());
+            frame.Append((char)0x0d);
+
+            // ------------- Patient Identification Segment ------------//
+            response = new Message();
+            Segment pid = new Segment("PID");
+            pid.Field(1, "1");
+            pid.Field(2, "1001");
+            pid.Field(3, "1901");
+            pid.Field(4, "01");
+            pid.Field(5, message.PID.PetName);
+            pid.Field(6, "Kevin");
+            pid.Field(7, message.PID.BirthDate.ToString("yyyyMMddhhmmss"));
+            pid.Field(8, "M");
+            pid.Field(9, "O");
+            pid.Field(11, "GUILIN");
+            pid.Field(12, "541000");
+            pid.Field(13, "12345678900");
+            pid.Field(14, "18");
+            pid.Field(15, "Y");
+            pid.Field(18, "breed");
+            pid.Field(19, "hospital");
+            pid.Field(23, "0");
+            pid.Field(26, "Veter");
+            pid.Field(27, "CHINA");
+            pid.Field(28, "2");
+            response.Add(pid);
+            frame.Append(response.SerializeMessage());
+            frame.Append((char)0x0d);
+
+            // ------------- Common Order Segment ------------//
+            response = new Message();
+            Segment orc = new Segment("ORC");
+            orc.Field(1, message.ORC.OrderControl);
+            orc.Field(2, message.ORC.PlacerOrderNo);
+            orc.Field(3, "123456789");
+            orc.Field(4, "Barcode");
+            orc.Field(11, "Blood");
+            orc.Field(15, DateTime.Now.ToString("yyyyMMddhhmmss"));
+            orc.Field(17, "Department");
+            orc.Field(21, "OrderingProvider");
+            orc.Field(22, "1234567777");
+            response.Add(orc);
+            frame.Append(response.SerializeMessage());
+            frame.Append((char)0x0d);
+
+            // ------------- Observation Request Segment ------------//
+            response = new Message();
+            Segment cti = new Segment("CTI");
+            cti.Field(1, "Blood^CBC^DIFF");
+            cti.Field(2, "ABC^1");
+            response.Add(cti);
+            frame.Append(response.SerializeMessage());
+            frame.Append((char)0x0d);
 
             frame.Append((char)0x1c);
             frame.Append((char)0x0d);

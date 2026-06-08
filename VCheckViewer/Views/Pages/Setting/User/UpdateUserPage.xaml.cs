@@ -1,26 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
-using VCheckViewer.ViewModels.Windows;
 using TextBox = System.Windows.Controls.TextBox;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Brushes = System.Windows.Media.Brushes;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace VCheckViewer.Views.Pages.Setting.User
 {
@@ -60,7 +44,6 @@ namespace VCheckViewer.Views.Pages.Setting.User
             SelectedcbRoles = cbRoles.Where(a => (string)a.Content == userInfoUpdatePage.Role).FirstOrDefault();
             SelectedcbStatus = cbStatus.Where(a => (string)a.Content == userInfoUpdatePage.Status).FirstOrDefault();
 
-            //Surname.Text = userInfo.FirstName;
             FullName.Text = userInfoUpdatePage.FullName;
             StaffID.Text = userInfoUpdatePage.EmployeeID;
             RegistrationNo.Text = userInfoUpdatePage.RegistrationNo;
@@ -70,15 +53,15 @@ namespace VCheckViewer.Views.Pages.Setting.User
 
             if (App.MainViewModel.CurrentUsers.Role == "Lab User")
             {
-                btnSettings.IsEnabled = false;
-                btnDeviceSetting.IsEnabled = false;
+                //btnSettings.IsEnabled = false;
+                //btnDeviceSetting.IsEnabled = false;
 
                 UserPage.Visibility = Visibility.Collapsed;
             }
             else
             {
-                btnSettings.IsEnabled = true;
-                btnDeviceSetting.IsEnabled = true;
+                //btnSettings.IsEnabled = true;
+                //btnDeviceSetting.IsEnabled = true;
 
                 UserPage.DataContext = App.MainViewModel;
 
@@ -119,15 +102,13 @@ namespace VCheckViewer.Views.Pages.Setting.User
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                //parent.ToolTip = "This is a mandatory field.";
                 parent.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
                 CheckAllValueExisted();
             }
-            else if (textBox != null && textBox.Name == "EmailAddress" && !textBox.Text.Contains("@"))
+            else if (textBox != null && textBox.Name == "EmailAddress" && (!textBox.Text.Contains("@") || !textBox.Text.Contains(".")))
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                //parent.ToolTip = "This field must include “@” symbol.";
                 parent.ToolTip = Properties.Resources.Setting_ErrorMessage_EmailFormat;
                 CheckAllValueExisted();
             }
@@ -135,7 +116,6 @@ namespace VCheckViewer.Views.Pages.Setting.User
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                //parent.ToolTip = "This field must contain at least 2 characters.";
                 parent.ToolTip = Properties.Resources.Setting_ErrorMessage_TwoCharMin;
                 CheckAllValueExisted();
             }
@@ -143,7 +123,6 @@ namespace VCheckViewer.Views.Pages.Setting.User
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                //parent.ToolTip = "This field must contain at least 5 characters.";
                 parent.ToolTip = Properties.Resources.Setting_ErrorMessage_FiveCharMin;
                 CheckAllValueExisted();
             }
@@ -151,7 +130,6 @@ namespace VCheckViewer.Views.Pages.Setting.User
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                //parent.ToolTip = "Please key in correct date format.";
                 parent.ToolTip = Properties.Resources.Setting_ErrorMessage_DateFormat;
                 CheckAllValueExisted();
             }
@@ -166,8 +144,6 @@ namespace VCheckViewer.Views.Pages.Setting.User
 
         private void CheckAllValueExisted()
         {
-            //DateTime temp;
-
             if (Convert.ToString((StaffID.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Title.Parent as Border).ToolTip) == "No issue" && Convert.ToString((FullName.Parent as Border).ToolTip) == "No issue" && Convert.ToString((RegistrationNo.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Gender.Parent as Border).ToolTip) == "No issue" && Convert.ToString((DateOfBirth.Parent as Border).ToolTip) == "No issue" && Convert.ToString((EmailAddress.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Status.Parent as Border).ToolTip) == "No issue" && Convert.ToString((Role.Parent as Border).ToolTip) == "No issue")
             {
                 Update.IsEnabled = true;
@@ -187,8 +163,6 @@ namespace VCheckViewer.Views.Pages.Setting.User
                 UserId = userInfoUpdatePage.UserId,
                 EmployeeID = StaffID.Text,
                 Title = Title.Text,
-                //FirstName = Surname.Text,
-                //LastName = LastName.Text,
                 FullName = FullName.Text,
                 RegistrationNo = RegistrationNo.Text,
                 Gender = ((ComboBoxItem)Gender.SelectedItem).Tag.ToString(),
@@ -222,25 +196,6 @@ namespace VCheckViewer.Views.Pages.Setting.User
             {
                 ErrorText.Visibility = Visibility.Visible;
             }
-
-            //App.MainViewModel.Origin = "UserUpdateRow";
-
-            //App.MainViewModel.Users = user;
-
-            //App.MainViewModel.Users.UserId = userInfo.UserId;
-            //App.MainViewModel.Users.EmployeeID = StaffID.Text;
-            //App.MainViewModel.Users.Title = Title.Text;
-            //App.MainViewModel.Users.FullName = FullName.Text;
-            //App.MainViewModel.Users.RegistrationNo = RegistrationNo.Text;
-            //App.MainViewModel.Users.Gender = ((ComboBoxItem)Gender.SelectedItem).Tag.ToString();
-            //App.MainViewModel.Users.DateOfBirth = Convert.ToDateTime(DateOfBirth.Text).ToString("yyyy-MM-dd");
-            //App.MainViewModel.Users.EmailAddress = EmailAddress.Text;
-            //App.MainViewModel.Users.StatusID = Convert.ToInt32(((ComboBoxItem)Status.SelectedItem).Tag.ToString());
-            //App.MainViewModel.Users.NewStatus = Status.Text;
-            //App.MainViewModel.Users.RoleID = ((ComboBoxItem)Role.SelectedItem).Tag.ToString();
-            //App.MainViewModel.Users.Role = Role.Text;
-
-            //App.PopupHandler(e, sender);
         }
 
         private void LanguageCountry(object sender, RoutedEventArgs e)

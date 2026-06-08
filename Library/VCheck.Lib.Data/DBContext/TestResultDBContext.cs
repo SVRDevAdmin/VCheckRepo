@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using MySql.Data.MySqlClient;
 using VCheck.Lib.Data.Models;
 
 namespace VCheck.Lib.Data.DBContext
@@ -17,8 +16,11 @@ namespace VCheck.Lib.Data.DBContext
 
         public DbSet<TestResultModel> txn_testResults { get; set; }
         public DbSet<TestResultDetailsModel> txn_testresults_details { get; set; }
+        public DbSet<TestResultGraphModel> txn_testresults_graphs { get; set; }
         public DbSet<TestListModel> mst_testlist { get; set; }
         public DbSet<ParametersModel> mst_parameters { get; set; }
+        public DbSet<TestResultNotes> tbltestanalyze_results_notes { get; set; }
+        public DbSet<TestResultSpecimenContainer> tbltestanalyze_results_specimencontainer { get; set; }
 
         public TestResultDBContext(IConfiguration config)
         {

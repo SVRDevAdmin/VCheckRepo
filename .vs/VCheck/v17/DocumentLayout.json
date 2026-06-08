@@ -1,15 +1,20 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E1FA9E6F-C83C-47D7-91A8-59A90DB41E08}|VCheck.Interface.API\\VCheck.Interface.API.csproj|c:\\users\\azwan\\work\\repo\\git repo\\vcheckrepo\\vcheck.interface.api\\vcheckapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E1FA9E6F-C83C-47D7-91A8-59A90DB41E08}|VCheck.Interface.API\\VCheck.Interface.API.csproj|solutionrelative:vcheck.interface.api\\vcheckapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
-      "VerticalTabListWidth": 219,
+      "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 232,
-          "SelectedChildIndex": -1,
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +27,23 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "VCheckAPI.cs",
+              "DocumentMoniker": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheck.Interface.API\\VCheckAPI.cs",
+              "RelativeDocumentMoniker": "VCheck.Interface.API\\VCheckAPI.cs",
+              "ToolTip": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheck.Interface.API\\VCheckAPI.cs",
+              "RelativeToolTip": "VCheck.Interface.API\\VCheckAPI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T00:55:43.22Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 using log4net;
 using Microsoft.Extensions.Logging;
 using System.Reflection;

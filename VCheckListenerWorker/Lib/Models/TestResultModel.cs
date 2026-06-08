@@ -214,12 +214,14 @@ namespace VCheckListenerWorker.Lib.Models
         //public string? TestResultStatus { get; set; }
         //public Decimal? TestResultValue { get; set; }
         //public string? TestResultRules { get; set; }
+        public string? DeviceSerialNo { get; set; }
+        public int IsDeleted { get; set; }
+        public long Analyze_TableRowID { get; set; }
         public string PMSFunction { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public string? UpdatedBy { get; set; }
-        public string? DeviceSerialNo { get; set; }
     }
 
     public class txn_testresults_details
@@ -234,7 +236,27 @@ namespace VCheckListenerWorker.Lib.Models
         public string? TestResultValue { get; set; }
         public string? TestResultUnit { get; set; }
         public string? ReferenceRange {  get; set; }
+        public string? MeasuringRange { get; set; }
         public string? Interpretation { get; set; }
+    }
+
+    public class txn_testresults_graphs
+    {
+        [Key]
+        public long ID { get; set; }
+        public long TestResultRowID { get; set; }
+        public string? FileName { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public string? UpdatedBy { get; set; }
+
+    }
+
+    public class txn_testresults_graphsExtended
+    {
+        public string? FileName { get; set; }
+        public string Base64String { get; set; }
     }
 
     public class txn_notification
@@ -307,6 +329,7 @@ namespace VCheckListenerWorker.Lib.Models
         public string? Species { get; set; }
         public string? OwnerName { get; set; }
         public string? InchargePerson { get; set; }
+        public DateTime? PatientDOB { get; set; }
         public int? ScheduleTestStatus { get; set; }
         public int? TestCompleted { get; set; }
         public string? ScheduleUniqueID { get; set; }
@@ -332,5 +355,33 @@ namespace VCheckListenerWorker.Lib.Models
         public DateTime? UpdatedDate { get; set; }
         public string? UpdatedBy { get; set; }
         public int? DeviceTypeID { get; set; }
+    }
+
+    public class DeviceTypeModel
+    {
+        [Key]
+        public int id { get; set; }
+        public string? TypeName { get; set; }
+        public string? ParameterType { get; set; }
+        public int? Status { get; set; }
+        public int? SeqNo { get; set; }
+        public int? TwoWayCommunication { get; set; }
+        public int? PosNegRequired { get; set; }
+        public string? ImageSource { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public string? CreatedBy { get; set; }
+    }
+
+    public class TestResultReferenceRangeModel
+    {
+        [Key]
+        public long ID { get; set; }
+        public string? Parameter { get; set; }
+        public string? Analyzer { get; set; }
+        public string? Species { get; set; }
+        public string? AgeGroup { get; set; }
+        public string? NormalGrayZoneAbnormal { get; set; }
+        public string? LowNormalHigh { get; set; }
+        public string? MeasuringRange { get; set; }
     }
 }

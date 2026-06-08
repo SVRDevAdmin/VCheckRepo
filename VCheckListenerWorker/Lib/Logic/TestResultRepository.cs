@@ -2,19 +2,21 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
+using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using VCheckListenerWorker.Lib.DBContext;
 using VCheckListenerWorker.Lib.Models;
-using ZstdSharp.Unsafe;
 
 namespace VCheckListenerWorker.Lib.Logic
 {
     public class TestResultRepository
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
+        public static string graphFolder = Host.CreateApplicationBuilder().Configuration.GetSection("FileOutput:Graph").Value;
 
         /// <summary>
         /// Insert Test Result Raw Data
@@ -157,18 +159,38 @@ namespace VCheckListenerWorker.Lib.Logic
         /// <param name="sTestResult"></param>
         /// <param name="sTestResultDetail"></param>
         /// <returns></returns>
-        public static Boolean createTestResultsMultipleParam(txn_testresults sTestResult, List<txn_testresults_details> sTestResultDetail)
+        public static List<txn_testresults_details> createTestResultsMultipleParam(txn_testresults sTestResult, List<txn_testresults_details> sTestResultDetail, out txn_testresults sCurrentTestResult, List<txn_testresults_graphsExtended> sTestResultGraph = null)
         {
-            Boolean isSuccess = false;
+            string[] cCortisolParameter = { "Pre-ACTH", "Post-ACTH", "Pre-dose(L)", "Post-4Hours(L)", "Post-8Hours(L)", "Pre-dose(H)", "Post-4Hours(H)", "Post-8Hours(H)" };
+            string[] ignoreParameter = { "cCortisol", "Pre-ACTH", "Pre-dose(L)", "Pre-dose(H)" };
 
             try
             {
+                if (sTestResult.TestResultType == "cCortisol")
+                {
+                    var sCurrentParameter = sTestResultDetail.Select(x => x.TestParameter).FirstOrDefault();
+
+                    if (!ignoreParameter.Contains(sCurrentParameter))
+                    {
+                        var currentParameterIndex = Array.IndexOf(cCortisolParameter, sCurrentParameter);
+                        var sPreviousParameter = cCortisolParameter[currentParameterIndex - 1];
+
+                        var sTestResultDetailTemp = UpdateCortisolResult(sPreviousParameter, sCurrentParameter, sTestResult, sTestResultDetail, out sCurrentTestResult);
+
+                        if (sTestResultDetailTemp != null && sTestResultDetailTemp.Count() > 0)
+                        {
+                            return sTestResultDetailTemp;
+                        }
+                    }
+                }
+
                 using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
                 {
+                    sCurrentTestResult = sTestResult;
                     ctx.txn_Testresults.Add(sTestResult);
                     ctx.SaveChanges();
 
-                    foreach(var d in sTestResultDetail)
+                    foreach (var d in sTestResultDetail)
                     {
                         d.TestResultRowID = sTestResult.ID;
 
@@ -176,16 +198,147 @@ namespace VCheckListenerWorker.Lib.Logic
                         ctx.SaveChanges();
                     }
 
-                    isSuccess = true;
+                    if (sTestResultGraph != null && sTestResultGraph.Count() > 0)
+                    {
+                        if (!Directory.Exists(graphFolder + sTestResult.ID))
+                        {
+                            Directory.CreateDirectory(graphFolder + sTestResult.ID);
+                        }
+
+                        foreach (var d in sTestResultGraph)
+                        {
+                            var graph = new txn_testresults_graphs() { TestResultRowID = sTestResult.ID, FileName = d.FileName, CreatedDate = DateTime.Now, CreatedBy = "VCheckViewer Listener" };
+                            ctx.txn_testresults_graphs.Add(graph);
+
+                            byte[] imageBytes = Convert.FromBase64String(d.Base64String);
+
+                            File.WriteAllBytes(graphFolder + sTestResult.ID + "\\" + d.FileName, imageBytes);
+                        }
+                        ctx.SaveChanges();
+                    }
+
+                    return sTestResultDetail;
                 }
+
+                //using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                //{
+                //    var existingTest = ctx.txn_Testresults.FirstOrDefault(x => x.CreatedDate > MinimumDatetime && x.TestResultType == sTestResult.TestResultType && x.PatientID == sTestResult.PatientID && x.IsDeleted == 0);
+
+                //    if(existingTest != null && existingTest.ID != 0)
+                //    {
+                //        existingTest.TestResultDateTime = sTestResult.TestResultDateTime;
+                //        existingTest.OverallStatus = sTestResult.OverallStatus;
+                //        existingTest.UpdatedDate = DateTime.Now;
+                //        existingTest.UpdatedBy = "VCheckViewer Listener";
+
+                //        ctx.txn_Testresults.Update(existingTest);
+                //        ctx.SaveChanges();
+
+                //        var existingTestDetails = ctx.txn_testresults_details.Where(x => x.TestResultRowID == existingTest.ID).ToList();
+                //        var existingTestDetails_namelist = existingTestDetails.Select(x => x.TestParameter);
+                //        var sTestResultDetail_NotExistNamelist = sTestResultDetail.Where(x => !existingTestDetails_namelist.Contains(x.TestParameter));
+                //        var sTestResultDetail_ExistNamelist = sTestResultDetail.Where(x => existingTestDetails_namelist.Contains(x.TestParameter));
+
+                //        var existingTestDetailsGraph = ctx.txn_testresults_graphs.Where(x => x.TestResultRowID == existingTest.ID).ToList();
+                //        var existingTestDetailsGraph_nameList = existingTestDetailsGraph.Select(x => x.FileName);
+                //        var existingTestDetailsGraph_NotExistNameList = existingTestDetailsGraph_nameList != null ? sTestResultGraph.Where(x => !existingTestDetailsGraph_nameList.Contains(x.FileName)) : new List<txn_testresults_graphsExtended>();
+                //        var existingTestDetailsGraph_ExistNameList = existingTestDetailsGraph_nameList != null ? sTestResultGraph.Where(x => existingTestDetailsGraph_nameList.Contains(x.FileName)) : new List<txn_testresults_graphsExtended>();
+
+                //        foreach (var testDetail_NotExist in sTestResultDetail_NotExistNamelist)
+                //        {
+                //            testDetail_NotExist.TestResultRowID = existingTest.ID;
+
+                //            ctx.txn_testresults_details.Add(testDetail_NotExist);
+                //            ctx.SaveChanges();
+                //            existingTestDetails.Add(testDetail_NotExist);
+                //        }
+
+                //        foreach (var testDetail_Exist in sTestResultDetail_ExistNamelist)
+                //        {
+                //            var existingDetail = existingTestDetails.FirstOrDefault(x => x.TestParameter == testDetail_Exist.TestParameter);
+                //            existingDetail.TestResultStatus = testDetail_Exist.TestResultStatus;
+                //            existingDetail.TestResultValue = testDetail_Exist.TestResultValue;
+                //            existingDetail.TestResultUnit = testDetail_Exist.TestResultUnit;
+                //            existingDetail.ReferenceRange = testDetail_Exist.ReferenceRange;
+                //            existingDetail.Interpretation = testDetail_Exist.Interpretation;
+                //            existingDetail.MeasuringRange = testDetail_Exist.MeasuringRange;
+
+                //            ctx.txn_testresults_details.Update(existingDetail);
+                //            ctx.SaveChanges();
+                //        }
+
+                //        if (sTestResultGraph != null && sTestResultGraph.Count() > 0)
+                //        {
+                //            if (!Directory.Exists(graphFolder + existingTest.ID))
+                //            {
+                //                Directory.CreateDirectory(graphFolder + existingTest.ID);
+                //            }
+
+                //            foreach (var d in existingTestDetailsGraph_NotExistNameList)
+                //            {
+                //                var graph = new txn_testresults_graphs() { TestResultRowID = existingTest.ID, FileName = d.FileName, CreatedDate = DateTime.Now, CreatedBy = "VCheckViewer Listener" };
+                //                ctx.txn_testresults_graphs.Add(graph);
+                //                ctx.SaveChanges();
+
+                //                byte[] imageBytes = Convert.FromBase64String(d.Base64String);
+
+                //                File.WriteAllBytes(graphFolder + existingTest.ID + "\\" + d.FileName, imageBytes);
+                //            }
+
+                //            foreach (var d in existingTestDetailsGraph_ExistNameList)
+                //            {
+                //                byte[] imageBytes = Convert.FromBase64String(d.Base64String);
+
+                //                File.WriteAllBytes(graphFolder + existingTest.ID + "\\" + d.FileName, imageBytes);
+                //            }
+                //        }
+
+                //        sCurrentTestResult = existingTest;
+                //        sTestResultDetail = existingTestDetails;
+                //    }
+                //    else
+                //    {
+                //        sCurrentTestResult = sTestResult;
+                //        ctx.txn_Testresults.Add(sTestResult);
+                //        ctx.SaveChanges();
+
+                //        foreach (var d in sTestResultDetail)
+                //        {
+                //            d.TestResultRowID = sTestResult.ID;
+
+                //            ctx.txn_testresults_details.Add(d);
+                //            ctx.SaveChanges();
+                //        }
+
+                //        if (sTestResultGraph != null && sTestResultGraph.Count() > 0)
+                //        {
+                //            if (!Directory.Exists(graphFolder + sTestResult.ID))
+                //            {
+                //                Directory.CreateDirectory(graphFolder + sTestResult.ID);
+                //            }
+
+                //            foreach (var d in sTestResultGraph)
+                //            {
+                //                var graph = new txn_testresults_graphs() { TestResultRowID = sTestResult.ID, FileName = d.FileName, CreatedDate = DateTime.Now, CreatedBy = "VCheckViewer Listener" };
+                //                ctx.txn_testresults_graphs.Add(graph);
+
+                //                byte[] imageBytes = Convert.FromBase64String(d.Base64String);
+
+                //                File.WriteAllBytes(graphFolder + sTestResult.ID + "\\" + d.FileName, imageBytes);
+                //            }
+                //            ctx.SaveChanges();
+                //        }
+                //    }
+
+                //    return sTestResultDetail;
+                //}
             }
             catch (Exception ex)
             {
                 log.Error("VCheckListenerWorker >>> TestResultRepository >>> createTestResultsMultipleParam >>> " + ex.ToString());
-                isSuccess = false;
+                sCurrentTestResult = sTestResult;
+                return null;
             }
-
-            return isSuccess;
         }
 
         //public static Boolean createBulkTestResult(List<txn_testresults> sTestResult)
@@ -413,21 +566,39 @@ namespace VCheckListenerWorker.Lib.Logic
         /// </summary>
         /// <param name="sConfigurationkey"></param>
         /// <returns></returns>
-        public static DeviceModel GetDeviceByIPSerialNo(String sIP, String sSerialNo)
+        public static DeviceModel GetDeviceByIPSerialNo(String? sIP, String? sSerialNo, out string sDeviceType)
         {
             try
             {
                 using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
                 {
-                    DeviceModel device = new DeviceModel();
+                    DeviceModel? device = new DeviceModel();
 
                     if (string.IsNullOrEmpty(sIP))
                     {
-                        device =  ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceIPAddress == sIP);
+                        device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceSerialNo == sSerialNo);
                     }
                     else if (string.IsNullOrEmpty(sSerialNo))
                     {
+                        device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceIPAddress == sIP);
+                    }
+                    else
+                    {
                         device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceSerialNo == sSerialNo);
+
+                        if(device == null)
+                        {
+                            device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceIPAddress == sIP);
+                        }
+                    }
+
+                    if (device != null && device.id != 0)
+                    {
+                        sDeviceType = ctx.mst_devicetype.FirstOrDefault(x => x.id == device.DeviceTypeID).TypeName;
+                    }
+                    else
+                    {
+                        sDeviceType = "";
                     }
 
                     return device;
@@ -436,6 +607,77 @@ namespace VCheckListenerWorker.Lib.Logic
             catch (Exception ex)
             {
                 log.Error("VCheckListenerWorker >>> TestResultRepository >>> GetScheduleByPatientID >>> " + ex.ToString());
+                sDeviceType = "";
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get parameter reference range
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static TestResultReferenceRangeModel GetReferenceRangeByParameterAnalyzerSpecies(string parameter, string analyzer, string species, string ageGroup)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                {
+                    IEnumerable<TestResultReferenceRangeModel> referenceRangeInfos = new List<TestResultReferenceRangeModel>();
+
+                    if (string.IsNullOrEmpty(analyzer))
+                    {
+                        referenceRangeInfos = ctx.mst_testresults_referencerange.AsEnumerable().Where(x => x.Parameter == parameter);
+                    }
+                    else
+                    {
+                        referenceRangeInfos = ctx.mst_testresults_referencerange.AsEnumerable().Where(x => x.Parameter == parameter && x.Analyzer.Split(", ").Contains(analyzer));
+                    }
+                    
+                    TestResultReferenceRangeModel referenceRangeInfo = new TestResultReferenceRangeModel();
+
+                    if (referenceRangeInfos != null && referenceRangeInfos.Count() > 0)
+                    {
+                        referenceRangeInfo = referenceRangeInfos.FirstOrDefault(x => x.Species == species && x.AgeGroup == ageGroup);
+                    }
+                    else
+                    {
+                        return referenceRangeInfo;
+                    }
+
+
+                    if (referenceRangeInfo != null)
+                    {
+                        return referenceRangeInfo;
+                    }
+                    else
+                    {
+                        referenceRangeInfo = referenceRangeInfos.FirstOrDefault(x => x.Species == species);
+
+                        if(referenceRangeInfo != null)
+                        {
+                            return referenceRangeInfo;
+                        }
+                        else
+                        {
+                            referenceRangeInfo = referenceRangeInfos.FirstOrDefault(x => x.AgeGroup == ageGroup);
+
+                            if(referenceRangeInfo != null)
+                            {
+                                return referenceRangeInfo;
+                            }
+                            else
+                            {
+                                return referenceRangeInfos.FirstOrDefault();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+
                 return null;
             }
         }
@@ -449,6 +691,82 @@ namespace VCheckListenerWorker.Lib.Logic
             var iHost = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
 
             return iHost.Configuration;
+        }
+
+        /// <summary>
+        /// Get result cCortisol
+        /// </summary>
+        /// <returns></returns>
+        public static List<txn_testresults_details> UpdateCortisolResult(string sPreviousParameter, string sCurrentParameter, txn_testresults sTestResult, List<txn_testresults_details> sTestResultDetail, out txn_testresults sCurrentTestResult)
+        {
+            sCurrentTestResult = new txn_testresults();
+            DateTime MinimumDatetime = DateTime.Now.AddHours(-48);
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(GetConfigurationSettings()))
+                {
+                    var existingTestList = ctx.txn_Testresults.AsNoTracking().Where(x => x.CreatedDate > MinimumDatetime && x.TestResultType == "cCortisol" && x.PatientID == sTestResult.PatientID && x.IsDeleted == 0).ToList();
+                    var existingTest = new txn_testresults();
+                    var existingTestDetails = new List<txn_testresults_details>();
+
+                    if (!existingTestList.Any())
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        foreach (txn_testresults existingTestTemp in existingTestList)
+                        {
+                            existingTestDetails = ctx.txn_testresults_details.AsNoTracking().Where(x => x.TestResultRowID == existingTestTemp.ID).ToList();
+                            var parameterTemp = existingTestDetails.Select(x => x.TestParameter);
+
+                            if (parameterTemp.Contains(sPreviousParameter) && !parameterTemp.Contains(sCurrentParameter))
+                            {
+                                existingTest = existingTestTemp;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (existingTest != null && existingTest.ID != 0)
+                    {
+                        existingTest.TestResultDateTime = sTestResult.TestResultDateTime;
+                        existingTest.OverallStatus = sTestResult.OverallStatus;
+                        existingTest.UpdatedDate = DateTime.Now;
+                        existingTest.UpdatedBy = "VCheckViewer Listener";
+
+                        ctx.txn_Testresults.Update(existingTest);
+                        ctx.SaveChanges();
+
+                        var existingTestDetails_namelist = existingTestDetails.Select(x => x.TestParameter);
+                        var sTestResultDetail_NotExistNamelist = sTestResultDetail.Where(x => !existingTestDetails_namelist.Contains(x.TestParameter));
+                        var sTestResultDetail_ExistNamelist = sTestResultDetail.Where(x => existingTestDetails_namelist.Contains(x.TestParameter));
+
+                        foreach (var testDetail_NotExist in sTestResultDetail_NotExistNamelist)
+                        {
+                            testDetail_NotExist.TestResultRowID = existingTest.ID;
+
+                            ctx.txn_testresults_details.Add(testDetail_NotExist);
+                            ctx.SaveChanges();
+                            existingTestDetails.Add(testDetail_NotExist);
+                        }
+
+                        sCurrentTestResult = existingTest;
+
+                        return existingTestDetails;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("VCheckListenerWorker >>> TestResultRepository >>> createTestResultsMultipleParam >>> UpdateCortisolResult >>> " + e.ToString());
+                return null;
+            }
         }
     }
 }

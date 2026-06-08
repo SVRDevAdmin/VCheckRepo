@@ -46,6 +46,8 @@ namespace VCheck.Interface.API.Greywind.RequestMessage
         public String? referencelow {  get; set; }
         public String? referencehigh {  get; set; }
         public String? unitofmeasure { get; set; }
+        public String? nature { get; set; }
+        public String? flags { get; set; }
         public String? status { get; set; }
         public String? notes { get; set; }
     }

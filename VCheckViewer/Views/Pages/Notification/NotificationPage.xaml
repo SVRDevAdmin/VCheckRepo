@@ -23,22 +23,22 @@
 
     <Grid Margin="0,10,0,10" MouseLeftButtonUp="CloseCalenderPopup">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="0.65*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="0.84*"/>
-            <ColumnDefinition Width="0.7*"/>
+            <ColumnDefinition Width="0.35*"/>
+            <ColumnDefinition Width="0.35*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="6*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Grid.ColumnSpan="4" Background="Transparent" CornerRadius="7" Margin="10,5,10,5"></Border>
+        <Border Grid.Row="0" Grid.ColumnSpan="5" Background="Transparent" CornerRadius="7" Margin="10,5,10,5"></Border>
         <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="0" Margin="20,0,10,0" Height="45">
             <Border Background="{DynamicResource Themes_NotifSearchfieldBackground}" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="{DynamicResource Themes_NotifSearchfieldBackground}" MouseLeftButtonUp="CloseCalenderPopup">
                 <Grid>
-                    <!-- Search Icon -->
-                    <!--<ui:SymbolIcon Symbol="Search12" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->
                     <Image Source="{DynamicResource Themes_SearchIcon}" Width="24" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
 
                     <!-- TextBox for search input -->
@@ -58,41 +58,34 @@
                 </Grid>
             </Border>
         </Border>
-        <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,0,0">
-            <Border Background="{DynamicResource Themes_NotifSearchfieldBackground}" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="{DynamicResource Themes_NotifSearchfieldBackground}">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Border Background="{DynamicResource Themes_NotifSearchfieldBackground}" Grid.Column="0" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="{DynamicResource Themes_NotifSearchfieldBackground}">
                 <Grid>
                     <Image Source="{DynamicResource Themes_CalendarIcon}" Width="24" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
-                    <!--<ui:SymbolIcon Symbol="CalendarLtr32" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->                    
-                    <!--<DatePicker  BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center"/>-->
 
-                    <userControls:DateRangePicker x:Name="RangeDate" SelectedDateRange="{Binding SelectedDates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center"/>
+                    <userControls:DateRangePicker x:Name="RangeDateStart" SelectedDateRange="{Binding SelectedDates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
-        </Border>
-        <Border Grid.Column="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="{DynamicResource Themes_NotifSearchfieldBackground}"  Background="{DynamicResource Themes_NotifSearchfieldBackground}" Margin="10,0,0,0">
-            <!--<Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" MinWidth="100"/>
-                    <ColumnDefinition Width="auto" MinWidth="120"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto" MinWidth="100"/>
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" Margin="2">
-                    <Button Content="{Binding Path=Notification_Label_ShowAll, Source={StaticResource Resources}}"  Foreground="White" HorizontalAlignment="Stretch" Background="DarkOrange" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
-                </Border>
-                <Border Grid.Column="1" Margin="2">
-                    <Button Content="{Binding Path=Notification_Label_UpcomingTest, Source={StaticResource Resources}}" Tag="Upcoming Test" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
-                </Border>
-                <Border Grid.Column="2" Margin="2">
-                    <Button Content="{Binding Path=Notification_Label_CompletedTest, Source={StaticResource Resources}}" Tag="Completed Test Results" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
-                </Border>
-                <Border Grid.Column="3" Margin="2">
-                    <Button Content="{Binding Path=Notification_Label_Updates, Source={StaticResource Resources}}" Foreground="White" Tag="Updates" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ChangeNotificationType"/>
-                </Border>
-            </Grid>-->
+
+            <TextBlock Text=" - " FontWeight="Bold" Grid.Column="1" VerticalAlignment="Center"/>
+
+            <Border Background="{DynamicResource Themes_NotifSearchfieldBackground}" Grid.Column="2" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="{DynamicResource Themes_NotifSearchfieldBackground}">
+                <Grid>
+                    <Image Source="{DynamicResource Themes_CalendarIcon}" Width="24" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
+
+                    <userControls:DateRangePicker x:Name="RangeDateEnd" SelectedDateRange="{Binding SelectedDates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <Border Grid.Column="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="{DynamicResource Themes_NotifSearchfieldBackground}"  Background="{DynamicResource Themes_NotifSearchfieldBackground}" Margin="10,0,0,0">           
             <Border Background="{DynamicResource Themes_NotifSearchfieldBackground}" BorderThickness="0" CornerRadius="7" Padding="5,0,5,0">
                 <Grid>
-                    <!--<ui:SymbolIcon Symbol="CalendarEdit16" FontSize="20" HorizontalAlignment="Left" Margin="5,2,0,0"/>-->
                     <TextBlock Text="{Binding Path=Notification_Label_Show, Source={StaticResource Resources}}" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="{DynamicResource Themes_NotifSearchFieldFontColor}"/>
 
                     <ComboBox Name="NotificationType" Background="{DynamicResource Themes_NotifSearchfieldBackground}" Foreground="{DynamicResource Themes_NotifSearchFieldFontColor}" BorderThickness="0" VerticalAlignment="Center" Margin="50,0,0,0" TextBlock.FontWeight="Bold" GotFocus="ChangeNotificationType">
@@ -100,62 +93,33 @@
                         <ComboBoxItem Content="{Binding Path=Notification_Label_UpcomingTest, Source={StaticResource Resources}}" Tag="Upcoming Test" TextBlock.FontWeight="Normal"/>
                         <ComboBoxItem Content="{Binding Path=Notification_Label_CompletedTest, Source={StaticResource Resources}}" Tag="Completed Test Results" TextBlock.FontWeight="Normal"/>
                         <ComboBoxItem Content="{Binding Path=Notification_Label_Updates, Source={StaticResource Resources}}" Tag="Updates" TextBlock.FontWeight="Normal"/>
+                        <ComboBoxItem Content="Schedule Error" Tag="Schedule Error" TextBlock.FontWeight="Normal"/>
                     </ComboBox>
                 </Grid>
             </Border>
         </Border>
         <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="3" Margin="10,0,20,0">
-            <Button Content="{Binding Path=Notification_Label_UpdateFilter, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" Background="{DynamicResource Themes_ButtonColor}" BorderThickness="0" Style="{DynamicResource RoundButton}" Click="UpdateFilter"/>
+            <Button Content="{Binding Path=General_Label_Searchbar, Source={StaticResource Resources}}"  Foreground="White" HorizontalAlignment="Stretch" Background="{DynamicResource Themes_ButtonColor}" BorderThickness="0" Style="{DynamicResource RoundButton}" Click="UpdateFilter"/>
         </Border>
-        <Border Grid.ColumnSpan="4" Grid.Row="1" Background="{DynamicResource Themes_NotifSearchfieldBackground}" CornerRadius="7" Margin="20 10, 20, 10" Padding="70,20,70,30">
+        <Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="4" Margin="10,0,20,0">
+            <Button Content="{Binding Path=Maintenance_Label_Refresh, Source={StaticResource Resources}}"  Foreground="White" HorizontalAlignment="Stretch" Background="{DynamicResource Themes_ButtonColor}" BorderThickness="0" Style="{DynamicResource RoundButton}" Click="RefreshFilter"/>
+        </Border>
+
+        <Border Grid.Row="1" Grid.ColumnSpan="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,0,0,0" Padding="10,0,5,0">
+            <Button BorderThickness="0" Click="MarkAsRead_Click" Background="Transparent" Foreground="{DynamicResource Themes_FontColor}">
+                <Button.Content>
+                    <TextBlock Text="{Binding Path=Notification_Button_MarkAllAsRead, Source={StaticResource Resources}}" TextDecorations="Underline"/>
+                </Button.Content>
+            </Button>
+        </Border>
+        
+        <Border Grid.ColumnSpan="5" Grid.Row="2" Background="{DynamicResource Themes_NotifSearchfieldBackground}" CornerRadius="7" Margin="20 10, 20, 10" Padding="70,20,70,30">
                 <StackPanel x:Name="NotificationViewList" Background="Transparent">
-                <!--<TextBlock Text="No data available" TextAlignment="Center"/>-->
-                <!--<DockPanel Margin="0,10,0,10" Style="{StaticResource test}">
-                            <DockPanel DockPanel.Dock="Top">
-                                <TextBlock Text="Test result ready to view" FontWeight="Bold" DockPanel.Dock="Left"/>
-                                <TextBlock Text="18 march 2023 08:00" FontWeight="Bold" DockPanel.Dock="Right" TextAlignment="Right"/>
-                            </DockPanel>
-                            <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
-                        <TextBlock TextWrapping="Wrap" Text="You've updated the system language and country settings. Please log in again to apply the changes." DockPanel.Dock="Left"/>
-                            </DockPanel>
-                    </DockPanel>
-                    <Separator BorderBrush="Black" BorderThickness="1"/>
-                    <DockPanel Margin="0,10,0,10" Style="{StaticResource test}">
-                        <DockPanel DockPanel.Dock="Top">
-                            <TextBlock Text="Test result ready to view" FontWeight="Bold" DockPanel.Dock="Left"/>
-                            <TextBlock Text="18 march 2023 08:00" FontWeight="Bold" DockPanel.Dock="Right" TextAlignment="Right"/>
-                        </DockPanel>
-                        <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
-                        <TextBlock TextWrapping="Wrap" Text="You've updated the system language and country settings. Please log in again to apply the changes." DockPanel.Dock="Left"/>
-                        </DockPanel>
-                </DockPanel>
-                <Separator BorderBrush="Black" BorderThickness="1"/>
-                <DockPanel Margin="0,10,0,10" Style="{StaticResource test}">
-                    <DockPanel DockPanel.Dock="Top">
-                        <TextBlock Text="Test result ready to view" FontWeight="Bold" DockPanel.Dock="Left"/>
-                        <TextBlock Text="18 march 2023 08:00" FontWeight="Bold" DockPanel.Dock="Right" TextAlignment="Right"/>
-                    </DockPanel>
-                    <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
-                        <TextBlock TextWrapping="Wrap" Text="You've updated the system language and country settings. Please log in again to apply the changes." DockPanel.Dock="Left"/>
-                    </DockPanel>
-                </DockPanel>
-                <Separator BorderBrush="Black" BorderThickness="1"/>
-                <DockPanel Margin="0,10,0,10" Style="{StaticResource test}">
-                    <DockPanel DockPanel.Dock="Top">
-                        <TextBlock Text="Test result ready to view" FontWeight="Bold" DockPanel.Dock="Left"/>
-                        <TextBlock Text="18 march 2023 08:00" FontWeight="Bold" DockPanel.Dock="Right" TextAlignment="Right"/>
-                    </DockPanel>
-                    <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
-                        <TextBlock TextWrapping="Wrap" Text="The test results for patient ID : 346722 is now available for viewing. Please go to Results page to view/print the detailed result report. Your promt attention to this matter is appreciated." DockPanel.Dock="Left"/>
-                    </DockPanel>
-                </DockPanel>-->
-            </StackPanel>
+                </StackPanel>
         </Border>
-        <!--<StackPanel x:Name="paginationPanel" Grid.Row="2" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Right">
-        </StackPanel>-->
 
         <!-- // Pagination Control // -->
-        <userControls:PagingControl x:Name="pagination" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6">
+        <userControls:PagingControl x:Name="pagination" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6">
         </userControls:PagingControl>
     </Grid>
 </Page>

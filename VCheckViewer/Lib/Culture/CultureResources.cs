@@ -4,9 +4,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using VCheckViewer.Log;
 
 namespace VCheckViewer.Lib.Culture
 {
@@ -30,14 +32,17 @@ namespace VCheckViewer.Lib.Culture
             if (!bFoundInstalledCultures)
             {
                 //determine which cultures are available to this application
-                Debug.WriteLine("Get Installed cultures:");
+                //Debug.WriteLine("Get Installed cultures:");
                 CultureInfo tCulture = new CultureInfo("");
-                foreach (string dir in Directory.GetDirectories(Application.StartupPath))
+                var dirList = Directory.GetDirectories(Application.StartupPath);
+                var excludeList = new string[] { "Content", "LatoFont", "publish", "runtimes" };
+                foreach (string dir in dirList)
                 {
                     try
                     {
                         //see if this directory corresponds to a valid culture name
                         DirectoryInfo dirinfo = new DirectoryInfo(dir);
+                        if (excludeList.Contains(dirinfo.Name)) { continue; }
                         tCulture = CultureInfo.GetCultureInfo(dirinfo.Name);
 
                         //determine if a resources dll exists in this directory that matches the executable name
@@ -47,9 +52,17 @@ namespace VCheckViewer.Lib.Culture
                             Debug.WriteLine(string.Format(" Found Culture: {0} [{1}]", tCulture.DisplayName, tCulture.Name));
                         }
                     }
+                    catch (CultureNotFoundException cex)
+                    {
+                        App.log.Error("Culture Not Found Error >>> ", cex);
+                    }
                     catch (ArgumentException ex) //ignore exceptions generated for any unrelated directories in the bin folder
                     {
-                        //App.log.Error("Culture Resource Error >>> ", ex);
+                        App.log.Error("Culture Argument Error >>> ", ex);
+                    }
+                    catch (Exception cex)
+                    {
+                        App.log.Error("Culture Error >>> ", cex);
                     }
                 }
                 bFoundInstalledCultures = true;
