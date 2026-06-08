@@ -8,10 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Storage\Certificates\Sectigo Public Server Authentication Root R46.crt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Storage\Certificates\Sectigo Public Server Authentication Root R46.crt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

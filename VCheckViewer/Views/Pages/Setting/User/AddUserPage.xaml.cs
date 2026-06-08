@@ -81,7 +81,7 @@ namespace VCheckViewer.Views.Pages
                 parent.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
                 CheckAllValueExisted();
             }
-            else if (textBox != null && textBox.Name == "EmailAddress" && !textBox.Text.Contains("@"))
+            else if (textBox != null && textBox.Name == "EmailAddress" && (!textBox.Text.Contains("@") || !textBox.Text.Contains(".")))
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);

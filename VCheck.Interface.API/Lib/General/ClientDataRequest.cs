@@ -14,6 +14,6 @@ namespace VCheck.Interface.API.Lib.General
 
     public class ClientDataRequestBody
     {
-        public string Version { get; set; }
+        public string? Version { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DocumentFormat.OpenXml.Drawing;
+using Microsoft.AspNetCore.Identity;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -35,6 +36,7 @@ namespace VCheckViewer.Views.Pages.Login
             CheckThemesSettings();
 
             LoginWindow.ResetPassword += new EventHandler(ProceedResetPassword);
+            //LoginWindow.ResetPassword += new EventHandler(TestProceedResetPassword);
 
             var pageTitle = Properties.Resources.Login_Label_PasswordRecovery.Split("<nextline>");
             Login_Label_PasswordRecovery.Text = pageTitle[0] + "\r\n" + pageTitle[1];
@@ -57,9 +59,7 @@ namespace VCheckViewer.Views.Pages.Login
 
                     userModel = UserContext.GetUserByID(user.Id);
 
-                    if(userModel != null) { PopupHandler(e, sender); }
-
-                    
+                    if(userModel != null) { PopupHandler(e, sender); }                    
                 }
                 else
                 {
@@ -95,7 +95,7 @@ namespace VCheckViewer.Views.Pages.Login
                 parentBorder.BorderBrush = Brushes.Red;
                 parentBorder.ToolTip = Properties.Resources.Setting_ErrorMessage_FiveCharMin;
             }
-            else if (textBox != null && textBox.Name == "Email" && !textBox.Text.Contains("@"))
+            else if (textBox != null && textBox.Name == "Email" && (!textBox.Text.Contains("@") || !textBox.Text.Contains(".")))
             {
                 parentBorder.BorderBrush = Brushes.Red;
                 parentBorder.ToolTip = Properties.Resources.Setting_ErrorMessage_EmailFormat;
@@ -107,8 +107,49 @@ namespace VCheckViewer.Views.Pages.Login
             }
         }
 
+        private async void TestProceedResetPassword(object sender, EventArgs e)
+        {
+            //ConfigurationModel sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
+
+            //var notificationTemplate = TemplateContext.GetTemplateByCodeLang("EN02", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
+            //notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''").Replace("###<staff_fullname>###", userModel.FullName).Replace("###<password>###", newPassword);
+
+            //string sErrorMessage;
+
+            //try
+            //{
+            //    EmailObject sEmail = new EmailObject();
+
+            //    sEmail.SenderEmail = App.SMTP.Sender;
+
+            //    List<string> sRecipientList = new List<string>() { "azwan@svrtech.com.my", "azwan.masri.retes@gmail.com" };
+
+            //    sEmail.RecipientEmail = sRecipientList;
+            //    sEmail.IsHtml = true;
+            //    sEmail.Subject = "[VCheck Viewer] Test";
+            //    sEmail.Body = notificationTemplate.TemplateContent;
+            //    sEmail.SMTPHost = App.SMTP.Host;
+            //    sEmail.PortNo = App.SMTP.Port;
+            //    sEmail.HostUsername = App.SMTP.Username;
+            //    sEmail.HostPassword = App.SMTP.Password;
+            //    sEmail.EnableSsl = true;
+            //    sEmail.UseDefaultCredentials = false;
+
+            //    EmailHelper.SendEmail(sEmail, out sErrorMessage);
+
+            //    if (!String.IsNullOrEmpty(sErrorMessage)) { throw new Exception(sErrorMessage); }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ErrorText.Visibility = Visibility.Visible;
+            //    ErrorText.Text = Properties.Resources.Login_Message_CreatePasswordError;
+            //    App.log.Error("Password Recovery Error >>> ", ex);
+            //}
+        }
+
         private async void ProceedResetPassword(object sender, EventArgs e)
         {
+            if(user == null) { return; }
             var removepassword = await App.UserManager.RemovePasswordAsync(user);
             if(removepassword.Succeeded)
             {

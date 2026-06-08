@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using ScheduleAutomation.Lib.Logic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using VCheck.Lib.Data.Models;
-using VCheck.Lib.Data;
-using System.Net;
-using ScheduleAutomation.Lib.Logic;
 using VCheck.Interface.API;
+using VCheck.Lib.Data;
+using VCheck.Lib.Data.Models;
 
 namespace ScheduleAutomation.Lib.Services
 {
@@ -21,15 +22,20 @@ namespace ScheduleAutomation.Lib.Services
         public static async Task SendMessage(List<TestIDAnalyzers> testID, ScheduledTestModel scheduleTest, DeviceModel device, string DeviceTypeName)
         {
             String sContent = "";
+            VCheckAPI VcheckAPI = new VCheckAPI();
 
             if (DeviceTypeName == "C10")
             {
-                //sContent = MessageGenerator.GenerateOMLO33Message(testID, scheduleTest);
-                sContent = MessageGenerator.GenerateORMO01Message(testID, scheduleTest);
-            }
-            else
-            {
-                //sContent = MessageGenerator.GenerateORMO01Message(testID, scheduleTest);
+                List<(string, string)> testCodeName = new List<(string, string)>();
+                foreach (var testInfo in testID)
+                {
+                    var testResponseString = await VcheckAPI.GetTestByNameOrCode(null, testInfo.TestID);
+                    var TestName = string.IsNullOrEmpty(testResponseString) ? "VCheck" : JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.TestDataObject>(testResponseString).testname.Replace(" (C10)", "");
+
+                    testCodeName.Add((testInfo.TestID, TestName));
+                }
+
+                sContent = MessageGenerator.GenerateOMLO33Message(testCodeName, scheduleTest);
             }
             
             int timeout = 6000;
@@ -76,7 +82,7 @@ namespace ScheduleAutomation.Lib.Services
                         {
                             VCheckAPI vCheckAPI = new VCheckAPI();
                             var UpdateStatus = await vCheckAPI.UpdateScheduleStatus(scheduleTest.LocationID, scheduleTest.PatientID, scheduleTest.ScheduleUniqueID.Split("-")[1], scheduleTest.CreatedBy, 1);
-                            var updateAnalyzer = await vCheckAPI.UpdateScheduleAnalyzer(device.DeviceName, scheduleTest.ScheduleUniqueID);
+                            var updateAnalyzer = await vCheckAPI.UpdateScheduleAnalyzer(DeviceTypeName, scheduleTest.ScheduleUniqueID);
                         }
 
                     }

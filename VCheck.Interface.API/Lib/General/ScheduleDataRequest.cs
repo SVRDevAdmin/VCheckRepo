@@ -14,6 +14,7 @@ namespace VCheck.Interface.API.Lib.General
 
     public class ScheduleDataRequestBody
     {
+        public bool ExtendDateTime { get; set; }
         public string? ScheduledUniqueID { get; set; }
         public string? LocationID { get; set; }
         public string? PatientID { get; set; }
@@ -23,5 +24,6 @@ namespace VCheck.Interface.API.Lib.General
         public List<string> Parameters { get; set; }
         public string? AnalyzerName { get; set; }
         public string TestName { get; set; }
+        public bool IgnoreOrderStatus { get; set; } = true;
     }
 }

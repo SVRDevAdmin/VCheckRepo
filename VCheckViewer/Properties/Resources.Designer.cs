@@ -151,6 +151,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search Clinic.
+        /// </summary>
+        public static string ClinicInfo_Label_SearchClinic {
+            get {
+                return ResourceManager.GetString("ClinicInfo_Label_SearchClinic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to State.
         /// </summary>
         public static string ClinicInfo_Label_State {
@@ -619,6 +628,24 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Will remind again in 3 days..
+        /// </summary>
+        public static string General_Message_RemindThreeDays {
+            get {
+                return ResourceManager.GetString("General_Message_RemindThreeDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An instance of VCheck Viewer is already opened. Please close old instance before can open new one..
+        /// </summary>
+        public static string General_Message_VCheckAlreadyOpen {
+            get {
+                return ResourceManager.GetString("General_Message_VCheckAlreadyOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account are deactivated. Please contact administrator..
         /// </summary>
         public static string Login_ErrorMessage_AccountDeactivated {
@@ -943,6 +970,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        public static string Main_Label_Exit {
+            get {
+                return ResourceManager.GetString("Main_Label_Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logout.
         /// </summary>
         public static string Main_Label_Logout {
@@ -1024,6 +1060,24 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to API.
+        /// </summary>
+        public static string Maintenance_Label_API {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_API", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application Information.
+        /// </summary>
+        public static string Maintenance_Label_ApplicationInformation {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_ApplicationInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Checking...
         /// </summary>
         public static string Maintenance_Label_Checking {
@@ -1042,11 +1096,56 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Environment Information.
+        /// </summary>
+        public static string Maintenance_Label_EnvironmentInformation {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_EnvironmentInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Information.
         /// </summary>
         public static string Maintenance_Label_Information {
             get {
                 return ResourceManager.GetString("Maintenance_Label_Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listener.
+        /// </summary>
+        public static string Maintenance_Label_Listener {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_Listener", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listener IP Address.
+        /// </summary>
+        public static string Maintenance_Label_ListenerIPAddr {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_ListenerIPAddr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listener Port No..
+        /// </summary>
+        public static string Maintenance_Label_ListenerPortNo {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_ListenerPortNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string Maintenance_Label_None {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_None", resourceCulture);
             }
         }
         
@@ -1087,11 +1186,47 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to VCheck API.
+        /// </summary>
+        public static string Maintenance_Label_VCheckAPI {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_VCheckAPI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VCheck Listener.
+        /// </summary>
+        public static string Maintenance_Label_VCheckListener {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_VCheckListener", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version.
+        /// </summary>
+        public static string Maintenance_Label_Version {
+            get {
+                return ResourceManager.GetString("Maintenance_Label_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maintenance.
         /// </summary>
         public static string Maintenance_Title_PageTitle {
             get {
                 return ResourceManager.GetString("Maintenance_Title_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark all as read.
+        /// </summary>
+        public static string Notification_Button_MarkAllAsRead {
+            get {
+                return ResourceManager.GetString("Notification_Button_MarkAllAsRead", resourceCulture);
             }
         }
         
@@ -1164,6 +1299,15 @@ namespace VCheckViewer.Properties {
         public static string Popup_Message_AddAnalyzer {
             get {
                 return ResourceManager.GetString("Popup_Message_AddAnalyzer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The analyzer cannot receive schedule manually..
+        /// </summary>
+        public static string Popup_Message_AnalyzerCannotReceive {
+            get {
+                return ResourceManager.GetString("Popup_Message_AnalyzerCannotReceive", resourceCulture);
             }
         }
         
@@ -1254,6 +1398,15 @@ namespace VCheckViewer.Properties {
         public static string Popup_Message_ConfirmPasswordDoNotMatch {
             get {
                 return ResourceManager.GetString("Popup_Message_ConfirmPasswordDoNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully connected to PIMS.
+        /// </summary>
+        public static string Popup_Message_ConnectPIMSSuccess {
+            get {
+                return ResourceManager.GetString("Popup_Message_ConnectPIMSSuccess", resourceCulture);
             }
         }
         
@@ -1438,6 +1591,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No clinic found with that phone number..
+        /// </summary>
+        public static string Popup_Message_NoClinicFound {
+            get {
+                return ResourceManager.GetString("Popup_Message_NoClinicFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No device found that can receive request..
         /// </summary>
         public static string Popup_Message_NoDeviceFound {
@@ -1456,7 +1618,7 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We have send you a temporary password to your email. You can use it to log in. &lt;next line&gt; Once you are logged in, you can change it to your preferred password in .
+        ///   Looks up a localized string similar to We have send you a temporary password to your email. You can use it to log in. &lt;nextline&gt; Once you are logged in, you can change it to your preferred password in .
         /// </summary>
         public static string Popup_Message_PasswordRecoveredP1 {
             get {
@@ -1731,6 +1893,15 @@ namespace VCheckViewer.Properties {
         public static string Report_Label_PoweredBy {
             get {
                 return ResourceManager.GetString("Report_Label_PoweredBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous Record.
+        /// </summary>
+        public static string Report_Label_PreviousRecord {
+            get {
+                return ResourceManager.GetString("Report_Label_PreviousRecord", resourceCulture);
             }
         }
         
@@ -2104,11 +2275,29 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancelled.
+        /// </summary>
+        public static string Schedule_Label_Cancelled {
+            get {
+                return ResourceManager.GetString("Schedule_Label_Cancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel Schedule.
         /// </summary>
         public static string Schedule_Label_CancelSchedule {
             get {
                 return ResourceManager.GetString("Schedule_Label_CancelSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string Schedule_Label_General {
+            get {
+                return ResourceManager.GetString("Schedule_Label_General", resourceCulture);
             }
         }
         
@@ -2149,6 +2338,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ordered Test.
+        /// </summary>
+        public static string Schedule_Label_OrderedTest {
+            get {
+                return ResourceManager.GetString("Schedule_Label_OrderedTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Patient ID:.
         /// </summary>
         public static string Schedule_Label_PatientID {
@@ -2167,6 +2365,15 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pending.
+        /// </summary>
+        public static string Schedule_Label_Pending {
+            get {
+                return ResourceManager.GetString("Schedule_Label_Pending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Recent Test Results.
         /// </summary>
         public static string Schedule_Label_RecentTestResults {
@@ -2176,11 +2383,47 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Result sent to VV.
+        /// </summary>
+        public static string Schedule_Label_ResultSentToVV {
+            get {
+                return ResourceManager.GetString("Schedule_Label_ResultSentToVV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send to analyzer.
         /// </summary>
         public static string Schedule_Label_SendToAnalyzer {
             get {
                 return ResourceManager.GetString("Schedule_Label_SendToAnalyzer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sent to analyzer.
+        /// </summary>
+        public static string Schedule_Label_SentToAnalyzer {
+            get {
+                return ResourceManager.GetString("Schedule_Label_SentToAnalyzer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sent to PIMS.
+        /// </summary>
+        public static string Schedule_Label_SentToPIMS {
+            get {
+                return ResourceManager.GetString("Schedule_Label_SentToPIMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tests.
+        /// </summary>
+        public static string Schedule_Label_Tests {
+            get {
+                return ResourceManager.GetString("Schedule_Label_Tests", resourceCulture);
             }
         }
         
@@ -2248,7 +2491,7 @@ namespace VCheckViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This field must include “@” symbol..
+        ///   Looks up a localized string similar to This field must include “@” symbol and &quot;.com&quot;..
         /// </summary>
         public static string Setting_ErrorMessage_EmailFormat {
             get {

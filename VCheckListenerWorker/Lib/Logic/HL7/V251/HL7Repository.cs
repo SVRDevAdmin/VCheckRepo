@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using VCheck.Interface.API;
 using VCheckListenerWorker.Lib.Models;
@@ -28,22 +30,22 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
             try
             {
                 NHapi.Model.V251.Message.OUL_R22 sRU_R01 = (NHapi.Model.V251.Message.OUL_R22)sIMessage;
-                String sResultRule = "";
-                String sResultStatus = "";
-                String sResultTestType = "";
-                String sOperatorID = "";
-                String sPatientID = "";
-                String sPatientName = "";
-                String strObserveValue = "";
+                String? sResultTestCode = "";
+                String? sResultTestType = "";
+                String? sOperatorID = "";
+                String? sPatientID = "";
+                String? sPatientName = "";
+                String? strObserveValue = "";
                 bool sSerialNoExist = false;
-                String sSerialNo = "";
-                String sUniversalIdentifier = "";
-                String sTestResultStatus = "";
+                String? sSerialNo = "";
+                String? sUniversalIdentifier = "";
+                String? sTestResultStatus = "";
                 Boolean isRangeReference = false;
-                String strResultObservStatus = "";
-                String sDoctorName = "";
+                String? strResultObservStatus = "";
+                String? sDoctorName = "";
                 Decimal iResultValue = 0;
                 DateTime dAnalysisDateTime = DateTime.MinValue;
+                string sSpecies = "General";
 
                 var sSPMObj = new tbltestanalyze_results_specimen();
                 var sSACObj = new tbltestanalyze_results_specimencontainer();
@@ -99,6 +101,11 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                     sPID.PatientIdentifierList = (sRU_R01.PATIENT.PID.GetPatientIdentifierList().Length > 0) ?
                                                  sRU_R01.PATIENT.PID.GetPatientIdentifierList().FirstOrDefault().IDNumber.ToString() : null;
 
+                    if (sRU_R01.PATIENT.PID.SpeciesCode != null && string.IsNullOrEmpty(sRU_R01.PATIENT.PID.SpeciesCode.Text.ToString()))
+                    {
+                        sSpecies = sRU_R01.PATIENT.PID.SpeciesCode.Text.ToString();
+                    }
+
 
                     if (String.IsNullOrEmpty(sPID.PatientID) && !String.IsNullOrEmpty(sPID.PatientIdentifierList))
                     {
@@ -125,7 +132,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                                            sNameObj.DegreeEgMD + "^" +
                                            sNameObj.NameTypeCode;
 
-                        sPatientName = sNameObj.GivenName.Value;
+                        sPatientName = sNameObj.FamilyName.Surname.Value + " " + sNameObj.GivenName.Value;
 
                         if (sPID.PatientName.Replace("^", "").Length == 0)
                         {
@@ -334,6 +341,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                         sFillerOrdNum = "";
                     }
 
+                    sResultTestCode = observation.OBR.UniversalServiceIdentifier.Identifier.Value;
                     sResultTestType = observation.OBR.UniversalServiceIdentifier.Text.Value;
                     sUniversalIdentifier = observation.OBR.UniversalServiceIdentifier.Text.Value;
 
@@ -380,7 +388,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                     foreach (var observationDetail in observation.RESULTs)
                     {
                         String sInterpretation = "";
-                        String sObservValue = "";
+                        String? sObservValue = "";
                         strObserveValue = "";
                         if (observationDetail.OBX.GetObservationValue().Count() > 0)
                         {
@@ -508,6 +516,14 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                             {
                                 sSerialNoExist = true;
                                 sSerialNo = observationDetail.OBX.GetEquipmentInstanceIdentifier().FirstOrDefault().NamespaceID.Value;
+
+                                if (string.IsNullOrEmpty(Worker.MainModel.DeviceType))
+                                {
+                                    string deviceType;
+                                    var device = TestResultRepository.GetDeviceByIPSerialNo(null, sSerialNo, out deviceType);
+
+                                    Worker.MainModel.DeviceType = deviceType;
+                                }
                             }
                         }
 
@@ -569,8 +585,6 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
 
                             if (sComment.ToLower().Contains("cut off index"))
                             {
-                                sResultRule = "COI";
-
                                 String sValue = "";
                                 String[] strArryValue = sComment.Split(",");
                                 if (strArryValue.Length > 0)
@@ -578,7 +592,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                                     sValue = strArryValue[1].Replace("Value=", "").Trim();
                                 }
 
-                                Decimal.TryParse(sValue, out iResultValue);
+                                Decimal.TryParse(sValue, CultureInfo.InvariantCulture, out iResultValue);
                                 sObservValue = sValue;
                             }
 
@@ -612,11 +626,13 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                         if (!(observationDetail.OBX.ObservationIdentifier.Text.Value.ToLower() == "age") &&
                             !(observationDetail.OBX.ObservationIdentifier.Text.Value.ToLower() == "weight"))
                         {
+                            sObservValue = sObservValue.Replace("*", "").Replace(" ", "");
+
                             String sStatus = General.ProcessObservationResultStatusValue(isRangeReference, sObservValue, observationDetail.OBX.ReferencesRange.Value, iResultValue);
 
                             sTestResultDetails.Add(new txn_testresults_details
                             {
-                                TestParameter = observationDetail.OBX.ObservationIdentifier.Text.Value,
+                                TestParameter = observationDetail.OBX.ObservationIdentifier.Text.Value.Replace("?", ""),
                                 SubID = observationDetail.OBX.ObservationSubID.Value,
                                 ProceduralControl = strResultObservStatus,
                                 TestResultStatus = sStatus,
@@ -653,6 +669,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 sTestResultObj.CreatedBy = sSystemName;
                 sTestResultObj.DeviceSerialNo = Worker.MainModel.DeviceSerialNum != null && sSerialNo == "VCheck C10" ? Worker.MainModel.DeviceSerialNum : sSerialNo;
                 sTestResultObj.PMSFunction = "Visible";
+                sTestResultObj.PatientName = sPatientName;
 
                 tbltestanalyze_results sResultObj = new tbltestanalyze_results
                 {
@@ -666,13 +683,14 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
 
                 VCheckAPI VcheckAPI = new VCheckAPI();
 
-                ScheduledTestModel sScheduledTestObj = new ScheduledTestModel();
+                ScheduledTestModel? sScheduledTestObj = new ScheduledTestModel();
                 var clinic = TestResultRepository.GetConfigurationByKey("ClinicID");
-                if (clinic != null && !string.IsNullOrEmpty(clinic.ConfigurationValue))
+                var PMS = TestResultRepository.GetConfigurationByKey("InterfaceSettingsPMS");
+                if (clinic != null && !string.IsNullOrEmpty(clinic.ConfigurationValue) && PMS != null && PMS.ConfigurationValue != "None")
                 {
                     //var scheduleString = await VcheckAPI.GetSchedule(clinic.ConfigurationValue, sTestResultObj.PatientID, parameters);
                     var scheduleString = await VcheckAPI.GetSchedule(clinic.ConfigurationValue, sTestResultObj.PatientID, sResultTestType);
-                    sScheduledTestObj = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
+                    sScheduledTestObj = string.IsNullOrEmpty(scheduleString) ? null : JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
 
                     if (sScheduledTestObj != null)
                     {
@@ -684,23 +702,58 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 Boolean bResult = TestResultRepository.insertTestObservationMessage(sResultObj, sMSHObj, sPIDObj, sOBRObj, sOBXObjList, sNTEObj, sPVObj, sSPMObj, sSACObj);
                 if (bResult)
                 {
+                    sTestResultObj.Analyze_TableRowID = sResultObj.ResultRowID;
                     // Insert into Test Result table & create notification 
-                    TestResultRepository.createTestResultsMultipleParam(sTestResultObj, sTestResultDetails);
+                    sTestResultDetails = TestResultRepository.createTestResultsMultipleParam(sTestResultObj, sTestResultDetails, out sTestResultObj);
 
                     if (sScheduledTestObj != null && sScheduledTestObj.ID != 0)
                     {
-                        
-                        PMSHandler pmsHandler = new PMSHandler();
-                        var success = await pmsHandler.SendToPMS(sTestResultObj, sTestResultDetails, sScheduledTestObj);
-
-                        if (success)
+                        if (string.IsNullOrEmpty(sResultTestCode) || double.TryParse(sResultTestCode, CultureInfo.InvariantCulture, out _))
                         {
-                            success = await VcheckAPI.UpdateScheduleStatus(sScheduledTestObj.LocationID, sScheduledTestObj.PatientID, sScheduledTestObj.ScheduleUniqueID.Split("-")[1], sScheduledTestObj.CreatedBy, 3);
+                            var testResponseString = await VcheckAPI.GetTestByNameOrCode(sTestResultObj.TestResultType, null);
+                            sResultTestCode = string.IsNullOrEmpty(testResponseString) ? "VCheck" : JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.TestDataObject>(testResponseString).testid;
                         }
 
+                        PMSHandler pmsHandler = new PMSHandler();
+                        var success = false;
+                        success = await pmsHandler.SendToPMS(sTestResultObj, sTestResultDetails, sScheduledTestObj, sResultTestCode);
+
+                        await VcheckAPI.UpdateScheduleStatus(sScheduledTestObj.LocationID, sScheduledTestObj.PatientID, sScheduledTestObj.ScheduleUniqueID.Split("-")[1], sScheduledTestObj.CreatedBy, success ? 4 : 3, sTestResultObj.TestResultType);
+
+                        if (!success)
+                        {
+                            //txn_notification sNotificationSend = new txn_notification()
+                            //{
+                            //    NotificationType = "Schedule Error",
+                            //    NotificationTitle = "Send to PMS Error",
+                            //    NotificationContent = "Order test " + sResultTestType + " for " + sScheduledTestObj.PatientName + " failed to be sent to PIMS. Please send the order test manually to PIMS.",
+                            //    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                            //    CreatedBy = sSystemName
+                            //};
+
+                            //TestResultRepository.insertNotification(sNotificationSend);
+
+                            NotificationRepository.SendPMSErrorNotification(sResultTestType, sTestResultObj.PatientName, sSystemName);
+                        }
+                    }
+                    else if (PMS != null && !string.IsNullOrEmpty(PMS.ConfigurationValue) && PMS.ConfigurationValue != "None")
+                    {
+                        //txn_notification sNotificationSend = new txn_notification()
+                        //{
+                        //    NotificationType = "Schedule Error",
+                        //    NotificationTitle = "Result Mismatch",
+                        //    NotificationContent = "Order test " + sResultTestType + " for Patient ID : " + sPatientID + " failed to match with any schedule. Please match the order test manually.",
+                        //    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                        //    CreatedBy = sSystemName
+                        //};
+
+                        //TestResultRepository.insertNotification(sNotificationSend);
+
+
+                        NotificationRepository.SendPMSErrorNotification(sResultTestType, sTestResultObj.PatientID, sSystemName);
                     }
 
-                    NotificationRepository.SendNotification(sTestResultObj.PatientID, sSystemName);
+                    if (PMS != null && PMS.ConfigurationValue != "None") { NotificationRepository.SendNotification(sTestResultObj.PatientID, sSystemName); }
                 }
 
                 isSuccess = true;

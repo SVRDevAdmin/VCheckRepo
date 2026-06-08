@@ -1,13 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
+using System.CodeDom;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using VCheck.Interface.API;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
+using VCheckViewer.Views.Pages.Login;
 
 namespace VCheckViewer.Views.Pages.Schedule
 {
@@ -18,7 +22,10 @@ namespace VCheckViewer.Views.Pages.Schedule
     {
         public static event EventHandler? ReloadSchedule;
 
+        private DispatcherTimer _timer;
+
         ConfigurationDBContext ConfigurationContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
+        string themeColor = App.isLightTheme ? "black" : "white";
 
         public SchedulePage()
         {
@@ -32,6 +39,15 @@ namespace VCheckViewer.Views.Pages.Schedule
 
             ReloadSchedule = null;
             ReloadSchedule += ReloadTestSchedule;
+
+            // Initialize the timer
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(20) // Set interval to 20 seconds
+            };
+            _timer.Tick += ReloadTestSchedule; // Attach the Tick event
+            _timer.Start(); // Start the timer
+
         }
 
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -48,7 +64,7 @@ namespace VCheckViewer.Views.Pages.Schedule
             if (sConfigObj != null)
             {
                 VCheckAPI vcheckAPI = new VCheckAPI();
-                listString = await vcheckAPI.GetScheduleList(sConfigObj.ConfigurationValue);
+                listString = await vcheckAPI.GetScheduleList(sConfigObj.ConfigurationValue, false, false);
             }
 
             List<ScheduledTestModel> sScheduledList = string.IsNullOrEmpty(listString) ? new List<ScheduledTestModel>() : JsonConvert.DeserializeObject<List<ScheduledTestModel>>(listString);
@@ -60,6 +76,7 @@ namespace VCheckViewer.Views.Pages.Schedule
                 {
                     var AnalyzerStatus = "";
                     var SentFunction = "";
+                    var CancelFunction = "";
 
                     if (!string.IsNullOrEmpty(t.SentToAnalyzer))
                     {
@@ -70,17 +87,43 @@ namespace VCheckViewer.Views.Pages.Schedule
                         AnalyzerStatus = "Not yet sent to analyzer";
                     }
 
-                    SentFunction = t.ScheduleTestStatus == 1 ? "Collapsed" : "Visible";
+                    SentFunction = t.ScheduleTestStatus > 0 ? "Collapsed" : "Visible";
+                    CancelFunction = t.ScheduleTestStatus < 2 ? "Visible" : "Collapsed";
                     var testArray = t.ScheduledTestType.Split(",");
-                    var TestList = "";
+                    var TestList = " ";
 
-                    
-                    for(int i = 0; i < testArray.Length; i++)
+                    var status = "";
+
+                    if (t.ScheduleTestStatus == 1 && t.SentToAnalyzer != "N/A" && !string.IsNullOrEmpty(t.SentToAnalyzer))
+                    {
+                        status = Properties.Resources.Schedule_Label_SentToAnalyzer;
+                    }
+                    else if (t.ScheduleTestStatus == 2)
+                    {
+                        status = Properties.Resources.Schedule_Label_Cancelled;
+                    }
+                    else if (t.ScheduleTestStatus == 3)
+                    {
+                        status = Properties.Resources.Schedule_Label_ResultSentToVV;
+                    }
+                    else if (t.ScheduleTestStatus == 4)
+                    {
+                        status = Properties.Resources.Schedule_Label_SentToPIMS;
+                    }
+                    else
+                    {
+                        status = Properties.Resources.Schedule_Label_Pending;
+                    }
+
+
+                    for (int i = 0; i < testArray.Length; i++)
                     {
                         TestList = TestList + testArray[i];
 
-                        if(i != testArray.Length - 1) { TestList = TestList + "\n"; }
+                        if (i != testArray.Length - 1) { TestList = TestList + "\n"; }
                     }
+
+                    if(themeColor == "#FF006FC4") { }
 
                     sUpdateScheduledList.Add(new ScheduledTestModelExtended
                     {
@@ -89,6 +132,8 @@ namespace VCheckViewer.Views.Pages.Schedule
                         ScheduledDateTime = t.ScheduledDateTime.Value.ToLocalTime(),
                         ScheduledBy = t.ScheduledBy,
                         ScheduleUniqueID = string.IsNullOrEmpty(t.ScheduleUniqueID) ? "" : string.Concat(t.ScheduleUniqueID.TakeLast(8)),
+                        PatientName = t.PatientName,
+                        PatientNameString = Properties.Resources.Results_Label_PatientName + ": ",
                         PatientID = t.PatientID,
                         PatientIDString = Properties.Resources.Schedule_Label_PatientID,
                         UniqueIDString = Properties.Resources.Schedule_Label_UniqueID,
@@ -100,9 +145,13 @@ namespace VCheckViewer.Views.Pages.Schedule
                         UpdatedDate = t.UpdatedDate != null ? t.UpdatedDate.Value.ToLocalTime() : null,
                         UpdatedBy = t.UpdatedBy, 
                         SentFunction = SentFunction, 
-                        TestListStringFirst = "Tests : ", 
+                        CancelFunction = CancelFunction,
+                        TestListStringFirst = Properties.Resources.Schedule_Label_Tests + " : ", 
                         TestListStringSecond = "Hover to view",
-                        TestList = TestList
+                        TestList = TestList,
+                        ThemeColor = themeColor,
+                        Status = t.ScheduleTestStatus.ToString(),
+                        StatusTranslate = status
                     });
                 }
 
@@ -118,8 +167,10 @@ namespace VCheckViewer.Views.Pages.Schedule
             }
         }
 
-        public void LoadTestResultList()
+        public async void LoadTestResultList()
         {
+            LoginPage loginPage = new LoginPage();
+            await loginPage.CheckPMSUser();
             List<TestResultModel> sTestResultList = TestResultsRepository.GetLatestTestResultList(ConfigSettings.GetConfigurationSettings());
             if (sTestResultList != null && sTestResultList.Count > 0)
             {
@@ -128,22 +179,22 @@ namespace VCheckViewer.Views.Pages.Schedule
                 {
                     var status = "";
                     var foreground = "";
-                    if(t.OverallStatus.ToLower() == "abnormal")
+                    if (t.OverallStatus == null || t.OverallStatus.ToLower() == "abnormal")
                     {
                         status = Properties.Resources.Schedule_Label_Abnormal;
                         foreground = "#ff2c29";
                     }
-                    if (t.OverallStatus.ToLower() == "normal")
+                    else if (t.OverallStatus.ToLower() == "normal")
                     {
                         status = Properties.Resources.Schedule_Label_Normal;
                         foreground = "#57baa5";
                     }
-                    if (t.OverallStatus.ToLower() == "positive")
+                    else if (t.OverallStatus.ToLower() == "positive")
                     {
                         status = Properties.Resources.Dashboard_Label_Positive;
                         foreground = "#57baa5";
                     }
-                    if (t.OverallStatus.ToLower() == "negative")
+                    else if (t.OverallStatus.ToLower() == "negative")
                     {
                         status = Properties.Resources.Dashboard_Label_Negative;
                         foreground = "#ff2c29";
@@ -153,7 +204,7 @@ namespace VCheckViewer.Views.Pages.Schedule
                     {
                         ID = t.ID,
                         TestResultDateTime = t.TestResultDateTime,
-                        TestResultType = string.IsNullOrEmpty(t.TestResultType) ? "General" : t.TestResultType,
+                        TestResultType = string.IsNullOrEmpty(t.TestResultType) ? Properties.Resources.Schedule_Label_General : t.TestResultType,
                         OperatorID = t.OperatorID,
                         PatientID = t.PatientID,
                         PatientIDString = Properties.Resources.Schedule_Label_PatientID,
@@ -163,10 +214,14 @@ namespace VCheckViewer.Views.Pages.Schedule
                         CreatedDate = t.CreatedDate,
                         CreatedBy = t.CreatedBy,
                         UpdatedDate = t.UpdatedDate,
-                        UpdatedBy = t.UpdatedBy
+                        UpdatedBy = t.UpdatedBy,
+                        ThemeColor = themeColor,
+                        PMSFunction = App.PMSFunction
                     });
                 }
                 icTestResult.ItemsSource = sUpdateTestResultList.ToList();
+
+                
 
                 borderTestsCompleted.Visibility = Visibility.Visible;
                 borderNoTestsCompleted.Visibility = Visibility.Collapsed;
@@ -180,17 +235,11 @@ namespace VCheckViewer.Views.Pages.Schedule
 
         public void GetSummaryStats()
         {
-            var sTotalTestCompleted = TestResultsRepository.GetTodayTestResultList(ConfigSettings.GetConfigurationSettings());
-            if (sTotalTestCompleted != null && sTotalTestCompleted.Count > 0)
-            {
-                lbTotalTest.Text = sTotalTestCompleted.Count().ToString();
-                lbTotalPatients.Text = sTotalTestCompleted.GroupBy(x => x.PatientID).Count().ToString();
-            }
-            else
-            {
-                lbTotalTest.Text = "0";
-                lbTotalPatients.Text = "0";
-            }
+            string totalPatient = "0";
+            var sTotalTestCompleted = TestResultsRepository.GetTotalRecentTestDone(ConfigSettings.GetConfigurationSettings(), out totalPatient);
+
+            lbTotalTest.Text = sTotalTestCompleted;
+            lbTotalPatients.Text = totalPatient;
         }
 
         //private async void SendToAnalyzer_MouseDown(object sender, MouseButtonEventArgs e)
@@ -219,6 +268,7 @@ namespace VCheckViewer.Views.Pages.Schedule
         public void ReloadTestSchedule(object sender, EventArgs e)
         {
             LoadScheduledTestList();
+            LoadTestResultList();
         }
 
         private async void ViewReport_MouseDown(object sender, MouseButtonEventArgs e)
@@ -266,6 +316,16 @@ namespace VCheckViewer.Views.Pages.Schedule
             App.GoToViewResultPageHandler(e, sender);
         }
 
+        private void menuSendReport_Click(object sender, RoutedEventArgs e)
+        {
+            var sMenu = sender as MenuItem;
+
+            App.isSchedulePage = true;
+            App.MainViewModel.Origin = "GreywindSendUniqueID";
+            App.MainViewModel.TestResultID = sMenu.Tag.ToString();
+            App.PopupHandler(e, sender);
+        }
+
         public static void ReloadScheduleHandler(EventArgs e, object sender)
         {
             if (ReloadSchedule != null)
@@ -277,28 +337,39 @@ namespace VCheckViewer.Views.Pages.Schedule
         private void Grid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var grid = sender as Grid;
+            var border = grid.Children.OfType<Border>().ToList().FirstOrDefault();
+            var status = int.Parse(((TextBlock)((Border)((Grid)((Border)border.Child).Child).Children.OfType<Border>().ToList()[6].Child).Child).Tag.ToString());
+
             if (grid.ContextMenu != null)
             {
                 grid.ContextMenu.PlacementTarget = grid;
-                grid.ContextMenu.IsOpen = true;
+                grid.ContextMenu.IsOpen = status < 2;
             }
         }
     }
 
     public class ScheduledTestModelExtended : VCheck.Lib.Data.Models.ScheduledTestModel
     {
+        public String? PatientNameString { get; set; }
         public String? PatientIDString { get; set; }
         public String? UniqueIDString { get; set; }
         public String? TestListStringFirst { get; set; }
         public String? TestListStringSecond { get; set; }
         public String? TestList { get; set; }
         public String? SentFunction { get; set; }
+        public String? CancelFunction { get; set; }
         public String? AnalyzerName { get; set; }
+        public String? ThemeColor { get; set; }
+        public String? Status { get; set; }
+        public String? StatusTranslate { get; set; }
     }
 
     public class TestResultModelExtended : VCheck.Lib.Data.Models.TestResultExtendedModel
     {
+        public String? PatientNameString { get; set; }
         public String? PatientIDString { get; set; }
         public String? StatusForeground { get; set; }
+        public String? ThemeColor { get; set; }
+        public String? PMSFunction { get; set; }
     }
 }

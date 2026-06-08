@@ -12,7 +12,7 @@ namespace ScheduleAutomation.Lib.Services
 {
     public class MessageGenerator
     {
-        public static String GenerateOMLO33Message(List<TestIDAnalyzers> testIDAnalyzers, ScheduledTestModel info)
+        public static String GenerateOMLO33Message(List<(string, string)> testCodeName, ScheduledTestModel info)
         {
             var message = new HL7MessageModel();
             message.MSH = new MSHModel()
@@ -69,28 +69,28 @@ namespace ScheduleAutomation.Lib.Services
 
             //string CartridgeID = "DC001B";
             //string CartridgeName = "Comprehensive 17";
-            string CartridgeID = testIDAnalyzers.FirstOrDefault().TestID;
-            string CartridgeName = info.ScheduledTestType;
-            string CodeSystemName = "VCHECK";
+            //string CartridgeID = testIDAnalyzers.FirstOrDefault().TestID;
+            //string CartridgeName = info.ScheduledTestType;
+            //string CodeSystemName = "VCHECK";
 
             message.OBR = new OBRModel()
             {
                 PlacerOrderNo = Guid.NewGuid().ToString(),
-                UniversalServiceID = CartridgeID + "^" + CartridgeName + "^" + CodeSystemName
+                //UniversalServiceID = CartridgeID + "^" + CartridgeName + "^" + CodeSystemName
             };
 
-            //List<OBXModel> obx = new List<OBXModel>()
-            //{
-            //    new OBXModel()
-            //    {
-            //        SetID = "1", ValueType = "NM", ObservationIdentifier = "^Age", ObservationValue = "24", Units = "Months", ObservationResultStatus = "F"
-            //    },
-            //    new OBXModel()
-            //    {
-            //        SetID = "2", ValueType = "NM", ObservationIdentifier = "^Weight", ObservationValue = "5.4", Units = "kg", ObservationResultStatus = "F"
-            //    }
-            //};
-            //message.OBX = obx;
+            List<OBXModel> obx = new List<OBXModel>()
+            {
+                new OBXModel()
+                {
+                    SetID = "1", ValueType = "NM", ObservationIdentifier = "^Age", ObservationValue = "24", Units = "Months", ObservationResultStatus = "F"
+                },
+                new OBXModel()
+                {
+                    SetID = "2", ValueType = "NM", ObservationIdentifier = "^Weight", ObservationValue = "5.4", Units = "kg", ObservationResultStatus = "F"
+                }
+            };
+            message.OBX = obx;
 
             List<NTEModel> nte = new List<NTEModel>()
             {
@@ -106,7 +106,15 @@ namespace ScheduleAutomation.Lib.Services
             message.NTE = nte;
 
 
-            return GenerateMessage(message);
+            var completeHL7 = "";
+
+            foreach (var testInfo in testCodeName)
+            {
+                completeHL7 += "\n" + GenerateMessage(message, testInfo.Item1, testInfo.Item2);
+            }
+
+            //return GenerateMessage(message);
+            return completeHL7;
         }
 
         public static String GenerateORMO01Message(List<TestIDAnalyzers> testIDAnalyzers, ScheduledTestModel info)
@@ -190,7 +198,7 @@ namespace ScheduleAutomation.Lib.Services
             return GenerateMessageORM(message);
         }
 
-        public static String GenerateMessage(HL7MessageModel message)
+        public static String GenerateMessage(HL7MessageModel message, string CartridgeID, string CartridgeName)
         {
             StringBuilder frame = new StringBuilder();
             frame.Append((char)0x0b);
@@ -279,27 +287,28 @@ namespace ScheduleAutomation.Lib.Services
             Segment obr = new Segment("OBR");
             obr.Field(1, "1"); //optional
             obr.Field(2, message.OBR.PlacerOrderNo); //optional
-            obr.Field(4, message.OBR.UniversalServiceID);
+            //obr.Field(4, message.OBR.UniversalServiceID);
+            obr.Field(4, CartridgeID + "^" + CartridgeName + "^VCHECK");
             response.Add(obr);
             frame.Append(response.SerializeMessage());
             frame.Append((char)0x0d);
 
-            //foreach (var obxValue in message.OBX)
-            //{
-            //    // ------------- Observation Result Segment ------------//
-            //    response = new Message();
-            //    Segment obx = new Segment("OBX");
-            //    obx.Field(1, obxValue.SetID);
-            //    obx.Field(2, obxValue.ValueType);
-            //    obx.Field(3, obxValue.ObservationIdentifier);
-            //    obx.Field(5, obxValue.ObservationValue);
-            //    obx.Field(6, obxValue.Units);
-            //    obx.Field(11, obxValue.ObservationResultStatus);
-            //    obx.Field(29, "SCI");
-            //    response.Add(obx);
-            //    frame.Append(response.SerializeMessage());
-            //    frame.Append((char)0x0d);
-            //}
+            foreach (var obxValue in message.OBX)
+            {
+                // ------------- Observation Result Segment ------------//
+                response = new Message();
+                Segment obx = new Segment("OBX");
+                obx.Field(1, obxValue.SetID);
+                obx.Field(2, obxValue.ValueType);
+                obx.Field(3, obxValue.ObservationIdentifier);
+                obx.Field(5, obxValue.ObservationValue);
+                obx.Field(6, obxValue.Units);
+                obx.Field(11, obxValue.ObservationResultStatus);
+                obx.Field(29, "SCI");
+                response.Add(obx);
+                frame.Append(response.SerializeMessage());
+                frame.Append((char)0x0d);
+            }
 
             foreach (var nteValue in message.NTE)
             {

@@ -39,8 +39,8 @@
                     Text="{Binding ElementName=this, Path=DisplayValue, Mode=TwoWay, Delay=300}"
                     Style="{StaticResource TextBoxStyle}"
                     KeyUp="Handle_Escape_Button" GotMouseCapture="DateRangePicker_TextBox_GotMouseCapture"/>
-                    
-                    <TextBlock IsHitTestVisible="False" Text="{Binding Path=General_Label_SelectDuration, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+
+                    <TextBlock IsHitTestVisible="False" x:Name="DateRangePicker_TextBlock" Text="{Binding Path=General_Label_SelectDuration, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Visibility" Value="Collapsed"/>

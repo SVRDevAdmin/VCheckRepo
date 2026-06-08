@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using VCheck.Interface.API;
@@ -102,6 +103,7 @@ namespace VCheckViewer.Views.Pages.Login
                 ErrorText.Visibility = Visibility.Visible;
                 ErrorText.Text = Properties.Resources.General_Message_Error;
                 App.log.Error("Login Error >>> ", ex);
+                System.Windows.Forms.MessageBox.Show(ex.Message);
             }
         }
 
@@ -234,7 +236,7 @@ namespace VCheckViewer.Views.Pages.Login
                         App.PMSFunction = "Visible";
                     }
                 }
-                else
+                else if (PMSInfo.ConfigurationValue == "Greywind")
                 {
                     var ClinicID = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
                     VCheckAPI VcheckAPI = new VCheckAPI();
@@ -257,6 +259,10 @@ namespace VCheckViewer.Views.Pages.Login
                         }
                     }
                 }
+                else
+                {
+                    App.PMSFunction = "Collapsed";
+                }
 
             }
             else
@@ -275,6 +281,14 @@ namespace VCheckViewer.Views.Pages.Login
             Uri uri = new Uri("pack://application:,,,/Content/Images/"+ iconPath + ".png");
             bitmap = new BitmapImage(uri);
             passwordVisibleIcon.Source = bitmap;
+        }
+
+        private void Password_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                LoginButton_Click(null, null);
+            }
         }
     }
 }

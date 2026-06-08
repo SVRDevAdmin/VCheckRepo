@@ -29,6 +29,14 @@ namespace ScheduleAutomation
             {
                 try
                 {
+                    var PMS = ScheduleRepository.GetConfigurationInfoByKey("InterfaceSettingsPMS");
+
+                    if(string.IsNullOrEmpty(PMS) || PMS == "None")
+                    {
+                        Thread.Sleep(TimeSpan.FromMinutes(5));
+                        continue;
+                    }
+
                     var clinicID = ScheduleRepository.GetConfigurationInfoByKey("ClinicID");
 
                     VCheckAPI vCheckAPI = new VCheckAPI();
@@ -44,25 +52,53 @@ namespace ScheduleAutomation
                         foreach (var schedule in schedulesExtended)
                         {
                             //var selectedDevice = ScheduleRepository.GetAnalyzerByParameterAllowed(schedule.Parameters);
+                            //string[] deviceList = schedule.IDAnalyzers.FirstOrDefault().Analyzers.Split(",");
 
-                            string[] deviceList = schedule.IDAnalyzers.FirstOrDefault().Analyzers.Split(",");
-                            DeviceModel targetDevice = null;
-                            var targetDeviceType = twoWayCommDeviceType.AsEnumerable().Where(x => deviceList.Contains(x.TypeName));
+                            var tempAnalyzers = schedule.IDAnalyzers.Select(x => x.Analyzers).ToList();
+                            var tempAnalyzersListString = "";
 
-                            if (targetDeviceType.Any())
+                            foreach (var analyzerType in tempAnalyzers)
                             {
-                                targetDevice = ScheduleRepository.GetDeviceByAnalyzerList(targetDeviceType.Select(x => x.id).ToArray());
+                                var tempAnalyzerArray = analyzerType.Split(',');
 
-                                if (targetDevice != null)
+                                foreach (var temAnalyzer in tempAnalyzerArray)
                                 {
-                                    var targetDeviceTypeName = targetDeviceType.FirstOrDefault(x => x.id == targetDevice.DeviceTypeID).TypeName;
-                                    HL7.SendMessage(schedule.IDAnalyzers, schedule.Schedule, targetDevice, targetDeviceTypeName);
+                                    if(temAnalyzer != "H6") { tempAnalyzersListString = string.IsNullOrEmpty(tempAnalyzersListString) ? temAnalyzer : tempAnalyzersListString + "," + temAnalyzer; }
+                                }
+                            }
+
+                            string[] deviceList = tempAnalyzersListString.Split(",");
+                            DeviceModel? targetDevice = null;
+                            var targetDeviceTypes = twoWayCommDeviceType.AsEnumerable().Where(x => deviceList.Contains(x.TypeName));
+
+                            if (targetDeviceTypes.Any())
+                            {
+                                //targetDevice = ScheduleRepository.GetDeviceByAnalyzerList(targetDeviceTypes.Select(x => x.id).ToArray());
+
+                                //if (targetDevice != null)
+                                //{
+                                //    var targetDeviceTypeName = targetDeviceTypes.FirstOrDefault(x => x.id == targetDevice.DeviceTypeID).TypeName;
+                                //    if (targetDeviceTypeName != "H6")
+                                //    {
+                                //        await HL7.SendMessage(schedule.IDAnalyzers, schedule.Schedule, targetDevice, targetDeviceTypeName);
+                                //    }
+                                //}
+
+                                foreach (var targetDeviceType in targetDeviceTypes)
+                                {
+                                    targetDevice = ScheduleRepository.GetDeviceByAnalyzerList(targetDeviceType.id);
+
+                                    if (targetDevice != null)
+                                    {
+                                        var targetDeviceTypeName = targetDeviceType.TypeName;
+                                        await HL7.SendMessage(schedule.IDAnalyzers.Where(x => x.Analyzers.Contains(targetDeviceTypeName)).ToList(), schedule.Schedule, targetDevice, targetDeviceTypeName);
+                                    }
                                 }
                             }
                             else
                             {
                                 await vCheckAPI.UpdateScheduleStatus(schedule.Schedule.LocationID, schedule.Schedule.PatientID, schedule.Schedule.ScheduleUniqueID.Split("-")[1], schedule.Schedule.CreatedBy, 1);
-                                await vCheckAPI.UpdateScheduleAnalyzer("N/A", schedule.Schedule.ScheduleUniqueID);
+                                //await vCheckAPI.UpdateScheduleAnalyzer("N/A", schedule.Schedule.ScheduleUniqueID);
                             }
 
                         }
@@ -73,8 +109,8 @@ namespace ScheduleAutomation
                     sLogger.Error("Error >> ", e);
                 }
 
-                //Thread.Sleep(TimeSpan.FromMinutes(5));
-                Thread.Sleep(TimeSpan.FromSeconds(5));
+                Thread.Sleep(TimeSpan.FromMinutes(5));
+                //Thread.Sleep(TimeSpan.FromSeconds(5));
 
             }
         }

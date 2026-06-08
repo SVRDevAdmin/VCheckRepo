@@ -1,4 +1,6 @@
-﻿namespace VCheckViewerAPI.Message.General
+﻿using VCheck.Lib.Data.Models;
+
+namespace VCheckViewerAPI.Message.General
 {
     public class ClientDataRequest
     {
@@ -8,6 +10,6 @@
 
     public class ClientDataRequestBody
     {
-        public string Version { get; set; }
+        public string? Version { get; set; }
     }
 }

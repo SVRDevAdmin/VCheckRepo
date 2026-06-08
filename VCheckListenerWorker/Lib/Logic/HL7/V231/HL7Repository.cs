@@ -2,9 +2,12 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.ServiceProcess;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using VCheck.Interface.API;
 using VCheckListenerWorker.Lib.DBContext;
@@ -30,22 +33,23 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
             try
             {
                 NHapi.Model.V231.Message.ORU_R01 sORU_R01 = (NHapi.Model.V231.Message.ORU_R01)sIMessage;
-                String sResultRule = "";
-                String sResultStatus = "";
-                String sResultTestType = "";
-                String sOperatorID = "";
-                String sPatientID = "";
-                String sPatientName = "";
-                String strObserveValue = "";
-                String sSerialNo = "";
-                String sUniversalIdentifier = "";
-                String sTestResultStatus = "";
+                String? sResultTestCode = "";
+                String? sResultTestType = "";
+                String? sOperatorID = "";
+                String? sPatientID = "";
+                String? sPatientName = "";
+                String? strObserveValue = "";
+                String? sSerialNo = "";
+                String? sUniversalIdentifier = "";
+                String? sTestResultStatus = "";
                 Boolean isRangeReference = false;
-                String strResultObservStatus = "";
-                String sDoctorName = "";
+                String? strResultObservStatus = "";
+                String? sDoctorName = "";
                 Decimal iResultValue = 0;
                 DateTime dAnalysisDateTime = DateTime.MinValue;
                 DateTime CurrentDatetime = DateTime.Now;
+                string age = "";
+                string sSpecies = "General";
 
                 //if (sORU_R01.MSH.SendingApplication.NamespaceID != null && sORU_R01.MSH.SendingApplication.NamespaceID.Value != null)
                 //{
@@ -91,6 +95,11 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                     sPatientID = sPID.PatientID;
                 }
 
+                if(sORU_R01.PATIENT_RESULTs.FirstOrDefault().PATIENT.PID.GetRace().FirstOrDefault() != null && !string.IsNullOrEmpty(sORU_R01.PATIENT_RESULTs.FirstOrDefault().PATIENT.PID.GetRace().FirstOrDefault().Text.ToString()))
+                {
+                    sSpecies = sORU_R01.PATIENT_RESULTs.FirstOrDefault().PATIENT.PID.GetRace().FirstOrDefault().Text.ToString();
+                }
+
                 if (sORU_R01.PATIENT_RESULTs.FirstOrDefault().PATIENT.PID.SetIDPID != null)
                 {
                     sPID.SetID = sORU_R01.PATIENT_RESULTs.FirstOrDefault().PATIENT.PID.SetIDPID.Value;
@@ -109,6 +118,48 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                     {
                         sPatientID = sPID.PatientIdentifierList;
                     }
+                }
+
+                DateTime birthdate = DateTime.Now;
+                var datetimeOfBirth = sORU_R01.PATIENT_RESULTs.FirstOrDefault().PATIENT.PID.DateTimeOfBirth.TimeOfAnEvent.ToString();
+
+                if (string.IsNullOrEmpty(datetimeOfBirth))
+                {
+                    age = "General";
+                }
+                else if (datetimeOfBirth.Length == 1)
+                {
+                    if (datetimeOfBirth.ToString() == "C")
+                    {
+                        age = "Child";
+                    }
+                    else
+                    {
+                        age = "General";
+                    }
+                }
+                else if (datetimeOfBirth.Contains("Y") || datetimeOfBirth.Contains("M") || datetimeOfBirth.Contains("D") || datetimeOfBirth.Contains("H"))
+                {
+                    MatchCollection matches = Regex.Matches(datetimeOfBirth, @"\d+");
+
+                    string ageUnit = datetimeOfBirth.Replace(matches[0].Value, "");
+
+                    if (ageUnit == "Y" && int.Parse(matches[0].Value) > 2) { age = "General"; }
+                    else { age = "Child"; }
+                }
+                else if (datetimeOfBirth.Length > 7)
+                {
+                    if (datetimeOfBirth.Length == 8)
+                    {
+                        birthdate = DateTime.ParseExact(datetimeOfBirth, "yyyyMMdd", CultureInfo.InvariantCulture);
+                    }
+                    else
+                    {
+                        DateTime.TryParse(datetimeOfBirth, out birthdate);
+                    }
+
+                    if ((DateTime.Now.Year - birthdate.Year) > 2) { age = "General"; }
+                    else { age = "Child"; }
                 }
 
 
@@ -140,7 +191,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                         using (var ctx = new TestResultDBContext(Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder().Configuration))
                         {
                             var patientInfo = ctx.txn_Testresults.FirstOrDefault(x => x.PatientID == sPatientID);
-                            if(patientInfo != null)
+                            if (patientInfo != null)
                             {
                                 sPID.PatientName = patientInfo.PatientName;
                             }
@@ -216,9 +267,21 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                         sFillerOrdNum = "";
                     }
 
-                    sResultTestType = string.IsNullOrEmpty(sResultTestType) ? observation.OBR.UniversalServiceID.Identifier.Value : observation.OBR.UniversalServiceID.Text.Value;
+                    var extraComp = observation.OBR.PlacerField1.ExtraComponents;
+                    int totalExtraComp = extraComp.NumComponents();
+                    //sResultTestType = string.IsNullOrEmpty(sResultTestType) ? observation.OBR.UniversalServiceID.Identifier.Value : observation.OBR.UniversalServiceID.Text.Value;
+                    sResultTestType = totalExtraComp > 1 ? extraComp.GetComponent(2).Data.ToString() : observation.OBR.SpecimenSource.SpecimenSourceNameOrCode.Identifier.Value;
+                    sResultTestCode = totalExtraComp > 1 ? extraComp.GetComponent(1).Data.ToString() : "";
                     sUniversalIdentifier = observation.OBR.UniversalServiceID.Text.Value;
-                    sSerialNo = observation.OBR.UniversalServiceID.Identifier.Value;
+                    sSerialNo = string.IsNullOrEmpty(observation.OBR.UniversalServiceID.Text.Value) ? observation.OBR.UniversalServiceID.Identifier.Value : observation.OBR.UniversalServiceID.Text.Value;
+
+                    if (string.IsNullOrEmpty(Worker.MainModel.DeviceType) && !string.IsNullOrEmpty(sSerialNo))
+                    {
+                        string deviceType;
+                        var device = TestResultRepository.GetDeviceByIPSerialNo(null, sSerialNo, out deviceType);
+
+                        Worker.MainModel.DeviceType = deviceType;
+                    }
 
                     sOBRObj.SetID = observation.OBR.SetIDOBR.Value;
                     sOBRObj.PlacerOrderNumber = observation.OBR.PlacerOrderNumber.EntityIdentifier.Value + "^" +
@@ -263,7 +326,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                     foreach (var observationDetail in observation.OBSERVATIONs)
                     {                        
                         String sInterpretation = "";
-                        String sObservValue = "";
+                        String? sObservValue = "";
                         strObserveValue = "";
                         if (observationDetail.OBX.GetObservationValue().Count() > 0)
                         {
@@ -298,7 +361,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                                 if (sVal.Count() > 0)
                                 {
                                     sObservValue = String.Join("^", sVal);
-                                    Decimal.TryParse(sObservValue.Replace("<", ""), out iResultValue);
+                                    Decimal.TryParse(sObservValue.Replace("<", ""), CultureInfo.InvariantCulture, out iResultValue);
                                 }
                             }
                             else
@@ -330,9 +393,10 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                                 {
                                     var componentArray = (tempsObservValue as NHapi.Model.V231.Datatype.ED).Components;
 
-                                    var name = (componentArray[0] as NHapi.Model.V231.Datatype.HD).NamespaceID.Value;
+                                    //var name = (componentArray[0] as NHapi.Model.V231.Datatype.HD).NamespaceID.Value;
+                                    var name = observationDetail.OBX.ObservationIdentifier.Identifier.Value;
 
-                                    if (name.Contains("Style1") && !name.Contains("N-Hollow"))
+                                    if (!string.IsNullOrEmpty(name) && (name.Contains("Style1") || name.Contains("IMG")) && !name.Contains("N-Hollow"))
                                     {
                                         var fileName = name + "." + componentArray[1].ToString();
                                         var base64string = componentArray[3].ToString();
@@ -353,7 +417,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                         else if (observationDetail.OBX.GetProbability().Count() > 0)
                         {
                             sObservValue = observationDetail.OBX.GetProbability()[0].Value;
-                            Decimal.TryParse(sObservValue.Replace("<", ""), out iResultValue);
+                            Decimal.TryParse(sObservValue.Replace("<", ""), CultureInfo.InvariantCulture, out iResultValue);
                         }
                         else
                         {
@@ -468,8 +532,6 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
 
                             if (sComment.ToLower().Contains("cut off index"))
                             {
-                                sResultRule = "COI";
-
                                 String sValue = "";
                                 String[] strArryValue = sComment.Split(",");
                                 if (strArryValue.Length > 0)
@@ -477,7 +539,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                                     sValue = strArryValue[1].Replace("Value=", "").Trim();
                                 }
 
-                                Decimal.TryParse(sValue, out iResultValue);
+                                Decimal.TryParse(sValue, CultureInfo.InvariantCulture, out iResultValue);
                                 sObservValue = sValue;
                             }
 
@@ -502,55 +564,111 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                             strResultObservStatus = "Invalid";
                         }
 
-                        if (!String.IsNullOrEmpty(observationDetail.OBX.ReferencesRange.Value))
-                        {
-                            isRangeReference = true;
-                        }
-                        else
-                        {
-                            isRangeReference = false;
-                        }
-
+                        isRangeReference = !String.IsNullOrEmpty(observationDetail.OBX.ReferencesRange.Value);
 
                         if (!(observationDetail.OBX.ObservationIdentifier.Identifier.Value.ToLower() == "age") &&
-                            !(observationDetail.OBX.ObservationIdentifier.Identifier.Value.ToLower() == "weight"))
+                            !(observationDetail.OBX.ObservationIdentifier.Identifier.Value.ToLower() == "weight") &&
+                            !(observationDetail.OBX.ObservationIdentifier.Identifier.Value.ToLower().Contains("title")))
                         {
-                            String sStatus = General.ProcessObservationResultStatusValue(isRangeReference, sObservValue, observationDetail.OBX.ReferencesRange.Value, iResultValue);
-
+                            String sStatus = "";
+                            string referenceRange = observationDetail.OBX.ReferencesRange.Value;
+                            string measuringRange = "";
                             var testParamName = (observationDetail.OBX.ObservationIdentifier.Text.Value != null && observationDetail.OBX.ObservationIdentifier.Text.Value != "") ? observationDetail.OBX.ObservationIdentifier.Text.Value : observationDetail.OBX.ObservationIdentifier.Identifier.Value;
+
+                            testParamName = testParamName.Replace("UC_", "").Replace("UD_","");
+
+                            if (testParamName == "WBC") { testParamName = "Leukocytes"; }
+                            else if (testParamName == "KET") { testParamName = "Ketone"; }
+                            else if (testParamName == "NIT") { testParamName = "Nitrite"; }
+                            else if (testParamName == "URO") { testParamName = "Urobilinogen"; }
+                            else if (testParamName == "BIL") { testParamName = "Billirubin"; }
+                            else if (testParamName == "GLU") { testParamName = "Glucose"; }
+                            else if (testParamName == "PRO") { testParamName = "Protein"; }
+                            else if (testParamName == "SG") { testParamName = "Specific Gravity"; }
+                            else if (testParamName == "PH") { testParamName = "pH"; }
+                            else if (testParamName == "BLD") { testParamName = "Blood"; }
+                            else if (testParamName == "VC") { testParamName = "Ascorbic Acid"; }
+                            else if (testParamName == "MA") { testParamName = "Microalbumin"; }
+                            else if (testParamName == "CA") { testParamName = "Calcium"; }
+                            else if (testParamName == "CR") { testParamName = "Creatinine"; }
+                            else if (testParamName == "PCR") { testParamName = "UPC"; }
+                            else if (testParamName == "DRBC-Other") { testParamName = "DRBC"; }
+                            else if (testParamName == "REP") { testParamName = "RTEP"; }
+                            else if (testParamName == "UNCC") { testParamName = "PAT"; }
+                            else if (testParamName == "BACT_R") { testParamName = "BACT"; }
+                            else if (testParamName == "IMPURITY") { testParamName = "OTHER"; }
+                            else if (testParamName == "Transparency") { testParamName = "TUR"; }
+                            else if (testParamName == "R_TATE") { testParamName = "R-RATE"; }
+                            else if (testParamName == "MCV_CV") { testParamName = "MCV-CV"; }
+
+                            if (Worker.MainModel.DeviceType == "U3") { sStatus = General.ProcessObservationResultStatusValueU3(isRangeReference, sObservValue, observationDetail.OBX.ReferencesRange.Value, iResultValue); }
+                            else 
+                            {
+                                //sTestResultStatus = General.ProcessObservationResultStatusValueReferenceRange(Worker.MainModel.DeviceType, sObservValue, testParamName.Replace("?", ""), sSpecies, "General", out referenceRange, out measuringRange);
+
+                                //sStatus = string.IsNullOrEmpty(sTestResultStatus) ? General.ProcessObservationResultStatusValue(isRangeReference, sObservValue, observationDetail.OBX.ReferencesRange.Value, iResultValue) : sTestResultStatus;
+
+                                sStatus = General.ProcessObservationResultStatusValue(isRangeReference, sObservValue, observationDetail.OBX.ReferencesRange.Value, iResultValue);
+                            }
+
                             int testUnit = 0;
                             var unitExtended = int.TryParse(observationDetail.OBX.Units.Identifier.Value, out testUnit) ? observationDetail.OBX.Units.Identifier.Value + "^" + observationDetail.OBX.Units.Text.Value : observationDetail.OBX.Units.Identifier.Value;
 
                             sTestResultDetails.Add(new txn_testresults_details
                             {
-                                TestParameter = testParamName,
+                                TestParameter = testParamName.Replace("?", ""),
                                 SubID = observationDetail.OBX.ObservationSubID.Value,
                                 ProceduralControl = strResultObservStatus,
                                 TestResultStatus = sStatus,
                                 TestResultValue = sObservValue,
                                 TestResultUnit = unitExtended,
-                                ReferenceRange = observationDetail.OBX.ReferencesRange.Value,
+                                ReferenceRange = string.IsNullOrEmpty(referenceRange) ? observationDetail.OBX.ReferencesRange.Value : referenceRange,
+                                MeasuringRange = measuringRange,
                                 Interpretation = sInterpretation
                             });
+
+                            //if (testParamName.Contains("RET%")) { RETType = true; }
                         }
 
                     }
 
                 }
 
+                //if(string.IsNullOrEmpty(sResultTestType))
+                //{ 
+                //    sResultTestType = RETType ? "Vcheck H CBC+6DIFF+RET" : "Vcheck H CBC+6DIFF"; 
+                //}
+
                 String sOverallStatus = "Normal";
                 if (sTestResultDetails != null)
                 {
                     if ((sTestResultDetails.Where(x => x.TestResultStatus == "Positive").Count() > 0) ||
-                        (sTestResultDetails.Where(x => x.TestResultStatus == "Invalid").Count() > 0))
+                        (sTestResultDetails.Where(x => x.TestResultStatus == "Invalid").Count() > 0) ||
+                        (sTestResultDetails.Where(x => x.TestResultStatus == "Abnormal").Count() > 0))
                     {
                         sOverallStatus = "Abnormal";
                     }
                 }
 
+                var parameters = sOBXObjList.Select(x => x.ObservationIdentifier).ToList();
+                var U3TestType = "";
+
+                if (parameters.Any(x => x.Contains("UD_")) && !parameters.Any(x => x.Contains("UC_")))
+                {
+                    U3TestType = "Vcheck U Sediment 16 Plus";
+                }
+                else if (parameters.Any(x => x.Contains("UD_")) && parameters.Any(x => x.Contains("UC_")))
+                {
+                    U3TestType = "Vcheck U Both 16 Plus";
+                }
+                else if (!parameters.Any(x => x.Contains("UD_")) && parameters.Any(x => x.Contains("UC_")))
+                {
+                    U3TestType = "Vcheck U UC Vet 13 Plus";
+                }
+
                 txn_testresults sTestResultObj = new txn_testresults();
                 sTestResultObj.TestResultDateTime = dAnalysisDateTime;
-                sTestResultObj.TestResultType = sResultTestType;
+                sTestResultObj.TestResultType = string.IsNullOrEmpty(U3TestType) ? sResultTestType : U3TestType;
                 sTestResultObj.OperatorID = sOperatorID;
                 sTestResultObj.PatientID = sPatientID;
                 sTestResultObj.PatientName = sPatientName;
@@ -558,7 +676,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                 sTestResultObj.OverallStatus = sOverallStatus;
                 sTestResultObj.CreatedDate = CurrentDatetime;
                 sTestResultObj.CreatedBy = sSystemName;
-                sTestResultObj.DeviceSerialNo = Worker.MainModel.DeviceSerialNum != null ? Worker.MainModel.DeviceSerialNum : sSerialNo.Trim();
+                sTestResultObj.DeviceSerialNo = Worker.MainModel.DeviceSerialNum != null ? Worker.MainModel.DeviceSerialNum : sSerialNo;
                 sTestResultObj.PMSFunction = "Visible";
 
                 tbltestanalyze_results sResultObj = new tbltestanalyze_results
@@ -569,17 +687,17 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                     CreatedBy = sSystemName
                 };
 
-                //var parameters = sTestResultDetails.Select(x => x.TestParameter).ToList();
 
                 VCheckAPI VcheckAPI = new VCheckAPI();
 
-                ScheduledTestModel sScheduledTestObj = new ScheduledTestModel();
+                ScheduledTestModel? sScheduledTestObj = new ScheduledTestModel();
                 var clinic = TestResultRepository.GetConfigurationByKey("ClinicID");
-                if (clinic != null && !string.IsNullOrEmpty(clinic.ConfigurationValue))
+                var PMS = TestResultRepository.GetConfigurationByKey("InterfaceSettingsPMS");
+                if (clinic != null && !string.IsNullOrEmpty(clinic.ConfigurationValue) && PMS != null && PMS.ConfigurationValue != "None")
                 {
                     //var scheduleString = await VcheckAPI.GetSchedule(clinic.ConfigurationValue, sTestResultObj.PatientID, parameters);
                     var scheduleString = await VcheckAPI.GetSchedule(clinic.ConfigurationValue, sTestResultObj.PatientID, sResultTestType);
-                    sScheduledTestObj = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
+                    sScheduledTestObj = string.IsNullOrEmpty(scheduleString) ? null : JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
 
                     if (sScheduledTestObj != null)
                     {
@@ -592,20 +710,56 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                 if (bResult)
                 {
                     // Insert into Test Result table & create notification 
-                    TestResultRepository.createTestResultsMultipleParam(sTestResultObj, sTestResultDetails, sTestResultGraph);
+                    sTestResultDetails = TestResultRepository.createTestResultsMultipleParam(sTestResultObj, sTestResultDetails, out sTestResultObj, sTestResultGraph);
 
                     if (sScheduledTestObj != null && !string.IsNullOrEmpty(sScheduledTestObj.ScheduleUniqueID))
                     {
-                        PMSHandler pmsHandler = new PMSHandler();
-                        var success = await pmsHandler.SendToPMS(sTestResultObj, sTestResultDetails, sScheduledTestObj);
-
-                        if (success)
+                        if (string.IsNullOrEmpty(sResultTestCode) || double.TryParse(sResultTestCode, CultureInfo.InvariantCulture, out _))
                         {
-                            success = await VcheckAPI.UpdateScheduleStatus(sScheduledTestObj.LocationID, sScheduledTestObj.PatientID, sScheduledTestObj.ScheduleUniqueID.Split("-")[1], sScheduledTestObj.CreatedBy, 3);
+                            var testResponseString = await VcheckAPI.GetTestByNameOrCode(sTestResultObj.TestResultType, null);
+                            sResultTestCode = string.IsNullOrEmpty(testResponseString) ? "VCheck" : JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.TestDataObject>(testResponseString).testid;
+                        }
+
+                        PMSHandler pmsHandler = new PMSHandler();
+                        var success = false;
+                        success = await pmsHandler.SendToPMS(sTestResultObj, sTestResultDetails, sScheduledTestObj, sResultTestCode);
+
+                        await VcheckAPI.UpdateScheduleStatus(sScheduledTestObj.LocationID, sScheduledTestObj.PatientID, sScheduledTestObj.ScheduleUniqueID.Split("-")[1], sScheduledTestObj.CreatedBy, success ? 4 : 3, sTestResultObj.TestResultType);
+
+                        if (!success)
+                        {
+                            //txn_notification sNotificationSend = new txn_notification()
+                            //{
+                            //    NotificationType = "Schedule Error",
+                            //    NotificationTitle = "Send to PMS Error",
+                            //    NotificationContent = "Order test " + sResultTestType + " for " + sScheduledTestObj.PatientName + " failed to be sent to PIMS. Please send the order test manually to PIMS.",
+                            //    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                            //    CreatedBy = sSystemName
+                            //};
+
+                            //TestResultRepository.insertNotification(sNotificationSend);
+
+                            NotificationRepository.SendPMSErrorNotification(sResultTestType, sTestResultObj.PatientName, sSystemName);
                         }
                     }
+                    else if(PMS != null && !string.IsNullOrEmpty(PMS.ConfigurationValue) && PMS.ConfigurationValue != "None")
+                    {
+                        //txn_notification sNotificationSend = new txn_notification()
+                        //{
+                        //    NotificationType = "Schedule Error",
+                        //    NotificationTitle = "Result Mismatch",
+                        //    NotificationContent = "Order test " + sResultTestType + " for Patient ID : " + sPatientID + " failed to match with any schedule. Please match the order test manually.",
+                        //    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                        //    CreatedBy = sSystemName
+                        //};
 
-                    NotificationRepository.SendNotification(sTestResultObj.PatientID, sSystemName);
+                        //TestResultRepository.insertNotification(sNotificationSend);
+
+
+                        NotificationRepository.SendPMSErrorNotification(sResultTestType, sTestResultObj.PatientID, sSystemName);
+                    }
+
+                    if(PMS != null && PMS.ConfigurationValue != "None") { NotificationRepository.SendNotification(sTestResultObj.PatientID, sSystemName); }
                 }
 
                 isSuccess = true;

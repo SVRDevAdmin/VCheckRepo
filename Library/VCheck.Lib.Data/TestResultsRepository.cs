@@ -7,13 +7,12 @@ using VCheck.Lib.Data.Models;
 using VCheck.Lib.Data.DBContext;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using MySql.Data.MySqlClient;
 using System.Runtime.CompilerServices;
 using System.CodeDom;
 using log4net;
 using System.Reflection;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using MySqlConnector;
 
 namespace VCheck.Lib.Data
 {
@@ -96,11 +95,13 @@ namespace VCheck.Lib.Data
 
         public static List<TestResultModel> GetLatestTestResultList(IConfiguration config)
         {
+            DateTime MinimumDatetime = DateTime.Now.ToUniversalTime().AddHours(-48);
+
             try
             {
                 using (var ctx = new TestResultDBContext(config))
                 {
-                    return ctx.txn_testResults.OrderByDescending(x => x.CreatedDate).Take(5).ToList();
+                    return ctx.txn_testResults.Where(x => x.TestResultDateTime > MinimumDatetime).OrderByDescending(x => x.TestResultDateTime).Take(50).ToList();
                 }
             }
             catch (Exception ex)
@@ -115,21 +116,24 @@ namespace VCheck.Lib.Data
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static List<TestResultModel> GetTodayTestResultList(IConfiguration config)
+        public static string GetTotalRecentTestDone(IConfiguration config, out string totalPatient)
         {
-
+            totalPatient = "0";
             try
             {
                 using (var ctx = new TestResultDBContext(config))
                 {
-                    return ctx.txn_testResults.Where(x => x.TestResultDateTime.Value.Date == DateTime.Now.Date)
-                                              .ToList();
+                    var totalTest = ctx.txn_testResults.ToList();
+                    var totalTestDone = totalTest.Count();
+                    totalPatient = totalTest.GroupBy(x => x.PatientID).Count().ToString();
+
+                    return totalTestDone.ToString();
                 }
             }
             catch (Exception ex)
             {
                 log.Error("Error >>> " + ex.ToString());
-                return null;
+                return "0";
             }
         }
 
@@ -323,7 +327,7 @@ namespace VCheck.Lib.Data
         /// <returns></returns>
         public static List<TestResultListingExtendedObj> GetTestResultListBySearch(IConfiguration config, String dStartDate, String dEndDate, 
                                                                            String sKeyword, String sSortDirection, int pageIndex, int pageSize, string isPMSUser,
-                                                                           out int totalRecords)
+                                                                           out int totalRecords, int sDeviceID = 0)
         {
             List<TestResultListingExtendedObj> sResult = new List<TestResultListingExtendedObj>();
             totalRecords = 0;
@@ -333,7 +337,7 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new TestResultDBContext(config))
                 {
-                    using (MySqlConnection sConn = new MySql.Data.MySqlClient.MySqlConnection(ctx.Database.GetConnectionString()))
+                    using (MySqlConnection sConn = new MySqlConnection(ctx.Database.GetConnectionString()))
                     {
                         sConn.Open();
 
@@ -375,15 +379,30 @@ namespace VCheck.Lib.Data
                         //                         "ORDER BY T1.TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
 
                         String sSelectCommand = "SELECT T1.ID, T1.TestResultDateTime, T1.TestResultType, T1.OperatorID, T1.PatientID, T1.PatientName, " +
-                                                "T1.InchargePerson, T1.OverallStatus, T1.DeviceSerialNo, T1.PMSFunction, T1.CreatedDate, T1.CreatedBy " +
+                                                "T1.InchargePerson, T1.OverallStatus, T1.DeviceSerialNo, T1.PMSFunction, T1.CreatedDate, T1.CreatedBy, T2.DeviceName " +
                                                 "FROM txn_testresults AS T1 " +
+                                                "LEFT JOIN  mst_deviceslist AS T2 on T1.DeviceSerialNo = T2.DeviceSerialNo " +
+                                                "LEFT JOIN  mst_devicetype AS T3 on T2.DeviceTypeID = T3.ID " +
                                                 "WHERE ";
+
+                        var patientIDSerialNumFilter = "T1.DeviceSerialNo = '" + sKeyword + "' OR " + "T1.PatientID = '" + sKeyword + "') ";
+                        var deviceFilter = "";
+
+                        if (string.IsNullOrEmpty(sKeyword))
+                        {
+                            patientIDSerialNumFilter = "T1.DeviceSerialNo LIKE '%" + sKeyword + "%' OR " + "T1.PatientID LIKE '%" + sKeyword + "%') ";
+                        }
+
+                        if (sDeviceID != 0)
+                        {
+                            deviceFilter = "AND T3.ID = " + sDeviceID;
+                        }
 
                         if (dStartDate != "") { sSelectCommand += "(T1.TestResultDateTime >= '" + dStartDate + "' AND T1.TestResultDateTime <= '" + dEndDate + "') AND "; }
 
-                        sSelectCommand += "(T1.OperatorID LIKE '%" + sKeyword + "%' OR " +
-                                          "T1.InchargePerson LIKE '%" + sKeyword + "%' OR " +
-                                          "T1.PatientID LIKE '%" + sKeyword + "%') " +
+                        sSelectCommand += "T1.IsDeleted = 0 " + deviceFilter + " AND (T1.OperatorID LIKE '%" + sKeyword + "%' OR " +
+                                          "T1.InchargePerson = '%" + sKeyword + "%' OR " +
+                                          "T1.Patientname LIKE '%" + sKeyword + "%' OR " + patientIDSerialNumFilter +
                                           ((!sSortDirection.Contains("Status")) ?
                                           "ORDER BY T1.TestResultDateTime " + sSortDirection :
                                           "ORDER BY T1.TestResultStatus " + sSortDirection.Replace("Status", "").Trim());
@@ -394,6 +413,13 @@ namespace VCheck.Lib.Data
                             {
                                 while (sReader.Read())
                                 {
+                                    var statusFontColor = "#27f714";
+
+                                    if (sReader["OverallStatus"].ToString() == "Abnormal" || sReader["OverallStatus"].ToString() == "Invalid" || sReader["OverallStatus"].ToString() == "IC Invalid")
+                                    {
+                                        statusFontColor = "#ff2c29";
+                                    }
+
                                     sResult.Add(new TestResultListingExtendedObj
                                     {
                                         RowNo = iIndex,
@@ -401,20 +427,21 @@ namespace VCheck.Lib.Data
                                         TestResultDateTime = Convert.ToDateTime(sReader["TestResultDateTime"]),
                                         TestResultDateTimeString = (Convert.ToDateTime(sReader["TestResultDateTime"])).ToString("dd/MM/yyyy HH:mm"),
                                         TestResultType = sReader["TestResultType"].ToString(),
-                                        OperatorID = sReader["OperatorID"].ToString(),
+                                        OperatorID = string.IsNullOrEmpty(sReader["OperatorID"].ToString()) ? "-" : sReader["OperatorID"].ToString(),
                                         PatientID = sReader["PatientID"].ToString(),
                                         PatientName = string.IsNullOrEmpty(sReader["PatientName"].ToString()) ? "-" : sReader["PatientName"].ToString(),
-                                        InchargePerson = sReader["InchargePerson"].ToString(),
+                                        InchargePerson = string.IsNullOrEmpty(sReader["InchargePerson"].ToString()) ? "-" : sReader["InchargePerson"].ToString(),
                                         TestResultStatus = sReader["OverallStatus"].ToString(),
                                         CreatedDate = Convert.ToDateTime(sReader["CreatedDate"]),
                                         CreatedBy = sReader["CreatedBy"].ToString(),
                                         statusBackground = (sReader["OverallStatus"].ToString() == "Normal" || 
                                                             sReader["OverallStatus"].ToString().Contains("titer")) ?  
                                                             "#D1F2EB" : "#F5B7B1",
-                                        statusFontColor = (sReader["OverallStatus"].ToString() == "Abnormal" || 
-                                                           sReader["OverallStatus"].ToString() == "Invalid") ? 
-                                                           "#ff2c29" : "#57baa5",
-                                        DeviceSerialNo = sReader["DeviceSerialNo"].ToString(),
+                                        //statusFontColor = (sReader["OverallStatus"].ToString() == "Abnormal" || 
+                                        //                   sReader["OverallStatus"].ToString() == "Invalid") ? 
+                                        //                   "#ff2c29" : "#57baa5",
+                                        statusFontColor = statusFontColor,
+                                        DeviceSerialNo = string.IsNullOrEmpty(sReader["DeviceName"].ToString()) ? sReader["DeviceSerialNo"].ToString() : sReader["DeviceName"].ToString() + " (" + sReader["DeviceSerialNo"].ToString() + ")",
                                         //PMSFunction = isPMSUser == "Visible" ? sReader["PMSFunction"].ToString() : isPMSUser
                                         PMSFunction = isPMSUser
                                     }); ;
@@ -449,6 +476,37 @@ namespace VCheck.Lib.Data
                 using (var ctx = new TestResultDBContext(config))
                 {
                     return ctx.txn_testResults.Where(x => x.ID == iTestResultID).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        public static List<TestResultNotes> GetTestResultNotesByID(IConfiguration config, long iTestResultID)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.tbltestanalyze_results_notes.Where(x => x.ResultRowID == iTestResultID && !string.IsNullOrEmpty(x.Comment) && !x.Comment.Contains("Device Information") && !x.Comment.Contains("Interpretation")).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static TestResultSpecimenContainer GetTestResultSpecimenContainerByID(IConfiguration config, long iTestResultID)
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.tbltestanalyze_results_specimencontainer.FirstOrDefault(x => x.ResultRowID == iTestResultID);
                 }
             }
             catch (Exception ex)
@@ -560,7 +618,7 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new TestResultDBContext(config))
                 {
-                    MySqlConnection sConn = new MySql.Data.MySqlClient.MySqlConnection(ctx.Database.GetConnectionString());
+                    MySqlConnection sConn = new MySqlConnection(ctx.Database.GetConnectionString());
                     sConn.Open();
 
                     String sSelectCommand = "SELECT A.ID, A.TestResultDateTime, A.TestResultType, A.OperatorID, A.PatientID, A.InchargePerson, " +
@@ -664,7 +722,7 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new TestResultDBContext(config))
                 {
-                    return ctx.mst_testlist.Where(x => testNames.Contains(x.TestName)).Select(y => new TestIDAnalyzers(){ TestID = y.TestID, Analyzers = y.Analyzer }).ToList();
+                    return ctx.mst_testlist.Where(x => testNames.Contains(x.TestName.Replace(" (C10)", ""))).Select(y => new TestIDAnalyzers(){ TestID = y.TestID, Analyzers = y.Analyzer }).ToList();
 
                     //return ctx.mst_testlist.Where(x => testNames.Contains(x.TestName)).Select(y => y.Analyzer).ToArray();
                 }
@@ -733,6 +791,28 @@ namespace VCheck.Lib.Data
                 using (var ctx = new TestResultDBContext(config))
                 {
                     return ctx.mst_testlist.FirstOrDefault(x => x.TestID == uniqueID);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get test by unique ID
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static TestListModel GetTestByName(IConfiguration config, string name)
+        {
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    return ctx.mst_testlist.FirstOrDefault(x => x.TestName == name);
                 }
             }
             catch (Exception ex)
@@ -823,7 +903,7 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new TestResultDBContext(config))
                 {
-                    var previousTestTemp = ctx.txn_testResults.OrderByDescending(x => x.CreatedDate).FirstOrDefault(y => y.DeviceSerialNo == currenttestInfo.DeviceSerialNo && y.PatientID == currenttestInfo.PatientID && y.CreatedDate < currenttestInfo.CreatedDate);
+                    var previousTestTemp = ctx.txn_testResults.OrderByDescending(x => x.TestResultDateTime).FirstOrDefault(y => y.TestResultType == currenttestInfo.TestResultType && y.PatientID == currenttestInfo.PatientID && y.TestResultDateTime < currenttestInfo.TestResultDateTime && y.IsDeleted == 0);
                     previousTest = previousTestTemp;
 
                     if (previousTest != null)
@@ -865,7 +945,7 @@ namespace VCheck.Lib.Data
 
                     if(deviceName != excludeDeviceName) 
                     {
-                        testDeviceNames.Add(new TestDeviceName() { TestID = test.ID, DeviceName = DeviceRepository.GetDeviceNameBySerialNo(config, test.DeviceSerialNo) });
+                        testDeviceNames.Add(new TestDeviceName() { TestID = test.ID, DeviceName = deviceName });
                     }
                     
                 }
@@ -878,6 +958,39 @@ namespace VCheck.Lib.Data
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Get delete test result
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static bool DeleteTestResultByID(IConfiguration config, string TestID)
+        {
+            List<string> serialNoList = new List<string>();
+            TestResultModel TestInfo = new TestResultModel();
+            List<TestDeviceName> testDeviceNames = new List<TestDeviceName>();
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    TestInfo = ctx.txn_testResults.FirstOrDefault(x => x.ID == int.Parse(TestID));
+
+                    TestInfo.IsDeleted = 1;
+
+                    ctx.Update(TestInfo);
+                    ctx.SaveChanges();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+            }
+
+            return false;
         }
     }
 }

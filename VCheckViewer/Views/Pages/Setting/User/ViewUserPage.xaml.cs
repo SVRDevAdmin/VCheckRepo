@@ -18,6 +18,7 @@ namespace VCheckViewer.Views.Pages.Setting.User
             InitializeComponent();
 
             userInfoViewPage = App.MainViewModel.Users;
+            if (App.HideTopTabBar) { TopTabBar.Visibility = Visibility.Hidden; UserPage.Visibility = Visibility.Hidden; }
 
             Title.Text = userInfoViewPage.Title;
             FullName.Text = userInfoViewPage.FullName;
@@ -30,17 +31,17 @@ namespace VCheckViewer.Views.Pages.Setting.User
             Status.Text = userInfoViewPage.Status;
             LoginID.Text = userInfoViewPage.LoginID;
 
-            if (App.MainViewModel.CurrentUsers.Role == "Lab User")
+            if (App.MainViewModel.CurrentUsers.Role == "User")
             {
-                btnSettings.IsEnabled = false;
-                btnDeviceSetting.IsEnabled = false;
+                //btnSettings.IsEnabled = false;
+                //btnDeviceSetting.IsEnabled = false;
 
                 UserPage.Visibility = Visibility.Collapsed;
             }
             else
             {
-                btnSettings.IsEnabled = true;
-                btnDeviceSetting.IsEnabled = true;
+                //btnSettings.IsEnabled = true;
+                //btnDeviceSetting.IsEnabled = true;
 
                 UserPage.DataContext = App.MainViewModel;
 

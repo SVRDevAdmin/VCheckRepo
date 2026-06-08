@@ -1,24 +1,34 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.IO;
+using Microsoft.Win32;
+using Microsoft.Windows.Themes;
 using System.Data;
-using System.Windows;
-using System.Windows.Threading;
-using System.Reflection;
-using Wpf.Ui;
-using VCheckViewer.ViewModels.Windows;
-using VCheckViewer.Services;
-using Microsoft.EntityFrameworkCore;
-using VCheck.Lib.Data.DBContext;
-using Microsoft.AspNetCore.Identity;
-using VCheckViewer.Lib.Culture;
-using System.Globalization;
-using VCheck.Lib.Data.Models;
-using VCheck.Helper;
 using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.IO.Compression;
+using System.Reflection;
+using System.Resources;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Threading;
+using VCheck.Helper;
 using VCheck.Interface.API;
+using VCheck.Lib.Data.DBContext;
+using VCheck.Lib.Data.Models;
+using VCheckViewer.Lib.Culture;
+using VCheckViewer.Services;
 using VCheckViewer.Services.MessageBox;
+using VCheckViewer.ViewModels.Windows;
+using VCheckViewer.Views.Pages.Login;
+using VCheckViewer.Views.Windows;
+using Wpf.Ui;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace VCheckViewer
 {
@@ -28,11 +38,13 @@ namespace VCheckViewer
     public partial class App
     {
         public static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        private string currentVersion = "1.6";
         public static MainViewModel MainViewModel { get; } = new MainViewModel();
 
         public static event EventHandler GoPreviousPage;
         public static event EventHandler Popup;
+        public static event EventHandler RefreshMaintenance;
+        public static event EventHandler RefreshUnreadNotification;
 
         public static event EventHandler GoToSettingUserPage;
         public static event EventHandler GoToSettingLanguageCountryPage;
@@ -40,8 +52,11 @@ namespace VCheckViewer
         public static event EventHandler GoToSettingConfigurationPage;
         public static event EventHandler GoToReportPage;
         public static event EventHandler GoToClinicInfoPage;
+        public static event EventHandler TempChangeLanguage;
+        public static event EventHandler GoToInformationPage;
 
         public static event EventHandler? GoToViewResultPage;
+        public static event EventHandler? GoToResultPage;
 
         public static SignInManager<IdentityUser> SignInManager { get; set; }
         public static UserManager<IdentityUser> UserManager { get; set; }
@@ -51,6 +66,7 @@ namespace VCheckViewer
         public static string newPassword { get; set; }
         public static SMTPModel SMTP { get; set; }
         public static string UpdateLink {  get; set; }
+        public static string LatestAppVersionFolder { get; set; }
         public static long TestResultID { get; set; }
         public static ScheduledTestModel ScheduleTestInfo { set; get; }
         public static ScheduledTestModelExtended ScheduleTestInfoExtended { set; get; }
@@ -63,12 +79,15 @@ namespace VCheckViewer
         public static bool IsPrint { get; set; }
         public static string PMSFunction { get; set; }
         public static bool isLanguagePage { get; set; }
+        public static bool isSchedulePage { get; set; }
         public static bool isEmptyName { get; set; }
         public static List<DownloadPrintResultModel> DowloadPrintObject { get; set; }
         public static string ClinicID { get; set; }
         public static bool ShowUpdateNotification { get; set; } = false;
         public static bool ConnectionStatus { get; set; } = false;
         public static double WindowHeight { get; set; }
+        public static bool isLightTheme { get; set; }
+        public static bool HideTopTabBar { get; set; }
 
         public static IConfiguration iConfig { get; set; }
 
@@ -86,10 +105,17 @@ namespace VCheckViewer
             {
                 try
                 {
+                    //File.WriteAllText(
+                    //System.IO.Path.Combine(AppContext.BaseDirectory, "ConfigureAppConfiguration.txt"),
+                    //"Can configure app configuration");
                     c.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location));
                 }
                 catch (Exception ex)
                 {
+                    //File.WriteAllText(
+                    //System.IO.Path.Combine(AppContext.BaseDirectory, "App_Configuration_Error.txt"),
+                    //ex.ToString());
+                    //Environment.Exit(1);
                     log.Error("App Configuration Error >>> ", ex);
                 }
             })
@@ -148,9 +174,14 @@ namespace VCheckViewer
                     services.AddAuthentication();
 
                     UpdateLink = context.Configuration.GetValue<string>("UpdateLink");
+                    LatestAppVersionFolder = context.Configuration.GetValue<string>("LatestAppVersionFolder");
                 }
                 catch(Exception ex)
                 {
+                    //File.WriteAllText(
+                    //System.IO.Path.Combine(AppContext.BaseDirectory, "Service_Configuration_Error.txt"),
+                    //ex.ToString());
+                    //Environment.Exit(1);
                     log.Error("Service Configuration Error >>> ", ex);
                 }
                 
@@ -176,17 +207,53 @@ namespace VCheckViewer
         {
             try
             {
+                //File.WriteAllText(
+                //System.IO.Path.Combine(AppContext.BaseDirectory, "OnStartup.txt"),
+                //"Can run on start up");
+
+                ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
+                MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
+
+                if (MainViewModel.ConfigurationModel.Count() == 0)
+                {
+                    System.Windows.Forms.MessageBox.Show("The VCheck Viewer is unable to connect with its database – please contact support.");
+                    Environment.Exit(0);
+                }
+
+                var Language = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault()?.ConfigurationValue;
+
+                CultureInfo sZHCulture = new CultureInfo(Language != null ? Language : "en");
+                CultureResources.ChangeCulture(sZHCulture);
+
+                ResourceManager rm = new ResourceManager("VCheckViewer.Properties.Resources", typeof(App).Assembly);
+
                 var processes = Process.GetProcessesByName("VcheckViewer");
                 if (processes.Length > 1)
                 {
-                    System.Windows.Forms.MessageBox.Show("An instance of VCheck Viewer is already opened. Please close old instance before can open new one.");
+                    System.Windows.Forms.MessageBox.Show(rm.GetString("General_Message_VCheckAlreadyOpen", sZHCulture));
                     processes[1].Kill(); // Terminate the process
                     processes[1].WaitForExit(); // Wait for the process to exit
                 }
                 else
                 {
+
+                    const string registryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+                    const string registryValueName = "AppsUseLightTheme";
+
+                    using (RegistryKey key = Registry.CurrentUser.OpenSubKey(registryKeyPath))
+                    {
+                        if (key != null)
+                        {
+                            object registryValue = key.GetValue(registryValueName);
+                            if (registryValue != null && registryValue is int value)
+                            {
+                                isLightTheme = value == 1;
+                                // 0 means Dark Theme, 1 means Light Theme
+                            }
+                        }
+                    }
+
                     QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
-                    ConfigurationDBContext ConfigurationContext = GetService<ConfigurationDBContext>();
                     UserDBContext usersContext = GetService<UserDBContext>();
                     RolesDBContext roleContext = GetService<RolesDBContext>();
 
@@ -195,72 +262,147 @@ namespace VCheckViewer
                     RoleManager = GetService<RoleManager<IdentityRole>>();
                     UserStore = GetService<IUserStore<IdentityUser>>();
 
-                    MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
-                    //(string SelectedButton, bool IsCheckBoxChecked) result = ("", false);
+                    (string SelectedButton, bool IsCheckBoxChecked) result = ("", false);
 
-                    //var SystemVersionReminder = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "System_VersionReminder").FirstOrDefault()?.ConfigurationValue;
+                    var SystemVersionReminder = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "System_VersionReminder").FirstOrDefault()?.ConfigurationValue;
+                    VCheckAPI vcheckAPI = new VCheckAPI();
+                    var SystemVersion = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "System_Version").FirstOrDefault();
 
-                    //if (SystemVersionReminder == null || DateTime.Parse(SystemVersionReminder) < DateTime.Now)
-                    //{
-                    //    var SystemVersion = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "System_Version").FirstOrDefault()?.ConfigurationValue;
-                    //    VCheckAPI vcheckAPI = new VCheckAPI();
-                    //    var IsLatestVersion = await vcheckAPI.IsLatestVersion(SystemVersion);
+                    if (SystemVersionReminder != null && !DateTime.TryParseExact(SystemVersionReminder, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+                    {
+                        SystemVersionReminder = DateOnly.FromDateTime(DateTime.Now.Date).AddDays(-1).ToString("dd/MM/yyyy");
+                    }
 
-                    //    if (!IsLatestVersion)
-                    //    {
-                    //        //ShowUpdateNotification = true;
-                    //        result = CustomMessageBox.Show();
-                    //    }
-                    //    else
-                    //    {
-                    //        var oneDaysDate = DateOnly.FromDateTime(DateTime.Now).AddDays(1).ToString();
-                    //        if (SystemVersionReminder != null)
-                    //        {
-                    //            ConfigurationContext.UpdateConfiguration("System_VersionReminder", oneDaysDate);
-                    //        }
-                    //        else
-                    //        {
-                    //            ConfigurationContext.AddConfiguration("System_VersionReminder", oneDaysDate);
-                    //        }
-                    //    }
-                    //}
+                    if (SystemVersionReminder == null || DateTime.ParseExact(SystemVersionReminder, "dd/MM/yyyy", CultureInfo.InvariantCulture) < DateTime.Now || (SystemVersion != null && currentVersion != SystemVersion.ConfigurationValue))
+                    {
+                        var IsLatestVersion = false;
+                        if (SystemVersion == null) { ConfigurationContext.AddConfiguration("System_Version", currentVersion); }
+                        else if (currentVersion != SystemVersion.ConfigurationValue)
+                        {
+                            ConfigurationContext.UpdateConfiguration("System_Version", currentVersion);
+                        }
+
+                        IsLatestVersion = await vcheckAPI.IsLatestVersion(currentVersion);
+
+                        if (!IsLatestVersion)
+                        {
+                            //ShowUpdateNotification = true;
+                            result = CustomMessageBox.Show(1, false);
+                        }
+                        else
+                        {
+                            var oneDaysDate = DateOnly.FromDateTime(DateTime.Now.Date).AddDays(1).ToString("dd/MM/yyyy");
+                            if (SystemVersionReminder != null)
+                            {
+                                ConfigurationContext.UpdateConfiguration("System_VersionReminder", oneDaysDate);
+                            }
+                            else
+                            {
+                                ConfigurationContext.AddConfiguration("System_VersionReminder", oneDaysDate);
+                            }
+                        }
+                    }
 
 
-                    //if (result.IsCheckBoxChecked)
-                    //{
-                    //    var threeDaysDate = DateOnly.FromDateTime(DateTime.Now).AddDays(3).ToString();
-                    //    if (SystemVersionReminder != null)
-                    //    {
-                    //        ConfigurationContext.UpdateConfiguration("System_VersionReminder", threeDaysDate);
-                    //    }
-                    //    else
-                    //    {
-                    //        ConfigurationContext.AddConfiguration("System_VersionReminder", threeDaysDate);
-                    //    }
-                    //}
+                    if (result.SelectedButton == "No")
+                    {
+                        System.Windows.Forms.MessageBox.Show(rm.GetString("General_Message_RemindThreeDays", sZHCulture));
 
-                    //if(result.SelectedButton == "Yes")
-                    //{
+                        var threeDaysDate = DateOnly.FromDateTime(DateTime.Now).AddDays(3).ToString();
+                        if (SystemVersionReminder != null)
+                        {
+                            ConfigurationContext.UpdateConfiguration("System_VersionReminder", threeDaysDate);
+                        }
+                        else
+                        {
+                            ConfigurationContext.AddConfiguration("System_VersionReminder", threeDaysDate);
+                        }
+                    }
+                    else if (result.SelectedButton == "Yes")
+                    {
+                        Process.Start(new ProcessStartInfo(LatestAppVersionFolder) { UseShellExecute = true });
 
-                    //}
-                    //else
-                    //{
+                        //result = CustomMessageBox.Show(0, false);
+                        //if (result.SelectedButton == "Yes") { Process.Start("C:\\VCheck\\VCheck Viewer Installer (Staging).exe"); }
 
-                    //}
+                        //var downloadSuccess = await vcheckAPI.DownloadLatestInstaller();
+                        //if (downloadSuccess)
+                        //{
+                        //    System.Windows.Forms.MessageBox.Show("Download successful.");
 
-                    var language = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "SystemSettings_Language").FirstOrDefault()?.ConfigurationValue;
+                        //    string downloadFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
+                        //    string zipPath = downloadFolderPath + @"\Vcheck Patch.zip";
+                        //    string extractPath = downloadFolderPath;
 
-                    CultureInfo sZHCulture = new CultureInfo(language != null ? language : "en");
-                    CultureResources.ChangeCulture(sZHCulture);
-                }                
+                        //    ZipFile.ExtractToDirectory(zipPath, extractPath, overwriteFiles: true);
+
+                        //    ProcessStartInfo startInfo = new ProcessStartInfo
+                        //    {
+                        //        FileName = downloadFolderPath + @"\Deploy Patch.bat", // Replace with your batch file path
+                        //        //CreateNoWindow = true,           // Prevents the CMD window from showing
+                        //        UseShellExecute = true, // Required for 'runas'
+                        //        Verb = "runas",         // Triggers UAC for admin rights
+                        //        //WindowStyle = ProcessWindowStyle.Hidden, // Hide window
+                        //    };
+
+                        //    using (Process process = new Process { StartInfo = startInfo })
+                        //    {
+                        //        process.Start();
+                        //    }
+
+                        //    // Start the batch file in a new process
+                        //    //Process.Start(new ProcessStartInfo
+                        //    //{
+                        //    //    FileName = "cmd.exe",
+                        //    //    Arguments = $"/c start \"\" \"{downloadFolderPath + @"\Deploy Patch.bat"}\"",
+                        //    //    Verb = "runas",
+                        //    //    UseShellExecute = true,
+                        //    //    WorkingDirectory = @"C:\Windows\System32"
+                        //    //});
+
+                        //    //Current.Shutdown();
+                        //    Environment.Exit(0);
+                        //}
+                        //else { System.Windows.Forms.MessageBox.Show("Download unsuccessful. Please try again later."); }
+
+                    }
+                    else
+                    {
+
+                    }
+                }
             }
             catch (Exception ex)
             {
+                //File.WriteAllText(
+                //    System.IO.Path.Combine(AppContext.BaseDirectory, "startup_error.txt"),
+                //    ex.ToString());
+                //Environment.Exit(1);
+
                 log.Error("Startup Error >>> ", ex);
             }
 
+            //File.WriteAllText(
+            //System.IO.Path.Combine(AppContext.BaseDirectory, "OnStartup.txt"),
+            //"before host start");
+
             _host.Start();
+
+            //LoginWindow LoginPage = new LoginWindow();
+            //LoginPage.Navigate(new RegisterPage());
+            //Current.MainWindow = LoginPage;
+            //RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            //LoginPage.Show();
         }
+
+        //protected override void OnStartup(StartupEventArgs e)
+        //{
+        //    base.OnStartup(e);
+        //    var w = new System.Windows.Window { Width = 800, Height = 600, Title = "Test Window" };
+        //    w.Content = new TextBlock { Text = "Hello Kiosk!", FontSize = 32, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
+        //    Current.MainWindow = w;
+        //    w.Show();
+        //}
 
         /// <summary>
         /// Occurs when the application is closing.
@@ -302,6 +444,22 @@ namespace VCheckViewer
             if (Popup != null)
             {
                 Popup(sender, e);
+            }
+        }
+
+        public static void RefreshMaintenanceHandler(EventArgs e, object sender)
+        {
+            if (RefreshMaintenance != null)
+            {
+                RefreshMaintenance(sender, e);
+            }
+        }
+
+        public static void RefreshUnreadNotificationHandler(EventArgs e, object sender)
+        {
+            if (RefreshUnreadNotification != null)
+            {
+                RefreshUnreadNotification(sender, e);
             }
         }
 
@@ -358,6 +516,30 @@ namespace VCheckViewer
             if (GoToViewResultPage != null)
             {
                 GoToViewResultPage(sender, e);
+            }
+        }
+
+        public static void GoToResultPageHandler(EventArgs e, object sender)
+        {
+            if (GoToResultPage != null)
+            {
+                GoToResultPage(sender, e);
+            }
+        }
+
+        public static void TempChangeLanguageHandler(EventArgs e, object sender)
+        {
+            if (TempChangeLanguage != null)
+            {
+                TempChangeLanguage(sender, e);
+            }
+        }
+
+        public static void GoToInformationPageHandler(EventArgs e, object sender)
+        {
+            if (GoToInformationPage != null)
+            {
+                GoToInformationPage(sender, e);
             }
         }
 

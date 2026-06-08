@@ -28,10 +28,66 @@ namespace VCheck.Lib.Data.Models
         //public String? TestResultValue { get; set; }
         //public String? TestResultRules { get; set; }
         public string PMSFunction { get; set; }
+        public int IsDeleted { get; set; }
+        public long Analyze_TableRowID { get; set; }
         public DateTime? CreatedDate { get; set; }
         public String? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public String? UpdatedBy { get; set; }
+    }
+
+    public class TestResultNotes
+    {
+        [Key]
+        public long RowID { get; set; }
+        public long ResultRowID { get; set; }
+        public string? Segment { get; set; }
+        public string? SetID { get; set; }
+        public string? SourceComment { get; set; }
+        public string? Comment { get; set; }
+    }
+
+    public class TestResultSpecimenContainer
+    {
+        [Key]
+        public long RowID { get; set; }
+        public long ResultRowID { get; set; }
+        public string? ExternalAccessionIdentifier { get; set; }
+        public string? AccessionIdentifier { get; set; }
+        public string? ContainerIdentifier { get; set; }
+        public string? PrimaryContainerIdentifier { get; set; }
+        public string? EquipmentContainerIdentifier { get; set; }
+        public string? SpecimenSource { get; set; }
+        public string? RegistrationDateTime { get; set; }
+        public string? ContainerStatus { get; set; }
+        public string? CarrierType { get; set; }
+        public string? CarrierIdentifier { get; set; }
+        public string? PositionInCarrier { get; set; }
+        public string? TrayTypeSAC { get; set; }
+        public string? TrayIdentifier { get; set; }
+        public string? PositionInTray { get; set; }
+        public string? Location { get; set; }
+        public string? ContainerHeight { get; set; }
+        public string? ContainerDiameter { get; set; }
+        public string? BarrierDelta { get; set; }
+        public string? BottomDelta { get; set; }
+        public string? ContainerHeightDiamtrUnits { get; set; }
+        public string? ContainerVolume { get; set; }
+        public string? AvailableSpecimenVolume { get; set; }
+        public string? volumeUnits { get; set; }
+        public string? SeparatorType { get; set; }
+        public string? CapType { get; set; }
+        public string? Additive { get; set; }
+        public string? SpecimenComponent { get; set; }
+        public string? DilutionFactor { get; set; }
+        public string? Treatment { get; set; }
+        public string? Temperature { get; set; }
+        public string? HemolysisIndex { get; set; }
+        public string? HemolysisIndexUnits { get; set; }
+        public string? LipemiaIndex { get; set; }
+        public string? LipemiaIndexUnits { get; set; }
+        public string? IcterusIndex { get; set; }
+        public string? IcterusIndexUnits { get; set; }
     }
 
     public class TestResultDetailsModel
@@ -46,6 +102,7 @@ namespace VCheck.Lib.Data.Models
         public String? TestResultValue { get; set; }
         public String? TestResultUnit { get; set; }
         public String? ReferenceRange { get; set; }
+        public String? MeasuringRange { get; set; }
         public String? Interpretation { get; set; }
 
     }

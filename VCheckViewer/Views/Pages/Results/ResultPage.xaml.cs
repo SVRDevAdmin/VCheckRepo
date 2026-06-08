@@ -15,8 +15,10 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
+using VCheckViewer.Converter;
 using VCheckViewer.Lib.DocumentTemplate;
 using VCheckViewer.Lib.Function;
+using VCheckViewer.UserControls;
 using VCheckViewer.Views.Pages.Login;
 using Wpf.Ui.Controls;
 
@@ -32,7 +34,7 @@ namespace VCheckViewer.Views.Pages.Results
         public ComboBoxItem SelectedcbSort { get; set;  }
 
         public int currentPage = 1;
-        public int paginationSize = 10;
+        public int paginationSize = 20;
         public int startPagination = 1;
         public int endPagination = 0;
         public int iTotalCount = 0;
@@ -41,6 +43,7 @@ namespace VCheckViewer.Views.Pages.Results
 
         public static event EventHandler? DownloadPrintReport;
         public static event EventHandler? UpdatePatientNameEvent;
+        public static event EventHandler? UpdateDoctorNameEvent;
 
         public ResultPage()
         {
@@ -60,8 +63,20 @@ namespace VCheckViewer.Views.Pages.Results
             DownloadPrintReport = null;
 
             UpdatePatientNameEvent += new EventHandler(UpdatePatientName);
+            UpdateDoctorNameEvent += new EventHandler(UpdatePatientName);
             DownloadPrintReport += new EventHandler(LoadTestResultData);
+
+            RangeDateStart.DateRangePicker_Calendar.SelectionMode = CalendarSelectionMode.SingleDate;
+            RangeDateEnd.DateRangePicker_Calendar.SelectionMode = CalendarSelectionMode.SingleDate;
+            RangeDateStart.DateRangePicker_TextBlock.Text = "Start Date";
+            RangeDateEnd.DateRangePicker_TextBlock.Text = "End Date";
+
+            RangeDateStart.DateRangePicker_Calendar.SelectedDatesChanged += RangeDate_SelectedDateChanged;
+            RangeDateEnd.DateRangePicker_Calendar.SelectedDatesChanged += RangeDate_SelectedDateChanged;
+            RangeDateStart.DateRangePicker_Calendar.LostFocus += CloseCalender;
+            RangeDateEnd.DateRangePicker_Calendar.LostFocus += CloseCalender;
         }
+
 
         private ObservableCollection<ComboBoxItem> translateSort(List<ComboBoxItem> cbSort)
         {
@@ -71,8 +86,8 @@ namespace VCheckViewer.Views.Pages.Results
             {
                 if(sort.Content.ToString() == "Latest") { translatedSort.Add(new ComboBoxItem { Content = Properties.Resources.Results_Label_Latest, Tag = sort.Tag }); }
                 else if (sort.Content.ToString() == "Earliest") { translatedSort.Add(new ComboBoxItem { Content = Properties.Resources.Results_Label_Earliest, Tag = sort.Tag }); }
-                else if (sort.Content.ToString() == "Result (Ascending)") { translatedSort.Add(new ComboBoxItem { Content = Properties.Resources.Results_Label_Ascending, Tag = sort.Tag }); }
-                else if (sort.Content.ToString() == "Result (Descending)") { translatedSort.Add(new ComboBoxItem { Content = Properties.Resources.Results_Label_Descending, Tag = sort.Tag }); }
+                //else if (sort.Content.ToString() == "Result (Ascending)") { translatedSort.Add(new ComboBoxItem { Content = Properties.Resources.Results_Label_Ascending, Tag = sort.Tag }); }
+                //else if (sort.Content.ToString() == "Result (Descending)") { translatedSort.Add(new ComboBoxItem { Content = Properties.Resources.Results_Label_Descending, Tag = sort.Tag }); }
             }
 
             return translatedSort;
@@ -80,8 +95,8 @@ namespace VCheckViewer.Views.Pages.Results
 
         private void menuView_Click(object sender, RoutedEventArgs e)
         {
-            TestResultListingExtendedObj sTestResultObj = dgResult.SelectedItem as TestResultListingExtendedObj;
-            App.TestResultID = sTestResultObj != null ? sTestResultObj.ID : currentRow.ID;
+            //TestResultListingExtendedObj sTestResultObj = dgResult.SelectedItem as TestResultListingExtendedObj;
+            App.TestResultID = currentRow.ID;
 
             App.GoToViewResultPageHandler(e, sender);
         }
@@ -100,14 +115,20 @@ namespace VCheckViewer.Views.Pages.Results
         {
             var parameterOrder = TestResultsRepository.GetAllParameters(ConfigSettings.GetConfigurationSettings()).Select(x => x.Parameter).ToList();
             App.IsPrint = IsPrint;
-            var selectedResult = dgResult.SelectedItem as TestResultListingExtendedObj;
-            selectedResult = selectedResult != null ? selectedResult : currentRow;
-            App.TestResultID = selectedResult.ID;
-            App.Parameters = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), selectedResult.ID).Select(x => x.TestParameter).OrderBy(d => parameterOrder.IndexOf(d)).ToList();
+            //var selectedResult = dgResult.SelectedItem as TestResultListingExtendedObj;
+            //selectedResult = selectedResult != null ? selectedResult : currentRow;
+            App.TestResultID = currentRow.ID;
+            var TestResult = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), currentRow.ID);
+            App.Parameters = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), currentRow.ID).Select(x => x.TestParameter).ToList();
+
+            if (!App.Parameters.Contains("IC"))
+            {
+                App.Parameters = App.Parameters.OrderBy(d => parameterOrder.IndexOf(d)).ToList();
+            }
 
             App.isEmptyName = false;
 
-            if (selectedResult.PatientName == "-")
+            if (currentRow.PatientName == "-")
             {
                 App.isEmptyName = true;
             }
@@ -116,7 +137,6 @@ namespace VCheckViewer.Views.Pages.Results
             App.DowloadPrintObject = new List<DownloadPrintResultModel>();
 
             TestResultModel previousTest = new TestResultModel();
-            var TestResult = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), selectedResult.ID);
             downloadPrintResultModel.TestResult = TestResult;
             downloadPrintResultModel.TestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), TestResult.ID);
             downloadPrintResultModel.PreviousTestResultDetails = TestResultsRepository.GetPreviousTestRecord(ConfigSettings.GetConfigurationSettings(), TestResult, out previousTest);
@@ -124,13 +144,15 @@ namespace VCheckViewer.Views.Pages.Results
             downloadPrintResultModel.TestResultsGraph = TestResultsRepository.GetResultGraphsByTestResultID(ConfigSettings.GetConfigurationSettings(), TestResult.ID);
 
             App.DowloadPrintObject.Add(downloadPrintResultModel);
+            var DeviceName = DeviceRepository.GetDeviceNameBySerialNo(ConfigSettings.GetConfigurationSettings(), TestResult.DeviceSerialNo);
+            DeviceName = DeviceName == "General" ? Properties.Resources.Schedule_Label_General : DeviceName;
 
             App.Device = new List<TestDeviceName>();
             App.Device.Add(new TestDeviceName() { DeviceName = DeviceRepository.GetDeviceNameBySerialNo(ConfigSettings.GetConfigurationSettings(), TestResult.DeviceSerialNo), TestID = TestResult.ID });
 
             if (App.isEmptyName)
             {
-                updateName(TestResult.ID.ToString(), null, null);
+                updateName(TestResult.ID.ToString(), true, null, null);
             }
             else
             {
@@ -148,8 +170,15 @@ namespace VCheckViewer.Views.Pages.Results
 
                 foreach(var test in App.DowloadPrintObject)
                 {
-                    test.TestResultDetails = test.TestResultDetails.Where(x => App.Parameters.Contains(x.TestParameter)).OrderBy(d => parameterOrder.IndexOf(d.TestParameter)).ToList();
-                    test.PreviousTestResultDetails = test.PreviousTestResultDetails != null ? test.PreviousTestResultDetails.Where(x => App.Parameters.Contains(x.TestParameter)).OrderBy(d => parameterOrder.IndexOf(d.TestParameter)).ToList() : null;
+                    test.TestResultDetails = test.TestResultDetails.Where(x => App.Parameters.Contains(x.TestParameter)).ToList();
+
+
+                    if (!App.Parameters.Contains("IC"))
+                    {
+                        test.TestResultDetails = test.TestResultDetails.OrderBy(d => parameterOrder.IndexOf(d.TestParameter)).ToList();
+                    }
+
+                    test.PreviousTestResultDetails = test.PreviousTestResultDetails != null ? test.PreviousTestResultDetails.Where(x => App.Parameters.Contains(x.TestParameter)).OrderBy(d => App.Parameters.IndexOf(d.TestParameter)).ToList() : null;
                 }
 
                 TestResultTemplate sTestResultTemplate = new TestResultTemplate(App.DowloadPrintObject, App.IsPrint);
@@ -201,7 +230,7 @@ namespace VCheckViewer.Views.Pages.Results
 
         public void UpdatePatientName(object sender, EventArgs e)
         {
-            TestResultsRepository.UpdateTestResult(ConfigSettings.GetConfigurationSettings(), App.TestResultInfo);
+            if(App.TestResultInfo != null) { TestResultsRepository.UpdateTestResult(ConfigSettings.GetConfigurationSettings(), App.TestResultInfo); }
 
             LoadResultDataGrid();
         }
@@ -216,6 +245,11 @@ namespace VCheckViewer.Views.Pages.Results
         public async Task LoadResultDataGrid()
         {
             dgResult.ItemsSource = await GetTestResultBySearch(paginationSize);
+
+            if(App.PMSFunction == "Collapsed") { menuTransfer.Visibility = Visibility.Collapsed; }
+            else { menuTransfer.Visibility = Visibility.Visible; }
+
+            App.AnalyzerID = 0;
 
             if (iTotalCount <= 0)
             {
@@ -248,15 +282,18 @@ namespace VCheckViewer.Views.Pages.Results
             String sStart = "";
             String sEnd = "";
 
-            if (RangeDate.SelectedDates.Count > 1)
+            if (RangeDateStart.SelectedDates.Count() == 1)
             {
-                sStart = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd HH:mm:ss");
-                sEnd = RangeDate.SelectedDates.LastOrDefault().AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd HH:mm:ss");
+                sStart = RangeDateStart.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd HH:mm:ss");
             }
-            else if (RangeDate.SelectedDates.Count == 1)
+
+            if (RangeDateEnd.SelectedDates.Count() == 1)
             {
-                sStart = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd HH:mm:ss");
-                sEnd = RangeDate.SelectedDates.FirstOrDefault().AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd HH:mm:ss");
+                sEnd = RangeDateEnd.SelectedDates.FirstOrDefault().AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            else if (!string.IsNullOrEmpty(sStart))
+            {
+                sEnd = RangeDateStart.SelectedDates.FirstOrDefault().AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd HH:mm:ss");
             }
 
             String sKeyword = KeywordSearchBar.Text;
@@ -267,7 +304,7 @@ namespace VCheckViewer.Views.Pages.Results
             return VCheck.Lib.Data.TestResultsRepository.GetTestResultListBySearch(
                                             ConfigSettings.GetConfigurationSettings(),
                                             sStart, sEnd, sKeyword, sSortDirection,
-                                            startPagination, pageSize, App.PMSFunction, out iTotalCount);
+                                            startPagination, pageSize, App.PMSFunction, out iTotalCount, App.AnalyzerID);
         }
 
         protected void PaginationNextButton_Click(object sender, EventArgs e)
@@ -296,13 +333,13 @@ namespace VCheckViewer.Views.Pages.Results
 
         private void btnDownload_Click(object sender, RoutedEventArgs e)
         {
-            CloseCalenderPopup(null, null);
+            //CloseCalenderPopup(null, null);
             DownloadSearchResult();
         }
 
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
-            CloseCalenderPopup(null, null);
+            //CloseCalenderPopup(null, null);
             DownloadSearchResult(true);
         }
 
@@ -378,27 +415,44 @@ namespace VCheckViewer.Views.Pages.Results
                 spireWorkbook.Worksheets[0].PageSetup.Orientation = PageOrientationType.Landscape;
                 spireWorkbook.Worksheets[0].PageSetup.IsFitToPage = true;
 
-                spireWorkbook.SaveToFile(sPDFOutputPath, Spire.Xls.FileFormat.PDF);
-                if (System.IO.File.Exists(sPDFOutputPath))
-                {
-                    System.IO.File.Delete(sExcelOutputPath);
-                }
+                //spireWorkbook.SaveToFile(sPDFOutputPath, Spire.Xls.FileFormat.PDF);
+                //if (System.IO.File.Exists(sPDFOutputPath))
+                //{
+                //    System.IO.File.Delete(sExcelOutputPath);
+                //}
 
                 if (isPrint)
                 {
                     // --- Prompt Print Dialog --- //
-                    ProcessStartInfo infoPrint = new ProcessStartInfo();
-                    infoPrint.FileName = sPDFOutputPath;
-                    infoPrint.Verb = "PrintTo";
-                    infoPrint.CreateNoWindow = false;
-                    infoPrint.WindowStyle = ProcessWindowStyle.Normal;
-                    infoPrint.UseShellExecute = true;
+                    //ProcessStartInfo infoPrint = new ProcessStartInfo();
+                    //infoPrint.FileName = sPDFOutputPath;
+                    //infoPrint.Verb = "PrintTo";
+                    //infoPrint.CreateNoWindow = false;
+                    //infoPrint.WindowStyle = ProcessWindowStyle.Normal;
+                    //infoPrint.UseShellExecute = true;
 
-                    Process printProcess = new Process();
-                    printProcess = Process.Start(infoPrint);
+                    //Process printProcess = new Process();
+                    //printProcess = Process.Start(infoPrint);
+
+                    spireWorkbook.SaveToFile("Report-temp.pdf", Spire.Xls.FileFormat.PDF);
+                    System.IO.File.Delete(sExcelOutputPath);
+
+                    Process process = new Process();
+                    process.StartInfo = new ProcessStartInfo()
+                    {
+                        FileName = "Report-temp.pdf",
+                        UseShellExecute = true
+                    };
+                    process.Start();
                 }
                 else
                 {
+                    spireWorkbook.SaveToFile(sPDFOutputPath, Spire.Xls.FileFormat.PDF);
+                    if (System.IO.File.Exists(sPDFOutputPath))
+                    {
+                        System.IO.File.Delete(sExcelOutputPath);
+                    }
+
                     Popup sConfirmPopup = new Popup();
                     sConfirmPopup.IsOpen = true;
 
@@ -415,19 +469,40 @@ namespace VCheckViewer.Views.Pages.Results
             }
         }
 
-        private void ResultKeywordSearch(object sender, System.Windows.Input.KeyEventArgs e)
+        private void CloseCalender(object sender, RoutedEventArgs e)
         {
-            CloseCalenderPopup(null, null);
-        }
+            var focusedControl = Keyboard.FocusedElement as FrameworkElement;
 
-        private void ChangeSortBy(object sender, RoutedEventArgs e)
-        {
-            CloseCalenderPopup(null, null);
+            if (focusedControl == null || focusedControl.GetType() == typeof(CalendarDayButton) || focusedControl.GetType() == typeof(CalendarButton) ||
+                focusedControl.GetType() == typeof(Calendar))
+            {
+                return;
+            }
+
+            if(focusedControl.GetType() == typeof(ScrollViewer))
+            {
+                focusedControl.LostFocus += CloseCalender;
+
+                return;
+            }
+
+
+            DateRangePicker calender = sender as DateRangePicker;
+
+            if (calender == RangeDateStart || RangeDateStart.DateRangePicker_Popup.IsOpen)
+            {
+                RangeDateStart.DateRangePicker_Popup.IsOpen = false;
+            }
+            else if (calender == RangeDateEnd || RangeDateEnd.DateRangePicker_Popup.IsOpen)
+            {
+                RangeDateEnd.DateRangePicker_Popup.IsOpen = false;
+            }
         }
 
         private void CloseCalenderPopup(object? sender, MouseButtonEventArgs? e)
         {
-            RangeDate.DateRangePicker_Popup.IsOpen = false;
+            RangeDateStart.DateRangePicker_Popup.IsOpen = false;
+            RangeDateEnd.DateRangePicker_Popup.IsOpen = false;
         }
 
         //---------- POC Testing -----------------//
@@ -449,17 +524,32 @@ namespace VCheckViewer.Views.Pages.Results
             App.isEmptyName = false;
             var sMenu = sender as System.Windows.Controls.MenuItem;
             string testID = sMenu.Tag == null ? currentRow.ID.ToString() : sMenu.Tag.ToString();
-            updateName(testID, sender, e);
+
+            if(sMenu.Name.ToString() == "menuEditPatientName")
+            {
+                updateName(testID, true, sender, e);
+            }
+            else
+            {
+                updateName(testID, false, sender, e);
+            }
         }
 
-        private void updateName(string TestResultID, object sender, RoutedEventArgs e)
+        private void updateName(string TestResultID, bool isNameChange, object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(TestResultID))
             {
                 Popup sInputID = new Popup();
                 sInputID.IsOpen = true;
 
-                App.MainViewModel.Origin = "UpdatePatientName";
+                if (isNameChange)
+                {
+                    App.MainViewModel.Origin = "UpdatePatientName";
+                }
+                else
+                {
+                    App.MainViewModel.Origin = "UpdateDoctorName";
+                }
                 App.MainViewModel.TestResultID = TestResultID;
 
                 App.TestResultInfo = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), Convert.ToInt64(App.MainViewModel.TestResultID));
@@ -484,6 +574,14 @@ namespace VCheckViewer.Views.Pages.Results
             }
         }
 
+        public static void UpdateDoctorNameHandler(EventArgs e, object sender)
+        {
+            if (UpdateDoctorNameEvent != null)
+            {
+                UpdateDoctorNameEvent(sender, e);
+            }
+        }
+
         private void dgResult_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
             var editedTextbox = e.EditingElement as System.Windows.Controls.TextBox;
@@ -504,7 +602,19 @@ namespace VCheckViewer.Views.Pages.Results
                         string newValue = editedTextbox.Text;
 
                         App.TestResultInfo = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), Convert.ToInt64(testID));
-                        App.TestResultInfo.PatientName = newValue;
+
+                        if(e.Column.Header.ToString() == Properties.Resources.Results_Label_PatientName.ToString())
+                        {
+                            App.TestResultInfo.PatientName = newValue;
+                        }
+                        else if (e.Column.Header.ToString() == Properties.Resources.Results_Label_PatientID.ToString())
+                        {
+                            App.TestResultInfo.PatientID = newValue;
+                        }
+                        else
+                        {
+                            App.TestResultInfo.InchargePerson = newValue;
+                        }
 
                         UpdatePatientName(null, null);
                     }
@@ -517,14 +627,82 @@ namespace VCheckViewer.Views.Pages.Results
             currentRow = null;
             if (e.OriginalSource.GetType() == typeof(Border)) { currentRow = ((e.OriginalSource as Border).DataContext as TestResultListingExtendedObj); }
             else if (e.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBlock)) { currentRow = ((e.OriginalSource as System.Windows.Controls.TextBlock).DataContext as TestResultListingExtendedObj); }
-            else
-            {
-                
-            }
-
-            if (dgResult.ContextMenu != null && !(currentRow == null))
+            
+            if (dgResult.ContextMenu != null && currentRow != null)
             {
                 dgResult.ContextMenu.IsOpen = true;
+            }
+        }
+
+        private void dgResult_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            currentRow = null;
+            if (e.OriginalSource.GetType() == typeof(Border)) { currentRow = ((e.OriginalSource as Border).DataContext as TestResultListingExtendedObj); }
+            else if (e.OriginalSource.GetType() == typeof(System.Windows.Controls.TextBlock)) { currentRow = ((e.OriginalSource as System.Windows.Controls.TextBlock).DataContext as TestResultListingExtendedObj); }
+
+            if (currentRow != null)
+            {
+                TestResultListingExtendedObj sTestResultObj = currentRow;
+                App.TestResultID = sTestResultObj != null ? sTestResultObj.ID : currentRow.ID;
+
+                App.GoToViewResultPageHandler(e, sender);
+            }
+        }
+
+        private void menuDelete_Click(object sender, RoutedEventArgs e)
+        {
+            //var selectedResult = dgResult.SelectedItem as TestResultListingExtendedObj;
+            //selectedResult = selectedResult != null ? selectedResult : currentRow;
+            TestResultsRepository.DeleteTestResultByID(ConfigSettings.GetConfigurationSettings(), currentRow.ID.ToString());
+            LoadResultDataGrid();
+        }
+
+        private void RangeDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RangeDateStart.SelectedDates = RangeDateStart.DateRangePicker_Calendar.SelectedDates;
+            RangeDateEnd.SelectedDates = RangeDateEnd.DateRangePicker_Calendar.SelectedDates;
+
+            if (RangeDateStart.SelectedDates.Count() == 1 && RangeDateEnd.SelectedDates.Count() == 0)
+            {
+                RangeDateEnd.SelectedDates = RangeDateStart.SelectedDates;
+            }
+            else if (RangeDateEnd.SelectedDates.Count() == 1 && RangeDateStart.SelectedDates.Count() == 0)
+            {
+                RangeDateStart.SelectedDates = RangeDateEnd.SelectedDates;
+            }
+            else if (RangeDateEnd.SelectedDates.FirstOrDefault() < RangeDateStart.SelectedDates.FirstOrDefault())
+            {
+                RangeDateEnd.SelectedDates = RangeDateStart.SelectedDates;
+                RangeDateEnd.DateRangePicker_Calendar.SelectedDate = RangeDateStart.DateRangePicker_Calendar.SelectedDate;
+            }
+
+            RangeDateEnd.DateRangePicker_Calendar.DisplayDateStart = RangeDateStart.DateRangePicker_Calendar.SelectedDate;
+
+            DateFormatConverter dateFormatConverter = new DateFormatConverter();
+
+            RangeDateStart.DateRangePicker_TextBox.Text = dateFormatConverter.ConvertSimpleDate(RangeDateStart.SelectedDates.FirstOrDefault()).ToString();
+            RangeDateEnd.DateRangePicker_TextBox.Text = dateFormatConverter.ConvertSimpleDate(RangeDateEnd.SelectedDates.FirstOrDefault()).ToString();
+
+            CloseCalenderPopup(null, null);
+        }
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            KeywordSearchBar.Text = string.Empty;
+            RangeDateStart.SelectedDates = new ObservableCollection<DateTime>();
+            RangeDateStart.DateRangePicker_TextBox.Text = string.Empty;
+            RangeDateEnd.SelectedDates = new ObservableCollection<DateTime>();
+            RangeDateEnd.DateRangePicker_TextBox.Text = string.Empty;
+            cboSort.SelectedItem = cbSort.Where(x => x.Content.ToString() == "Latest").FirstOrDefault();
+
+            LoadResultDataGrid();
+        }
+
+        private void KeywordSearchBar_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) // Check if Enter key is pressed
+            {
+                LoadResultDataGrid();
             }
         }
     }

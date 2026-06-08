@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
-using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Configuration;
 using VCheck.Lib.Data.DBContext;
 using Microsoft.EntityFrameworkCore;
@@ -93,9 +92,12 @@ namespace VCheck.Lib.Data
         {
             try
             {
+                location.Status = 1;
+                location.Description = "Clinic";
+
                 using (var ctx = new LocationDBContext(config))
                 {
-                    var temp = ctx.mst_location.AsNoTracking().FirstOrDefault(x => x.ID == location.ID || x.PhoneNum == location.PhoneNum);
+                    var temp = ctx.mst_location.AsNoTracking().FirstOrDefault(x => x.ID == location.ID || x.PhoneNum == location.PhoneNum || x.ID == location.PhoneNum.Replace(" ", "").Replace("-", "") );
 
                     if (temp != null)
                     {

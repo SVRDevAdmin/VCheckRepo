@@ -33,14 +33,14 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
             if (App.MainViewModel.CurrentUsers.Role == "Lab User")
             {
                 btnUserSetting.IsEnabled = false;
-                btnSettings.IsEnabled = false;
-                btnDeviceSetting.IsEnabled = false;
+                //btnSettings.IsEnabled = false;
+                //btnDeviceSetting.IsEnabled = false;
             }
             else
             {
                 btnUserSetting.IsEnabled = true;
-                btnSettings.IsEnabled = true;
-                btnDeviceSetting.IsEnabled = true;
+                //btnSettings.IsEnabled = true;
+                //btnDeviceSetting.IsEnabled = true;
             }
 
             App.isLanguagePage = true;
@@ -124,6 +124,8 @@ namespace VCheckViewer.Views.Pages.Setting.LanguageCountry
             System.Globalization.CultureInfo sZHCultureNew = new(languageSelected);
 
             CultureResources.ChangeCulture(sZHCultureNew);
+
+            App.TempChangeLanguageHandler(e, sender);
 
             LanguageListView.SelectedItems.Clear();
 

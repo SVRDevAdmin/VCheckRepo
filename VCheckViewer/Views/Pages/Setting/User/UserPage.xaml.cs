@@ -36,16 +36,16 @@ namespace VCheckViewer.Views.Pages
 
             initializedPage(null,null);
 
-            if (App.MainViewModel.CurrentUsers.Role == "Lab User")
-            {
-                btnSettings.IsEnabled = false;
-                btnDevice.IsEnabled = false;
-            }
-            else
-            {
-                btnSettings.IsEnabled = true;
-                btnDevice.IsEnabled = true;
-            }
+            //if (App.MainViewModel.CurrentUsers.Role == "Lab User")
+            //{
+            //    btnSettings.IsEnabled = false;
+            //    btnDevice.IsEnabled = false;
+            //}
+            //else
+            //{
+            //    btnSettings.IsEnabled = true;
+            //    btnDevice.IsEnabled = true;
+            //}
         }
 
         public void initializedPage(object? sender, EventArgs? e)
@@ -67,7 +67,7 @@ namespace VCheckViewer.Views.Pages
                 pagination.GetPageCountByRecordCountWithLimit();
             }
 
-            pagination.LoadPagingNumberWithLimit();
+            pagination.LoadPagingNumber();
         }
 
         protected void PaginationNumButton_Click(object? sender, EventArgs? e)
@@ -115,6 +115,7 @@ namespace VCheckViewer.Views.Pages
         private void ViewUserButton_Click(object sender, RoutedEventArgs e)
         {
             App.MainViewModel.Users = dataGrid.SelectedItem as UserModel;
+            App.HideTopTabBar = false;
 
             GoToViewUserPageHandler(e, sender);
         }

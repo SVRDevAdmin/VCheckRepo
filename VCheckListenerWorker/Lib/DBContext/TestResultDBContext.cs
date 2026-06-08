@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +35,8 @@ namespace VCheckListenerWorker.Lib.DBContext
         public DbSet<mst_configuration> mst_configuration { get; set; }
         public DbSet<ScheduledTestModel> Txn_ScheduledTests { get; set; }
         public DbSet<DeviceModel> mst_deviceslist { get; set; }
+        public DbSet<DeviceTypeModel> mst_devicetype { get; set; }
+        public DbSet<TestResultReferenceRangeModel> mst_testresults_referencerange { get; set; }
 
         public TestResultDBContext(IConfiguration config)
         {

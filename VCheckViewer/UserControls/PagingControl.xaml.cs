@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace VCheckViewer.UserControls
@@ -66,54 +67,65 @@ namespace VCheckViewer.UserControls
 
             numberingSection.Children.Clear();
 
-            int iCurrentNumber = 1;
-            for (int i = 1; i <= iTotalPage; i++)
+            if(iTotalPage != 0)
             {
-                System.Windows.Controls.Button newBtn = new System.Windows.Controls.Button();
-                newBtn.Style = (Style)System.Windows.Application.Current.FindResource("PaginationButton");
-                newBtn.Content = String.Format("{0:00}", i);
-                newBtn.Tag = i;
-                newBtn.Width = 40;
-                newBtn.Margin = new Thickness(5, 0, 5, 0);
-                newBtn.FontWeight = FontWeights.Bold;
-                newBtn.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
-
-                if (i == iPageIndex)
-                {
-                    newBtn.BorderBrush = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
-                    newBtn.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
-                    newBtn.Foreground = new BrushConverter().ConvertFrom(sSelectedColor) as SolidColorBrush;
-                }
-                else
-                {
-                    newBtn.BorderBrush = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
-                    newBtn.Background = System.Windows.Media.Brushes.Transparent;
-                    newBtn.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
-                }
-
-                numberingSection.Children.Add(newBtn);
-                newBtn.Click += new RoutedEventHandler(btnNumber_Click);
+                TextBlock numberingBlock = new TextBlock();
+                numberingBlock.Margin = new Thickness(5, 0, 5, 0);
+                numberingBlock.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                numberingBlock.VerticalAlignment = VerticalAlignment.Center;
+                numberingBlock.FontWeight = FontWeights.Bold;
+                numberingBlock.Text = iPageIndex + " / " + iTotalPage;
+                numberingBlock.SetResourceReference(TextBlock.ForegroundProperty, "Themes_GridResultFontColor");
+                numberingSection.Children.Add(numberingBlock);
             }
+
+            //for (int i = 1; i <= iTotalPage; i++)
+            //{
+            //    System.Windows.Controls.Button newBtn = new System.Windows.Controls.Button();
+            //    newBtn.Style = (Style)System.Windows.Application.Current.FindResource("PaginationButton");
+            //    newBtn.Content = String.Format("{0:00}", i);
+            //    newBtn.Tag = i;
+            //    newBtn.Width = 40;
+            //    newBtn.Margin = new Thickness(5, 0, 5, 0);
+            //    newBtn.FontWeight = FontWeights.Bold;
+            //    newBtn.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+
+            //    if (i == iPageIndex)
+            //    {
+            //        newBtn.BorderBrush = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+            //        newBtn.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+            //        newBtn.Foreground = new BrushConverter().ConvertFrom(sSelectedColor) as SolidColorBrush;
+            //    }
+            //    else
+            //    {
+            //        newBtn.BorderBrush = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+            //        newBtn.Background = System.Windows.Media.Brushes.Transparent;
+            //        newBtn.Foreground = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+            //    }
+
+            //    numberingSection.Children.Add(newBtn);
+            //    newBtn.Click += new RoutedEventHandler(btnNumber_Click);
+            //}
 
             if (iTotalPage == 0)
             {
-                btnNext.Visibility = Visibility.Collapsed;
-                btnPrev.Visibility = Visibility.Collapsed;
+                btnNext.Visibility = Visibility.Hidden;
+                btnPrev.Visibility = Visibility.Hidden;
             }
             else if (iPageIndex == 1 && iPageIndex == iTotalPage)
             {
-                btnNext.Visibility = Visibility.Collapsed;
-                btnPrev.Visibility = Visibility.Collapsed;
+                btnNext.Visibility = Visibility.Hidden;
+                btnPrev.Visibility = Visibility.Hidden;
             }
             else if (iPageIndex == iTotalPage)
             {
-                btnNext.Visibility = Visibility.Collapsed;
+                btnNext.Visibility = Visibility.Hidden;
                 btnPrev.Visibility = Visibility.Visible;
             }
             else if (iPageIndex == 1)
             {
                 btnNext.Visibility = Visibility.Visible;
-                btnPrev.Visibility = Visibility.Collapsed;
+                btnPrev.Visibility = Visibility.Hidden;
             }
             else
             {
@@ -133,24 +145,24 @@ namespace VCheckViewer.UserControls
 
             if (iTotalRecords == 0)
             {
-                btnNext.Visibility = Visibility.Collapsed;
-                btnPrev.Visibility = Visibility.Collapsed;
+                btnNext.Visibility = Visibility.Hidden;
+                btnPrev.Visibility = Visibility.Hidden;
                 recordExist = false;
             }
             else if (iPageIndex == 1 && iPageIndex == iLastPage)
             {
-                btnNext.Visibility = Visibility.Collapsed;
-                btnPrev.Visibility = Visibility.Collapsed;
+                btnNext.Visibility = Visibility.Hidden;
+                btnPrev.Visibility = Visibility.Hidden;
             }
             else if (iPageIndex == iLastPage)
             {
-                btnNext.Visibility = Visibility.Collapsed;
+                btnNext.Visibility = Visibility.Hidden;
                 btnPrev.Visibility = Visibility.Visible;
             }
             else if (iPageIndex == 1)
             {
                 btnNext.Visibility = Visibility.Visible;
-                btnPrev.Visibility = Visibility.Collapsed;
+                btnPrev.Visibility = Visibility.Hidden;
             }
             else
             {

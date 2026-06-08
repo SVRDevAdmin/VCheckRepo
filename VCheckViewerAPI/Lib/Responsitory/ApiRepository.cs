@@ -1,9 +1,6 @@
 ﻿using log4net;
 using Microsoft.Extensions.Hosting;
-using Mysqlx.Crud;
-using Mysqlx.Session;
-using MySqlX.XDevAPI.Common;
-using Org.BouncyCastle.Asn1.Ocsp;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +11,14 @@ using System.Threading.Tasks;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewerAPI.Lib.Util;
+using VCheckViewerAPI.Message.General;
 
 namespace VCheck.Lib.Data
 {
     public class ApiRepository
     {
         private ClientAuthDBContext _AuthContext = new ClientAuthDBContext();
+        private APIErrorDBContext _aPIErrorDBContext = new APIErrorDBContext(Host.CreateApplicationBuilder().Configuration);
         //private ScheduleDBContext _scheduleTestContext = new ScheduleDBContext(Host.CreateApplicationBuilder().Configuration);
         //private TestResultDBContext _testResultContext = new TestResultDBContext(Host.CreateApplicationBuilder().Configuration);
 
@@ -140,9 +139,9 @@ namespace VCheck.Lib.Data
                     responseMessage = "Success";
                     returnData = data;
                 }
-                else if (!string.IsNullOrEmpty(analyzerName) && analyzerName != data.SentToAnalyzer)
+                else if (!string.IsNullOrEmpty(analyzerName) && (data.SentToAnalyzer == null || !data.SentToAnalyzer.Split(",").Contains("analyzerName")))
                 {
-                    data.SentToAnalyzer = analyzerName;
+                    data.SentToAnalyzer = data.SentToAnalyzer == null ? analyzerName : data.SentToAnalyzer + "," + analyzerName;
                     data.UpdatedBy = updatedBy;
                     data.UpdatedDate = DateTime.Now;
 
@@ -171,13 +170,26 @@ namespace VCheck.Lib.Data
             }
         }
 
-        public void GetScheduleListByLocation(string locationID, out List<ScheduledTestModel> returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        public void GetScheduleListByLocation(string locationID, bool OnlyNotCompleted, bool OnlyExpired, bool ExtendDateTime, out List<ScheduledTestModel> returnData, out string responseCode, out string responseMessage, out string responseStatus, string testName = null)
         {
             returnData = null;
 
             try
             {
-                var data = ScheduledTestRepository.GetScheduleListByLocation(ConfigSettings.GetConfigurationSettings(), locationID);
+                List<ScheduledTestModel> data;
+                if (OnlyNotCompleted)
+                {
+                    data = ScheduledTestRepository.GetNotCompletedScheduleListByLocation(ConfigSettings.GetConfigurationSettings(), locationID, testName, ExtendDateTime);
+                }
+                else if (OnlyExpired)
+                {
+                    data = ScheduledTestRepository.GetExpiredScheduleListByLocation(ConfigSettings.GetConfigurationSettings(), locationID);
+                }
+                else
+                {
+                    data = ScheduledTestRepository.GetScheduleListByLocation(ConfigSettings.GetConfigurationSettings(), locationID);
+                }
+
                 if (data == null)
                 {
                     responseCode = "VV.0002";
@@ -202,13 +214,13 @@ namespace VCheck.Lib.Data
             }
         }
 
-        public void GetScheduleListByLocationNotSent(string locationID, string uniqueID, out List<ScheduledTestModelExtended> returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        public void GetScheduleListByLocationNotSent(string locationID, string uniqueID, bool ignoreOrderStatus, out List<ScheduledTestModelExtended> returnData, out string responseCode, out string responseMessage, out string responseStatus)
         {
             returnData = null;
 
             try
             {
-                var data = ScheduledTestRepository.GetScheduleListByLocationNotSent(ConfigSettings.GetConfigurationSettings(), locationID, uniqueID);
+                var data = ScheduledTestRepository.GetScheduleListByLocationNotSent(ConfigSettings.GetConfigurationSettings(), locationID, uniqueID, ignoreOrderStatus);
                 if (data == null)
                 {
                     responseCode = "VV.0002";
@@ -356,6 +368,7 @@ namespace VCheck.Lib.Data
                 else
                 {
                     data.ScheduleTestStatus = 2;
+                    data.TestCompleted = 1;
                     data.UpdatedBy = updatedBy;
                     data.UpdatedDate = DateTime.Now.ToUniversalTime();
 
@@ -378,7 +391,7 @@ namespace VCheck.Lib.Data
             }
         }
 
-        public void CloseScheduledTestByOrderID(string orderID, string locationID, string updatedBy, out string responseCode, out string responseMessage, out string responseStatus)
+        public void CloseScheduledTestByOrderID(string orderID, string locationID, string testName, string updatedBy, out string responseCode, out string responseMessage, out string responseStatus)
         {
             try
             {
@@ -388,22 +401,141 @@ namespace VCheck.Lib.Data
                     responseCode = "VV.0002";
                     responseMessage = "No Data Found";
                 }
-                else if (data.ScheduleTestStatus == 3)
+                else if (data.ScheduleTestStatus == 4)
                 {
                     responseCode = "VV.0001";
                     responseMessage = "Scheduled test are already closed.";
+
+                    //var testList = data.ScheduledTestType;
+                    //data.UpdatedBy = updatedBy;
+                    //data.UpdatedDate = DateTime.Now.ToUniversalTime();
+                    //bool closeSchedule = false;
+
+                    //if (testList.Replace(" (Resulted)", "").Split(", ").Contains(testName))
+                    //{
+                    //    closeSchedule = true;
+                    //    var testListTemp = "";
+                    //    foreach (var test in testList.Split(", "))
+                    //    {
+                    //        if (test.Contains(testName)) { testListTemp = string.IsNullOrEmpty(testListTemp) ? testListTemp + test.Replace(" (Resulted)", "") + " (Sent)" : testListTemp + ", " + test.Replace(" (Resulted)", "") + " (Sent)"; }
+                    //        else { testListTemp = string.IsNullOrEmpty(testListTemp) ? testListTemp + test : testListTemp + ", " + test; }
+                    //    }
+
+                    //    data.ScheduledTestType = testListTemp;
+
+                    //    var testTypeList = testListTemp.Split(", ");
+
+                    //    foreach (var testType in testTypeList)
+                    //    {
+                    //        if (!testType.Contains("(Sent)")) { closeSchedule = false; break; }
+                    //    }
+                    //}
+
+                    //if (closeSchedule)
+                    //{
+                    //    data.TestCompleted = 1;
+                    //}
+
+                    ScheduledTestRepository.UpdateScheduledTestStatus(ConfigSettings.GetConfigurationSettings(), data, updatedBy);
                 }
                 else
                 {
+                    data.ScheduleTestStatus = 4;
+                    data.UpdatedBy = updatedBy;
+                    data.UpdatedDate = DateTime.Now.ToUniversalTime();
+                    var testList = data.ScheduledTestType;
+                    //bool closeSchedule = false;
+
+                    //if (testList.Replace(" (Resulted)", "").Split(", ").Contains(testName))
+                    //{
+                    //    closeSchedule = true;
+                    //    var testListTemp = "";
+                    //    foreach (var test in testList.Split(", "))
+                    //    {
+                    //        if (test.Contains(testName)) { testListTemp = string.IsNullOrEmpty(testListTemp) ? testListTemp + test.Replace(" (Resulted)", "") + " (Sent)" : testListTemp + ", " + test.Replace(" (Resulted)", "") + " (Sent)"; }
+                    //        else { testListTemp = string.IsNullOrEmpty(testListTemp) ? testListTemp + test : testListTemp + ", " + test; }
+                    //    }
+
+                    //    data.ScheduledTestType = testListTemp;
+
+                    //    var testTypeList = testList.Split(", ");
+
+                    //    foreach (var testType in testTypeList)
+                    //    {
+                    //        if (!testType.Contains("(Sent)")) { closeSchedule = false; break; }
+                    //    }
+                    //}
+
+                    //if (closeSchedule)
+                    //{
+                    //    data.TestCompleted = 1;
+                    //}
+
+                    ScheduledTestRepository.UpdateScheduledTestStatus(ConfigSettings.GetConfigurationSettings(), data, updatedBy);
+
+                    responseCode = "VV.0001";
+                    responseMessage = "Scheduled test successfully closed.";
+                }
+
+                responseStatus = "Success";
+            }
+            catch (Exception ex)
+            {
+                responseCode = "VV.9999";
+                responseStatus = "Fail";
+                responseMessage = "Internal Error";
+
+                log.Error("Database Error >>> ", ex);
+            }
+        }
+
+        public void LinkResultByScheduledTestByOrderID(string orderID, string locationID, string testName, string updatedBy, out string responseCode, out string responseMessage, out string responseStatus)
+        {
+            try
+            {
+                var data = ScheduledTestRepository.GetScheduledTestByOrderID(ConfigSettings.GetConfigurationSettings(), orderID, updatedBy, locationID);
+                if (data == null)
+                {
+                    responseCode = "VV.0002";
+                    responseMessage = "No Data Found";
+                }
+                else if (data.ScheduleTestStatus >= 3)
+                {
+                    responseCode = "VV.0001";
+                    responseMessage = "Scheduled test are already linked.";
+
+                    //var testList = data.ScheduledTestType;
+
+                    //if (testList.Split(", ").Contains(testName))
+                    //{
+                    //    testList = testList.Replace(testName, testName + " (Resulted)");
+                    //    data.ScheduledTestType = testList;
+                    //}
+
+                    //data.UpdatedBy = updatedBy;
+                    //data.UpdatedDate = DateTime.Now.ToUniversalTime();
+
+                    //ScheduledTestRepository.UpdateScheduledTestStatus(ConfigSettings.GetConfigurationSettings(), data, updatedBy);
+
+                }
+                else
+                {
+                    //var testList = data.ScheduledTestType;
+
+                    //if (testList.Split(", ").Contains(testName))
+                    //{
+                    //    testList = testList.Replace(testName, testName + " (Resulted)");
+                    //    data.ScheduledTestType = testList;
+                    //}
+
                     data.ScheduleTestStatus = 3;
-                    data.TestCompleted = 1;
                     data.UpdatedBy = updatedBy;
                     data.UpdatedDate = DateTime.Now.ToUniversalTime();
 
                     ScheduledTestRepository.UpdateScheduledTestStatus(ConfigSettings.GetConfigurationSettings(), data, updatedBy);
 
                     responseCode = "VV.0001";
-                    responseMessage = "Scheduled test successfully canceled.";
+                    responseMessage = "Scheduled test successfully linked.";
                 }
 
                 responseStatus = "Success";
@@ -431,7 +563,7 @@ namespace VCheck.Lib.Data
                 else if (data.ScheduleTestStatus == 1)
                 {
                     responseCode = "VV.0001";
-                    responseMessage = "Scheduled test are already sent.";
+                    responseMessage = "Scheduled test are already sent";
                 }
                 else
                 {
@@ -442,7 +574,7 @@ namespace VCheck.Lib.Data
                     ScheduledTestRepository.UpdateScheduledTestStatus(ConfigSettings.GetConfigurationSettings(), data, updatedBy);
 
                     responseCode = "VV.0001";
-                    responseMessage = "Scheduled test successfully canceled.";
+                    responseMessage = "Scheduled test successfully sent.";
                 }
 
                 responseStatus = "Success";
@@ -470,7 +602,7 @@ namespace VCheck.Lib.Data
                 {
                     return false;
                 }
-                else if (!data.Species.ToLower().Split(",").Contains(Species.ToLower()) || !data.Gender.ToLower().Split(",").Contains(Gender.ToLower()))
+                else if ((data.Analyzer != "C1" && !data.Species.ToLower().Split(",").Contains(Species.ToLower())) || !data.Gender.ToLower().Split(",").Contains(Gender.ToLower()))
                 {
                     isMismatchedWrongUniqueIDError = 1;
                     return false;
@@ -482,7 +614,7 @@ namespace VCheck.Lib.Data
                 }
                 else
                 {
-                    TestName = data.TestName;
+                    TestName = data.TestName.Replace(" (C1)","").Replace(" (C10)", "");
                     return true;
                 }
             }
@@ -524,13 +656,67 @@ namespace VCheck.Lib.Data
             {
                 var client = _AuthContext.Mst_URL.FirstOrDefault(x => x.ClientID == clientID);
                 var url = client != null ? client.URL : "";
-                var port = client != null && client.Port != "80" ? ":" + client.Port : "";
+                var port = client != null && client.Port != "80" && client.Port != "443" ? ":" + client.Port : "";
                 return client != null ? url + port : "No URL found.";
             }
             catch (Exception ex)
             {
                 return null;
             }
+        }
+
+        public void SaveError(string ClinicID, ResponseModel responseModel, CreateScheduledDataRequest createScheduledDataRequest, string ClientName, string TestName)
+        {
+            if (!string.IsNullOrEmpty(TestName)) { createScheduledDataRequest.body.ScheduledTestName = TestName; }
+
+            APIErrorModel aPIErrorModel = new APIErrorModel() { ClinicID = ClinicID, ErrorMessage =  JsonConvert.SerializeObject(responseModel), ScheduleData = JsonConvert.SerializeObject(createScheduledDataRequest), CreatedBy = ClientName, CreatedDate = DateTime.Now.ToUniversalTime() };
+
+            _aPIErrorDBContext.Add(aPIErrorModel);
+            _aPIErrorDBContext.SaveChanges();
+        }
+
+        public List<APIErrorModel> GetErrorListByLocation(string ClinicID, string? StartDate, string? EndDate)
+        {
+            var errorList = new List<APIErrorModel>();
+
+            if (!string.IsNullOrEmpty(StartDate))
+            {
+                errorList = _aPIErrorDBContext.txn_error.Where(x => x.ClinicID == ClinicID && x.CreatedDate >= DateTime.Parse(StartDate) && x.CreatedDate <= DateTime.Parse(EndDate)).ToList();
+            }
+            else
+            {
+                errorList = _aPIErrorDBContext.txn_error.Where(x => x.ClinicID == ClinicID).ToList();
+            }
+
+            foreach (var error in errorList) 
+            {
+                error.Sync = 1;
+            }
+
+            _aPIErrorDBContext.UpdateRange(errorList);
+            _aPIErrorDBContext.SaveChanges();
+
+            return errorList;
+        }
+
+        public List<APIErrorModel> GetAllErrorNotSync(string ClinicID)
+        {
+            var errorList = _aPIErrorDBContext.txn_error.Where(x => x.ClinicID == ClinicID && x.Sync == 0).ToList();
+
+            foreach (var error in errorList)
+            {
+                error.Sync = 1;
+            }
+
+            _aPIErrorDBContext.UpdateRange(errorList);
+            _aPIErrorDBContext.SaveChanges();
+
+            return errorList;
+        }
+
+        public int GetTotalErrorListUnread(string ClinicID)
+        {
+            return _aPIErrorDBContext.txn_error.Where(x => x.ClinicID == ClinicID && x.Sync == 0).Count();
         }
 
     }

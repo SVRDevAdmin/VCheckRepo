@@ -53,15 +53,15 @@ namespace VCheckViewer.Views.Pages.Setting.User
 
             if (App.MainViewModel.CurrentUsers.Role == "Lab User")
             {
-                btnSettings.IsEnabled = false;
-                btnDeviceSetting.IsEnabled = false;
+                //btnSettings.IsEnabled = false;
+                //btnDeviceSetting.IsEnabled = false;
 
                 UserPage.Visibility = Visibility.Collapsed;
             }
             else
             {
-                btnSettings.IsEnabled = true;
-                btnDeviceSetting.IsEnabled = true;
+                //btnSettings.IsEnabled = true;
+                //btnDeviceSetting.IsEnabled = true;
 
                 UserPage.DataContext = App.MainViewModel;
 
@@ -105,7 +105,7 @@ namespace VCheckViewer.Views.Pages.Setting.User
                 parent.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
                 CheckAllValueExisted();
             }
-            else if (textBox != null && textBox.Name == "EmailAddress" && !textBox.Text.Contains("@"))
+            else if (textBox != null && textBox.Name == "EmailAddress" && (!textBox.Text.Contains("@") || !textBox.Text.Contains(".")))
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);

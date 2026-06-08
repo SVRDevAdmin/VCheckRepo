@@ -1,11 +1,21 @@
-﻿using System.Diagnostics;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
+using System.Windows.Shapes;
+using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
+using VCheckViewer.Converter;
+using VCheckViewer.Lib.Function;
+using VCheckViewer.UserControls;
 using Button = System.Windows.Controls.Button;
 using Hyperlink = System.Windows.Documents.Hyperlink;
 using TextBlock = System.Windows.Controls.TextBlock;
@@ -27,6 +37,7 @@ namespace VCheckViewer.Views.Pages.Notification
         public int currentPage = 1;
         public string? currentNotificationType;
         public string? currentStartDate, currentEndDate, currentKeyword;
+        public ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
 
         public NotificationPage()
         {
@@ -37,12 +48,25 @@ namespace VCheckViewer.Views.Pages.Notification
             pagination.ButtonNextControlClick += new EventHandler(PaginationNextButton_Click);
             pagination.ButtonPrevControlClick += new EventHandler(PaginationPrevButton_Click);
             pagination.ButtonPageControlClick += new EventHandler(PaginationNumButton_Click);
+
+            RangeDateStart.DateRangePicker_Calendar.SelectionMode = CalendarSelectionMode.SingleDate;
+            RangeDateEnd.DateRangePicker_Calendar.SelectionMode = CalendarSelectionMode.SingleDate;
+            RangeDateStart.DateRangePicker_TextBlock.Text = "Start Date";
+            RangeDateEnd.DateRangePicker_TextBlock.Text = "End Date";
+
+            RangeDateStart.DateRangePicker_Calendar.SelectedDatesChanged += RangeDate_SelectedDateChanged;
+            RangeDateEnd.DateRangePicker_Calendar.SelectedDatesChanged += RangeDate_SelectedDateChanged;
+            RangeDateStart.DateRangePicker_Calendar.LostFocus += CloseCalender;
+            RangeDateEnd.DateRangePicker_Calendar.LostFocus += CloseCalender;
         }
 
-        public void reloadData(int start, int end, string? notificationType, string? startDate, string? endDate, string? keyword, bool reset)
+        public async Task reloadData(int start, int end, string? notificationType, string? startDate, string? endDate, string? keyword, bool reset)
         {
             var currentUserCreatedDate = App.MainViewModel.CurrentUsers.CreatedDate;
             List<NotificationModel> notificationList = sContext.GetNotificationByPage(start, end, notificationType, startDate, endDate, keyword, currentUserCreatedDate);
+
+            //if(string.IsNullOrEmpty(notificationType) || notificationType == "Schedule Error") { notificationList.AddRange(await GetErrorList(startDate, endDate)); }            
+
             createList(notificationList);
 
             if (reset)
@@ -54,7 +78,8 @@ namespace VCheckViewer.Views.Pages.Notification
                 pagination.GetPageCountByRecordCountWithLimit();
             }
 
-            pagination.LoadPagingNumberWithLimit();
+            //pagination.LoadPagingNumberWithLimit();
+            pagination.LoadPagingNumber();
 
             NotificationSearch sSearchModel = new NotificationSearch();
             sSearchModel.SearchStart = start;
@@ -72,9 +97,11 @@ namespace VCheckViewer.Views.Pages.Notification
             sSearchModel.SearchEndDate = endDate;
             sSearchModel.SearchKeyword = keyword;
             sSearchModel.SearchReset = reset;
-            sSearchModel.SearchSelectedDates = RangeDate.SelectedDates;
+            //sSearchModel.SearchSelectedDates = RangeDate.SelectedDates;
 
             App.MainViewModel.SearchModel = sSearchModel;
+
+            App.RefreshUnreadNotificationHandler(null, null);
         }
 
         public void createList(List<NotificationModel> notificationList)
@@ -89,13 +116,38 @@ namespace VCheckViewer.Views.Pages.Notification
             {
                 foreach (NotificationModel notification in notificationList)
                 {
-                    DockPanel mainPanel = new DockPanel();
+                    Grid grid = new Grid();
+                    Ellipse ellipse = new Ellipse() { Width = 10, Height = 10, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = System.Windows.HorizontalAlignment.Center, StrokeThickness = 0, Fill = System.Windows.Media.Brushes.Gray, Visibility = notification.Read == 0 ? Visibility.Visible : Visibility.Hidden };
+                    DockPanel mainPanel = new DockPanel() { HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch, Margin = new Thickness(10, 10, 10, 10) };
                     DockPanel panel1 = new DockPanel();
                     DockPanel panel2 = new DockPanel();
                     TextBlock title = new TextBlock();
                     TextBlock date = new TextBlock();
                     TextBlock content = new TextBlock();
-                    
+                    TextBlock NotificationID = new TextBlock() { Text = notification.NotificationID.ToString(), Visibility = Visibility.Collapsed };
+                    Border borderLeft = new Border() { Child = ellipse, Width = 10, Margin = notification.Read == 0 ? new Thickness(10, 10, 10, 10) : new Thickness(0, 10, 10, 10) };
+                    Border borderRight = new Border() { Width = 10, Margin = new Thickness(10, 10, 0, 10) };
+                    Border borderWhole = new Border() { Tag = "BorderWhole", CornerRadius = new CornerRadius(5), HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch };
+
+                    grid.MouseDown += Grid_MouseDown;
+                    grid.MouseEnter += Grid_MouseEnter;
+                    grid.MouseLeave += Grid_MouseLeave;
+
+                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)new GridLengthConverter().ConvertFromString("auto") });
+                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)new GridLengthConverter().ConvertFromString("*") });
+                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = (GridLength)new GridLengthConverter().ConvertFromString("auto") });
+                    Grid.SetColumn(borderLeft, 0);
+                    Grid.SetColumn(NotificationID, 0);
+                    Grid.SetColumn(borderRight, 2);
+                    Grid.SetColumn(borderWhole, 0);
+                    Grid.SetColumnSpan(borderWhole, 3);
+                    grid.Children.Add(borderLeft);
+                    grid.Children.Add(NotificationID);
+                    grid.Children.Add(borderRight);
+                    grid.Children.Add(borderWhole);
+
+                    System.Windows.Controls.Panel.SetZIndex(borderLeft, 5);
+
 
                     title.Text = notification.NotificationTitle;
                     title.TextAlignment = System.Windows.TextAlignment.Left;
@@ -148,7 +200,11 @@ namespace VCheckViewer.Views.Pages.Notification
                     mainPanel.Children.Add(panel1);
                     mainPanel.Children.Add(panel2);
 
-                    NotificationViewList.Children.Add(mainPanel);
+                    Grid.SetColumn(mainPanel, 1);
+                    grid.Children.Add(mainPanel);
+
+                    //NotificationViewList.Children.Add(mainPanel);
+                    NotificationViewList.Children.Add(grid);
                     if (notification != notificationList.LastOrDefault() || notificationList.Count == 1) { NotificationViewList.Children.Add(new Separator() { BorderBrush = sBrushSeparator, BorderThickness = new Thickness(0.5) }); }
                 }
             }
@@ -199,7 +255,7 @@ namespace VCheckViewer.Views.Pages.Notification
 
             reloadData((currentPage - 1) * pageSize, pageSize, currentNotificationType, currentStartDate, currentEndDate, currentKeyword, false);
         }
-                
+
         private void NotificationKeywordSearch(object sender, System.Windows.Input.KeyEventArgs e)
         {
             CloseCalenderPopup(null, null);
@@ -216,10 +272,24 @@ namespace VCheckViewer.Views.Pages.Notification
             currentEndDate = null;
             currentKeyword = null;
 
-            if (RangeDate.SelectedDates.Count > 0)
+            //if (RangeDate.SelectedDates.Count > 0)
+            //{
+            //    currentStartDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
+            //    currentEndDate = RangeDate.SelectedDates.LastOrDefault().AddDays(1).ToString("yyyy-MM-dd");
+            //}
+
+            if (RangeDateStart.SelectedDates.Count() == 1)
             {
-                currentStartDate = RangeDate.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
-                currentEndDate = RangeDate.SelectedDates.LastOrDefault().AddDays(1).ToString("yyyy-MM-dd");
+                currentStartDate = RangeDateStart.SelectedDates.FirstOrDefault().ToString("yyyy-MM-dd");
+            }
+
+            if (RangeDateEnd.SelectedDates.Count() == 1)
+            {
+                currentEndDate = RangeDateEnd.SelectedDates.FirstOrDefault().AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd");
+            }
+            else if (!string.IsNullOrEmpty(currentStartDate))
+            {
+                currentEndDate = RangeDateStart.SelectedDates.FirstOrDefault().AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd");
             }
 
             if (KeywordSearchBar.Text.Length > 0) { currentKeyword = KeywordSearchBar.Text; }
@@ -235,9 +305,113 @@ namespace VCheckViewer.Views.Pages.Notification
 
         }
 
+        private void RefreshFilter(object sender, RoutedEventArgs e)
+        {
+            KeywordSearchBar.Text = string.Empty;
+            RangeDateStart.SelectedDates = new ObservableCollection<DateTime>();
+            RangeDateStart.DateRangePicker_TextBox.Text = string.Empty;
+            RangeDateEnd.SelectedDates = new ObservableCollection<DateTime>();
+            RangeDateEnd.DateRangePicker_TextBox.Text = string.Empty;
+            NotificationType.SelectedItem = NotificationType.Items.OfType<ComboBoxItem>().Where(x => x.Tag == null).FirstOrDefault();
+
+            UpdateFilter(null, null);
+
+        }
+
         private void CloseCalenderPopup(object? sender, MouseButtonEventArgs? e)
         {
-            RangeDate.DateRangePicker_Popup.IsOpen = false;
+            RangeDateStart.DateRangePicker_Popup.IsOpen = false;
+            RangeDateEnd.DateRangePicker_Popup.IsOpen = false;
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var grid = (Grid)sender;
+            var NotificationID = grid.Children.OfType<TextBlock>().FirstOrDefault().Text.ToString();
+            var currentSearch = App.MainViewModel.SearchModel;
+
+            sContext.MarkReadByID(NotificationID);
+            reloadData(currentSearch.SearchStart, currentSearch.SearchEnd, currentNotificationType, currentStartDate, currentEndDate, currentKeyword, false);
+        }
+
+        private void MarkAsRead_Click(object sender, RoutedEventArgs e)
+        {
+            var currentSearch = App.MainViewModel.SearchModel;
+            sContext.MarkAllAsRead();
+            reloadData(currentSearch.SearchStart, currentSearch.SearchEnd, currentNotificationType, currentStartDate, currentEndDate, currentKeyword, false);
+        }
+
+        private void Grid_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var grid = (Grid)sender;
+            var border = grid.Children.OfType<Border>().FirstOrDefault(x => x.Tag != null && x.Tag.ToString() == "BorderWhole");
+            border.SetResourceReference(Border.BackgroundProperty, "Themes_HighlightColor");
+        }
+
+        private void Grid_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var grid = (Grid)sender;
+            var border = grid.Children.OfType<Border>().FirstOrDefault(x => x.Tag != null && x.Tag.ToString() == "BorderWhole");
+            border.Background = System.Windows.Media.Brushes.Transparent;
+        }
+
+        private void CloseCalender(object sender, RoutedEventArgs e)
+        {
+            var focusedControl = Keyboard.FocusedElement as FrameworkElement;
+
+            if (focusedControl == null || focusedControl.GetType() == typeof(CalendarDayButton) || focusedControl.GetType() == typeof(CalendarButton) ||
+                focusedControl.GetType() == typeof(Calendar))
+            {
+                return;
+            }
+
+            if (focusedControl.GetType() == typeof(ScrollViewer))
+            {
+                focusedControl.LostFocus += CloseCalender;
+
+                return;
+            }
+
+
+            DateRangePicker calender = sender as DateRangePicker;
+
+            if (calender == RangeDateStart || RangeDateStart.DateRangePicker_Popup.IsOpen)
+            {
+                RangeDateStart.DateRangePicker_Popup.IsOpen = false;
+            }
+            else if (calender == RangeDateEnd || RangeDateEnd.DateRangePicker_Popup.IsOpen)
+            {
+                RangeDateEnd.DateRangePicker_Popup.IsOpen = false;
+            }
+        }
+
+        private void RangeDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RangeDateStart.SelectedDates = RangeDateStart.DateRangePicker_Calendar.SelectedDates;
+            RangeDateEnd.SelectedDates = RangeDateEnd.DateRangePicker_Calendar.SelectedDates;
+
+            if (RangeDateStart.SelectedDates.Count() == 1 && RangeDateEnd.SelectedDates.Count() == 0)
+            {
+                RangeDateEnd.SelectedDates = RangeDateStart.SelectedDates;
+            }
+            else if (RangeDateEnd.SelectedDates.Count() == 1 && RangeDateStart.SelectedDates.Count() == 0)
+            {
+                RangeDateStart.SelectedDates = RangeDateEnd.SelectedDates;
+            }
+            else if (RangeDateEnd.SelectedDates.FirstOrDefault() < RangeDateStart.SelectedDates.FirstOrDefault())
+            {
+                RangeDateEnd.SelectedDates = RangeDateStart.SelectedDates;
+                RangeDateEnd.DateRangePicker_Calendar.SelectedDate = RangeDateStart.DateRangePicker_Calendar.SelectedDate;
+            }
+
+            RangeDateEnd.DateRangePicker_Calendar.DisplayDateStart = RangeDateStart.DateRangePicker_Calendar.SelectedDate;
+
+            DateFormatConverter dateFormatConverter = new DateFormatConverter();
+
+            RangeDateStart.DateRangePicker_TextBox.Text = dateFormatConverter.ConvertSimpleDate(RangeDateStart.SelectedDates.FirstOrDefault()).ToString();
+            RangeDateEnd.DateRangePicker_TextBox.Text = dateFormatConverter.ConvertSimpleDate(RangeDateEnd.SelectedDates.FirstOrDefault()).ToString();
+
+            CloseCalenderPopup(null, null);
         }
     }
 }

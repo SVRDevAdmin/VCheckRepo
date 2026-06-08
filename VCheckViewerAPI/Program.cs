@@ -1,11 +1,10 @@
 using log4net.Config;
 using Microsoft.AspNetCore.Diagnostics;
-using MySqlX.XDevAPI.Common;
 using Newtonsoft.Json;
-using Org.BouncyCastle.Asn1.Ocsp;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using VCheck.Lib.Data.Models;
 using VCheckViewerAPI.Lib.Util;
 using VCheckViewerAPI.Message.General;
 using VCheckViewerAPI.Services;
@@ -21,14 +20,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 //// Configure the HTTP request pipeline.
+app.UseSwagger();
 //if (app.Environment.IsDevelopment())
 //{
-//    app.UseSwagger();
 //    app.UseSwaggerUI();
 //}
 

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -85,11 +86,22 @@ namespace VCheckViewer.Views.Pages.Setting.Report
 
             if (result == true)
             {
-                LogoPath.Text = dlg.FileName;
-                var uri = new Uri(dlg.FileName);
-                var bitmap = new BitmapImage(uri);
+                FileInfo fileInfo = new FileInfo(dlg.FileName);
+                long fileSizeInBytes = fileInfo.Length;
 
-                Logo.Source = bitmap;
+                if(fileSizeInBytes > 2000000)
+                {
+                    System.Windows.Forms.MessageBox.Show("File size too big. Please select file below 2mb.");
+                }
+                else
+                {
+                    LogoPath.Text = dlg.FileName;
+                    var uri = new Uri(dlg.FileName);
+                    var bitmap = new BitmapImage(uri);
+
+                    Logo.Source = bitmap;
+                }
+
             }
 
             UpdateButton.IsEnabled = isSufficient();

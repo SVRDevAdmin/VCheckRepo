@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace ScheduleAutomation.Lib.Logic
 {
@@ -70,7 +69,7 @@ namespace ScheduleAutomation.Lib.Logic
         //    return null;
         //}
 
-        public static DeviceModel GetDeviceByAnalyzerList(int[] analyzersID)
+        public static DeviceModel GetDeviceByAnalyzerList(int analyzersID)
         {
             return DeviceRepository.GetDeviceByDeviceTypeIDList(GetConfigurationSettings(), analyzersID);
         }

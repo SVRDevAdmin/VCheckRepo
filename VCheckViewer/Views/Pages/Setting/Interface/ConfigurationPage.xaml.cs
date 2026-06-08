@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
@@ -60,14 +61,18 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 {
                     Greywind.IsChecked = true;
                 }
-                else
+                else if (CurrentLIS == "Other")
                 {
                     Other.IsChecked = true;
+                }
+                else
+                {
+                    None.IsChecked = true;
                 }
             }
             else
             {
-                Other.IsChecked = true;
+                None.IsChecked = true;
             }
         }
 
@@ -96,6 +101,11 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
             App.GoToClinicInfoPageHandler(e, sender);
         }
 
+        private void btnInfo_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToInformationPageHandler(e, sender);
+        }
+
         private void NumberValidationOnly(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
@@ -106,7 +116,7 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
         {
             Boolean isFieldEmpty = false;
 
-            if (!Greywind.IsChecked.GetValueOrDefault())
+            if (Other.IsChecked.GetValueOrDefault())
             {
                 String sIP = txtIP.Text;
                 if (sIP.Replace(" ", "").Replace(".", "").Trim().Length == 0)
@@ -180,7 +190,7 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                     btnConnect.Background = System.Windows.Media.Brushes.Gray;
                 }
             }
-            else
+            else if(Greywind.IsChecked.GetValueOrDefault())
             {
                 if (txtIP.Text.Replace(" ", "").Replace(".", "").Trim().Length == 0)
                 {
@@ -208,6 +218,21 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 borderUsername.ToolTip = null;
                 borderPassword.BorderBrush = System.Windows.Media.Brushes.Black;
                 borderPassword.ToolTip = null;
+            }
+            else
+            {
+                btnConnect.Content = Properties.Resources.Maintenance_Label_NotConnected;
+                btnConnect.Tag = "Not Connected";
+                btnConnect.Background = System.Windows.Media.Brushes.Gray;
+
+                if (CurrentLIS == "None")
+                {
+                    isFieldEmpty = true;
+                }
+                else
+                {
+                    isFieldEmpty = false;
+                }
             }
 
             if (btnConnect.Tag.ToString() == "Connected") { isFieldEmpty = true; }
@@ -295,7 +320,7 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
             {
                 List<ConfigurationModel> sConfigList = new List<ConfigurationModel>();
 
-                if (!Greywind.IsChecked.GetValueOrDefault())
+                if (Other.IsChecked.GetValueOrDefault())
                 {
                     sConfigList.Add(new ConfigurationModel
                     {
@@ -349,9 +374,23 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
         private async void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton selected = sender as RadioButton;
-            if(selected.Name == "Greywind")
+
+            if (selected.Name == "Greywind")
             {
-                if(CurrentLIS == "Greywind")
+                btnConnect.Visibility = Visibility.Visible;
+                borderIPLabel.Visibility = Visibility.Visible;
+                borderIP.Visibility = Visibility.Visible;
+                borderPortNoLabel.Visibility = Visibility.Visible;
+                borderPortNo.Visibility = Visibility.Visible;
+                ClinicPhoneNumLabel.Visibility = Visibility.Visible;
+                UsernameLabel.Visibility = Visibility.Collapsed;
+                PasswordLabel.Visibility = Visibility.Collapsed;
+                borderClinicPhoneNum.Visibility = Visibility.Visible;
+                borderUsername.Visibility = Visibility.Collapsed;
+                borderPassword.Visibility = Visibility.Collapsed;
+                NoneLabel.Visibility = Visibility.Collapsed;
+
+                if (CurrentLIS == "Greywind")
                 {
                     await CheckGreywindConnection();
                 }
@@ -370,21 +409,29 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 else { txtClinicPhoneNum.Text = ""; }
 
                 txtIP.Text = PMSURL;
-                txtPortNo.Text = "80";
+                txtPortNo.Text = "443";
                 txtUsername.Text = "svrtech";
                 txtPassword.Password = "V7FZ+fu9sQ9*";
                 txtIP.IsEnabled = false;
                 txtPortNo.IsEnabled = false;
-
-                ClinicPhoneNumLabel.Visibility = Visibility.Visible;
-                UsernameLabel.Visibility = Visibility.Collapsed;
-                PasswordLabel.Visibility = Visibility.Collapsed;
-                borderClinicPhoneNum.Visibility = Visibility.Visible;
-                borderUsername.Visibility = Visibility.Collapsed;
-                borderPassword.Visibility = Visibility.Collapsed;
             }
-            else
+            else if(selected.Name == "Other")
             {
+                btnConnect.Visibility = Visibility.Visible;
+                borderIPLabel.Visibility = Visibility.Visible;
+                borderIP.Visibility = Visibility.Visible;
+                borderPortNoLabel.Visibility = Visibility.Visible;
+                borderPortNo.Visibility = Visibility.Visible;
+                txtIP.IsEnabled = true;
+                txtPortNo.IsEnabled = true;
+                ClinicPhoneNumLabel.Visibility = Visibility.Collapsed;
+                UsernameLabel.Visibility = Visibility.Visible;
+                PasswordLabel.Visibility = Visibility.Visible;
+                borderClinicPhoneNum.Visibility = Visibility.Collapsed;
+                borderUsername.Visibility = Visibility.Visible;
+                borderPassword.Visibility = Visibility.Visible;
+                NoneLabel.Visibility = Visibility.Collapsed;
+
                 var sInterfaceIP = configDBContext.GetConfigurationData(sIPConfigKey).FirstOrDefault();
                 if (sInterfaceIP != null)
                 {
@@ -412,16 +459,23 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                     txtPassword.Password = sInterfacePassword.ConfigurationValue.ToString();
                 }
                 else { txtPassword.Password = ""; }
-
-                txtIP.IsEnabled = true;
-                txtPortNo.IsEnabled = true;
+            }
+            else
+            {
+                btnConnect.Visibility = Visibility.Collapsed;
+                borderIPLabel.Visibility = Visibility.Collapsed;
+                borderIP.Visibility = Visibility.Collapsed;
+                borderPortNoLabel.Visibility = Visibility.Collapsed;
+                borderPortNo.Visibility = Visibility.Collapsed;
                 ClinicPhoneNumLabel.Visibility = Visibility.Collapsed;
-                UsernameLabel.Visibility = Visibility.Visible;
-                PasswordLabel.Visibility = Visibility.Visible;
+                UsernameLabel.Visibility = Visibility.Collapsed;
+                PasswordLabel.Visibility = Visibility.Collapsed;
                 borderClinicPhoneNum.Visibility = Visibility.Collapsed;
-                borderUsername.Visibility = Visibility.Visible;
-                borderPassword.Visibility = Visibility.Visible;
-            }            
+                borderUsername.Visibility = Visibility.Collapsed;
+                borderPassword.Visibility = Visibility.Collapsed;
+                NoneLabel.Visibility = Visibility.Collapsed;
+                NoneLabel.Visibility = Visibility.Visible;
+            }
 
             FieldsVal_KeyUp(null, null);
         }
@@ -506,7 +560,7 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
         {
             GreywindAPI sAPI = new GreywindAPI();
 
-            return await sAPI.GetClinicInfo(ClinicID, PMSURL);
+            return await sAPI.ClinicExist(ClinicID, PMSURL);
         }
 
         private async Task<bool> CreateClinicInfoPMS()
@@ -646,8 +700,11 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
 
                 CurrentLIS = "Greywind";
             }
-            else
+            else if (Other.IsChecked.GetValueOrDefault())
             {
+                App.MainViewModel.Origin = "GreywindConnected";
+                App.PopupHandler(e, sender);
+
                 btnConnect.Content = Properties.Resources.Maintenance_Label_Connected;
                 btnConnect.Tag = "Connected";
                 btnConnect.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFromString("#0ed145");
@@ -656,7 +713,25 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
 
                 CurrentLIS = "Other";
             }
-            
+            else
+            {
+                //App.MainViewModel.Origin = "SettingsUpdateCompleted";
+                //App.PopupHandler(e, sender);
+
+                btnConnect.Content = Properties.Resources.Maintenance_Label_NotConnected;
+                btnConnect.Tag = "Not Connected";
+                btnConnect.Background = System.Windows.Media.Brushes.Gray;
+
+                btnUpdate.IsEnabled = false;
+
+                CurrentLIS = "None";
+            }
+
+        }
+
+        private void DownloadButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(App.UpdateLink) { UseShellExecute = true });
         }
     }
 }

@@ -292,7 +292,7 @@
     <value>是否確實要註銷？</value>
   </data>
   <data name="Popup_Message_PasswordRecoveredP1" xml:space="preserve">
-    <value>我們已向您發送電子郵件的臨時密碼。您可以使用它登錄。 &lt;next line&gt; 登錄后，您可以將其更改為您的首選密碼 </value>
+    <value>我們已向您發送電子郵件的臨時密碼。您可以使用它登錄。 &lt;nextline&gt; 登錄后，您可以將其更改為您的首選密碼 </value>
   </data>
   <data name="Popup_Message_PasswordRecoveredP2" xml:space="preserve">
     <value>“重置密碼”</value>
@@ -917,5 +917,101 @@
   </data>
   <data name="Popup_Message_GreywindConnected" xml:space="preserve">
     <value>已成功連接 Greywind。</value>
+  </data>
+  <data name="ClinicInfo_Label_SearchClinic" xml:space="preserve">
+    <value>搜尋診所</value>
+  </data>
+  <data name="General_Label_ThreeDaysReminder" xml:space="preserve">
+    <value>3天後提醒我</value>
+  </data>
+  <data name="General_Message_NewVersionAvailable" xml:space="preserve">
+    <value>新版Vcheck Viewer已發布，請下載新版本？</value>
+  </data>
+  <data name="General_Message_NewVersionNotification" xml:space="preserve">
+    <value>新版本通知</value>
+  </data>
+  <data name="Maintenance_Label_ApplicationInformation" xml:space="preserve">
+    <value>應用程式資訊</value>
+  </data>
+  <data name="Maintenance_Label_EnvironmentInformation" xml:space="preserve">
+    <value>環境資訊</value>
+  </data>
+  <data name="Maintenance_Label_None" xml:space="preserve">
+    <value>無</value>
+  </data>
+  <data name="Maintenance_Label_Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="Popup_Message_NoScheduleFound" xml:space="preserve">
+    <value>未找到日程安排。</value>
+  </data>
+  <data name="Popup_Message_SelectSchedule" xml:space="preserve">
+    <value>請選擇日程安排以傳送測試結果資料。</value>
+  </data>
+  <data name="Schedule_Label_Cancelled" xml:space="preserve">
+    <value>已取消</value>
+  </data>
+  <data name="Schedule_Label_General" xml:space="preserve">
+    <value>常規</value>
+  </data>
+  <data name="Schedule_Label_OrderedTest" xml:space="preserve">
+    <value>已預約測試</value>
+  </data>
+  <data name="Schedule_Label_Pending" xml:space="preserve">
+    <value>待處理</value>
+  </data>
+  <data name="Schedule_Label_ResultSentToVV" xml:space="preserve">
+    <value>結果已發送至VV</value>
+  </data>
+  <data name="Schedule_Label_SentToAnalyzer" xml:space="preserve">
+    <value>已發送至分析儀</value>
+  </data>
+  <data name="Schedule_Label_SentToPIMS" xml:space="preserve">
+    <value>已發送至PIMS</value>
+  </data>
+  <data name="Schedule_Label_Tests" xml:space="preserve">
+    <value>測試</value>
+  </data>
+  <data name="General_Message_RemindThreeDays" xml:space="preserve">
+    <value>3 天後再次提醒。</value>
+  </data>
+  <data name="General_Message_VCheckAlreadyOpen" xml:space="preserve">
+    <value>VCheck Viewer 實例已開啟。請先關閉舊實例，再開啟新實例。</value>
+  </data>
+  <data name="Maintenance_Label_API" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Maintenance_Label_Listener" xml:space="preserve">
+    <value>監聽器</value>
+  </data>
+  <data name="Maintenance_Label_ListenerIPAddr" xml:space="preserve">
+    <value>監聽器 IP 位址</value>
+  </data>
+  <data name="Maintenance_Label_ListenerPortNo" xml:space="preserve">
+    <value>監聽器連接埠號</value>
+  </data>
+  <data name="Maintenance_Label_VCheckAPI" xml:space="preserve">
+    <value>VCheck API</value>
+  </data>
+  <data name="Maintenance_Label_VCheckListener" xml:space="preserve">
+    <value>VCheck 監聽器</value>
+  </data>
+  <data name="Main_Label_Exit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="Notification_Button_MarkAllAsRead" xml:space="preserve">
+    <value>全部標記為已讀</value>
+  </data>
+  <data name="Popup_Message_AnalyzerCannotReceive" xml:space="preserve">
+    <value>分析儀無法手動接收日程安排。</value>
+  </data>
+  <data name="Popup_Message_ConnectPIMSSuccess" xml:space="preserve">
+    <value>已成功連接到 PIMS。</value>
+  </data>
+  <data name="Popup_Message_NoClinicFound" xml:space="preserve">
+    <value>未找到與該電話號碼相符的診所。</value>
+  </data>
+  <data name="Report_Label_PreviousRecord" xml:space="preserve">
+    <value>上次記錄</value>
   </data>
 </root>

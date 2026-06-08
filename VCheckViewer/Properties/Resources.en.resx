@@ -292,7 +292,7 @@
     <value>Are you sure you want to logout?</value>
   </data>
   <data name="Popup_Message_PasswordRecoveredP1" xml:space="preserve">
-    <value>We have send you a temporary password to your email. You can use it to log in. &lt;next line&gt; Once you are logged in, you can change it to your preferred password in </value>
+    <value>We have send you a temporary password to your email. You can use it to log in. &lt;nextline&gt; Once you are logged in, you can change it to your preferred password in </value>
   </data>
   <data name="Popup_Message_PasswordRecoveredP2" xml:space="preserve">
     <value>'Reset Password'</value>
@@ -310,7 +310,7 @@
     <value>Please key in correct date format.</value>
   </data>
   <data name="Setting_ErrorMessage_EmailFormat" xml:space="preserve">
-    <value>This field must include “@” symbol.</value>
+    <value>This field must include “@” symbol and ".com".</value>
   </data>
   <data name="Setting_ErrorMessage_FiveCharMin" xml:space="preserve">
     <value>This field must contain at least 5 characters.</value>
@@ -842,5 +842,83 @@
   </data>
   <data name="Setting_Label_BackButton" xml:space="preserve">
     <value>Back</value>
+  </data>
+  <data name="Maintenance_Label_ApplicationInformation" xml:space="preserve">
+    <value>Application Information</value>
+  </data>
+  <data name="Maintenance_Label_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Maintenance_Label_Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Schedule_Label_Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="Schedule_Label_General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Schedule_Label_OrderedTest" xml:space="preserve">
+    <value>Ordered Test</value>
+  </data>
+  <data name="Schedule_Label_Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="Schedule_Label_ResultSentToVV" xml:space="preserve">
+    <value>Result sent to VV</value>
+  </data>
+  <data name="Schedule_Label_SentToAnalyzer" xml:space="preserve">
+    <value>Sent to analyzer</value>
+  </data>
+  <data name="Schedule_Label_SentToPIMS" xml:space="preserve">
+    <value>Sent to PIMS</value>
+  </data>
+  <data name="Schedule_Label_Tests" xml:space="preserve">
+    <value>Tests</value>
+  </data>
+  <data name="ClinicInfo_Label_SearchClinic" xml:space="preserve">
+    <value>Search Clinic</value>
+  </data>
+  <data name="General_Message_RemindThreeDays" xml:space="preserve">
+    <value>Will remind again in 3 days.</value>
+  </data>
+  <data name="General_Message_VCheckAlreadyOpen" xml:space="preserve">
+    <value>An instance of VCheck Viewer is already opened. Please close old instance before can open new one.</value>
+  </data>
+  <data name="Maintenance_Label_API" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Maintenance_Label_Listener" xml:space="preserve">
+    <value>Listener</value>
+  </data>
+  <data name="Maintenance_Label_ListenerIPAddr" xml:space="preserve">
+    <value>Listener IP Address</value>
+  </data>
+  <data name="Maintenance_Label_ListenerPortNo" xml:space="preserve">
+    <value>Listener Port No.</value>
+  </data>
+  <data name="Maintenance_Label_VCheckAPI" xml:space="preserve">
+    <value>VCheck API</value>
+  </data>
+  <data name="Maintenance_Label_VCheckListener" xml:space="preserve">
+    <value>VCheck Listener</value>
+  </data>
+  <data name="Main_Label_Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="Notification_Button_MarkAllAsRead" xml:space="preserve">
+    <value>Mark all as read</value>
+  </data>
+  <data name="Popup_Message_AnalyzerCannotReceive" xml:space="preserve">
+    <value>The analyzer cannot receive schedule manually.</value>
+  </data>
+  <data name="Popup_Message_ConnectPIMSSuccess" xml:space="preserve">
+    <value>Successfully connected to PIMS</value>
+  </data>
+  <data name="Popup_Message_NoClinicFound" xml:space="preserve">
+    <value>No clinic found with that phone number.</value>
+  </data>
+  <data name="Report_Label_PreviousRecord" xml:space="preserve">
+    <value>Previous Record</value>
   </data>
 </root>

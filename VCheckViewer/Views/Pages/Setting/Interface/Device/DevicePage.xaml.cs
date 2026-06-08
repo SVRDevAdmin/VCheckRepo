@@ -1,13 +1,16 @@
-﻿using System.Windows;
+﻿using Newtonsoft.Json;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Net;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Navigation;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
-using VCheckViewer.Lib.Function;
 using VCheckViewer.Lib;
-using System.Net;
-using System.Collections.ObjectModel;
+using VCheckViewer.Lib.Function;
 
 namespace VCheckViewer.Views.Pages.Setting.Device
 {
@@ -22,19 +25,27 @@ namespace VCheckViewer.Views.Pages.Setting.Device
         public DevicePage()
         {
             InitializeComponent();
-            
+
+            twoWayDeviceTypesID = DeviceRepository.GetDeviceTypeList(ConfigSettings.GetConfigurationSettings()).Where(x => x.TwoWayCommunication == 1).Select(y => y.id.ToString()).ToList();
+
             LoadDeviceTypeList();
             LoadDeviceListing();
 
             this.SizeChanged += MainWindow_SizeChanged;
-
-            twoWayDeviceTypesID = DeviceRepository.GetDeviceTypeList(ConfigSettings.GetConfigurationSettings()).Where(x => x.TwoWayCommunication == 1).Select(y => y.id.ToString()).ToList();
 
             DataContext = this;
         }
 
         private void LoadDeviceTypeList()
         {
+            ComboBoxItem selectedItem = new ComboBoxItem
+            {
+                Content = "--- Please select device type ---",
+                Tag = "0"
+            };
+
+            deviceComboList.Add(selectedItem);
+
             List<DeviceTypeModel> deviceList = DeviceRepository.GetDeviceTypeList(ConfigSettings.GetConfigurationSettings());
             if (deviceList != null)
             {
@@ -51,12 +62,25 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             if (deviceComboList.Count > 0)
             {
                 cboDeviceType.ItemsSource = deviceComboList;
+                cboDeviceType.SelectedItem = selectedItem;
             }
         }
 
         private void LoadDeviceListing()
-        {      
-            dgDevice.ItemsSource = DeviceRepository.GetDeviceList(ConfigSettings.GetConfigurationSettings());
+        {
+            var deviceList = DeviceRepository.GetDeviceList(ConfigSettings.GetConfigurationSettings());
+            //dgDevice.ItemsSource = deviceList;
+
+            var deviceListString = JsonConvert.SerializeObject(deviceList);
+            var deviceListExtended = JsonConvert.DeserializeObject<List<DeviceModelExtended>>(deviceListString);
+
+            foreach (var device in deviceListExtended)
+            {
+                device.DeviceNameExtended = device.DeviceName + " (" + device.DeviceSerialNo + ")";
+            }
+
+            dgDevice.ItemsSource = deviceListExtended;
+
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -393,13 +417,21 @@ namespace VCheckViewer.Views.Pages.Setting.Device
 
                 IsFieldEmpty = true;
             }
+            else if ((cboDeviceType.SelectedItem as ComboBoxItem).Tag.ToString() == "0")
+            {
+                borderDeviceTypeEdit.BorderBrush = System.Windows.Media.Brushes.Red;
+                borderDeviceTypeEdit.BorderThickness = new Thickness(1);
+                borderDeviceTypeEdit.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
+
+                IsFieldEmpty = true;
+            }
             else
             {
                 borderDeviceTypeEdit.BorderBrush = System.Windows.Media.Brushes.Black;
                 borderDeviceTypeEdit.ToolTip = "";
             }
 
-            if (cboDeviceType.SelectedItem != null && twoWayDeviceTypesID.Contains((cboDeviceType.SelectedItem as ComboBoxItem).Tag.ToString()))
+            if (cboDeviceType.SelectedItem != null && (cboDeviceType.SelectedItem as ComboBoxItem).Tag.ToString() != "default" && twoWayDeviceTypesID.Contains((cboDeviceType.SelectedItem as ComboBoxItem).Tag.ToString()))
             {
                 String sIPAddress = txtIPAddress.Text;
                 if (sIPAddress.Replace(" ", "").Replace(".", "").Trim().Length == 0)
@@ -514,6 +546,11 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             App.GoToClinicInfoPageHandler(e, sender);
         }
 
+        private void btnInfo_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToInformationPageHandler(e, sender);
+        }
+
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigateBackButton();
@@ -541,8 +578,33 @@ namespace VCheckViewer.Views.Pages.Setting.Device
         {
             var windowHeight = App.WindowHeight;
 
-            if (windowHeight > 1016) { deviceBorder.Height = 650; }
-            else { deviceBorder.Height = windowHeight * 0.52; }
+            if (windowHeight > 1016) { deviceBorder.Height = 425; }
+            else { deviceBorder.Height = windowHeight * 0.47; }
+        }
+
+        public class DeviceModelExtended : DeviceModel
+        {
+            public string DeviceNameExtended { get; set; }
+        }
+
+        private void DownloadButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(App.UpdateLink) { UseShellExecute = true });
+        }
+
+        // Handle hyperlink click
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+            }
+            catch
+            {
+                //MessageBox.Show("Unable to open link.");
+            }
+            e.Handled = true;
         }
     }
+    
 }

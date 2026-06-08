@@ -124,11 +124,22 @@
                         <Border Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black" Margin="0,10,0,10">
                             <Grid>
 
-                                <Image Source="../../../Content/Images/Password Icon.png" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0"/>
+                                <Image Source="../../../Content/Images/Email Icon.png" HorizontalAlignment="Left" Height="20" Margin="5,0,0,0"/>
 
 
-                                <TextBox x:Name="PasswordPlaceholder" BorderThickness="0" Margin="30,0,10,0" Foreground="DarkGray" IsHitTestVisible="False" Background="Transparent" GotFocus="Placeholder_GotFocus"/>
-                                <PasswordBox x:Name="Password" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" Background="Transparent" PasswordChanged="PasswordBox_PasswordChanged" GotFocus="PasswordBox_GotFocus" LostFocus="PasswordBox_LostFocus"/>
+                                <TextBox x:Name="Email" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" KeyUp="CheckValue"/>
+                                <TextBlock IsHitTestVisible="False" Text="Email" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=Email}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </Grid>
                         </Border>
                         <Border Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black" Margin="0,10,0,10">
@@ -137,11 +148,47 @@
                                 <Image Source="../../../Content/Images/Password Icon.png" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0"/>
 
 
-                                <TextBox x:Name="ConfirmPasswordPlaceholder" BorderThickness="0" Margin="30,0,10,0" Foreground="DarkGray" IsHitTestVisible="False" Background="Transparent" GotFocus="Placeholder_GotFocus"/>
-                                <PasswordBox x:Name="ConfirmPassword" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Background="Transparent" Foreground="Black" PasswordChanged="PasswordBox_PasswordChanged" GotFocus="PasswordBox_GotFocus" LostFocus="PasswordBox_LostFocus"/>
+                                <!--<TextBox x:Name="PasswordPlaceholder" BorderThickness="0" Margin="30,0,10,0" Foreground="DarkGray" IsHitTestVisible="False" Background="Transparent" GotFocus="Placeholder_GotFocus"/>-->
+                                <TextBox x:Name="passwordShow" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" TextChanged="passwordShow_TextChanged" Visibility="Collapsed"/>
+                                <PasswordBox x:Name="Password" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" Background="Transparent" PasswordChanged="PasswordBox_PasswordChanged" KeyDown="ConfirmPassword_KeyDown"/>
+                                <TextBlock x:Name="PasswordPlaceholder" IsHitTestVisible="False" Text="{Binding Path=Login_Label_MainPassword, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+
+                                <Button HorizontalAlignment="Right" Margin="5,0,0,0" Click="PasswordVisible_Click" BorderThickness="0" Background="Transparent">
+                                    <Image x:Name="passwordVisibleIcon" Tag="hide" Source="../../../Content/Images/Hide password.png" Height="25" />
+                                </Button>
                             </Grid>
                         </Border>
-                        <Button Content="{Binding Path=Login_Label_RegisterButton, Source={StaticResource Resources}}" Style="{DynamicResource RoundButton}" Background="{DynamicResource Themes_ButtonColor}" Foreground="White" HorizontalAlignment="Stretch" Height="40" BorderThickness="0" Margin="0,20,0,15" Click="RegisterButton_Click"/>
+                        <TextBlock x:Name="ErrorTextPassword" Foreground="Red" TextAlignment="Center" Visibility="Collapsed" TextWrapping="Wrap"/>
+                        <Border Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black" Margin="0,10,0,10">
+                            <Grid>
+
+                                <Image Source="../../../Content/Images/Password Icon.png" HorizontalAlignment="Left" Height="30" Margin="5,0,0,0"/>
+
+
+                                <!--<TextBox x:Name="ConfirmPasswordPlaceholder" BorderThickness="0" Margin="30,0,10,0" Foreground="DarkGray" IsHitTestVisible="False" Background="Transparent" GotFocus="Placeholder_GotFocus"/>-->
+                                <TextBox x:Name="confirmPasswordShow" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" TextChanged="confirmPasswordShow_TextChanged" Visibility="Collapsed"/>
+                                <PasswordBox x:Name="ConfirmPassword" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Background="Transparent" Foreground="Black" PasswordChanged="PasswordBox_PasswordChanged" KeyDown="ConfirmPassword_KeyDown"/>
+                                <TextBlock x:Name="ConfirmPasswordPlaceholder" IsHitTestVisible="False" Text="{Binding Path=Login_Label_ConfirmPassword, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+
+                                <Button HorizontalAlignment="Right" Margin="5,0,0,0" Click="ConfirmPasswordVisible_Click" BorderThickness="0" Background="Transparent">
+                                    <Image x:Name="confirmPasswordVisibleIcon" Tag="hide" Source="../../../Content/Images/Hide password.png" Height="25" />
+                                </Button>
+                            </Grid>
+                        </Border>
+                        <TextBlock x:Name="ErrorTextConfirmPassword" Foreground="Red" TextAlignment="Center" Visibility="Collapsed" TextWrapping="Wrap"/>
+                        <Button x:Name="RegisterButton" Content="{Binding Path=Login_Label_RegisterButton, Source={StaticResource Resources}}" Style="{DynamicResource RoundButton}" Background="{DynamicResource Themes_ButtonColor}" Foreground="White" HorizontalAlignment="Stretch" Height="40" BorderThickness="0" Margin="0,20,0,15" Click="RegisterButton_Click"/>
                     </StackPanel>
                 </Border>
 

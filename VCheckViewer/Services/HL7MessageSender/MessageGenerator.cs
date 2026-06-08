@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Newtonsoft.Json;
+using System.Text;
+using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
@@ -12,7 +14,7 @@ namespace VCheckViewer.Services.HL7MessageSender
         public static ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
         public static int MessageType = 0;
 
-        public static String GenerateOMLO33Message(List<TestIDAnalyzers> testIDAnalyzers, ScheduledTestModel info)
+        public static String GenerateOMLO33Message(List<(string, string)> testCodeName, ScheduledTestModel info)
         {
             MessageType = 1;
             var message = new HL7MessageModel();
@@ -71,13 +73,13 @@ namespace VCheckViewer.Services.HL7MessageSender
 
             //string CartridgeID = "DC001B";
             //string CartridgeName = "Comprehensive 17";
-            string CartridgeID = testIDAnalyzers.FirstOrDefault().TestID;
-            string CartridgeName = info.ScheduledTestType;
+            //string CartridgeID = testIDAnalyzers.FirstOrDefault().TestID;
+            //string CartridgeName = info.ScheduledTestType;
 
             message.OBR = new OBRModel()
             {
                 PlacerOrderNo = Guid.NewGuid().ToString(),
-                UniversalServiceID = CartridgeID + "^" + CartridgeName + "^VCHECK"
+                //UniversalServiceID = CartridgeID + "^" + CartridgeName + "^VCHECK"
             };
 
             List<OBXModel> obx = new List<OBXModel>()
@@ -107,7 +109,15 @@ namespace VCheckViewer.Services.HL7MessageSender
             };
             message.NTE = nte;
 
-            return GenerateMessage(message);
+            var completeHL7 = "";
+
+            foreach(var testInfo in testCodeName)
+            {
+                completeHL7 += "\n\n" + GenerateMessage(message, testInfo.Item1, testInfo.Item2);
+            }
+
+            //return GenerateMessage(message);
+            return completeHL7;
         }
 
         public static String GenerateORMO01Message(List<TestIDAnalyzers> testIDAnalyzers, ScheduledTestModel info)
@@ -192,7 +202,7 @@ namespace VCheckViewer.Services.HL7MessageSender
             return GenerateMessageORM(message);
         }
 
-        public static String GenerateMessage(HL7MessageModel message)
+        public static String GenerateMessage(HL7MessageModel message, string CartridgeID, string CartridgeName)
         {
             StringBuilder frame = new StringBuilder();
             frame.Append((char)0x0b);
@@ -276,7 +286,8 @@ namespace VCheckViewer.Services.HL7MessageSender
             response = new Message();
             Segment obr = new Segment("OBR");
             obr.Field(2, message.OBR.PlacerOrderNo); //optional
-            obr.Field(4, message.OBR.UniversalServiceID);
+            //obr.Field(4, message.OBR.UniversalServiceID);
+            obr.Field(4, CartridgeID + "^" + CartridgeName + "^VCHECK");
             response.Add(obr);
             frame.Append(response.SerializeMessage());
             frame.Append((char)0x0d);

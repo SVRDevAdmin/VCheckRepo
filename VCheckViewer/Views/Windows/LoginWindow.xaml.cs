@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Input;
 using VCheckViewer.Views.Pages;
 using VCheckViewer.Views.Pages.Login;
 using Wpf.Ui.Appearance;
@@ -19,6 +20,11 @@ namespace VCheckViewer.Views.Windows
         {
             SystemThemeWatcher.Watch(this);
             InitializeComponent();
+
+            //WindowStyle = WindowStyle.None;
+            //WindowState = WindowState.Maximized;
+            //ResizeMode = ResizeMode.NoResize;
+            //Topmost = true;
 
             LoginPage.GoToResetPasswordPage += new EventHandler(GoToResetPasswordPage);
             ResetPasswordPage.GoToLoginPage += new EventHandler(GoToLoginPage);
@@ -109,9 +115,10 @@ namespace VCheckViewer.Views.Windows
 
             PopupContent.Text = "";
 
-            var firstpartSection = (Properties.Resources.Popup_Message_PasswordRecoveredP1).Split("<next line>");
+            var firstpartSection = (Properties.Resources.Popup_Message_PasswordRecoveredP1).Split("<nextline>");
+            var combineFirstpartSection = firstpartSection.Count() == 1 ? firstpartSection[0] : firstpartSection[0] + "\r\n \r\n" + firstpartSection[1];
 
-            PopupContent.Inlines.Add(firstpartSection[0] + "\r\n \r\n" + firstpartSection[1]);
+            PopupContent.Inlines.Add(combineFirstpartSection);
             PopupContent.Inlines.Add(bold);
             PopupContent.Inlines.Add(Properties.Resources.Popup_Message_PasswordRecoveredP3);
         }
@@ -155,5 +162,12 @@ namespace VCheckViewer.Views.Windows
             }
         }
 
+        private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt && e.SystemKey == Key.F4)
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

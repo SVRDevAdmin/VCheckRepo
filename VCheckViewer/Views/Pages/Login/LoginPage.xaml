@@ -105,7 +105,7 @@
                                 <Image Source="../../../Content/Images/Password Icon.png" HorizontalAlignment="Left" Height="30" Margin="5,-5,0,0"/>
 
                                 <TextBox x:Name="passwordShow" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" TextChanged="passwordShow_TextChanged" Visibility="Collapsed"/>
-                                <PasswordBox x:Name="Password" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" PasswordChanged="PasswordPlaceholderHandler" />
+                                <PasswordBox x:Name="Password" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" Foreground="Black" PasswordChanged="PasswordPlaceholderHandler" KeyDown="Password_KeyDown"/>
                                 <TextBlock x:Name="PasswordPlaceholder" IsHitTestVisible="False" Text="{Binding Path=Login_Label_MainPassword, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">

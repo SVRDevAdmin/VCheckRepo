@@ -1,7 +1,7 @@
 ﻿using log4net;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -61,8 +61,8 @@ namespace VCheck.Lib.Data.DBContext
             }
             catch (Exception ex)
             {
-                log.Error("Database Error >>> ", ex);
-            }           
+                //log.Error("Database Error >>> ", ex);
+            }
 
             return sList;
         }
