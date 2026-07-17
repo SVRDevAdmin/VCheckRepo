@@ -12,5 +12,6 @@ namespace VCheckViewerAPI.Message.GetPatientResult
     public class PatientDataRequestBody
     {
         public string? PatientID { get; set; }
+        public string? TestUniqueID { get; set; }
     }
 }

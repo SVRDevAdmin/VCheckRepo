@@ -15,9 +15,9 @@ namespace VCheck.Interface.API
     public class VCheckAPI
     {
         //private string url = "https://localhost:7245/"; // local
-        //private string url = "http://vcheckcentral.inteleon.xyz/"; // Testing
+        private string url = "http://vcheckcentral.inteleon.xyz/"; // Testing
         //private string url = "http://vcheckstaging.inteleon.xyz/"; // Staging
-        private string url = "https://www.vcheckviewer.com/"; // prod with SSL
+        //private string url = "https://www.vcheckviewer.com/"; // prod with SSL
 
         private string clientKey = "qwertyuiop123asdfghjkl456zxcvbnm789";
 
@@ -522,7 +522,7 @@ namespace VCheck.Interface.API
 
 
         /// <summary>
-        /// Is Latest Version
+        /// Download latest version zip
         /// </summary>
         /// <param name="sResultRequest"></param>
         /// <returns></returns>
@@ -551,6 +551,55 @@ namespace VCheck.Interface.API
                     string fileName = "Vcheck Patch.zip";
 
                     using (HttpResponseMessage response = await client.PostAsync(url + "File/DownloadLatestInstaller", content))
+                    {
+                        response.EnsureSuccessStatusCode();
+
+                        using (Stream contentStream = await response.Content.ReadAsStreamAsync(),
+                                      fileStream = new FileStream(destinationPath + "\\" + fileName, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                        {
+                            await contentStream.CopyToAsync(fileStream);
+                        }
+
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Download latest patch
+        /// </summary>
+        /// <param name="sResultRequest"></param>
+        /// <returns></returns>
+        public async Task<bool> DownloadLatestPatch()
+        {
+            InitiateCertHandler();
+
+            ClientDataRequest request = new ClientDataRequest() { Header = new HeaderModel(), Body = new ClientDataRequestBody() };
+
+            request.Header.timestamp = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+            request.Header.clientKey = clientKey;
+
+            String strJson = JsonConvert.SerializeObject(request);
+            HttpContent content = new StringContent(strJson, Encoding.UTF8, "application/json");
+
+            try
+            {
+                using (var client = new HttpClient(handler))
+                {
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
+
+                    string destinationPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
+
+                    //string fileName = "VCheck Viewer Installer.exe";
+                    string fileName = "Vcheck Patch.exe";
+
+                    using (HttpResponseMessage response = await client.PostAsync(url + "File/DownloadLatestPatch", content))
                     {
                         response.EnsureSuccessStatusCode();
 

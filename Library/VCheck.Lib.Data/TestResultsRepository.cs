@@ -381,7 +381,7 @@ namespace VCheck.Lib.Data
                         String sSelectCommand = "SELECT T1.ID, T1.TestResultDateTime, T1.TestResultType, T1.OperatorID, T1.PatientID, T1.PatientName, " +
                                                 "T1.InchargePerson, T1.OverallStatus, T1.DeviceSerialNo, T1.PMSFunction, T1.CreatedDate, T1.CreatedBy, T2.DeviceName " +
                                                 "FROM txn_testresults AS T1 " +
-                                                "LEFT JOIN  mst_deviceslist AS T2 on T1.DeviceSerialNo = T2.DeviceSerialNo " +
+                                                "LEFT JOIN  mst_deviceslist AS T2 on T1.DeviceSerialNo = T2.DeviceSerialNo AND T2.Status = 1 " +
                                                 "LEFT JOIN  mst_devicetype AS T3 on T2.DeviceTypeID = T3.ID " +
                                                 "WHERE ";
 

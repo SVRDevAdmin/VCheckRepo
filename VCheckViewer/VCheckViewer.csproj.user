@@ -12,6 +12,9 @@
     <Compile Update="Services\MessageBox\CustomMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Services\MessageBox\LoadingMessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="UserControls\DateRangePicker.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

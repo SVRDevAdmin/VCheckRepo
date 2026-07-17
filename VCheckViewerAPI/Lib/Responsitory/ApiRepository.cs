@@ -1,17 +1,9 @@
 ﻿using log4net;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewerAPI.Lib.Util;
-using VCheckViewerAPI.Message.General;
 
 namespace VCheck.Lib.Data
 {
@@ -75,7 +67,7 @@ namespace VCheck.Lib.Data
             return null;
         }
 
-        public void GetTestResults(string patientID, out List<List<PatientDataObject>> returnData, out string responseCode, out string responseMessage, out string responseStatus)
+        public void GetTestResults(string patientID, string testUniqueID, out List<List<PatientDataObject>> returnData, out string responseCode, out string responseMessage, out string responseStatus)
         {
             returnData = null;
 
@@ -594,6 +586,15 @@ namespace VCheck.Lib.Data
             isMismatchedWrongUniqueIDError = 0;
             var uniqueKey = TestUniqueID.Split("-");
             TestName = "";
+
+            if (Gender == "Male Neutered")
+            {
+                Gender = "Neutered Male";
+            }
+            else if (Gender == "Female Spayed")
+            {
+                Gender = "Spayed Female";
+            }
 
             try
             {

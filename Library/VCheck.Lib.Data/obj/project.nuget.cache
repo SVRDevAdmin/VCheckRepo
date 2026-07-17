@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "rky2uTfhhZ0=",
+  "dgSpecHash": "hmMB+MQeQ9c=",
   "success": true,
   "projectFilePath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
   "expectedPackageFiles": [
@@ -87,8 +87,7 @@
       "filePath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
       "libraryId": "log4net",
       "targetGraphs": [
-        "net8.0",
-        "net8.0/win-x64"
+        "net8.0"
       ]
     }
   ]

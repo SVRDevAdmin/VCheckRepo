@@ -11,6 +11,31 @@ namespace VCheckViewerAPI.Controllers
         private ApiRepository _apiRepository = new ApiRepository();
         private int CanViewOther;
 
+        [HttpPost(Name = "DownloadLatestPatch")]
+        public IActionResult DownloadLatestPatch(ClientDataRequest request)
+        {
+            var sBuilder = Host.CreateApplicationBuilder();
+            string filePath = sBuilder.Configuration.GetSection("VersionConfig:Version_PatchPath").Value;
+
+            if (request.Header.clientKey != null && _apiRepository.Authenticate(request.Header.clientKey, out CanViewOther) && CanViewOther == 1)
+            {
+                if (!System.IO.File.Exists(filePath))
+                {
+                    return BadRequest(new { error = "No patch found", code = 400 });
+                }
+
+                // Read file bytes
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+
+                // Return file with correct content type
+                return File(fileBytes, "application/octet-stream", "Patch.exe");
+            }
+            else
+            {
+                return BadRequest(new { error = "Unauthorized user", code = 400 });
+            }
+        }
+
         [HttpPost(Name = "DownloadLatestInstaller")]
         public IActionResult DownloadLatestInstaller(ClientDataRequest request)
         {
@@ -23,7 +48,7 @@ namespace VCheckViewerAPI.Controllers
                 {
                     return BadRequest(new { error = "No patch found", code = 400 });
                 }
-                
+
                 var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
                 return File(fileStream, "application/octet-stream", "Patch.zip");
             }

@@ -6,6 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
@@ -21,6 +23,7 @@ namespace VCheckViewer.Views.Pages.Setting.Device
     {
         private static List<string> twoWayDeviceTypesID;
         public ObservableCollection<ComboBoxItem> deviceComboList = new ObservableCollection<ComboBoxItem>();
+        List<DeviceTypeModel> deviceTypeList = DeviceRepository.GetDeviceTypeList(ConfigSettings.GetConfigurationSettings());
 
         public DevicePage()
         {
@@ -34,6 +37,8 @@ namespace VCheckViewer.Views.Pages.Setting.Device
             this.SizeChanged += MainWindow_SizeChanged;
 
             DataContext = this;
+
+            generateView();
         }
 
         private void LoadDeviceTypeList()
@@ -604,6 +609,188 @@ namespace VCheckViewer.Views.Pages.Setting.Device
                 //MessageBox.Show("Unable to open link.");
             }
             e.Handled = true;
+        }
+
+        public void generateView()
+        {
+            //int totalElement = deviceList.Count;
+            int totalElement = deviceTypeList.Count;
+            int imageHeight = 250;
+            int borderHeight = 400;
+            int borderWidth = 420;
+            int margin = 15;
+            int totalRow = 1;
+            int totalElementPerRow = 3;
+            bool excess = false;
+            int remainder = 0;
+
+            if (totalElement == 0)
+            {
+                totalElementPerRow = 0;
+            }
+            else if (totalElement > 0 && totalElement < 3)
+            {
+                totalElementPerRow = totalElement;
+            }
+            else if (totalElement == 3)
+            {
+                imageHeight = 170;
+                borderHeight = 300;
+                borderWidth = 290;
+                margin = 10;
+            }
+            else if (totalElement == 4)
+            {
+                totalRow = 2;
+                totalElementPerRow = 2;
+                imageHeight = 100;
+                borderHeight = 199;
+                borderWidth = 290;
+                margin = 3;
+            }
+            else
+            {
+                totalRow = Math.DivRem(totalElement, 3, out remainder);
+                if (remainder > 0)
+                {
+                    totalRow += 1;
+                    excess = true;
+                }
+                imageHeight = 100;
+                borderHeight = 199;
+                borderWidth = 290;
+                margin = 3;
+            }
+
+            //createElementUsingGridByDevice(totalElementPerRow, imageHeight, borderHeight, borderWidth, margin, totalRow, excess, remainder);
+            createElementUsingGridByDeviceType(totalElementPerRow, imageHeight, borderHeight, borderWidth, margin, totalRow, excess, remainder);
+        }
+
+        public async Task createElementUsingGridByDeviceType(int totalElementPerRow, int imageHeight, int borderHeight, int borderWidth, int margin, int totalRow, bool excess, int remainder)
+        {
+            List<DeviceTypeModel> ExistedDevice = new List<DeviceTypeModel>();
+            List<DeviceTypeModel> NotExistedDevice = new List<DeviceTypeModel>();
+
+            
+
+            String? sColor = System.Windows.Application.Current.Resources["Themes_FontColor"].ToString();
+            String? sFrameColor = System.Windows.Application.Current.Resources["Themes_DashboardAnalyzerFrameBackground"].ToString();
+            SolidColorBrush sBrushFontColor = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+            SolidColorBrush sBrushFrameColor = new BrushConverter().ConvertFrom(sFrameColor) as SolidColorBrush;
+            int currentDevice = 0;
+
+
+            for (int i = 0; i < totalRow; i++)
+            {
+                Grid testGrid = new Grid() { Margin = new Thickness(0, 10, 0, 10) };
+
+                if (totalElementPerRow == 0) { TextBlock textBlock = new TextBlock() { Text = Properties.Resources.General_Message_NoDevice, FontSize = 50, TextAlignment = TextAlignment.Center, Foreground = sBrushFontColor }; testGrid.Children.Add(textBlock); }
+
+                for (int column = 0; column < totalElementPerRow; column++)
+                {
+                    ColumnDefinition columnDefinition = new ColumnDefinition() { Width = (GridLength)new GridLengthConverter().ConvertFromString("*") };
+                    testGrid.ColumnDefinitions.Add(columnDefinition);
+                }
+
+                RowDefinition rowDefinition = new RowDefinition() { Height = (GridLength)new GridLengthConverter().ConvertFromString("*") };
+                testGrid.RowDefinitions.Add(rowDefinition);
+
+                if (i == (totalRow - 1) && excess) { totalElementPerRow = remainder; }
+
+                for (int j = 0; j < totalElementPerRow; j++)
+                {
+                    DeviceTypeModel deviceType = deviceTypeList[currentDevice++];
+                    bool NotExist = NotExistedDevice.Any(x => x.id == deviceType.id);
+
+                    Border parentBorder = new Border() { Height = borderHeight, Width = borderWidth, CornerRadius = new CornerRadius(7), Margin = new Thickness(10, 0, 10, 0), Padding = new Thickness(5) };
+
+                    if (totalElementPerRow > 2)
+                    {
+                        if (j == 0) { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Left; }
+                        else if (j == totalElementPerRow - 1) { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Right; }
+                        else { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Center; }
+                    }
+                    else
+                    {
+                        parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+
+                        if (excess)
+                        {
+                            if (j == 0) { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Left; }
+                            else { parentBorder.HorizontalAlignment = System.Windows.HorizontalAlignment.Center; }
+                        }
+                    }
+
+                    StackPanel secondStackPanel = new StackPanel() { Orientation = System.Windows.Controls.Orientation.Vertical };
+
+                    Border childBorder = new Border() { Height = 30, Width = 70, HorizontalAlignment = System.Windows.HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Top, Visibility = Visibility.Hidden };
+
+
+                    System.Windows.Controls.Image image = new System.Windows.Controls.Image();
+                    var uri = new Uri(@"pack://application:,,,/VCheckViewer;component/" + deviceType.ImageSource);
+                    var bitmap = new BitmapImage(uri);
+                    image.Source = bitmap;
+                    image.Height = imageHeight;
+                    image.Margin = new Thickness(margin);
+
+                    TextBlock nameTextBlock = new TextBlock() { Text = deviceType.TypeName, TextAlignment = TextAlignment.Center, FontWeight = FontWeights.Bold, Margin = new Thickness(margin), Foreground = sBrushFontColor };
+                    StackPanel thirdStackPanel = new StackPanel();
+
+
+                    secondStackPanel.Children.Add(childBorder);
+                    secondStackPanel.Children.Add(image);
+                    secondStackPanel.Children.Add(nameTextBlock);
+                    secondStackPanel.Children.Add(thirdStackPanel);
+
+                    parentBorder.Child = secondStackPanel;
+                    parentBorder.Background = sBrushFrameColor;
+                    DropShadowEffect effect = new DropShadowEffect() { ShadowDepth = 0, Opacity = 0.3, BlurRadius = 15 };
+                    parentBorder.Effect = effect;
+                    parentBorder.Tag = deviceType.id;
+                    parentBorder.Opacity = NotExist ? 0.5 : 1;
+
+                    parentBorder.MouseLeftButtonDown += Border_MouseLeftButtonDown;
+
+                    Grid.SetColumn(parentBorder, j);
+
+                    testGrid.Children.Add(parentBorder);
+                }
+
+                if (i == 0) { responsiveView.Children.Clear(); }
+
+                responsiveView.Children.Add(testGrid);
+            }
+        }
+
+
+        private void Border_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            dynamic originElemnt = e.OriginalSource;
+            Border border = null;
+            int max = 0;
+
+            while (border == null)
+            {
+                border = originElemnt.Parent as Border;
+
+                originElemnt = originElemnt.Parent;
+
+                if (max++ == 5) { return; }
+            }
+
+            var sDeviceID = border.Tag.ToString();
+            App.AnalyzerID = int.Parse(sDeviceID);
+
+            try
+            {
+                Process.Start(new ProcessStartInfo("https://drive.google.com/drive/u/0/folders/1rkL59xJTrxTEvpZQJy9oA3tT0i9uY-_v") { UseShellExecute = true });
+            }
+            catch
+            {
+                //MessageBox.Show("Unable to open link.");
+            }
+            e.Handled = true;
+
         }
     }
     

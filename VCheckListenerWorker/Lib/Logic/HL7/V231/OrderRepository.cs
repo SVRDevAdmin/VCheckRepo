@@ -25,7 +25,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                     AckRepository.Species.Category = schedule.Schedule.Species;
                     var gender = string.Concat(schedule.Schedule.Gender.Split(' ').Where(w => w.Length > 0).Select(w => w[0]));
                     string barcode = schedule.Schedule.ScheduleUniqueID.Split("-")[3];
-                    string testType = schedule.Schedule.ScheduledTestType.Contains("RET") ? "Blood^CBC^DIFF^RET" : "Blood^CBC^DIFF";
+                    string testType = schedule.Schedule.ScheduledTestType.Contains("CDR") ? "Blood^CBC^DIFF^RET" : "Blood^CBC^DIFF";
                     StringBuilder frame = new StringBuilder();
                     frame.Append((char)0x0B);
                     Message response = new Message();

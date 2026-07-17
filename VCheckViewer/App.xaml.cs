@@ -38,7 +38,7 @@ namespace VCheckViewer
     public partial class App
     {
         public static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private string currentVersion = "1.6";
+        private string currentVersion = "1.7";
         public static MainViewModel MainViewModel { get; } = new MainViewModel();
 
         public static event EventHandler GoPreviousPage;
@@ -262,18 +262,30 @@ namespace VCheckViewer
                     RoleManager = GetService<RoleManager<IdentityRole>>();
                     UserStore = GetService<IUserStore<IdentityUser>>();
 
+                    string downloadFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
+
+                    if (File.Exists(downloadFolderPath + @"\Vcheck Patch.exe"))
+                    {
+                        File.Delete(downloadFolderPath + @"\Vcheck Patch.exe");
+
+                        if (File.Exists(downloadFolderPath + @"\Vcheck Patch.exe"))
+                        {
+                            System.Windows.Forms.MessageBox.Show("Failed to delete patch installer. Can delete manually at below path:\n\n" + downloadFolderPath + @"\Vcheck Patch.exe");
+                        }
+                    }
+
                     (string SelectedButton, bool IsCheckBoxChecked) result = ("", false);
 
                     var SystemVersionReminder = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "System_VersionReminder").FirstOrDefault()?.ConfigurationValue;
                     VCheckAPI vcheckAPI = new VCheckAPI();
                     var SystemVersion = MainViewModel.ConfigurationModel.Where(x => x.ConfigurationKey == "System_Version").FirstOrDefault();
 
-                    if (SystemVersionReminder != null && !DateTime.TryParseExact(SystemVersionReminder, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+                    if (SystemVersionReminder != null && !DateTime.TryParseExact(SystemVersionReminder, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
                     {
-                        SystemVersionReminder = DateOnly.FromDateTime(DateTime.Now.Date).AddDays(-1).ToString("dd/MM/yyyy");
+                        SystemVersionReminder = DateOnly.FromDateTime(DateTime.Now.Date).AddDays(-1).ToString("dd-MM-yyyy");
                     }
 
-                    if (SystemVersionReminder == null || DateTime.ParseExact(SystemVersionReminder, "dd/MM/yyyy", CultureInfo.InvariantCulture) < DateTime.Now || (SystemVersion != null && currentVersion != SystemVersion.ConfigurationValue))
+                    if (SystemVersionReminder == null || DateTime.ParseExact(SystemVersionReminder, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None) < DateTime.Now || (SystemVersion != null && currentVersion != SystemVersion.ConfigurationValue))
                     {
                         var IsLatestVersion = false;
                         if (SystemVersion == null) { ConfigurationContext.AddConfiguration("System_Version", currentVersion); }
@@ -291,7 +303,7 @@ namespace VCheckViewer
                         }
                         else
                         {
-                            var oneDaysDate = DateOnly.FromDateTime(DateTime.Now.Date).AddDays(1).ToString("dd/MM/yyyy");
+                            var oneDaysDate = DateOnly.FromDateTime(DateTime.Now.Date).AddDays(1).ToString("dd-MM-yyyy");
                             if (SystemVersionReminder != null)
                             {
                                 ConfigurationContext.UpdateConfiguration("System_VersionReminder", oneDaysDate);
@@ -308,7 +320,7 @@ namespace VCheckViewer
                     {
                         System.Windows.Forms.MessageBox.Show(rm.GetString("General_Message_RemindThreeDays", sZHCulture));
 
-                        var threeDaysDate = DateOnly.FromDateTime(DateTime.Now).AddDays(3).ToString();
+                        var threeDaysDate = DateOnly.FromDateTime(DateTime.Now).AddDays(3).ToString("dd-MM-yyyy");
                         if (SystemVersionReminder != null)
                         {
                             ConfigurationContext.UpdateConfiguration("System_VersionReminder", threeDaysDate);
@@ -320,7 +332,7 @@ namespace VCheckViewer
                     }
                     else if (result.SelectedButton == "Yes")
                     {
-                        Process.Start(new ProcessStartInfo(LatestAppVersionFolder) { UseShellExecute = true });
+                        //Process.Start(new ProcessStartInfo(LatestAppVersionFolder) { UseShellExecute = true });
 
                         //result = CustomMessageBox.Show(0, false);
                         //if (result.SelectedButton == "Yes") { Process.Start("C:\\VCheck\\VCheck Viewer Installer (Staging).exe"); }
@@ -364,6 +376,23 @@ namespace VCheckViewer
                         //    Environment.Exit(0);
                         //}
                         //else { System.Windows.Forms.MessageBox.Show("Download unsuccessful. Please try again later."); }
+
+                        LoadingMessageForm msg = new LoadingMessageForm("Downloading patch...");
+
+                        msg.Show();
+
+                        var downloadSuccess = await vcheckAPI.DownloadLatestPatch();
+
+                        msg.Close();
+
+                        if (downloadSuccess)
+                        {
+                            string patchPath = downloadFolderPath + @"\Vcheck Patch.exe";
+
+                            Process.Start(patchPath);
+                            Environment.Exit(0);
+                        }
+                        else { System.Windows.Forms.MessageBox.Show("Download unsuccessful. Please try again later."); }
 
                     }
                     else

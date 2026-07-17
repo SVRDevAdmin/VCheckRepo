@@ -95,7 +95,7 @@
                     <TextBlock Grid.Row="1" Grid.Column="1" x:Name="AppVersion" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
 
                     <Button Name="UpdateButton" Grid.Row="2" Grid.Column="1" Width="60" HorizontalAlignment="Right" Foreground="White" Content="Update" Margin="0,5,0,0" Click="UpdateButton_Click"
-                        Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" Visibility="Collapsed" />
+                        Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" Visibility="Visible" />
 
                 </Grid>
             </Border>
