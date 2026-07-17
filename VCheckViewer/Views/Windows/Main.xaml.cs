@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using NHapi.Model.V23.Segment;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -598,10 +599,25 @@ namespace VCheckViewer.Views.Windows
             }
             if (App.MainViewModel.Origin == "SendToAnalyzer")
             {
+                var ignoreDeviceType = new string[]{ "H6", "V200", "V2400", "C1" };
+                var analyzerList = new List<string>();
+
+                if (App.ScheduleTestInfoExtended != null)
+                {
+                    var testAnalyzers = App.ScheduleTestInfoExtended.IDAnalyzers.Select(x => x.Analyzers);
+
+                    foreach (var analyzer in testAnalyzers)
+                    {
+                        analyzerList.AddRange(analyzer.Split(", "));
+                    }
+                }
+
                 List<DeviceModel> devices = DeviceRepository.GetTwoWayCommDevice(ConfigSettings.GetConfigurationSettings());
-                var deviceTypes = DeviceRepository.GetDeviceTypeList(ConfigSettings.GetConfigurationSettings()).Where(x => x.TwoWayCommunication == 1 && x.TypeName != "H6").ToList();
-                string[] deviceListExtended = App.ScheduleTestInfoExtended.IDAnalyzers.Count() > 0 ? App.ScheduleTestInfoExtended.IDAnalyzers.FirstOrDefault().Analyzers.Split(",") : new string[0];
-                var deviceTypeIDList = deviceTypes.Where(x => Array.Exists(deviceListExtended, element => element == x.TypeName)).Select(y => y.id).ToArray();
+                var deviceTypes = DeviceRepository.GetDeviceTypeList(ConfigSettings.GetConfigurationSettings()).Where(x => x.TwoWayCommunication == 1 && !ignoreDeviceType.Contains(x.TypeName)).ToList();
+                //string[] deviceListExtended = App.ScheduleTestInfoExtended.IDAnalyzers.Count() > 0 ? App.ScheduleTestInfoExtended.IDAnalyzers.FirstOrDefault().Analyzers.Split(", ") : new string[0];
+                //var deviceTypeIDList = deviceTypes.Where(x => Array.Exists(deviceListExtended, element => element == x.TypeName)).Select(y => y.id).ToArray();
+                //devices = devices.Where(x => Array.Exists(deviceTypeIDList, element => element == x.DeviceTypeID)).ToList();
+                var deviceTypeIDList = deviceTypes.Where(x => analyzerList.Contains(x.TypeName)).Select(y => y.id).ToArray();
                 devices = devices.Where(x => Array.Exists(deviceTypeIDList, element => element == x.DeviceTypeID)).ToList();
 
                 deviceComboList.Clear();
@@ -1098,6 +1114,7 @@ namespace VCheckViewer.Views.Windows
             App.MainViewModel.cbCountryPhoneNum = new ObservableCollection<ComboBoxItem>();
             App.MainViewModel.cbCountryPhoneNumSearch = new ObservableCollection<ComboBoxItem>();
             App.MainViewModel.cbDateFormat = new ObservableCollection<ComboBoxItem>();
+            App.MainViewModel.cbConnectionType = new ObservableCollection<ComboBoxItem>();
 
 
             var cbDefaultItem = new ComboBoxItem { Content = "" };
@@ -1154,6 +1171,9 @@ namespace VCheckViewer.Views.Windows
             App.MainViewModel.cbDateFormat.Add(new ComboBoxItem { Tag = "MM/dd/yyyy", Content = "MM/DD/YYYY" });
             App.MainViewModel.cbDateFormat.Add(new ComboBoxItem { Tag = "yyyy/dd/MM", Content = "YYYY/DD/MM" });
             App.MainViewModel.cbDateFormat.Add(new ComboBoxItem { Tag = "yyyy/MM/dd", Content = "YYYY/MM/DD" });
+
+            App.MainViewModel.cbConnectionType.Add(new ComboBoxItem { Tag = "wifi", Content = "Wireless" });
+            App.MainViewModel.cbConnectionType.Add(new ComboBoxItem { Tag = "ethernet", Content = "Wired" });
         }
 
         private async static void DeleteUserRowHandler(EventArgs e, object sender)
@@ -1886,7 +1906,7 @@ namespace VCheckViewer.Views.Windows
                         }
 
                         sRequestAPI.clinic_id = sScheduledTestObj.LocationID.ToString();
-                        sRequestAPI.reportdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
+                        sRequestAPI.reportdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd HH:mm:ss");
                         sRequestAPI.providerid = "";
 
                         VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject sPatientObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject();
@@ -1910,7 +1930,7 @@ namespace VCheckViewer.Views.Windows
                         sPanelObj.name = panel;
                         sPanelObj.status = "F";
                         sPanelObj.source = "";
-                        sPanelObj.resultdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd");
+                        sPanelObj.resultdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd HH:mm:ss");
 
 
                         if (sDetailsObj != null && sDetailsObj.Count > 0)

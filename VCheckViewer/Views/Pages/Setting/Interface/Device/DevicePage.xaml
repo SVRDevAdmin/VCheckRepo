@@ -229,7 +229,7 @@
         </Border>
 
         <Border Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="3" Margin="5">
-            <Grid>
+            <!--<Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
@@ -243,13 +243,26 @@
                 <TextBlock Grid.Row="0" Text="Quick Device Connection Guide" HorizontalAlignment="Center" FontWeight="Bold"/>
                 <TextBlock Grid.Row="1">
                     <Run Text="V200 : " FontWeight="Bold"/>
-                    <Hyperlink NavigateUri="https://www.bionote.co.kr/en/service/update.html" RequestNavigate="Hyperlink_RequestNavigate"> https://www.bionote.co.kr/en/service/update.html </Hyperlink>
+                    <Hyperlink NavigateUri="https://drive.google.com/drive/u/0/folders/1rkL59xJTrxTEvpZQJy9oA3tT0i9uY-_v" RequestNavigate="Hyperlink_RequestNavigate"> https://www.bionote.co.kr/en/service/update.html </Hyperlink>
                 </TextBlock>
                 <TextBlock Grid.Row="2">
                     <Run Text="V2400 : " FontWeight="Bold"/>
                     <Hyperlink NavigateUri="https://www.bionote.co.kr/en/service/update.html" RequestNavigate="Hyperlink_RequestNavigate"> https://www.bionote.co.kr/en/service/update.html </Hyperlink>
                 </TextBlock>
-            </Grid>
+            </Grid>-->
+            <ScrollViewer Name="deviceListView" Margin="0,0,10,0">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Grid.Row="0" Text="Quick Device Connection Guide" HorizontalAlignment="Center" FontWeight="Bold"/>
+
+                    <StackPanel Grid.Row="1" x:Name="responsiveView" Orientation="Vertical">                        
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
         </Border>
     </Grid>
 </Page>

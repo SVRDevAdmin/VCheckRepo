@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -27,11 +28,27 @@ namespace VCheckViewer.Views.Pages.Dashboard
     /// </summary>
     public partial class ConnectionPage : Page
     {
+        public ObservableCollection<ComboBoxItem> cbConnectionType { get; set; }
+        public ComboBoxItem SelectedcbConnectionType { get; set; }
+
         public ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
 
         public ConnectionPage()
         {
             InitializeComponent();
+            //DataContext = this;
+
+            //cbConnectionType = App.MainViewModel.cbConnectionType;
+
+            //var sConfigObj = configDBContext.GetConfigurationData("Connection_Type").FirstOrDefault();
+            //if (sConfigObj != null)
+            //{
+            //    SelectedcbConnectionType = cbConnectionType.Where(a => (string)a.Tag == sConfigObj.ConfigurationValue).FirstOrDefault();
+            //}
+            //else
+            //{
+            //    SelectedcbConnectionType = cbConnectionType.FirstOrDefault();
+            //}
 
             if (App.MainViewModel.CurrentUsers.Role == "Lab User")
             {
@@ -122,6 +139,15 @@ namespace VCheckViewer.Views.Pages.Dashboard
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
+            RestartListener();
+
+            RefreshAll();
+
+            App.RefreshMaintenanceHandler(e, sender);
+        }
+
+        private void RestartListener()
+        {
             Process[] processes = Process.GetProcessesByName("VCheckListenerWorker");
 
             if (!processes.Any())
@@ -140,10 +166,6 @@ namespace VCheckViewer.Views.Pages.Dashboard
             {
                 PingPortAsync(processes, GetAssignedIPAddress(), 8585);
             }
-
-            RefreshAll();
-
-            App.RefreshMaintenanceHandler(e, sender);
         }
 
         public static async Task PingPortAsync(Process[] processes, string host, int port, int timeoutMs = 3000)
@@ -192,6 +214,29 @@ namespace VCheckViewer.Views.Pages.Dashboard
 
             }
         }
+
+        //private void SaveButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ComboBoxItem selectedItem = (ComboBoxItem)ConnectionType.SelectedItem;
+
+        //    var sConfigObj = configDBContext.GetConfigurationData("Connection_Type").FirstOrDefault();
+        //    if (sConfigObj != null)
+        //    {
+        //        configDBContext.UpdateConfiguration("Connection_Type", selectedItem.Tag.ToString());
+        //    }
+        //    else
+        //    {
+        //        configDBContext.AddConfiguration("Connection_Type", selectedItem.Tag.ToString());
+        //    }
+
+        //    App.MainViewModel.Origin = "GeneralSettingsUpdated";
+
+        //    App.PopupHandler(e, sender);
+
+        //    RestartListener();
+        //    RefreshAll();
+        //    App.RefreshMaintenanceHandler(e, sender);
+        //}
 
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)

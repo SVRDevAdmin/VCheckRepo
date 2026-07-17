@@ -54,7 +54,7 @@ namespace VCheckViewer.Lib.Culture
                     }
                     catch (CultureNotFoundException cex)
                     {
-                        App.log.Error("Culture Not Found Error >>> ", cex);
+                        //App.log.Error("Culture Not Found Error >>> ", cex);
                     }
                     catch (ArgumentException ex) //ignore exceptions generated for any unrelated directories in the bin folder
                     {

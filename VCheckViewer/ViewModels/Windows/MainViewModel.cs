@@ -115,6 +115,13 @@ namespace VCheckViewer.ViewModels.Windows
             set { _cbDateFormat = value; }
         }
 
+        ObservableCollection<ComboBoxItem> _cbConnectionType;
+        public ObservableCollection<ComboBoxItem> cbConnectionType
+        {
+            get { return _cbConnectionType; }
+            set { _cbConnectionType = value; }
+        }
+
         ComboBoxItem _SelectedcbSort;
         public ComboBoxItem SelectedcbSort
         {

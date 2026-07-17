@@ -96,7 +96,7 @@
                             <Image Source="{DynamicResource Themes_MenuBellIcon}" Width="20" MouseLeftButtonUp="thumbNotification_MouseLeftButtonDown" />
 
                              <!--Badge--> 
-                            <Border x:Name="NotificationCountBorder" Width="20" Height="20" Background="Red" CornerRadius="9" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <Border x:Name="NotificationCountBorder" Width="20" Height="20" Background="Red" CornerRadius="9" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">
                                 <TextBlock x:Name="NotificationCount" Foreground="White" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
 

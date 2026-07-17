@@ -44,6 +44,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
                 <Border Grid.Row="0" VerticalAlignment="Top" BorderThickness="1" BorderBrush="{DynamicResource Themes_InterfaceFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_InterfaceFrameBackground}">
@@ -83,15 +84,38 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Path=Maintenance_Label_EnvironmentInformation, Source={StaticResource Resources}}" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Listener Information" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=Maintenance_Label_ListenerIPAddr, Source={StaticResource Resources}}" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
                         <TextBlock Grid.Row="1" Grid.Column="1" x:Name="ListenerIP" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Path=Maintenance_Label_ListenerPortNo, Source={StaticResource Resources}}" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
                         <TextBlock Grid.Row="2" Grid.Column="1" x:Name="ListenerPort" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Row="3" Grid.Column="0" Text="PMS/LIS/HIS" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
-                        <TextBlock Grid.Row="3" Grid.Column="1" x:Name="PMSConnected" HorizontalAlignment="Center"/>
+                        <!--<TextBlock Grid.Row="3" Grid.Column="0" Text="Connection Type" FontWeight="ExtraBold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
+                        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="ConnectionType" ItemsSource="{Binding cbConnectionType}" SelectedItem="{Binding SelectedcbConnectionType}" BorderThickness="0" VerticalAlignment="Center" Foreground="Black"/>
+
+
+                        <Button Name="SaveButton" Grid.Row="4" Grid.Column="1" Width="60" HorizontalAlignment="Right" Foreground="White" Content="{Binding Path=General_Label_Save, Source={StaticResource Resources}}" Margin="0,5,0,0" Click="SaveButton_Click"
+                        Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" />-->
+
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="2" VerticalAlignment="Top" BorderThickness="1" BorderBrush="{DynamicResource Themes_InterfaceFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_InterfaceFrameBackground}" Margin="0,10,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="PMS/LIS/HIS Information" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="PMS/LIS/HIS Name" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" x:Name="PMSConnected" HorizontalAlignment="Center"/>
 
                     </Grid>
                 </Border>

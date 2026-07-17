@@ -19,4 +19,10 @@ namespace VCheck.Lib.Data.Models
         public string ResponseMessage { get; set; }
         public object? Results { get; set; }
     }
+
+    public class OrderInfo
+    {
+        public string? OrderID { get; set; }
+        public int AccessionNo { get; set; }
+    }
 }

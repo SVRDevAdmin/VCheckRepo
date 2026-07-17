@@ -71,7 +71,7 @@ namespace VCheckListenerWorker.Lib.PMS
 
             //sRequestAPI.accessionnumber = iTestResultID.ToString();
             sRequestAPI.clinic_id = sScheduledTestObj.LocationID.ToString();
-            sRequestAPI.reportdate = sTestResults.CreatedDate.Value.ToString("yyyy-MM-dd");
+            sRequestAPI.reportdate = sTestResults.CreatedDate.Value.ToString("yyyy-MM-dd HH:mm:ss");
             sRequestAPI.providerid = "";
 
             VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject sPatientObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject();
@@ -93,7 +93,7 @@ namespace VCheckListenerWorker.Lib.PMS
             sPanelObj.name = panel;
             sPanelObj.status = "F";
             sPanelObj.source = "";
-            sPanelObj.resultdate = sTestResults.CreatedDate.Value.ToString("yyyy-MM-dd");
+            sPanelObj.resultdate = sTestResults.CreatedDate.Value.ToString("yyyy-MM-dd HH:mm:ss");
 
 
             var sDetailsObj = sTestResultDetails;

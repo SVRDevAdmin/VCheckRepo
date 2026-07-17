@@ -47,20 +47,20 @@ namespace VCheckViewerAPI.Controllers
         //    response.Header = new HeaderModel();
         //    response.Body = new ResponseBody();
 
-        //   List<List<PatientDataObject>> result = null;
+        //    List<List<PatientDataObject>> result = null;
         //    string responseCode = "";
         //    String responseMessage = "";
         //    String responseStatus = "";
 
         //    try
         //    {
-        //        if (!String.IsNullOrEmpty(request.Body.PatientID))
+        //        if (!String.IsNullOrEmpty(request.Body.PatientID) || !String.IsNullOrEmpty(request.Body.TestUniqueID))
         //        {
         //            if (request.Header.clientKey != null && _apiRepository.Authenticate(request.Header.clientKey, out CanViewOther))
         //            {
         //                //if (_apiRepository.ValidateTokenExpiry(request.Header.clientKey))
         //                //{
-        //                    _apiRepository.GetTestResults(request.Body.PatientID, out result, out responseCode, out responseMessage, out responseStatus);
+        //                _apiRepository.GetTestResults(request.Body.PatientID, request.Body.TestUniqueID, out result, out responseCode, out responseMessage, out responseStatus);
         //                //}
         //                //else
         //                //{
@@ -80,18 +80,20 @@ namespace VCheckViewerAPI.Controllers
         //        {
         //            responseCode = "VV.1002";
         //            responseStatus = "Fail";
-        //            responseMessage = "Missing Patient ID";
+        //            responseMessage = "Missing Patient ID or Test Unique ID";
         //        }
 
-        //        var responseHeader = new HeaderModel() { 
-        //            timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"), 
-        //            clientKey = request.Header.clientKey 
+        //        var responseHeader = new HeaderModel()
+        //        {
+        //            timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+        //            clientKey = request.Header.clientKey
         //        };
-        //        var responseBody = new ResponseBody() { 
-        //            ResponseCode = responseCode, 
-        //            ResponseStatus = responseStatus, 
-        //            ResponseMessage = responseMessage, 
-        //            Results = result 
+        //        var responseBody = new ResponseBody()
+        //        {
+        //            ResponseCode = responseCode,
+        //            ResponseStatus = responseStatus,
+        //            ResponseMessage = responseMessage,
+        //            Results = result
         //        };
 
         //        response.Header = responseHeader;
@@ -304,6 +306,7 @@ namespace VCheckViewerAPI.Controllers
             var sResp = new ResponseModel();
             sResp.Header = new HeaderModel() { timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"), clientKey = request.Header.clientKey }; ;
             sResp.Body = new ResponseBody();
+            OrderInfo orderInfo = new OrderInfo();
 
             String sRespCode = "";
             String sRespStatus = "";
@@ -363,9 +366,12 @@ namespace VCheckViewerAPI.Controllers
                                         scheduledObj.PatientDOB = patienttDOB;
                                     }
 
+                                    var uniqueIDArray = request.body.TestUniqueID.Split("-");
                                     accessionNo = _apiRepository.GetAccessionNo(scheduledObj.CreatedBy, uniqueKey[1]);
                                     uniqueID = request.body.TestUniqueID + "-" + accessionNo + "-" + GenerateUniqueKey(8);
                                     scheduledObj.ScheduleUniqueID = uniqueID;
+                                    orderInfo.AccessionNo = accessionNo;
+                                    orderInfo.OrderID = uniqueIDArray[1];
 
                                     if (accessionNo == 0)
                                     {
@@ -378,6 +384,8 @@ namespace VCheckViewerAPI.Controllers
                                     uniqueKey = uniqueID.Split("-");
                                     scheduledObj.ScheduledTestType = scheduledObj.ScheduledTestType + ", " + TestName;
                                     accessionNo = int.Parse(uniqueKey[2]);
+                                    orderInfo.AccessionNo = accessionNo;
+                                    orderInfo.OrderID = uniqueKey[1];
                                 }
                                 else
                                 {
@@ -456,6 +464,7 @@ namespace VCheckViewerAPI.Controllers
                 sResp.Body.ResponseCode = sRespCode;
                 sResp.Body.ResponseStatus = sRespStatus;
                 sResp.Body.ResponseMessage = sRespMessage;
+                //sResp.Body.Results = orderInfo;
 
                 //--------- Log Payload -------//
                 VCheck.APILogging.CallLogging.InsertAPiLog("CreateScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,

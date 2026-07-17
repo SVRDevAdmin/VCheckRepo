@@ -61,9 +61,9 @@ namespace ScheduleAutomation
                             {
                                 var tempAnalyzerArray = analyzerType.Split(',');
 
-                                foreach (var temAnalyzer in tempAnalyzerArray)
+                                foreach (var tempAnalyzer in tempAnalyzerArray)
                                 {
-                                    if(temAnalyzer != "H6") { tempAnalyzersListString = string.IsNullOrEmpty(tempAnalyzersListString) ? temAnalyzer : tempAnalyzersListString + "," + temAnalyzer; }
+                                    if(tempAnalyzer == "C10") { tempAnalyzersListString = string.IsNullOrEmpty(tempAnalyzersListString) ? tempAnalyzer : tempAnalyzersListString + "," + tempAnalyzer; }
                                 }
                             }
 
@@ -109,8 +109,8 @@ namespace ScheduleAutomation
                     sLogger.Error("Error >> ", e);
                 }
 
-                Thread.Sleep(TimeSpan.FromMinutes(5));
-                //Thread.Sleep(TimeSpan.FromSeconds(5));
+                //Thread.Sleep(TimeSpan.FromMinutes(5));
+                Thread.Sleep(TimeSpan.FromSeconds(5));
 
             }
         }

@@ -9,6 +9,20 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
 {
     public class AckRepository
     {
+        public static class Species
+        {
+            public static string Category { get; set; }
+            public static string SubCategory => Category switch
+            {
+                "Canine" => "0",
+                "Feline" => "1",
+                "Cust1" => "21",
+                "Cust2" => "22",
+                _ => "22"
+            };
+
+        }
+
         /// <summary>
         /// Generate Ack Message
         /// </summary>
@@ -79,7 +93,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
 
                 // ------------- Message Acknowledgement ---------------------//
                 Segment msa = new Segment("MSA");
-                msa.Field(1, NHapi.Base.AcknowledgmentCode.CA.ToString());
+                msa.Field(1, NHapi.Base.AcknowledgmentCode.AA.ToString());
                 msa.Field(2, sRU_R01.MSH.MessageControlID.Value.ToString());
                 response.Add(msa);                
                 frame.Append(response.SerializeMessage());

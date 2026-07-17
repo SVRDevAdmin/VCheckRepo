@@ -17,7 +17,7 @@ namespace VCheck.Lib.Data
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
         private static DateTime MinimumDatetime = DateTime.Now.ToUniversalTime().AddHours(-48);
-        private static string[] TwoWayCommAnalyzers = { "C10", "H6" };
+        private static string[] TwoWayCommAnalyzers = { "C10", "H6", "V200", "V2400", "C1" };
 
         /// <summary>
         /// Get upcoming scheduled tests
@@ -415,11 +415,12 @@ namespace VCheck.Lib.Data
                         //ScheduledTestModelExtended scheduledExtended = new ScheduledTestModelExtended() { Schedule = schedule, IDAnalyzers = testIDAnalyzers };
 
                         string[] sentAnalyzer = Array.Empty<string>();
-                        sentAnalyzer = schedule.SentToAnalyzer!= null ? schedule.SentToAnalyzer.Split(",") : Array.Empty<string>();
+                        sentAnalyzer = schedule.SentToAnalyzer != null ? schedule.SentToAnalyzer.Split(",") : Array.Empty<string>();
                         var testIDAnalyzers = TestResultsRepository.GetAllAnalyzerByTestName(config, schedule.ScheduledTestType.Split(", "));
-                        testIDAnalyzers = testIDAnalyzers != null && testIDAnalyzers.Count() != 0 ? testIDAnalyzers.Where(x => !sentAnalyzer.Contains(x.Analyzers) && TwoWayCommAnalyzers.Contains(x.Analyzers)).ToList() : testIDAnalyzers;
+                        //testIDAnalyzers = testIDAnalyzers != null && testIDAnalyzers.Count() != 0 ? testIDAnalyzers.Where(x => !sentAnalyzer.Contains(x.Analyzers) && TwoWayCommAnalyzers.Contains(x.Analyzers)).ToList() : testIDAnalyzers;
+                        testIDAnalyzers = testIDAnalyzers != null && testIDAnalyzers.Count() != 0 ? testIDAnalyzers.Where(x => !sentAnalyzer.Intersect(x.Analyzers.Split(", ")).Any() && TwoWayCommAnalyzers.Intersect(x.Analyzers.Split(", ")).Any()).ToList() : testIDAnalyzers;
 
-                        if(testIDAnalyzers != null && testIDAnalyzers.Count() != 0)
+                        if (testIDAnalyzers != null && testIDAnalyzers.Count() != 0)
                         {
                             ScheduledTestModelExtended scheduledExtended = new ScheduledTestModelExtended() { Schedule = schedule, IDAnalyzers = testIDAnalyzers };
 
