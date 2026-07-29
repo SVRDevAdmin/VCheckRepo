@@ -15,5 +15,13 @@ namespace VCheckListenerWorker.Lib.Models
             get { return _deviceSerialNum; }
             set { _deviceSerialNum = value; }
         }
+
+        string _deviceType;
+
+        public string DeviceType
+        {
+            get { return _deviceType; }
+            set { _deviceType = value; }
+        }
     }
 }

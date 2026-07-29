@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.Models;
-using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Configuration;
 using VCheck.Lib.Data.DBContext;
 using Microsoft.EntityFrameworkCore;
@@ -23,13 +22,13 @@ namespace VCheck.Lib.Data
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static List<LocationModel> GetLocationList(IConfiguration config)
+        public static List<LocationModel> GetLocationList(IConfiguration config, string clientName)
         {
             try
             {
                 using (var ctx = new LocationDBContext(config))
                 {
-                    return ctx.mst_location.ToList();
+                    return ctx.mst_location.Where(x => x.CreatedBy == clientName).ToList();
                 }
             }
             catch (Exception ex)
@@ -93,9 +92,12 @@ namespace VCheck.Lib.Data
         {
             try
             {
+                location.Status = 1;
+                location.Description = "Clinic";
+
                 using (var ctx = new LocationDBContext(config))
                 {
-                    var temp = ctx.mst_location.AsNoTracking().FirstOrDefault(x => x.ID == location.ID);
+                    var temp = ctx.mst_location.AsNoTracking().FirstOrDefault(x => (x.ID == location.ID || x.PhoneNum == location.PhoneNum || x.ID == location.PhoneNum.Replace(" ", "").Replace("-", "")) && x.ID != "");
 
                     if (temp != null)
                     {
@@ -103,6 +105,7 @@ namespace VCheck.Lib.Data
                         location.UpdatedBy = location.CreatedBy;
                         location.CreatedDate = temp.CreatedDate;
                         location.CreatedBy = temp.CreatedBy;
+                        location.ID = temp.ID;
 
                         ctx.mst_location.Update(location);
                     }

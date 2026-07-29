@@ -1,4 +1,5 @@
-﻿using VCheckViewerAPI.Message.General;
+﻿using VCheck.Lib.Data.Models;
+using VCheckViewerAPI.Message.General;
 
 namespace VCheckViewerAPI.Message.UpdateScheduledTest
 {
@@ -10,6 +11,7 @@ namespace VCheckViewerAPI.Message.UpdateScheduledTest
 
     public class ScheduleDataRequestBody
     {
+        public bool ExtendDateTime { get; set; } = false;
         public string? ScheduledUniqueID { get; set; }
         public string? ScheduledDatetime { get; set; }
         public string? InchargePerson { get; set; }
@@ -18,5 +20,8 @@ namespace VCheckViewerAPI.Message.UpdateScheduledTest
         public string? PatientID { get; set; }
         public string? ClientName { get; set; }
         public List<string>? Parameters { get; set; }
+        public string? AnalyzerName { get; set; }
+        public string? TestName { get; set; }
+        public bool IgnoreOrderStatus { get; set; } = false;
     }
 }

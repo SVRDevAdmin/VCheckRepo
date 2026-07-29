@@ -1,23 +1,8 @@
 ﻿using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Wpf.Ui;
-using Microsoft.Extensions.DependencyInjection;
 using VCheckViewer.Views.Windows;
-using VCheck.Lib.Data;
-using VCheckViewer.Views.Pages;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using VCheckViewer.Views.Pages.Login;
-using Microsoft.VisualBasic.Logging;
 using VCheck.Lib.Data.DBContext;
 using Microsoft.Extensions.Configuration;
-using System.IO;
 
 namespace VCheckViewer.Services
 {
@@ -27,8 +12,6 @@ namespace VCheckViewer.Services
 
         private readonly static UserDBContext usersContext = App.GetService<UserDBContext>();
         public static IConfiguration iConfig;
-
-        //private INavigationWindow _navigationWindow;
 
         public ApplicationHostService(IServiceProvider serviceProvider)
         {
@@ -58,39 +41,6 @@ namespace VCheckViewer.Services
         /// </summary>
         private async Task HandleActivationAsync()
         {
-            //if (!Application.Current.Windows.OfType<Login>().Any())
-            //{
-            //     _navigationWindow = (
-            //        _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow
-            //    )!;
-            //     _navigationWindow!.ShowWindow();
-
-            //     //_navigationWindow.Navigate(typeof(DashboardPage));
-            // }
-            //try
-            //{
-            //    App.SignInManager = _serviceProvider.GetRequiredService<SignInManager<IdentityUser>>();
-            //    App.UserManager = _serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            //    App.RoleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            //    App.UserStore = _serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
-            //}
-            //catch (Exception ex)
-            //{
-            //    App.log.Error("Database Error >>> ", ex);
-            //}
-
-            //LoginWindow LoginPage = new LoginWindow();
-            //LoginPage.Navigate(new LoginPage());
-            //LoginPage.Show();
-
-            //var sBuilder = new ConfigurationBuilder();
-            //sBuilder.SetBasePath(Directory.GetCurrentDirectory())
-            //        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-            //iConfig = sBuilder.Build();
-
-            
-
             var firstUser = usersContext.FirstUser();
 
             if (firstUser)
@@ -105,7 +55,6 @@ namespace VCheckViewer.Services
                 LoginPage.Navigate(new LoginPage());
                 LoginPage.Show();
             }
-
 
             await Task.CompletedTask;
         }

@@ -9,6 +9,20 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
 {
     public class AckRepository
     {
+        public static class Species
+        {
+            public static string Category { get; set; }
+            public static string SubCategory => Category switch
+            {
+                "Canine" => "0",
+                "Feline" => "1",
+                "Cust1" => "21",
+                "Cust2" => "22",
+                _ => "22"
+            };
+
+        }
+
         /// <summary>
         /// Generate Ack Message
         /// </summary>
@@ -32,7 +46,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 //msh.Field(4, sRU_R01.MSH.SendingFacility.NamespaceID.Value);
                 //msh.Field(5, sRU_R01.MSH.ReceivingApplication.NamespaceID.Value);
                 //msh.Field(6, sRU_R01.MSH.ReceivingFacility.NamespaceID.Value);
-                //msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmsszzz"));
+                //msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmsszzz"));
                 ////msh.Field(9, "ACK^R01^ACK");
                 //msh.Field(9, "ACK^OUL_R22^ACK");
                 //msh.Field(10, Guid.NewGuid().ToString());
@@ -65,7 +79,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 msh.Field(4, sRU_R01.MSH.SendingFacility.NamespaceID.Value);
                 msh.Field(5, sRU_R01.MSH.ReceivingApplication.NamespaceID.Value);
                 msh.Field(6, sRU_R01.MSH.ReceivingFacility.NamespaceID.Value);
-                msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
                 msh.Field(9, "ACK^R22^ACK");
                 msh.Field(10, Guid.NewGuid().ToString());
                 msh.Field(11, sRU_R01.MSH.ProcessingID.ProcessingID.Value);
@@ -79,7 +93,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
 
                 // ------------- Message Acknowledgement ---------------------//
                 Segment msa = new Segment("MSA");
-                msa.Field(1, NHapi.Base.AcknowledgmentCode.CA.ToString());
+                msa.Field(1, NHapi.Base.AcknowledgmentCode.AA.ToString());
                 msa.Field(2, sRU_R01.MSH.MessageControlID.Value.ToString());
                 response.Add(msa);                
                 frame.Append(response.SerializeMessage());
@@ -121,7 +135,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 msh.Field(4, sQBP_Q11.MSH.SendingFacility.NamespaceID.Value);
                 msh.Field(5, sQBP_Q11.MSH.ReceivingApplication.NamespaceID.Value);
                 msh.Field(6, sQBP_Q11.MSH.ReceivingFacility.NamespaceID.Value);
-                msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
                 msh.Field(9, "RSP^K11^RSP_K11");
                 msh.Field(10, Guid.NewGuid().ToString());
                 msh.Field(11, sQBP_Q11.MSH.ProcessingID.ProcessingID.Value);
@@ -142,7 +156,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 // ------------- Response Control Parameter ---------------------//
                 response = new Message();
                 Segment qak = new Segment("QAK");
-                qak.Field(1, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                qak.Field(1, DateTime.Now.ToString("yyyyMMddHHmmss"));
                 qak.Field(2, "OK");
                 qak.Field(3, "WOS_ALL^Work Order Step All^IHELAW");
                 response.Add(qak);
@@ -153,7 +167,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 response = new Message();
                 Segment qpd = new Segment("QPD");
                 qpd.Field(1, "WOS_ALL^Work Order Step All^IHELAW");
-                qpd.Field(2, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                qpd.Field(2, DateTime.Now.ToString("yyyyMMddHHmmss"));
                 response.Add(qpd);
                 frame.Append(response.SerializeMessage());
                 frame.Append((char)0x0d);

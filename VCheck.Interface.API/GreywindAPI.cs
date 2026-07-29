@@ -1,13 +1,15 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Transactions;
 using VCheck.Interface.API.General;
-using Newtonsoft.Json;
 
 namespace VCheck.Interface.API
 {
@@ -104,7 +106,14 @@ namespace VCheck.Interface.API
                     var byteArray = Encoding.ASCII.GetBytes(sUsername + ":" + sPassword);
                     client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
-                    HttpResponseMessage resp = client.PostAsJsonAsync(sRequestURL, sResultRequest).Result;
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping // Allow all Unicode
+                    };
+
+                    //HttpResponseMessage resp = client.PostAsJsonAsync(sRequestURL, sResultRequest).Result;
+                    HttpResponseMessage resp = client.PostAsJsonAsync(sRequestURL, sResultRequest, options).Result;
                     if (resp.IsSuccessStatusCode)
                     //if (true)
                     {
@@ -186,11 +195,16 @@ namespace VCheck.Interface.API
         /// </summary>
         /// <param name="sResultRequest"></param>
         /// <returns></returns>
-        public async Task<Boolean> GetClinicInfo(String sClinicID, string sURL = "")
+        public async Task<Boolean> ClinicExist(String sClinicID, string sURL = "")
+        {
+            return !string.IsNullOrEmpty(await GetClinicInfo(sClinicID, sURL));
+        }
+
+        public async Task<String> GetClinicInfo(String sClinicID, string sURL = "")
         {
             String? sRequestURL = sURL + "/sync/clinic/" + sClinicID;
 
-            Boolean isSuccess = false;
+            var ClinicInfoString = "";
 
             try
             {
@@ -205,21 +219,16 @@ namespace VCheck.Interface.API
                     HttpResponseMessage resp = await client.GetAsync(sRequestURL);
                     if (resp.IsSuccessStatusCode)
                     {
-                        String sResult = resp.Content.ReadAsStringAsync().Result;
-                        isSuccess = true;
-                    }
-                    else
-                    {
-                        isSuccess = false;
+                        ClinicInfoString = resp.Content.ReadAsStringAsync().Result;
                     }
                 }
             }
             catch (Exception ex)
             {
-                isSuccess = false;
+                ClinicInfoString = null;
             }
 
-            return isSuccess;
+            return ClinicInfoString;
         }
 
         /// <summary>

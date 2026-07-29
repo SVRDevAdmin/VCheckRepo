@@ -19,8 +19,10 @@
     <SolidColorBrush Color="white" x:Key="Themes_ButtonFontColor"></SolidColorBrush>
     <SolidColorBrush Color="#1f2e45" x:Key="Themes_PopupMessageFrameBackground"></SolidColorBrush>
     <SolidColorBrush Color="White" x:Key="Themes_PopupMessageFontColor"></SolidColorBrush>
+    <SolidColorBrush Color="#3e5275" x:Key="Themes_HighlightColor"></SolidColorBrush>
     <BitmapImage UriSource="../../Content/Images/bio_logo_dark.png" x:Key="Themes_TemplateBioLogo"></BitmapImage>
     <BitmapImage UriSource="../../Content/Images/dashboard_white.png" x:Key="Themes_MenuDashboardIcon"></BitmapImage>
+    <BitmapImage UriSource="../../Content/Images/Connection Icon Dark.png" x:Key="Themes_MenuConnectionIcon"></BitmapImage>
     <BitmapImage UriSource="../../Content/Images/clock_white.png" x:Key="Themes_MenuClockIcon"></BitmapImage>
     <BitmapImage UriSource="../../Content/Images/results_white.png" x:Key="Themes_MenuResultsIcon"></BitmapImage>
     <BitmapImage UriSource="../../Content/Images/bell_white.png" x:Key="Themes_MenuBellIcon"></BitmapImage>
@@ -48,6 +50,8 @@
     <BitmapImage UriSource="../../../../Content/Images/Print_White.png" x:Key="Themes_GridPrintIcon"></BitmapImage>
     <BitmapImage UriSource="../../../Content/Images/Search_White.png" x:Key="Themes_SearchIcon"></BitmapImage>
     <BitmapImage UriSource="../../../Content/Images/Calendar_White.png" x:Key="Themes_CalendarIcon"></BitmapImage>
+    <BitmapImage UriSource="../../../Content/Images/right-arrow-white.png" x:Key="Next_Icon"></BitmapImage>
+    <BitmapImage UriSource="../../../Content/Images/left-arrow-white.png" x:Key="Prev_Icon"></BitmapImage>
 
     <!-- Notification -->
     <SolidColorBrush Color="#1f2e45" x:Key="Themes_NotifSearchfieldBackground"></SolidColorBrush>

@@ -15,7 +15,7 @@ namespace VCheck.Interface.API
         string url = "https://localhost:7237/API/";
 
         /// <summary>
-        /// Update Test Results to Greywind
+        /// Update Test Results to client server
         /// </summary>
         /// <param name="sResultRequest"></param>
         /// <returns></returns>
@@ -33,7 +33,10 @@ namespace VCheck.Interface.API
                     var byteArray = Encoding.ASCII.GetBytes(sUsername + ":" + sPassword);
                     client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
-                    HttpResponseMessage resp = client.PostAsJsonAsync(sRequestURL, sResultRequest).Result;
+                    String strJson = JsonConvert.SerializeObject(sResultRequest);
+                    HttpContent content = new StringContent(strJson, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage resp = await client.PostAsync(sRequestURL, content);
                     if (resp.IsSuccessStatusCode)
                     //if (true)
                     {
@@ -54,113 +57,113 @@ namespace VCheck.Interface.API
             return isSuccess;
         }
 
-        /// <summary>
-        /// Get PMS URL from central db
-        /// </summary>
-        /// <param name="sResultRequest"></param>
-        /// <returns></returns>
-        public async Task<string> GetPMSUrl(string clientKey, int clientID)
-        {
-            RequestModel requestModel = new RequestModel() { Header = new HeaderModel() { timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"), clientKey = clientKey }, 
-                Body = new RequestBody() { ClientID = clientID } };
+        ///// <summary>
+        ///// Get PMS URL from central db
+        ///// </summary>
+        ///// <param name="sResultRequest"></param>
+        ///// <returns></returns>
+        //public async Task<string> GetPMSUrl(string clientKey, int clientID)
+        //{
+        //    RequestModel requestModel = new RequestModel() { Header = new HeaderModel() { timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"), clientKey = clientKey }, 
+        //        Body = new RequestBody() { ClientID = clientID } };
 
-            try
-            {
-                using (var client = new HttpClient())
-                {
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
+        //    try
+        //    {
+        //        using (var client = new HttpClient())
+        //        {
+        //            client.DefaultRequestHeaders.Accept.Clear();
+        //            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
 
-                    HttpResponseMessage resp = client.PostAsJsonAsync(url + "GetAPIURL", requestModel).Result;
-                    if (resp.IsSuccessStatusCode)
-                    //if (true)
-                    {
-                        return resp.Content.ReadAsStringAsync().Result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
+        //            HttpResponseMessage resp = client.PostAsJsonAsync(url + "GetAPIURL", requestModel).Result;
+        //            if (resp.IsSuccessStatusCode)
+        //            //if (true)
+        //            {
+        //                return resp.Content.ReadAsStringAsync().Result;
+        //            }
+        //            else
+        //            {
+        //                return null;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
+        //}
 
-        /// <summary>
-        /// Get PMS URL from central db
-        /// </summary>
-        /// <param name="sResultRequest"></param>
-        /// <returns></returns>
-        public async Task<string> CreateLocation(string clientKey, LocationModel location)
-        {
-            RequestModel requestModel = new RequestModel()
-            {
-                Header = new HeaderModel() { timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"), clientKey = clientKey },
-                Body = new RequestBody() { LocationInfo = location }
-            };
+        ///// <summary>
+        ///// Get PMS URL from central db
+        ///// </summary>
+        ///// <param name="sResultRequest"></param>
+        ///// <returns></returns>
+        //public async Task<string> CreateLocation(string clientKey, LocationModel location)
+        //{
+        //    RequestModel requestModel = new RequestModel()
+        //    {
+        //        Header = new HeaderModel() { timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"), clientKey = clientKey },
+        //        Body = new RequestBody() { LocationInfo = location }
+        //    };
 
-            try
-            {
-                using (var client = new HttpClient())
-                {
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
+        //    try
+        //    {
+        //        using (var client = new HttpClient())
+        //        {
+        //            client.DefaultRequestHeaders.Accept.Clear();
+        //            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
 
-                    HttpResponseMessage resp = client.PostAsJsonAsync(url + "InsertLocation", requestModel).Result;
-                    if (resp.IsSuccessStatusCode)
-                    {
-                        return resp.Content.ReadAsStringAsync().Result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
+        //            HttpResponseMessage resp = client.PostAsJsonAsync(url + "InsertLocation", requestModel).Result;
+        //            if (resp.IsSuccessStatusCode)
+        //            {
+        //                return resp.Content.ReadAsStringAsync().Result;
+        //            }
+        //            else
+        //            {
+        //                return null;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
+        //}
 
-        /// <summary>
-        /// Get PMS URL from central db
-        /// </summary>
-        /// <param name="sResultRequest"></param>
-        /// <returns></returns>
-        public async Task<string> GetScheduleListByLocationID(string clientKey, int locationID)
-        {
-            RequestModel requestModel = new RequestModel()
-            {
-                Header = new HeaderModel() { timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"), clientKey = clientKey },
-                Body = new RequestBody() { LocationID = locationID }
-            };
+        ///// <summary>
+        ///// Get PMS URL from central db
+        ///// </summary>
+        ///// <param name="sResultRequest"></param>
+        ///// <returns></returns>
+        //public async Task<string> GetScheduleListByLocationID(string clientKey, int locationID)
+        //{
+        //    RequestModel requestModel = new RequestModel()
+        //    {
+        //        Header = new HeaderModel() { timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"), clientKey = clientKey },
+        //        Body = new RequestBody() { LocationID = locationID }
+        //    };
 
-            try
-            {
-                using (var client = new HttpClient())
-                {
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
+        //    try
+        //    {
+        //        using (var client = new HttpClient())
+        //        {
+        //            client.DefaultRequestHeaders.Accept.Clear();
+        //            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
 
-                    HttpResponseMessage resp = client.PostAsJsonAsync(url + "GetScheduleListByLocation", requestModel).Result;
-                    if (resp.IsSuccessStatusCode)
-                    {
-                        return resp.Content.ReadAsStringAsync().Result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
+        //            HttpResponseMessage resp = client.PostAsJsonAsync(url + "GetScheduleListByLocation", requestModel).Result;
+        //            if (resp.IsSuccessStatusCode)
+        //            {
+        //                return resp.Content.ReadAsStringAsync().Result;
+        //            }
+        //            else
+        //            {
+        //                return null;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
+        //}
     }
 }

@@ -145,14 +145,6 @@
                 Height="50"
                 Width="230"
                 CornerRadius="7">
-        <!--<Border x:Name="border"
-                Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="0"
-                Height="50"
-                Width="230"
-                CornerRadius="10"
-                Margin="10,0,0,0">--> <!--To make the sidebar selected menu rectangular-->
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -187,16 +179,6 @@
                                   RecognizesAccessKey="True"
                                   Margin="3,0,0,0"
                                   VerticalAlignment="Center"/>
-                
-                <!--
-                <Image Source="../../Content/Images/dashboard.png"
-                       Stretch="Fill"
-                       Grid.Column="4"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center" 
-                       Width="20" 
-                       Height="20"
-                       Margin="0, 0, 18, 0"/> -->
             </Grid>
         </Border>
         
@@ -219,11 +201,7 @@
 
             <Trigger Property="IsHighlighted"
                      Value="True">
-
-                <!--
-                <Setter Property="Background"
-                        TargetName="border"
-                        Value="White" /> -->
+                
                 <Setter Property="Background"
                         TargetName="border"
                         Value="{DynamicResource Themes_MenuHighligted}" />

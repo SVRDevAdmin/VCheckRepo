@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using log4net;

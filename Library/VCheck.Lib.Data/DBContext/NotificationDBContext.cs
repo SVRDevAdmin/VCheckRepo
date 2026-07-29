@@ -1,6 +1,6 @@
 ﻿using log4net;
 using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -38,6 +38,7 @@ namespace VCheck.Lib.Data.DBContext
         {
             List<NotificationModel> sList = new List<NotificationModel>();
             string sqlQueryCondition = "";
+            string idList = "";
 
             if (notificationType != null) { sqlQueryCondition += "WHERE NotificationType = '" + notificationType + "'"; }
             else { sqlQueryCondition += "WHERE NotificationType <> 'Email'"; }
@@ -58,6 +59,8 @@ namespace VCheck.Lib.Data.DBContext
                     {
                         while (reader.Read())
                         {
+                            //idList = string.IsNullOrEmpty(idList) ? reader.GetInt32("NotificationID").ToString() : idList + "," + reader.GetInt32("NotificationID");
+
                             sList.Add(new NotificationModel()
                             {
                                 NotificationID = reader.GetInt32("NotificationID"),
@@ -66,6 +69,7 @@ namespace VCheck.Lib.Data.DBContext
                                 NotificationContent = reader.GetString("NotificationContent"),
 
                                 Receiver = !reader.IsDBNull("Receiver") ? reader.GetString("Receiver") : null,
+                                Read = reader.GetInt32("Read"),
 
                                 //CreatedDate = reader.GetDateTime("CreatedDate").ToString("dd MMMM yyyy HH:mm"),
                                 CreatedDate = reader.GetDateTime("CreatedDate").ToString("dd MMMM yyyy HH:mm", CultureInfo.GetCultureInfo("en-US")),
@@ -73,6 +77,10 @@ namespace VCheck.Lib.Data.DBContext
                             });
                         }
                     }
+
+                    //cmd = new MySqlCommand("Update txn_notification Set `Read` = 1 Where `NotificationID` in (" + idList + ")", conn);
+
+                    cmd.ExecuteReader();
                 }
             }
             catch (Exception ex)
@@ -121,6 +129,34 @@ namespace VCheck.Lib.Data.DBContext
             return total;
         }
 
+        public int GetTotalUnreadNotification()
+        {
+            int total = 0;
+
+            try
+            {
+                using (MySqlConnection conn = this.Connection)
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand("Select Count(`NotificationTitle`) from txn_notification WHERE `Read` = 0 AND `NotificationType` <> 'Email';", conn);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            total = reader.GetInt32(0);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+            }
+
+            return total;
+        }
+
         public bool InsertNotification(NotificationModel notification)
         {
             string receiverColumn = "";
@@ -134,6 +170,82 @@ namespace VCheck.Lib.Data.DBContext
             string insertQuery = "INSERT INTO `txn_notification` (`NotificationType`,`NotificationTitle`,`NotificationContent`,`CreatedDate`,`CreatedBy`" + receiverColumn + ") ";
 
             insertQuery += "Values ('" + notification.NotificationType + "','" + notification.NotificationTitle + "', '" + notification.NotificationContent + "', '" + notification.CreatedDate + "', '" + notification.CreatedBy + "'" + receiverData + ")";
+
+            try
+            {
+                using (MySqlConnection conn = this.Connection)
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+
+                    cmd.ExecuteReader();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+                return false;
+            }
+        }
+
+        public bool InsertNotificationRange(List<NotificationModel> notifications)
+        {
+            string insertQuery = "INSERT INTO `txn_notification` (`NotificationType`,`NotificationTitle`,`NotificationContent`,`CreatedDate`,`CreatedBy`, `Receiver`, `Read`) Values ";
+
+            foreach (NotificationModel notification in notifications) 
+            {
+                insertQuery += "('" + notification.NotificationType + "','" + notification.NotificationTitle + "', '" + notification.NotificationContent + "', '" + notification.CreatedDateDatetime.Value.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + notification.CreatedBy + "', '', 0),";
+            }
+
+            insertQuery = insertQuery.Substring(0, insertQuery.Length - 1) + ";";
+
+            try
+            {
+                using (MySqlConnection conn = this.Connection)
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+
+                    cmd.ExecuteReader();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+                return false;
+            }
+        }
+
+        public bool MarkReadByID(string NotificationID)
+        {
+            string insertQuery = "Update `txn_notification` SET `Read` = 1 WHERE `NotificationID` = " + NotificationID + ";";
+
+            try
+            {
+                using (MySqlConnection conn = this.Connection)
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+
+                    cmd.ExecuteReader();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database Error >>> ", ex);
+                return false;
+            }
+        }
+
+        public bool MarkAllAsRead()
+        {
+            string insertQuery = "Update `txn_notification` SET `Read` = 1 WHERE `Read` = 0;";
 
             try
             {

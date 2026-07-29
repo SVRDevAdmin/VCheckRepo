@@ -138,10 +138,6 @@
               "target": "Package",
               "version": "[8.0.1, )"
             },
-            "MySql.Data": {
-              "target": "Package",
-              "version": "[9.1.0, )"
-            },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[8.0.2, )"
@@ -372,10 +368,6 @@
               "target": "Package",
               "version": "[8.0.1, )"
             },
-            "MySql.Data": {
-              "target": "Package",
-              "version": "[9.1.0, )"
-            },
             "NHapiTools": {
               "target": "Package",
               "version": "[2.0.4, )"
@@ -425,6 +417,11 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
         }
       }
     }

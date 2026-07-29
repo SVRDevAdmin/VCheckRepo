@@ -101,6 +101,27 @@ namespace VCheckViewer.ViewModels.Windows
             set { _cbCountryPhoneNum = value; }
         }
 
+        ObservableCollection<ComboBoxItem> _cbCountryPhoneNumSearch;
+        public ObservableCollection<ComboBoxItem> cbCountryPhoneNumSearch
+        {
+            get { return _cbCountryPhoneNumSearch; }
+            set { _cbCountryPhoneNumSearch = value; }
+        }
+
+        ObservableCollection<ComboBoxItem> _cbDateFormat;
+        public ObservableCollection<ComboBoxItem> cbDateFormat
+        {
+            get { return _cbDateFormat; }
+            set { _cbDateFormat = value; }
+        }
+
+        ObservableCollection<ComboBoxItem> _cbConnectionType;
+        public ObservableCollection<ComboBoxItem> cbConnectionType
+        {
+            get { return _cbConnectionType; }
+            set { _cbConnectionType = value; }
+        }
+
         ComboBoxItem _SelectedcbSort;
         public ComboBoxItem SelectedcbSort
         {

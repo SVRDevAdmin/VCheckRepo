@@ -1,0 +1,16 @@
+﻿using VCheck.Lib.Data.Models;
+
+namespace VCheckViewerAPI.Message.General
+{
+    public class ClientDataRequest
+    {
+        public HeaderModel Header { get; set; }
+        public ClientDataRequestBody Body { get; set; }
+    }
+
+    public class ClientDataRequestBody
+    {
+        public string? Version { get; set; }
+        public DateTime LastPatchDatetime { get; set; }
+    }
+}

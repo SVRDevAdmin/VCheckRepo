@@ -9,7 +9,8 @@ namespace VCheck.Interface.API.Greywind.RequestMessage
     public class InsertLocationRequest
     {
         public string? clinic_id { get; set; }
-        public string name { get; set; }
+        public string? name { get; set; }
+        public string? name_1 { get; set; }
         public string address_1 { get; set; }
         public string city { get; set; }
         public string state { get; set; }

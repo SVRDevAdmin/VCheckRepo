@@ -1,36 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Newtonsoft.Json;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer.Lib.Function;
-using TextBox = System.Windows.Controls.TextBox;
 
 namespace VCheckViewer.Views.Pages.Setting.Clinic
 {
     /// <summary>
     /// Interaction logic for ClinicInfoPage.xaml
     /// </summary>
-    public partial class ClinicInfoPage : Page
+    public partial class ClinicInfoPage : System.Windows.Controls.Page
     {
 
         public ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
 
         public ObservableCollection<ComboBoxItem> cbCountryPhoneNum { get; set; }
+        public ObservableCollection<ComboBoxItem> cbCountryPhoneNumSearch { get; set; }
         public ComboBoxItem SelectedcbCountryPhoneNum { get; set; }
+        public ComboBoxItem SelectedcbCountryPhoneNumSearch { get; set; }
+
+        public (bool ClinicExist, string PhoneNo) ClinicExistInfo = (false, "");
 
         public ClinicInfoPage()
         {
@@ -58,10 +53,6 @@ namespace VCheckViewer.Views.Pages.Setting.Clinic
             var phoneNumber = phoneNumberObject.Count() == 0 ? "" : phoneNumberObject[1];
             var countryCode = phoneNumberObject.Count() == 0 ? "" : phoneNumberObject[0];
 
-            //var CountryCodeList = ClinicCountryCode.Items.OfType<ComboBoxItem>();
-            //var CountryCodeObject = CountryCodeList.FirstOrDefault(x => x.Tag.ToString() == countryCode);
-            //ClinicCountryCode.SelectedItem = CountryCodeObject;
-
             ClinicName.Text = sClinicName != null ? sClinicName.ConfigurationValue : "";
             ClinicAddress.Text = sClinicAddress != null ? sClinicAddress.ConfigurationValue : "";
             ClinicCity.Text = sClinicCity != null ? sClinicCity.ConfigurationValue : "";
@@ -71,7 +62,9 @@ namespace VCheckViewer.Views.Pages.Setting.Clinic
             ClinicEmail.Text = sClinicEmail != null ? sClinicEmail.ConfigurationValue : "";
 
             cbCountryPhoneNum = App.MainViewModel.cbCountryPhoneNum;
+            cbCountryPhoneNumSearch = App.MainViewModel.cbCountryPhoneNumSearch;
             SelectedcbCountryPhoneNum = cbCountryPhoneNum.Where(a => (string)a.Tag == countryCode).FirstOrDefault();
+            ClinicCountryCodeSearch.SelectedIndex = 0;
 
             checker();
         }
@@ -81,6 +74,16 @@ namespace VCheckViewer.Views.Pages.Setting.Clinic
             List<ConfigurationModel> sConfigList = new List<ConfigurationModel>();
 
             ComboBoxItem selectedItem = (ComboBoxItem)ClinicCountryCode.SelectedItem;
+            var clinicPhoneNo = selectedItem.Tag + " " + ClinicPhoneNum.Text;
+
+            //if (ClinicExistInfo.ClinicExist && ClinicExistInfo.PhoneNo == clinicPhoneNo)
+            //{
+            //    sConfigList.Add(new ConfigurationModel
+            //    {
+            //        ConfigurationKey = "ClinicID",
+            //        ConfigurationValue = clinicPhoneNo.Replace(" ", "").Replace("-", "")
+            //    });
+            //}
 
             sConfigList.Add(new ConfigurationModel
             {
@@ -129,6 +132,48 @@ namespace VCheckViewer.Views.Pages.Setting.Clinic
 
             App.PopupHandler(e, sender);
         }
+
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            GetClinicInfo();
+        }
+
+        private async Task GetClinicInfo()
+        {
+            ComboBoxItem selectedItem = (ComboBoxItem)ClinicCountryCodeSearch.SelectedItem;
+            var ClinicPhoneNo = selectedItem.Tag + " " + ClinicPhoneNumSearch.Text;
+            var ClinicID = ClinicPhoneNo.Replace(" ", "").Replace("-", "");
+
+            GreywindAPI sAPI = new GreywindAPI();
+            VCheckAPI VcheckAPI = new VCheckAPI();
+            var PMSURL = await VcheckAPI.GetPMSUrl(2);
+
+            var clinicInfoString = await sAPI.GetClinicInfo(ClinicID, PMSURL);
+            if (string.IsNullOrEmpty(clinicInfoString))
+            {
+                App.MainViewModel.Origin = "NoClinicFound";
+
+                App.PopupHandler(null, null);
+                ClinicExistInfo = (false,"");
+            }
+            else
+            {
+                var ClinicInfo = JsonConvert.DeserializeObject<VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest>(clinicInfoString);
+
+                ClinicName.Text = ClinicInfo.name_1;
+                ClinicAddress.Text = ClinicInfo.address_1;
+                ClinicCity.Text = ClinicInfo.city;
+                ClinicState.Text = ClinicInfo.state;
+                ClinicPhoneNum.Text = ClinicPhoneNumSearch.Text;
+
+                cbCountryPhoneNum = App.MainViewModel.cbCountryPhoneNum;
+                ClinicCountryCode.SelectedItem = cbCountryPhoneNum.Where(a => (string)a.Tag == selectedItem.Tag.ToString()).FirstOrDefault();
+                checker();
+
+                ClinicExistInfo = (true, ClinicPhoneNo);
+            }
+        }
+
 
         private void FieldsVal_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -192,19 +237,19 @@ namespace VCheckViewer.Views.Pages.Setting.Clinic
                 borderClinicName.ToolTip = null;
             }
 
-            if (String.IsNullOrEmpty(ClinicContactName.Text))
-            {
-                borderClinicContactName.BorderBrush = System.Windows.Media.Brushes.Red;
-                borderClinicContactName.BorderThickness = new Thickness(1);
-                borderClinicContactName.ToolTip = "This is a mandatory field.";
+            //if (String.IsNullOrEmpty(ClinicContactName.Text))
+            //{
+            //    borderClinicContactName.BorderBrush = System.Windows.Media.Brushes.Red;
+            //    borderClinicContactName.BorderThickness = new Thickness(1);
+            //    borderClinicContactName.ToolTip = "This is a mandatory field.";
 
-                isFieldEmpty = true;
-            }
-            else
-            {
-                borderClinicContactName.BorderBrush = System.Windows.Media.Brushes.Black;
-                borderClinicContactName.ToolTip = null;
-            }
+            //    isFieldEmpty = true;
+            //}
+            //else
+            //{
+            //    borderClinicContactName.BorderBrush = System.Windows.Media.Brushes.Black;
+            //    borderClinicContactName.ToolTip = null;
+            //}
 
             if (String.IsNullOrEmpty(ClinicAddress.Text))
             {
@@ -237,19 +282,19 @@ namespace VCheckViewer.Views.Pages.Setting.Clinic
                 var selectedCountryCode = ClinicCountryCode.SelectedItem;
             }
 
-            if (String.IsNullOrEmpty(ClinicEmail.Text) || !ClinicEmail.Text.Contains("@"))
-            {
-                borderClinicEmail.BorderBrush = System.Windows.Media.Brushes.Red;
-                borderClinicEmail.BorderThickness = new Thickness(1);
-                borderClinicEmail.ToolTip = "This is a mandatory field.";
+            //if (String.IsNullOrEmpty(ClinicEmail.Text) || !ClinicEmail.Text.Contains("@") || !ClinicEmail.Text.Contains("."))
+            //{
+            //    borderClinicEmail.BorderBrush = System.Windows.Media.Brushes.Red;
+            //    borderClinicEmail.BorderThickness = new Thickness(1);
+            //    borderClinicEmail.ToolTip = "This is a mandatory field.";
 
-                isFieldEmpty = true;
-            }
-            else
-            {
-                borderClinicEmail.BorderBrush = System.Windows.Media.Brushes.Black;
-                borderClinicEmail.ToolTip = null;
-            }
+            //    isFieldEmpty = true;
+            //}
+            //else
+            //{
+            //    borderClinicEmail.BorderBrush = System.Windows.Media.Brushes.Black;
+            //    borderClinicEmail.ToolTip = null;
+            //}
 
 
             if (isFieldEmpty)

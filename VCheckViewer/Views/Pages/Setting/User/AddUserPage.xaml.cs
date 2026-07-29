@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Collections.ObjectModel;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using System.Xml.Linq;
 using VCheck.Lib.Data.Models;
 using TextBox = System.Windows.Controls.TextBox;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -82,15 +78,13 @@ namespace VCheckViewer.Views.Pages
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                //parent.ToolTip = "This is a mandatory field.";
                 parent.ToolTip = Properties.Resources.Setting_ErrorMessage_MandatoryField;
                 CheckAllValueExisted();
             }
-            else if (textBox != null && textBox.Name == "EmailAddress" && !textBox.Text.Contains("@"))
+            else if (textBox != null && textBox.Name == "EmailAddress" && (!textBox.Text.Contains("@") || !textBox.Text.Contains(".")))
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                //parent.ToolTip = "This field must include “@” symbol.";
                 parent.ToolTip = Properties.Resources.Setting_ErrorMessage_EmailFormat;
                 CheckAllValueExisted();
             }
@@ -98,7 +92,6 @@ namespace VCheckViewer.Views.Pages
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                //parent.ToolTip = "This field must contain at least 2 characters.";
                 parent.ToolTip = Properties.Resources.Setting_ErrorMessage_TwoCharMin;
                 CheckAllValueExisted();
             }
@@ -106,7 +99,6 @@ namespace VCheckViewer.Views.Pages
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                //parent.ToolTip = "This field must contain at least 5 characters.";
                 parent.ToolTip = Properties.Resources.Setting_ErrorMessage_FiveCharMin;
                 CheckAllValueExisted();
             }
@@ -114,7 +106,6 @@ namespace VCheckViewer.Views.Pages
             {
                 parent.BorderBrush = Brushes.Red;
                 parent.BorderThickness = new Thickness(1);
-                //parent.ToolTip = "Please key in correct date format.";
                 parent.ToolTip = Properties.Resources.Setting_ErrorMessage_DateFormat;
                 CheckAllValueExisted();
             }
@@ -147,13 +138,11 @@ namespace VCheckViewer.Views.Pages
             {
                 EmployeeID = StaffID.Text,
                 Title = Title.Text,
-                //FirstName = Surname.Text,
                 FullName = FullName.Text,
                 RegistrationNo = RegistrationNo.Text,
                 Gender = ((ComboBoxItem)Gender.SelectedItem).Tag.ToString(),
                 DateOfBirth = Convert.ToDateTime(DateOfBirth.Text).ToString("yyyy-MM-dd"),
                 EmailAddress = EmailAddress.Text,
-                //StatusID = Convert.ToInt32(((ComboBoxItem)Status.SelectedItem).Tag.ToString()),
                 StatusID = 1,
                 RoleID = ((ComboBoxItem)Role.SelectedItem).Tag.ToString(),
                 Role = Role.Text,

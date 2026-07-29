@@ -7,11 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
-using MySql.Data.MySqlClient;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using Org.BouncyCastle.Asn1.Mozilla;
 
 namespace VCheck.Lib.Data
 {
@@ -231,6 +229,37 @@ namespace VCheck.Lib.Data
         }
 
         /// <summary>
+        /// Get Device Type By Id
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="iID"></param>
+        /// <returns></returns>
+        public static DeviceModel GetDeviceByDeviceTypeIDList(IConfiguration config, int iID)
+        {
+            DeviceModel device = null;
+
+            try
+            {
+                using (var ctx = new DeviceDBContext(config))
+                {
+                    device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceTypeID == iID && x.Next != 1 && x.status == 1);
+
+                    if (device == null)
+                    {
+                        device = RevertTwoWayCommDevice(config, iID);
+                    }                    
+
+                    return device;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("DeviceRepository >>> GetDeviceTypeByID >>> " + ex.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Get Two-Way Communication Device list
         /// </summary>
         /// <param name="config"></param>
@@ -244,7 +273,7 @@ namespace VCheck.Lib.Data
                 {
                     var deviceTypeIDs = ctx.mst_devicetype.Where(x => x.TwoWayCommunication == 1).Select(y => y.id).ToList();
 
-                    var twoWayDevices = ctx.mst_deviceslist.Where(x => deviceTypeIDs.Contains(x.DeviceTypeID.Value)).ToList();
+                    var twoWayDevices = ctx.mst_deviceslist.Where(x => deviceTypeIDs.Contains(x.DeviceTypeID.Value) && x.status == 1).ToList();
 
                     return twoWayDevices;
                 }
@@ -262,26 +291,33 @@ namespace VCheck.Lib.Data
         /// <param name="config"></param>
         /// <param name="iID"></param>
         /// <returns></returns>
-        public static void RevertTwoWayCommDevice(IConfiguration config, int deviceTypeID)
+        public static DeviceModel RevertTwoWayCommDevice(IConfiguration config, int deviceTypeID)
         {
             try
             {
                 using (var ctx = new DeviceDBContext(config))
                 {
-                    var twoWayDevices = ctx.mst_deviceslist.Where(x => x.DeviceTypeID == deviceTypeID).ToList();
+                    var twoWayDevices = ctx.mst_deviceslist.Where(x => x.DeviceTypeID == deviceTypeID && x.status == 1).ToList();
 
-                    foreach (var device in twoWayDevices)
+                    if (twoWayDevices.Any())
                     {
-                        device.Next = 0;
-                    }
+                        foreach (var device in twoWayDevices)
+                        {
+                            device.Next = 0;
+                        }
 
-                    ctx.UpdateRange(twoWayDevices);
-                    ctx.SaveChanges();
+                        ctx.UpdateRange(twoWayDevices);
+                        ctx.SaveChanges();
+                    }                    
+
+                    return twoWayDevices.FirstOrDefault();
                 }
             }
             catch (Exception ex)
             {
                 log.Error("DeviceRepository >>> GetTwoWayCommDevice >>> " + ex.ToString());
+
+                return null;
             }
         }
 

@@ -20,7 +20,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
+        <!--<Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="90"/>
@@ -49,6 +49,28 @@
                     <Button Content="{Binding Path=ClinicInfo_Label_ClinicInfo, Source={StaticResource Resources}}" Background="{DynamicResource Themes_ButtonColor}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
                 </Border>
             </Grid>
+        </Border>-->
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Margin="2">
+                    <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Name="btnUser" Background="Black" BorderThickness="0" Foreground="White" HorizontalAlignment="Stretch" Style="{DynamicResource RoundButton}" Click="UserPage"></Button>
+                </Border>
+                <Border Grid.Column="1" Margin="2">
+                    <Button Content="{Binding Path=Setting_Label_LanguageCountry, Source={StaticResource Resources}}" Name="btnLanguage" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="LanguageCountry"></Button>
+                </Border>
+                <Border Grid.Column="2" Margin="2">
+                    <Button Content="{Binding Path=Report_Label_Report, Source={StaticResource Resources}}" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
+                </Border>
+                <Border Grid.Column="3" Margin="2">
+                    <Button Content="{Binding Path=ClinicInfo_Label_ClinicInfo, Source={StaticResource Resources}}" Background="{DynamicResource Themes_ButtonColor}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+            </Grid>
         </Border>
         <Border Name="borderPMSSelection" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" BorderBrush="Transparent" BorderThickness="0" Margin="30,30,30,0">
             <Border BorderThickness="1" BorderBrush="{DynamicResource Themes_InterfaceFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_InterfaceFrameBackground}">
@@ -60,11 +82,41 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="{Binding Path=ClinicInfo_Label_ClinicInformation, Source={StaticResource Resources}}" Grid.Row="0" Grid.ColumnSpan="2" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}" Margin="5"/>
+                    <TextBlock Text="{Binding Path=ClinicInfo_Label_SearchClinic, Source={StaticResource Resources}}" Grid.Row="0" Grid.ColumnSpan="2" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}" Margin="5"/>
 
-                    <Grid Grid.Row="1" Grid.Column="0">
+                    <Border x:Name="borderClinicPhoneNumSearch" Grid.Row="1" Grid.Column="0" Background="White" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="Black" Margin="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Grid.Column="0" x:Name="ClinicCountryCodeSearch" BorderThickness="0" VerticalAlignment="Center" Foreground="Black" ItemsSource="{Binding cbCountryPhoneNumSearch}"/>
+                            <TextBox Grid.Column="1" x:Name="ClinicPhoneNumSearch" BorderThickness="0" VerticalAlignment="Center" DataObject.Pasting="TextBox_Pasting" FontSize="14"/>
+                            <TextBlock Grid.Column="1" IsHitTestVisible="False" Text="{Binding Path=ClinicInfo_Label_PhoneNumber, Source={StaticResource Resources}}" VerticalAlignment="Center" Margin="15,0,10,0" Foreground="DarkGray">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, ElementName=ClinicPhoneNumSearch}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+                    <Button Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Width="60" Content="{Binding Path=General_Label_Searchbar, Source={StaticResource Resources}}" VerticalAlignment="Center" Foreground="White"
+                        Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Margin="0" Style="{DynamicResource RoundButton}" 
+                        Click="btnSearch_Click"/>
+
+                    <TextBlock Text="{Binding Path=ClinicInfo_Label_ClinicInformation, Source={StaticResource Resources}}" Grid.Row="2" Grid.ColumnSpan="2" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}" Margin="5"/>
+
+                    <Grid Grid.Row="3" Grid.Column="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
@@ -92,7 +144,7 @@
                         </Border>
                     </Grid>
 
-                    <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid Grid.Row="3" Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
@@ -112,7 +164,7 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <ComboBox Grid.Column="0" x:Name="ClinicCountryCode" BorderThickness="0" VerticalAlignment="Center" SelectionChanged="ClinicCountryCode_SelectionChanged" ItemsSource="{Binding cbCountryPhoneNum}" SelectedItem="{Binding SelectedcbCountryPhoneNum}"/>
+                                <ComboBox Grid.Column="0" x:Name="ClinicCountryCode" BorderThickness="0" VerticalAlignment="Center" SelectionChanged="ClinicCountryCode_SelectionChanged" ItemsSource="{Binding cbCountryPhoneNum}" SelectedItem="{Binding SelectedcbCountryPhoneNum}" Foreground="Black"/>
                                 <TextBox Grid.Column="1" x:Name="ClinicPhoneNum" BorderThickness="0" VerticalAlignment="Center" KeyUp="FieldsVal_KeyUp" PreviewTextInput="TextBox_PreviewTextInput" PreviewKeyDown="TextBox_PreviewKeyDown" DataObject.Pasting="TextBox_Pasting" FontSize="14"/>
                             </Grid>
                         </Border>

@@ -1,19 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VCheckViewer.Views.Windows;
 using Brushes = System.Windows.Media.Brushes;
 
@@ -69,33 +57,6 @@ namespace VCheckViewer.Views.Pages.Login
 
                             App.PopupHandler(e, sender);
                         }
-
-                        //var changePassword = await App.UserManager.ChangePasswordAsync(user, OldPassword.Password, ConfirmPassword.Password);
-
-                        //if (changePassword.Succeeded)
-                        //{
-                        //    ErrorText.Text = Properties.Resources.Login_Message_PasswordResetted;
-                        //    ErrorText.Foreground = Brushes.Green;
-                        //}
-                        //else
-                        //{
-                        //    //string errorText = "";
-
-                        //    //var errors = changePassword.Errors.ToList();
-
-                        //    //foreach (var error in errors)
-                        //    //{
-                        //    //    errorText += "- " + error.Description + "\r\n";
-                        //    //}
-                        //    //if (changePassword.Errors.Any(x => x.Code.ToString() == "PasswordMismatch")) { ErrorText.Text = Properties.Resources.Login_Message_WrongCurrentPassword; }
-                        //    //else { ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement; }
-
-                        //    ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement;
-
-                        //    //ErrorText.Text = errorText;
-                        //    //ErrorText.Text = Properties.Resources.Login_Message_PasswordRequirement;
-                        //    ErrorText.Foreground = Brushes.Red;
-                        //}
                     }
 
                     }

@@ -1,14 +1,5 @@
-﻿using DocumentFormat.OpenXml.InkML;
-using Microsoft.Extensions.Hosting;
-using MySqlX.XDevAPI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace VCheckViewer.Services
 {

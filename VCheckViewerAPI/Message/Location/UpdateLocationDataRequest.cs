@@ -1,4 +1,4 @@
-﻿using VCheckViewerAPI.Message.CreateScheduledTest;
+﻿using VCheck.Lib.Data.Models;
 using VCheckViewerAPI.Message.General;
 
 namespace VCheckViewerAPI.Message.Location

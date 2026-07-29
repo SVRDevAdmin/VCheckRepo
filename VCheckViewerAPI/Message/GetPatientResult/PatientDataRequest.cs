@@ -1,4 +1,5 @@
-﻿using VCheckViewerAPI.Message.General;
+﻿using VCheck.Lib.Data.Models;
+using VCheckViewerAPI.Message.General;
 
 namespace VCheckViewerAPI.Message.GetPatientResult
 {
@@ -11,5 +12,6 @@ namespace VCheckViewerAPI.Message.GetPatientResult
     public class PatientDataRequestBody
     {
         public string? PatientID { get; set; }
+        public string? TestUniqueID { get; set; }
     }
 }

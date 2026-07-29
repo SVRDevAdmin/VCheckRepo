@@ -9,8 +9,11 @@
     <UseWindowsForms>True</UseWindowsForms>
 	<InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.Extensions.Configuration.Binder.SourceGeneration</InterceptorsPreviewNamespaces>
 	<Version>1.0.0.1</Version>
-	<PlatformTarget>x64</PlatformTarget>
 	<RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	<PlatformTarget>x64</PlatformTarget>
+	<Platforms>AnyCPU;x64</Platforms>
+	<!--<ApplicationManifest>app.manifest</ApplicationManifest>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,13 +45,17 @@
     <None Remove="Content\Images\Collapse_Arrow_Right.png" />
     <None Remove="Content\Images\Collapse_BlackArrow_Right.png" />
     <None Remove="Content\Images\Collapse_WhiteArrow_Right.png" />
+    <None Remove="Content\Images\Connection Icon Dark.png" />
+    <None Remove="Content\Images\Connection Icon Light.png" />
     <None Remove="Content\Images\DarkWhite.png" />
     <None Remove="Content\Images\dashboard.png" />
     <None Remove="Content\Images\dashboard_white.png" />
+    <None Remove="Content\Images\Down-Arrow-Dark.png" />
     <None Remove="Content\Images\Download.png" />
     <None Remove="Content\Images\Download_White.png" />
     <None Remove="Content\Images\Email Icon.png" />
     <None Remove="Content\Images\group_640.png" />
+    <None Remove="Content\Images\Hide password.png" />
     <None Remove="Content\Images\Icons\dashboard.png" />
     <None Remove="Content\Images\Icons\de.png" />
     <None Remove="Content\Images\Icons\en.png" />
@@ -71,6 +78,8 @@
     <None Remove="Content\Images\Icons\zh-Hant.png" />
     <None Remove="Content\Images\Img_Doctor.png" />
     <None Remove="Content\Images\Img_Pets.png" />
+    <None Remove="Content\Images\left-arrow-black.png" />
+    <None Remove="Content\Images\left-arrow-white.png" />
     <None Remove="Content\Images\LoginDevice.png" />
     <None Remove="Content\Images\LoginLogo_Light.png" />
     <None Remove="Content\Images\LoginLogo_Light2.png" />
@@ -91,18 +100,23 @@
     <None Remove="Content\Images\Report Logo.png" />
     <None Remove="Content\Images\results.png" />
     <None Remove="Content\Images\results_white.png" />
+    <None Remove="Content\Images\right-arrow-black.png" />
+    <None Remove="Content\Images\right-arrow-white.png" />
     <None Remove="Content\Images\Screenshot 2024-04-15 152644.png" />
     <None Remove="Content\Images\Search_Dark.png" />
     <None Remove="Content\Images\Search_White.png" />
+    <None Remove="Content\Images\See password.png" />
     <None Remove="Content\Images\setting.png" />
     <None Remove="Content\Fonts\Orbitron-Medium.ttf" />
     <None Remove="Content\Fonts\Roboto-Light.ttf" />
     <None Remove="Content\Images\setting_white.png" />
+    <None Remove="Content\Images\Up-Arrow.png" />
     <None Remove="Content\Images\VCheck200Image.png" />
     <None Remove="Content\Images\VCheck200Image2.png" />
     <None Remove="Content\Images\VCheck2400Image.png" />
     <None Remove="Content\Images\VCheck2400Image2.png" />
     <None Remove="Content\Images\VCheckM10Image.png" />
+    <None Remove="Storage\Certificates\Sectigo Public Server Authentication Root R46.crt" />
     <None Remove="Storage\Device\Img_F200.png" />
   </ItemGroup>
 
@@ -117,6 +131,8 @@
     <None Remove="Storage\Device\VCheck2400Image.png" />
     <None Remove="Storage\Device\VCheckC1.png" />
     <None Remove="Storage\Device\VCheckC10.png" />
+    <None Remove="Storage\Device\VCheckH6.png" />
+    <None Remove="Storage\Device\VCheckU3.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -191,6 +207,9 @@
     <Content Include="bin\Release\Publish\LatoFont\OFL.txt" />
     <Content Include="bin\Release\Publish\VCheckViewer.deps.json" />
     <Content Include="bin\Release\Publish\VCheckViewer.runtimeconfig.json" />
+    <Content Include="Content\Images\Down-Arrow-Dark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Images\Icons\Bionote-favicon.ico" />
     <Content Include="Content\Images\bio_logo_report.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -736,7 +755,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.1" />
-    <PackageReference Include="MySql.Data" Version="9.1.0" />
     <PackageReference Include="NHapiTools" Version="2.0.4" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
     <PackageReference Include="QuestPDF" Version="2024.10.3" />
@@ -777,13 +795,21 @@
     <Resource Include="Content\Images\Collapse_Arrow_Right.png" />
     <Resource Include="Content\Images\Collapse_BlackArrow_Right.png" />
     <Resource Include="Content\Images\Collapse_WhiteArrow_Right.png" />
+    <Resource Include="Content\Images\Connection Icon Dark.png" />
+    <Resource Include="Content\Images\Connection Icon Light.png" />
     <Resource Include="Content\Images\DarkWhite.png" />
     <Resource Include="Content\Images\dashboard.png" />
     <Resource Include="Content\Images\dashboard_white.png" />
+    <Content Include="Content\Images\Down-Arrow-Light.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Content\Images\Download.png" />
     <Resource Include="Content\Images\Download_White.png" />
     <Resource Include="Content\Images\Email Icon.png" />
     <Resource Include="Content\Images\BackArrow.png" />
+    <Resource Include="Content\Images\Hide password.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Content\Images\Icons\de.png" />
     <Resource Include="Content\Images\Icons\en.png" />
     <Resource Include="Content\Images\Icons\es.png" />
@@ -802,6 +828,8 @@
     <Resource Include="Content\Images\Icons\zh-Hant.png" />
     <Resource Include="Content\Images\Img_Doctor.png" />
     <Resource Include="Content\Images\Img_Pets.png" />
+    <Resource Include="Content\Images\left-arrow-black.png" />
+    <Resource Include="Content\Images\left-arrow-white.png" />
     <Resource Include="Content\Images\LoginDevice.png" />
     <Resource Include="Content\Images\LoginLogo_Light.png" />
     <Resource Include="Content\Images\LoginLogo_Light2.png" />
@@ -822,8 +850,13 @@
     <Resource Include="Content\Images\Report Logo.png" />
     <Resource Include="Content\Images\results.png" />
     <Resource Include="Content\Images\results_white.png" />
+    <Resource Include="Content\Images\right-arrow-black.png" />
+    <Resource Include="Content\Images\right-arrow-white.png" />
     <Resource Include="Content\Images\Search_Dark.png" />
     <Resource Include="Content\Images\Search_White.png" />
+    <Resource Include="Content\Images\See password.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Content\Images\setting.png" />
     <Resource Include="Content\Images\setting_white.png" />
     <Resource Include="Content\Images\stroke_1_ek2.png" />
@@ -835,16 +868,24 @@
     <Resource Include="Content\Fonts\Roboto-Light.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Content\Images\Up-Arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Content\Images\VCheck200Image.png" />
     <Resource Include="Content\Images\VCheck200Image2.png" />
     <Resource Include="Content\Images\VCheck2400Image.png" />
     <Resource Include="Content\Images\VCheck2400Image2.png" />
     <Resource Include="Content\Images\VCheckM10Image.png" />
+    <Content Include="Storage\Certificates\Sectigo Public Server Authentication Root R46.crt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Storage\Device\Img_F200.png" />
     <Resource Include="Storage\Device\Img_M10.png" />
     <Resource Include="Storage\Device\VCheck2400Image.png" />
     <Resource Include="Storage\Device\VCheckC1.png" />
     <Resource Include="Storage\Device\VCheckC10.png" />
+    <Resource Include="Storage\Device\VCheckH6.png" />
+    <Resource Include="Storage\Device\VCheckU3.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -906,6 +947,8 @@
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  <PackagePath>appsettings.json</PackagePath>
+	  <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </None>
     <None Update="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -16,6 +16,7 @@ namespace VCheck.Lib.Data.Models
         public ORCModel ORC { get; set; }
         public OBRModel OBR { get; set; }
         public List<OBXModel> OBX { get; set; }
+        public List<NTEModel> NTE { get; set; }
     }
 
     public class MSHModel
@@ -85,5 +86,12 @@ namespace VCheck.Lib.Data.Models
         public string ObservationValue { get; set; }
         public string Units { get; set; }
         public string ObservationResultStatus { get; set; }
+    }
+
+    public class NTEModel
+    {
+        public string SetID { get; set; }
+        public string Comment { get; set; }
+        public string CommentType { get; set; }
     }
 }

@@ -292,7 +292,7 @@
     <value>是否确实要注销？</value>
   </data>
   <data name="Popup_Message_PasswordRecoveredP1" xml:space="preserve">
-    <value>我们已向您发送电子邮件的临时密码。您可以使用它登录。&lt;next line&gt; 登录后，您可以将其更改为您的首选密码 </value>
+    <value>我们已向您发送电子邮件的临时密码。您可以使用它登录。&lt;nextline&gt; 登录后，您可以将其更改为您的首选密码 </value>
   </data>
   <data name="Popup_Message_PasswordRecoveredP2" xml:space="preserve">
     <value>“重置密码”</value>
@@ -860,5 +860,158 @@
   </data>
   <data name="Popup_Message_SelectAll" xml:space="preserve">
     <value>选择全部</value>
+  </data>
+  <data name="ClinicInfo_Button_Connect" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="ClinicInfo_Label_City" xml:space="preserve">
+    <value>城市</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicAddress" xml:space="preserve">
+    <value>诊所地址</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInfo" xml:space="preserve">
+    <value>诊所信息</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInformation" xml:space="preserve">
+    <value>诊所信息</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicName" xml:space="preserve">
+    <value>诊所名称</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicPhoneNumber" xml:space="preserve">
+    <value>诊所电话号码</value>
+  </data>
+  <data name="ClinicInfo_Label_CountryCode" xml:space="preserve">
+    <value>国家/地区代码</value>
+  </data>
+  <data name="ClinicInfo_Label_PhoneNumber" xml:space="preserve">
+    <value>电话号码</value>
+  </data>
+  <data name="ClinicInfo_Label_PrimaryContactName" xml:space="preserve">
+    <value>主要联系人姓名</value>
+  </data>
+  <data name="ClinicInfo_Label_State" xml:space="preserve">
+    <value>州/省</value>
+  </data>
+  <data name="Maintenance_Label_Connected" xml:space="preserve">
+    <value>已连接</value>
+  </data>
+  <data name="Maintenance_Label_NotConnected" xml:space="preserve">
+    <value>未连接</value>
+  </data>
+  <data name="Popup_Message_APINoLinkFound" xml:space="preserve">
+    <value>未找到与结果关联的预约。</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdate" xml:space="preserve">
+    <value>保存诊所详情？</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdateCompleted" xml:space="preserve">
+    <value>已成功更新诊所详情。</value>
+  </data>
+  <data name="Popup_Message_FailedGreywindConnect" xml:space="preserve">
+    <value>无法连接 Greywind。</value>
+  </data>
+  <data name="Popup_Message_FailedToCancelSchedule" xml:space="preserve">
+    <value>无法取消预约。</value>
+  </data>
+  <data name="Popup_Message_GreywindConnected" xml:space="preserve">
+    <value>已成功连接 Greywind。</value>
+  </data>
+  <data name="ClinicInfo_Label_SearchClinic" xml:space="preserve">
+    <value>搜索诊所</value>
+  </data>
+  <data name="General_Label_ThreeDaysReminder" xml:space="preserve">
+    <value>3天后提醒我</value>
+  </data>
+  <data name="General_Message_NewVersionAvailable" xml:space="preserve">
+    <value>新版Vcheck Viewer已发布，请下载新版本？</value>
+  </data>
+  <data name="General_Message_NewVersionNotification" xml:space="preserve">
+    <value>新版本通知</value>
+  </data>
+  <data name="Maintenance_Label_ApplicationInformation" xml:space="preserve">
+    <value>应用信息</value>
+  </data>
+  <data name="Maintenance_Label_EnvironmentInformation" xml:space="preserve">
+    <value>环境信息</value>
+  </data>
+  <data name="Maintenance_Label_None" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="Maintenance_Label_Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="Popup_Message_NoScheduleFound" xml:space="preserve">
+    <value>未找到日程安排。</value>
+  </data>
+  <data name="Popup_Message_SelectSchedule" xml:space="preserve">
+    <value>请选择日程安排以发送测试结果数据。</value>
+  </data>
+  <data name="Schedule_Label_Cancelled" xml:space="preserve">
+    <value>已取消</value>
+  </data>
+  <data name="Schedule_Label_General" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="Schedule_Label_OrderedTest" xml:space="preserve">
+    <value>已预约测试</value>
+  </data>
+  <data name="Schedule_Label_Pending" xml:space="preserve">
+    <value>待处理</value>
+  </data>
+  <data name="Schedule_Label_ResultSentToVV" xml:space="preserve">
+    <value>结果已发送至VV</value>
+  </data>
+  <data name="Schedule_Label_SentToAnalyzer" xml:space="preserve">
+    <value>已发送至分析仪</value>
+  </data>
+  <data name="Schedule_Label_SentToPIMS" xml:space="preserve">
+    <value>已发送至PIMS</value>
+  </data>
+  <data name="Schedule_Label_Tests" xml:space="preserve">
+    <value>测试</value>
+  </data>
+  <data name="General_Message_RemindThreeDays" xml:space="preserve">
+    <value>3 天后再次提醒。</value>
+  </data>
+  <data name="General_Message_VCheckAlreadyOpen" xml:space="preserve">
+    <value>VCheck Viewer 实例已打开。请先关闭旧实例，再打开新实例。</value>
+  </data>
+  <data name="Maintenance_Label_API" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Maintenance_Label_Listener" xml:space="preserve">
+    <value>监听器</value>
+  </data>
+  <data name="Maintenance_Label_ListenerIPAddr" xml:space="preserve">
+    <value>监听器 IP 地址</value>
+  </data>
+  <data name="Maintenance_Label_ListenerPortNo" xml:space="preserve">
+    <value>监听器端口号</value>
+  </data>
+  <data name="Maintenance_Label_VCheckAPI" xml:space="preserve">
+    <value>VCheck API</value>
+  </data>
+  <data name="Maintenance_Label_VCheckListener" xml:space="preserve">
+    <value>VCheck 监听器</value>
+  </data>
+  <data name="Main_Label_Exit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="Notification_Button_MarkAllAsRead" xml:space="preserve">
+    <value>全部标记为已读</value>
+  </data>
+  <data name="Popup_Message_AnalyzerCannotReceive" xml:space="preserve">
+    <value>分析仪无法手动接收日程安排。</value>
+  </data>
+  <data name="Popup_Message_ConnectPIMSSuccess" xml:space="preserve">
+    <value>已成功连接到 PIMS。</value>
+  </data>
+  <data name="Popup_Message_NoClinicFound" xml:space="preserve">
+    <value>未找到与该电话号码匹配的诊所。</value>
+  </data>
+  <data name="Report_Label_PreviousRecord" xml:space="preserve">
+    <value>上一次记录</value>
   </data>
 </root>

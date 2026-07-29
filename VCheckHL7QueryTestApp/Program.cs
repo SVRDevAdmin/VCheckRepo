@@ -158,7 +158,7 @@ namespace VCheckHL7QueryTestApp
                 sORC.Field(2, "12345^SMC_AM^1.3.6.1.4.1.12559.11.1.2.2.4.2^ISO");
                 sORC.Field(4, "12561^IHE_OM_OP^1.3.6.1.4.1.12559.11.1.2.2.4.2^ISO");
                 sORC.Field(5, "IP");
-                sORC.Field(9, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                sORC.Field(9, DateTime.Now.ToString("yyyyMMddHHmmss"));
                 resp.Add(sORC);
 
                 Segment sOBR = new Segment("OBR");
@@ -248,7 +248,7 @@ namespace VCheckHL7QueryTestApp
             oMessage.MSH.SendingFacility.NamespaceID.Value = "";
             oMessage.MSH.ReceivingApplication.NamespaceID.Value = "";
             oMessage.MSH.ReceivingFacility.NamespaceID.Value = "LAB";
-            oMessage.MSH.DateTimeOfMessage.Time.Value = DateTime.Now.ToString("yyyyMMddhhmmss");
+            oMessage.MSH.DateTimeOfMessage.Time.Value = DateTime.Now.ToString("yyyyMMddHHmmss");
             oMessage.MSH.MessageType.MessageCode.Value = "OML";
             oMessage.MSH.MessageType.TriggerEvent.Value = "O33";
             oMessage.MSH.MessageType.MessageStructure.Value = "OML_O33";
@@ -305,7 +305,7 @@ namespace VCheckHL7QueryTestApp
             oORC.PlacerGroupNumber.UniversalIDType.Value = "ISO";
 
             oORC.OrderStatus.Value = "IP";
-            oORC.DateTimeOfTransaction.Time.Value = DateTime.Now.ToString("yyyyMMddhhmmss");
+            oORC.DateTimeOfTransaction.Time.Value = DateTime.Now.ToString("yyyyMMddHHmmss");
 
             // ----- OBR ----- //
             oMessage.AddNonstandardSegment("OBR");
@@ -360,7 +360,7 @@ namespace VCheckHL7QueryTestApp
             oMessage.MSH.SendingFacility.NamespaceID.Value = "";
             oMessage.MSH.ReceivingApplication.NamespaceID.Value = "";
             oMessage.MSH.ReceivingFacility.NamespaceID.Value = "LAB";
-            oMessage.MSH.DateTimeOfMessage.Time.Value = DateTime.Now.ToString("yyyyMMddhhmmss");
+            oMessage.MSH.DateTimeOfMessage.Time.Value = DateTime.Now.ToString("yyyyMMddHHmmss");
             oMessage.MSH.MessageType.MessageCode.Value = "OUL";
             oMessage.MSH.MessageType.TriggerEvent.Value = "R22";
             oMessage.MSH.MessageType.MessageStructure.Value = "OUL_R22";
@@ -417,7 +417,7 @@ namespace VCheckHL7QueryTestApp
             oORC.PlacerGroupNumber.UniversalIDType.Value = "ISO";
 
             oORC.OrderStatus.Value = "IP";
-            oORC.DateTimeOfTransaction.Time.Value = DateTime.Now.ToString("yyyyMMddhhmmss");
+            oORC.DateTimeOfTransaction.Time.Value = DateTime.Now.ToString("yyyyMMddHHmmss");
 
             // ----- OBR ----- //
             oMessage.AddNonstandardSegment("OBR");

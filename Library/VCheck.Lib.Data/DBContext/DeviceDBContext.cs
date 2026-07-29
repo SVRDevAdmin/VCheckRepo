@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using VCheck.Lib.Data.Models;
 
 namespace VCheck.Lib.Data.DBContext
