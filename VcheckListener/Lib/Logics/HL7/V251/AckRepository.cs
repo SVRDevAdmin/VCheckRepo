@@ -33,7 +33,7 @@ namespace VCheckListener.Lib.Logics.HL7.V251
                 msh.Field(4, sRU_R01.MSH.SendingFacility.NamespaceID.Value);
                 msh.Field(5, sRU_R01.MSH.ReceivingApplication.NamespaceID.Value);
                 msh.Field(6, sRU_R01.MSH.ReceivingFacility.NamespaceID.Value);
-                msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
                 msh.Field(9, "ACK^R22^ACK");
                 msh.Field(10, Guid.NewGuid().ToString());
                 msh.Field(11, sRU_R01.MSH.ProcessingID.ProcessingID.Value);
@@ -89,7 +89,7 @@ namespace VCheckListener.Lib.Logics.HL7.V251
                 msh.Field(4, sQBP_Q11.MSH.SendingFacility.NamespaceID.Value);
                 msh.Field(5, sQBP_Q11.MSH.ReceivingApplication.NamespaceID.Value);
                 msh.Field(6, sQBP_Q11.MSH.ReceivingFacility.NamespaceID.Value);
-                msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
                 msh.Field(9, "RSP^K11^RSP_K11");
                 msh.Field(10, Guid.NewGuid().ToString());
                 msh.Field(11, sQBP_Q11.MSH.ProcessingID.ProcessingID.Value);
@@ -110,7 +110,7 @@ namespace VCheckListener.Lib.Logics.HL7.V251
                 // ------------- Response Control Parameter ---------------------//
                 response = new Message();
                 Segment qak = new Segment("QAK");
-                qak.Field(1, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                qak.Field(1, DateTime.Now.ToString("yyyyMMddHHmmss"));
                 qak.Field(2, "OK");
                 qak.Field(3, "WOS_ALL^Work Order Step All^IHELAW");
                 response.Add(qak);
@@ -121,7 +121,7 @@ namespace VCheckListener.Lib.Logics.HL7.V251
                 response = new Message();
                 Segment qpd = new Segment("QPD");
                 qpd.Field(1, "WOS_ALL^Work Order Step All^IHELAW");
-                qpd.Field(2, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                qpd.Field(2, DateTime.Now.ToString("yyyyMMddHHmmss"));
                 response.Add(qpd);
                 frame.Append(response.SerializeMessage());
                 frame.Append((char)0x0d);

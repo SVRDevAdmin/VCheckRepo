@@ -38,7 +38,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                     msh.Field(4, "VCheck H6");
                     msh.Field(5, "Menarini");
                     msh.Field(6, "LIS");
-                    msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                    msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
                     msh.Field(9, "ORM^O01");
                     msh.Field(10, "1");
                     msh.Field(11, "P");
@@ -58,7 +58,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                     pid.Field(4, "02");
                     pid.Field(5, schedule.Schedule.PatientName);
                     pid.Field(6, schedule.Schedule.OwnerName);
-                    pid.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                    pid.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
                     pid.Field(8, gender);
                     pid.Field(9, "O");
                     pid.Field(11, "Bionote");
@@ -82,7 +82,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                     orc.Field(2, "01");
                     orc.Field(3, schedule.Schedule.PatientID);
                     orc.Field(4, barcode);
-                    orc.Field(15, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                    orc.Field(15, DateTime.Now.ToString("yyyyMMddHHmmss"));
                     orc.Field(17, "KESHI");
                     orc.Field(21, "WWW");
                     orc.Field(22, "");

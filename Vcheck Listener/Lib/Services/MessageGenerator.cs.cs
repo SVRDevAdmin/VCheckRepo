@@ -210,7 +210,7 @@ namespace Vcheck_Listener.Lib.Services
             msh.Field(4, message.MSH.SendingFacility);
             msh.Field(5, message.MSH.ReceivingApplication);
             msh.Field(6, message.MSH.ReceivingFacility);
-            msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+            msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
             msh.Field(9, message.MSH.MessageType);
             msh.Field(10, Guid.NewGuid().ToString());
             msh.Field(11, "P");
@@ -275,7 +275,7 @@ namespace Vcheck_Listener.Lib.Services
             //orc.Field(4, "12345^IHE_OM_OP^1.3.6.1.4.1.12559.11.1.2.2.4.4^ISO");
             //orc.Field(4, message.ORC.PlacerGroupNo);
             orc.Field(5, "IP");
-            orc.Field(9, message.ORC.TransactionDatetime.ToString("yyyyMMddhhmmss"));
+            orc.Field(9, message.ORC.TransactionDatetime.ToString("yyyyMMddHHmmss"));
             response.Add(orc);
             frame.Append(response.SerializeMessage());
             frame.Append((char)0x0d);
@@ -342,7 +342,7 @@ namespace Vcheck_Listener.Lib.Services
             msh.Field(4, message.MSH.SendingFacility);
             msh.Field(5, message.MSH.ReceivingApplication);
             msh.Field(6, message.MSH.ReceivingFacility);
-            msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+            msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
             msh.Field(9, message.MSH.MessageType);
             msh.Field(10, "9");
             msh.Field(11, "P");
@@ -361,7 +361,7 @@ namespace Vcheck_Listener.Lib.Services
             pid.Field(4, "01");
             pid.Field(5, message.PID.PetName);
             pid.Field(6, "Kevin");
-            pid.Field(7, message.PID.BirthDate.ToString("yyyyMMddhhmmss"));
+            pid.Field(7, message.PID.BirthDate.ToString("yyyyMMddHHmmss"));
             pid.Field(8, "M");
             pid.Field(9, "O");
             pid.Field(11, "GUILIN");
@@ -387,7 +387,7 @@ namespace Vcheck_Listener.Lib.Services
             orc.Field(3, "123456789");
             orc.Field(4, "1029384756");
             orc.Field(11, "Blood");
-            orc.Field(15, DateTime.Now.ToString("yyyyMMddhhmmss"));
+            orc.Field(15, DateTime.Now.ToString("yyyyMMddHHmmss"));
             orc.Field(17, "Department");
             orc.Field(21, "OrderingProvider");
             orc.Field(22, "");

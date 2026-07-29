@@ -51,6 +51,8 @@ namespace VCheckListenerWorker
             {
                 while (!stoppingToken.IsCancellationRequested)
                 {
+                    var test = Guid.NewGuid().ToString();
+
                     XmlConfigurator.Configure(log4net.LogManager.GetRepository(Assembly.GetEntryAssembly()),
                                               new FileInfo("log4Net.config"));
                     sLogger = new Lib.Util.Logger();
@@ -74,13 +76,15 @@ namespace VCheckListenerWorker
                         MainModel.DeviceSerialNum = device != null && device.id != 0 ? device.DeviceSerialNo : null;
                         MainModel.DeviceType = deviceType;
                         bool continueLoop = true;
+                        NHapi.Base.Model.IMessage sIMessage = null;
 
                         //while (clinicID != null && continueLoop)
                         while (continueLoop)
                         {
-                            Console.WriteLine("Continue listening....");
+                            
                             bool isConnected = true;
                             int byteLength = sClient.Available;
+                            Console.WriteLine($"Continue listening....{byteLength}");
                             while (isConnected)
                             {
                                 Thread.Sleep(1000);
@@ -90,7 +94,11 @@ namespace VCheckListenerWorker
                                 isConnected = !(sClient.Poll(1000, SelectMode.SelectRead) && sClient.Available == 0);
                             }
 
-                            if (!isConnected) { break; }
+                            if (!isConnected)
+                            {
+                                Console.WriteLine("Client disconnected from " + clientIpAddress + ":" + clientIpPort + ".");
+                                break;
+                            }
 
                             byte[] bBuffer = new byte[byteLength];
 
@@ -99,6 +107,8 @@ namespace VCheckListenerWorker
                             sDataTemp = sDataTemp.Replace("\u001c", "")
                                          .Replace("\n", "\r");
                             String sData = sDataTemp;
+
+                            //Console.WriteLine($"Receiving data with byte length {byteLength}....");
 
                             while (sClient.Available != 0)
                             {
@@ -118,21 +128,14 @@ namespace VCheckListenerWorker
 
                                 NHapi.Base.Parser.XMLParser sXMLParser = new NHapi.Base.Parser.DefaultXMLParser();
                                 NHapi.Base.Parser.PipeParser sParser = new NHapi.Base.Parser.PipeParser() { ValidationContext = new CustomMessageValidation() };
-                                NHapi.Base.Model.IMessage sIMessage = null;
-                                //List<NHapi.Base.Model.IMessage> sIMessageList = new List<NHapi.Base.Model.IMessage>();
                                 bool continueProcessData = false;
 
                                 try
                                 {
-                                    if ((sData.Contains("ORU^R01") && sData.Contains("OBX")) || !sData.Contains("ORU^R01"))
+                                    if (((sData.Contains("ORU^R01") && sData.Contains("OBX")) || !sData.Contains("ORU^R01")) && !sData.Contains("ORU^R02"))
                                     {
                                         continueProcessData = true;
                                     }
-
-                                    //NHapi.Base.Model.IMessage sIMessage = null;
-                                    //string[] rawMessages = sData.Split(new[] { '\v' }, StringSplitOptions.RemoveEmptyEntries);
-
-                                    //if (sData.Contains("Hypoadrenocorticism")) { sData = sData.Replace("Hypoadrenocorticism", "").Replace("Consistent with ", "Consistent with Hypoadrenocorticism"); }
 
                                     var lines = sData.Split("\r", StringSplitOptions.RemoveEmptyEntries);
 
@@ -145,22 +148,6 @@ namespace VCheckListenerWorker
 
                                     sIMessage = sParser.Parse(sData.Trim());
 
-                                    //if(rawMessages.Count() == 1) { sIMessage = sParser.Parse(sData.Trim()); }
-                                    //else
-                                    //{
-                                    //    foreach (string message in rawMessages)
-                                    //    {
-                                    //        sIMessage = sParser.Parse(message.Trim());
-                                    //        sIMessageList.Add(sIMessage);
-                                    //    }
-                                    //}
-
-                                    //foreach (string message in rawMessages)
-                                    //{
-                                    //    sIMessage = sParser.Parse(message.Trim());
-                                    //    sIMessageList.Add(sIMessage);
-                                    //}
-
                                 }
                                 catch (Exception e)
                                 {
@@ -172,13 +159,14 @@ namespace VCheckListenerWorker
                                 String sAckMessage = String.Empty;
                                 String sFileName = "TestResult_" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
-                                //OutputMessage(configBuilder, sFileName, sData, null, null);
+                                //OutputMessage(configBuilder, "TestResultTest_" + DateTime.Now.ToString("yyyyMMddHHmmss"), sData, null, null);
 
                                 if (sIMessage != null)
                                 {
                                     sAckMessage = await SendAckMessage(sIMessage, sData.Trim());
                                     var sMessageByte = Encoding.UTF8.GetBytes(sAckMessage);
                                     sClient.Send(sMessageByte, SocketFlags.None);
+                                    OutputMessage(configBuilder, sFileName, null, null, sAckMessage);
 
                                     //if (!ConstantConnectionAnalyzer.Contains(deviceType))
                                     //{
@@ -189,18 +177,9 @@ namespace VCheckListenerWorker
 
                                     if (continueProcessData)
                                     {
-                                        //var processed = ProcessIMessage(sIMessage, sSystemName);
-                                        //var processed = ProcessIMessage(sIMessageList, sSystemName);
                                         Task.Run(() => ProcessIMessage(sIMessage, sSystemName));
                                         sXMLMessage = sXMLParser.Encode(sIMessage);
-
-                                        //foreach (var message in sIMessageList)
-                                        //{
-                                        //    sXMLMessage = string.IsNullOrEmpty(sXMLMessage) ? sXMLMessage + sXMLParser.Encode(message) : sXMLMessage + sXMLParser.Encode(message).Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
-                                        //}
-
-                                        //if(sIMessageList.Count() > 1) { sXMLMessage = sXMLMessage.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<MultiResult>\n") + "\n</MultiResult>"; }
-                                        OutputMessage(configBuilder, sFileName, sData, sXMLMessage, sAckMessage);
+                                        OutputMessage(configBuilder, sFileName, sData, sXMLMessage, null);
                                     }
                                 }
                                 else
@@ -213,13 +192,12 @@ namespace VCheckListenerWorker
                             }
                         }
 
-                        if (ConstantConnectionAnalyzer.Contains(deviceType))
-                        {
-                            sClient.Close();
-                            Console.WriteLine("[two-way] Client disconnected from " + clientIpAddress + ":" + clientIpPort + ".");
-                        }
+                        //if (ConstantConnectionAnalyzer.Contains(deviceType))
+                        //{
+                        //    sClient.Close();
+                        //}
 
-                        //sClient.Close();
+                        sClient.Close();
                         //Console.WriteLine("Client disconnected from " + clientIpAddress + ":" + clientIpPort + ".");
                     });
 
@@ -295,6 +273,7 @@ namespace VCheckListenerWorker
 
                     //sHostIP = "169.254.98.184";
                     iPortNo = 8585;
+                    //iPortNo = 1001;
 
                     sHostIP = GetAssignedIPAddress();
                     //sHostIP = GetIPAddressFromDatabase(out iPortNo);
@@ -311,6 +290,8 @@ namespace VCheckListenerWorker
 
                         sListener.Bind(sIPEndPoint);
                         sListener.Listen(3);
+
+                        //Console.WriteLine(Guid.NewGuid().ToString());
 
                         Console.WriteLine("Listener Start Successful.");
                         Console.WriteLine("IP Address : " + sHostIP);
@@ -386,6 +367,11 @@ namespace VCheckListenerWorker
                     if (sIMessage.Message.Message.GetType() == typeof(NHapi.Model.V251.Message.OUL_R22))
                     {
                         Lib.Logic.HL7.V251.HL7Repository.ProcessMessage(sIMessage, sSystemName);
+                        Console.WriteLine("Data processed...");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Data processed normally...");
                     }
                     break;
 
@@ -422,6 +408,7 @@ namespace VCheckListenerWorker
                     if (messageType == "QBP^Z01^QBP_Z01")
                     {
                         sMessage = await Lib.Logic.HL7.V26.OrderRepository.ProcessMessageAsync(hl7Split);
+                        sMessage.Replace("\n", "");
                     }
                     else
                     {
@@ -445,6 +432,7 @@ namespace VCheckListenerWorker
                     {
                         var messageCount = hl7Split.First(x => x.StartsWith("ORC")).Split('|')[2];
                         sMessage = await Lib.Logic.HL7.V251.OrderRepository.ProcessMessageAsync(messageCount);
+                        sMessage.Replace("\n", "");
                     }
 
                     break;

@@ -53,7 +53,7 @@ namespace Vcheck_Listener.Lib.Logics.HL7.V231
                 msh.Field(4, "LIS");
                 msh.Field(5, sORU_R01.MSH.SendingApplication.NamespaceID.Value);
                 msh.Field(6, sORU_R01.MSH.SendingFacility.NamespaceID.Value);
-                msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
                 msh.Field(9, "ACK^R01");
                 msh.Field(10, sORU_R01.MSH.MessageControlID.Value.ToString());
                 msh.Field(11, sORU_R01.MSH.ProcessingID.ProcessingID.Value);
@@ -135,7 +135,7 @@ namespace Vcheck_Listener.Lib.Logics.HL7.V231
                 msh.Field(4, "LIS");
                 msh.Field(5, sQRY_Q02.MSH.SendingApplication.NamespaceID.Value);
                 msh.Field(6, sQRY_Q02.MSH.SendingFacility.NamespaceID.Value);
-                msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
                 msh.Field(9, "DSR^Q03");
                 msh.Field(10, "12");
                 msh.Field(11, sQRY_Q02.MSH.ProcessingID.ProcessingID.Value);
@@ -200,7 +200,7 @@ namespace Vcheck_Listener.Lib.Logics.HL7.V231
                 msh.Field(4, "LIS");
                 msh.Field(5, sQRY_Q02.MSH.SendingApplication.NamespaceID.Value);
                 msh.Field(6, sQRY_Q02.MSH.SendingFacility.NamespaceID.Value);
-                msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
                 msh.Field(9, "QCK^Q02");
                 msh.Field(10, "12");
                 msh.Field(11, sQRY_Q02.MSH.ProcessingID.ProcessingID.Value);

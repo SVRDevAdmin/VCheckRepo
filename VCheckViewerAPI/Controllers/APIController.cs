@@ -136,6 +136,12 @@ namespace VCheckViewerAPI.Controllers
             var sResult = false;
             var sBuilder = Host.CreateApplicationBuilder();
             string[] ignoreVersion = sBuilder.Configuration.GetSection("VersionConfig:Ignore_Version").Value.Split(",");
+            bool isLatestPatch = false;
+
+            if(DateTime.Parse("0001-01-01") == request.Body.LastPatchDatetime)
+            {
+                isLatestPatch = true;
+            }
 
             try
             {
@@ -306,7 +312,6 @@ namespace VCheckViewerAPI.Controllers
             var sResp = new ResponseModel();
             sResp.Header = new HeaderModel() { timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"), clientKey = request.Header.clientKey }; ;
             sResp.Body = new ResponseBody();
-            OrderInfo orderInfo = new OrderInfo();
 
             String sRespCode = "";
             String sRespStatus = "";
@@ -370,8 +375,6 @@ namespace VCheckViewerAPI.Controllers
                                     accessionNo = _apiRepository.GetAccessionNo(scheduledObj.CreatedBy, uniqueKey[1]);
                                     uniqueID = request.body.TestUniqueID + "-" + accessionNo + "-" + GenerateUniqueKey(8);
                                     scheduledObj.ScheduleUniqueID = uniqueID;
-                                    orderInfo.AccessionNo = accessionNo;
-                                    orderInfo.OrderID = uniqueIDArray[1];
 
                                     if (accessionNo == 0)
                                     {
@@ -384,8 +387,6 @@ namespace VCheckViewerAPI.Controllers
                                     uniqueKey = uniqueID.Split("-");
                                     scheduledObj.ScheduledTestType = scheduledObj.ScheduledTestType + ", " + TestName;
                                     accessionNo = int.Parse(uniqueKey[2]);
-                                    orderInfo.AccessionNo = accessionNo;
-                                    orderInfo.OrderID = uniqueKey[1];
                                 }
                                 else
                                 {
@@ -464,7 +465,6 @@ namespace VCheckViewerAPI.Controllers
                 sResp.Body.ResponseCode = sRespCode;
                 sResp.Body.ResponseStatus = sRespStatus;
                 sResp.Body.ResponseMessage = sRespMessage;
-                //sResp.Body.Results = orderInfo;
 
                 //--------- Log Payload -------//
                 VCheck.APILogging.CallLogging.InsertAPiLog("CreateScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,
@@ -482,6 +482,202 @@ namespace VCheckViewerAPI.Controllers
             }
 
             if(sRespCode != "VV.0001")
+            {
+                _apiRepository.SaveError(request.body.LocationID, sResp, request, clientName, TestName);
+
+                return BadRequest(sResp);
+            }
+
+            return sResp;
+        }
+
+        /// <summary>
+        /// API for Insert Scheduled Test
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost(Name = "SendOrderInfo")]
+        public ActionResult<ResponseModel> SendOrderInfo(CreateScheduledDataRequest request)
+        {
+            var sResp = new ResponseModel();
+            sResp.Header = new HeaderModel() { timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"), clientKey = request.Header.clientKey }; ;
+            sResp.Body = new ResponseBody();
+            OrderInfo orderInfo = new OrderInfo();
+
+            String sRespCode = "";
+            String sRespStatus = "";
+            String sRespMessage = "";
+
+            int isMismatchedWrongUniqueIDError = 0;
+            string TestName = "";
+            string clientName = "Unauthorized User";
+
+            try
+            {
+                if (request.body.ValidateMandatoryField())
+                {
+                    if (_apiRepository.Authenticate(request.Header.clientKey, out CanViewOther))
+                    {
+
+                        if (LocationRepository.IsLocationIdExists(ConfigSettings.GetConfigurationSettings(), request.body.LocationID))
+                        {
+                            if (_apiRepository.ValidateTestInfo(request.body.TestUniqueID, request.body.Species, request.body.Gender, out isMismatchedWrongUniqueIDError, out TestName))
+                            {
+                                ClientModel sAuthProfile = _apiRepository.GetClientProfileByClientKey(request.Header.clientKey);
+
+                                clientName = (sAuthProfile != null) ? sAuthProfile.Name : "";
+                                var uniqueKey = request.body.TestUniqueID.Split("-");
+                                ScheduledTestModel scheduledObj = ScheduledTestRepository.GetScheduledTestByOrderID(ConfigSettings.GetConfigurationSettings(), uniqueKey[1], clientName, request.body.LocationID);
+                                var uniqueID = "";
+                                var accessionNo = 0;
+                                var exist = false;
+
+                                if (scheduledObj == null)
+                                {
+                                    scheduledObj = new ScheduledTestModel();
+                                    scheduledObj.ScheduledTestType = TestName;
+
+                                    DateTime dtScheduled = DateTime.MinValue;
+                                    if (DateTime.TryParseExact(request.body.ScheduledDateTime, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dtScheduled))
+                                    {
+                                        scheduledObj.ScheduledDateTime = dtScheduled;
+                                    }
+
+                                    scheduledObj.ScheduledBy = request.body.ScheduledBy;
+                                    scheduledObj.InchargePerson = request.body.PersonIncharges;
+                                    scheduledObj.PatientID = request.body.PatientID;
+                                    scheduledObj.PatientName = request.body.PatientName;
+                                    scheduledObj.Gender = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(request.body.Gender.ToLower());
+                                    scheduledObj.Species = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(request.body.Species.ToLower());
+                                    scheduledObj.OwnerName = request.body.OwnerName;
+                                    scheduledObj.ScheduleTestStatus = 0;
+                                    scheduledObj.TestCompleted = 0;
+                                    scheduledObj.LocationID = request.body.LocationID;
+                                    scheduledObj.CreatedBy = clientName;
+                                    scheduledObj.CreatedDate = DateTime.Now.ToUniversalTime();
+
+                                    DateTime patienttDOB;
+                                    if (DateTime.TryParse(request.body.PatientDOB, out patienttDOB))
+                                    {
+                                        scheduledObj.PatientDOB = patienttDOB;
+                                    }
+
+                                    var uniqueIDArray = request.body.TestUniqueID.Split("-");
+                                    accessionNo = _apiRepository.GetAccessionNo(scheduledObj.CreatedBy, uniqueKey[1]);
+                                    uniqueID = request.body.TestUniqueID + "-" + accessionNo + "-" + GenerateUniqueKey(8);
+                                    scheduledObj.ScheduleUniqueID = uniqueID;
+                                    orderInfo.AccessionNo = accessionNo;
+                                    orderInfo.OrderID = uniqueIDArray[1];
+
+                                    if (accessionNo == 0)
+                                    {
+                                        throw (new Exception("Error creating accession number."));
+                                    }
+                                }
+                                else if (!scheduledObj.ScheduledTestType.Contains(TestName))
+                                {
+                                    uniqueID = scheduledObj.ScheduleUniqueID;
+                                    uniqueKey = uniqueID.Split("-");
+                                    scheduledObj.ScheduledTestType = scheduledObj.ScheduledTestType + ", " + TestName;
+                                    accessionNo = int.Parse(uniqueKey[2]);
+                                    orderInfo.AccessionNo = accessionNo;
+                                    orderInfo.OrderID = uniqueKey[1];
+                                }
+                                else
+                                {
+                                    exist = true;
+                                }
+
+                                if (exist)
+                                {
+                                    sRespCode = "VV.2003";
+                                    sRespStatus = "Fail";
+                                    sRespMessage = "Duplicate test for this patient.";
+                                }
+                                else if (ScheduledTestRepository.InsertUpdateScheduledTest(ConfigSettings.GetConfigurationSettings(), scheduledObj))
+                                {
+                                    sRespCode = "VV.0001";
+                                    sRespStatus = "Success";
+                                    sRespMessage = "Success.";
+                                }
+                                else
+                                {
+                                    sRespCode = "VV.2003";
+                                    sRespStatus = "Fail";
+                                    sRespMessage = "Failed to insert Scheduled Test.";
+                                }
+                            }
+                            else
+                            {
+                                if (isMismatchedWrongUniqueIDError == 1)
+                                {
+                                    sRespCode = "VV.1005";
+                                    sRespStatus = "Fail";
+                                    sRespMessage = "Mismatched Species or Gender";
+                                }
+                                else if (isMismatchedWrongUniqueIDError == 0)
+                                {
+                                    sRespCode = "VV.1006";
+                                    sRespStatus = "Fail";
+                                    sRespMessage = "Invalid Test Unique ID";
+                                }
+                                else if (isMismatchedWrongUniqueIDError == 3)
+                                {
+                                    sRespCode = "VV.1006";
+                                    sRespStatus = "Fail";
+                                    sRespMessage = "Order ID is missing.";
+                                }
+                                else
+                                {
+                                    throw new Exception("Error validating schedule test info.");
+                                }
+                            }
+
+
+                        }
+                        else
+                        {
+                            sRespCode = "VV.1004";
+                            sRespStatus = "Fail";
+                            sRespMessage = "Invalid Location ID";
+                        }
+
+                    }
+                    else
+                    {
+                        sRespCode = "VV.0003";
+                        sRespStatus = "Fail";
+                        sRespMessage = "Unauthorized Request";
+                    }
+                }
+                else
+                {
+                    sRespCode = "VV.0004";
+                    sRespStatus = "Fail";
+                    sRespMessage = "Missing Mandatory Fields";
+                }
+
+                sResp.Body.ResponseCode = sRespCode;
+                sResp.Body.ResponseStatus = sRespStatus;
+                sResp.Body.ResponseMessage = sRespMessage;
+                sResp.Body.Results = orderInfo;
+
+                //--------- Log Payload -------//
+                VCheck.APILogging.CallLogging.InsertAPiLog("SendOrderInfo", Guid.NewGuid().ToString(), request.Header.timestamp,
+                                                           Newtonsoft.Json.JsonConvert.SerializeObject(request), sResp.Header.timestamp,
+                                                           Newtonsoft.Json.JsonConvert.SerializeObject(sResp), sRespCode, sRespStatus, sRespMessage);
+            }
+            catch (Exception ex)
+            {
+                sResp.Body.ResponseCode = "VV.9999";
+                sResp.Body.ResponseStatus = "Exception";
+                sResp.Body.ResponseMessage = "Exception Error";
+
+                VCheck.APILogging.CallLogging.InsertErrorLog("SendOrderInfo", Guid.NewGuid().ToString(), sResp.Body.ResponseCode, sResp.Body.ResponseStatus,
+                                                sResp.Body.ResponseMessage, ((ex != null) ? ex.ToString() : ""));
+            }
+
+            if (sRespCode != "VV.0001")
             {
                 _apiRepository.SaveError(request.body.LocationID, sResp, request, clientName, TestName);
 
@@ -830,7 +1026,8 @@ namespace VCheckViewerAPI.Controllers
                 {
                     //if (_apiRepository.ValidateTokenExpiry(request.header.clientKey))
                     //{
-                    var sLocationList = LocationRepository.GetLocationList(ConfigSettings.GetConfigurationSettings());
+                    ClientModel sAuthProfile = _apiRepository.GetClientProfileByClientKey(request.header.clientKey);
+                    var sLocationList = LocationRepository.GetLocationList(ConfigSettings.GetConfigurationSettings(), sAuthProfile.Name);
                     if (sLocationList != null && sLocationList.Count > 0)
                     {
                         foreach (var location in sLocationList)
@@ -1211,6 +1408,8 @@ namespace VCheckViewerAPI.Controllers
             {
                 if (request.Header.clientKey != null && _apiRepository.Authenticate(request.Header.clientKey, out CanViewOther))
                 {
+                    ClientModel sAuthProfile = _apiRepository.GetClientProfileByClientKey(request.Header.clientKey);
+
                     var sTestList = TestResultsRepository.GetAllTestList(ConfigSettings.GetConfigurationSettings());
                     if (sTestList != null && sTestList.Count > 0)
                     {
