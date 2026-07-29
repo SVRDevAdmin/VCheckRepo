@@ -22,13 +22,13 @@ namespace VCheck.Lib.Data
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static List<LocationModel> GetLocationList(IConfiguration config)
+        public static List<LocationModel> GetLocationList(IConfiguration config, string clientName)
         {
             try
             {
                 using (var ctx = new LocationDBContext(config))
                 {
-                    return ctx.mst_location.ToList();
+                    return ctx.mst_location.Where(x => x.CreatedBy == clientName).ToList();
                 }
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace VCheck.Lib.Data
 
                 using (var ctx = new LocationDBContext(config))
                 {
-                    var temp = ctx.mst_location.AsNoTracking().FirstOrDefault(x => x.ID == location.ID || x.PhoneNum == location.PhoneNum || x.ID == location.PhoneNum.Replace(" ", "").Replace("-", "") );
+                    var temp = ctx.mst_location.AsNoTracking().FirstOrDefault(x => (x.ID == location.ID || x.PhoneNum == location.PhoneNum || x.ID == location.PhoneNum.Replace(" ", "").Replace("-", "")) && x.ID != "");
 
                     if (temp != null)
                     {

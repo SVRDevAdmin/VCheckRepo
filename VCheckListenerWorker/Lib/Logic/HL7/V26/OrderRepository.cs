@@ -94,7 +94,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                 msh.Field(2, "^~\\&");
                 msh.Field(3, "VCheck");
                 msh.Field(5, "V200");
-                msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
                 msh.Field(9, "RSP^Z02^RSP_Z02");
                 msh.Field(10, "{" + Guid.NewGuid().ToString() + "}");
                 msh.Field(11, "P");
@@ -151,7 +151,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                     Segment orc = new Segment("ORC");
                     orc.Field(1, "NW");
                     orc.Field(2, barcode);
-                    orc.Field(8, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                    orc.Field(8, DateTime.Now.ToString("yyyyMMddHHmmss"));
                     response.Add(orc);
                     frame.Append(response.SerializeMessage());
                     frame.Append((char)0x0d);

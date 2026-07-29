@@ -13,6 +13,8 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
 {
     public class OrderRepository
     {
+        public static string firstUIDpart = "";
+
         public async static Task<string> ProcessMessageAsync(string messageCount)
         {
             var order = "";
@@ -27,33 +29,10 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
             {
                 schedulesExtended = schedulesExtended.Where(x => x.IDAnalyzers.Where(y => y.Analyzers.Split(", ").Contains("C1")).Count() != 0).ToList();
 
-                //var schedule = schedulesExtended.FirstOrDefault();
+                var schedule = schedulesExtended.FirstOrDefault();
 
-                //if (schedule != null)
-                //{
-                //    var testID = schedule.IDAnalyzers.Where(x => x.Analyzers.Contains("C1") && !x.Analyzers.Contains("C10")).ToList();
-
-                //    foreach (var testInfo in testID)
-                //    {
-                //        var testResponseString = await vCheckAPI.GetTestByNameOrCode(null, testInfo.TestID);
-                //        var TestName = string.IsNullOrEmpty(testResponseString) ? "VCheck" : JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.TestDataObject>(testResponseString).testname.Replace(" (C10)", "");
-
-                //        testCodeName.Add((testInfo.TestID, TestName));
-                //    }
-
-                //    order = GenerateOMLO33Message(testCodeName, schedule.Schedule) + GenerateEndMarker(messageCount);
-
-                //    await vCheckAPI.UpdateScheduleStatus(schedule.Schedule.LocationID, schedule.Schedule.PatientID, schedule.Schedule.ScheduleUniqueID.Split("-")[1], schedule.Schedule.CreatedBy, 1);
-                //    await vCheckAPI.UpdateScheduleAnalyzer("C1", schedule.Schedule.ScheduleUniqueID);
-                //}
-                //else
-                //{
-                //    order = GenerateEndMarker(messageCount);
-                //}
-
-                foreach (var schedule in schedulesExtended)
+                if (schedule != null)
                 {
-                    testCodeName.Clear();
                     var testID = schedule.IDAnalyzers.Where(x => x.Analyzers.Contains("C1") && !x.Analyzers.Contains("C10")).ToList();
 
                     foreach (var testInfo in testID)
@@ -64,13 +43,36 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                         testCodeName.Add((testInfo.TestID, TestName));
                     }
 
-                    order += GenerateOMLO33Message(testCodeName, schedule.Schedule);
+                    order = GenerateOMLO33Message(testCodeName, schedule.Schedule);
 
                     await vCheckAPI.UpdateScheduleStatus(schedule.Schedule.LocationID, schedule.Schedule.PatientID, schedule.Schedule.ScheduleUniqueID.Split("-")[1], schedule.Schedule.CreatedBy, 1);
                     await vCheckAPI.UpdateScheduleAnalyzer("C1", schedule.Schedule.ScheduleUniqueID);
                 }
+                else
+                {
+                    order = GenerateEndMarker(messageCount);
+                }
 
-                order += GenerateEndMarker(messageCount);
+                //foreach (var schedule in schedulesExtended)
+                //{
+                //    testCodeName.Clear();
+                //    var testID = schedule.IDAnalyzers.Where(x => x.Analyzers.Contains("C1") && !x.Analyzers.Contains("C10")).ToList();
+
+                //    foreach (var testInfo in testID)
+                //    {
+                //        var testResponseString = await vCheckAPI.GetTestByNameOrCode(null, testInfo.TestID);
+                //        var TestName = string.IsNullOrEmpty(testResponseString) ? "VCheck" : JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.TestDataObject>(testResponseString).testname.Replace(" (C10)", "");
+
+                //        testCodeName.Add((testInfo.TestID, TestName));
+                //    }
+
+                //    order += GenerateOMLO33Message(testCodeName, schedule.Schedule);
+
+                //    await vCheckAPI.UpdateScheduleStatus(schedule.Schedule.LocationID, schedule.Schedule.PatientID, schedule.Schedule.ScheduleUniqueID.Split("-")[1], schedule.Schedule.CreatedBy, 1);
+                //    await vCheckAPI.UpdateScheduleAnalyzer("C1", schedule.Schedule.ScheduleUniqueID);
+                //}
+
+                //order += GenerateEndMarker(messageCount);
             }
             else
             {
@@ -82,7 +84,10 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
 
         public static String GenerateOMLO33Message(List<(string, string)> testCodeName, ScheduledTestModel info)
         {
-            string barcode = info.ScheduleUniqueID.Split("-")[3];
+            //string barcode = info.ScheduleUniqueID.Split("-")[3];
+            DateTime now = DateTime.UtcNow;
+            int unixTimestamp = (int)(now - new DateTime(1970, 1, 1)).TotalSeconds;
+            firstUIDpart = "T" + unixTimestamp.ToString().Substring(2);
 
             var message = new HL7MessageModel();
             message.MSH = new MSHModel()
@@ -127,32 +132,31 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
             };
 
             var SACUID = Guid.NewGuid().ToString().Split("-");
-            message.SAC = new SACModel() { ContainerID = SACUID[SACUID.Length - 1] };
+            message.SAC = new SACModel() { ContainerID = firstUIDpart + SACUID[1] };
 
             var ORCUID = Guid.NewGuid().ToString().Split("-");
             message.ORC = new ORCModel()
             {
                 OrderControl = "NW",
                 //PlacerOrderNo = Guid.NewGuid().ToString(),
-                PlacerOrderNo = ORCUID[ORCUID.Length - 1],
-                PlacerGroupNo = Guid.NewGuid().ToString(),
+                PlacerOrderNo = firstUIDpart + ORCUID[1],
                 TransactionDatetime = DateTime.Now
             };
 
             message.OBR = new OBRModel()
             {
-                PlacerOrderNo = ORCUID[ORCUID.Length - 1],
+                PlacerOrderNo = firstUIDpart + ORCUID[1],
             };
 
             List<OBXModel> obx = new List<OBXModel>()
             {
                 new OBXModel()
                 {
-                    SetID = "1", ValueType = "NM", ObservationIdentifier = "^Age", ObservationValue = "24", Units = "Months", ObservationResultStatus = "F"
+                    SetID = "1", ValueType = "NM", ObservationIdentifier = "^Age", ObservationValue = "7777", Units = "Months", ObservationResultStatus = "F"
                 },
                 new OBXModel()
                 {
-                    SetID = "2", ValueType = "NM", ObservationIdentifier = "^Weight", ObservationValue = "5.4", Units = "kg", ObservationResultStatus = "F"
+                    SetID = "2", ValueType = "NM", ObservationIdentifier = "^Weight", ObservationValue = "8888", Units = "kg", ObservationResultStatus = "F"
                 }
             };
             message.OBX = obx;
@@ -185,7 +189,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
             msh.Field(6, message.MSH.ReceivingFacility);
             msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
             msh.Field(9, message.MSH.MessageType);
-            msh.Field(10, messageUID[messageUID.Length - 1]);
+            msh.Field(10, firstUIDpart + messageUID[1]);
             msh.Field(11, "P");
             msh.Field(12, message.MSH.VersionID);
             msh.Field(15, message.MSH.AcceptAckType); //optional
@@ -204,8 +208,14 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
             pid.Field(5, message.PID.PetName + "^^^^^^L");
             pid.Field(8, message.PID.Gender);
             pid.Field(21, message.PID.OwnerName);
-            pid.Field(35, message.PID.Species);
-            pid.Field(36, message.PID.Breed);
+            pid.Field(36, message.PID.Species);
+            pid.Field(37, message.PID.Breed);
+            //pid.Field(3, "1111^^^^^2222");
+            //pid.Field(5, "3333^^^^^^L");
+            //pid.Field(8, "Male");
+            //pid.Field(21, "4444");
+            //pid.Field(36, "Canine");
+            //pid.Field(37, "5555");
             response.Add(pid);
             frame.Append(response.SerializeMessage());
             frame.Append((char)0x0d);
@@ -216,6 +226,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
             pv1.Field(2, message.PV1.PatientClass); //optional
             pv1.Field(3, message.PV1.Room); //optional
             pv1.Field(7, message.PV1.DoctorName);
+            //pv1.Field(7, "6666");
             response.Add(pv1);
             frame.Append(response.SerializeMessage());
             frame.Append((char)0x0d);
@@ -256,7 +267,8 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
             Segment obr = new Segment("OBR");
             obr.Field(1, "1"); //optional
             obr.Field(2, message.ORC.PlacerOrderNo); //optional
-            obr.Field(4, CartridgeID + "^" + CartridgeName + "^VCHECK");
+            obr.Field(4, CartridgeID + "BNCA001^" + CartridgeName + "^VCHECK");
+            //obr.Field(4, "BNCA001^Rotor Comprehensive 28^VCHECK");
             response.Add(obr);
             frame.Append(response.SerializeMessage());
             frame.Append((char)0x0d);
@@ -286,6 +298,9 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
 
         public static String GenerateEndMarker(string messageCount)
         {
+            StringBuilder frame = new StringBuilder();
+            frame.Append((char)0x0b);
+
             var messageUID = Guid.NewGuid().ToString().Split("-");
             try
             {
@@ -299,7 +314,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 msh.Field(4, "LAB");
                 msh.Field(5, "VCHECK C10");
                 msh.Field(6, "");
-                msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmsszzz"));
+                msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
                 msh.Field(9, "OML^O33^OML_O33");
                 msh.Field(10, messageUID[messageUID.Length - 1]);
                 msh.Field(11, "P");
@@ -309,17 +324,20 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 msh.Field(18, "UNICODE UTF-8");
                 msh.Field(21, "LAB-28^IHE"); //optional
                 response.Add(msh);
+                frame.Append(response.SerializeMessage());
+                frame.Append((char)0x0d);
 
                 // ------------- Message Acknowledgement ---------------------//
+                response = new Message();
                 Segment msa = new Segment("MSA");
                 msa.Field(1, NHapi.Base.AcknowledgmentCode.AA.ToString());
                 msa.Field(2, messageCount);
                 msa.Field(6, "0");
+                msa.Field(7, "");
                 response.Add(msa);
-
-                StringBuilder frame = new StringBuilder();
-                frame.Append((char)0x0b);
                 frame.Append(response.SerializeMessage());
+                frame.Append((char)0x0d);
+
                 frame.Append((char)0x1c);
                 frame.Append((char)0x0d);
 

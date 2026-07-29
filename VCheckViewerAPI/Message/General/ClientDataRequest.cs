@@ -11,5 +11,6 @@ namespace VCheckViewerAPI.Message.General
     public class ClientDataRequestBody
     {
         public string? Version { get; set; }
+        public DateTime LastPatchDatetime { get; set; }
     }
 }

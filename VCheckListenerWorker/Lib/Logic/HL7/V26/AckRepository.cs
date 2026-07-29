@@ -32,7 +32,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                 msh.Field(4, sRU_R01.MSH.SendingFacility.NamespaceID.Value);
                 msh.Field(5, sRU_R01.MSH.ReceivingApplication.NamespaceID.Value);
                 msh.Field(6, sRU_R01.MSH.ReceivingFacility.NamespaceID.Value);
-                msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmsszzz"));
+                msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmsszzz"));
                 msh.Field(9, "ACK^R01^ACK");
                 msh.Field(10, Guid.NewGuid().ToString());
                 msh.Field(11, sRU_R01.MSH.ProcessingID.ProcessingID.Value);

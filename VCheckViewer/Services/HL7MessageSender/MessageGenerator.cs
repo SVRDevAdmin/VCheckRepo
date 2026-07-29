@@ -216,7 +216,7 @@ namespace VCheckViewer.Services.HL7MessageSender
             msh.Field(4, message.MSH.SendingFacility);
             msh.Field(5, message.MSH.ReceivingApplication);
             msh.Field(6, message.MSH.ReceivingFacility);
-            msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+            msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
             msh.Field(9, message.MSH.MessageType);
             msh.Field(10, Guid.NewGuid().ToString());
             msh.Field(11, "P");
@@ -277,7 +277,7 @@ namespace VCheckViewer.Services.HL7MessageSender
             orc.Field(1, message.ORC.OrderControl);
             orc.Field(2, message.ORC.PlacerOrderNo);
             orc.Field(4, message.ORC.PlacerGroupNo);
-            orc.Field(9, message.ORC.TransactionDatetime.ToString("yyyyMMddhhmmss"));
+            orc.Field(9, message.ORC.TransactionDatetime.ToString("yyyyMMddHHmmss"));
             response.Add(orc);
             frame.Append(response.SerializeMessage());
             frame.Append((char)0x0d);
@@ -329,7 +329,7 @@ namespace VCheckViewer.Services.HL7MessageSender
             msh.Field(4, message.MSH.SendingFacility);
             msh.Field(5, message.MSH.ReceivingApplication);
             msh.Field(6, message.MSH.ReceivingFacility);
-            msh.Field(7, DateTime.Now.ToString("yyyyMMddhhmmss"));
+            msh.Field(7, DateTime.Now.ToString("yyyyMMddHHmmss"));
             msh.Field(9, message.MSH.MessageType);
             msh.Field(10, "9");
             msh.Field(11, "P");
@@ -347,7 +347,7 @@ namespace VCheckViewer.Services.HL7MessageSender
             pid.Field(4, "01");
             pid.Field(5, message.PID.PetName);
             pid.Field(6, "Kevin");
-            pid.Field(7, message.PID.BirthDate.ToString("yyyyMMddhhmmss"));
+            pid.Field(7, message.PID.BirthDate.ToString("yyyyMMddHHmmss"));
             pid.Field(8, "M");
             pid.Field(9, "O");
             pid.Field(11, "GUILIN");
@@ -373,7 +373,7 @@ namespace VCheckViewer.Services.HL7MessageSender
             orc.Field(3, "123456789");
             orc.Field(4, "Barcode");
             orc.Field(11, "Blood");
-            orc.Field(15, DateTime.Now.ToString("yyyyMMddhhmmss"));
+            orc.Field(15, DateTime.Now.ToString("yyyyMMddHHmmss"));
             orc.Field(17, "Department");
             orc.Field(21, "OrderingProvider");
             orc.Field(22, "1234567777");

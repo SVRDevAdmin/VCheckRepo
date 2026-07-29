@@ -862,7 +862,8 @@ namespace VCheckViewer.Views.Windows
             {
                 PopupSetup(false, false, true, false, false, false, false, false);
 
-                PopupContent.Text = Properties.Resources.Popup_Message_FailedGreywindConnect;
+                //PopupContent.Text = Properties.Resources.Popup_Message_FailedGreywindConnect;
+                PopupContent.Text = "Failed to connect with PIMS.";
             }
             if (App.MainViewModel.Origin == "GeneralSettingsUpdated")
             {

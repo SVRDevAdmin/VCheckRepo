@@ -592,7 +592,11 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                     configDBContext.AddConfiguration("ClinicID", ClinicID);
                 }
 
-                success = await CheckGreywindClinic();
+                if (Greywind.IsChecked.GetValueOrDefault())
+                {
+                    success = await CheckGreywindClinic();
+                }
+                else { return true; }
 
                 if (success)
                 {
@@ -681,7 +685,7 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
 
         public async void ConnectionStatusReload(object sender, EventArgs e)
         {
-            if (Greywind.IsChecked.GetValueOrDefault())
+            if (Greywind.IsChecked.GetValueOrDefault() || Other.IsChecked.GetValueOrDefault())
             {
                 if (await ConnectToPIMS(sender, null))
                 {
@@ -698,21 +702,21 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                     btnConnect.Background = System.Windows.Media.Brushes.Gray;
                 }
 
-                CurrentLIS = "Greywind";
+                CurrentLIS = Greywind.IsChecked.GetValueOrDefault() ? "Greywind" : "Other";
             }
-            else if (Other.IsChecked.GetValueOrDefault())
-            {
-                App.MainViewModel.Origin = "GreywindConnected";
-                App.PopupHandler(e, sender);
+            //else if (Other.IsChecked.GetValueOrDefault())
+            //{
+            //    App.MainViewModel.Origin = "GreywindConnected";
+            //    App.PopupHandler(e, sender);
 
-                btnConnect.Content = Properties.Resources.Maintenance_Label_Connected;
-                btnConnect.Tag = "Connected";
-                btnConnect.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFromString("#0ed145");
+            //    btnConnect.Content = Properties.Resources.Maintenance_Label_Connected;
+            //    btnConnect.Tag = "Connected";
+            //    btnConnect.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFromString("#0ed145");
 
-                btnUpdate.IsEnabled = false;
+            //    btnUpdate.IsEnabled = false;
 
-                CurrentLIS = "Other";
-            }
+            //    CurrentLIS = "Other";
+            //}
             else
             {
                 //App.MainViewModel.Origin = "SettingsUpdateCompleted";
